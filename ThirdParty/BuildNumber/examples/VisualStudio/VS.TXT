@@ -1,0 +1,13 @@
+This directory contains an image snapshot of the Project Properties
+page from Visual Studio 2005. Note that BuildNumber should be defined
+as a Pre-Build Event with Command Line, and the entire path should be
+given (unless the BuildNumber executable is installed in a location 
+already on the search path).
+
+Also included in this directory is the Visual Studio project file for
+BuildNumber itself. To use it, make sure you copy the project file to
+the root source directory. See the README.TXT file for more information
+on building BuildNumber with the project file. Make sure to specify 
+which configuration you wish to build on the command line (Debug or
+Release) as both will be built and overwrite each other if none is
+specified.

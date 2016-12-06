@@ -1,0 +1,19 @@
+#ifndef eSortType_H
+#define eSortType_H
+
+#include "Type/Types.h"
+
+enum eSortType : uint8
+{
+	SORT_NAME_AZ,
+	SORT_NAME_ZA,
+	SORT_OFFSET_LOWHIGH,
+	SORT_OFFSET_HIGHLOW,
+	SORT_SIZE_SMALLBIG,
+	SORT_SIZE_BIGSMALL,
+	SORT_IDE_FILE,
+	SORT_COL_FILE,
+	SORT_FILE_EXTENSIONS
+};
+
+#endif
