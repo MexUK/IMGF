@@ -46,13 +46,13 @@
     <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
     <IncludePath>..\..\..\ThirdParty\HappyHTTP;..\..\..\ThirdParty\GLEW;..\..\..\ThirdParty\Freetype\include;..\..\..\ThirdParty\GLFW;..\..\..\ThirdParty\GLFW\include\;..\..\..\ThirdParty\freetype-gl;..\..\..\ThirdParty\INI;..\..\..\ThirdParty\Bitmap;..\..\..\ThirdParty\;..\..\..\Include\GUI\;..\..\..\Include\MCore.CPlusPlus\;..\..\..\..\IMGF\Code\;..\..\..\..\IMGF\Code\FileFormat\;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\..\..\_Output\Lib\MCore\;..\..\..\..\_Output\Lib\GUI\;..\..\..\..\_Output\Lib\IMGF\;..\..\..\..\_Input\Lib\Pre-Compiled\IMGF\IMGF\$(Configuration)\;..\..\..\..\_Input\Lib\Pre-Compiled\IMGF\ThirdParty\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\..\Lib\;..\..\..\..\_Output\Lib\IMGF\;..\..\..\Lib\Pre-Compiled\IMGF\$(Configuration)\;..\..\..\Lib\Pre-Compiled\ThirdParty\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
     <IncludePath>..\..\..\ThirdParty\HappyHTTP;..\..\..\ThirdParty\GLEW;..\..\..\ThirdParty\Freetype\include;..\..\..\ThirdParty\GLFW;..\..\..\ThirdParty\GLFW\include\;..\..\..\ThirdParty\freetype-gl;..\..\..\ThirdParty\INI;..\..\..\ThirdParty\Bitmap;..\..\..\ThirdParty\;..\..\..\Include\GUI\;..\..\..\Include\MCore.CPlusPlus\;..\..\..\..\IMGF\Code\;..\..\..\..\IMGF\Code\FileFormat\;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\..\..\_Output\Lib\MCore\;..\..\..\..\_Output\Lib\GUI\;..\..\..\..\_Output\Lib\IMGF\;..\..\..\..\_Input\Lib\Pre-Compiled\IMGF\IMGF\$(Configuration)\;..\..\..\..\_Input\Lib\Pre-Compiled\IMGF\ThirdParty\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\..\Lib\;..\..\..\..\_Output\Lib\IMGF\;..\..\..\Lib\Pre-Compiled\IMGF\$(Configuration)\;..\..\..\Lib\Pre-Compiled\ThirdParty\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
