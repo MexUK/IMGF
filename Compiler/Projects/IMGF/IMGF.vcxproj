@@ -45,13 +45,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
-    <IncludePath>..\..\..\ThirdParty\HappyHTTP;..\..\..\ThirdParty\GLEW;..\..\..\ThirdParty\Freetype\include;..\..\..\ThirdParty\GLFW;..\..\..\ThirdParty\GLFW\include\;..\..\..\ThirdParty\freetype-gl;..\..\..\ThirdParty\INI;..\..\..\ThirdParty\Bitmap;..\..\..\ThirdParty\;..\..\..\..\GUI\Code\GUI;..\..\..\..\MCore\Code\MCore.CPlusPlus;..\..\..\..\IMGF\Code\;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\..\ThirdParty\HappyHTTP;..\..\..\ThirdParty\GLEW;..\..\..\ThirdParty\Freetype\include;..\..\..\ThirdParty\GLFW;..\..\..\ThirdParty\GLFW\include\;..\..\..\ThirdParty\freetype-gl;..\..\..\ThirdParty\INI;..\..\..\ThirdParty\Bitmap;..\..\..\ThirdParty\;..\..\..\..\GUI\Code\GUI;..\..\..\..\MCore\Code\MCore.CPlusPlus;..\..\..\..\IMGF\Code\;..\..\..\..\IMGF\Code\FileFormat\;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\..\_Output\Lib\MCore\;..\..\..\..\_Output\Lib\GUI\;..\..\..\..\_Output\Lib\IMGF\;..\..\..\..\_Input\Lib\Pre-Compiled\IMGF\IMGF\$(Configuration)\;..\..\..\..\_Input\Lib\Pre-Compiled\IMGF\ThirdParty\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
-    <IncludePath>..\..\..\ThirdParty\HappyHTTP;..\..\..\ThirdParty\GLEW;..\..\..\ThirdParty\Freetype\include;..\..\..\ThirdParty\GLFW;..\..\..\ThirdParty\GLFW\include\;..\..\..\ThirdParty\freetype-gl;..\..\..\ThirdParty\INI;..\..\..\ThirdParty\Bitmap;..\..\..\ThirdParty\;..\..\..\..\GUI\Code\GUI;..\..\..\..\MCore\Code\MCore.CPlusPlus;..\..\..\..\IMGF\Code\;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\..\ThirdParty\HappyHTTP;..\..\..\ThirdParty\GLEW;..\..\..\ThirdParty\Freetype\include;..\..\..\ThirdParty\GLFW;..\..\..\ThirdParty\GLFW\include\;..\..\..\ThirdParty\freetype-gl;..\..\..\ThirdParty\INI;..\..\..\ThirdParty\Bitmap;..\..\..\ThirdParty\;..\..\..\..\GUI\Code\GUI;..\..\..\..\MCore\Code\MCore.CPlusPlus;..\..\..\..\IMGF\Code\;..\..\..\..\IMGF\Code\FileFormat\;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\..\_Output\Lib\MCore\;..\..\..\..\_Output\Lib\GUI\;..\..\..\..\_Output\Lib\IMGF\;..\..\..\..\_Input\Lib\Pre-Compiled\IMGF\IMGF\$(Configuration)\;..\..\..\..\_Input\Lib\Pre-Compiled\IMGF\ThirdParty\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -111,20 +111,20 @@
     <ClCompile Include="..\..\..\Code\CPopupGUIManager.cpp" />
     <ClCompile Include="..\..\..\Code\CSettingsManager.cpp" />
     <ClCompile Include="..\..\..\Code\CSocketUtility.cpp" />
-    <ClCompile Include="..\..\..\Code\Drag Drop\CDragListCtrl.cpp" />
-    <ClCompile Include="..\..\..\Code\Drag Drop\CDropSource.cpp" />
-    <ClCompile Include="..\..\..\Code\Drag Drop\CDropTarget.cpp" />
-    <ClCompile Include="..\..\..\Code\Entry Viewer\CCollisionViewer.cpp" />
-    <ClCompile Include="..\..\..\Code\Entry Viewer\CEntryViewer.cpp" />
-    <ClCompile Include="..\..\..\Code\Entry Viewer\CEntryViewerManager.cpp" />
-    <ClCompile Include="..\..\..\Code\Entry Viewer\CTextureViewer.cpp" />
-    <ClCompile Include="..\..\..\Code\File Format\DB\CDBEntry.cpp" />
-    <ClCompile Include="..\..\..\Code\File Format\DB\CDBFormat.cpp" />
-    <ClCompile Include="..\..\..\Code\File Format\DB\CDBManager.cpp" />
-    <ClCompile Include="..\..\..\Code\File Format\LST\CLSTEntry.cpp" />
-    <ClCompile Include="..\..\..\Code\File Format\LST\CLSTFormat.cpp" />
-    <ClCompile Include="..\..\..\Code\File Format\LST\CLSTSection.cpp" />
-    <ClCompile Include="..\..\..\Code\File Format\LST\CLSTManager.cpp" />
+    <ClCompile Include="..\..\..\Code\DragDrop\CDragListCtrl.cpp" />
+    <ClCompile Include="..\..\..\Code\DragDrop\CDropSource.cpp" />
+    <ClCompile Include="..\..\..\Code\DragDrop\CDropTarget.cpp" />
+    <ClCompile Include="..\..\..\Code\EntryViewer\CCollisionViewer.cpp" />
+    <ClCompile Include="..\..\..\Code\EntryViewer\CEntryViewer.cpp" />
+    <ClCompile Include="..\..\..\Code\EntryViewer\CEntryViewerManager.cpp" />
+    <ClCompile Include="..\..\..\Code\EntryViewer\CTextureViewer.cpp" />
+    <ClCompile Include="..\..\..\Code\FileFormat\DB\CDBEntry.cpp" />
+    <ClCompile Include="..\..\..\Code\FileFormat\DB\CDBFormat.cpp" />
+    <ClCompile Include="..\..\..\Code\FileFormat\DB\CDBManager.cpp" />
+    <ClCompile Include="..\..\..\Code\FileFormat\LST\CLSTEntry.cpp" />
+    <ClCompile Include="..\..\..\Code\FileFormat\LST\CLSTFormat.cpp" />
+    <ClCompile Include="..\..\..\Code\FileFormat\LST\CLSTSection.cpp" />
+    <ClCompile Include="..\..\..\Code\FileFormat\LST\CLSTManager.cpp" />
     <ClCompile Include="..\..\..\Code\Globals.cpp" />
     <ClCompile Include="..\..\..\Code\GUI\CWindowManager.cpp" />
     <ClCompile Include="..\..\..\Code\GUI\Editors\CIMGEditor.cpp" />
@@ -140,8 +140,8 @@
     <ClCompile Include="..\..\..\Code\Main.cpp" />
     <ClCompile Include="..\..\..\Code\Task\CTaskDispatchManager.cpp" />
     <ClCompile Include="..\..\..\Code\Task\CTaskManager.cpp" />
-    <ClCompile Include="..\..\..\Code\Recently Open\CRecentlyOpenEntry.cpp" />
-    <ClCompile Include="..\..\..\Code\Recently Open\CRecentlyOpenManager.cpp" />
+    <ClCompile Include="..\..\..\Code\RecentlyOpen\CRecentlyOpenEntry.cpp" />
+    <ClCompile Include="..\..\..\Code\RecentlyOpen\CRecentlyOpenManager.cpp" />
     <ClCompile Include="..\..\..\Code\Session\CSession.cpp" />
     <ClCompile Include="..\..\..\Code\Session\CSessionManager.cpp" />
     <ClCompile Include="..\..\..\Code\Sort\CSortManager.cpp" />
@@ -193,22 +193,22 @@
     <ClInclude Include="..\..\..\Code\CSearchEntry.h" />
     <ClInclude Include="..\..\..\Code\CSettingsManager.h" />
     <ClInclude Include="..\..\..\Code\CSocketUtility.h" />
-    <ClInclude Include="..\..\..\Code\Drag Drop\CDragListCtrl.h" />
-    <ClInclude Include="..\..\..\Code\Drag Drop\CDropSource.h" />
-    <ClInclude Include="..\..\..\Code\Drag Drop\CDropTarget.h" />
-    <ClInclude Include="..\..\..\Code\Entry Viewer\CCollisionViewer.h" />
-    <ClInclude Include="..\..\..\Code\Entry Viewer\CEntryViewer.h" />
-    <ClInclude Include="..\..\..\Code\Entry Viewer\CEntryViewerManager.h" />
-    <ClInclude Include="..\..\..\Code\Entry Viewer\CTextureViewer.h" />
-    <ClInclude Include="..\..\..\Code\Entry Viewer\CTextureViewerTextureData.h" />
-    <ClInclude Include="..\..\..\Code\Entry Viewer\eEntryViewerDisplayType.h" />
-    <ClInclude Include="..\..\..\Code\File Format\DB\CDBEntry.h" />
-    <ClInclude Include="..\..\..\Code\File Format\DB\CDBFormat.h" />
-    <ClInclude Include="..\..\..\Code\File Format\DB\CDBManager.h" />
-    <ClInclude Include="..\..\..\Code\File Format\LST\CLSTEntry.h" />
-    <ClInclude Include="..\..\..\Code\File Format\LST\CLSTFormat.h" />
-    <ClInclude Include="..\..\..\Code\File Format\LST\CLSTSection.h" />
-    <ClInclude Include="..\..\..\Code\File Format\LST\CLSTManager.h" />
+    <ClInclude Include="..\..\..\Code\DragDrop\CDragListCtrl.h" />
+    <ClInclude Include="..\..\..\Code\DragDrop\CDropSource.h" />
+    <ClInclude Include="..\..\..\Code\DragDrop\CDropTarget.h" />
+    <ClInclude Include="..\..\..\Code\EntryViewer\CCollisionViewer.h" />
+    <ClInclude Include="..\..\..\Code\EntryViewer\CEntryViewer.h" />
+    <ClInclude Include="..\..\..\Code\EntryViewer\CEntryViewerManager.h" />
+    <ClInclude Include="..\..\..\Code\EntryViewer\CTextureViewer.h" />
+    <ClInclude Include="..\..\..\Code\EntryViewer\CTextureViewerTextureData.h" />
+    <ClInclude Include="..\..\..\Code\EntryViewer\eEntryViewerDisplayType.h" />
+    <ClInclude Include="..\..\..\Code\FileFormat\DB\CDBEntry.h" />
+    <ClInclude Include="..\..\..\Code\FileFormat\DB\CDBFormat.h" />
+    <ClInclude Include="..\..\..\Code\FileFormat\DB\CDBManager.h" />
+    <ClInclude Include="..\..\..\Code\FileFormat\LST\CLSTEntry.h" />
+    <ClInclude Include="..\..\..\Code\FileFormat\LST\CLSTFormat.h" />
+    <ClInclude Include="..\..\..\Code\FileFormat\LST\CLSTSection.h" />
+    <ClInclude Include="..\..\..\Code\FileFormat\LST\CLSTManager.h" />
     <ClInclude Include="..\..\..\Code\Globals.h" />
     <ClInclude Include="..\..\..\Code\GUI\CWindowManager.h" />
     <ClInclude Include="..\..\..\Code\GUI\Editors\CIMGEditor.h" />
@@ -227,8 +227,8 @@
     <ClInclude Include="..\..\..\Code\Task\CTaskManager.h" />
     <ClInclude Include="..\..\..\Code\Task\Tasks\Renamer\CRenamedIMGEntry.h" />
     <ClInclude Include="..\..\..\Code\WindowControlIds.h" />
-    <ClInclude Include="..\..\..\Code\Recently Open\CRecentlyOpenEntry.h" />
-    <ClInclude Include="..\..\..\Code\Recently Open\CRecentlyOpenManager.h" />
+    <ClInclude Include="..\..\..\Code\RecentlyOpen\CRecentlyOpenEntry.h" />
+    <ClInclude Include="..\..\..\Code\RecentlyOpen\CRecentlyOpenManager.h" />
     <ClInclude Include="..\..\..\Code\Session\CSession.h" />
     <ClInclude Include="..\..\..\Code\Session\CSessionManager.h" />
     <ClInclude Include="..\..\..\Code\Sort\CSortManager.h" />

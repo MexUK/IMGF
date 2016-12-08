@@ -15,7 +15,7 @@
 // for menu start - todo
 #include "Format/RenderWare/Helper/BinaryStream/CRWManager.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWVersionManager.h"
-#include "Recently Open/CRecentlyOpenManager.h"
+#include "RecentlyOpen/CRecentlyOpenManager.h"
 #include "Sort/CSortManager.h"
 #include "Sort/CSortType.h"
 #include "Sort/CSortPriority.h"

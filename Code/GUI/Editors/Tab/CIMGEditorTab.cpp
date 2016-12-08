@@ -31,7 +31,7 @@
 #include "GUI/CGUIManager.h"
 #include "GUI/CGUIManager.h"
 #include "DB/CDBManager.h"
-#include "Recently Open/CRecentlyOpenManager.h"
+#include "RecentlyOpen/CRecentlyOpenManager.h"
 #include "Controls/CListControl.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "CPopupGUIManager.h"
