@@ -43,16 +43,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\..\..\..\Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
-    <IntDir>..\..\..\..\Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
-    <IncludePath>C:\Users\James\Desktop\Projects\IMGF\Code;C:\Users\James\Desktop\Projects\IMGF\Code\File Format;C:\Users\James\Desktop\Projects\IMGF\Code\Rockstar Games;C:\Users\James\Desktop\Projects\IMGF\Code\Rockstar Games\File Format;C:\Users\James\Desktop\Projects\IMGF\Code\Rockstar Games\File Format\Base;C:\Users\James\Desktop\Projects\IMGF\Code\Rockstar Games\File Format\Custom;C:\Users\James\Desktop\Projects\IMGF\Code\Rockstar Games\File Format\Intermediate;C:\Users\James\Desktop\Projects\IMGF\Code\Rockstar Games\File Format\Normal;C:\Users\James\Desktop\Projects\IMGF\Code\Rockstar Games\File Format\Raw;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\HappyHTTP;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\GLEW;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\Freetype\include;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\GLFW;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\GLFW\include\;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\freetype-gl;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\INI;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\Bitmap;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\;C:\Users\James\Desktop\Projects\GUI\Code\GUI;C:\Users\James\Desktop\Projects\MCore\Code\MCore.CPlusPlus;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\James\Desktop\Projects\Output\Lib\MCore\;C:\Users\James\Desktop\Projects\Output\Lib\GUI\;C:\Users\James\Desktop\Projects\Output\Lib\IMGF\;C:\Users\James\Desktop\Projects\Input\Lib\Pre-Compiled\IMGF\IMGF\$(Configuration)\;C:\Users\James\Desktop\Projects\Input\Lib\Pre-Compiled\IMGF\ThirdParty\;$(LibraryPath)</LibraryPath>
+    <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
+    <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
+    <IncludePath>..\..\..\ThirdParty\HappyHTTP;..\..\..\ThirdParty\GLEW;..\..\..\ThirdParty\Freetype\include;..\..\..\ThirdParty\GLFW;..\..\..\ThirdParty\GLFW\include\;..\..\..\ThirdParty\freetype-gl;..\..\..\ThirdParty\INI;..\..\..\ThirdParty\Bitmap;..\..\..\ThirdParty\;..\..\..\..\GUI\Code\GUI;..\..\..\..\MCore\Code\MCore.CPlusPlus;..\..\..\..\IMGF\Code\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\..\..\_Output\Lib\MCore\;..\..\..\..\_Output\Lib\GUI\;..\..\..\..\_Output\Lib\IMGF\;..\..\..\..\_Input\Lib\Pre-Compiled\IMGF\IMGF\$(Configuration)\;..\..\..\..\_Input\Lib\Pre-Compiled\IMGF\ThirdParty\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\..\..\..\Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
-    <IntDir>..\..\..\..\Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
-    <IncludePath>C:\Users\James\Desktop\Projects\IMGF\Code;C:\Users\James\Desktop\Projects\IMGF\Code\File Format;C:\Users\James\Desktop\Projects\IMGF\Code\Rockstar Games;C:\Users\James\Desktop\Projects\IMGF\Code\Rockstar Games\File Format;C:\Users\James\Desktop\Projects\IMGF\Code\Rockstar Games\File Format\Base;C:\Users\James\Desktop\Projects\IMGF\Code\Rockstar Games\File Format\Custom;C:\Users\James\Desktop\Projects\IMGF\Code\Rockstar Games\File Format\Intermediate;C:\Users\James\Desktop\Projects\IMGF\Code\Rockstar Games\File Format\Normal;C:\Users\James\Desktop\Projects\IMGF\Code\Rockstar Games\File Format\Raw;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\HappyHTTP;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\GLEW;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\Freetype\include;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\GLFW;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\GLFW\include\;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\freetype-gl;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\INI;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\Bitmap;C:\Users\James\Desktop\Projects\IMGF\ThirdParty\;C:\Users\James\Desktop\Projects\GUI\Code\GUI;C:\Users\James\Desktop\Projects\MCore\Code\MCore.CPlusPlus;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\James\Desktop\Projects\Output\Lib\MCore\;C:\Users\James\Desktop\Projects\Output\Lib\GUI\;C:\Users\James\Desktop\Projects\Output\Lib\IMGF\;C:\Users\James\Desktop\Projects\Input\Lib\Pre-Compiled\IMGF\IMGF\$(Configuration)\;C:\Users\James\Desktop\Projects\Input\Lib\Pre-Compiled\IMGF\ThirdParty\;$(LibraryPath)</LibraryPath>
+    <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
+    <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
+    <IncludePath>..\..\..\ThirdParty\HappyHTTP;..\..\..\ThirdParty\GLEW;..\..\..\ThirdParty\Freetype\include;..\..\..\ThirdParty\GLFW;..\..\..\ThirdParty\GLFW\include\;..\..\..\ThirdParty\freetype-gl;..\..\..\ThirdParty\INI;..\..\..\ThirdParty\Bitmap;..\..\..\ThirdParty\;..\..\..\..\GUI\Code\GUI;..\..\..\..\MCore\Code\MCore.CPlusPlus;..\..\..\..\IMGF\Code\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\..\..\_Output\Lib\MCore\;..\..\..\..\_Output\Lib\GUI\;..\..\..\..\_Output\Lib\IMGF\;..\..\..\..\_Input\Lib\Pre-Compiled\IMGF\IMGF\$(Configuration)\;..\..\..\..\_Input\Lib\Pre-Compiled\IMGF\ThirdParty\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -70,7 +70,7 @@
       </IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>"C:\Users\James\Desktop\Projects\Output\EXE\IMGF\ThirdParty\BuildNumber\$(Configuration)\BuildNumber.exe"</Command>
+      <Command>"..\..\..\..\_Output\EXE\IMGF\ThirdParty\BuildNumber\$(Configuration)\BuildNumber.exe"</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>Build Number</Message>
@@ -95,7 +95,7 @@
       <IgnoreSpecificDefaultLibraries>Uafxcw.lib;Libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>"C:\Users\James\Desktop\Projects\Output\EXE\IMGF\ThirdParty\BuildNumber\$(Configuration)\BuildNumber.exe"</Command>
+      <Command>"..\..\..\..\_Output\EXE\IMGF\ThirdParty\BuildNumber\$(Configuration)\BuildNumber.exe"</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>Build Number</Message>

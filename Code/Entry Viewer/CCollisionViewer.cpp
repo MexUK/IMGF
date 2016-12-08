@@ -623,7 +623,7 @@ void						CCollisionViewer::onThreadStarted(void)
 	size_t i;
 	texture_font_t *font = 0;
 	texture_atlas_t *atlas = texture_atlas_new(512, 512, 1);
-	const char * filename = "C:\\Users\\James\\Documents\\Visual Studio 2013\\Projects\\IMG-Factory\\Debug\\arial.ttf";
+	const char * filename = "C:\\Users\\James\\Documents\\Visual Studio 2013\\Projects\\IMG-Factory\\Debug\\arial.ttf"; // todo - 6x absolute file paths in this .cpp file
 	wchar_t *text = L"A Quick Brown Fox Jumps Over The Lazy Dog 0123456789";
 	buffer = vertex_buffer_new("vertex:3f,tex_coord:2f,color:4f");
 	vec2 pen = { { 5, 400 } };

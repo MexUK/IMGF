@@ -46,13 +46,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\..\..\..\..\Output\EXE\IMGF\ThirdParty\BuildNumber\$(Configuration)\</OutDir>
-    <IntDir>..\..\..\..\..\Output\Intermediate\IMGF\ThirdParty\BuildNumber\$(Configuration)\</IntDir>
+    <OutDir>..\..\..\..\..\_Output\EXE\IMGF\ThirdParty\BuildNumber\$(Configuration)\</OutDir>
+    <IntDir>..\..\..\..\..\_Output\Intermediate\IMGF\ThirdParty\BuildNumber\$(Configuration)\</IntDir>
     <TargetName>BuildNumber</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\..\..\..\..\Output\EXE\IMGF\ThirdParty\BuildNumber\$(Configuration)\</OutDir>
-    <IntDir>..\..\..\..\..\Output\Intermediate\IMGF\ThirdParty\BuildNumber\$(Configuration)\</IntDir>
+    <OutDir>..\..\..\..\..\_Output\EXE\IMGF\ThirdParty\BuildNumber\$(Configuration)\</OutDir>
+    <IntDir>..\..\..\..\..\_Output\Intermediate\IMGF\ThirdParty\BuildNumber\$(Configuration)\</IntDir>
     <TargetName>BuildNumber</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

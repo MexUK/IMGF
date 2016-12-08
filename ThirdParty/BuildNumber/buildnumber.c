@@ -53,7 +53,7 @@ This file has been modified by Mex to work with build numbers higher than 9999
 
 int main(int argc, char* argv[])
 {
-	char *pPath = "C:\\Users\\James\\Desktop\\Projects\\IMGF\\ThirdParty\\BuildNumber\\buildnumber.h";
+	char *pPath = "..\\..\\..\\ThirdParty\\BuildNumber\\buildnumber.h"; // todo - absolute path
   FILE *file;
   int i = 0;
   char line[80];

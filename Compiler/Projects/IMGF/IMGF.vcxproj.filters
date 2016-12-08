@@ -219,144 +219,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\IMGF\Code\CDumpManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\CHTTPManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\CLSTProcessingManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\CSettingsManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\CSocketUtility.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Globals.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Drag Drop\CDropTarget.cpp">
-      <Filter>Source Files\Drag Drop</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Drag Drop\CDragListCtrl.cpp">
-      <Filter>Source Files\Drag Drop</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Drag Drop\CDropSource.cpp">
-      <Filter>Source Files\Drag Drop</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Entry Viewer\CEntryViewerManager.cpp">
-      <Filter>Source Files\Entry Viewer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Entry Viewer\CTextureViewer.cpp">
-      <Filter>Source Files\Entry Viewer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Entry Viewer\CCollisionViewer.cpp">
-      <Filter>Source Files\Entry Viewer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Language\CLanguageManager.cpp">
-      <Filter>Source Files\Language</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Recently Open\CRecentlyOpenEntry.cpp">
-      <Filter>Source Files\Recently Open</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Recently Open\CRecentlyOpenManager.cpp">
-      <Filter>Source Files\Recently Open</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Session\CSession.cpp">
-      <Filter>Source Files\Session</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Session\CSessionManager.cpp">
-      <Filter>Source Files\Session</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Sort\CSortType.cpp">
-      <Filter>Source Files\Sort</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Sort\CSortManager.cpp">
-      <Filter>Source Files\Sort</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Update\CUpdateManager.cpp">
-      <Filter>Source Files\Update</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Update\CUpdateConnectionManager.cpp">
-      <Filter>Source Files\Update</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\File Format\DB\CDBEntry.cpp">
-      <Filter>Source Files\File Format\DB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\File Format\DB\CDBManager.cpp">
-      <Filter>Source Files\File Format\DB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\File Format\LST\CLSTManager.cpp">
-      <Filter>Source Files\File Format\LST</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\File Format\LST\CLSTEntry.cpp">
-      <Filter>Source Files\File Format\LST</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Entry Viewer\CEntryViewer.cpp">
-      <Filter>Source Files\Entry Viewer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\File Format\DB\CDBFormat.cpp">
-      <Filter>Source Files\File Format\DB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\File Format\LST\CLSTFormat.cpp">
-      <Filter>Source Files\File Format\LST</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\File Format\LST\CLSTSection.cpp">
-      <Filter>Source Files\File Format\LST</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\CIMGF.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\CLastUsedValueManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Task\CTaskManager.cpp">
-      <Filter>Source Files\Task</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\Task\CTaskDispatchManager.cpp">
-      <Filter>Source Files\Task</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\CInstallationMeta.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\GUI\CWindowManager.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\CPopupGUIManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\GUI\Window\CIMGFWindow.cpp">
-      <Filter>Source Files\GUI\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\GUI\Editors\Tab\CIMGEditorTab.cpp">
-      <Filter>Source Files\GUI\Editors\Tab</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\GUI\Editors\CIMGEditor.cpp">
-      <Filter>Source Files\GUI\Editors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\GUI\Editor\CEditor.cpp">
-      <Filter>Source Files\GUI\Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\GUI\Editor\Tab\CEditorTab.cpp">
-      <Filter>Source Files\GUI\Editor\Tab</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\GUI\ThemeDesigner\CThemeDesigner.cpp">
-      <Filter>Source Files\GUI\ThemeDesigner</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.cpp">
-      <Filter>Source Files\GUI\ThemeDesigner\Tabs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\GUI\ThemeDesigner\Tab\CThemeDesignerTab.cpp">
-      <Filter>Source Files\GUI\ThemeDesigner\Tab</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\IMGF\Code\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.cpp">
-      <Filter>Source Files\GUI\ThemeDesigner\Tabs</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\IMGF\ThirdParty\Bitmap\bitmap.cpp">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Bitmap</Filter>
     </ClCompile>
@@ -447,194 +309,146 @@
     <ClCompile Include="..\..\..\..\IMGF\ThirdParty\freetype-gl\platform.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\CDumpManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\CHTTPManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\CInstallationMeta.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\CIMGF.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\CLastUsedValueManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\CLSTProcessingManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\CPopupGUIManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\CSettingsManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\CSocketUtility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Drag Drop\CDragListCtrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Drag Drop\CDropSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Drag Drop\CDropTarget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Entry Viewer\CCollisionViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Entry Viewer\CEntryViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Entry Viewer\CEntryViewerManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Entry Viewer\CTextureViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\File Format\DB\CDBEntry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\File Format\DB\CDBFormat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\File Format\DB\CDBManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\File Format\LST\CLSTEntry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\File Format\LST\CLSTFormat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\File Format\LST\CLSTSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\File Format\LST\CLSTManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\GUI\CWindowManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\GUI\Editors\CIMGEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\GUI\Editors\Tab\CIMGEditorTab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\GUI\Editor\CEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\GUI\Editor\Tab\CEditorTab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\GUI\ThemeDesigner\CThemeDesigner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\GUI\ThemeDesigner\Tab\CThemeDesignerTab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\GUI\Window\CIMGFWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Language\CLanguageManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Task\CTaskDispatchManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Task\CTaskManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Recently Open\CRecentlyOpenEntry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Recently Open\CRecentlyOpenManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Session\CSession.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Session\CSessionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Sort\CSortManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Sort\CSortType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Update\CUpdateConnectionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\Update\CUpdateManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Globals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\buildnumber.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\CDumpManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\CFilterOptions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\CHTTPManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\CLSTProcessingManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\CSearchEntry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\CSettingsManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\CSocketUtility.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Drag Drop\CDropTarget.h">
-      <Filter>Header Files\Drag Drop</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Drag Drop\CDragListCtrl.h">
-      <Filter>Header Files\Drag Drop</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Drag Drop\CDropSource.h">
-      <Filter>Header Files\Drag Drop</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Entry Viewer\CTextureViewerTextureData.h">
-      <Filter>Header Files\Entry Viewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Entry Viewer\eEntryViewerDisplayType.h">
-      <Filter>Header Files\Entry Viewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Entry Viewer\CCollisionViewer.h">
-      <Filter>Header Files\Entry Viewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Entry Viewer\CEntryViewer.h">
-      <Filter>Header Files\Entry Viewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Entry Viewer\CEntryViewerManager.h">
-      <Filter>Header Files\Entry Viewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Entry Viewer\CTextureViewer.h">
-      <Filter>Header Files\Entry Viewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Language\CLanguage.h">
-      <Filter>Header Files\Language</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Language\CLanguageManager.h">
-      <Filter>Header Files\Language</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Recently Open\CRecentlyOpenManager.h">
-      <Filter>Header Files\Recently Open</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Recently Open\CRecentlyOpenEntry.h">
-      <Filter>Header Files\Recently Open</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Session\CSessionManager.h">
-      <Filter>Header Files\Session</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Session\CSession.h">
-      <Filter>Header Files\Session</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Sort\CSortTypes.h">
-      <Filter>Header Files\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Sort\eSortType.h">
-      <Filter>Header Files\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Sort\CSortManager.h">
-      <Filter>Header Files\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Sort\CSortMenuItem.h">
-      <Filter>Header Files\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Sort\CSortMenuItems.h">
-      <Filter>Header Files\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Sort\CSortPriorities.h">
-      <Filter>Header Files\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Sort\CSortPriority.h">
-      <Filter>Header Files\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Sort\CSortType.h">
-      <Filter>Header Files\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Update\CUpdateConnectionManager.h">
-      <Filter>Header Files\Update</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Update\CUpdateManager.h">
-      <Filter>Header Files\Update</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Update\CUpdateConnection.h">
-      <Filter>Header Files\Update</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\File Format\LST\CLSTManager.h">
-      <Filter>Header Files\File Format\LST</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\File Format\LST\CLSTEntry.h">
-      <Filter>Header Files\File Format\LST</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\File Format\DB\CDBManager.h">
-      <Filter>Header Files\File Format\DB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\File Format\DB\CDBEntry.h">
-      <Filter>Header Files\File Format\DB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\File Format\DB\CDBFormat.h">
-      <Filter>Header Files\File Format\DB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\File Format\LST\CLSTFormat.h">
-      <Filter>Header Files\File Format\LST</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\File Format\LST\CLSTSection.h">
-      <Filter>Header Files\File Format\LST</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\CIMGF.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\CLastUsedValueManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Task\CTaskManager.h">
-      <Filter>Header Files\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Task\CTaskDispatchManager.h">
-      <Filter>Header Files\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\WindowControlIds.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\CBuildMeta.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\CInstallationMeta.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\Task\Tasks\Renamer\CRenamedIMGEntry.h">
-      <Filter>Header Files\Task\Tasks\Renamer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\GUI\CWindowManager.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\CPopupGUIManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\GUI\Window\CIMGFWindow.h">
-      <Filter>Header Files\GUI\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\GUI\Editors\CTextureEditor.h">
-      <Filter>Header Files\GUI\Editors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\GUI\Editors\CIMGEditor.h">
-      <Filter>Header Files\GUI\Editors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\GUI\Editors\Tab\CIMGEditorTab.h">
-      <Filter>Header Files\GUI\Editors\Tab</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\GUI\Editor\CEditor.h">
-      <Filter>Header Files\GUI\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\GUI\Editor\Tab\CEditorTab.h">
-      <Filter>Header Files\GUI\Editor\Tab</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\GUI\ThemeDesigner\CThemeDesigner.h">
-      <Filter>Header Files\GUI\ThemeDesigner</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\GUI\ThemeDesigner\Tab\CThemeDesignerTab.h">
-      <Filter>Header Files\GUI\ThemeDesigner\Tab</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.h">
-      <Filter>Header Files\GUI\ThemeDesigner\Tabs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\IMGF\Code\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.h">
-      <Filter>Header Files\GUI\ThemeDesigner\Tabs</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\IMGF\ThirdParty\Bitmap\bitmap.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Bitmap</Filter>
     </ClInclude>
@@ -1198,6 +1012,192 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\IMGF\ThirdParty\freetype-gl\texture-font.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\buildnumber.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\CBuildMeta.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\CDumpManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\CFilterOptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\CHTTPManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\CInstallationMeta.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\CIMGF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\CLastUsedValueManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\CLSTProcessingManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\CPopupGUIManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\CSearchEntry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\CSettingsManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\CSocketUtility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Drag Drop\CDragListCtrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Drag Drop\CDropSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Drag Drop\CDropTarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Entry Viewer\CCollisionViewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Entry Viewer\CEntryViewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Entry Viewer\CEntryViewerManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Entry Viewer\CTextureViewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Entry Viewer\CTextureViewerTextureData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Entry Viewer\eEntryViewerDisplayType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\File Format\DB\CDBEntry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\File Format\DB\CDBFormat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\File Format\DB\CDBManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\File Format\LST\CLSTEntry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\File Format\LST\CLSTFormat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\File Format\LST\CLSTSection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\File Format\LST\CLSTManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\GUI\CWindowManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\GUI\Editors\CIMGEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\GUI\Editors\CTextureEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\GUI\Editors\Tab\CIMGEditorTab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\GUI\Editor\CEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\GUI\Editor\Tab\CEditorTab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\GUI\ThemeDesigner\CThemeDesigner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\GUI\ThemeDesigner\Tab\CThemeDesignerTab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\GUI\Window\CIMGFWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Language\CLanguage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Language\CLanguageManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Task\CTaskDispatchManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Task\CTaskManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Task\Tasks\Renamer\CRenamedIMGEntry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\WindowControlIds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Recently Open\CRecentlyOpenEntry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Recently Open\CRecentlyOpenManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Session\CSession.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Session\CSessionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Sort\CSortManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Sort\CSortMenuItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Sort\CSortMenuItems.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Sort\CSortPriorities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Sort\CSortPriority.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Sort\CSortType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Sort\CSortTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Sort\eSortType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Update\CUpdateConnection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Update\CUpdateConnectionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\Update\CUpdateManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
