@@ -45,13 +45,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
-    <IncludePath>..\..\..\ThirdParty\HappyHTTP;..\..\..\ThirdParty\GLEW;..\..\..\ThirdParty\Freetype\include;..\..\..\ThirdParty\GLFW;..\..\..\ThirdParty\GLFW\include\;..\..\..\ThirdParty\freetype-gl;..\..\..\ThirdParty\INI;..\..\..\ThirdParty\Bitmap;..\..\..\ThirdParty\;..\..\..\Include\GUI\;..\..\..\Include\MCore.CPlusPlus\;..\..\..\..\IMGF\Code\;..\..\..\..\IMGF\Code\FileFormat\;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\..\ThirdParty\HappyHTTP;..\..\..\ThirdParty\GLEW;..\..\..\ThirdParty\Freetype\include;..\..\..\ThirdParty\GLFW;..\..\..\ThirdParty\GLFW\include\;..\..\..\ThirdParty\freetype-gl;..\..\..\ThirdParty\INI;..\..\..\ThirdParty\Bitmap;..\..\..\ThirdParty\;..\..\..\Include\GUI\;..\..\..\Include\MCore.CPlusPlus\;..\..\..\Code\;..\..\..\Code\FileFormat\;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\Lib\$(Configuration)\;..\..\..\Lib\ThirdParty\;..\..\..\Lib\ThirdParty\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
-    <IncludePath>..\..\..\ThirdParty\HappyHTTP;..\..\..\ThirdParty\GLEW;..\..\..\ThirdParty\Freetype\include;..\..\..\ThirdParty\GLFW;..\..\..\ThirdParty\GLFW\include\;..\..\..\ThirdParty\freetype-gl;..\..\..\ThirdParty\INI;..\..\..\ThirdParty\Bitmap;..\..\..\ThirdParty\;..\..\..\Include\GUI\;..\..\..\Include\MCore.CPlusPlus\;..\..\..\..\IMGF\Code\;..\..\..\..\IMGF\Code\FileFormat\;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\..\ThirdParty\HappyHTTP;..\..\..\ThirdParty\GLEW;..\..\..\ThirdParty\Freetype\include;..\..\..\ThirdParty\GLFW;..\..\..\ThirdParty\GLFW\include\;..\..\..\ThirdParty\freetype-gl;..\..\..\ThirdParty\INI;..\..\..\ThirdParty\Bitmap;..\..\..\ThirdParty\;..\..\..\Include\GUI\;..\..\..\Include\MCore.CPlusPlus\;..\..\..\Code\;..\..\..\Code\FileFormat\;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\Lib\$(Configuration)\;..\..\..\Lib\ThirdParty\;..\..\..\Lib\ThirdParty\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
