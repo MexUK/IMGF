@@ -1,6 +1,9 @@
 #include "CAutomatedTesting.h"
+#include "Format/Image/BMP/CBMPManager.h"
+#include "Format/Image/BMP/CBMPFormat.h"
 
 using namespace std;
+using namespace mcore;
 
 template<class Manager, class Format>
 void						testFormatSerialization(string strFormatFilePath)
@@ -40,6 +43,7 @@ void						testFormatSerialization(string strFormatFilePath)
 
 void						CAutomatedTesting::testFormatsSerialization(void)
 {
+	/*
 	testFormatSerialization<CBMPManager,		CBMPFormat>			("a.bmp");
 	testFormatSerialization<CCOLManager,		CCOLFormat>			("a.col");
 	testFormatSerialization<CDATLoaderManager,	CDATLoaderFormat>	("a.dat");
@@ -54,4 +58,5 @@ void						CAutomatedTesting::testFormatsSerialization(void)
 	testFormatSerialization<CTXDManager,		CTXDFormat>			("a.txd");
 	testFormatSerialization<CWDRManager,		CWDRFormat>			("a.wdr");
 	testFormatSerialization<CWTDManager,		CWTDFormat>			("a.wtd");
+	*/
 }

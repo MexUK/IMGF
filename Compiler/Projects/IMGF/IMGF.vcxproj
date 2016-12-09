@@ -102,6 +102,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Code\AutomatedTesting\CAutomatedTesting.cpp" />
     <ClCompile Include="..\..\..\Code\CDumpManager.cpp" />
     <ClCompile Include="..\..\..\Code\CHTTPManager.cpp" />
     <ClCompile Include="..\..\..\Code\CInstallationMeta.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="..\..\..\..\IMGF\ThirdParty\HappyHTTP\happyhttp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Code\AutomatedTesting\CAutomatedTesting.h" />
     <ClInclude Include="..\..\..\Code\buildnumber.h" />
     <ClInclude Include="..\..\..\Code\CBuildMeta.h" />
     <ClInclude Include="..\..\..\Code\CDumpManager.h" />

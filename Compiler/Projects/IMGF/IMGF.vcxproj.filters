@@ -453,6 +453,9 @@
     <ClCompile Include="..\..\..\Code\Update\CUpdateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\AutomatedTesting\CAutomatedTesting.cpp">
+      <Filter>Source Files\AutomatedTesting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\IMGF\ThirdParty\Bitmap\bitmap.h">
@@ -1204,6 +1207,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\Task\Tasks\Renamer\CRenamedIMGEntry.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\AutomatedTesting\CAutomatedTesting.h">
+      <Filter>Header Files\AutomatedTesting</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
