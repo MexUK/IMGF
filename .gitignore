@@ -41,3 +41,6 @@
 *.pup
 *.db
 *.pdb
+
+# Allow
+!BuildNumber.exe
