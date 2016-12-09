@@ -70,7 +70,7 @@
       </IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>"..\..\..\..\_Output\EXE\IMGF\ThirdParty\BuildNumber\$(Configuration)\BuildNumber.exe"</Command>
+      <Command>"..\..\..\..\IMGF\BuildEvents\BuildNumber\$(Configuration)\BuildNumber.exe"</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>Build Number</Message>
@@ -95,7 +95,7 @@
       <IgnoreSpecificDefaultLibraries>Uafxcw.lib;Libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>"..\..\..\..\_Output\EXE\IMGF\ThirdParty\BuildNumber\$(Configuration)\BuildNumber.exe"</Command>
+      <Command>"..\..\..\..\IMGF\BuildEvents\BuildNumber\$(Configuration)\BuildNumber.exe"</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>Build Number</Message>
