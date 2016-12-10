@@ -182,8 +182,10 @@ void				CIMGF::initInstallationMeta(void)
 		}
 		else
 		{
+			/*
+			todo
 			//string strChosenInstallationFolder = mcore::CGUIManager::chooseFolderDialog(getDialog()->GetSafeHwnd(), CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_11"), getIMGF()->getLastUsedDirectory("INSTALLATION"));
-			string strChosenInstallationFolder = mcore::CGUIManager::chooseFolderDialog(getActiveWindow()->getWindowHandle(), "Choose the installation folder for IMGF. (e.g. In program files x86)", getIMGF()->getLastUsedDirectory("INSTALLATION"));
+			string strChosenInstallationFolder = mcore::CGUIManager::chooseFolderDialog(getActiveWindow() ? getActiveWindow()->getWindowHandle() : NULL, "Choose the installation folder for IMGF. (e.g. In program files x86)", getIMGF()->getLastUsedDirectory("INSTALLATION"));
 			if (strChosenInstallationFolder == "")
 			{
 			}
@@ -193,6 +195,7 @@ void				CIMGF::initInstallationMeta(void)
 				getIMGF()->setLastUsedDirectory("INSTALLATION", strChosenInstallationFolder);
 				CRegistryManager::setSoftwareValueString("IMGF\\InternalSettings", "InstallationPath", strChosenInstallationFolder);
 			}
+			*/
 		}
 	}
 }

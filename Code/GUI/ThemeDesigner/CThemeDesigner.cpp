@@ -26,9 +26,12 @@ CThemeDesigner::CThemeDesigner(void) :
 
 void					CThemeDesigner::init(void)
 {
+	/*
+	todo
 	initWindow();
 	initWindowDesign();
 	CEventManager::getInstance()->bindEvent(EVENT_onToolReady, [](void *pBoundArg) { ((CThemeDesigner*) pBoundArg)->bindEvents(); }, this);
+	*/
 }
 
 void					CThemeDesigner::bindEvents(void)

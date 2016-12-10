@@ -11,6 +11,10 @@
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWVersion.h"
 #include "Task/CTaskManager.h"
+#include "GUI/Window/CIMGFWindow.h"
+#include "Styles/CGUIStyles.h"
+#include "Type/Vector/CColour.h"
+#include "CGUIManager.h"
 
 // for menu start - todo
 #include "Format/RenderWare/Helper/BinaryStream/CRWManager.h"
@@ -964,4 +968,67 @@ void					CIMGEditor::loadRightClickMenu(int xPos, int yPos)
 	// clean up
 	//DestroyMenu(hMenu);
 	*/
+}
+
+void		CIMGEditor::initWindow(void)
+{
+	uint32 i, i2, x, y, w, h, sw, sh, sw2, sh2;
+	CButtonControl *pButton = nullptr;
+
+	CGUIStyles *pButtonStyles = gui::CGUIManager::createStyles();
+	pButtonStyles->setStyle("fill-colour", CColour(240, 240, 240));
+	pButtonStyles->setStyle("border-colour", CColour(140, 140, 140));
+	pButtonStyles->setStyle("text-align-x", string("left"));
+	pButtonStyles->setStyle("text-align-y", string("center"));
+	pButtonStyles->setStyle("inner-spacing-left", (int32) 8);
+
+	// all buttons
+	w = 100;
+	h = 20;
+
+	// vertical buttons
+	i = 0;
+	i2 = 0;
+	x = 10;
+	y = 35 + 10 + h + 10;
+	sh = 10; // spacing height
+	sh2 = 30; // spacing height 2
+	
+	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Open", pButtonStyles);
+	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Close", pButtonStyles);
+	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Close All", pButtonStyles);
+
+	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * ++i2))), CSize2D(w, h), "Import", pButtonStyles);
+	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Export", pButtonStyles);
+	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Quick Export", pButtonStyles);
+
+	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * ++i2))), CSize2D(w, h), "Remove", pButtonStyles);
+	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Rename", pButtonStyles);
+	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Replace", pButtonStyles);
+
+	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * ++i2))), CSize2D(w, h), "Select All", pButtonStyles);
+	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Select Inverse", pButtonStyles);
+
+	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * ++i2))), CSize2D(w, h), "Sort", pButtonStyles);
+	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Run LST", pButtonStyles);
+
+	// horizontal buttons
+	i = 0;
+	i2 = 0;
+	x = 10 + w + 10;
+	y = 25 + 19 + 10;
+	sw = 10; // spacing width
+	sw2 = 30; // spacing width 2
+
+	pButton = addButton(CPoint2D((int32) (x + (w * i) + (sw * i++) + (sw2 * i2)), (int32) y), CSize2D(w, h), "Rebuild", pButtonStyles);
+	pButton = addButton(CPoint2D((int32) (x + (w * i) + (sw * i++) + (sw2 * i2)), (int32) y), CSize2D(w, h), "Rebuild As", pButtonStyles);
+	pButton = addButton(CPoint2D((int32) (x + (w * i) + (sw * i++) + (sw2 * i2)), (int32) y), CSize2D(w, h), "Rebuild All", pButtonStyles);
+
+	pButton = addButton(CPoint2D((int32) (x + (w * i) + (sw * i++) + (sw2 * ++i2)), (int32) y), CSize2D(w, h), "Merge", pButtonStyles);
+	pButton = addButton(CPoint2D((int32) (x + (w * i) + (sw * i++) + (sw2 * i2)), (int32) y), CSize2D(w, h), "Split", pButtonStyles);
+	pButton = addButton(CPoint2D((int32) (x + (w * i) + (sw * i++) + (sw2 * i2)), (int32) y), CSize2D(w, h), "Convert", pButtonStyles);
+}
+
+void		CIMGEditor::render(void)
+{
 }

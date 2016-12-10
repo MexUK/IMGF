@@ -61,6 +61,9 @@ public:
 
 	std::vector<CSearchEntry*>&	getSearchEntries(void) { return m_vecSearchEntries; }
 
+	void						initWindow(void);
+	void						render(void);
+
 private:
 	CIMGEditorTab*				_addTab(mcore::CIMGFormat *pIMGFormat);
 

@@ -20,11 +20,14 @@ CWindow*				CWindowManager::openWindow(void)
 	CPoint2D vecWindowPosition = CPoint2D((int32)150, 150);
 	CSize2D vecWindowSize = CSize2D(1025, 698);
 	CIMGFWindow *pWindow = gui::CGUIManager::getInstance()->addTemplatedWindow<CIMGFWindow>(vecWindowPosition, vecWindowSize);
-	
+	pWindow->setTitleBarHeight(25);
+
 	CIMGEditor *pIMGEditor = new CIMGEditor; // CIMGEditor eventually extends CGUILayer - todo use pWindow->addTempatedGroup<CIMGEditor>() instead?
 	pIMGEditor->setWindow(pWindow);
 	pWindow->addEntry(pIMGEditor);
-	
+
+	pIMGEditor->initWindow();
+
 	pWindow->initTabs();
 	pWindow->bindAllEvents();
 	

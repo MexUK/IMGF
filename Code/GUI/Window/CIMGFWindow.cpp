@@ -17,6 +17,7 @@
 #include "Type/String/CString2.h"
 #include "GUI/ThemeDesigner/CThemeDesigner.h"
 #include "Type/Vector/CColour.h"
+#include "Controls/CTabControl.h"
 
 using namespace std;
 using namespace mcore;
@@ -39,14 +40,30 @@ void					CIMGFWindow::bindEvents(void)
 // window initialization
 void					CIMGFWindow::initTabs(void)
 {
-	getStyles()->setStyle("fill-colour", CColour(0xFF, 0xFF, 0xFF));
+	// window background colour
+	//getStyles()->setStyle("fill-colour", CColour(0xFF, 0xFF, 0xFF)); // white
+	getStyles()->setStyle("fill-colour", CColour(235, 235, 250)); // blue
+																  
+	// add tab bar
+	CEditor *pEditor = (CEditor*) getEntryByIndex(0);
+
+	CGUIStyles *pTabBarStyles = gui::CGUIManager::createStyles();
+	pTabBarStyles->setStyle("border-colour", CColour(50, 50, 50));
+	pTabBarStyles->setStyle("text-align-x", string("left"));
+	pTabBarStyles->setStyle("text-align-y", string("center"));
+	pTabBarStyles->setStyle("inner-spacing-x", (int32) 10);
+	CTabControl *pTabBar = pEditor->addTabBar(CPoint2D((int32) -1, 24), CSize2D((int32) 500, 20), pTabBarStyles);
+	pTabBar->setActiveTabHeightDifference(4);
+
+	pTabBar->addTab("IMG Editor", true);
+	pTabBar->addTab("Texture Editor");
+
 	return; // todo
 
 	// set window properties
 	getStyles()->setStyle("fill-colour", CColour(0x21, 0x4E, 0x67));
 
-	// fetch layer
-	CEditor *pEditor = (CEditor*) getEntryByIndex(0);
+	
 
 	// add window controls
 	CButtonControl *pButton = pEditor->addButton(CPoint2D((int32) 38, 35 + 38), CSize2D(172, 40), "Open");
@@ -92,19 +109,23 @@ void					CIMGFWindow::renderTitleBar(void)
 {
 	CGraphicsLibrary *pGFX = gui::CGUIManager::getInstance()->getGraphicsLibrary();
 
-	string strTitleBarText = "Komodo Game Manager";
-	uint32 uiTitleBarTextFontSize = 25;
+	string strTitleBarText = "IMG Factory ALPHA";
+	uint32 uiTitleBarTextFontSize = 14;
 	CGUIStyles styles9;
 	styles9.setEntry("text-size", uiTitleBarTextFontSize);
 	uint32 uiTitleBarTextWidth = pGFX->getTextSize(strTitleBarText, &styles9).m_x;
-	uint32 uiTitleBarTextX = (getSize().m_x / 2) - (uiTitleBarTextWidth / 2);
+	uint32 uiTitleBarTextX = 6;// todo (getSize().m_x / 2) - (uiTitleBarTextWidth / 2);
 
 	CGUIStyles styles1;
-	styles1.setEntry("fill-colour", CColour(0x38, 0x7E, 0xA3));
-	styles1.setEntry("text-colour", CColour(0xE1, 0xE6, 0xEF));
-	styles1.setEntry("text-size", uiTitleBarTextFontSize);
+	styles1.setEntry("fill-colour", CColour(50, 50, 50));
 	pGFX->drawRectangle(CPoint2D((int32) 0, 0), CSize2D(getSize().m_x, getTitleBarHeight()), &styles1);
-	pGFX->drawText(CPoint2D(uiTitleBarTextX, 1), CSize2D(uiTitleBarTextWidth, getTitleBarHeight()), strTitleBarText, &styles1);
+
+	CGUIStyles styles2;
+	styles2.setStyle("text-align-x", string("left"));
+	styles2.setStyle("text-align-y", string("center"));
+	styles2.setEntry("text-colour", CColour(0xE1, 0xE6, 0xEF));
+	styles2.setEntry("text-size", uiTitleBarTextFontSize);
+	pGFX->drawText(CPoint2D(uiTitleBarTextX, 1), CSize2D(uiTitleBarTextWidth, getTitleBarHeight()), strTitleBarText, &styles2);
 
 	if (getIMGF()->getThemeDesigner()->isThemeDesignerModeEnabled())
 	{

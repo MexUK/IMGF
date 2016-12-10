@@ -63,7 +63,7 @@ WindowClass*					gui::CGUIManager::addTemplatedWindow(mcore::CPoint2D& vecWindow
 	WindowClass *pWindow = new WindowClass;
 	pWindow->setPosition(mcore::CPoint2D(vecWindowPosition.m_x, vecWindowPosition.m_y)); // todo - send directly
 	pWindow->setSize(vecWindowSize);
-	pWindow->setTitleBarHeight(35);
+	pWindow->setTitleBarHeight(25);
 	if (!createWindow(pWindow))
 	{
 		return nullptr;
