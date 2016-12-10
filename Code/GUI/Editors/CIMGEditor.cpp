@@ -13,6 +13,8 @@
 #include "Task/CTaskManager.h"
 #include "GUI/Window/CIMGFWindow.h"
 #include "Styles/CGUIStyles.h"
+#include "Controls/CDropControl.h"
+#include "Controls/CTabControl.h"
 #include "Type/Vector/CColour.h"
 #include "CGUIManager.h"
 
@@ -973,7 +975,12 @@ void					CIMGEditor::loadRightClickMenu(int xPos, int yPos)
 void		CIMGEditor::initWindow(void)
 {
 	uint32 i, i2, x, y, w, h, sw, sh, sw2, sh2;
+
+	// all buttons
 	CButtonControl *pButton = nullptr;
+
+	w = 100;
+	h = 20;
 
 	CGUIStyles *pButtonStyles = gui::CGUIManager::createStyles();
 	pButtonStyles->setStyle("fill-colour", CColour(240, 240, 240));
@@ -982,15 +989,11 @@ void		CIMGEditor::initWindow(void)
 	pButtonStyles->setStyle("text-align-y", string("center"));
 	pButtonStyles->setStyle("inner-spacing-left", (int32) 8);
 
-	// all buttons
-	w = 100;
-	h = 20;
-
 	// vertical buttons
 	i = 0;
 	i2 = 0;
 	x = 10;
-	y = 35 + 10 + h + 10;
+	y = 25 + 19 + 10 + h + 10;
 	sh = 10; // spacing height
 	sh2 = 30; // spacing height 2
 	
@@ -1027,6 +1030,137 @@ void		CIMGEditor::initWindow(void)
 	pButton = addButton(CPoint2D((int32) (x + (w * i) + (sw * i++) + (sw2 * ++i2)), (int32) y), CSize2D(w, h), "Merge", pButtonStyles);
 	pButton = addButton(CPoint2D((int32) (x + (w * i) + (sw * i++) + (sw2 * i2)), (int32) y), CSize2D(w, h), "Split", pButtonStyles);
 	pButton = addButton(CPoint2D((int32) (x + (w * i) + (sw * i++) + (sw2 * i2)), (int32) y), CSize2D(w, h), "Convert", pButtonStyles);
+
+	uint32 uiButtonWidth = w;
+	uint32 uiButtonHeight = h;
+
+
+
+	// IMG instance tab bar
+	x = 10 + uiButtonWidth + 10;
+	y = 25 + 19 + 10 + uiButtonHeight + 10;
+	w = 500;
+	h = 20;
+
+	int32 iIMGInstanceTabBarHeight = h;
+
+	CGUIStyles *pIMGInstanceTabBarStyles = gui::CGUIManager::createStyles();
+	//pIMGInstanceTabBarStyles->setStyle("fill-colour", CColour(255, 255, 255));
+	pIMGInstanceTabBarStyles->setStyle("border-colour", CColour(0, 0, 0));
+	pIMGInstanceTabBarStyles->setStyle("text-align-x", string("left"));
+	pIMGInstanceTabBarStyles->setStyle("text-align-y", string("center"));
+	pIMGInstanceTabBarStyles->setStyle("inner-spacing-x", (int32) 8);
+
+	CTabControl *pIMGInstanceTabBar = addTabBar(CPoint2D(x, y), CSize2D(w, h), pIMGInstanceTabBarStyles);
+
+	pIMGInstanceTabBar->addTab("IMG1.img", true);
+
+
+	// filter bar: search box
+	x = 10 + uiButtonWidth + 10;
+	y = 25 + 19 + 10 + uiButtonHeight + 10 + iIMGInstanceTabBarHeight + 10;
+	w = 400;
+	h = 25;
+
+	CGUIStyles *pSearchBoxStyles = gui::CGUIManager::createStyles();
+	pSearchBoxStyles->setStyle("fill-colour", CColour(255, 255, 255));
+	pSearchBoxStyles->setStyle("text-colour", CColour(0, 0, 0));
+	pSearchBoxStyles->setStyle("text-align-x", string("left"));
+	pSearchBoxStyles->setStyle("text-align-y", string("center"));
+	pSearchBoxStyles->setStyle("inner-spacing-x", (int32)8);
+
+	CEditControl *pSearchBox = addEdit(CPoint2D(x, y), CSize2D(w, h), "Search", false, pSearchBoxStyles);
+
+
+
+	// filter bar: entry type
+	x = 10 + uiButtonWidth + 10 + 400 + 10;
+	y = 25 + 19 + 10 + uiButtonHeight + 10 + iIMGInstanceTabBarHeight + 10;
+	w = 140;
+	h = 25;
+
+	CGUIStyles *pEntryTypeFilterStyles = gui::CGUIManager::createStyles();
+	pEntryTypeFilterStyles->setStyle("fill-colour", CColour(255, 255, 255));
+	pEntryTypeFilterStyles->setStyle("text-colour", CColour(0, 0, 0));
+	pEntryTypeFilterStyles->setStyle("text-align-x", string("left"));
+	pEntryTypeFilterStyles->setStyle("text-align-y", string("center"));
+	pEntryTypeFilterStyles->setStyle("inner-spacing-x", (int32) 8);
+
+	CDropControl *pEntryTypeFilter = addDrop(CPoint2D(x, y), CSize2D(w, h), pEntryTypeFilterStyles);
+	pEntryTypeFilter->addItem("Entry Type", true);
+
+
+
+	// filter bar: entry version
+	x = 10 + uiButtonWidth + 10 + 400 + 10 + w + 10;
+	y = 25 + 19 + 10 + uiButtonHeight + 10 + iIMGInstanceTabBarHeight + 10;
+	w = 240;
+	h = 25;
+
+	CGUIStyles *pEntryVersionFilterStyles = gui::CGUIManager::createStyles();
+	pEntryVersionFilterStyles->setStyle("fill-colour", CColour(255, 255, 255));
+	pEntryVersionFilterStyles->setStyle("text-colour", CColour(0, 0, 0));
+	pEntryVersionFilterStyles->setStyle("text-align-x", string("left"));
+	pEntryVersionFilterStyles->setStyle("text-align-y", string("center"));
+	pEntryVersionFilterStyles->setStyle("inner-spacing-x", (int32) 8);
+
+	CDropControl *pEntryVersionFilter = addDrop(CPoint2D(x, y), CSize2D(w, h), pEntryVersionFilterStyles);
+	pEntryVersionFilter->addItem("Entry Version", true);
+
+
+
+	// entry list
+	x = 10 + uiButtonWidth + 10;
+	y = 25 + 19 + 10 + uiButtonHeight + 10 + 25 + 10 + iIMGInstanceTabBarHeight + 10;
+	w = 800;
+	h = 450;
+
+	uint32 uiEntryListWidth = w;
+	uint32 uiEntryListHeight = h;
+
+	CGUIStyles *pEntryListStyles = gui::CGUIManager::createStyles();
+	pEntryListStyles->setStyle("fill-colour", CColour(255, 255, 255));
+
+	CListControl *pEntryListControl = addList(CPoint2D((int32) x, (int32) y), CSize2D(w, h), pEntryListStyles);
+
+	int32 uiEntryListY = y = 25 + 19 + 10 + uiButtonHeight + 10 + 25 + 10;
+
+
+
+	// IMG stats
+	x = 10 + uiButtonWidth + 10;
+	y = uiEntryListY + uiEntryListHeight + 10 + iIMGInstanceTabBarHeight + 10;
+	w = 100;
+	h = 20;
+	addText(CPoint2D((int32) x, (int32) y), CSize2D(w, h), "IMG Entries: 0");
+
+	x = 10 + uiButtonWidth + 10 + 200;
+	y = uiEntryListY + uiEntryListHeight + 10 + iIMGInstanceTabBarHeight + 10;
+	w = 100;
+	h = 20;
+	addText(CPoint2D((int32) x, (int32) y), CSize2D(w, h), "IMG Version: 2 (GTA SA)");
+
+
+
+	// progress bar
+	CGUIStyles *pProgressBarStyles = gui::CGUIManager::createStyles();
+	pProgressBarStyles->setStyle("fill-colour", CColour(255, 255, 255));
+	pProgressBarStyles->setStyle("border-colour", CColour(0, 0, 0));
+
+	w = 100;
+	h = 20;
+	x = (10 + uiButtonWidth + 10 + uiEntryListWidth) - w;
+	y = uiEntryListY + uiEntryListHeight + 10 + iIMGInstanceTabBarHeight + 10;
+	addProgress(CPoint2D((int32) x, (int32) y), CSize2D(w, h), pProgressBarStyles);
+
+
+
+	// IMG path
+	x = 10 + uiButtonWidth + 10;
+	y = uiEntryListY + uiEntryListHeight + 10 + iIMGInstanceTabBarHeight + 10 + 25;
+	w = 100;
+	h = 20;
+	addText(CPoint2D((int32) x, (int32) y), CSize2D(w, h), "c:\\blah\\blah.img");
 }
 
 void		CIMGEditor::render(void)
