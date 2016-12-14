@@ -52,6 +52,8 @@ public:
 	void									checkToRender(void);
 	void									onRenderFromWMPaint(void);
 
+	void									renderTitleBarButtons(void);
+
 	CGUILayer*								addLayer(bool bEnabled = true);
 	CGUILayer*								addLayer(CWindow *pWindow, bool bEnabled = true);
 
@@ -105,6 +107,21 @@ public:
 
 	void									setEventTriggerEventTypeId(mcore::eEventType eEventTriggerEventTypeId) { m_eEventTriggerEventTypeId = eEventTriggerEventTypeId; }
 	mcore::eEventType						getEventTriggerEventTypeId(void) { return m_eEventTriggerEventTypeId; }
+
+private:
+	void									renderTitleBarCloseButton(void);
+	void									renderTitleBarMaximizeButton(void);
+	void									renderTitleBarMinimizeButton(void);
+
+	void									renderTitleBarCloseButton(mcore::CSize2D vecSize);
+	void									renderTitleBarMaximizeButton(mcore::CSize2D vecSize);
+	void									renderTitleBarMinimizeButton(mcore::CSize2D vecSize);
+
+	void									renderTitleBarCloseButton(mcore::CPoint2D vecPoint, mcore::CSize2D vecSize);
+	void									renderTitleBarMaximizeButton(mcore::CPoint2D vecPoint, mcore::CSize2D vecSize);
+	void									renderTitleBarMinimizeButton(mcore::CPoint2D vecPoint, mcore::CSize2D vecSize);
+
+	mcore::CPoint2D							getTitleBarButtonPosition(uint32 uiButtonIndexFromRight, mcore::CSize2D& vecSize);
 
 private:
 	HWND									m_hwndWindow;
