@@ -99,6 +99,9 @@ public:
 	void									setMaximized(bool bMaximized);
 	bool									isMaximized(void) { return m_bMaximized; }
 
+	void									setMinimized(bool bMinimized);
+	bool									isMinimized(void) { return m_bMinimized; }
+
 	void									setPreviousPosition(mcore::CPoint2D& vecPreviousPosition) { m_vecPreviousPosition = vecPreviousPosition; }
 	mcore::CPoint2D&						getPreviousPosition(void) { return m_vecPreviousPosition; }
 
@@ -123,6 +126,12 @@ private:
 
 	mcore::CPoint2D							getTitleBarButtonPosition(uint32 uiButtonIndexFromRight, mcore::CSize2D& vecSize);
 
+	mcore::CPoint2D							getTitleBarButtonsPosition(void);
+	mcore::CSize2D							getTitleBarButtonsSize(void);
+	mcore::CPoint2D							getTitleBarButtonsHoverPosition(void);
+	mcore::CSize2D							getTitleBarButtonsHoverSize(void);
+	void									onClickTitleBarButton(uint32 uiButtonIndexFromRight);
+
 private:
 	HWND									m_hwndWindow;
 	CWindow*								m_pParentWindow;
@@ -136,6 +145,7 @@ private:
 	uint8									m_bResizingWindow				: 1;
 	uint8									m_bMarkedToRedraw				: 1;
 	uint8									m_bMaximized					: 1;
+	uint8									m_bMinimized					: 1;
 	mcore::CPoint2D								m_vecPreviousPosition;
 	mcore::CSize2D									m_vecPreviousSize;
 	CGUIItem*								m_pActiveItem;

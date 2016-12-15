@@ -22,7 +22,7 @@ CWindow*				CWindowManager::openWindow(void)
 	CIMGFWindow *pWindow = gui::CGUIManager::getInstance()->addTemplatedWindow<CIMGFWindow>(vecWindowPosition, vecWindowSize);
 	pWindow->setTitleBarHeight(25);
 
-	CIMGEditor *pIMGEditor = new CIMGEditor; // CIMGEditor eventually extends CGUILayer - todo use pWindow->addTempatedGroup<CIMGEditor>() instead?
+	CIMGEditor *pIMGEditor = new CIMGEditor; // CIMGEditor eventually extends CGUILayer - todo use pWindow->addTemplatedGroup<CIMGEditor>() instead?
 	pIMGEditor->setWindow(pWindow);
 	pWindow->addEntry(pIMGEditor);
 
