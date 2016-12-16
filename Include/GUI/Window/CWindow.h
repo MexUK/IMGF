@@ -120,6 +120,7 @@ private:
 	void									renderTitleBarMaximizeButton(mcore::CSize2D vecSize);
 	void									renderTitleBarMinimizeButton(mcore::CSize2D vecSize);
 
+	void									renderTitleBarButtonHover(void);
 	void									renderTitleBarCloseButton(mcore::CPoint2D vecPoint, mcore::CSize2D vecSize);
 	void									renderTitleBarMaximizeButton(mcore::CPoint2D vecPoint, mcore::CSize2D vecSize);
 	void									renderTitleBarMinimizeButton(mcore::CPoint2D vecPoint, mcore::CSize2D vecSize);
@@ -130,6 +131,13 @@ private:
 	mcore::CSize2D							getTitleBarButtonsSize(void);
 	mcore::CPoint2D							getTitleBarButtonsHoverPosition(void);
 	mcore::CSize2D							getTitleBarButtonsHoverSize(void);
+
+	void									setTitleBarButtonHoverStatus(bool bTitleBarButtonHoverStatus) { m_bTitleBarButtonHoverStatus = bTitleBarButtonHoverStatus; }
+	bool									getTitleBarButtonHoverStatus(void) { return m_bTitleBarButtonHoverStatus; }
+
+	void									setTitleBarButtonHoverIndex(uint32 uiTitleBarButtonHoverIndex) { m_uiTitleBarButtonHoverIndex = uiTitleBarButtonHoverIndex; }
+	uint32									getTitleBarButtonHoverIndex(void) { return m_uiTitleBarButtonHoverIndex; }
+
 	void									onClickTitleBarButton(uint32 uiButtonIndexFromRight);
 
 private:
@@ -146,6 +154,8 @@ private:
 	uint8									m_bMarkedToRedraw				: 1;
 	uint8									m_bMaximized					: 1;
 	uint8									m_bMinimized					: 1;
+	uint8									m_bTitleBarButtonHoverStatus	: 1;
+	uint32									m_uiTitleBarButtonHoverIndex;
 	mcore::CPoint2D								m_vecPreviousPosition;
 	mcore::CSize2D									m_vecPreviousSize;
 	CGUIItem*								m_pActiveItem;
