@@ -5,15 +5,28 @@
 #include "Pool/CVectorPool.h"
 #include "CEventBoundFunction.h"
 
+/*
+
+todo:
+
+rename CEventBinder to CEventFunctionStorage
+
+also move bindEvents/unbindEvents interface to a different class?
+
+*/
+
 class mcore::CEventBinder
 {
 public:
-	virtual void							bindEvents(void) = 0;
-	void									unbindEvents(void);
-	void									storeEventBoundFunction(CEventBoundFunction *pEventBoundFunction);
+	// todo virtual void										bindEvents(void) = 0;
+	virtual void										bindEvents(void) {};
+	// todo virtual void								unbindEvents(void) = 0;
+
+	mcore::CEventBoundFunction*							storeEventBoundFunction(mcore::CEventBoundFunction *pEventBoundFunction);
+	void												unbindEvents(void);
 
 private:
-	mcore::CVectorPool<CEventBoundFunction*>		m_vecEventBoundFunctions;
+	mcore::CVectorPool<mcore::CEventBoundFunction*>		m_vecEventBoundFunctions;
 };
 
 #endif

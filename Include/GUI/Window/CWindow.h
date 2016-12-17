@@ -22,7 +22,7 @@ class CGUIStyles;
 class CWindow;
 class mcore::CInputEventCallbacks;
 
-class CWindow : public mcore::CEventType, public mcore::CEventBinder, public CGUIStyleableEntity, public mcore::CVectorPool<CGUILayer*>
+class CWindow : public mcore::CEventType, public CGUIStyleableEntity, public mcore::CVectorPool<CGUILayer*>
 {
 public:
 	CWindow(void);
@@ -38,9 +38,9 @@ public:
 	void									unserialize(void);
 	void									serialize(void);
 
-	mcore::CEventBoundFunction*					bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
-	mcore::CEventBoundFunction*					bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
-	mcore::CEventBoundFunction*					bindEvent(uint32 uiEventId, mcore::CInputEventCallbacks *pObject, void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, mcore::CInputEventCallbacks *pObject, void *pTriggerArgument = nullptr, int32 iZOrder = 0);
 	bool									triggerEvent(uint32 uiEventId, void *pTriggerArgument = nullptr);
 
 	void									onMouseDown(mcore::CPoint2D& vecCursorPosition);

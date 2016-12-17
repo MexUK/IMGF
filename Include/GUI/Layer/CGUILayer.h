@@ -7,6 +7,7 @@
 #include "Control/CGUIControl.h"
 #include "Type/Vector/CPoint2D.h"
 #include "Type/Vector/CSize2D.h"
+#include "Event/eEvent.h"
 #include <string>
 #include <vector>
 
@@ -43,6 +44,8 @@ public:
 
 	void					bindAllEvents(void);
 	void					unbindAllEvents(void);
+
+	void					triggerEvent(mcore::eEvent eEventId, void *pTriggerArgument);
 
 	void					unserialize(void);
 	void					serialize(void);

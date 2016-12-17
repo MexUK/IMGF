@@ -11,10 +11,12 @@
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWVersion.h"
 #include "Task/CTaskManager.h"
+#include "Task/CTaskDispatchManager.h"
 #include "GUI/Window/CIMGFWindow.h"
 #include "Styles/CGUIStyles.h"
 #include "Controls/CDropControl.h"
 #include "Controls/CTabControl.h"
+#include "Controls/CButtonControl.h"
 #include "Type/Vector/CColour.h"
 #include "CGUIManager.h"
 
@@ -977,7 +979,7 @@ void		CIMGEditor::initWindow(void)
 	uint32 i, i2, x, y, w, h, sw, sh, sw2, sh2;
 
 	// all buttons
-	CButtonControl *pButton = nullptr;
+	CButtonControl *pButton, *pOpenButton;
 
 	w = 100;
 	h = 20;
@@ -998,6 +1000,8 @@ void		CIMGEditor::initWindow(void)
 	sh2 = 30; // spacing height 2
 	
 	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Open", pButtonStyles);
+	pOpenButton = pButton;
+	pButton->setControlId(100);
 	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Close", pButtonStyles);
 	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Close All", pButtonStyles);
 
@@ -1014,6 +1018,20 @@ void		CIMGEditor::initWindow(void)
 
 	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * ++i2))), CSize2D(w, h), "Sort", pButtonStyles);
 	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Run LST", pButtonStyles);
+
+	/*
+	getWindow()->storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseUp, [](void *pControl, void *pTriggerArg)
+	{
+		if (!pControl) return;
+		//if (((CGUIItem*) pControl)->getType() != GUI_ITEM_CONTROL) return;
+		if (((CGUIControl*) pControl)->getControlId() == 100)
+		{
+			getIMGF()->getTaskManager()->getDispatch()->onRequestOpen();
+		}
+	}, pOpenButton));
+	*/
+
+	pOpenButton->storeEventBoundFunction(pOpenButton->bindEvent(EVENT_onLeftMouseUp, [](void *a,void*b){ getIMGF()->getTaskManager()->getDispatch()->onRequestOpen(); }));
 
 	// horizontal buttons
 	i = 0;

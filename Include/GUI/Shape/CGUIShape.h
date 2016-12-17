@@ -3,6 +3,7 @@
 
 #include "Type/Vector/CPoint2D.h"
 #include "Type/Vector/CSize2D.h"
+#include "Event/CEventType.h"
 #include "Event/CEventBinder.h"
 #include "Shape/Geometry/eGUIShapeGeometry.h"
 #include "Shape/eGUIShape.h"
@@ -13,7 +14,7 @@ class CGUIStyles;
 class CGUILayer;
 class CWindow;
 
-class CGUIShape : public CGUIItem, public mcore::CEventBinder
+class CGUIShape : public CGUIItem, public mcore::CEventType
 {
 public:
 	CGUIShape(eGUIShapeGeometry eShapeGeometry, eGUIShape eShapeType);
@@ -22,6 +23,11 @@ public:
 
 	virtual void							unserialize(bool bSkipShapeId = false);
 	virtual void							serialize(void);
+
+	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, mcore::CInputEventCallbacks *pObject, void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	bool									triggerEvent(uint32 uiEventId, void *pTriggerArgument = nullptr);
 
 	void									setShapeGeometry(eGUIShapeGeometry eShapeGeometry) { m_eShapeGeometry = eShapeGeometry; }
 	eGUIShapeGeometry						getShapeGeometry(void) { return m_eShapeGeometry; }

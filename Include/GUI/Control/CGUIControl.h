@@ -7,6 +7,7 @@
 #include "eGUIControl.h"
 #include "Pool/CVectorPool.h"
 #include "Event/CEventBoundFunction.h"
+#include "Event/CEventType.h"
 #include "Event/CEventBinder.h"
 #include "Item/CGUIItem.h"
 #include <string>
@@ -20,7 +21,7 @@ class CGUILayer;
 class CGUIStyles;
 class CScrollControl;
 
-class CGUIControl : public CGUIItem, public mcore::CEventBinder
+class CGUIControl : public CGUIItem, public mcore::CEventType
 {
 public:
 	CGUIControl(eGUIControl eControlType);
@@ -30,6 +31,11 @@ public:
 
 	virtual void							unserialize(bool bSkipControlId = false);
 	virtual void							serialize(void);
+
+	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, mcore::CInputEventCallbacks *pObject, void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	bool									triggerEvent(uint32 uiEventId, void *pTriggerArgument = nullptr);
 
 	virtual bool							isPointInItem(mcore::CPoint2D& vecPoint);
 	mcore::CPoint2D								getBoundingRectanglePosition(void) { return m_vecPosition; }
