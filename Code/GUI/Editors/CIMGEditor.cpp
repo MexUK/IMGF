@@ -1144,7 +1144,6 @@ void		CIMGEditor::initWindow(void)
 	pEntryListStyles->setStyle("list-header-cell.text-align-x", string("left"));
 	pEntryListStyles->setStyle("list-header-cell.text-align-y", string("center"));
 	pEntryListStyles->setStyle("list-header-cell.inner-spacing-x", (int32) 8);
-	pEntryListStyles->setStyle("list-header-cell.inner-spacing-y", (int32) 0);
 
 	CListControl *pEntryListControl = addList(CPoint2D((int32) x, (int32) y), CSize2D(w, h), pEntryListStyles);
 	pEntryListControl->setControlId(37);
