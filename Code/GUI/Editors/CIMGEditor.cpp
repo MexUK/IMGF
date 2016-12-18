@@ -16,6 +16,7 @@
 #include "Styles/CGUIStyles.h"
 #include "Controls/CDropControl.h"
 #include "Controls/CTabControl.h"
+#include "Controls/CListControl.h"
 #include "Controls/CButtonControl.h"
 #include "Type/Vector/CColour.h"
 #include "CGUIManager.h"
@@ -185,10 +186,12 @@ void				CIMGEditor::setActiveTab(CIMGEditorTab *pEditorTab)
 
 		// IMG version
 		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedTextW("Window_Main_Text_IMGVersion").c_str());
+		*/
 
 		// 6th column name in main list view
 		readdColumnsToMainListView(IMG_UNKNOWN);
 
+		/*
 		// search text
 		((CEdit*)getIMGF()->getDialog()->GetDlgItem(24))->SetWindowTextW(_T(""));
 		((CStatic*)getIMGF()->getDialog()->GetDlgItem(0))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", 0).c_str());
@@ -241,10 +244,12 @@ void				CIMGEditor::setActiveTab(CIMGEditorTab *pEditorTab)
 
 		// IMG version
 		pEditorTab->updateIMGText();
+		*/
 
 		// 6th column name in main list view
 		readdColumnsToMainListView(pEditorTab->getIMGFile()->getIMGVersion());
 
+		/*
 		// search text
 		if (((CButton*)getIMGF()->getDialog()->GetDlgItem(46))->GetCheck() == BST_UNCHECKED)
 		{
@@ -274,33 +279,30 @@ void					CIMGEditor::readdColumnsToMainListView(eIMGVersion eIMGVersionValue)
 }
 void					CIMGEditor::addColumnsToMainListView(eIMGVersion eIMGVersionValue)
 {
-	/*
-	todo
-	CListCtrl *pListCtrl = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37);
-	pListCtrl->SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
-	pListCtrl->InsertColumn(0, CLocalizationManager::getInstance()->getTranslatedTextW("Window_Main_ListView_ColumnTitle_ID").c_str(), LVCFMT_LEFT, 45);
-	pListCtrl->InsertColumn(1, CLocalizationManager::getInstance()->getTranslatedTextW("Window_Main_ListView_ColumnTitle_Type").c_str(), LVCFMT_LEFT, 40);
-	pListCtrl->InsertColumn(2, CLocalizationManager::getInstance()->getTranslatedTextW("Window_Main_ListView_ColumnTitle_Name").c_str(), LVCFMT_LEFT, 150);
-	pListCtrl->InsertColumn(3, CLocalizationManager::getInstance()->getTranslatedTextW("Offset").c_str(), LVCFMT_RIGHT, 85);
-	pListCtrl->InsertColumn(4, CLocalizationManager::getInstance()->getTranslatedTextW("Size").c_str(), LVCFMT_RIGHT, 70);
+	CListControl *pList = (CListControl*) getControlById(37);
+
+	pList->addHeader("ID" /* todo CLocalizationManager::getInstance()->getTranslatedText("Window_Main_ListView_ColumnTitle_ID")*/, 45);
+	pList->addHeader("Type" /* CLocalizationManager::getInstance()->getTranslatedText("Window_Main_ListView_ColumnTitle_Type")*/, 40);
+	pList->addHeader("Name" /* CLocalizationManager::getInstance()->getTranslatedText("Window_Main_ListView_ColumnTitle_Name")*/, 150);
+	pList->addHeader("Offset" /* CLocalizationManager::getInstance()->getTranslatedText("Offset")*/, 85);
+	pList->addHeader("Size" /* CLocalizationManager::getInstance()->getTranslatedText("Size")*/, 70);
 
 	switch (eIMGVersionValue)
 	{
 	case IMG_UNKNOWN:
 	case IMG_1:
 	case IMG_2:
-		pListCtrl->InsertColumn(5, CLocalizationManager::getInstance()->getTranslatedTextW("Version").c_str(), LVCFMT_LEFT, 125);
+		pList->addHeader("Version" /* CLocalizationManager::getInstance()->getTranslatedText("Version")*/, 125);
 		break;
 	case IMG_3:
-		pListCtrl->InsertColumn(5, CLocalizationManager::getInstance()->getTranslatedTextW("ResourceType").c_str(), LVCFMT_LEFT, 125);
+		pList->addHeader("Resource Type" /* CLocalizationManager::getInstance()->getTranslatedText("ResourceType")*/, 125);
 		break;
 	case IMG_FASTMAN92:
-		pListCtrl->InsertColumn(5, CLocalizationManager::getInstance()->getTranslatedTextW("Version").c_str(), LVCFMT_LEFT, 125);
-		pListCtrl->InsertColumn(6, CLocalizationManager::getInstance()->getTranslatedTextW("Compression").c_str(), LVCFMT_LEFT, 125);
-		pListCtrl->InsertColumn(7, CLocalizationManager::getInstance()->getTranslatedTextW("Encryption").c_str(), LVCFMT_LEFT, 125);
+		pList->addHeader("Version" /* CLocalizationManager::getInstance()->getTranslatedText("Version")*/, 125);
+		pList->addHeader("Compression" /* CLocalizationManager::getInstance()->getTranslatedText("Compression")*/, 125);
+		pList->addHeader("Encryption" /* CLocalizationManager::getInstance()->getTranslatedText("Encryption")*/, 125);
 		break;
 	}
-	*/
 }
 void					CIMGEditor::removeColumnsFromMainListView(void)
 {
@@ -1138,8 +1140,15 @@ void		CIMGEditor::initWindow(void)
 
 	CGUIStyles *pEntryListStyles = gui::CGUIManager::createStyles();
 	pEntryListStyles->setStyle("fill-colour", CColour(255, 255, 255));
+	pEntryListStyles->setStyle("list-header-row.fill-colour", CColour(250, 255, 235));
+	pEntryListStyles->setStyle("list-header-cell.text-align-x", string("left"));
+	pEntryListStyles->setStyle("list-header-cell.text-align-y", string("center"));
+	pEntryListStyles->setStyle("list-header-cell.inner-spacing-x", (int32) 8);
+	pEntryListStyles->setStyle("list-header-cell.inner-spacing-y", (int32) 0);
 
 	CListControl *pEntryListControl = addList(CPoint2D((int32) x, (int32) y), CSize2D(w, h), pEntryListStyles);
+	pEntryListControl->setControlId(37);
+	setEntryListControl(pEntryListControl);
 
 	int32 uiEntryListY = y = 25 + 19 + 10 + uiButtonHeight + 10 + 25 + 10;
 
@@ -1179,6 +1188,11 @@ void		CIMGEditor::initWindow(void)
 	w = 100;
 	h = 20;
 	addText(CPoint2D((int32) x, (int32) y), CSize2D(w, h), "c:\\blah\\blah.img");
+
+
+
+	// init
+	addColumnsToMainListView(IMG_UNKNOWN);
 }
 
 void		CIMGEditor::render(void)

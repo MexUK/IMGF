@@ -62,13 +62,13 @@ public:
 	void					setGraphics(Gdiplus::Graphics* pGraphics) { m_pGraphics = pGraphics; }
 	Gdiplus::Graphics*		getGraphics(void) { return m_pGraphics; }
 
+	mcore::CPoint2D			getTextPositionFromStyles(mcore::CPoint2D& vecPosition, mcore::CSize2D& vecSize, std::string& strText, mcore::CSize2D& vecTextSize, CGUIStyles *pStyles);
+
 private:
 	Gdiplus::Pen*			createPenFromStyles(CGUIStyles *pStyles);
 	Gdiplus::Brush*			createBackgroundBrushFromStyles(CGUIStyles *pStyles);
 	Gdiplus::Brush*			createTextBrushFromStyles(CGUIStyles *pStyles);
 	Gdiplus::Font*			createFontFromStyles(CGUIStyles *pStyles);
-
-	mcore::CPoint2D				getTextPositionFromStyles(mcore::CPoint2D& vecPosition, mcore::CSize2D& vecSize, std::string& strText, mcore::CSize2D& vecTextSize, CGUIStyles *pStyles);
 
 	Gdiplus::Point*			getGdiplusPointsFromVectorPoints(std::vector<mcore::CPoint2D>& vecPoints);
 	Gdiplus::Rect			getGdiplusRect(mcore::CPoint2D& vecPosition, mcore::CSize2D& vecSize);

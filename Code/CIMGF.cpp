@@ -174,7 +174,8 @@ void				CIMGF::initInstallationMeta(void)
 	string strInstallationPath = CRegistryManager::getSoftwareValueString("IMGF\\InternalSettings", "InstallationPath");
 	if (strInstallationPath == "")
 	{
-		string strPotentialInstallationPath = "C:\\Program Files (x86)\\IMGF\\" + getIMGF()->getBuildMeta().getCurrentVersionString() + "\\";
+		string strProgramFilesx86FolderName = "IMG Factory";
+		string strPotentialInstallationPath = "C:\\Program Files (x86)\\" + strProgramFilesx86FolderName + "\\" + getIMGF()->getBuildMeta().getCurrentVersionString() + "\\";
 		if (CFileManager::doesFolderExist(strPotentialInstallationPath))
 		{
 			strInstallationPath = strPotentialInstallationPath;

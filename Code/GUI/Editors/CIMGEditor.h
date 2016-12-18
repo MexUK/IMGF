@@ -57,7 +57,7 @@ public:
 	uint32						getSearchFileCount(void) { return m_uiSearchFileCount; }
 
 	void						setEntryListControl(CListControl *pEntryListControl) { m_pEntryListControl = pEntryListControl; }
-	CListControl*		getEntryListControl(void) { return m_pEntryListControl; }
+	CListControl*				getEntryListControl(void) { return m_pEntryListControl; }
 
 	std::vector<CSearchEntry*>&	getSearchEntries(void) { return m_vecSearchEntries; }
 

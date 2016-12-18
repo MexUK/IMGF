@@ -25,6 +25,8 @@ public:
 
 	void									render(void);
 
+	CListControlHeader*						addHeader(std::string strHeaderText, uint32 uiColumnWidth);
+
 	mcore::CPoint2D								getRowPosition(uint32 uiRowIndex);	// in pixels
 	mcore::CSize2D									getRowSize(void);					// in pixels
 

@@ -83,7 +83,7 @@ void					CIMGFWindow::initTabs(void)
 	pList->getStyles()->setStyle("row-fill-colour-2", CColour(0x00, 0xFF, 0x00, 0xFF));
 	pList->setRowHeight(25);
 	pList->setControlId(2);
-	// todo setEntryListControl(pList);
+	//((CIMGEditor*)getEntryByIndex(0))->setEntryListControl(pList);
 	pEditor->getControls().addEntry(pList);
 
 	bindEvent(EVENT_onPressButton, [](void *pWindow, void *pData)
