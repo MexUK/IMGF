@@ -1,7 +1,7 @@
 #ifndef CPlatformManager_H
 #define CPlatformManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Object/CManager.h"
 #include "Object/CSingleton.h"
 #include "Pool/CVectorPool.h"
@@ -9,13 +9,13 @@
 #include "ePlatform.h"
 #include <string>
 
-class mcore::CPlatformManager : public mcore::CManager, public mcore::CSingleton<mcore::CPlatformManager>, public mcore::CVectorPool<mcore::CPlatform*>
+class bxa::CPlatformManager : public bxa::CManager, public bxa::CSingleton<bxa::CPlatformManager>, public bxa::CVectorPool<bxa::CPlatform*>
 {
 public:
 	void											init(void);
 	void											uninit(void);
 
-	std::string										getPlatformName(mcore::ePlatform ePlatformValue);
+	std::string										getPlatformName(bxa::ePlatform ePlatformValue);
 
 private:
 	void											initPlatforms(void);

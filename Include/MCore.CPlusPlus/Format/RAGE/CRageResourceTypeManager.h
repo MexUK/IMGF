@@ -1,7 +1,7 @@
 #ifndef CRageResourceTypeManager_H
 #define CRageResourceTypeManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Object/CManager.h"
 #include "CRageResourceType.h"
@@ -10,15 +10,15 @@
 #include <vector>
 #include <unordered_map>
 
-class mcore::CRageResourceTypeManager : public mcore::CManager, public mcore::CVectorPool<mcore::CRageResourceType*>
+class bxa::CRageResourceTypeManager : public bxa::CManager, public bxa::CVectorPool<bxa::CRageResourceType*>
 {
 public:
 	void											init(void);
 	void											uninit(void);
 
-	mcore::CRageResourceType*								getResourceTypeByIdentifierOrFileExtension(uint32 uiResourceIdentifer, std::string strFileExtension);
-	mcore::CRageResourceType*								getResourceTypeByIdentifier(uint32 uiResourceIdentifer);
-	mcore::CRageResourceType*								getResourceTypeByFileExtension(std::string strFileExtension);
+	bxa::CRageResourceType*								getResourceTypeByIdentifierOrFileExtension(uint32 uiResourceIdentifer, std::string strFileExtension);
+	bxa::CRageResourceType*								getResourceTypeByIdentifier(uint32 uiResourceIdentifer);
+	bxa::CRageResourceType*								getResourceTypeByFileExtension(std::string strFileExtension);
 
 private:
 	void											initRageResourceTypes(void);

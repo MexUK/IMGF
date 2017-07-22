@@ -1,15 +1,15 @@
 #ifndef CIDEEntry_Section_H
 #define CIDEEntry_Section_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RockstarGames/IDE/CIDEEntry.h"
 
-class mcore::CIDEFormat;
+class bxa::CIDEFormat;
 
-class mcore::CIDEEntry_Section : public mcore::CIDEEntry
+class bxa::CIDEEntry_Section : public bxa::CIDEEntry
 {
 public:
-	CIDEEntry_Section(mcore::CIDEFormat *pIDEFormat) :
+	CIDEEntry_Section(bxa::CIDEFormat *pIDEFormat) :
 		CIDEEntry(pIDEFormat)
 	{};
 

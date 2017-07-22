@@ -1,10 +1,10 @@
 #ifndef eDATLoaderEntryType_H
 #define eDATLoaderEntryType_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-enum mcore::eDATLoaderEntryType : uint8
+enum bxa::eDATLoaderEntryType : uint8
 {
 	DAT_LOADER_UNKNOWN,
 	DAT_LOADER_IMG,

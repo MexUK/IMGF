@@ -1,16 +1,16 @@
 #ifndef CIDEEntry_PEDS_H
 #define CIDEEntry_PEDS_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IDE/Entry/CIDEEntry_Data.h"
 #include "Type/Vector/CVector2ui32.h"
 #include <string>
 
-class mcore::CIDEEntry_PEDS : public mcore::CIDEEntry_Data
+class bxa::CIDEEntry_PEDS : public bxa::CIDEEntry_Data
 {
 public:
-	CIDEEntry_PEDS(mcore::CIDEFormat *pIDEFormat) :
+	CIDEEntry_PEDS(bxa::CIDEFormat *pIDEFormat) :
 		CIDEEntry_Data(pIDEFormat, IDE_SECTION_PEDS),
 		m_uiObjectId(0),
 		m_uiCarsCanDrive(0)
@@ -46,8 +46,8 @@ public:
 	void						setAnimationFile(std::string& strAnimationFile) { m_strAnimationFile = strAnimationFile; }
 	std::string&				getAnimationFile(void) { return m_strAnimationFile; }
 
-	void						setPreferredRadioStations(mcore::CVector2ui32& vecPreferredRadioStations) { m_vecPreferredRadioStations = vecPreferredRadioStations; }
-	mcore::CVector2ui32&				getPreferredRadioStations(void) { return m_vecPreferredRadioStations; }
+	void						setPreferredRadioStations(bxa::CVector2ui32& vecPreferredRadioStations) { m_vecPreferredRadioStations = vecPreferredRadioStations; }
+	bxa::CVector2ui32&				getPreferredRadioStations(void) { return m_vecPreferredRadioStations; }
 
 	void						setVoiceArchive(std::string& strVoiceArchive) { m_strVoiceArchive = strVoiceArchive; }
 	std::string&				getVoiceArchive(void) { return m_strVoiceArchive; }
@@ -91,7 +91,7 @@ private:
 	std::string					m_strDefaultPedType;
 	std::string					m_strAnimationGroup;
 	std::string					m_strAnimationFile;
-	mcore::CVector2ui32				m_vecPreferredRadioStations;
+	bxa::CVector2ui32				m_vecPreferredRadioStations;
 	std::string					m_strVoices[2];
 
 	// GTA III era only

@@ -3,11 +3,11 @@
 
 #define _USE_MATH_DEFINES
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Vector/CVector4ui8.h"
 #include <math.h>
 
-class mcore::CColour
+class bxa::CColour
 {
 private:
 	uint8	m_x;

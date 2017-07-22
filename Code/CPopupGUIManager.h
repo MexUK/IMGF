@@ -40,7 +40,7 @@ struct CDATModelListDialogData;
 struct COverwriteEntryDialogData;
 class CDialog;
 
-class CPopupGUIManager : public mcore::CManager
+class CPopupGUIManager : public bxa::CManager
 {
 public:
 	void									init(void);
@@ -146,7 +146,7 @@ struct CSettingsData
 	bool							m_bOverwriteProtectedFiles;
 	bool							m_bAutoSave;
 	bool							m_bRemoveOldVersionOnUpdate;
-	mcore::eLanguage				eLanguage;
+	bxa::eLanguage				eLanguage;
 	bool							m_bNewLanguageApplied;
 	bool							m_bAutoCompressionImportReplace;
 };
@@ -206,23 +206,23 @@ struct CSplitViaDialogData
 	uint32							m_uiRadioButtonIndex;
 };
 
-class mcore::CRWVersion;
-class mcore::CRasterDataFormat;
-class mcore::CCOLVersion;
+class bxa::CRWVersion;
+class bxa::CRasterDataFormat;
+class bxa::CCOLVersion;
 struct CDragDropDialogData
 {
-	mcore::eIMGVersion						m_eDestinationIMGVersion;
+	bxa::eIMGVersion						m_eDestinationIMGVersion;
 	bool							m_bCancel;
 	bool							m_bCopy;
 	bool							m_bConvert;
-	mcore::CRWVersion*						m_pDFFConversionRWVersion;
-	mcore::CCOLVersion*					m_pNewCOLVersion;
+	bxa::CRWVersion*						m_pDFFConversionRWVersion;
+	bxa::CCOLVersion*					m_pNewCOLVersion;
 	uint32							m_uiTXDConversionOption;
 	union
 	{
-		mcore::ePlatformedGame				m_eTXDConversionGame;
-		mcore::CRWVersion*					m_pTXDConversionRWVersion;
-		mcore::CRasterDataFormat*			m_pTXDConversionRasterDataFormat;
+		bxa::ePlatformedGame				m_eTXDConversionGame;
+		bxa::CRWVersion*					m_pTXDConversionRWVersion;
+		bxa::CRasterDataFormat*			m_pTXDConversionRasterDataFormat;
 	};
 };
 
@@ -299,14 +299,14 @@ struct CBuildTXDDialogData
 	std::string						m_strTexturesFolderPath;
 	std::string						m_strDestinationFolderPath;
 	uint32							m_uiTextureCountPerTXD;
-	mcore::CRWVersion*						m_pRWVersion;
+	bxa::CRWVersion*						m_pRWVersion;
 };
 
 struct CIMGVersionSettingsDialogData
 {
 	bool							m_bSave;
 	uint8							m_ucEntriesType;
-	mcore::eCompressionAlgorithm			m_eCompressionAlgorithm;
+	bxa::eCompressionAlgorithm			m_eCompressionAlgorithm;
 	uint32							m_uiCompressionLevel;
 };
 
@@ -319,16 +319,16 @@ struct CTXDOrganizerDialogData
 	bool							m_bIDEUpdate;
 	std::string						m_strIDEUpdateFolderPath;
 	std::string						m_strOutputFolderPath;
-	mcore::CRasterDataFormat*				m_pRasterDataFormat;
+	bxa::CRasterDataFormat*				m_pRasterDataFormat;
 };
 
 struct CDATPathsMoverDialogData
 {
 	bool							m_bMove;
-	mcore::CVector2D						m_vecOutputMapRangeMin;
-	mcore::CVector2D						m_vecOutputMapRangeMax;
-	mcore::CVector2D						m_vecOutputTileSize;
-	mcore::CVector3D						m_vecPositionOffset;
+	bxa::CVector2D						m_vecOutputMapRangeMin;
+	bxa::CVector2D						m_vecOutputMapRangeMax;
+	bxa::CVector2D						m_vecOutputTileSize;
+	bxa::CVector3D						m_vecPositionOffset;
 	std::string						m_strInputFolderPath;
 	std::string						m_strOutputFolderPath;
 };
@@ -344,9 +344,9 @@ struct CMapMoverAndIDShifterDialogData
 	std::string						m_strUpdateIPLInFolderPath;
 	std::string						m_strOutputFolderPath;
 	uint32							m_uiIDStart;
-	mcore::CVector3D						m_vecPositionOffset;
+	bxa::CVector3D						m_vecPositionOffset;
 	bool							m_bIgnoreDefaultObjects;
-	mcore::ePlatformedGame					m_eIgnoreDefaultObjectsGame;
+	bxa::ePlatformedGame					m_eIgnoreDefaultObjectsGame;
 	bool							m_bIgnoreFilesShifter;
 	bool							m_bIgnoreFilesMover;
 	std::vector<std::string>		m_vecIgnoreFilesShifter;

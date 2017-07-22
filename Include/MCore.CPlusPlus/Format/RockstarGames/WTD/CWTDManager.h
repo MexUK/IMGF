@@ -1,17 +1,17 @@
 #ifndef CWTDManager_H
 #define CWTDManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 #include "CWTDFormat.h"
 #include "d3d9.h"
 #include <string>
 
-class mcore::CWTDEntry;
-class mcore::CIntermediateTextureFormat;
+class bxa::CWTDEntry;
+class bxa::CIntermediateTextureFormat;
 
-class mcore::CWTDManager : public mcore::CFormatManager<mcore::CWTDFormat>, public mcore::CSingleton<mcore::CWTDManager>
+class bxa::CWTDManager : public bxa::CFormatManager<bxa::CWTDFormat>, public bxa::CSingleton<bxa::CWTDManager>
 {
 public:
 	CWTDManager(void);
@@ -21,7 +21,7 @@ public:
 
 	static uint32				getImageDataSize(CWTDEntry *pWTDEntry, bool bIncludeLevels);
 
-	mcore::CWTDFormat*					convertIntermediateTextureFileToWTDFile(mcore::CIntermediateTextureFormat *pIntermediateTextureFormat);
+	bxa::CWTDFormat*					convertIntermediateTextureFileToWTDFile(bxa::CIntermediateTextureFormat *pIntermediateTextureFormat);
 };
 
 #endif

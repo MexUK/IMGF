@@ -7,11 +7,11 @@
 #include "eEntryViewerDisplayType.h"
 #include "CTextureViewerTextureData.h"
 
-class mcore::CIMGEntry;
+class bxa::CIMGEntry;
 
 LRESULT CALLBACK				WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-class CTextureViewer : public CEntryViewer, public mcore::CVectorPool<CTextureViewerTextureData*>
+class CTextureViewer : public CEntryViewer, public bxa::CVectorPool<CTextureViewerTextureData*>
 {
 public:
 	CTextureViewer(void);
@@ -22,8 +22,8 @@ public:
 	void						openWindow(void);
 	void						closeWindow(void);
 
-	void						setIMGEntry(mcore::CIMGEntry *pIMGEntry) { m_pIMGEntry = pIMGEntry; }
-	mcore::CIMGEntry*					getIMGEntry(void) { return m_pIMGEntry; }
+	void						setIMGEntry(bxa::CIMGEntry *pIMGEntry) { m_pIMGEntry = pIMGEntry; }
+	bxa::CIMGEntry*					getIMGEntry(void) { return m_pIMGEntry; }
 
 	void						setWindowHwnd(HWND hwndEntryViewerWindow) { m_hwndEntryViewerWindow = hwndEntryViewerWindow; }
 	HWND						getWindowHwnd(void) { return m_hwndEntryViewerWindow; }
@@ -77,7 +77,7 @@ private:
 	void						renderDisplayType_Float(void);
 
 private:
-	mcore::CIMGEntry*					m_pIMGEntry;
+	bxa::CIMGEntry*					m_pIMGEntry;
 	HWND						m_hwndEntryViewerWindow;
 	CTextureViewerTextureData*	m_pActiveEntry;
 	float32						m_fZoomLevel;

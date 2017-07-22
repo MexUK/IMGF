@@ -8,7 +8,7 @@
 #include "Debug/CDebug.h"
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 CLSTManager::CLSTManager(void)
 {

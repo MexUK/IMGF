@@ -1,11 +1,11 @@
 #ifndef CIntermediateTextureFormat_H
 #define CIntermediateTextureFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Pool/CVectorPool.h"
 #include "CIntermediateTexture.h"
 
-class mcore::CIntermediateTextureFormat : public mcore::CVectorPool<mcore::CIntermediateTexture*>
+class bxa::CIntermediateTextureFormat : public bxa::CVectorPool<bxa::CIntermediateTexture*>
 {
 public:
 	void						unload(void);

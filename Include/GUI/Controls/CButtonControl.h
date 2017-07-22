@@ -17,8 +17,8 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	void									onMouseDown(mcore::CPoint2D& vecCursorPosition);
-	void									onMouseUp(mcore::CPoint2D& vecCursorPosition);
+	void									onMouseDown(bxa::CPoint2D& vecCursorPosition);
+	void									onMouseUp(bxa::CPoint2D& vecCursorPosition);
 
 	void									render(void);
 };

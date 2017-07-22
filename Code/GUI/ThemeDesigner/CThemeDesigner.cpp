@@ -13,7 +13,7 @@
 #include <vector>
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 CThemeDesigner::CThemeDesigner(void) :
 	m_bThemeDesignerModeEnabled(false),

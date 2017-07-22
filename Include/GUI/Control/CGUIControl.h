@@ -21,7 +21,7 @@ class CGUILayer;
 class CGUIStyles;
 class CScrollControl;
 
-class CGUIControl : public CGUIItem, public mcore::CEventType
+class CGUIControl : public CGUIItem, public bxa::CEventType
 {
 public:
 	CGUIControl(eGUIControl eControlType);
@@ -32,16 +32,16 @@ public:
 	virtual void							unserialize(bool bSkipControlId = false);
 	virtual void							serialize(void);
 
-	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
-	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
-	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, mcore::CInputEventCallbacks *pObject, void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	bxa::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	bxa::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	bxa::CEventBoundFunction*				bindEvent(uint32 uiEventId, bxa::CInputEventCallbacks *pObject, void *pTriggerArgument = nullptr, int32 iZOrder = 0);
 	bool									triggerEvent(uint32 uiEventId, void *pTriggerArgument = nullptr);
 
-	virtual bool							isPointInItem(mcore::CPoint2D& vecPoint);
-	mcore::CPoint2D								getBoundingRectanglePosition(void) { return m_vecPosition; }
-	mcore::CSize2D									getBoundingRectangleSize(void) { return m_vecSize; }
-	void									moveItem(mcore::CVector2i32& vecPositionChange) { m_vecPosition += vecPositionChange; }
-	void									resizeItemViaOffsets(mcore::CVector2i32& vecItemSizeChange) { m_vecSize += mcore::CSize2D(vecItemSizeChange.m_x, vecItemSizeChange.m_y); }
+	virtual bool							isPointInItem(bxa::CPoint2D& vecPoint);
+	bxa::CPoint2D								getBoundingRectanglePosition(void) { return m_vecPosition; }
+	bxa::CSize2D									getBoundingRectangleSize(void) { return m_vecSize; }
+	void									moveItem(bxa::CVector2i32& vecPositionChange) { m_vecPosition += vecPositionChange; }
+	void									resizeItemViaOffsets(bxa::CVector2i32& vecItemSizeChange) { m_vecSize += bxa::CSize2D(vecItemSizeChange.m_x, vecItemSizeChange.m_y); }
 
 	bool									doesControlHaveFocus(void);
 
@@ -53,11 +53,11 @@ public:
 	void									setControlId(uint32 uiControlId) { m_uiControlId = uiControlId; }
 	uint32									getControlId(void) { return m_uiControlId; }
 	
-	void									setPosition(mcore::CPoint2D& vecPosition) { m_vecPosition = vecPosition; }
-	mcore::CPoint2D&								getPosition(void) { return m_vecPosition; }
+	void									setPosition(bxa::CPoint2D& vecPosition) { m_vecPosition = vecPosition; }
+	bxa::CPoint2D&								getPosition(void) { return m_vecPosition; }
 	
-	void									setSize(mcore::CSize2D& vecSize) { m_vecSize = vecSize; }
-	mcore::CSize2D&								getSize(void) { return m_vecSize; }
+	void									setSize(bxa::CSize2D& vecSize) { m_vecSize = vecSize; }
+	bxa::CSize2D&								getSize(void) { return m_vecSize; }
 	
 	void									setPointMarkedAsInControl(bool bPointMarkedAsInControl) { m_bPointMarkedAsInControl = bPointMarkedAsInControl; }
 	bool									isPointMarkedAsInControl(void) { return m_bPointMarkedAsInControl; }
@@ -66,8 +66,8 @@ public:
 
 private:
 	eGUIControl								m_eControlType;
-	mcore::CPoint2D								m_vecPosition;
-	mcore::CSize2D									m_vecSize;
+	bxa::CPoint2D								m_vecPosition;
+	bxa::CSize2D									m_vecSize;
 	uint32									m_uiControlId;
 	uint8									m_bPointMarkedAsInControl		: 1;
 	CGUIScrollPool*							m_pScrolls;

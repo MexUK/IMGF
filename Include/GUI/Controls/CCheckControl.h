@@ -15,15 +15,15 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	void									onMouseUp(mcore::CPoint2D& vecCursorPosition);
+	void									onMouseUp(bxa::CPoint2D& vecCursorPosition);
 
 	void									render(void);
 	
-	bool									isPointInControl(mcore::CPoint2D& vecPoint);
+	bool									isPointInControl(bxa::CPoint2D& vecPoint);
 
-	mcore::CSize2D									getTotalSize(void); // todo - duplicated code in check and radio controls
+	bxa::CSize2D									getTotalSize(void); // todo - duplicated code in check and radio controls
 
-	mcore::CPoint2D								getTextPosition(void);
+	bxa::CPoint2D								getTextPosition(void);
 
 	int32									getMarkableTextSpacing(void); // todo - duplicated code in check and radio controls
 	

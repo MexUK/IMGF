@@ -1,7 +1,7 @@
-#include "mcore.h"
+#include "bxa.h"
 #include "CEditorTab.h"
 
-using namespace mcore;
+using namespace bxa;
 
 CEditorTab::CEditorTab(void) :
 	m_pEditor(nullptr),

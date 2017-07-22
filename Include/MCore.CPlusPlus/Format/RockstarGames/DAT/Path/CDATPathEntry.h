@@ -1,14 +1,14 @@
 #ifndef CDATPathEntry_H
 #define CDATPathEntry_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "eDATPathFormat.h"
 #include <string>
 
 // default format file structures
 #pragma pack(push, 1)
-struct mcore::CDATEntry_Paths_Default_Header
+struct bxa::CDATEntry_Paths_Default_Header
 {
 	uint32			m_uiPathNodeCount;
 	uint32			m_uiVehicleNodeCount;
@@ -19,7 +19,7 @@ struct mcore::CDATEntry_Paths_Default_Header
 #pragma pack(pop)
 
 #pragma pack(push, 1)
-struct mcore::CDATEntry_Paths_Default_PathNode
+struct bxa::CDATEntry_Paths_Default_PathNode
 {
 	uint32			m_uiMemoryAddress; // unused
 	uint32			m_uiZero; // unused
@@ -35,7 +35,7 @@ struct mcore::CDATEntry_Paths_Default_PathNode
 #pragma pack(pop)
 
 #pragma pack(push, 1)
-struct mcore::CDATEntry_Paths_Default_NaviNode
+struct bxa::CDATEntry_Paths_Default_NaviNode
 {
 	int16			m_iPosition[2];
 	uint16			m_usAreaId;
@@ -46,7 +46,7 @@ struct mcore::CDATEntry_Paths_Default_NaviNode
 #pragma pack(pop)
 
 #pragma pack(push, 1)
-struct mcore::CDATEntry_Paths_Default_Link
+struct bxa::CDATEntry_Paths_Default_Link
 {
 	uint16			m_usAreaId;
 	uint16			m_usNodeId;
@@ -54,21 +54,21 @@ struct mcore::CDATEntry_Paths_Default_Link
 #pragma pack(pop)
 
 #pragma pack(push, 1)
-struct mcore::CDATEntry_Paths_Default_NaviLink
+struct bxa::CDATEntry_Paths_Default_NaviLink
 {
 	uint16			m_usData; // lower 10 bit are the Navi Node ID, upper 6 bit the corresponding Area ID
 };
 #pragma pack(pop)
 
 #pragma pack(push, 1)
-struct mcore::CDATEntry_Paths_Default_LinkLength
+struct bxa::CDATEntry_Paths_Default_LinkLength
 {
 	uint8			m_ucLength;
 };
 #pragma pack(pop)
 
 // default format wrapper structures
-struct mcore::CDATEntry_Paths_Default_Link_Wrapper
+struct bxa::CDATEntry_Paths_Default_Link_Wrapper
 {
 	uint16			m_usAreaId;
 	uint16			m_usNodeId;
@@ -77,7 +77,7 @@ struct mcore::CDATEntry_Paths_Default_Link_Wrapper
 };
 
 // fastman92 format file structures
-class mcore::CompressedVector
+class bxa::CompressedVector
 {
 public:
 	signed __int16 x;
@@ -85,7 +85,7 @@ public:
 	signed __int16 z;
 };
 
-class mcore::CompressedVector_extended
+class bxa::CompressedVector_extended
 {
 public:
 	signed __int32 x;
@@ -93,13 +93,13 @@ public:
 	signed __int32 z;
 };
 
-struct mcore::CNodeAddress
+struct bxa::CNodeAddress
 {
 	unsigned __int16 areaId;
 	unsigned __int16 nodeId;
 };
 
-struct mcore::CDATEntry_Paths_Fastman92_Header
+struct bxa::CDATEntry_Paths_Fastman92_Header
 {
 	uint32			m_uiFourCC; // 0xFFFFFFFF
 	std::string		m_strFormat; // FM92
@@ -113,7 +113,7 @@ struct mcore::CDATEntry_Paths_Fastman92_Header
 	uint32			m_uiLinkCount;
 };
 
-struct mcore::CDATEntry_Paths_Fastman92_PathNode
+struct bxa::CDATEntry_Paths_Fastman92_PathNode
 {
 	CDATEntry_Paths_Fastman92_PathNode *m_pPrev;
 	CDATEntry_Paths_Fastman92_PathNode **m_ppNext;
@@ -127,12 +127,12 @@ struct mcore::CDATEntry_Paths_Fastman92_PathNode
 	uint32 m_dwFlags;
 };
 
-struct mcore::CDATEntry_Paths_Fastman92_PathNode_extended : public CDATEntry_Paths_Fastman92_PathNode
+struct bxa::CDATEntry_Paths_Fastman92_PathNode_extended : public CDATEntry_Paths_Fastman92_PathNode
 {
 	CompressedVector_extended m_extended_posn;
 };
 
-struct mcore::CDATEntry_Paths_Fastman92_NaviNode
+struct bxa::CDATEntry_Paths_Fastman92_NaviNode
 {
 	__int16 posX;  // deprecated field
 	__int16 posY;  // deprecated field
@@ -142,29 +142,29 @@ struct mcore::CDATEntry_Paths_Fastman92_NaviNode
 	uint32 m_dwFlags;
 };
 
-struct mcore::CDATEntry_Paths_Fastman92_NaviNode_extended : public CDATEntry_Paths_Fastman92_NaviNode
+struct bxa::CDATEntry_Paths_Fastman92_NaviNode_extended : public CDATEntry_Paths_Fastman92_NaviNode
 {
 	signed __int32 extended_posX;
 	signed __int32 extended_posY;
 };
 
-struct mcore::CDATEntry_Paths_Fastman92_Link
+struct bxa::CDATEntry_Paths_Fastman92_Link
 {
 	uint16			m_usAreaId;
 	uint16			m_usNodeId;
 };
 
-struct mcore::CDATEntry_Paths_Fastman92_NaviLink
+struct bxa::CDATEntry_Paths_Fastman92_NaviLink
 {
 	uint32			m_uiData; // lower 16 bit are the Navi Node ID, upper 16 bit the corresponding Area ID
 };
 
-struct mcore::CDATEntry_Paths_Fastman92_LinkLength
+struct bxa::CDATEntry_Paths_Fastman92_LinkLength
 {
 	uint8			m_ucLength;
 };
 
-struct mcore::CDATEntry_Paths_Fastman92_PathIntersectionFlags
+struct bxa::CDATEntry_Paths_Fastman92_PathIntersectionFlags
 {
 	//uint8			m_bRoadCross : 1;
 	//uint8			m_bPedTrafficLight : 1;
@@ -172,7 +172,7 @@ struct mcore::CDATEntry_Paths_Fastman92_PathIntersectionFlags
 };
 
 // general format file structures
-struct mcore::CDATEntry_Paths_General_Header
+struct bxa::CDATEntry_Paths_General_Header
 {
 	eDATPathFormat		m_ePathsFormat;
 	uint32				m_uiPathNodeCount;
@@ -182,7 +182,7 @@ struct mcore::CDATEntry_Paths_General_Header
 	uint32				m_uiLinkCount;
 };
 
-struct mcore::CDATEntry_Paths_General_PathNode
+struct bxa::CDATEntry_Paths_General_PathNode
 {
 	bool								m_bIsVehiclePathNode;
 	CDATEntry_Paths_Default_PathNode*	m_pPrev;
@@ -198,7 +198,7 @@ struct mcore::CDATEntry_Paths_General_PathNode
 	uint32								m_uiFlags;
 };
 
-struct mcore::CDATEntry_Paths_General_NaviNode
+struct bxa::CDATEntry_Paths_General_NaviNode
 {
 	int32						m_iPosition[2];
 	char						m_ucDirection[2];
@@ -214,7 +214,7 @@ struct mcore::CDATEntry_Paths_General_NaviNode
 	uint32						m_uiTargetNode_OldNodeId;
 };
 
-struct mcore::CDATEntry_Paths_General_Link
+struct bxa::CDATEntry_Paths_General_Link
 {
 	uint16						m_usAreaId;
 	uint16						m_usNodeId;

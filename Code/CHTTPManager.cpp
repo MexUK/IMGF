@@ -8,7 +8,7 @@
 #include <WinSock2.h>
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 void				CHTTPManager::init(void)
 {

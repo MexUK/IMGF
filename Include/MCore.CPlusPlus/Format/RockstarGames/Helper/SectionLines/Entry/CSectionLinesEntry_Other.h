@@ -1,10 +1,10 @@
 #ifndef CSectionLinesEntry_Other_H
 #define CSectionLinesEntry_Other_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include <string>
 
-class mcore::CSectionLinesEntry_Other
+class bxa::CSectionLinesEntry_Other
 {
 public:
 	void						setLine(std::string& strLine) { m_strLine = strLine; }

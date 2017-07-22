@@ -1,11 +1,11 @@
 #ifndef RG_CWTDFormat_Header2_H
 #define RG_CWTDFormat_Header2_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
-struct mcore::RG_CWTDFormat_Header2
+struct bxa::RG_CWTDFormat_Header2
 {
 	uint32					m_uiVTable;
 	uint32					m_uiBlockMapOffset;

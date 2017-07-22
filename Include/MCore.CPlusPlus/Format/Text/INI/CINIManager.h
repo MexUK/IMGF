@@ -1,12 +1,12 @@
 #ifndef CINIManager_H
 #define CINIManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include <string>
 #include <vector>
 
-class mcore::CINIManager
+class bxa::CINIManager
 {
 public:
 	static bool						setItem(std::string strPath, std::string strSection, std::string strKey, std::string strValue);

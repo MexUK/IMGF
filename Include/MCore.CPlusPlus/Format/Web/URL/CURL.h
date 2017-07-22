@@ -1,11 +1,11 @@
 #ifndef CURL_H
 #define CURL_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include <string>
 #include <vector>
 
-class mcore::CURL
+class bxa::CURL
 {
 public:
 	void						loadFromURL(std::string strURL);

@@ -4,6 +4,6 @@
 #include "Pool/CVectorPool.h"
 #include "Controls/CScrollControl.h"
 
-class CGUIScrollPool : public mcore::CVectorPool<CScrollControl*> {};
+class CGUIScrollPool : public bxa::CVectorPool<CScrollControl*> {};
 
 #endif

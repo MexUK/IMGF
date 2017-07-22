@@ -1,12 +1,12 @@
 #ifndef CRasterDataFormatManager_H
 #define CRasterDataFormatManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Object/CManager.h"
 #include "CRasterDataFormat.h"
 #include "Pool/CVectorPool.h"
 
-class mcore::CRasterDataFormatManager : public mcore::CManager, public mcore::CVectorPool<mcore::CRasterDataFormat*>
+class bxa::CRasterDataFormatManager : public bxa::CManager, public bxa::CVectorPool<bxa::CRasterDataFormat*>
 {
 public:
 	void							init(void);

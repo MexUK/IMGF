@@ -20,9 +20,9 @@ class CRadioControl;
 class CDropTarget;
 class CGUIStyles;
 class CWindow;
-class mcore::CInputEventCallbacks;
+class bxa::CInputEventCallbacks;
 
-class CWindow : public mcore::CEventType, public CGUIStyleableEntity, public mcore::CVectorPool<CGUILayer*>
+class CWindow : public bxa::CEventType, public CGUIStyleableEntity, public bxa::CVectorPool<CGUILayer*>
 {
 public:
 	CWindow(void);
@@ -38,15 +38,15 @@ public:
 	void									unserialize(void);
 	void									serialize(void);
 
-	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
-	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
-	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, mcore::CInputEventCallbacks *pObject, void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	bxa::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	bxa::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	bxa::CEventBoundFunction*				bindEvent(uint32 uiEventId, bxa::CInputEventCallbacks *pObject, void *pTriggerArgument = nullptr, int32 iZOrder = 0);
 	bool									triggerEvent(uint32 uiEventId, void *pTriggerArgument = nullptr);
 
-	void									onMouseDown(mcore::CPoint2D& vecCursorPosition);
-	void									onMouseUp(mcore::CPoint2D& vecCursorPosition);
-	void									onMouseMove(mcore::CPoint2D& vecCursorPosition);
-	void									onDoubleLeftClick(mcore::CPoint2D& vecCursorPosition);
+	void									onMouseDown(bxa::CPoint2D& vecCursorPosition);
+	void									onMouseUp(bxa::CPoint2D& vecCursorPosition);
+	void									onMouseMove(bxa::CPoint2D& vecCursorPosition);
+	void									onDoubleLeftClick(bxa::CPoint2D& vecCursorPosition);
 
 	virtual void							render(void);
 	void									checkToRender(void);
@@ -75,11 +75,11 @@ public:
 	void									setFocusedControl(CGUIControl *pWindowControl) { m_pFocusedControl = pWindowControl; }
 	CGUIControl*							getFocusedControl(void) { return m_pFocusedControl; }
 
-	void									setPosition(mcore::CPoint2D& vecPosition);
-	mcore::CPoint2D&						getPosition(void) { return m_vecPosition; }
+	void									setPosition(bxa::CPoint2D& vecPosition);
+	bxa::CPoint2D&						getPosition(void) { return m_vecPosition; }
 
-	void									setSize(mcore::CSize2D& vecSize);
-	mcore::CSize2D&							getSize(void) { return m_vecSize; }
+	void									setSize(bxa::CSize2D& vecSize);
+	bxa::CSize2D&							getSize(void) { return m_vecSize; }
 
 	void									setMovingWindow(bool bMovingMainWindow) { m_bMovingWindow = bMovingMainWindow; }
 	bool									isMovingWindow(void) { return m_bMovingWindow; }
@@ -102,35 +102,35 @@ public:
 	void									setMinimized(bool bMinimized);
 	bool									isMinimized(void) { return m_bMinimized; }
 
-	void									setPreviousPosition(mcore::CPoint2D& vecPreviousPosition) { m_vecPreviousPosition = vecPreviousPosition; }
-	mcore::CPoint2D&						getPreviousPosition(void) { return m_vecPreviousPosition; }
+	void									setPreviousPosition(bxa::CPoint2D& vecPreviousPosition) { m_vecPreviousPosition = vecPreviousPosition; }
+	bxa::CPoint2D&						getPreviousPosition(void) { return m_vecPreviousPosition; }
 
-	void									setPreviousSize(mcore::CSize2D& vecPreviousSize) { m_vecPreviousSize = vecPreviousSize; }
-	mcore::CSize2D&							getPreviousSize(void) { return m_vecPreviousSize; }
+	void									setPreviousSize(bxa::CSize2D& vecPreviousSize) { m_vecPreviousSize = vecPreviousSize; }
+	bxa::CSize2D&							getPreviousSize(void) { return m_vecPreviousSize; }
 
-	void									setEventTriggerEventTypeId(mcore::eEventType eEventTriggerEventTypeId) { m_eEventTriggerEventTypeId = eEventTriggerEventTypeId; }
-	mcore::eEventType						getEventTriggerEventTypeId(void) { return m_eEventTriggerEventTypeId; }
+	void									setEventTriggerEventTypeId(bxa::eEventType eEventTriggerEventTypeId) { m_eEventTriggerEventTypeId = eEventTriggerEventTypeId; }
+	bxa::eEventType						getEventTriggerEventTypeId(void) { return m_eEventTriggerEventTypeId; }
 
 private:
 	void									renderTitleBarCloseButton(void);
 	void									renderTitleBarMaximizeButton(void);
 	void									renderTitleBarMinimizeButton(void);
 
-	void									renderTitleBarCloseButton(mcore::CSize2D vecSize);
-	void									renderTitleBarMaximizeButton(mcore::CSize2D vecSize);
-	void									renderTitleBarMinimizeButton(mcore::CSize2D vecSize);
+	void									renderTitleBarCloseButton(bxa::CSize2D vecSize);
+	void									renderTitleBarMaximizeButton(bxa::CSize2D vecSize);
+	void									renderTitleBarMinimizeButton(bxa::CSize2D vecSize);
 
 	void									renderTitleBarButtonHover(void);
-	void									renderTitleBarCloseButton(mcore::CPoint2D vecPoint, mcore::CSize2D vecSize);
-	void									renderTitleBarMaximizeButton(mcore::CPoint2D vecPoint, mcore::CSize2D vecSize);
-	void									renderTitleBarMinimizeButton(mcore::CPoint2D vecPoint, mcore::CSize2D vecSize);
+	void									renderTitleBarCloseButton(bxa::CPoint2D vecPoint, bxa::CSize2D vecSize);
+	void									renderTitleBarMaximizeButton(bxa::CPoint2D vecPoint, bxa::CSize2D vecSize);
+	void									renderTitleBarMinimizeButton(bxa::CPoint2D vecPoint, bxa::CSize2D vecSize);
 
-	mcore::CPoint2D							getTitleBarButtonPosition(uint32 uiButtonIndexFromRight, mcore::CSize2D& vecSize);
+	bxa::CPoint2D							getTitleBarButtonPosition(uint32 uiButtonIndexFromRight, bxa::CSize2D& vecSize);
 
-	mcore::CPoint2D							getTitleBarButtonsPosition(void);
-	mcore::CSize2D							getTitleBarButtonsSize(void);
-	mcore::CPoint2D							getTitleBarButtonsHoverPosition(void);
-	mcore::CSize2D							getTitleBarButtonsHoverSize(void);
+	bxa::CPoint2D							getTitleBarButtonsPosition(void);
+	bxa::CSize2D							getTitleBarButtonsSize(void);
+	bxa::CPoint2D							getTitleBarButtonsHoverPosition(void);
+	bxa::CSize2D							getTitleBarButtonsHoverSize(void);
 
 	void									setTitleBarButtonHoverStatus(bool bTitleBarButtonHoverStatus) { m_bTitleBarButtonHoverStatus = bTitleBarButtonHoverStatus; }
 	bool									getTitleBarButtonHoverStatus(void) { return m_bTitleBarButtonHoverStatus; }
@@ -144,8 +144,8 @@ private:
 	HWND									m_hwndWindow;
 	CWindow*								m_pParentWindow;
 	CGUIControl*							m_pFocusedControl;
-	mcore::CPoint2D								m_vecPosition;
-	mcore::CSize2D									m_vecSize;
+	bxa::CPoint2D								m_vecPosition;
+	bxa::CSize2D									m_vecSize;
 	uint32									m_uiWindowResizeEdges;
 	CDropTarget*							m_pDropTarget;
 	uint32									m_uiTitleBarHeight;
@@ -156,10 +156,10 @@ private:
 	uint8									m_bMinimized					: 1;
 	uint8									m_bTitleBarButtonHoverStatus	: 1;
 	uint32									m_uiTitleBarButtonHoverIndex;
-	mcore::CPoint2D								m_vecPreviousPosition;
-	mcore::CSize2D									m_vecPreviousSize;
+	bxa::CPoint2D								m_vecPreviousPosition;
+	bxa::CSize2D									m_vecPreviousSize;
 	CGUIItem*								m_pActiveItem;
-	mcore::eEventType								m_eEventTriggerEventTypeId;
+	bxa::eEventType								m_eEventTriggerEventTypeId;
 	// todo CRectangleItemPlacement<CWindow>			m_placeableWindow;	// gui windows
 	CRectangleItemPlacement<CGUIItem>			m_placeableItem;	// gui items - e.g. shapes and controls
 

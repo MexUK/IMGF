@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-class CListControl : public CGUIControl, public mcore::CVectorPool<CListControlEntry*>
+class CListControl : public CGUIControl, public bxa::CVectorPool<CListControlEntry*>
 {
 public:
 	CListControl(void);
@@ -21,17 +21,17 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	void									onMouseDown(mcore::CPoint2D& vecCursorPosition);
+	void									onMouseDown(bxa::CPoint2D& vecCursorPosition);
 
 	void									render(void);
 
 	CListControlHeader*						addHeader(std::string strHeaderText, uint32 uiColumnWidth);
 
-	mcore::CPoint2D								getRowPosition(uint32 uiRowIndex);	// in pixels
-	mcore::CSize2D									getRowSize(void);					// in pixels
+	bxa::CPoint2D								getRowPosition(uint32 uiRowIndex);	// in pixels
+	bxa::CSize2D									getRowSize(void);					// in pixels
 
-	mcore::CPoint2D								getCellTextPosition(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);	// in pixels
-	mcore::CSize2D									getCellTextSize(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);		// in pixels
+	bxa::CPoint2D								getCellTextPosition(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);	// in pixels
+	bxa::CSize2D									getCellTextSize(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);		// in pixels
 
 	void									setRowHeight(uint32 uiRowHeight) { m_uiRowHeight = uiRowHeight; }	// in pixels
 	uint32									getRowHeight(void) { return m_uiRowHeight; }						// in pixels
@@ -48,14 +48,14 @@ public:
 	void									setHasVerticalScrollBar(bool bHasVerticalScrollBar) { m_bHasVerticalScrollBar = bHasVerticalScrollBar; }
 	bool									doesHaveVerticalScrollBar(void) { return m_bHasVerticalScrollBar; }
 	
-	mcore::CVectorPool<CListControlHeader*>&		getHeaders(void) { return m_vecHeaders; }
+	bxa::CVectorPool<CListControlHeader*>&		getHeaders(void) { return m_vecHeaders; }
 
 private:
 	uint32									m_uiRowHeight;				// in pixels
 	uint32									m_uiColumnWidth;			// in pixels
 	uint32									m_uiRowTextHeight;			// in pixels
 	uint8									m_bHasVerticalScrollBar		: 1;
-	mcore::CVectorPool<CListControlHeader*>		m_vecHeaders;
+	bxa::CVectorPool<CListControlHeader*>		m_vecHeaders;
 };
 
 #endif

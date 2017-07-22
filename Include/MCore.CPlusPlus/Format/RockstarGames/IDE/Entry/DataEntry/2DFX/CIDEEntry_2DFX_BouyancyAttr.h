@@ -1,15 +1,15 @@
 #ifndef CIDEEntry_2DFX_BouyancyAttr_H
 #define CIDEEntry_2DFX_BouyancyAttr_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_2DFX.h"
 #include <string>
 
-class mcore::CIDEEntry_2DFX_BouyancyAttr : public mcore::CIDEEntry_2DFX
+class bxa::CIDEEntry_2DFX_BouyancyAttr : public bxa::CIDEEntry_2DFX
 {
 public:
-	CIDEEntry_2DFX_BouyancyAttr(mcore::CIDEFormat *pIDEFormat) :
-		CIDEEntry_2DFX(pIDEFormat, mcore::_2DFX_BOUYANCY_ATTR)
+	CIDEEntry_2DFX_BouyancyAttr(bxa::CIDEFormat *pIDEFormat) :
+		CIDEEntry_2DFX(pIDEFormat, bxa::_2DFX_BOUYANCY_ATTR)
 	{
 	};
 

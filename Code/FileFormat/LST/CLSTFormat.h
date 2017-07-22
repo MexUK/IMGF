@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-class CLSTFormat : public mcore::CFormat, public mcore::CVectorPool<CLSTSection*>
+class CLSTFormat : public bxa::CFormat, public bxa::CVectorPool<CLSTSection*>
 {
 public:
 	CLSTFormat(void) : CFormat(false) {};

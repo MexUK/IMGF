@@ -1,7 +1,7 @@
 #ifndef CCOLManager_H
 #define CCOLManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 #include "eCOLVersion.h"
@@ -11,10 +11,10 @@
 #include <string>
 #include <unordered_map>
 
-class mcore::CCOLFormat;
-class mcore::CCOLVersionManager;
+class bxa::CCOLFormat;
+class bxa::CCOLVersionManager;
 
-class mcore::CCOLManager : public mcore::CFormatManager<mcore::CCOLFormat>, public mcore::CSingleton<mcore::CCOLManager>
+class bxa::CCOLManager : public bxa::CFormatManager<bxa::CCOLFormat>, public bxa::CSingleton<bxa::CCOLManager>
 {
 public:
 	CCOLManager(void);
@@ -25,7 +25,7 @@ public:
 
 	void					initGameMaterials(void);
 
-	mcore::CCOLVersionManager*		getVersionManager(void) { return m_pVersionManager; }
+	bxa::CCOLVersionManager*		getVersionManager(void) { return m_pVersionManager; }
 
 	static CCOLVersion*		getCOLVersionFromFourCC(std::string strFourCC);
 	static std::string		getFourCCFromCOLVersion(eCOLVersion eCOLVersionValue);
@@ -36,7 +36,7 @@ public:
 	static uint32			getEntryHeaderSizeForPacking(eCOLVersion eCOLVersionValue);
 
 private:
-	mcore::CCOLVersionManager*		m_pVersionManager;
+	bxa::CCOLVersionManager*		m_pVersionManager;
 	
 	//std::unordered_map<ePlatformedGame, std::unordered_map<std::string, uint32>> umapGameMaterialIds; // todo
 };

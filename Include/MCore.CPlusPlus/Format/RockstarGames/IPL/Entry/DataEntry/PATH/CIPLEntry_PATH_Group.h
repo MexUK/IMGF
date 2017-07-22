@@ -1,17 +1,17 @@
 #ifndef CIPLEntry_PATH_Group_H
 #define CIPLEntry_PATH_Group_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_PATH.h"
 #include "Pool/CVectorPool.h"
 
-class mcore::CIPLEntry;
+class bxa::CIPLEntry;
 
-class mcore::CIPLEntry_PATH_Group : public mcore::CIPLEntry_PATH, public mcore::CVectorPool<mcore::CIPLEntry*>
+class bxa::CIPLEntry_PATH_Group : public bxa::CIPLEntry_PATH, public bxa::CVectorPool<bxa::CIPLEntry*>
 {
 public:
-	CIPLEntry_PATH_Group(mcore::CIPLFormat *pIPLFormat) :
+	CIPLEntry_PATH_Group(bxa::CIPLFormat *pIPLFormat) :
 		CIPLEntry_PATH(pIPLFormat, IPL_PATH_GROUP),
 		m_iMinusOne(0)
 	{

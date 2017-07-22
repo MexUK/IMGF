@@ -10,7 +10,7 @@
 #include <string>
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 /*
 todo

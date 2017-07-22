@@ -1,7 +1,7 @@
 #ifndef CRWSection_Geometry_H
 #define CRWSection_Geometry_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
 #include "Format/RenderWare/Helper/BinaryStream/eRWSection.h"
 #include "Partial/CRWGeometryBoundingInfo.h"
@@ -12,9 +12,9 @@
 #include "Type/Vector/CVector4ui16.h"
 #include <string>
 
-class mcore::CIntermediateGeometry;
+class bxa::CIntermediateGeometry;
 
-class mcore::CRWSection_Geometry : public mcore::CRWSection
+class bxa::CRWSection_Geometry : public bxa::CRWSection
 {
 public:
 	CRWSection_Geometry(void);
@@ -26,7 +26,7 @@ public:
 
 	void							removePrelightning(void);
 
-	mcore::CIntermediateGeometry*			convertToIntermediateGeometry(void);
+	bxa::CIntermediateGeometry*			convertToIntermediateGeometry(void);
 
 	void							setFlags(uint32 uiFlags) { m_uiFlags = uiFlags; }
 	uint32							getFlags(void) { return m_uiFlags; }
@@ -55,23 +55,23 @@ public:
 	void							setSpecularColour(uint32 uiSpecularColour) { m_uiSpecularColour = uiSpecularColour; }
 	uint32							getSpecularColour(void) { return m_uiSpecularColour; }
 
-	void							setVertexColours(std::vector<mcore::CVector4ui8>& vecVertexColours); // Remainder is filled with 0xFFFFFFFF until vertex count is reached,
-	std::vector<mcore::CVector4ui8>&		getVertexColours(void) { return m_vecVertexColours; }
+	void							setVertexColours(std::vector<bxa::CVector4ui8>& vecVertexColours); // Remainder is filled with 0xFFFFFFFF until vertex count is reached,
+	std::vector<bxa::CVector4ui8>&		getVertexColours(void) { return m_vecVertexColours; }
 
-	void							setTextureCoordinates(std::vector<mcore::CVector2D>& vecTextureCoordinates) { m_vecTextureCoordinates = vecTextureCoordinates; }
-	std::vector<mcore::CVector2D>&			getTextureCoordinates(void) { return m_vecTextureCoordinates; }
+	void							setTextureCoordinates(std::vector<bxa::CVector2D>& vecTextureCoordinates) { m_vecTextureCoordinates = vecTextureCoordinates; }
+	std::vector<bxa::CVector2D>&			getTextureCoordinates(void) { return m_vecTextureCoordinates; }
 
-	void							setVertexIndices(std::vector<mcore::CVector4ui16>& vecVertexIndices) { m_vecVertexIndices = vecVertexIndices; }
-	std::vector<mcore::CVector4ui16>&		getVertexIndices(void) { return m_vecVertexIndices; }
+	void							setVertexIndices(std::vector<bxa::CVector4ui16>& vecVertexIndices) { m_vecVertexIndices = vecVertexIndices; }
+	std::vector<bxa::CVector4ui16>&		getVertexIndices(void) { return m_vecVertexIndices; }
 
-	void							setVertexPositions(std::vector<mcore::CVector3D>& vecVertexPositions) { m_vecVertexPositions = vecVertexPositions; }
-	std::vector<mcore::CVector3D>&			getVertexPositions(void) { return m_vecVertexPositions; }
+	void							setVertexPositions(std::vector<bxa::CVector3D>& vecVertexPositions) { m_vecVertexPositions = vecVertexPositions; }
+	std::vector<bxa::CVector3D>&			getVertexPositions(void) { return m_vecVertexPositions; }
 
-	void							setVertexNormals(std::vector<mcore::CVector3D>& vecVertexNormals) { m_vecVertexNormals = vecVertexNormals; }
-	std::vector<mcore::CVector3D>&			getVertexNormals(void) { return m_vecVertexNormals; }
+	void							setVertexNormals(std::vector<bxa::CVector3D>& vecVertexNormals) { m_vecVertexNormals = vecVertexNormals; }
+	std::vector<bxa::CVector3D>&			getVertexNormals(void) { return m_vecVertexNormals; }
 
-	void							setBoundingInfo(mcore::CRWGeometryBoundingInfo& boundingInfo) { m_boundingInfo = boundingInfo; }
-	mcore::CRWGeometryBoundingInfo&		getBoundingInfo(void) { return m_boundingInfo; }
+	void							setBoundingInfo(bxa::CRWGeometryBoundingInfo& boundingInfo) { m_boundingInfo = boundingInfo; }
+	bxa::CRWGeometryBoundingInfo&		getBoundingInfo(void) { return m_boundingInfo; }
 
 private:
 	uint32							m_uiFlags;
@@ -85,13 +85,13 @@ private:
 	uint32							m_uiDiffuseColour;
 	uint32							m_uiSpecularColour;
 	
-	std::vector<mcore::CVector4ui8>		m_vecVertexColours;
-	std::vector<mcore::CVector2D>			m_vecTextureCoordinates;
-	std::vector<mcore::CVector4ui16>		m_vecVertexIndices;
-	std::vector<mcore::CVector3D>			m_vecVertexPositions;
-	std::vector<mcore::CVector3D>			m_vecVertexNormals;
+	std::vector<bxa::CVector4ui8>		m_vecVertexColours;
+	std::vector<bxa::CVector2D>			m_vecTextureCoordinates;
+	std::vector<bxa::CVector4ui16>		m_vecVertexIndices;
+	std::vector<bxa::CVector3D>			m_vecVertexPositions;
+	std::vector<bxa::CVector3D>			m_vecVertexNormals;
 
-	mcore::CRWGeometryBoundingInfo			m_boundingInfo;
+	bxa::CRWGeometryBoundingInfo			m_boundingInfo;
 };
 
 #endif

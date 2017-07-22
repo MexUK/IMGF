@@ -1,7 +1,7 @@
 #include "CLanguageManager.h"
 #include "CLanguage.h"
 
-using namespace mcore;
+using namespace bxa;
 
 void			CLanguageManager::init(void)
 {

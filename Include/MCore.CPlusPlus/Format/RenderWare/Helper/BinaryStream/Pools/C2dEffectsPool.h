@@ -1,11 +1,11 @@
 #ifndef C2dEffectsPool_H
 #define C2dEffectsPool_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Pool/CVectorPool.h"
 #include "Format/RenderWare/Helper/BinaryStream/Entries/C2dEffect.h"
 
-class mcore::C2dEffectsPool : public mcore::CVectorPool<mcore::C2dEffect*>
+class bxa::C2dEffectsPool : public bxa::CVectorPool<bxa::C2dEffect*>
 {
 };
 

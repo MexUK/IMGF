@@ -1,19 +1,19 @@
 #ifndef CCOLEntry_H
 #define CCOLEntry_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Vector/CVector3D.h"
 #include "TShapes.h"
 #include "CCOLVersion.h"
 #include <string>
 #include <vector>
 
-class mcore::CCOLFormat;
+class bxa::CCOLFormat;
 
-class mcore::CCOLEntry
+class bxa::CCOLEntry
 {
 public:
-								CCOLEntry(mcore::CCOLFormat *pCOLFile);
+								CCOLEntry(bxa::CCOLFormat *pCOLFile);
 
 	void						unload(void) {}
 
@@ -23,7 +23,7 @@ public:
 	uint32						calculateCollisionMeshVertexCount(void);
 	uint32						calculateShadowMeshVertexCount(void);
 
-	void						applyCollisionMeshVerticesOffset(mcore::CVector3D vecAxisOffsets);
+	void						applyCollisionMeshVerticesOffset(bxa::CVector3D vecAxisOffsets);
 
 	TBounds&					getBoundingObjects(void) { return m_boundingObjects; }
 	std::vector<TSphere>&		getCollisionSpheres(void) { return m_vecCollisionSpheres; }

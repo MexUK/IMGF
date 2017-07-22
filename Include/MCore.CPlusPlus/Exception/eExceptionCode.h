@@ -1,11 +1,11 @@
 #ifndef CExceptionCode_H
 #define CExceptionCode_H
 
-#include "mcore.h"
+#include "bxa.h"
 
-using namespace mcore;
+using namespace bxa;
 
-enum mcore::eExceptionCode // Note: When adding an enum entry here, also add the string equivalent in CFormat::getErrorReason.
+enum bxa::eExceptionCode // Note: When adding an enum entry here, also add the string equivalent in CFormat::getErrorReason.
 {
 	EXCEPTION_INVALID_DATA_SIZE_MULTIPLE,
 	EXCEPTION_UNSUPPORTED_FORMAT_VERSION,

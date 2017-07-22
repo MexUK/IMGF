@@ -20,7 +20,7 @@
 #include "Controls/CTabControl.h"
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 CIMGFWindow::CIMGFWindow(void)
 {

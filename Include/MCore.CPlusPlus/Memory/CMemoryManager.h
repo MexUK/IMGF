@@ -1,14 +1,14 @@
 #ifndef CMemoryManager_H
 #define CMemoryManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include <cstdarg>
 #include <vector>
 
 class CMemoryRange;
 
-class mcore::CMemoryManager
+class bxa::CMemoryManager
 {
 public:
 	void					callCdeclFunction(unsigned long uiFunctionAddress, unsigned short usArgumentCount, ...);
@@ -45,21 +45,21 @@ private:
 __forceinline void		call(unsigned long uiFunctionAddress);
 
 // assembly instruction wrappers
-void			mcore::CMemoryManager::push(unsigned long uiArgument)
+void			bxa::CMemoryManager::push(unsigned long uiArgument)
 {
 	__asm
 	{
 		push	uiArgument
 	}
 }
-void			mcore::CMemoryManager::pushVL(unsigned short usStackEntryCount, va_list vlArguments)
+void			bxa::CMemoryManager::pushVL(unsigned short usStackEntryCount, va_list vlArguments)
 {
 	for (int i = 0; i < usStackEntryCount; i++)
 	{
 		push(va_arg(vlArguments, unsigned long));
 	}
 }
-void			mcore::CMemoryManager::removeStackArguments(unsigned short usStackEntryCount)
+void			bxa::CMemoryManager::removeStackArguments(unsigned short usStackEntryCount)
 {
 	unsigned long uiStackByteCount = usStackEntryCount * 4;
 	__asm

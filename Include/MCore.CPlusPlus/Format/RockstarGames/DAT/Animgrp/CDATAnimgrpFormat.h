@@ -1,13 +1,13 @@
 #ifndef CDATAnimgrpFormat_H
 #define CDATAnimgrpFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/CFormat.h"
 #include "CDATAnimgrpSection.h"
 #include <vector>
 
-class mcore::CDATAnimgrpFormat : public mcore::CFormat, public mcore::CVectorPool<mcore::CDATAnimgrpSection*>
+class bxa::CDATAnimgrpFormat : public bxa::CFormat, public bxa::CVectorPool<bxa::CDATAnimgrpSection*>
 {
 public:
 	CDATAnimgrpFormat(void);

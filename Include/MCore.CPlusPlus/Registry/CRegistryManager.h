@@ -1,11 +1,11 @@
 #ifndef CRegistryManager_H
 #define CRegistryManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include <string>
 
-class mcore::CRegistryManager
+class bxa::CRegistryManager
 {
 public:
 	static void				setRegistryValueString(std::string strKey1, std::string strKey2, std::string strValue);

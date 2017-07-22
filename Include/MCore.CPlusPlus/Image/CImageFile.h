@@ -1,11 +1,11 @@
 #ifndef CImageFile_H
 #define CImageFile_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include <string>
 
-class mcore::CImageFile
+class bxa::CImageFile
 {
 public:
 	uint32					m_uiImageWidth;

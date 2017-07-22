@@ -15,7 +15,7 @@
 class CWindow;
 
 template <class Item>
-class CRectangleItemPlacement : public mcore::CEventBinder, public mcore::CInputEventCallbacks
+class CRectangleItemPlacement : public bxa::CEventBinder, public bxa::CInputEventCallbacks
 {
 public:
 	CRectangleItemPlacement(void);
@@ -32,9 +32,9 @@ public:
 	void						stopResizingItem(void);
 	bool						isResizingItem(void) { return m_pItemBeingResized != nullptr; }
 	
-	void						onLeftMouseDown(mcore::CPoint2D& vecCursorPoint);
-	void						onLeftMouseUp(mcore::CPoint2D& vecCursorPoint);
-	void						onMouseMove(mcore::CPoint2D& vecCursorPoint);
+	void						onLeftMouseDown(bxa::CPoint2D& vecCursorPoint);
+	void						onLeftMouseUp(bxa::CPoint2D& vecCursorPoint);
+	void						onMouseMove(bxa::CPoint2D& vecCursorPoint);
 
 	void						setItemBeingMoved(Item *pItem) { m_pItemBeingMoved = pItem; }
 	Item*						getItemBeingMoved(void) { return m_pItemBeingMoved; }
@@ -48,18 +48,18 @@ public:
 	void						setWindow(CWindow *pWindow) { m_pWindow = pWindow; }
 	CWindow*					getWindow(void) { return m_pWindow; }
 
-	void						setItems(mcore::CVectorPool<Item*> *pvecItems) { m_pvecItems = pvecItems; }
-	mcore::CVectorPool<Item*>*			getItems(void) { return m_pvecItems; }
+	void						setItems(bxa::CVectorPool<Item*> *pvecItems) { m_pvecItems = pvecItems; }
+	bxa::CVectorPool<Item*>*			getItems(void) { return m_pvecItems; }
 
 private:
-	void						checkToStartMovingOrResizingItem(mcore::CPoint2D& vecCursorPoint, uint32 uiOuterSpacing);
+	void						checkToStartMovingOrResizingItem(bxa::CPoint2D& vecCursorPoint, uint32 uiOuterSpacing);
 	
 private:
 	Item*						m_pItemBeingMoved;		// the item that is being moved or resized
 	Item*						m_pItemBeingResized;	// the item that is being moved or resized
 	uint8						m_uiItemResizeEdges;
 	CWindow*					m_pWindow;
-	mcore::CVectorPool<Item*>*			m_pvecItems;
+	bxa::CVectorPool<Item*>*			m_pvecItems;
 };
 
 template <class Item>
@@ -81,14 +81,14 @@ void					CRectangleItemPlacement<Item>::bindEvents(void)
 template <class Item>
 void					CRectangleItemPlacement<Item>::bindEvents_WhenNotPlacing(void)
 {
-	storeEventBoundFunction(getWindow()->bindEvent(mcore::EVENT_onLeftMouseDown, this, nullptr, -10));
+	storeEventBoundFunction(getWindow()->bindEvent(bxa::EVENT_onLeftMouseDown, this, nullptr, -10));
 }
 
 template <class Item>
 void					CRectangleItemPlacement<Item>::bindEvents_WhenPlacing(void)
 {
-	storeEventBoundFunction(getWindow()->bindEvent(mcore::EVENT_onLeftMouseUp, this));
-	storeEventBoundFunction(getWindow()->bindEvent(mcore::EVENT_onMouseMove, this));
+	storeEventBoundFunction(getWindow()->bindEvent(bxa::EVENT_onLeftMouseUp, this));
+	storeEventBoundFunction(getWindow()->bindEvent(bxa::EVENT_onMouseMove, this));
 }
 
 template <class Item>
@@ -124,26 +124,26 @@ void					CRectangleItemPlacement<Item>::stopResizingItem(void)
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::checkToStartMovingOrResizingItem(mcore::CPoint2D& vecCursorPoint, uint32 uiOuterSpacing)
+void					CRectangleItemPlacement<Item>::checkToStartMovingOrResizingItem(bxa::CPoint2D& vecCursorPoint, uint32 uiOuterSpacing)
 {
 	uint32 uiRectangleEdges;
 	for(Item *pItem : getItems()->getEntries())
 	{
 		if(pItem->isPointInBoundingRectangle(vecCursorPoint, uiOuterSpacing))
 		{
-			uiRectangleEdges = mcore::CMath::getRectangleResizeEdges(vecCursorPoint, pItem->getBoundingRectanglePosition(), pItem->getBoundingRectangleSize(), uiOuterSpacing);
+			uiRectangleEdges = bxa::CMath::getRectangleResizeEdges(vecCursorPoint, pItem->getBoundingRectanglePosition(), pItem->getBoundingRectangleSize(), uiOuterSpacing);
 			if(uiRectangleEdges == 0)
 			{
 				// move item
 				startMovingItem(pItem);
-				mcore::CEventManager::getInstance()->setEventHogged(true);
+				bxa::CEventManager::getInstance()->setEventHogged(true);
 				break;
 			}
 			else
 			{
 				// resize item
 				startResizingItem(pItem, uiRectangleEdges);
-				mcore::CEventManager::getInstance()->setEventHogged(true);
+				bxa::CEventManager::getInstance()->setEventHogged(true);
 				break;
 			}
 		}
@@ -151,14 +151,14 @@ void					CRectangleItemPlacement<Item>::checkToStartMovingOrResizingItem(mcore::
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::onLeftMouseDown(mcore::CPoint2D& vecCursorPoint)
+void					CRectangleItemPlacement<Item>::onLeftMouseDown(bxa::CPoint2D& vecCursorPoint)
 {
 	uint32 uiOuterSpacing = 1;
 	checkToStartMovingOrResizingItem(vecCursorPoint, uiOuterSpacing);
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::onLeftMouseUp(mcore::CPoint2D& vecCursorPoint)
+void					CRectangleItemPlacement<Item>::onLeftMouseUp(bxa::CPoint2D& vecCursorPoint)
 {
 	if (isMovingItem())
 	{
@@ -171,22 +171,22 @@ void					CRectangleItemPlacement<Item>::onLeftMouseUp(mcore::CPoint2D& vecCursor
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::onMouseMove(mcore::CPoint2D& vecCursorPoint)
+void					CRectangleItemPlacement<Item>::onMouseMove(bxa::CPoint2D& vecCursorPoint)
 {
 	if (isMovingItem())
 	{
-		mcore::CVector2i32
-			vecItemPositionChange = mcore::CEventManager::getInstance()->getScreenCursorMoveDifference();
+		bxa::CVector2i32
+			vecItemPositionChange = bxa::CEventManager::getInstance()->getScreenCursorMoveDifference();
 		getItemBeingMoved()->onMoveItem(vecItemPositionChange);
 		getWindow()->setMarkedToRedraw(true);
 	}
 	if (isResizingItem())
 	{
-		mcore::CVector2i32
-			vecCursorChange = mcore::CEventManager::getInstance()->getScreenCursorMoveDifference(),
+		bxa::CVector2i32
+			vecCursorChange = bxa::CEventManager::getInstance()->getScreenCursorMoveDifference(),
 			vecItemPositionChange,
 			vecItemSizeChange;
-		mcore::CMath::getResizePositionAndSizeChange(vecCursorChange, getResizingItemEdges(), vecItemPositionChange, vecItemSizeChange);
+		bxa::CMath::getResizePositionAndSizeChange(vecCursorChange, getResizingItemEdges(), vecItemPositionChange, vecItemSizeChange);
 		getItemBeingResized()->onResizeItem(vecItemPositionChange, vecItemSizeChange);
 		getWindow()->setMarkedToRedraw(true);
 	}

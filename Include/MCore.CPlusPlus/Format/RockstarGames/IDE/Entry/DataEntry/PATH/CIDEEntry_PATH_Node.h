@@ -1,15 +1,15 @@
 #ifndef CIDEEntry_PATH_Node_H
 #define CIDEEntry_PATH_Node_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_PATH.h"
 #include "Type/Vector/CVector3D.h"
 #include <string>
 
-class mcore::CIDEEntry_PATH_Node : public mcore::CIDEEntry_PATH
+class bxa::CIDEEntry_PATH_Node : public bxa::CIDEEntry_PATH
 {
 public:
-	CIDEEntry_PATH_Node(mcore::CIDEFormat *pIDEFormat) :
+	CIDEEntry_PATH_Node(bxa::CIDEFormat *pIDEFormat) :
 		CIDEEntry_PATH(pIDEFormat, IDE_PATH_NODE),
 		m_uiNodeType(0),
 		m_uiNextNode(0),
@@ -33,8 +33,8 @@ public:
 	void							setIsCrossRoad(uint32 uiIsCrossRoad) { m_uiIsCrossRoad = uiIsCrossRoad; }
 	uint32							isCrossRoad(void) { return m_uiIsCrossRoad; }
 
-	void							setPosition(mcore::CVector3D& vecPosition) { m_vecPosition = vecPosition; }
-	mcore::CVector3D&						getPosition(void) { return m_vecPosition; }
+	void							setPosition(bxa::CVector3D& vecPosition) { m_vecPosition = vecPosition; }
+	bxa::CVector3D&						getPosition(void) { return m_vecPosition; }
 
 	void							setUnknown1(float32 fUnknown1) { m_fUnknown1 = fUnknown1; }
 	float32							getUnknown1(void) { return m_fUnknown1; }
@@ -50,7 +50,7 @@ private:
 	uint32							m_uiNodeType;
 	uint32							m_uiNextNode;
 	uint32							m_uiIsCrossRoad;
-	mcore::CVector3D						m_vecPosition;
+	bxa::CVector3D						m_vecPosition;
 	float32							m_fUnknown1;
 	uint32							m_uiLeftLaneCount;
 	uint32							m_uiRightLaneCount;

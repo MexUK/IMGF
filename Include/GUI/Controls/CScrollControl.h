@@ -18,13 +18,13 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	void									onMouseDown(mcore::CPoint2D& vecCursorPosition);
-	void									onMouseUp(mcore::CPoint2D& vecCursorPosition);
-	void									onMouseMove(mcore::CPoint2D& vecCursorPosition);
+	void									onMouseDown(bxa::CPoint2D& vecCursorPosition);
+	void									onMouseUp(bxa::CPoint2D& vecCursorPosition);
+	void									onMouseMove(bxa::CPoint2D& vecCursorPosition);
 
 	void									render(void);
 
-	bool									isPointInSeekBar(mcore::CPoint2D& vecPoint);
+	bool									isPointInSeekBar(bxa::CPoint2D& vecPoint);
 	uint32									getSeekBarPositionOffset(void);
 
 	float32									getProgressFor1px(void);						// returns 0.0 to 1.0
@@ -48,8 +48,8 @@ public:
 	void									setSeekBarMoving(bool bSeekBarIsMoving) { m_bSeekBarIsMoving = bSeekBarIsMoving; }
 	bool									isSeekBarMoving(void) { return m_bSeekBarIsMoving; }
 
-	mcore::CPoint2D								getSeekBarPosition(void);
-	mcore::CSize2D									getSeekBarSize(void);
+	bxa::CPoint2D								getSeekBarPosition(void);
+	bxa::CSize2D									getSeekBarSize(void);
 
 private:
 	uint32									m_uiSeekBarLength;

@@ -1,11 +1,11 @@
 #ifndef CRWSection_MaterialList_H
 #define CRWSection_MaterialList_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
 #include <string>
 
-class mcore::CRWSection_MaterialList : public mcore::CRWSection
+class bxa::CRWSection_MaterialList : public bxa::CRWSection
 {
 public:
 	CRWSection_MaterialList(void);

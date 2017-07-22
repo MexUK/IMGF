@@ -1,14 +1,14 @@
 #ifndef CIDEEntry_TXDP_H
 #define CIDEEntry_TXDP_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RockstarGames/IDE/Entry/CIDEEntry_Data.h"
 #include <string>
 
-class mcore::CIDEEntry_TXDP : public mcore::CIDEEntry_Data
+class bxa::CIDEEntry_TXDP : public bxa::CIDEEntry_Data
 {
 public:
-	CIDEEntry_TXDP(mcore::CIDEFormat *pIDEFormat) :
+	CIDEEntry_TXDP(bxa::CIDEFormat *pIDEFormat) :
 		CIDEEntry_Data(pIDEFormat, IDE_SECTION_TXDP)
 	{
 	};

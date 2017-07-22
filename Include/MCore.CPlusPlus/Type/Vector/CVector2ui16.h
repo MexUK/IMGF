@@ -1,10 +1,10 @@
 #ifndef CVector2ui16_H
 #define CVector2ui16_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-class mcore::CVector2ui16
+class bxa::CVector2ui16
 {
 public:
 	int16	m_x;

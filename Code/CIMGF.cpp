@@ -76,7 +76,7 @@
 #include "GUI/ThemeDesigner/CThemeDesigner.h"
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 // construct/destruct
 CIMGF::CIMGF(void)
@@ -185,8 +185,8 @@ void				CIMGF::initInstallationMeta(void)
 		{
 			/*
 			todo
-			//string strChosenInstallationFolder = mcore::CGUIManager::chooseFolderDialog(getDialog()->GetSafeHwnd(), CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_11"), getIMGF()->getLastUsedDirectory("INSTALLATION"));
-			string strChosenInstallationFolder = mcore::CGUIManager::chooseFolderDialog(getActiveWindow() ? getActiveWindow()->getWindowHandle() : NULL, "Choose the installation folder for IMGF. (e.g. In program files x86)", getIMGF()->getLastUsedDirectory("INSTALLATION"));
+			//string strChosenInstallationFolder = bxa::CGUIManager::chooseFolderDialog(getDialog()->GetSafeHwnd(), CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_11"), getIMGF()->getLastUsedDirectory("INSTALLATION"));
+			string strChosenInstallationFolder = bxa::CGUIManager::chooseFolderDialog(getActiveWindow() ? getActiveWindow()->getWindowHandle() : NULL, "Choose the installation folder for IMGF. (e.g. In program files x86)", getIMGF()->getLastUsedDirectory("INSTALLATION"));
 			if (strChosenInstallationFolder == "")
 			{
 			}

@@ -9,7 +9,7 @@
 #include "Type/Vector/CSize2D.h"
 #include <string>
 
-class CDropControl : public CGUIControl, public mcore::CVectorPool<CDropControlEntry*>
+class CDropControl : public CGUIControl, public bxa::CVectorPool<CDropControlEntry*>
 {
 public:
 	CDropControl(void);
@@ -19,23 +19,23 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	void									onMouseUp(mcore::CPoint2D& vecCursorPosition);
+	void									onMouseUp(bxa::CPoint2D& vecCursorPosition);
 
 	void									render(void);
 
 	CDropControlEntry*						addItem(std::string strItemText, bool bIsActiveItem = false);
 	void									removeItem(CDropControlEntry *pDropEntry);
 
-	bool									isPointInControl(mcore::CPoint2D& vecPoint);
-	bool									isPointInSelectionList(mcore::CPoint2D& vecPoint);
+	bool									isPointInControl(bxa::CPoint2D& vecPoint);
+	bool									isPointInSelectionList(bxa::CPoint2D& vecPoint);
 
-	mcore::CPoint2D								getSelectionListPosition(void);
-	mcore::CSize2D									getSelectionListSize(void);
-	mcore::CPoint2D								getSelectionListEntryPosition(uint32 uiEntryIndex);
-	mcore::CSize2D									getSelectionListEntrySize(void);
-	uint32									getSelectionListEntryFromPoint(mcore::CPoint2D& vecCursorPosition);
+	bxa::CPoint2D								getSelectionListPosition(void);
+	bxa::CSize2D									getSelectionListSize(void);
+	bxa::CPoint2D								getSelectionListEntryPosition(uint32 uiEntryIndex);
+	bxa::CSize2D									getSelectionListEntrySize(void);
+	uint32									getSelectionListEntryFromPoint(bxa::CPoint2D& vecCursorPosition);
 
-	void									setSize(mcore::CSize2D& vecSize);
+	void									setSize(bxa::CSize2D& vecSize);
 
 	uint32									getActiveIndex(void);
 
@@ -52,7 +52,7 @@ public:
 	bool									isSelectionListOpen(void) { return m_bSelectionListOpen; }
 
 private:
-	mcore::CPoint2D								getDropTrianglePosition(void);
+	bxa::CPoint2D								getDropTrianglePosition(void);
 	float32									getDropTriangleSideLength(void);
 	float32									getDropTriangleSideHeight(void);
 

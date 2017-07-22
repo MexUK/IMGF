@@ -1,9 +1,9 @@
 #ifndef CWDRBlock_IndexData_H
 #define CWDRBlock_IndexData_H
 
-#include "mcore.h"
+#include "bxa.h"
 
-class mcore::CWDRBlock_IndexData
+class bxa::CWDRBlock_IndexData
 {
 public:
 	uint16				m_usVertexIndices[3];

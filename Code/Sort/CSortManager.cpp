@@ -27,7 +27,7 @@
 #include <algorithm>
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 CSortManager::CSortManager(void)
 {
@@ -369,7 +369,7 @@ void		CSortManager::onClickMenuItem(uint16 usMenuHandle)
 
 		if (pSortMenuItem->m_pType->getType() == SORT_IDE_FILE)
 		{
-			vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("SORT_IDE"), "IDE", false);
+			vector<string> vecPaths = bxa::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("SORT_IDE"), "IDE", false);
 			if (vecPaths.size() == 0)
 			{
 				bCancel = true;
@@ -395,7 +395,7 @@ void		CSortManager::onClickMenuItem(uint16 usMenuHandle)
 		}
 		else if (pSortMenuItem->m_pType->getType() == SORT_COL_FILE)
 		{
-			vector<string> vecPaths = mcore::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("SORT_COL"), "COL", false);
+			vector<string> vecPaths = bxa::CGUIManager::openFileDialog(getIMGF()->getLastUsedDirectory("SORT_COL"), "COL", false);
 			if (vecPaths.size() == 0)
 			{
 				bCancel = true;

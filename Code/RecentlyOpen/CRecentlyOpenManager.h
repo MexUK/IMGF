@@ -7,7 +7,7 @@
 #include <string>
 #include <unordered_map>
 
-class CRecentlyOpenManager : public mcore::CManager, public mcore::CVectorPool<CRecentlyOpenEntry*>
+class CRecentlyOpenManager : public bxa::CManager, public bxa::CVectorPool<CRecentlyOpenEntry*>
 {
 public:
 	void					init(void);

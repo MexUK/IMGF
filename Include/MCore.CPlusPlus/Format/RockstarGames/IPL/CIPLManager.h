@@ -1,13 +1,13 @@
 #ifndef CIPLManager_H
 #define CIPLManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 
-class mcore::CIPLFormat;
+class bxa::CIPLFormat;
 
-class mcore::CIPLManager : public mcore::CFormatManager<mcore::CIPLFormat>, public mcore::CSingleton<mcore::CIPLManager>
+class bxa::CIPLManager : public bxa::CFormatManager<bxa::CIPLFormat>, public bxa::CSingleton<bxa::CIPLManager>
 {
 public:
 	CIPLManager(void);

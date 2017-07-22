@@ -1,9 +1,9 @@
 #ifndef ePlatform_H
 #define ePlatform_H
 
-#include "mcore.h"
+#include "bxa.h"
 
-enum mcore::ePlatform : uint8
+enum bxa::ePlatform : uint8
 {
 	_PLATFORM_UNKNOWN,
 	PLATFORM_PC,

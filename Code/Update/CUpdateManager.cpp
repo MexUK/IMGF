@@ -1,7 +1,7 @@
 #include "CUpdateManager.h"
 #include "CUpdateConnectionManager.h"
 
-using namespace mcore;
+using namespace bxa;
 
 CUpdateManager::CUpdateManager(void)
 {

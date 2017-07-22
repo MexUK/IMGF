@@ -1,13 +1,13 @@
 #ifndef CDATAnimgrpEntry_H
 #define CDATAnimgrpEntry_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include <string>
 
-class mcore::CDATAnimgrpSection;
+class bxa::CDATAnimgrpSection;
 
-class mcore::CDATAnimgrpEntry
+class bxa::CDATAnimgrpEntry
 {
 public:
 	CDATAnimgrpEntry(void);

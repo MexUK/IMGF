@@ -1,7 +1,7 @@
-#include "mcore.h"
+#include "bxa.h"
 #include "CThemeDesignerTab.h"
 
-using namespace mcore;
+using namespace bxa;
 
 CThemeDesignerTab::CThemeDesignerTab(CThemeDesigner *pThemeDesigner) :
 	m_pThemeDesigner(pThemeDesigner)

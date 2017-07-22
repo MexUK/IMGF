@@ -1,11 +1,11 @@
 #ifndef CGame_H
 #define CGame_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Collection/Games/eGame.h"
 #include <string>
 
-class mcore::CGame
+class bxa::CGame
 {
 public:
 	void					unload(void) {}

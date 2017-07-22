@@ -6,9 +6,9 @@
 #include <string>
 
 class CDBFormat;
-class mcore::CIMGFormat;
+class bxa::CIMGFormat;
 
-class CDBManager : public mcore::CFormatManager<CDBFormat>, public mcore::CSingleton<CDBManager>
+class CDBManager : public bxa::CFormatManager<CDBFormat>, public bxa::CSingleton<CDBManager>
 {
 public:
 	CDBManager(void);
@@ -16,7 +16,7 @@ public:
 	void						init(void);
 	void						uninit(void);
 
-	CDBFormat*					createDBFileFromIMGFile(mcore::CIMGFormat *pIMGFile);
+	CDBFormat*					createDBFileFromIMGFile(bxa::CIMGFormat *pIMGFile);
 	CDBFormat*					createBlankDBFile(void);
 	
 	bool						compareDBFiles(CDBFormat *pDBFile1, CDBFormat *pDBFile2);

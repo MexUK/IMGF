@@ -1,14 +1,14 @@
 #ifndef CIPLEntry_SLOW_H
 #define CIPLEntry_SLOW_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IPL/Entry/CIPLEntry_Data.h"
 
-class mcore::CIPLEntry_SLOW : public mcore::CIPLEntry_Data
+class bxa::CIPLEntry_SLOW : public bxa::CIPLEntry_Data
 {
 public:
-	CIPLEntry_SLOW(mcore::CIPLFormat *pIPLFormat) :
+	CIPLEntry_SLOW(bxa::CIPLFormat *pIPLFormat) :
 		CIPLEntry_Data(pIPLFormat, IPL_SECTION_SLOW)
 	{
 	};

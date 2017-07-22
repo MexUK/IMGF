@@ -14,7 +14,7 @@ class CGUIStyles;
 class CGUILayer;
 class CWindow;
 
-class CGUIShape : public CGUIItem, public mcore::CEventType
+class CGUIShape : public CGUIItem, public bxa::CEventType
 {
 public:
 	CGUIShape(eGUIShapeGeometry eShapeGeometry, eGUIShape eShapeType);
@@ -24,9 +24,9 @@ public:
 	virtual void							unserialize(bool bSkipShapeId = false);
 	virtual void							serialize(void);
 
-	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
-	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
-	mcore::CEventBoundFunction*				bindEvent(uint32 uiEventId, mcore::CInputEventCallbacks *pObject, void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	bxa::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	bxa::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
+	bxa::CEventBoundFunction*				bindEvent(uint32 uiEventId, bxa::CInputEventCallbacks *pObject, void *pTriggerArgument = nullptr, int32 iZOrder = 0);
 	bool									triggerEvent(uint32 uiEventId, void *pTriggerArgument = nullptr);
 
 	void									setShapeGeometry(eGUIShapeGeometry eShapeGeometry) { m_eShapeGeometry = eShapeGeometry; }

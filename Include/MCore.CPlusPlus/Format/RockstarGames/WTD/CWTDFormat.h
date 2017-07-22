@@ -1,7 +1,7 @@
 #ifndef CWTDFormat_H
 #define CWTDFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormat.h"
 #include "Pool/CVectorPool.h"
 #include "CWTDEntry.h"
@@ -10,14 +10,14 @@
 
 class CIntermediateTextureFormat;
 
-class mcore::CWTDFormat : public mcore::CFormat, public mcore::CVectorPool<mcore::CWTDEntry*>
+class bxa::CWTDFormat : public bxa::CFormat, public bxa::CVectorPool<bxa::CWTDEntry*>
 {
 public:
-	CWTDFormat(void) : CFormat(true, mcore::LITTLE_ENDIAN) {};
+	CWTDFormat(void) : CFormat(true, bxa::LITTLE_ENDIAN) {};
 
 	void						unload(void);
 
-	mcore::CIntermediateTextureFormat*	convertToIntermediateFormat(void);
+	bxa::CIntermediateTextureFormat*	convertToIntermediateFormat(void);
 
 	static uint32				getFileHeaderFlagsFromSystemAndGraphicsStreamSizes(uint32 uiSystemStreamSize, uint32 uiGraphicsStreamSize);
 

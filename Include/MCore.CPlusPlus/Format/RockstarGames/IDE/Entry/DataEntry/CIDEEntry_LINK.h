@@ -1,14 +1,14 @@
 #ifndef CIDEEntry_LINK_H
 #define CIDEEntry_LINK_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IDE/Entry/CIDEEntry_Data.h"
 
-class mcore::CIDEEntry_LINK : public mcore::CIDEEntry_Data
+class bxa::CIDEEntry_LINK : public bxa::CIDEEntry_Data
 {
 public:
-	CIDEEntry_LINK(mcore::CIDEFormat *pIDEFormat) :
+	CIDEEntry_LINK(bxa::CIDEFormat *pIDEFormat) :
 		CIDEEntry_Data(pIDEFormat, IDE_SECTION_LINK)
 	{
 	};

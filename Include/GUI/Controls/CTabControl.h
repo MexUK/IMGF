@@ -9,7 +9,7 @@
 
 class CGUILayer;
 
-class CTabControl : public CGUIControl, public mcore::CVectorPool<CTabControlEntry*>
+class CTabControl : public CGUIControl, public bxa::CVectorPool<CTabControlEntry*>
 {
 public:
 	CTabControl(void);
@@ -19,7 +19,7 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	void									onLeftMouseDown(mcore::CPoint2D& vecCursorPosition);
+	void									onLeftMouseDown(bxa::CPoint2D& vecCursorPosition);
 
 	void									render(void);
 
@@ -28,7 +28,7 @@ public:
 	CTabControlEntry*						addTab(std::string strTabText, bool bSetActiveTab = false);
 	void									removeTab(CTabControlEntry *pTab);
 
-	CTabControlEntry*						getTabFromPosition(mcore::CPoint2D& vecPosition);
+	CTabControlEntry*						getTabFromPosition(bxa::CPoint2D& vecPosition);
 
 	void									bindTabLayer(CTabControlEntry *pTab, CGUILayer *pLayer);
 	void									applyTabLayer(CTabControlEntry *pTab, CTabControlEntry *pPreviousTab);

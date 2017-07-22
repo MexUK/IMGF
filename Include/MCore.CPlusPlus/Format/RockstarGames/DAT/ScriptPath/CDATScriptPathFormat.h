@@ -1,14 +1,14 @@
 #ifndef CDATScriptPathFormat_H
 #define CDATScriptPathFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/CFormat.h"
 #include "Pool/CVectorPool.h"
 #include "CDATScriptPathEntry.h"
 #include <vector>
 
-class mcore::CDATScriptPathFormat : public mcore::CFormat, public mcore::CVectorPool<mcore::CDATScriptPathEntry*>
+class bxa::CDATScriptPathFormat : public bxa::CFormat, public bxa::CVectorPool<bxa::CDATScriptPathEntry*>
 {
 public:
 	CDATScriptPathFormat(void);

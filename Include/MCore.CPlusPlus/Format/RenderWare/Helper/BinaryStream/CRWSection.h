@@ -2,16 +2,16 @@
 #define CRWSection_H
 
 #include <d2d1.h>
-#include "mcore.h"
+#include "bxa.h"
 #include "CRWSectionContainer.h"
 #include "Format/RenderWare/Helper/BinaryStream/eRWSection.h"
 #include "Format/RenderWare/Helper/BinaryStream/eRWVersion.h"
 #include <vector>
 #include <unordered_map>
 
-class mcore::CRWSection;
+class bxa::CRWSection;
 
-class mcore::CRWSection : public mcore::CRWSectionContainer
+class bxa::CRWSection : public bxa::CRWSectionContainer
 {
 public:
 	CRWSection(void);
@@ -20,21 +20,21 @@ public:
 
 	void							serialize(void);
 
-	mcore::CRWSection*						addSection(mcore::eRWSection eRWSectionValue, mcore::eRWVersion eRWVersionValue);
+	bxa::CRWSection*						addSection(bxa::eRWSection eRWSectionValue, bxa::eRWVersion eRWVersionValue);
 	void							removeSection(void);
 	uint32							getSectionIndex(void);
 
 	void							fillPlaceholdersForSerialization(uint32 uiSectionByteCount, uint32 uiSectionStructByteCount);
 
-	static mcore::CRWSection*				createRWSection(mcore::eRWSection eRWSectionValue);
-	static bool						doesRWSectionContainStruct(mcore::eRWSection eRWSectionValue);
-	static bool						doesRWSectionContainStruct_BeforeInit(mcore::eRWSection eRWSectionValue);
+	static bxa::CRWSection*				createRWSection(bxa::eRWSection eRWSectionValue);
+	static bool						doesRWSectionContainStruct(bxa::eRWSection eRWSectionValue);
+	static bool						doesRWSectionContainStruct_BeforeInit(bxa::eRWSection eRWSectionValue);
 
-	static std::vector<mcore::eRWSection>					getRWSections(void);
-	static std::unordered_map<mcore::eRWSection, bool>&	getRWSectionsContainingStruct(void) { return m_umapRWSectionsContainingStruct; }
+	static std::vector<bxa::eRWSection>					getRWSections(void);
+	static std::unordered_map<bxa::eRWSection, bool>&	getRWSectionsContainingStruct(void) { return m_umapRWSectionsContainingStruct; }
 
-	void							setSectionId(mcore::eRWSection eSectionId) { m_eSectionId = eSectionId; }
-	mcore::eRWSection				getSectionId(void) { return m_eSectionId; }
+	void							setSectionId(bxa::eRWSection eSectionId) { m_eSectionId = eSectionId; }
+	bxa::eRWSection				getSectionId(void) { return m_eSectionId; }
 
 	void							setSectionSize(uint32 uiSectionSize) { m_uiSectionSize = uiSectionSize; }
 	uint32							getSectionSize(void) { return m_uiSectionSize; }
@@ -57,7 +57,7 @@ private:
 	static void						initRWSections(void);
 
 protected:
-	mcore::eRWSection				m_eSectionId;
+	bxa::eRWSection				m_eSectionId;
 	uint32							m_uiSectionSize;
 	uint32							m_uiSectionRWVersion;
 	uint32							m_uiStructSectionSize;
@@ -65,7 +65,7 @@ protected:
 
 private:
 	uint8											m_bSectionHeaderSkipped		: 1;
-	static std::unordered_map<mcore::eRWSection, bool>		m_umapRWSectionsContainingStruct;
+	static std::unordered_map<bxa::eRWSection, bool>		m_umapRWSectionsContainingStruct;
 };
 
 #endif

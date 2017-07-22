@@ -1,11 +1,11 @@
 #ifndef CRWEntry_BinMeshPLG_Mesh_H
 #define CRWEntry_BinMeshPLG_Mesh_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include <vector>
 
-class mcore::CRWEntry_BinMeshPLG_Mesh
+class bxa::CRWEntry_BinMeshPLG_Mesh
 {
 public:
 	CRWEntry_BinMeshPLG_Mesh(void) :

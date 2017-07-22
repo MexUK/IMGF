@@ -1,7 +1,7 @@
 #ifndef CCOLFormat_H
 #define CCOLFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormat.h"
 #include "Pool/CVectorPool.h"
 #include "eCOLVersion.h"
@@ -9,9 +9,9 @@
 #include <string>
 #include <vector>
 
-class mcore::CCOLVersion;
+class bxa::CCOLVersion;
 
-class mcore::CCOLFormat : public mcore::CFormat, public mcore::CVectorPool<mcore::CCOLEntry*>
+class bxa::CCOLFormat : public bxa::CFormat, public bxa::CVectorPool<bxa::CCOLEntry*>
 {
 public:
 	CCOLFormat(void) : CFormat(true) {};
@@ -21,11 +21,11 @@ public:
 	void							setCOLVersion(CCOLVersion *pCOLVersion);
 
 	std::vector<std::string>		getModelNames(void);
-	mcore::CCOLEntry*						getEntryByName(std::string strName);
-	std::vector<mcore::CCOLEntry*>			getEntriesByModelName(std::string strModelName);
+	bxa::CCOLEntry*						getEntryByName(std::string strName);
+	std::vector<bxa::CCOLEntry*>			getEntriesByModelName(std::string strModelName);
 
 	void							sort(void);
-	static bool						sortFunction(mcore::CCOLEntry *pCOLEntry1, mcore::CCOLEntry *pCOLEntry2);
+	static bool						sortFunction(bxa::CCOLEntry *pCOLEntry1, bxa::CCOLEntry *pCOLEntry2);
 
 private:
 	void							unserialize(void);

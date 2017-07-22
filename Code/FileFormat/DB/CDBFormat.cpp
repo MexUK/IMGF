@@ -7,7 +7,7 @@
 #include "Stream/CDataWriter.h"
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 void								CDBFormat::unload(void)
 {

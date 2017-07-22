@@ -5,7 +5,7 @@
 #include "CUpdateConnection.h"
 #include "Pool/CVectorPool.h"
 
-class CUpdateConnectionManager : public mcore::CManager, public mcore::CVectorPool<CUpdateConnection*>
+class CUpdateConnectionManager : public bxa::CManager, public bxa::CVectorPool<CUpdateConnection*>
 {
 public:
 	void							init(void);

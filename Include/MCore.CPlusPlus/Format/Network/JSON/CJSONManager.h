@@ -1,13 +1,13 @@
 #ifndef CJSONManager_H
 #define CJSONManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include <vector>
 #include <unordered_map>
 
 // todo - move classes and enums to separate header files
 
-enum mcore::eJsonTypes : unsigned char
+enum bxa::eJsonTypes : unsigned char
 {
 	JSON_STRING,
 	JSON_NUMBER,
@@ -17,63 +17,63 @@ enum mcore::eJsonTypes : unsigned char
 	JSON_OBJECT
 };
 
-class mcore::CJSONString;
-class mcore::CJSONValue;
+class bxa::CJSONString;
+class bxa::CJSONValue;
 
-class mcore::CJSONValue
+class bxa::CJSONValue
 {
 public:
-	virtual void									addValue(mcore::CJSONString *pKey, mcore::CJSONValue *pValue) {};
+	virtual void									addValue(bxa::CJSONString *pKey, bxa::CJSONValue *pValue) {};
 	virtual void									removeValues(void) {};
 
-	mcore::eJsonTypes										m_eType;
+	bxa::eJsonTypes										m_eType;
 };
 
-class mcore::CJSONString : public mcore::CJSONValue
+class bxa::CJSONString : public bxa::CJSONValue
 {
 public:
 	CJSONString(void) { m_eType = JSON_STRING; }
 	std::string										m_strValue;
 };
 
-class mcore::CJSONNumber : public mcore::CJSONValue
+class bxa::CJSONNumber : public bxa::CJSONValue
 {
 public:
 	CJSONNumber(void) { m_eType = JSON_NUMBER; }
 	double											m_dValue;
 };
 
-class mcore::CJSONBoolean : public mcore::CJSONValue
+class bxa::CJSONBoolean : public bxa::CJSONValue
 {
 public:
 	CJSONBoolean(void) { m_eType = JSON_BOOLEAN; }
 	bool											m_bValue;
 };
 
-class mcore::CJSONNull : public mcore::CJSONValue
+class bxa::CJSONNull : public bxa::CJSONValue
 {
 public:
 	CJSONNull(void) { m_eType = JSON_NULL; }
 };
 
-class mcore::CJSONContainer : public mcore::CJSONValue
+class bxa::CJSONContainer : public bxa::CJSONValue
 {
 public:
-	mcore::CJSONContainer*									m_pParentContainer;
+	bxa::CJSONContainer*									m_pParentContainer;
 };
 
-class mcore::CJSONArray : public mcore::CJSONContainer
+class bxa::CJSONArray : public bxa::CJSONContainer
 {
 public:
 	CJSONArray(void) { m_eType = JSON_ARRAY; }
 
-	void											addValue(mcore::CJSONString *pNull, mcore::CJSONValue *pValue)
+	void											addValue(bxa::CJSONString *pNull, bxa::CJSONValue *pValue)
 	{
 		m_vecValues.push_back(pValue);
 
 		if (pValue->m_eType == JSON_ARRAY || pValue->m_eType == JSON_OBJECT)
 		{
-			static_cast<mcore::CJSONContainer*>(pValue)->m_pParentContainer = this;
+			static_cast<bxa::CJSONContainer*>(pValue)->m_pParentContainer = this;
 		}
 	}
 
@@ -89,21 +89,21 @@ public:
 		}
 	}
 
-	std::vector<mcore::CJSONValue*>						m_vecValues;
+	std::vector<bxa::CJSONValue*>						m_vecValues;
 };
 
-class mcore::CJSONObject : public mcore::CJSONContainer
+class bxa::CJSONObject : public bxa::CJSONContainer
 {
 public:
 	CJSONObject(void) { m_eType = JSON_OBJECT; }
 
-	void											addValue(mcore::CJSONString *pKey, mcore::CJSONValue *pValue)
+	void											addValue(bxa::CJSONString *pKey, bxa::CJSONValue *pValue)
 	{
 		m_umapValues[pKey] = pValue;
 
 		if (pValue->m_eType == JSON_ARRAY || pValue->m_eType == JSON_OBJECT)
 		{
-			static_cast<mcore::CJSONContainer*>(pValue)->m_pParentContainer = this;
+			static_cast<bxa::CJSONContainer*>(pValue)->m_pParentContainer = this;
 		}
 	}
 
@@ -120,15 +120,15 @@ public:
 		}
 	}
 
-	std::unordered_map<mcore::CJSONString*, mcore::CJSONValue*>	m_umapValues;
+	std::unordered_map<bxa::CJSONString*, bxa::CJSONValue*>	m_umapValues;
 };
 
-class mcore::CJSONManager
+class bxa::CJSONManager
 {
 public:
 	CJSONManager(void);
 
-	mcore::CJSONObject*				unserializeString(std::string strJSON);
+	bxa::CJSONObject*				unserializeString(std::string strJSON);
 
 	//void						loadObjectIntoLua(CJSONObject *pObject);
 
@@ -136,16 +136,16 @@ private:
 	std::string					parseString(std::string& strJSON);
 	double						parseNumber(std::string& strJSON);
 
-	void						setLatestKey(mcore::CJSONString *pString) { m_pLatestKey = pString; }
-	mcore::CJSONString*				getLatestKey(void) { return m_pLatestKey; }
+	void						setLatestKey(bxa::CJSONString *pString) { m_pLatestKey = pString; }
+	bxa::CJSONString*				getLatestKey(void) { return m_pLatestKey; }
 
 	//void						loadArrayIntoLua(CJSONArray *pArray);
 	//void						loadValueIntoLua(CJSONValue *pValue);
 
-	mcore::CJSONObject*				m_pEntryContainer;
-	mcore::CJSONContainer*				m_pLatestContainer;
+	bxa::CJSONObject*				m_pEntryContainer;
+	bxa::CJSONContainer*				m_pLatestContainer;
 	bool						m_bExpectingKeyOrObjectEnd;
-	mcore::CJSONString*				m_pLatestKey;
+	bxa::CJSONString*				m_pLatestKey;
 	unsigned long				m_uiSeek;
 };
 

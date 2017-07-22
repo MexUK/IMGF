@@ -1,10 +1,10 @@
 #ifndef eSectionLinesEntryType_H
 #define eSectionLinesEntryType_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-enum mcore::eSectionLinesEntryType : uint8
+enum bxa::eSectionLinesEntryType : uint8
 {
 	SECTION_LINES_ENTRY_UNKNOWN,
 	SECTION_LINES_ENTRY_SECTION,

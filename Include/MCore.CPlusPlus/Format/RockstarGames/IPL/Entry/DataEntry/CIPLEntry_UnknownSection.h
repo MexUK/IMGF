@@ -1,15 +1,15 @@
 #ifndef CIPLEntry_UnknownSection_H
 #define CIPLEntry_UnknownSection_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IPL/Entry/CIPLEntry_Data.h"
 #include <string>
 
-class mcore::CIPLEntry_UnknownSection : public mcore::CIPLEntry_Data
+class bxa::CIPLEntry_UnknownSection : public bxa::CIPLEntry_Data
 {
 public:
-	CIPLEntry_UnknownSection(mcore::CIPLFormat *pIPLFormat) :
+	CIPLEntry_UnknownSection(bxa::CIPLFormat *pIPLFormat) :
 		CIPLEntry_Data(pIPLFormat, IPL_SECTION_UNKNOWN)
 	{
 	};

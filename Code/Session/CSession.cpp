@@ -7,7 +7,7 @@
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 string			CSession::serialize(void)
 {

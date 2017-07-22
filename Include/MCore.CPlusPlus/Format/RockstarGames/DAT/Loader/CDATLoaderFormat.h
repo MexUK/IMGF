@@ -1,19 +1,19 @@
 #ifndef CDATLoaderFormat_H
 #define CDATLoaderFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormat.h"
 #include "Pool/CVectorPool.h"
 #include "eDATLoaderEntryType.h"
 #include <string>
 #include <vector>
 
-class mcore::CDATLoaderEntry;
-class mcore::CIMGFormat;
-class mcore::CIDEFormat;
-class mcore::CIPLFormat;
+class bxa::CDATLoaderEntry;
+class bxa::CIMGFormat;
+class bxa::CIDEFormat;
+class bxa::CIPLFormat;
 
-class mcore::CDATLoaderFormat : public mcore::CFormat, public mcore::CVectorPool<mcore::CDATLoaderEntry*>
+class bxa::CDATLoaderFormat : public bxa::CFormat, public bxa::CVectorPool<bxa::CDATLoaderEntry*>
 {
 public:
 	CDATLoaderFormat(void) : CFormat(false) {};
@@ -23,12 +23,12 @@ public:
 	std::vector<std::string>				getRelativeIDEPaths(void);
 	std::vector<std::string>				getRelativeIPLPaths(void);
 
-	std::vector<mcore::CIMGFormat*>				parseIMGFiles(std::string strGameDirectoryPath);
-	std::vector<mcore::CIDEFormat*>				parseIDEFiles(std::string strGameDirectoryPath);
-	std::vector<mcore::CIPLFormat*>				parseIPLFiles(std::string strGameDirectoryPath);
+	std::vector<bxa::CIMGFormat*>				parseIMGFiles(std::string strGameDirectoryPath);
+	std::vector<bxa::CIDEFormat*>				parseIDEFiles(std::string strGameDirectoryPath);
+	std::vector<bxa::CIPLFormat*>				parseIPLFiles(std::string strGameDirectoryPath);
 
 	template<class ManagerClass, class FormatClass>
-	std::vector<FormatClass*>				parseFiles(std::string strGameDirectoryPath, mcore::eDATLoaderEntryType eType1, mcore::eDATLoaderEntryType eType2 = DAT_LOADER_UNKNOWN);
+	std::vector<FormatClass*>				parseFiles(std::string strGameDirectoryPath, bxa::eDATLoaderEntryType eType1, bxa::eDATLoaderEntryType eType2 = DAT_LOADER_UNKNOWN);
 
 private:
 	void									unserialize(void);

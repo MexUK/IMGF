@@ -1,10 +1,10 @@
 #ifndef CIMGPeekData_H
 #define CIMGPeekData_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "eIMGVersion.h"
 
-class mcore::CIMGPeekData
+class bxa::CIMGPeekData
 {
 public:
 	CIMGPeekData(void);

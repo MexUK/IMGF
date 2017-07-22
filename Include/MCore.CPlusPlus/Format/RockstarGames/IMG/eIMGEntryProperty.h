@@ -1,10 +1,10 @@
 #ifndef eIMGEntryProperty_H
 #define eIMGEntryProperty_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-enum mcore::eIMGEntryProperty : uint8
+enum bxa::eIMGEntryProperty : uint8
 {
 	IMG_ENTRY_ID,
 	IMG_ENTRY_NAME,

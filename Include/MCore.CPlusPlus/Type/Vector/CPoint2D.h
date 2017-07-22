@@ -1,11 +1,11 @@
 #ifndef CPoint2D_H
 #define CPoint2D_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Vector/CVector2i32.h"
 #include "Type/Types.h"
 
-class mcore::CPoint2D
+class bxa::CPoint2D
 {
 public:
 	int32	m_x; // todo - rename to .x and .y
@@ -54,7 +54,7 @@ public:
 		return vecVector;
 	}
 
-	CPoint2D		operator+(const mcore::CVector2i32& vecVector2)
+	CPoint2D		operator+(const bxa::CVector2i32& vecVector2)
 	{
 		CPoint2D vecVector;
 		vecVector.m_x = m_x + vecVector2.m_x;
@@ -62,7 +62,7 @@ public:
 		return vecVector;
 	}
 
-	CPoint2D		operator/(const mcore::CPoint2D& vecVector2)
+	CPoint2D		operator/(const bxa::CPoint2D& vecVector2)
 	{
 		CPoint2D vecVector;
 		vecVector.m_x = m_x / vecVector2.m_x;
@@ -78,7 +78,7 @@ public:
 		return vecVector;
 	}
 
-	CPoint2D		operator+=(const mcore::CVector2i32& vecVector2)
+	CPoint2D		operator+=(const bxa::CVector2i32& vecVector2)
 	{
 		CPoint2D vecVector;
 		vecVector.m_x = m_x + vecVector2.m_x;

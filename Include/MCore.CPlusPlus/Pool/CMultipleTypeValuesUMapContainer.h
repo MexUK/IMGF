@@ -1,12 +1,12 @@
 #ifndef CMultipleTypeValuesUMapContainer_H
 #define CMultipleTypeValuesUMapContainer_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include <unordered_map>
 
 template <class KeyClass>
-class mcore::CMultipleTypeValuesUMapContainer // todo - use either Pool or Container for this class and vectorpool class
+class bxa::CMultipleTypeValuesUMapContainer // todo - use either Pool or Container for this class and vectorpool class
 {
 public:
 	void									setEntry(KeyClass key, bool bValue);
@@ -39,83 +39,83 @@ protected:
 
 
 template <class KeyClass>
-void				mcore::CMultipleTypeValuesUMapContainer<KeyClass>::setEntry(KeyClass key, bool bValue)
+void				bxa::CMultipleTypeValuesUMapContainer<KeyClass>::setEntry(KeyClass key, bool bValue)
 {
 	setEntry<bool>(key, bValue);
 }
 
 template <class KeyClass>
-void				mcore::CMultipleTypeValuesUMapContainer<KeyClass>::setEntry(KeyClass key, uint32 uiValue)
+void				bxa::CMultipleTypeValuesUMapContainer<KeyClass>::setEntry(KeyClass key, uint32 uiValue)
 {
 	setEntry<uint32>(key, uiValue);
 }
 
 template <class KeyClass>
-void				mcore::CMultipleTypeValuesUMapContainer<KeyClass>::setEntry(KeyClass key, int32 iValue)
+void				bxa::CMultipleTypeValuesUMapContainer<KeyClass>::setEntry(KeyClass key, int32 iValue)
 {
 	setEntry<int32>(key, iValue);
 }
 
 template <class KeyClass>
-void				mcore::CMultipleTypeValuesUMapContainer<KeyClass>::setEntry(KeyClass key, float32 fValue)
+void				bxa::CMultipleTypeValuesUMapContainer<KeyClass>::setEntry(KeyClass key, float32 fValue)
 {
 	setEntry<float32>(key, fValue);
 }
 
 template <class KeyClass>
-void				mcore::CMultipleTypeValuesUMapContainer<KeyClass>::setEntry(KeyClass key, std::string strValue)
+void				bxa::CMultipleTypeValuesUMapContainer<KeyClass>::setEntry(KeyClass key, std::string strValue)
 {
 	setEntry<std::string>(key, strValue);
 }
 
 template <class KeyClass>
 template <typename ValueType>
-void				mcore::CMultipleTypeValuesUMapContainer<KeyClass>::setEntry(KeyClass key, ValueType value)
+void				bxa::CMultipleTypeValuesUMapContainer<KeyClass>::setEntry(KeyClass key, ValueType value)
 {
 	setEntryPointer(key, new ValueType(value));
 }
 
 template <class KeyClass>
 template <typename ValueType>
-void				mcore::CMultipleTypeValuesUMapContainer<KeyClass>::setEntryPointer(KeyClass key, ValueType *pValue)
+void				bxa::CMultipleTypeValuesUMapContainer<KeyClass>::setEntryPointer(KeyClass key, ValueType *pValue)
 {
 	m_umapEntries[key] = pValue;
 }
 
 template <class KeyClass>
-void				mcore::CMultipleTypeValuesUMapContainer<KeyClass>::setEntryVoidPointer(KeyClass key, void *pValue)
+void				bxa::CMultipleTypeValuesUMapContainer<KeyClass>::setEntryVoidPointer(KeyClass key, void *pValue)
 {
 	m_umapEntries[key] = pValue;
 }
 
 template <class KeyClass>
-bool				mcore::CMultipleTypeValuesUMapContainer<KeyClass>::doesEntryExist(KeyClass key)
+bool				bxa::CMultipleTypeValuesUMapContainer<KeyClass>::doesEntryExist(KeyClass key)
 {
 	return m_umapEntries.count(key) == 1;
 }
 
 template <class KeyClass>
-bool				mcore::CMultipleTypeValuesUMapContainer<KeyClass>::isEmpty(void)
+bool				bxa::CMultipleTypeValuesUMapContainer<KeyClass>::isEmpty(void)
 {
 	return m_umapEntries.empty();
 }
 
 template <class KeyClass>
-uint32				mcore::CMultipleTypeValuesUMapContainer<KeyClass>::getEntryCount(void)
+uint32				bxa::CMultipleTypeValuesUMapContainer<KeyClass>::getEntryCount(void)
 {
 	return m_umapEntries.size();
 }
 
 template <class KeyClass>
 template <typename ValueType>
-ValueType			mcore::CMultipleTypeValuesUMapContainer<KeyClass>::getEntry(KeyClass key)
+ValueType			bxa::CMultipleTypeValuesUMapContainer<KeyClass>::getEntry(KeyClass key)
 {
 	return *((ValueType*) m_umapEntries[key]);
 }
 
 template <class KeyClass>
 template <typename ValueType>
-ValueType*			mcore::CMultipleTypeValuesUMapContainer<KeyClass>::getEntryPointer(KeyClass key)
+ValueType*			bxa::CMultipleTypeValuesUMapContainer<KeyClass>::getEntryPointer(KeyClass key)
 {
 	if (!doesEntryExist(key))
 	{
@@ -125,7 +125,7 @@ ValueType*			mcore::CMultipleTypeValuesUMapContainer<KeyClass>::getEntryPointer(
 }
 
 template <class KeyClass>
-void*				mcore::CMultipleTypeValuesUMapContainer<KeyClass>::getEntryVoidPointer(KeyClass key)
+void*				bxa::CMultipleTypeValuesUMapContainer<KeyClass>::getEntryVoidPointer(KeyClass key)
 {
 	if (!doesEntryExist(key))
 	{
@@ -135,7 +135,7 @@ void*				mcore::CMultipleTypeValuesUMapContainer<KeyClass>::getEntryVoidPointer(
 }
 
 template <class KeyClass>
-void				mcore::CMultipleTypeValuesUMapContainer<KeyClass>::removeAllEntries(void)
+void				bxa::CMultipleTypeValuesUMapContainer<KeyClass>::removeAllEntries(void)
 {
 	for (std::pair<KeyClass, void*> it : m_umapEntries)
 	{
@@ -145,7 +145,7 @@ void				mcore::CMultipleTypeValuesUMapContainer<KeyClass>::removeAllEntries(void
 }
 
 template <class KeyClass>
-void				mcore::CMultipleTypeValuesUMapContainer<KeyClass>::removeEntry(KeyClass key)
+void				bxa::CMultipleTypeValuesUMapContainer<KeyClass>::removeEntry(KeyClass key)
 {
 	delete m_umapEntries[key];
 	m_umapEntries.erase(key);

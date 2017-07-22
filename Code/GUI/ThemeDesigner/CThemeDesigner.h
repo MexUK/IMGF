@@ -13,7 +13,7 @@ class CTabControlEntry;
 class CGUILayer;
 class CRectangleShape;
 
-class CThemeDesigner : public mcore::CVectorPool<CThemeDesignerTab*>
+class CThemeDesigner : public bxa::CVectorPool<CThemeDesignerTab*>
 {
 public:
 	CThemeDesigner(void);

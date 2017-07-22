@@ -1,10 +1,10 @@
 #ifndef eCompressionAlgorithm_H
 #define eCompressionAlgorithm_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-enum mcore::eCompressionAlgorithm : uint8
+enum bxa::eCompressionAlgorithm : uint8
 {
 	COMPRESSION_NONE		= 0,
 	COMPRESSION_UNKNOWN		= 255,

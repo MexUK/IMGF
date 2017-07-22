@@ -15,19 +15,19 @@ public:
 	void													bindEvents(void);
 	void													initDesign(void);
 
-	void													onLeftMouseDown(mcore::CPoint2D& vecCursorPosition);
-	void													onMouseMove(mcore::CPoint2D& vecCursorPosition);
-	void													onLeftMouseDown_MainWindow(mcore::CPoint2D& vecCursorPosition);
-	void													onLeftMouseDown_MainWindow_WindowEventType(mcore::CPoint2D& vecCursorPosition);
+	void													onLeftMouseDown(bxa::CPoint2D& vecCursorPosition);
+	void													onMouseMove(bxa::CPoint2D& vecCursorPosition);
+	void													onLeftMouseDown_MainWindow(bxa::CPoint2D& vecCursorPosition);
+	void													onLeftMouseDown_MainWindow_WindowEventType(bxa::CPoint2D& vecCursorPosition);
 
-	uint32													getTabShapeIndexFromPoint(mcore::CPoint2D& vecCursorPosition);
-	uint32													getTabControlIndexFromPoint(mcore::CPoint2D& vecCursorPosition);
-	mcore::CPoint2D												getShapeRowPoint(uint32 uiShapeRowIndex);
-	mcore::CPoint2D												getControlRowPoint(uint32 uiControlRowIndex);
+	uint32													getTabShapeIndexFromPoint(bxa::CPoint2D& vecCursorPosition);
+	uint32													getTabControlIndexFromPoint(bxa::CPoint2D& vecCursorPosition);
+	bxa::CPoint2D												getShapeRowPoint(uint32 uiShapeRowIndex);
+	bxa::CPoint2D												getControlRowPoint(uint32 uiControlRowIndex);
 	eGUIShape												getShapeIdFromIndex(uint32 uiShapeIndex);
 	eGUIControl												getControlIdFromIndex(uint32 uiControlIndex);
 
-	mcore::CSize2D													getControlDefaultSize(eGUIControl eControlId);
+	bxa::CSize2D													getControlDefaultSize(eGUIControl eControlId);
 
 	void													setHoveredItemType(uint32 uiHoveredItemType) { m_uiHoveredItemType = uiHoveredItemType; }
 	uint32													getHoveredItemType(void) { return m_uiHoveredItemType; }
@@ -47,23 +47,23 @@ public:
 	void													setActiveControlId(eGUIControl eActiveControlId) { m_eActiveControlId = eActiveControlId; }
 	eGUIControl												getActiveControlId(void) { return m_eActiveControlId; }
 
-	void													setShapeIconStartPosition(mcore::CPoint2D& vecShapeIconStartPosition) { m_vecShapeIconStartPosition = vecShapeIconStartPosition; }
-	mcore::CPoint2D&											getShapeIconStartPosition(void) { return m_vecShapeIconStartPosition; }
+	void													setShapeIconStartPosition(bxa::CPoint2D& vecShapeIconStartPosition) { m_vecShapeIconStartPosition = vecShapeIconStartPosition; }
+	bxa::CPoint2D&											getShapeIconStartPosition(void) { return m_vecShapeIconStartPosition; }
 
-	void													setShapeTextStartPosition(mcore::CPoint2D& vecShapeTextStartPosition) { m_vecShapeTextStartPosition = vecShapeTextStartPosition; }
-	mcore::CPoint2D&											getShapeTextStartPosition(void) { return m_vecShapeTextStartPosition; }
+	void													setShapeTextStartPosition(bxa::CPoint2D& vecShapeTextStartPosition) { m_vecShapeTextStartPosition = vecShapeTextStartPosition; }
+	bxa::CPoint2D&											getShapeTextStartPosition(void) { return m_vecShapeTextStartPosition; }
 
-	void													setControlIconStartPosition(mcore::CPoint2D& vecControlIconStartPosition) { m_vecControlIconStartPosition = vecControlIconStartPosition; }
-	mcore::CPoint2D&											getControlIconStartPosition(void) { return m_vecControlIconStartPosition; }
+	void													setControlIconStartPosition(bxa::CPoint2D& vecControlIconStartPosition) { m_vecControlIconStartPosition = vecControlIconStartPosition; }
+	bxa::CPoint2D&											getControlIconStartPosition(void) { return m_vecControlIconStartPosition; }
 
-	void													setControlTextStartPosition(mcore::CPoint2D& vecControlTextStartPosition) { m_vecControlTextStartPosition = vecControlTextStartPosition; }
-	mcore::CPoint2D&											getControlTextStartPosition(void) { return m_vecControlTextStartPosition; }
+	void													setControlTextStartPosition(bxa::CPoint2D& vecControlTextStartPosition) { m_vecControlTextStartPosition = vecControlTextStartPosition; }
+	bxa::CPoint2D&											getControlTextStartPosition(void) { return m_vecControlTextStartPosition; }
 
-	void													setItemRowSize(mcore::CSize2D& vecItemRowSize) { m_vecItemRowSize = vecItemRowSize; }
-	mcore::CSize2D&												getItemRowSize(void) { return m_vecItemRowSize; }
+	void													setItemRowSize(bxa::CSize2D& vecItemRowSize) { m_vecItemRowSize = vecItemRowSize; }
+	bxa::CSize2D&												getItemRowSize(void) { return m_vecItemRowSize; }
 
-	void													setItemSize(mcore::CSize2D& vecItemSize) { m_vecItemSize = vecItemSize; }
-	mcore::CSize2D&												getItemSize(void) { return m_vecItemSize; }
+	void													setItemSize(bxa::CSize2D& vecItemSize) { m_vecItemSize = vecItemSize; }
+	bxa::CSize2D&												getItemSize(void) { return m_vecItemSize; }
 
 private:
 	uint32													m_uiHoveredItemType;
@@ -72,13 +72,13 @@ private:
 	eGUIControl												m_eHoveredControlId;
 	eGUIShape												m_eActiveShapeId;
 	eGUIControl												m_eActiveControlId;
-	mcore::CPoint2D												m_vecShapeIconStartPosition;
-	mcore::CPoint2D												m_vecShapeTextStartPosition;
-	mcore::CPoint2D												m_vecControlIconStartPosition;
-	mcore::CPoint2D												m_vecControlTextStartPosition;
+	bxa::CPoint2D												m_vecShapeIconStartPosition;
+	bxa::CPoint2D												m_vecShapeTextStartPosition;
+	bxa::CPoint2D												m_vecControlIconStartPosition;
+	bxa::CPoint2D												m_vecControlTextStartPosition;
 	uint32													m_uiItemRowHeight;
-	mcore::CSize2D													m_vecItemRowSize;
-	mcore::CSize2D													m_vecItemSize;
+	bxa::CSize2D													m_vecItemRowSize;
+	bxa::CSize2D													m_vecItemSize;
 };
 
 #endif

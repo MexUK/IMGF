@@ -1,13 +1,13 @@
 #ifndef CSectionLinesEntry_H
 #define CSectionLinesEntry_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "eSectionLinesEntryType.h"
 #include <string>
 
 template<class FormatClass, typename SectionEnum>
-class mcore::CSectionLinesEntry
+class bxa::CSectionLinesEntry
 {
 public:
 	CSectionLinesEntry(FormatClass *pFormat) :
@@ -26,8 +26,8 @@ public:
 	void						setFormat(FormatClass* pFormat) { m_pFormat = pFormat; }
 	FormatClass*				getFormat(void) { return m_pFormat; }
 
-	void						setEntryType(mcore::eSectionLinesEntryType eEntryType) { m_eEntryType = eEntryType; }
-	mcore::eSectionLinesEntryType		getEntryType(void) { return m_eEntryType; }
+	void						setEntryType(bxa::eSectionLinesEntryType eEntryType) { m_eEntryType = eEntryType; }
+	bxa::eSectionLinesEntryType		getEntryType(void) { return m_eEntryType; }
 
 	void						setSectionType(SectionEnum eSectionValue) { m_eSectionType = eSectionValue; }
 	SectionEnum					getSectionType(void) { return m_eSectionType; }
@@ -40,7 +40,7 @@ public:
 
 private:
 	FormatClass*				m_pFormat;
-	mcore::eSectionLinesEntryType		m_eEntryType;
+	bxa::eSectionLinesEntryType		m_eEntryType;
 	SectionEnum					m_eSectionType;
 	std::string					m_strComment;
 	uint8						m_ucFormatType;

@@ -1,15 +1,15 @@
 #ifndef CIDEEntry_2DFX_WalkDontWalkAttr_H
 #define CIDEEntry_2DFX_WalkDontWalkAttr_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_2DFX.h"
 #include <string>
 
-class mcore::CIDEEntry_2DFX_WalkDontWalkAttr : public mcore::CIDEEntry_2DFX
+class bxa::CIDEEntry_2DFX_WalkDontWalkAttr : public bxa::CIDEEntry_2DFX
 {
 public:
-	CIDEEntry_2DFX_WalkDontWalkAttr(mcore::CIDEFormat *pIDEFormat) :
-		CIDEEntry_2DFX(pIDEFormat, mcore::_2DFX_WALK_DONT_WALK_ATTR)
+	CIDEEntry_2DFX_WalkDontWalkAttr(bxa::CIDEFormat *pIDEFormat) :
+		CIDEEntry_2DFX(pIDEFormat, bxa::_2DFX_WALK_DONT_WALK_ATTR)
 	{
 	};
 

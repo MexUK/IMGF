@@ -1,11 +1,11 @@
 #ifndef CIMGFormat_VersionFastman92_Header1_H
 #define CIMGFormat_VersionFastman92_Header1_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
-struct mcore::CIMGFormat_VersionFastman92_Header1
+struct bxa::CIMGFormat_VersionFastman92_Header1
 {
 	uint8		m_ucIMGVersion[4];
 	uint32		m_uiFastman92IMGVersion		: 4;

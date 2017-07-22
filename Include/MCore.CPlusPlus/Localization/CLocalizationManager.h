@@ -1,14 +1,14 @@
 #ifndef CLocalizationManager_H
 #define CLocalizationManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Object/CManager.h"
 #include "eLanguage.h"
 #include "Object/CSingleton.h"
 #include <string>
 #include <unordered_map>
 
-class mcore::CLocalizationManager : public mcore::CManager, public mcore::CSingleton<mcore::CLocalizationManager>
+class bxa::CLocalizationManager : public bxa::CManager, public bxa::CSingleton<bxa::CLocalizationManager>
 {
 public:
 	void											init(void);
@@ -23,8 +23,8 @@ public:
 	std::string										getTranslatedFormattedTextVA(std::string strInternalName, va_list vlArguments);
 	std::wstring									getTranslatedFormattedTextW(std::string strInternalName, ...);
 
-	void											setActiveLanguage(mcore::eLanguage eActiveLanguage) { m_eActiveLanguage = eActiveLanguage; }
-	mcore::eLanguage										getActiveLanguage(void) { return m_eActiveLanguage; }
+	void											setActiveLanguage(bxa::eLanguage eActiveLanguage) { m_eActiveLanguage = eActiveLanguage; }
+	bxa::eLanguage										getActiveLanguage(void) { return m_eActiveLanguage; }
 
 	void											setActiveLanguageName(std::string& strActiveLanguageName) { m_strActiveLanguageName = strActiveLanguageName; }
 	std::string&									getActiveLanguageName(void) { return m_strActiveLanguageName; }
@@ -38,7 +38,7 @@ public:
 	std::unordered_map<std::string, std::string>	getTranslatedTextEntries(void);
 
 private:
-	mcore::eLanguage										m_eActiveLanguage;
+	bxa::eLanguage										m_eActiveLanguage;
 	std::string										m_strActiveLanguageName;
 	std::string										m_strInstallationPath;
 	std::unordered_map<std::string, std::string>	m_umapTranslatedText_ActiveLanguage;

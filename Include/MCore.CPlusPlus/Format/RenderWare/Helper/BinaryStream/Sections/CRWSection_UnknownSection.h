@@ -1,11 +1,11 @@
 #ifndef CRWSection_UnknownSection_H
 #define CRWSection_UnknownSection_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
 #include <string>
 
-class mcore::CRWSection_UnknownSection : public mcore::CRWSection
+class bxa::CRWSection_UnknownSection : public bxa::CRWSection
 {
 public:
 	CRWSection_UnknownSection(void);

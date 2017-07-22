@@ -2,7 +2,7 @@
 #include "Type/String/CString2.h"
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 string					CLSTEntry::getValue(uint32 uiValueIndex)
 {

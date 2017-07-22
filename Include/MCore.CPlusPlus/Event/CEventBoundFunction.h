@@ -1,13 +1,13 @@
 #ifndef CEventBoundFunction_H
 #define CEventBoundFunction_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "eEvent.h"
 #include "eEventFunctionType.h"
 #include "CInputEventCallbacks.h"
 
-class mcore::CEventBoundFunction
+class bxa::CEventBoundFunction
 {
 public:
 	CEventBoundFunction(void);

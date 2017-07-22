@@ -1,15 +1,15 @@
 #ifndef CIDEEntry_2DFX_Explosion_H
 #define CIDEEntry_2DFX_Explosion_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_2DFX.h"
 #include <string>
 
-class mcore::CIDEEntry_2DFX_Explosion : public mcore::CIDEEntry_2DFX
+class bxa::CIDEEntry_2DFX_Explosion : public bxa::CIDEEntry_2DFX
 {
 public:
-	CIDEEntry_2DFX_Explosion(mcore::CIDEFormat *pIDEFormat) :
-		CIDEEntry_2DFX(pIDEFormat, mcore::_2DFX_EXPLOSION),
+	CIDEEntry_2DFX_Explosion(bxa::CIDEFormat *pIDEFormat) :
+		CIDEEntry_2DFX(pIDEFormat, bxa::_2DFX_EXPLOSION),
 		m_uiUnknown1(0),
 		m_uiUnknown2(0),
 		m_uiUnknown3(0),

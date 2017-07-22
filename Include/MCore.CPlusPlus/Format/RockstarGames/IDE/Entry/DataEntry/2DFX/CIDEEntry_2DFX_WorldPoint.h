@@ -1,15 +1,15 @@
 #ifndef CIDEEntry_2DFX_WorldPoint_H
 #define CIDEEntry_2DFX_WorldPoint_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_2DFX.h"
 #include <string>
 
-class mcore::CIDEEntry_2DFX_WorldPoint : public mcore::CIDEEntry_2DFX
+class bxa::CIDEEntry_2DFX_WorldPoint : public bxa::CIDEEntry_2DFX
 {
 public:
-	CIDEEntry_2DFX_WorldPoint(mcore::CIDEFormat *pIDEFormat) :
-		CIDEEntry_2DFX(pIDEFormat, mcore::_2DFX_WORLD_POINT)
+	CIDEEntry_2DFX_WorldPoint(bxa::CIDEFormat *pIDEFormat) :
+		CIDEEntry_2DFX(pIDEFormat, bxa::_2DFX_WORLD_POINT)
 	{
 	}
 

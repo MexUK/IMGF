@@ -39,7 +39,7 @@
 // for menu end
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 CIMGEditorTab*		CIMGEditor::addBlankTab(string strIMGPath, eIMGVersion eIMGVersionValue)
 {

@@ -1,11 +1,11 @@
 #ifndef CIntermediateIndexData_H
 #define CIntermediateIndexData_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Type/Vector/CVector3ui32.h"
 
-class mcore::CIntermediateIndexData
+class bxa::CIntermediateIndexData
 {
 public:
 	CIntermediateIndexData(void)
@@ -15,11 +15,11 @@ public:
 		m_vecVertexIndices.m_z = 0;
 	};
 
-	void								setVertexIndices(mcore::CVector3ui32& vecVertexIndices) { m_vecVertexIndices = vecVertexIndices; }
-	mcore::CVector3ui32&						getVertexIndices(void) { return m_vecVertexIndices; }
+	void								setVertexIndices(bxa::CVector3ui32& vecVertexIndices) { m_vecVertexIndices = vecVertexIndices; }
+	bxa::CVector3ui32&						getVertexIndices(void) { return m_vecVertexIndices; }
 
 private:
-	mcore::CVector3ui32						m_vecVertexIndices;
+	bxa::CVector3ui32						m_vecVertexIndices;
 };
 
 #endif

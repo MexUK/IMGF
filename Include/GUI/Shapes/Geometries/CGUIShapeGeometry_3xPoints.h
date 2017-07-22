@@ -15,22 +15,22 @@ public:
 	void							unserialize(bool bSkipShapeId = false);
 	void							serialize(void);
 
-	void							moveItem(mcore::CVector2i32& vecPositionChange);
-	void							resizeItemViaOffsets(mcore::CVector2i32& vecItemSizeChange) {}
+	void							moveItem(bxa::CVector2i32& vecPositionChange);
+	void							resizeItemViaOffsets(bxa::CVector2i32& vecItemSizeChange) {}
 
-	void							setPoint1(mcore::CPoint2D& vecPoint1) { m_vecPoint1 = vecPoint1; }
-	mcore::CPoint2D&						getPoint1(void) { return m_vecPoint1; }
+	void							setPoint1(bxa::CPoint2D& vecPoint1) { m_vecPoint1 = vecPoint1; }
+	bxa::CPoint2D&						getPoint1(void) { return m_vecPoint1; }
 
-	void							setPoint2(mcore::CPoint2D& vecPoint2) { m_vecPoint2 = vecPoint2; }
-	mcore::CPoint2D&						getPoint2(void) { return m_vecPoint2; }
+	void							setPoint2(bxa::CPoint2D& vecPoint2) { m_vecPoint2 = vecPoint2; }
+	bxa::CPoint2D&						getPoint2(void) { return m_vecPoint2; }
 	
-	void							setPoint3(mcore::CPoint2D& vecPoint3) { m_vecPoint3 = vecPoint3; }
-	mcore::CPoint2D&						getPoint3(void) { return m_vecPoint3; }
+	void							setPoint3(bxa::CPoint2D& vecPoint3) { m_vecPoint3 = vecPoint3; }
+	bxa::CPoint2D&						getPoint3(void) { return m_vecPoint3; }
 	
 private:
-	mcore::CPoint2D						m_vecPoint1;
-	mcore::CPoint2D						m_vecPoint2;
-	mcore::CPoint2D						m_vecPoint3;
+	bxa::CPoint2D						m_vecPoint1;
+	bxa::CPoint2D						m_vecPoint2;
+	bxa::CPoint2D						m_vecPoint3;
 };
 
 #endif

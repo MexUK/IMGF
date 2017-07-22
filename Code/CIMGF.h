@@ -21,7 +21,7 @@ class CRecentlyOpenManager;
 class CPopupGUIManager;
 class CTaskManager;
 class CLSTProcessingManager;
-class mcore::CLocalizationManager;
+class bxa::CLocalizationManager;
 class CLanguageManager;
 class CDumpManager;
 class CSettingsManager;
@@ -34,7 +34,7 @@ class CThemeDesigner;
 
 class CWnd; // temp
 
-class CIMGF : public mcore::CManager
+class CIMGF : public bxa::CManager
 {
 public:
 	CIMGF(void);

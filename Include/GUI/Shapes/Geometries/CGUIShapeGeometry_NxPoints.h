@@ -16,14 +16,14 @@ public:
 	void							unserialize(bool bSkipShapeId = false);
 	void							serialize(void);
 
-	void							moveItem(mcore::CVector2i32& vecPositionChange);
-	void							resizeItemViaOffsets(mcore::CVector2i32& vecItemSizeChange) {}
+	void							moveItem(bxa::CVector2i32& vecPositionChange);
+	void							resizeItemViaOffsets(bxa::CVector2i32& vecItemSizeChange) {}
 
-	void							setPoints(std::vector<mcore::CPoint2D>& vecPoints) { m_vecPoints = vecPoints; }
-	std::vector<mcore::CPoint2D>&			getPoints(void) { return m_vecPoints; }
+	void							setPoints(std::vector<bxa::CPoint2D>& vecPoints) { m_vecPoints = vecPoints; }
+	std::vector<bxa::CPoint2D>&			getPoints(void) { return m_vecPoints; }
 	
 private:
-	std::vector<mcore::CPoint2D>			m_vecPoints;
+	std::vector<bxa::CPoint2D>			m_vecPoints;
 };
 
 #endif

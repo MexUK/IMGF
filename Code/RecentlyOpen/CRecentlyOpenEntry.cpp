@@ -1,6 +1,6 @@
 #include "CRecentlyOpenEntry.h"
-#include "mcore.h"
+#include "bxa.h"
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 

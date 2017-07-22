@@ -1,12 +1,12 @@
 #ifndef CPathManager_H
 #define CPathManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include <string>
 #include <vector>
 
-class mcore::CPathManager
+class bxa::CPathManager
 {
 public:
 	static std::string			getFileName(std::string& strPath);

@@ -1,7 +1,7 @@
 #ifndef CString2_H
 #define CString2_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Type/Vector/CVector2D.h"
 #include "Type/Vector/CVector3D.h"
@@ -23,7 +23,7 @@ float80 unpack754(uint64_t i, unsigned bits, unsigned expbits);
 #define unpack754_32(i) (unpack754((i), 32, 8))
 #define unpack754_64(i) (unpack754((i), 64, 11))
 
-class mcore::CString2
+class bxa::CString2
 {
 public:
 	static std::vector<std::string>			split(std::string& strString, std::string strToken);
@@ -41,11 +41,11 @@ public:
 	static std::string						packInt8(int8 iChar);
 	static std::string						packFloat32(float32 fValue, bool bBigEndian = true);
 	static std::string						packFloat64(float64 fValue, bool bBigEndian = true);
-	static std::string						packVector2D(mcore::CVector2D& vecVector, bool bBigEndian = true);
-	static std::string						packVector3D(mcore::CVector3D& vecVector, bool bBigEndian = true);
-	static std::string						packVector4D(mcore::CVector4D& vecVector, bool bBigEndian = true);
-	static std::string						packVector4ui8(mcore::CVector4ui8& vecVector);
-	static std::string						packVector4ui16(mcore::CVector4ui16& vecVector, bool bBigEndian = true);
+	static std::string						packVector2D(bxa::CVector2D& vecVector, bool bBigEndian = true);
+	static std::string						packVector3D(bxa::CVector3D& vecVector, bool bBigEndian = true);
+	static std::string						packVector4D(bxa::CVector4D& vecVector, bool bBigEndian = true);
+	static std::string						packVector4ui8(bxa::CVector4ui8& vecVector);
+	static std::string						packVector4ui16(bxa::CVector4ui16& vecVector, bool bBigEndian = true);
 	static uint32							unpackUint32(std::string& strData, bool bBigEndian = true);
 	static uint16							unpackUint16(std::string& strData, bool bBigEndian = true);
 	static uint8							unpackUint8(std::string& strData);
@@ -53,9 +53,9 @@ public:
 	static int16							unpackInt16(std::string& strData, bool bBigEndian = true);
 	static int8								unpackInt8(std::string& strData);
 	static float32							unpackFloat32(std::string& strData, bool bBigEndian = true);
-	static mcore::CVector2D						unpackVector2D(std::string& strData, bool bBigEndian = true);
-	static mcore::CVector3D						unpackVector3D(std::string& strData, bool bBigEndian = true);
-	static mcore::CVector4D						unpackVector4D(std::string& strData, bool bBigEndian = true);
+	static bxa::CVector2D						unpackVector2D(std::string& strData, bool bBigEndian = true);
+	static bxa::CVector3D						unpackVector3D(std::string& strData, bool bBigEndian = true);
+	static bxa::CVector4D						unpackVector4D(std::string& strData, bool bBigEndian = true);
 	static std::string						toString(int iNumber);
 	static std::string						toString(uint32 uiNumber);
 	static std::string						toString(size_t iNumber);

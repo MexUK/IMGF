@@ -1,11 +1,11 @@
 #ifndef CProcessManager_H
 #define CProcessManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include <string>
 #include <Windows.h>
 
-class mcore::CProcessManager
+class bxa::CProcessManager
 {
 public:
 	static bool							startProcess(std::string& strExecutableParh);

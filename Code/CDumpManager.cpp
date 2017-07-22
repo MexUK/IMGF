@@ -41,7 +41,7 @@
 #include <gdiplus.h>
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 using namespace Gdiplus;
 
 INT GetEncoderClsid(const WCHAR* format, CLSID* pClsid);  // helper function
@@ -922,7 +922,7 @@ void		CDumpManager::process(void)
 	if (bSuccessfulResult)
 	{
 		getIMGF()->getTaskManager()->onTaskPause();
-		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_1"), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_1"));
+		bxa::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_1"), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_1"));
 		getIMGF()->getTaskManager()->onTaskUnpause();
 	}
 	else

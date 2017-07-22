@@ -18,7 +18,7 @@ public:
 
 	void									render(void);
 
-	mcore::CSize2D									getSeekBarSize(void);		// in pixels
+	bxa::CSize2D									getSeekBarSize(void);		// in pixels
 	uint32									getSeekBarSizeWidth(void);	// in pixels
 
 	std::string								getProgressPercentText(void);

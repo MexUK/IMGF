@@ -1,16 +1,16 @@
 #ifndef CDATLoaderManager_H
 #define CDATLoaderManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 #include "eDATLoaderEntryType.h"
 #include "Collection/Games/ePlatformedGame.h"
 #include <string>
 
-class mcore::CDATLoaderFormat;
+class bxa::CDATLoaderFormat;
 
-class mcore::CDATLoaderManager : public mcore::CFormatManager<mcore::CDATLoaderFormat>, public mcore::CSingleton<mcore::CDATLoaderManager>
+class bxa::CDATLoaderManager : public bxa::CFormatManager<bxa::CDATLoaderFormat>, public bxa::CSingleton<bxa::CDATLoaderManager>
 {
 public:
 	CDATLoaderManager(void);
@@ -19,7 +19,7 @@ public:
 	void						uninit(void);
 
 	static eDATLoaderEntryType	getDATEntryTypeFromString(std::string strType);
-	static std::string			getDefaultGameDATSubPath(mcore::ePlatformedGame ePlatformedGameValue);
+	static std::string			getDefaultGameDATSubPath(bxa::ePlatformedGame ePlatformedGameValue);
 };
 
 #endif

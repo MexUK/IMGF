@@ -1,15 +1,15 @@
 #ifndef CIPLEntry_OCCL_H
 #define CIPLEntry_OCCL_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IPL/Entry/CIPLEntry_Data.h"
 #include "Type/Vector/CVector2D.h"
 
-class mcore::CIPLEntry_OCCL : public mcore::CIPLEntry_Data
+class bxa::CIPLEntry_OCCL : public bxa::CIPLEntry_Data
 {
 public:
-	CIPLEntry_OCCL(mcore::CIPLFormat *pIPLFormat) :
+	CIPLEntry_OCCL(bxa::CIPLFormat *pIPLFormat) :
 		CIPLEntry_Data(pIPLFormat, IPL_SECTION_OCCL),
 		m_vecMidPosition{ 0.0f, 0.0f },
 		m_fBottomHeightZ(0.0f),
@@ -25,14 +25,14 @@ public:
 	void						unserialize(void);
 	void						serialize(void);
 
-	void						setMidPosition(mcore::CVector2D& vecMidPosition) { m_vecMidPosition = vecMidPosition; }
-	mcore::CVector2D&					getMidPosition(void) { return m_vecMidPosition; }
+	void						setMidPosition(bxa::CVector2D& vecMidPosition) { m_vecMidPosition = vecMidPosition; }
+	bxa::CVector2D&					getMidPosition(void) { return m_vecMidPosition; }
 
 	void						setBottomHeightZ(float32 fBottomHeightZ) { m_fBottomHeightZ = fBottomHeightZ; }
 	float32						getBottomHeightZ(void) { return m_fBottomHeightZ; }
 
-	void						setWidth(mcore::CVector2D& vecWidth) { m_vecWidth = vecWidth; }
-	mcore::CVector2D&					getWidth(void) { return m_vecWidth; }
+	void						setWidth(bxa::CVector2D& vecWidth) { m_vecWidth = vecWidth; }
+	bxa::CVector2D&					getWidth(void) { return m_vecWidth; }
 
 	void						setHeight(float32 fHeight) { m_fHeight = fHeight; }
 	float32						getHeight(void) { return m_fHeight; }
@@ -51,9 +51,9 @@ public:
 
 private:
 	// GTA VC only
-	mcore::CVector2D					m_vecMidPosition;
+	bxa::CVector2D					m_vecMidPosition;
 	float32						m_fBottomHeightZ;
-	mcore::CVector2D					m_vecWidth;
+	bxa::CVector2D					m_vecWidth;
 	float32						m_fHeight;
 	float32						m_fRotation;
 

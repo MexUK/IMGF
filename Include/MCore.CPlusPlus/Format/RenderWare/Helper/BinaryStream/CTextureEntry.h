@@ -1,12 +1,12 @@
 #ifndef CTextureEntry_H
 #define CTextureEntry_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include <string>
 
-class mcore::CRWSection_Texture;
+class bxa::CRWSection_Texture;
 
-class mcore::CTextureEntry
+class bxa::CTextureEntry
 {
 public:
 	CTextureEntry(void) :
@@ -33,8 +33,8 @@ public:
 	void				setAlphaPath(std::string strAlphaPath) { m_strAlphaPath = strAlphaPath; }
 	std::string			getAlphaPath(void) { return m_strAlphaPath; }
 
-	void				setRWTextureSection(mcore::CRWSection_Texture *pRWSection_Texture) { m_pRWTextureSection = pRWSection_Texture; }
-	mcore::CRWSection_Texture*	getRWTextureSection(void) { return m_pRWTextureSection; }
+	void				setRWTextureSection(bxa::CRWSection_Texture *pRWSection_Texture) { m_pRWTextureSection = pRWSection_Texture; }
+	bxa::CRWSection_Texture*	getRWTextureSection(void) { return m_pRWTextureSection; }
 
 private:
 	bool				m_bHasDiffuse;
@@ -43,7 +43,7 @@ private:
 	bool				m_bHasAlpha;
 	std::string			m_strAlphaName;
 	std::string			m_strAlphaPath;
-	mcore::CRWSection_Texture*	m_pRWTextureSection;
+	bxa::CRWSection_Texture*	m_pRWTextureSection;
 };
 
 #endif

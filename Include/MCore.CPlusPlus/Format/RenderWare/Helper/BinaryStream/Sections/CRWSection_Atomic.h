@@ -1,10 +1,10 @@
 #ifndef CRWSection_Atomic_H
 #define CRWSection_Atomic_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
 
-class mcore::CRWSection_Atomic : public mcore::CRWSection
+class bxa::CRWSection_Atomic : public bxa::CRWSection
 {
 public:
 	CRWSection_Atomic(void);

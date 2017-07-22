@@ -9,12 +9,12 @@
 #include "Collection/Games/ePlatformedGame.h"
 #include "Format/RockstarGames/IMG/eIMGEntryProperty.h"
 
-class mcore::CRasterDataFormat;
-class mcore::CRWVersion;
-class mcore::CCOLVersion;
+class bxa::CRasterDataFormat;
+class bxa::CRWVersion;
+class bxa::CCOLVersion;
 struct CRenamedIMGEntry;
 
-class CTaskDispatchManager : public mcore::CManager
+class CTaskDispatchManager : public bxa::CManager
 {
 public:
 	void						init(void);
@@ -33,7 +33,7 @@ public:
 	void						onRequestRebuild(void);
 	void						onRequestRebuildAs(void);
 	void						onRequestRebuildAll(void);
-	void						onRequestConvertIMGVersion(mcore::eIMGVersion eIMGVersion);
+	void						onRequestConvertIMGVersion(bxa::eIMGVersion eIMGVersion);
 	void						onRequestConvertIMGVersionViaButton(void);
 	void						onRequestMerge(void);
 	void						onRequestSplitViaButton(void);
@@ -57,14 +57,14 @@ public:
 	void						onRequestImportViaButton(void);
 	void						onRequestImportViaIDEFile(void);
 	void						onRequestImportViaTextLines(void);
-	void						onRequestNew(mcore::eIMGVersion eIMGVersion);
+	void						onRequestNew(bxa::eIMGVersion eIMGVersion);
 	void						onRequestStats(void);
 	void						onRequestNameCase(uint8 ucCaseType, uint8 ucFilenameType);
-	void						onRequestCopyEntryData(mcore::eIMGEntryProperty eIMGEntryProperty);
+	void						onRequestCopyEntryData(bxa::eIMGEntryProperty eIMGEntryProperty);
 	void						onRequestShift(uint8 ucDirection);
 	void						onRequestQuickExport(void);
 	void						onRequestSelectViaFileExtension(void);
-	void						onRequestSelectViaRWVersion(mcore::CRWVersion *pRWVersion);
+	void						onRequestSelectViaRWVersion(bxa::CRWVersion *pRWVersion);
 	void						onRequestVersion(void);
 	void						onRequestTextureList(void);
 	void						onRequestAssociateIMGExtension(void);
@@ -80,7 +80,7 @@ public:
 	void						onRequestOrphanIDEEntriesNotInIMG(void);
 	void						onRequestSettings(void);
 	void						onRequestReopen(void);
-	void						onRequestConvertDFFToRWVersion(mcore::CRWVersion *pRWVersion);
+	void						onRequestConvertDFFToRWVersion(bxa::CRWVersion *pRWVersion);
 	void						onRequestMissingTextures(void);
 	bool						onRequestClose2(bool bCloseAll);
 	void						onRequestReplaceAllFromFolder(void);
@@ -91,8 +91,8 @@ public:
 	void						onRequestDuplicateEntries(void);
 	void						onRequestExportAllEntriesFromAllTabsIntoMultipleFolders(void);
 	void						onRequestOpenLast(void);
-	void						onRequestConvertTXDToGame(mcore::ePlatformedGame ePlatformedGame);
-	void						onRequestConvertTXDToRWVersion(mcore::CRWVersion *pRWVersion);
+	void						onRequestConvertTXDToGame(bxa::ePlatformedGame ePlatformedGame);
+	void						onRequestConvertTXDToRWVersion(bxa::CRWVersion *pRWVersion);
 	void						onRequestDump(void);
 	void						onRequestSessionManager(void);
 	void						onRequestWebsite(void);
@@ -108,7 +108,7 @@ public:
 	void						onRequestSaveIMGSignature(void);
 	void						onRequestVerifyIMGSignature(void);
 	void						onRequestCompareIMG(void);
-	void						onRequestConvertTXDToTextureFormat(mcore::CRasterDataFormat *pRasterDataFormat);
+	void						onRequestConvertTXDToTextureFormat(bxa::CRasterDataFormat *pRasterDataFormat);
 	void						onRequestClearLogs(bool bAllTabs);
 	void						onRequestValidateAllDFFInActiveTab(void);
 	void						onRequestValidateAllTXDInActiveTab(void);
@@ -120,7 +120,7 @@ public:
 	void						onRequestIMGVersionSettings(void);
 	void						onRequestFeatureByName(std::string strFeatureName);
 	void						onRequestLastFeatureUsed(void);
-	void						onRequestConvertCOLtoCOLVersion(mcore::CCOLVersion *pCOLVersion);
+	void						onRequestConvertCOLtoCOLVersion(bxa::CCOLVersion *pCOLVersion);
 	void						onRequestReportIssueOrIdea(void);
 	static int CALLBACK			sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 	void						onRequestSortViaColumn(uint32 uiColumnIndex);

@@ -2,7 +2,7 @@
 #include "CTextureViewer.h"
 #include "CCollisionViewer.h"
 
-using namespace mcore;
+using namespace bxa;
 
 CEntryViewerManager::CEntryViewerManager(void)
 {

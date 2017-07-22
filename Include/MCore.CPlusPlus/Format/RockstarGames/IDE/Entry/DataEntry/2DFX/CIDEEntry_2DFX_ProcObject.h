@@ -1,15 +1,15 @@
 #ifndef CIDEEntry_2DFX_ProcObject_H
 #define CIDEEntry_2DFX_ProcObject_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_2DFX.h"
 #include <string>
 
-class mcore::CIDEEntry_2DFX_ProcObject : public mcore::CIDEEntry_2DFX
+class bxa::CIDEEntry_2DFX_ProcObject : public bxa::CIDEEntry_2DFX
 {
 public:
-	CIDEEntry_2DFX_ProcObject(mcore::CIDEFormat *pIDEFormat) :
-		CIDEEntry_2DFX(pIDEFormat, mcore::_2DFX_PROC_OBJECT)
+	CIDEEntry_2DFX_ProcObject(bxa::CIDEFormat *pIDEFormat) :
+		CIDEEntry_2DFX(pIDEFormat, bxa::_2DFX_PROC_OBJECT)
 	{
 	};
 

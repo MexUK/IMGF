@@ -3,7 +3,7 @@
 #include "Stream/CDataWriter.h"
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 void				CDBEntry::unserialize(void)
 {

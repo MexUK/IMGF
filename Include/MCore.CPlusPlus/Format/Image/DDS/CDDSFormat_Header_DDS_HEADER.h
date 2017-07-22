@@ -1,11 +1,11 @@
 #ifndef CDDSFormat_Header_DDS_HEADER_H
 #define CDDSFormat_Header_DDS_HEADER_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
-struct mcore::CDDSFormat_Header_DDS_HEADER
+struct bxa::CDDSFormat_Header_DDS_HEADER
 {
 	uint32					m_uiSize;
 	uint32					m_uiFlags;

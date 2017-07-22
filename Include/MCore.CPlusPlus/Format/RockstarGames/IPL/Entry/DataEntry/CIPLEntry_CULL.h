@@ -1,16 +1,16 @@
 #ifndef CIPLEntry_CULL_H
 #define CIPLEntry_CULL_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Type/Vector/CVector3D.h"
 #include "Type/Vector/CVector4D.h"
 #include "Format/RockstarGames/IPL/Entry/CIPLEntry_Data.h"
 
-class mcore::CIPLEntry_CULL : public mcore::CIPLEntry_Data
+class bxa::CIPLEntry_CULL : public bxa::CIPLEntry_Data
 {
 public:
-	CIPLEntry_CULL(mcore::CIPLFormat *pIPLFormat) :
+	CIPLEntry_CULL(bxa::CIPLFormat *pIPLFormat) :
 		CIPLEntry_Data(pIPLFormat, IPL_SECTION_CULL),
 		m_vecCenterPosition{ 0.0f, 0.0f, 0.0f },
 		m_vecLowerLeftPosition{ 0.0f, 0.0f, 0.0f },
@@ -36,14 +36,14 @@ public:
 	void						setUnknown1(uint32 uiUnknown1) { m_uiUnknown1 = uiUnknown1; }
 	uint32						getUnknown1(void) { return m_uiUnknown1; }
 
-	void						setCenterPosition(mcore::CVector3D& vecCenterPosition) { m_vecCenterPosition = vecCenterPosition; }
-	mcore::CVector3D&					getCenterPosition(void) { return m_vecCenterPosition; }
+	void						setCenterPosition(bxa::CVector3D& vecCenterPosition) { m_vecCenterPosition = vecCenterPosition; }
+	bxa::CVector3D&					getCenterPosition(void) { return m_vecCenterPosition; }
 
-	void						setLowerLeftPosition(mcore::CVector3D& vecLowerLeftPosition) { m_vecLowerLeftPosition = vecLowerLeftPosition; }
-	mcore::CVector3D&					getLowerLeftPosition(void) { return m_vecLowerLeftPosition; }
+	void						setLowerLeftPosition(bxa::CVector3D& vecLowerLeftPosition) { m_vecLowerLeftPosition = vecLowerLeftPosition; }
+	bxa::CVector3D&					getLowerLeftPosition(void) { return m_vecLowerLeftPosition; }
 
-	void						setUpperRightPosition(mcore::CVector3D& vecUpperRightPosition) { m_vecUpperRightPosition = vecUpperRightPosition; }
-	mcore::CVector3D&					getUpperRightPosition(void) { return m_vecUpperRightPosition; }
+	void						setUpperRightPosition(bxa::CVector3D& vecUpperRightPosition) { m_vecUpperRightPosition = vecUpperRightPosition; }
+	bxa::CVector3D&					getUpperRightPosition(void) { return m_vecUpperRightPosition; }
 
 	void						setUnknown2(uint32 uiUnknown2) { m_uiUnknown2 = uiUnknown2; }
 	uint32						getUnknown2(void) { return m_uiUnknown2; }
@@ -63,8 +63,8 @@ public:
 	void						setBottom(uint32 uiBottom) { m_uiBottom = uiBottom; }
 	uint32						getBottom(void) { return m_uiBottom; }
 
-	void						setMirrorParameters(mcore::CVector4D& vecMirrorParameters) { m_vecMirrorParameters = vecMirrorParameters; }
-	mcore::CVector4D&					getMirrorParameters(void) { return m_vecMirrorParameters; }
+	void						setMirrorParameters(bxa::CVector4D& vecMirrorParameters) { m_vecMirrorParameters = vecMirrorParameters; }
+	bxa::CVector4D&					getMirrorParameters(void) { return m_vecMirrorParameters; }
 
 private:
 	// GTA III era & GTA IV
@@ -72,9 +72,9 @@ private:
 	uint32						m_uiUnknown1;
 
 	// GTA III era
-	mcore::CVector3D					m_vecCenterPosition;
-	mcore::CVector3D					m_vecLowerLeftPosition;
-	mcore::CVector3D					m_vecUpperRightPosition;
+	bxa::CVector3D					m_vecCenterPosition;
+	bxa::CVector3D					m_vecLowerLeftPosition;
+	bxa::CVector3D					m_vecUpperRightPosition;
 
 	// GTA SA & GTA IV
 	uint32						m_uiUnknown2;
@@ -83,7 +83,7 @@ private:
 	uint32						m_uiWidth;
 	uint32						m_uiTop;
 	uint32						m_uiBottom;
-	mcore::CVector4D					m_vecMirrorParameters;
+	bxa::CVector4D					m_vecMirrorParameters;
 };
 
 #endif

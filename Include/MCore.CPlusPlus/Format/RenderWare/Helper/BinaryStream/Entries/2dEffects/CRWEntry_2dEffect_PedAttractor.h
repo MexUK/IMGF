@@ -1,13 +1,13 @@
 #ifndef CRWEntry_2dEffect_PedAttractor_H
 #define CRWEntry_2dEffect_PedAttractor_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RenderWare/Helper/BinaryStream/Entries/C2dEffect.h"
 #include "Type/Vector/CVector3D.h"
 #include <string>
 
-class mcore::CRWEntry_2dEffect_PedAttractor : public mcore::C2dEffect
+class bxa::CRWEntry_2dEffect_PedAttractor : public bxa::C2dEffect
 {
 public:
 	CRWEntry_2dEffect_PedAttractor(void);
@@ -18,8 +18,8 @@ public:
 	void							setType(int32 iType) { m_iType = iType; }
 	int32							getType(void) { return m_iType; }
 
-	void							setRotation(uint8 ucRotationIndex, mcore::CVector3D& vecRotation) { m_vecRotation[ucRotationIndex] = vecRotation; }
-	mcore::CVector3D&						getRotation(uint8 ucRotationIndex) { return m_vecRotation[ucRotationIndex]; }
+	void							setRotation(uint8 ucRotationIndex, bxa::CVector3D& vecRotation) { m_vecRotation[ucRotationIndex] = vecRotation; }
+	bxa::CVector3D&						getRotation(uint8 ucRotationIndex) { return m_vecRotation[ucRotationIndex]; }
 
 	void							setExternalScriptName(std::string& strExternalScriptName) { m_strExternalScriptName = strExternalScriptName; }
 	std::string&					getExternalScriptName(void) { return m_strExternalScriptName; }
@@ -41,7 +41,7 @@ public:
 
 private:
 	int32							m_iType;
-	mcore::CVector3D						m_vecRotation[3];
+	bxa::CVector3D						m_vecRotation[3];
 	std::string						m_strExternalScriptName;
 	int32							m_iPedExistingProbability;
 	uint8							m_ucUnknown1;

@@ -1,14 +1,14 @@
 #ifndef CRWSection_FrameList_H
 #define CRWSection_FrameList_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
 #include <string>
 
-class mcore::CRWSection_FrameList : public mcore::CRWSection
+class bxa::CRWSection_FrameList : public bxa::CRWSection
 {
 public:
-	mcore::CRWSection_FrameList(void);
+	bxa::CRWSection_FrameList(void);
 
 	void							unserialize(void);
 	void							serialize(void);

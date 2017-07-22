@@ -1,13 +1,13 @@
 #ifndef CBMPFormat_H
 #define CBMPFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/CFormat.h"
 #include <string>
 #include <vector>
 
-class mcore::CBMPFormat : public mcore::CFormat
+class bxa::CBMPFormat : public bxa::CFormat
 {
 public:
 	CBMPFormat(void);

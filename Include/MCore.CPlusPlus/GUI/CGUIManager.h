@@ -2,12 +2,12 @@
 #define CMCore_CGUIManager_H
 
 #include <Windows.h>
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include <string>
 #include <vector>
 
-class mcore::CGUIManager
+class bxa::CGUIManager
 {
 public:
 	static void								setParentWindowHwnd(HWND hParentWindowHwnd) { CGUIManager::m_hParentWindowHwnd = hParentWindowHwnd; }

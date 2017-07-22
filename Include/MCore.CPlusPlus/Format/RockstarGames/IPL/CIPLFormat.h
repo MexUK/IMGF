@@ -1,7 +1,7 @@
 #ifndef CIPLFormat_H
 #define CIPLFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormat.h"
 #include "Format/RockstarGames/Helper/SectionLines/CSectionLinesFormat.h"
 #include "eIPLSection.h"
@@ -12,10 +12,10 @@
 #include <string>
 #include <vector>
 
-class mcore::CIPLFormat;
-class mcore::CIPLEntry;
+class bxa::CIPLFormat;
+class bxa::CIPLEntry;
 
-class mcore::CIPLFormat : public mcore::CSectionLinesFormat<mcore::CIPLFormat, mcore::CIPLEntry, eIPLSection, mcore::CIPLEntry_Other, mcore::CIPLEntry_Section, mcore::CIPLEntry_Data>
+class bxa::CIPLFormat : public bxa::CSectionLinesFormat<bxa::CIPLFormat, bxa::CIPLEntry, eIPLSection, bxa::CIPLEntry_Other, bxa::CIPLEntry_Section, bxa::CIPLEntry_Data>
 {
 public:
 	CIPLFormat(void);
@@ -23,7 +23,7 @@ public:
 	void												setIsBinary(bool bState) { m_bIsBinary = bState; }
 	bool												isBinary(void) { return m_bIsBinary; }
 
-	mcore::CIPLEntry_Data*										createDataEntry(eIPLSection eIDESectionValue, uint32 uiSectionSpecificType = 0);
+	bxa::CIPLEntry_Data*										createDataEntry(eIPLSection eIDESectionValue, uint32 uiSectionSpecificType = 0);
 
 	eIPLSection											getSectionFromText(std::string strIPLSectionText);
 	std::string											getSectionText(eIPLSection eIPLSectionValue);
@@ -37,7 +37,7 @@ private:
 	void												unserializeBinary(void);
 	void												serializeBinary(void);
 
-	mcore::CIPLEntry_Data*										unserializeDataEntry(eIPLSection eIPLSectionValue);
+	bxa::CIPLEntry_Data*										unserializeDataEntry(eIPLSection eIPLSectionValue);
 
 	eIPLPathType										detectPATHType(void);
 

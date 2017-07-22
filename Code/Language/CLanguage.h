@@ -9,8 +9,8 @@ class CLanguage
 public:
 	void					unload(void) {}
 
-	void					setLanguageId(mcore::eLanguage eLanguageValue) { eLanguageId = eLanguageValue; }
-	mcore::eLanguage		getLanguageId(void) { return eLanguageId; }
+	void					setLanguageId(bxa::eLanguage eLanguageValue) { eLanguageId = eLanguageValue; }
+	bxa::eLanguage		getLanguageId(void) { return eLanguageId; }
 	
 	void					setLanguageName(std::string strLanguageName) { m_strLanguageName = strLanguageName; }
 	std::string				getLanguageName(void) { return m_strLanguageName; }
@@ -19,7 +19,7 @@ public:
 	std::string				getLocalizationKey(void) { return m_strLocalizationKey; }
 	
 private:
-	mcore::eLanguage		eLanguageId;
+	bxa::eLanguage		eLanguageId;
 	std::string				m_strLanguageName;
 	std::string				m_strLocalizationKey;
 };

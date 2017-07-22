@@ -1,6 +1,6 @@
 #include "CEditor.h"
 
-using namespace mcore;
+using namespace bxa;
 
 CEditor::CEditor(void) :
 	m_pActiveTab(nullptr)

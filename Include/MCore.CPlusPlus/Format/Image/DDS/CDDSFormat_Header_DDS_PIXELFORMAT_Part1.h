@@ -1,11 +1,11 @@
 #ifndef CDDSFormat_Header_DDS_PIXELFORMAT_Part1_H
 #define CDDSFormat_Header_DDS_PIXELFORMAT_Part1_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
-struct mcore::CDDSFormat_Header_DDS_PIXELFORMAT_Part1
+struct bxa::CDDSFormat_Header_DDS_PIXELFORMAT_Part1
 {
 	uint32					m_uiSize2;
 	uint32					m_uiFlags2;

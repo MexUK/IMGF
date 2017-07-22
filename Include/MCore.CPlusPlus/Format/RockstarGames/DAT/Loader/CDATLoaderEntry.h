@@ -1,12 +1,12 @@
 #ifndef CDATLoaderEntry_H
 #define CDATLoaderEntry_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "eDATLoaderEntryType.h"
 #include <string>
 #include <deque>
 
-class mcore::CDATLoaderEntry
+class bxa::CDATLoaderEntry
 {
 public:
 	void						unload(void) {}

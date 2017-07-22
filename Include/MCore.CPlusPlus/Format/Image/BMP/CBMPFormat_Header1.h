@@ -1,11 +1,11 @@
 #ifndef CBMPFormat_Header1_H
 #define CBMPFormat_Header1_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
-struct mcore::CBMPFormat_Header1
+struct bxa::CBMPFormat_Header1
 {
 	uint32						m_uiFileSize;
 	uint32						m_usReserved1;

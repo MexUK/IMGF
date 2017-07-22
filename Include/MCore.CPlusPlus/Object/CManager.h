@@ -1,9 +1,9 @@
 #ifndef CManager_H
 #define CManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 
-class mcore::CManager
+class bxa::CManager
 {
 public:
 	virtual void				init(void) = 0;

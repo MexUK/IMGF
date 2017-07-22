@@ -1,11 +1,11 @@
 #ifndef CVector2ui32_H
 #define CVector2ui32_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Vector/CVector2i32.h"
 #include "Type/Types.h"
 
-class mcore::CVector2ui32
+class bxa::CVector2ui32
 {
 public:
 	uint32	m_x;
@@ -21,7 +21,7 @@ public:
 		m_y = y;
 	}
 
-	CVector2ui32&	operator+(const mcore::CVector2i32& vecVector2)
+	CVector2ui32&	operator+(const bxa::CVector2i32& vecVector2)
 	{
 		CVector2ui32 vecVector;
 		vecVector.m_x = m_x + vecVector2.m_x;

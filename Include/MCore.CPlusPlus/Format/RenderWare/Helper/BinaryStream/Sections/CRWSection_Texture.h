@@ -1,10 +1,10 @@
 #ifndef CRWSection_Texture_H
 #define CRWSection_Texture_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
 
-class mcore::CRWSection_Texture : public mcore::CRWSection
+class bxa::CRWSection_Texture : public bxa::CRWSection
 {
 public:
 	CRWSection_Texture(void);

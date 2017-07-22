@@ -1,12 +1,12 @@
 #ifndef CVectorPool_H
 #define CVectorPool_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include <vector>
 
 template <class T>
-class mcore::CVectorPool
+class bxa::CVectorPool
 {
 public:
 	bool									isEntryAtIndex(uint32 uiEntryIndex);
@@ -31,19 +31,19 @@ protected:
 
 
 template <class T>
-bool				mcore::CVectorPool<T>::isEntryAtIndex(uint32 uiEntryIndex)
+bool				bxa::CVectorPool<T>::isEntryAtIndex(uint32 uiEntryIndex)
 {
 	return uiEntryIndex < m_vecEntries.size();
 }
 
 template <class T>
-uint32				mcore::CVectorPool<T>::getEntryCount(void)
+uint32				bxa::CVectorPool<T>::getEntryCount(void)
 {
 	return m_vecEntries.size();
 }
 
 template <class T>
-T					mcore::CVectorPool<T>::getEntryByIndex(uint32 uiEntryIndex)
+T					bxa::CVectorPool<T>::getEntryByIndex(uint32 uiEntryIndex)
 {
 	if (isEntryAtIndex(uiEntryIndex))
 	{
@@ -53,7 +53,7 @@ T					mcore::CVectorPool<T>::getEntryByIndex(uint32 uiEntryIndex)
 }
 
 template <class T>
-void				mcore::CVectorPool<T>::removeAllEntries(void)
+void				bxa::CVectorPool<T>::removeAllEntries(void)
 {
 	for (auto pEntry : m_vecEntries)
 	{
@@ -64,13 +64,13 @@ void				mcore::CVectorPool<T>::removeAllEntries(void)
 }
 
 template <class T>
-void				mcore::CVectorPool<T>::addEntry(T pEntry)
+void				bxa::CVectorPool<T>::addEntry(T pEntry)
 {
 	m_vecEntries.push_back(pEntry);
 }
 
 template <class T>
-void				mcore::CVectorPool<T>::removeEntry(T pEntry)
+void				bxa::CVectorPool<T>::removeEntry(T pEntry)
 {
 	std::vector<T>::iterator it = std::find(m_vecEntries.begin(), m_vecEntries.end(), pEntry);
 	m_vecEntries.erase(it);
@@ -79,25 +79,25 @@ void				mcore::CVectorPool<T>::removeEntry(T pEntry)
 }
 
 template <class T>
-uint32				mcore::CVectorPool<T>::getNextEntryIndex(void)
+uint32				bxa::CVectorPool<T>::getNextEntryIndex(void)
 {
 	return m_vecEntries.size();
 }
 
 template <class T>
-T					mcore::CVectorPool<T>::getFirstEntry(void)
+T					bxa::CVectorPool<T>::getFirstEntry(void)
 {
 	return m_vecEntries[0];
 }
 
 template <class T>
-T					mcore::CVectorPool<T>::getLastEntry(void)
+T					bxa::CVectorPool<T>::getLastEntry(void)
 {
 	return m_vecEntries[m_vecEntries.size() - 1];
 }
 
 template <class T>
-uint32				mcore::CVectorPool<T>::getIndexByEntry(T pEntry)
+uint32				bxa::CVectorPool<T>::getIndexByEntry(T pEntry)
 {
 	for (uint32 i = 0, j = m_vecEntries.size(); i < j; i++)
 	{
@@ -110,13 +110,13 @@ uint32				mcore::CVectorPool<T>::getIndexByEntry(T pEntry)
 }
 
 template <class T>
-void				mcore::CVectorPool<T>::setEntryByIndex(uint32 uiEntryIndex, T pEntry)
+void				bxa::CVectorPool<T>::setEntryByIndex(uint32 uiEntryIndex, T pEntry)
 {
 	m_vecEntries[uiEntryIndex] = pEntry;
 }
 
 template <class T>
-void				mcore::CVectorPool<T>::swapEntries(T pEntry1, T pEntry2)
+void				bxa::CVectorPool<T>::swapEntries(T pEntry1, T pEntry2)
 {
 	uint32 uiEntryIndex1 = getIndexByEntry(pEntry1);
 	uint32 uiEntryIndex2 = getIndexByEntry(pEntry2);

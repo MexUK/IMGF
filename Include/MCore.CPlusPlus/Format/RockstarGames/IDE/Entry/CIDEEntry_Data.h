@@ -1,14 +1,14 @@
 #ifndef CIDEEntry_Data_H
 #define CIDEEntry_Data_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RockstarGames/IDE/CIDEEntry.h"
 #include "Format/RockstarGames/Helper/SectionLines/Entry/CSectionLinesEntry_Data.h"
 
-class mcore::CIDEEntry_Data : public mcore::CSectionLinesEntry_Data, public mcore::CIDEEntry
+class bxa::CIDEEntry_Data : public bxa::CSectionLinesEntry_Data, public bxa::CIDEEntry
 {
 public:
-	CIDEEntry_Data(mcore::CIDEFormat *pIDEFormat, mcore::eIDESection eIDESectionValue) :
+	CIDEEntry_Data(bxa::CIDEFormat *pIDEFormat, bxa::eIDESection eIDESectionValue) :
 		CIDEEntry(pIDEFormat)
 	{
 		setSectionType(eIDESectionValue);

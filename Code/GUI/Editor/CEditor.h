@@ -17,11 +17,11 @@ public:
 	void						setActiveTab(CEditorTab *pActiveTab) { m_pActiveTab = pActiveTab; }
 	CEditorTab*					getActiveTab(void) { return m_pActiveTab; }
 
-	mcore::CVectorPool<CEditorTab*>&	getTabs(void) { return m_vecTabs; }
+	bxa::CVectorPool<CEditorTab*>&	getTabs(void) { return m_vecTabs; }
 
 private:
 	CEditorTab*					m_pActiveTab;
-	mcore::CVectorPool<CEditorTab*>	m_vecTabs;
+	bxa::CVectorPool<CEditorTab*>	m_vecTabs;
 };
 
 #endif

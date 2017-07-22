@@ -1,13 +1,13 @@
 #ifndef CRWSection_BinMeshPLG_H
 #define CRWSection_BinMeshPLG_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
 #include "Format/RenderWare/Helper/BinaryStream/Entries/CRWEntry_BinMeshPLG_Mesh.h"
 #include <vector>
 
-class mcore::CRWSection_BinMeshPLG : public mcore::CRWSection
+class bxa::CRWSection_BinMeshPLG : public bxa::CRWSection
 {
 public:
 	CRWSection_BinMeshPLG(void);
@@ -24,13 +24,13 @@ public:
 	void										setIndexCount(uint32 uiIndexCount) { m_uiIndexCount = uiIndexCount; }
 	uint32										getIndexCount(void) { return m_uiIndexCount; }
 
-	std::vector<mcore::CRWEntry_BinMeshPLG_Mesh*>&		getMeshes(void) { return m_vecMeshes; }
+	std::vector<bxa::CRWEntry_BinMeshPLG_Mesh*>&		getMeshes(void) { return m_vecMeshes; }
 
 private:
 	uint32										m_uiFlags; // 0 = triangle list, 1 = triangle strip
 	uint32										m_uiMeshCount;
 	uint32										m_uiIndexCount;
-	std::vector<mcore::CRWEntry_BinMeshPLG_Mesh*>		m_vecMeshes;
+	std::vector<bxa::CRWEntry_BinMeshPLG_Mesh*>		m_vecMeshes;
 };
 
 #endif

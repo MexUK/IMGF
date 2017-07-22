@@ -1,12 +1,12 @@
 #ifndef CRWEntry_2dEffect_SlotmachineWheel_H
 #define CRWEntry_2dEffect_SlotmachineWheel_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RenderWare/Helper/BinaryStream/Entries/C2dEffect.h"
 #include <string>
 
-class mcore::CRWEntry_2dEffect_SlotmachineWheel : public mcore::C2dEffect
+class bxa::CRWEntry_2dEffect_SlotmachineWheel : public bxa::C2dEffect
 {
 public:
 	CRWEntry_2dEffect_SlotmachineWheel(void);

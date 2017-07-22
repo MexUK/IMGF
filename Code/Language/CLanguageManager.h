@@ -7,13 +7,13 @@
 
 class CLanguage;
 
-class CLanguageManager : public mcore::CManager, public mcore::CVectorPool<CLanguage*>
+class CLanguageManager : public bxa::CManager, public bxa::CVectorPool<CLanguage*>
 {
 public:
 	void							init(void);
 	void							uninit(void);
 
-	CLanguage*						getLanguageById(mcore::eLanguage eLanguageValue);
+	CLanguage*						getLanguageById(bxa::eLanguage eLanguageValue);
 
 private:
 	void							initLanguages(void);

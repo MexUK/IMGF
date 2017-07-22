@@ -1,10 +1,10 @@
 #ifndef ePlatformedGame_H
 #define ePlatformedGame_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-enum mcore::ePlatformedGame : uint16
+enum bxa::ePlatformedGame : uint16
 {
 	PLATFORMED_GAME_UNKNOWN			= 0, // not for storing in an int as a bit flag
 	PLATFORMED_GAME_PC_GTA_III		= 1,

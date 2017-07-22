@@ -1,6 +1,6 @@
 #include "CLastUsedValueManager.h"
 
-using namespace mcore;
+using namespace bxa;
 
 void								CLastUsedValueManager::init(void)
 {

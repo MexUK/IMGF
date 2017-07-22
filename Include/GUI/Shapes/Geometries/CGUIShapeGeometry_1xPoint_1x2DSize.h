@@ -16,18 +16,18 @@ public:
 	void							unserialize(bool bSkipShapeId = false);
 	void							serialize(void);
 
-	void							moveItem(mcore::CVector2i32& vecPositionChange) { m_vecPosition += vecPositionChange; }
-	void							resizeItemViaOffsets(mcore::CVector2i32& vecItemSizeChange) { m_vecSize += mcore::CSize2D(vecItemSizeChange.m_x, vecItemSizeChange.m_y); }
+	void							moveItem(bxa::CVector2i32& vecPositionChange) { m_vecPosition += vecPositionChange; }
+	void							resizeItemViaOffsets(bxa::CVector2i32& vecItemSizeChange) { m_vecSize += bxa::CSize2D(vecItemSizeChange.m_x, vecItemSizeChange.m_y); }
 
-	void							setPosition(mcore::CPoint2D& vecPosition) { m_vecPosition = vecPosition; }
-	mcore::CPoint2D&						getPosition(void) { return m_vecPosition; }
+	void							setPosition(bxa::CPoint2D& vecPosition) { m_vecPosition = vecPosition; }
+	bxa::CPoint2D&						getPosition(void) { return m_vecPosition; }
 
-	void							setSize(mcore::CSize2D& vecSize) { m_vecSize = vecSize; }
-	mcore::CSize2D&						getSize(void) { return m_vecSize; }
+	void							setSize(bxa::CSize2D& vecSize) { m_vecSize = vecSize; }
+	bxa::CSize2D&						getSize(void) { return m_vecSize; }
 	
 private:
-	mcore::CPoint2D						m_vecPosition;
-	mcore::CSize2D							m_vecSize;
+	bxa::CPoint2D						m_vecPosition;
+	bxa::CSize2D							m_vecSize;
 };
 
 #endif

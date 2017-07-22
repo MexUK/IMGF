@@ -18,7 +18,7 @@ private:
 	uint8							m_bIsAlpha : 1;
 };
 
-class CUpdateManager : public mcore::CManager
+class CUpdateManager : public bxa::CManager
 {
 public:
 	CUpdateManager(void);

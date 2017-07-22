@@ -1,12 +1,12 @@
 #ifndef CDDSFormat_H
 #define CDDSFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormat.h"
 #include "Unit/Byte/eEndian.h"
 #include <string>
 
-class mcore::CDDSFormat : public mcore::CFormat
+class bxa::CDDSFormat : public bxa::CFormat
 {
 public:
 	CDDSFormat(void);

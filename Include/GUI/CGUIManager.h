@@ -1,7 +1,7 @@
 #ifndef CGUIManager_H
 #define CGUIManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "gui.h"
 #include "Type/Vector/CSize2D.h"
 #include "Object/CManager.h"
@@ -16,7 +16,7 @@ LRESULT CALLBACK				WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 class CGraphicsLibrary;
 class CGUIStyles;
 
-class gui::CGUIManager : public mcore::CManager, public mcore::CSingleton<gui::CGUIManager>, public mcore::CVectorPool<CWindow*>, public mcore::CEventBinder
+class gui::CGUIManager : public bxa::CManager, public bxa::CSingleton<gui::CGUIManager>, public bxa::CVectorPool<CWindow*>, public bxa::CEventBinder
 {
 public:
 	CGUIManager(void);
@@ -29,13 +29,13 @@ public:
 	void						unserialize(void);
 	void						serialize(void);
 
-	CWindow*					addWindow(mcore::CPoint2D& vecWindowPosition = mcore::CPoint2D((uint32) 0, (uint32) 0), mcore::CSize2D& vecWindowSize = mcore::CSize2D((uint32) 800, (uint32) 600));
+	CWindow*					addWindow(bxa::CPoint2D& vecWindowPosition = bxa::CPoint2D((uint32) 0, (uint32) 0), bxa::CSize2D& vecWindowSize = bxa::CSize2D((uint32) 800, (uint32) 600));
 	template <class WindowClass>
-	WindowClass*				addTemplatedWindow(mcore::CPoint2D& vecWindowPosition = mcore::CPoint2D(0, 0), mcore::CSize2D& vecWindowSize = mcore::CSize2D(800, 600));
+	WindowClass*				addTemplatedWindow(bxa::CPoint2D& vecWindowPosition = bxa::CPoint2D(0, 0), bxa::CSize2D& vecWindowSize = bxa::CSize2D(800, 600));
 
 	void						processWindows(void);
 
-	void						onMouseMove(mcore::CPoint2D& vecCursorPosition);
+	void						onMouseMove(bxa::CPoint2D& vecCursorPosition);
 
 	void						render(void);
 
@@ -58,10 +58,10 @@ private:
 };
 
 template <class WindowClass>
-WindowClass*					gui::CGUIManager::addTemplatedWindow(mcore::CPoint2D& vecWindowPosition, mcore::CSize2D& vecWindowSize)
+WindowClass*					gui::CGUIManager::addTemplatedWindow(bxa::CPoint2D& vecWindowPosition, bxa::CSize2D& vecWindowSize)
 {
 	WindowClass *pWindow = new WindowClass;
-	pWindow->setPosition(mcore::CPoint2D(vecWindowPosition.m_x, vecWindowPosition.m_y)); // todo - send directly
+	pWindow->setPosition(bxa::CPoint2D(vecWindowPosition.m_x, vecWindowPosition.m_y)); // todo - send directly
 	pWindow->setSize(vecWindowSize);
 	pWindow->setTitleBarHeight(25);
 	if (!createWindow(pWindow))

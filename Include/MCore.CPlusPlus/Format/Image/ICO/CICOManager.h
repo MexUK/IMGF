@@ -1,14 +1,14 @@
 #ifndef CICOManager_H
 #define CICOManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 
-class mcore::CICOFormat;
-class mcore::CBMPFormat;
+class bxa::CICOFormat;
+class bxa::CBMPFormat;
 
-class mcore::CICOManager : public mcore::CFormatManager<mcore::CICOFormat>, public mcore::CSingleton<mcore::CICOManager>
+class bxa::CICOManager : public bxa::CFormatManager<bxa::CICOFormat>, public bxa::CSingleton<bxa::CICOManager>
 {
 public:
 	CICOManager(void);
@@ -16,7 +16,7 @@ public:
 	void						init(void);
 	void						uninit(void);
 
-	mcore::CICOFormat*			createFormatFromBMP(mcore::CBMPFormat *pBMPFormat);
+	bxa::CICOFormat*			createFormatFromBMP(bxa::CBMPFormat *pBMPFormat);
 };
 
 #endif

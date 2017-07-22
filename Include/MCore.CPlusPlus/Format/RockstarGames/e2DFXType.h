@@ -1,10 +1,10 @@
 #ifndef e2DFXType_H
 #define e2DFXType_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-enum mcore::e2DFXType : uint8
+enum bxa::e2DFXType : uint8
 {
 	_2DFX_UNKNOWN,
 

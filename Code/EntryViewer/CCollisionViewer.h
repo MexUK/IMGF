@@ -36,11 +36,11 @@ public:
 	void						initGLFW(void);
 	void						initGLEW(void);
 
-	void						setCOLFile(mcore::CCOLFormat *pCOLFile) { m_pCOLFile = pCOLFile; }
-	mcore::CCOLFormat*					getCOLFile(void) { return m_pCOLFile; }
+	void						setCOLFile(bxa::CCOLFormat *pCOLFile) { m_pCOLFile = pCOLFile; }
+	bxa::CCOLFormat*					getCOLFile(void) { return m_pCOLFile; }
 
-	void						setActiveCOLEntry(mcore::CCOLEntry *pCOLEntry) { m_pActiveCOLEntry = pCOLEntry; }
-	mcore::CCOLEntry*					getActiveCOLEntry(void) { return m_pActiveCOLEntry; }
+	void						setActiveCOLEntry(bxa::CCOLEntry *pCOLEntry) { m_pActiveCOLEntry = pCOLEntry; }
+	bxa::CCOLEntry*					getActiveCOLEntry(void) { return m_pActiveCOLEntry; }
 
 	void						setCOLFileName(std::string strCOLFileName) { m_strCOLFileName = strCOLFileName; }
 	std::string					getCOLFileName(void) { return m_strCOLFileName; }
@@ -93,8 +93,8 @@ private:
 	void						renderPanelLineSeparators(void);
 
 private:
-	mcore::CCOLFormat*					m_pCOLFile;
-	mcore::CCOLEntry*					m_pActiveCOLEntry;
+	bxa::CCOLFormat*					m_pCOLFile;
+	bxa::CCOLEntry*					m_pActiveCOLEntry;
 	std::string					m_strCOLFileName;
 	GLFWwindow*					m_pWindow;
 	FT_Library*					m_pFTLibrary;

@@ -1,9 +1,9 @@
 #ifndef eRageResourceType_H
 #define eRageResourceType_H
 
-#include "mcore.h"
+#include "bxa.h"
 
-enum mcore::eRageResourceType : uint8
+enum bxa::eRageResourceType : uint8
 {
 	RAGE_UNKNOWN,
 	RAGE_GENERIC,

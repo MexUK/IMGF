@@ -1,10 +1,10 @@
 #ifndef CRWSection_GeometryList_H
 #define CRWSection_GeometryList_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
 
-class mcore::CRWSection_GeometryList : public mcore::CRWSection
+class bxa::CRWSection_GeometryList : public bxa::CRWSection
 {
 public:
 	CRWSection_GeometryList(void);

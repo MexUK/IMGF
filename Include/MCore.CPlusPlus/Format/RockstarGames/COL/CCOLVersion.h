@@ -1,17 +1,17 @@
 #ifndef CCOLVersion_H
 #define CCOLVersion_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "eCOLVersion.h"
 #include <string>
 
-class mcore::CCOLVersion
+class bxa::CCOLVersion
 {
 public:
 	void				unload(void) {}
 
-	void				setVersionId(mcore::eCOLVersion eVersionId) { m_eVersionId = eVersionId; }
-	mcore::eCOLVersion			getVersionId(void) { return m_eVersionId; }
+	void				setVersionId(bxa::eCOLVersion eVersionId) { m_eVersionId = eVersionId; }
+	bxa::eCOLVersion			getVersionId(void) { return m_eVersionId; }
 
 	void				setText(std::string strText) { m_strText = strText; }
 	std::string			getText(void) { return m_strText; }
@@ -20,7 +20,7 @@ public:
 	std::string			getLocalizationKey(void) { return m_strLocalizationKey; }
 
 private:
-	mcore::eCOLVersion			m_eVersionId;
+	bxa::eCOLVersion			m_eVersionId;
 	std::string			m_strText;
 	std::string			m_strLocalizationKey;
 };

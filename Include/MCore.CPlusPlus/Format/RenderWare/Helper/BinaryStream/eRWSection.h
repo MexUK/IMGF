@@ -1,10 +1,10 @@
 #ifndef eRWSection_H
 #define eRWSection_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-enum mcore::eRWSection : uint32
+enum bxa::eRWSection : uint32
 {
 	RW_SECTION_UNKNOWN				= 0xFFFFFFFF,
 	RW_SECTION_STRUCT				= 0x01,

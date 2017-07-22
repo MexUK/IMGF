@@ -3,7 +3,7 @@
 #include "Format/Image/BMP/CBMPFormat.h"
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 template<class Manager, class Format>
 void						testFormatSerialization(string strFormatFilePath)

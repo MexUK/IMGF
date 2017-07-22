@@ -1,17 +1,17 @@
 #ifndef CIDEEntry_PATH_Group_H
 #define CIDEEntry_PATH_Group_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_PATH.h"
 #include "Pool/CVectorPool.h"
 #include <string>
 
-class mcore::CIDEEntry;
+class bxa::CIDEEntry;
 
-class mcore::CIDEEntry_PATH_Group : public mcore::CIDEEntry_PATH, public mcore::CVectorPool<mcore::CIDEEntry*>
+class bxa::CIDEEntry_PATH_Group : public bxa::CIDEEntry_PATH, public bxa::CVectorPool<bxa::CIDEEntry*>
 {
 public:
-	CIDEEntry_PATH_Group(mcore::CIDEFormat *pIDEFormat) :
+	CIDEEntry_PATH_Group(bxa::CIDEFormat *pIDEFormat) :
 		CIDEEntry_PATH(pIDEFormat, IDE_PATH_GROUP),
 		m_uiObjectId(0)
 	{

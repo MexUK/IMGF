@@ -1,13 +1,13 @@
 #ifndef CDDSManager_H
 #define CDDSManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 
-class mcore::CDDSFormat;
+class bxa::CDDSFormat;
 
-class mcore::CDDSManager : public mcore::CFormatManager<mcore::CDDSFormat>, public mcore::CSingleton<mcore::CDDSManager>
+class bxa::CDDSManager : public bxa::CFormatManager<bxa::CDDSFormat>, public bxa::CSingleton<bxa::CDDSManager>
 {
 public:
 	CDDSManager(void);

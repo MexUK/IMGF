@@ -1,14 +1,14 @@
 #ifndef CIPLEntry_MULT_H
 #define CIPLEntry_MULT_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IPL/Entry/CIPLEntry_Data.h"
 
-class mcore::CIPLEntry_MULT : public mcore::CIPLEntry_Data
+class bxa::CIPLEntry_MULT : public bxa::CIPLEntry_Data
 {
 public:
-	CIPLEntry_MULT(mcore::CIPLFormat *pIPLFormat) :
+	CIPLEntry_MULT(bxa::CIPLFormat *pIPLFormat) :
 		CIPLEntry_Data(pIPLFormat, IPL_SECTION_MULT)
 	{
 	};

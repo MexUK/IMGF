@@ -1,9 +1,9 @@
 #ifndef CNumber_H
 #define CNumber_H
 
-#include "mcore.h"
+#include "bxa.h"
 
-class mcore::CNumber
+class bxa::CNumber
 {
 public:
 	static bool								isInRange(double dNumber, double dMin, double dMax);

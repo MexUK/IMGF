@@ -13,9 +13,9 @@ public:
 
 	void							bindEvents(void);
 	void							render(void);
-	bool							isPointInItem(mcore::CPoint2D& vecPoint);
-	mcore::CPoint2D						getBoundingRectanglePosition(void);
-	mcore::CSize2D							getBoundingRectangleSize(void);
+	bool							isPointInItem(bxa::CPoint2D& vecPoint);
+	bxa::CPoint2D						getBoundingRectanglePosition(void);
+	bxa::CSize2D							getBoundingRectangleSize(void);
 };
 
 #endif

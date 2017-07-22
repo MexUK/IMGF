@@ -20,7 +20,7 @@
 #include "GUI/ThemeDesigner/CThemeDesigner.h"
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 auto pOnLeftMouseDown_ThemeDesigner				= [](void *pThemeDesigner, void *pTriggerArg) { ((CThemeDesignerTab_AddItem*) pThemeDesigner)->onLeftMouseDown(*(CPoint2D*) pTriggerArg); };
 auto pOnMouseMove_ThemeDesigner					= [](void *pThemeDesigner, void *pTriggerArg) { ((CThemeDesignerTab_AddItem*) pThemeDesigner)->onMouseMove(*(CPoint2D*) pTriggerArg); };

@@ -18,7 +18,7 @@
 
 using namespace std;
 using namespace Gdiplus;
-using namespace mcore;
+using namespace bxa;
 
 static bool bPremultipledAlphaApplied = false;
 uint32 uiEntryViewerWindowWidth = 800;
@@ -442,7 +442,7 @@ void				CTextureViewer::openWindow(void)
 	if (!RegisterClassEx(&wc))
 	{
 		DWORD uiError = GetLastError();
-		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_52", uiError), CLocalizationManager::getInstance()->getTranslatedText("TextPopup_Title52"), MB_OK);
+		bxa::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_52", uiError), CLocalizationManager::getInstance()->getTranslatedText("TextPopup_Title52"), MB_OK);
 		return;
 	}
 
@@ -456,7 +456,7 @@ void				CTextureViewer::openWindow(void)
 		NULL, NULL, hInstance, NULL);
 	if (hwndEntryViewerWindow == NULL)
 	{
-		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_53"), CLocalizationManager::getInstance()->getTranslatedText("TextPopup_Title52"), MB_OK);
+		bxa::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_53"), CLocalizationManager::getInstance()->getTranslatedText("TextPopup_Title52"), MB_OK);
 		return;
 	}
 	setWindowHwnd(hwndEntryViewerWindow);
@@ -561,7 +561,7 @@ LRESULT CALLBACK WndProc_ComboBox(
 {
 	if ((HWND)lParam == hWndComboBox)
 	{
-		mcore::CGUIManager::showMessage("T", "D");
+		bxa::CGUIManager::showMessage("T", "D");
 	}
 	if ((uMsg == WM_COMMAND) && (HIWORD(wParam) == BN_CLICKED))
 	{

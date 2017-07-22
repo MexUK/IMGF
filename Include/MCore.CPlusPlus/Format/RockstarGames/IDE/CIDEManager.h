@@ -1,15 +1,15 @@
 #ifndef CIDEManager_H
 #define CIDEManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 #include <string>
 #include <vector>
 
-class mcore::CIDEFormat;
+class bxa::CIDEFormat;
 
-class mcore::CIDEManager : public mcore::CFormatManager<mcore::CIDEFormat>, public mcore::CSingleton<mcore::CIDEManager>
+class bxa::CIDEManager : public bxa::CFormatManager<bxa::CIDEFormat>, public bxa::CSingleton<bxa::CIDEManager>
 {
 public:
 	CIDEManager(void);

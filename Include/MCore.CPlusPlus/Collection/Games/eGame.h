@@ -1,10 +1,10 @@
 #ifndef eGame_H
 #define eGame_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-enum mcore::eGame : uint8
+enum bxa::eGame : uint8
 {
 	GAME_UNKNOWN,
 	GAME_GTA_III,

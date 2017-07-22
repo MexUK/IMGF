@@ -1,6 +1,6 @@
 #pragma warning(disable : 4005)
 
-#include "mcore.h"
+#include "bxa.h"
 #include "CSettingsManager.h"
 #include "CIMGF.h"
 #include "Globals.h"
@@ -11,7 +11,7 @@
 #include "Type/String/CString2.h"
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 void			CSettingsManager::init(void)
 {

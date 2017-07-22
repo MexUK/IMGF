@@ -28,34 +28,34 @@ public:
 
 	void									render(void);
 	
-	mcore::CPoint2D								getCaretRenderStartPosition(void);	// in pixels
-	mcore::CPoint2D								getCaretRenderEndPosition(void);	// in pixels
+	bxa::CPoint2D								getCaretRenderStartPosition(void);	// in pixels
+	bxa::CPoint2D								getCaretRenderEndPosition(void);	// in pixels
 
 	bool									isCaretAtFarLeft(void);
 	bool									isCaretAtFarRight(void);
 	bool									isCaretAtFarTop(void);
 	bool									isCaretAtFarBottom(void);
 
-	void									setCaretPosition(mcore::CVector2ui32& vecCaretPosition);																// parameter is character x,y position
-	void									setCaretPositionStart(mcore::CVector2ui32& vecCaretPositionStart) { m_vecCaretPositionStart = vecCaretPositionStart; }	// parameter is character x,y position
-	void									setCaretPositionEnd(mcore::CVector2ui32& vecCaretPositionEnd) { m_vecCaretPositionEnd = vecCaretPositionEnd; }			// parameter is character x,y position
+	void									setCaretPosition(bxa::CVector2ui32& vecCaretPosition);																// parameter is character x,y position
+	void									setCaretPositionStart(bxa::CVector2ui32& vecCaretPositionStart) { m_vecCaretPositionStart = vecCaretPositionStart; }	// parameter is character x,y position
+	void									setCaretPositionEnd(bxa::CVector2ui32& vecCaretPositionEnd) { m_vecCaretPositionEnd = vecCaretPositionEnd; }			// parameter is character x,y position
 	void									setCaretPositionX(uint32 uiCharacterPositionX);																	// parameter is character x position
 	void									setCaretPositionY(uint32 uiCharacterPositionY);																	// parameter is character y position
 	void									setCaretPositionStartX(uint32 uiCaretPositionStartX) { m_vecCaretPositionStart.m_x = uiCaretPositionStartX; }	// parameter is character x position
 	void									setCaretPositionStartY(uint32 uiCaretPositionStartY) { m_vecCaretPositionStart.m_y = uiCaretPositionStartY; }	// parameter is character y position
 	void									setCaretPositionEndX(uint32 uiCaretPositionEndX) { m_vecCaretPositionEnd.m_x = uiCaretPositionEndX; }			// parameter is character x position
 	void									setCaretPositionEndY(uint32 uiCaretPositionEndY) { m_vecCaretPositionEnd.m_y = uiCaretPositionEndY; }			// parameter is character y position
-	mcore::CVector2ui32&							getCaretPosition(void) { return m_vecCaretPositionStart; }														// return    is character x,y position
-	mcore::CVector2ui32&							getCaretPositionStart(void) { return m_vecCaretPositionStart; }													// return    is character x,y position
-	mcore::CVector2ui32&							getCaretPositionEnd(void) { return m_vecCaretPositionEnd; }														// return    is character x,y position
+	bxa::CVector2ui32&							getCaretPosition(void) { return m_vecCaretPositionStart; }														// return    is character x,y position
+	bxa::CVector2ui32&							getCaretPositionStart(void) { return m_vecCaretPositionStart; }													// return    is character x,y position
+	bxa::CVector2ui32&							getCaretPositionEnd(void) { return m_vecCaretPositionEnd; }														// return    is character x,y position
 	uint32									getCaretPositionStartX(void) { return m_vecCaretPositionStart.m_x; }											// return    is character x position
 	uint32									getCaretPositionStartY(void) { return m_vecCaretPositionStart.m_y; }											// return    is character y position
 	uint32									getCaretPositionEndX(void) { return m_vecCaretPositionEnd.m_x; }												// return    is character x position
 	uint32									getCaretPositionEndY(void) { return m_vecCaretPositionEnd.m_y; }												// return    is character y position
 
-	void									moveCaret(mcore::CVector2i32& vecCharacterPositionIncrease);						// parameter is character position offset
-	void									moveCaretX(int32 iCaretMoveX) { moveCaret(mcore::CVector2i32(iCaretMoveX, 0)); }	// parameter is character x position offset
-	void									moveCaretY(int32 iCaretMoveY) { moveCaret(mcore::CVector2i32(0, iCaretMoveY)); }	// parameter is character x position offset
+	void									moveCaret(bxa::CVector2i32& vecCharacterPositionIncrease);						// parameter is character position offset
+	void									moveCaretX(int32 iCaretMoveX) { moveCaret(bxa::CVector2i32(iCaretMoveX, 0)); }	// parameter is character x position offset
+	void									moveCaretY(int32 iCaretMoveY) { moveCaret(bxa::CVector2i32(0, iCaretMoveY)); }	// parameter is character x position offset
 	void									moveCaretLeft(uint32 uiCharacterPositionIncrease);							// parameter is character x position offset
 	void									moveCaretRight(uint32 uiCharacterPositionIncrease);							// parameter is character x position offset
 
@@ -63,18 +63,18 @@ public:
 	void									selectAllText(void);
 	std::string								getSelectedText(void);
 
-	std::string								getTextRange(mcore::CVector2ui32& vecRangeStart, mcore::CVector2ui32& vecRangeEnd); // range inclusive
-	std::string								getLineTextCharacters(mcore::CVector2ui32& vecRangeStart, uint32 uiLineCharacterEnd);
+	std::string								getTextRange(bxa::CVector2ui32& vecRangeStart, bxa::CVector2ui32& vecRangeEnd); // range inclusive
+	std::string								getLineTextCharacters(bxa::CVector2ui32& vecRangeStart, uint32 uiLineCharacterEnd);
 
 	void									addTextAtCaret(std::string& strData);
-	void									addTextAtRange(std::string& strData, mcore::CVector2ui32& vecRangeStart, mcore::CVector2ui32& vecRangeEnd);
-	void									addLineText(mcore::CVector2ui32& vecCharacterPosition, std::string& strData);
+	void									addTextAtRange(std::string& strData, bxa::CVector2ui32& vecRangeStart, bxa::CVector2ui32& vecRangeEnd);
+	void									addLineText(bxa::CVector2ui32& vecCharacterPosition, std::string& strData);
 
 	void									copySelectedText(void);
 	void									cutSelectedText(void);
 	void									pasteText(void);
 
-	mcore::CPoint2D								getTextLinePosition(uint32 uiLineIndex);	// in pixels
+	bxa::CPoint2D								getTextLinePosition(uint32 uiLineIndex);	// in pixels
 	void									setLineText(uint32 uiLineIndex, std::string& strText);
 	std::string&							getLineText(uint32 uiLineIndex);
 	void									addTextToLine(uint32 uiLineIndex, std::string& strText);
@@ -107,16 +107,16 @@ private:
 	void									addLine(uint32 uiLineIndex, std::string& strText);
 	void									removeLine(uint32 uiLineIndex);
 	void									mergeLines(uint32 uiRowIndex1, uint32 uiRowIndex2);		// parameters are character y positions
-	void									splitLine(mcore::CVector2ui32& vecCharacterPosition);			// parameter is character position
+	void									splitLine(bxa::CVector2ui32& vecCharacterPosition);			// parameter is character position
 
 	void									addCharacter(uint32 uiCharCode);
 	void									removeCharacterToLeft(void);
 	void									removeCharacterToRight(void);
-	void									removeCharacter(mcore::CVector2ui32& vecCharacterPosition);	// parameter is character position
+	void									removeCharacter(bxa::CVector2ui32& vecCharacterPosition);	// parameter is character position
 
 	void									removeSelectedText(void);
-	void									removeTextRange(mcore::CVector2ui32& vecRangeStart, mcore::CVector2ui32& vecRangeEnd); // range inclusive
-	void									removeLineTextCharacters(mcore::CVector2ui32& vecRangeStart, uint32 uiLineCharacterEnd);
+	void									removeTextRange(bxa::CVector2ui32& vecRangeStart, bxa::CVector2ui32& vecRangeEnd); // range inclusive
+	void									removeLineTextCharacters(bxa::CVector2ui32& vecRangeStart, uint32 uiLineCharacterEnd);
 
 	uint32									getLineMaxCharacterIndex(uint32 uiLineIndex);
 
@@ -125,8 +125,8 @@ private:
 	uint8									m_bHasHorizontalScrollBar	: 1;
 	uint8									m_bHasVerticalScrollBar		: 1;
 	uint8									m_bReadOnly					: 1;
-	mcore::CVector2ui32							m_vecCaretPositionStart;				// character position
-	mcore::CVector2ui32							m_vecCaretPositionEnd;					// character position
+	bxa::CVector2ui32							m_vecCaretPositionStart;				// character position
+	bxa::CVector2ui32							m_vecCaretPositionEnd;					// character position
 	std::vector<std::string>				m_vecTextLines;
 };
 

@@ -1,15 +1,15 @@
 #ifndef CRWManager_H
 #define CRWManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Object/CSingleton.h"
 #include "Object/CManager.h"
 #include "CRWVersion.h"
 #include <string>
 
-class mcore::CRWVersionManager;
+class bxa::CRWVersionManager;
 
-class mcore::CRWManager : public mcore::CManager, public mcore::CSingleton<mcore::CRWManager>
+class bxa::CRWManager : public bxa::CManager, public bxa::CSingleton<bxa::CRWManager>
 {
 public:
 	CRWManager(void);
@@ -18,18 +18,18 @@ public:
 	void											init(void);
 	void											uninit(void);
 
-	mcore::CRWVersionManager*								getVersionManager(void) { return m_pVersionManager; }
+	bxa::CRWVersionManager*								getVersionManager(void) { return m_pVersionManager; }
 
 	static std::string								getRWVersionText(CRWVersion* pRWVersion) { return getRWVersionText(pRWVersion == nullptr ? RW_VERSION_UNKNOWN : pRWVersion->getVersionId()); }
-	static std::string								getRWVersionText(mcore::eRWVersion eRWVersionValue);
+	static std::string								getRWVersionText(bxa::eRWVersion eRWVersionValue);
 
-	std::string										getGameName(mcore::ePlatformedGame ePlatformedGame);
+	std::string										getGameName(bxa::ePlatformedGame ePlatformedGame);
 
 	void											setRWVersionCCForSerialization(uint32 uiRWVersionCC) { m_uiRWVersionCCForSerialization = uiRWVersionCC; }
 	uint32											getRWVersionCCForSerialization(void) { return m_uiRWVersionCCForSerialization; }
 
 private:
-	mcore::CRWVersionManager*								m_pVersionManager;
+	bxa::CRWVersionManager*								m_pVersionManager;
 	uint32											m_uiRWVersionCCForSerialization;
 };
 

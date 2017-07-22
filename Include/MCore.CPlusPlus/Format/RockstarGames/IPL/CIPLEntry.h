@@ -1,19 +1,19 @@
 #ifndef CIPLEntry_H
 #define CIPLEntry_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "eIPLSection.h"
 #include "Format/RockstarGames/Helper/SectionLines/CSectionLinesEntry.h"
 #include <string>
 #include <vector>
 
-class mcore::CIPLFormat;
+class bxa::CIPLFormat;
 
-class mcore::CIPLEntry : public mcore::CSectionLinesEntry<CIPLFormat, eIPLSection>
+class bxa::CIPLEntry : public bxa::CSectionLinesEntry<CIPLFormat, eIPLSection>
 {
 public:
-	CIPLEntry(mcore::CIPLFormat *pIPLFormat);
+	CIPLEntry(bxa::CIPLFormat *pIPLFormat);
 };
 
 #endif

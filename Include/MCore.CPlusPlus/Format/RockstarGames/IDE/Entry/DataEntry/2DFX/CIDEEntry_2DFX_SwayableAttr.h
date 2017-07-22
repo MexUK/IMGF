@@ -1,15 +1,15 @@
 #ifndef CIDEEntry_2DFX_SwayableAttr_H
 #define CIDEEntry_2DFX_SwayableAttr_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_2DFX.h"
 #include <string>
 
-class mcore::CIDEEntry_2DFX_SwayableAttr : public mcore::CIDEEntry_2DFX
+class bxa::CIDEEntry_2DFX_SwayableAttr : public bxa::CIDEEntry_2DFX
 {
 public:
-	CIDEEntry_2DFX_SwayableAttr(mcore::CIDEFormat *pIDEFormat) :
-		CIDEEntry_2DFX(pIDEFormat, mcore::_2DFX_SWAYABLE_ATTR)
+	CIDEEntry_2DFX_SwayableAttr(bxa::CIDEFormat *pIDEFormat) :
+		CIDEEntry_2DFX(pIDEFormat, bxa::_2DFX_SWAYABLE_ATTR)
 	{
 	};
 

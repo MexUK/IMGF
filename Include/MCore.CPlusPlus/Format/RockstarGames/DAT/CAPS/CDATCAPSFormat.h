@@ -1,11 +1,11 @@
 #ifndef CDATCAPSFormat_H
 #define CDATCAPSFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/CFormat.h"
 
-class mcore::CDATCAPSFormat : public mcore::CFormat
+class bxa::CDATCAPSFormat : public bxa::CFormat
 {
 public:
 	CDATCAPSFormat(void);

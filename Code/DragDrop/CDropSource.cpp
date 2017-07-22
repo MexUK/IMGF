@@ -11,7 +11,7 @@
 #include "Localization/CLocalizationManager.h"
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 void		CDropSource::StartDragging(void)
 {

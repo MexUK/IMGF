@@ -1,11 +1,11 @@
 #ifndef CIMGEntry_Version1Or2_H
 #define CIMGEntry_Version1Or2_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
-struct mcore::RG_CIMGEntry_Version1Or2
+struct bxa::RG_CIMGEntry_Version1Or2
 {
 	uint32			m_uiOffsetInSectors;
 	uint32			m_uiSizeInSectors;

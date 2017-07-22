@@ -1,11 +1,11 @@
 #ifndef CRWSection_Light_H
 #define CRWSection_Light_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
 #include <string>
 
-class mcore::CRWSection_Light : public mcore::CRWSection
+class bxa::CRWSection_Light : public bxa::CRWSection
 {
 public:
 	CRWSection_Light(void);

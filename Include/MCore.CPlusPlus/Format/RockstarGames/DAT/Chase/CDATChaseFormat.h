@@ -1,14 +1,14 @@
 #ifndef CDATChaseFormat_H
 #define CDATChaseFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/CFormat.h"
 #include "Pool/CVectorPool.h"
 #include "CDATChaseEntry.h"
 #include <vector>
 
-class mcore::CDATChaseFormat : public mcore::CFormat, public mcore::CVectorPool<mcore::CDATChaseEntry*>
+class bxa::CDATChaseFormat : public bxa::CFormat, public bxa::CVectorPool<bxa::CDATChaseEntry*>
 {
 public:
 	CDATChaseFormat(void);

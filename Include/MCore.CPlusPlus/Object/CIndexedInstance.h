@@ -1,11 +1,11 @@
 #ifndef CIndexedInstance_H
 #define CIndexedInstance_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include <vector>
 
 template<class Class>
-class mcore::CIndexedInstance
+class bxa::CIndexedInstance
 {
 public:
 	static Class*						getInstance(uint32 uiInstanceIndex = 0);
@@ -16,10 +16,10 @@ private:
 };
 
 template <class Class>
-std::vector<Class*>						mcore::CIndexedInstance<Class>::m_vecInstances;
+std::vector<Class*>						bxa::CIndexedInstance<Class>::m_vecInstances;
 
 template <class Class>
-Class*									mcore::CIndexedInstance<Class>::getInstance(uint32 uiInstanceIndex)
+Class*									bxa::CIndexedInstance<Class>::getInstance(uint32 uiInstanceIndex)
 {
 	if (uiInstanceIndex >= m_vecInstances.size())
 	{

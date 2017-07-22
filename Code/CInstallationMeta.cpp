@@ -6,7 +6,7 @@
 #include <sstream>
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 string				CInstallationMeta::getProgramFilesPath(void)
 {

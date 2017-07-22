@@ -6,7 +6,7 @@
 
 struct CLSTFormat;
 
-class CLSTProcessingManager : public mcore::CManager
+class CLSTProcessingManager : public bxa::CManager
 {
 public:
 	void							init(void);

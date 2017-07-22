@@ -1,14 +1,14 @@
 #ifndef CIPLEntry_Data_H
 #define CIPLEntry_Data_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RockstarGames/IPL/CIPLEntry.h"
 #include "Format/RockstarGames/Helper/SectionLines/Entry/CSectionLinesEntry_Data.h"
 
-class mcore::CIPLEntry_Data : public mcore::CSectionLinesEntry_Data, public mcore::CIPLEntry
+class bxa::CIPLEntry_Data : public bxa::CSectionLinesEntry_Data, public bxa::CIPLEntry
 {
 public:
-	CIPLEntry_Data(mcore::CIPLFormat *pIPLFormat, mcore::eIPLSection eIPLSectionValue) :
+	CIPLEntry_Data(bxa::CIPLFormat *pIPLFormat, bxa::eIPLSection eIPLSectionValue) :
 		CIPLEntry(pIPLFormat)
 	{
 		setSectionType(eIPLSectionValue);

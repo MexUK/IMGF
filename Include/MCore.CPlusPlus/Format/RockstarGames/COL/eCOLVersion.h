@@ -1,10 +1,10 @@
 #ifndef eCOLVersion_H
 #define eCOLVersion_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-enum mcore::eCOLVersion : uint8
+enum bxa::eCOLVersion : uint8
 {
 	COL_UNKNOWN,
 	COL_1,

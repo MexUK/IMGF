@@ -1,9 +1,9 @@
 #ifndef eDXTCompressionType_H
 #define eDXTCompressionType_H
 
-#include "mcore.h"
+#include "bxa.h"
 
-enum mcore::eDXTCompressionType
+enum bxa::eDXTCompressionType
 {
 	DXT_NOT_COMPRESSED	= 0,
 	DXT_1				= 1,

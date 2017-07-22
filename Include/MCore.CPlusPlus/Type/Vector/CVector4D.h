@@ -3,11 +3,11 @@
 
 #define _USE_MATH_DEFINES
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include <math.h>
 
-class mcore::CVector4D
+class bxa::CVector4D
 {
 public:
 	float32	m_x;	// todo - rename to .x and .y and .z and .w
@@ -16,8 +16,8 @@ public:
 	float32	m_w;
 	
 public:
-	mcore::CVector4D(void);
-	mcore::CVector4D(float32 fX, float32 fY, float32 fZ, float32 fW);
+	bxa::CVector4D(void);
+	bxa::CVector4D(float32 fX, float32 fY, float32 fZ, float32 fW);
 };
 
 #endif

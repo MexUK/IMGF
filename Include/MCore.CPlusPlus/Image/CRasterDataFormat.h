@@ -1,11 +1,11 @@
 #ifndef CRasterDataFormat_H
 #define CRasterDataFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Image/eRasterDataFormat.h"
 #include <string>
 
-class mcore::CRasterDataFormat
+class bxa::CRasterDataFormat
 {
 public:
 	void						unload(void) {}

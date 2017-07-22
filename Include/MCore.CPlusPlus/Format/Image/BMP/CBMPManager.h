@@ -1,13 +1,13 @@
 #ifndef CBMPManager_H
 #define CBMPManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 
-class mcore::CBMPFormat;
+class bxa::CBMPFormat;
 
-class mcore::CBMPManager : public mcore::CFormatManager<mcore::CBMPFormat>, public mcore::CSingleton<mcore::CBMPManager>
+class bxa::CBMPManager : public bxa::CFormatManager<bxa::CBMPFormat>, public bxa::CSingleton<bxa::CBMPManager>
 {
 public:
 	CBMPManager(void);

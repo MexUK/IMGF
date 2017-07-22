@@ -41,6 +41,7 @@
 *.pup
 *.db
 *.pdb
-
-# Allow
-!BuildNumber.exe
+*.db-wal
+*.db-shm
+*.ipch
+*.suo

@@ -8,7 +8,7 @@
 #include <vector>
 #include <unordered_map>
 
-class CSessionManager : public mcore::CManager, public mcore::CVectorPool<CSession*>
+class CSessionManager : public bxa::CManager, public bxa::CVectorPool<CSession*>
 {
 public:
 	void			init(void);

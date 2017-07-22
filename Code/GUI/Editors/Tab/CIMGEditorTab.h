@@ -9,8 +9,8 @@
 #include <vector>
 
 class CIMGEditor;
-class mcore::CIMGFormat;
-class mcore::CIMGEntry;
+class bxa::CIMGFormat;
+class bxa::CIMGEntry;
 class CDBFormat;
 class CListCtrl; // temp
 
@@ -28,8 +28,8 @@ public:
 
 	bool						onTabFormatReady(void);
 
-	void						setIMGFile(mcore::CIMGFormat *pIMGFile) { m_pIMGFile = pIMGFile; }
-	mcore::CIMGFormat*					getIMGFile(void) { return m_pIMGFile; }
+	void						setIMGFile(bxa::CIMGFormat *pIMGFile) { m_pIMGFile = pIMGFile; }
+	bxa::CIMGFormat*					getIMGFile(void) { return m_pIMGFile; }
 
 	void						setSearchText(std::string strSearchText) { m_strSearchText = strSearchText; }
 	std::string					getSearchText(void) { return m_strSearchText; }
@@ -61,19 +61,19 @@ public:
 	void						addOrReplaceEntryViaData(std::string strEntryName, std::string strEntryData); // if entry with name already exists, then it is replaced, otherwise it is added.
 	void						addOrReplaceEntryViaFileAndSettings(std::string strEntryFilePath, std::string strEntryName = ""); // entry is added or replaced depending on settings.
 	void						addOrReplaceEntryViaDataAndSettings(std::string strEntryName, std::string strEntryData); // entry is added or replaced depending on settings.
-	void						removeEntry(mcore::CIMGEntry *pIMGEntry);
+	void						removeEntry(bxa::CIMGEntry *pIMGEntry);
 
 	void						addColumnsToMainListView(void);
 	void						readdAllEntriesToMainListView(void);
 	void						addAllEntriesToMainListView(void);
-	void						addEntryToMainListView(mcore::CIMGEntry *pIMGEntry);
-	void						updateEntryInMainListView(mcore::CIMGEntry *pIMGEntry);
-	uint32						getMainListViewItemIndexByItemData(mcore::CIMGEntry *pIMGEntry);
-	mcore::CIMGEntry*					getEntryByName(std::string strEntryName);
+	void						addEntryToMainListView(bxa::CIMGEntry *pIMGEntry);
+	void						updateEntryInMainListView(bxa::CIMGEntry *pIMGEntry);
+	uint32						getMainListViewItemIndexByItemData(bxa::CIMGEntry *pIMGEntry);
+	bxa::CIMGEntry*					getEntryByName(std::string strEntryName);
 
 	void						rebuild(std::string strIMGPath = "", bool bLog = true);
 	uint32						merge(std::string strPath, std::vector<std::string>& vecImportedEntryNames);
-	void						splitSelectedEntries(std::string strPath, mcore::eIMGVersion eIMGVersion, bool bDeleteFromSource, std::vector<std::string>& vecSplitEntryNames);
+	void						splitSelectedEntries(std::string strPath, bxa::eIMGVersion eIMGVersion, bool bDeleteFromSource, std::vector<std::string>& vecSplitEntryNames);
 	void						replace(std::vector<std::string>& vecPaths, std::vector<std::string>& vecReplacedEntryNames);
 	void						searchText(void);
 
@@ -89,7 +89,7 @@ public:
 	
 	void						sortEntries(void);
 	
-	void						onEntryChange(mcore::CIMGEntry *pIMGEntry);
+	void						onEntryChange(bxa::CIMGEntry *pIMGEntry);
 	void						loadProtectedEntryStates(void);
 
 	void						loadFilter_Type(void);
@@ -99,12 +99,12 @@ public:
 
 	void						reassignEntryIds(void);
 
-	std::vector<mcore::CIMGEntry*>		getSelectedEntries(void);
+	std::vector<bxa::CIMGEntry*>		getSelectedEntries(void);
 
 	void						setActiveFilter(std::string strFilterName, std::string strValue) { m_umapActiveFilterValues[strFilterName] = strValue; }
 	std::string					getActiveFilter(std::string strFilterName) { return m_umapActiveFilterValues[strFilterName]; }
 
-	void						checkToApplyCompression(mcore::CIMGEntry *pIMGEntry);
+	void						checkToApplyCompression(bxa::CIMGEntry *pIMGEntry);
 
 	void						checkForUnknownRWVersionEntries(void);
 	
@@ -117,11 +117,11 @@ private:
 	bool						checkForErrors(void);
 	void						initTab(void);
 
-	void						loadProtectedEntryState(mcore::CIMGEntry *pIMGEntry);
+	void						loadProtectedEntryState(bxa::CIMGEntry *pIMGEntry);
 
 private:
 	CIMGEditor*			m_pWindow;
-	mcore::CIMGFormat*					m_pIMGFile;
+	bxa::CIMGFormat*					m_pIMGFile;
 	std::vector<std::string>	m_vecLogLinesGUI;
 	std::vector<std::string>	m_vecLogLinesBasic;
 	std::vector<std::string>	m_vecLogLinesExtended;

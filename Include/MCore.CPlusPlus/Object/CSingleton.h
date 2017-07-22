@@ -1,10 +1,10 @@
 #ifndef CSingleton_H
 #define CSingleton_H
 
-#include "mcore.h"
+#include "bxa.h"
 
 template<class SingletonClass>
-class mcore::CSingleton
+class bxa::CSingleton
 {
 public:
 	static SingletonClass*				getInstance(void);
@@ -14,10 +14,10 @@ private:
 };
 
 template <class SingletonClass>
-SingletonClass*							mcore::CSingleton<SingletonClass>::m_pInstance = nullptr;
+SingletonClass*							bxa::CSingleton<SingletonClass>::m_pInstance = nullptr;
 
 template <class SingletonClass>
-SingletonClass*							mcore::CSingleton<SingletonClass>::getInstance(void)
+SingletonClass*							bxa::CSingleton<SingletonClass>::getInstance(void)
 {
 	if (m_pInstance == nullptr)
 	{

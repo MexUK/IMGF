@@ -7,7 +7,7 @@
 #include "Pool/CVectorPool.h"
 #include <string>
 
-class CMenuControl : public CGUIControl, public mcore::CVectorPool<CMenuControlEntry*>
+class CMenuControl : public CGUIControl, public bxa::CVectorPool<CMenuControlEntry*>
 {
 public:
 	CMenuControl(void);
@@ -19,7 +19,7 @@ public:
 
 	void									render(void);
 
-	bool									isPointInControl(mcore::CPoint2D& vecPoint) { return false; }
+	bool									isPointInControl(bxa::CPoint2D& vecPoint) { return false; }
 };
 
 #endif

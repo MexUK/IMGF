@@ -1,7 +1,7 @@
 #ifndef CTXDManager_H
 #define CTXDManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 #include "eTXDRasterDataFormat.h"
@@ -12,10 +12,10 @@
 #include <string>
 #include <vector>
 
-class mcore::CTXDFormat;
-class mcore::CIntermediateTextureFormat;
+class bxa::CTXDFormat;
+class bxa::CIntermediateTextureFormat;
 
-class mcore::CTXDManager : public mcore::CFormatManager<mcore::CTXDFormat>, public mcore::CSingleton<CTXDManager>
+class bxa::CTXDManager : public bxa::CFormatManager<bxa::CTXDFormat>, public bxa::CSingleton<CTXDManager>
 {
 public:
 	CTXDManager(void);
@@ -23,13 +23,13 @@ public:
 	void						init(void);
 	void						uninit(void);
 
-	mcore::CTXDFormat*					createFormat(void);
+	bxa::CTXDFormat*					createFormat(void);
 
-	mcore::CTXDFormat*					convertIntermediateTextureFileToTXDFile(mcore::CIntermediateTextureFormat *pGeneralTextureFile);
+	bxa::CTXDFormat*					convertIntermediateTextureFileToTXDFile(bxa::CIntermediateTextureFormat *pGeneralTextureFile);
 
-	static uint32				getTXDRasterDataFormatFromRasterDataFormat(mcore::eRasterDataFormat eRasterDataFormatValue);
-	static std::string			getTXDRasterFormatText(uint32 uiTXDRasterDataFormatValue, mcore::eDXTCompressionType eDXTCompressionTypeValue);
-	static mcore::ePlatform			getPlatformFromTXDPlatformId(uint32 uiTXDPlatformId);
+	static uint32				getTXDRasterDataFormatFromRasterDataFormat(bxa::eRasterDataFormat eRasterDataFormatValue);
+	static std::string			getTXDRasterFormatText(uint32 uiTXDRasterDataFormatValue, bxa::eDXTCompressionType eDXTCompressionTypeValue);
+	static bxa::ePlatform			getPlatformFromTXDPlatformId(uint32 uiTXDPlatformId);
 };
 
 #endif

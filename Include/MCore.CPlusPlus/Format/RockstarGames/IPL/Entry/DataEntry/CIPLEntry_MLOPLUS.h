@@ -1,14 +1,14 @@
 #ifndef CIPLEntry_MLOPLUS_H
 #define CIPLEntry_MLOPLUS_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IPL/Entry/CIPLEntry_Data.h"
 
-class mcore::CIPLEntry_MLOPLUS : public mcore::CIPLEntry_Data
+class bxa::CIPLEntry_MLOPLUS : public bxa::CIPLEntry_Data
 {
 public:
-	CIPLEntry_MLOPLUS(mcore::CIPLFormat *pIPLFormat) :
+	CIPLEntry_MLOPLUS(bxa::CIPLFormat *pIPLFormat) :
 		CIPLEntry_Data(pIPLFormat, IPL_SECTION_MLOPLUS)
 	{
 	};

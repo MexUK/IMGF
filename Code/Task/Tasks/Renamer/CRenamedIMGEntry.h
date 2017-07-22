@@ -1,11 +1,11 @@
 #ifndef CRenamedIMGEntry_H
 #define CRenamedIMGEntry_H
 
-#include "mcore.h"
+#include "bxa.h"
 
 struct CRenamedIMGEntry
 {
-	mcore::CIMGEntry*			m_pIMGEntry;
+	bxa::CIMGEntry*			m_pIMGEntry;
 	std::string					m_strPreviousName;
 };
 

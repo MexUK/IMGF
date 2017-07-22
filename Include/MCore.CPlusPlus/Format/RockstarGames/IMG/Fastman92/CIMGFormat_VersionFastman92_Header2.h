@@ -1,11 +1,11 @@
 #ifndef CIMGFormat_VersionFastman92_Header2_H
 #define CIMGFormat_VersionFastman92_Header2_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
-struct mcore::CIMGFormat_VersionFastman92_Header2
+struct bxa::CIMGFormat_VersionFastman92_Header2
 {
 	uint32		m_uiCheck;
 	uint32		m_uiEntryCount;

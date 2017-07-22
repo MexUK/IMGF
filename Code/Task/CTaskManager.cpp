@@ -11,7 +11,7 @@
 #include "CSettingsManager.h"
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 // construct
 CTaskManager::CTaskManager(void) :
@@ -166,7 +166,7 @@ void							CTaskManager::onTaskEnd(string strFeatureName, bool bFeatureAborted)
 			strFeatureName != "onRequestFilter" &&
 			strFeatureName != "onRequestSearchSelection")
 		{
-			//mcore::CGUIManager::showMessage("Feature: " + strFeatureName, "Feature Causing Rebuild Bug", MB_OK);
+			//bxa::CGUIManager::showMessage("Feature: " + strFeatureName, "Feature Causing Rebuild Bug", MB_OK);
 			getIMGF()->getTaskManager()->getDispatch()->onRequestRebuild();
 		}
 	}

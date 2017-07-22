@@ -1,7 +1,7 @@
 #ifndef CIDEEntry_OBJS_H
 #define CIDEEntry_OBJS_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IDE/Entry/CIDEEntry_Data.h"
 #include "Format/RockstarGames/IDE/eIDESection.h"
@@ -9,10 +9,10 @@
 #include <string>
 #include <vector>
 
-class mcore::CIDEEntry_OBJS : public mcore::CIDEEntry_Data
+class bxa::CIDEEntry_OBJS : public bxa::CIDEEntry_Data
 {
 public:
-	CIDEEntry_OBJS(mcore::CIDEFormat *pIDEFormat) :
+	CIDEEntry_OBJS(bxa::CIDEFormat *pIDEFormat) :
 		CIDEEntry_Data(pIDEFormat, IDE_SECTION_OBJS),
 		m_uiObjectId(0),
 		m_uiClumpCount(0),
@@ -49,14 +49,14 @@ public:
 	void						setUnknown2(uint32 uiUnknown2) { m_uiUnknown2 = uiUnknown2; }
 	uint32						getUnknown2(void) { return m_uiUnknown2; }
 
-	void						setBoundingBoxLowerLeftCorner(mcore::CVector3D& vecBoundingBoxLowerLeftCorner) { m_vecBoundingBoxLowerLeftCorner = vecBoundingBoxLowerLeftCorner; }
-	mcore::CVector3D&					getBoundingBoxLowerLeftCorner(void) { return m_vecBoundingBoxLowerLeftCorner; }
+	void						setBoundingBoxLowerLeftCorner(bxa::CVector3D& vecBoundingBoxLowerLeftCorner) { m_vecBoundingBoxLowerLeftCorner = vecBoundingBoxLowerLeftCorner; }
+	bxa::CVector3D&					getBoundingBoxLowerLeftCorner(void) { return m_vecBoundingBoxLowerLeftCorner; }
 
-	void						setBoundingBoxUpperRightCorner(mcore::CVector3D& vecBoundingBoxUpperRightCorner) { m_vecBoundingBoxUpperRightCorner = vecBoundingBoxUpperRightCorner; }
-	mcore::CVector3D&					getBoundingBoxUpperRightCorner(void) { return m_vecBoundingBoxUpperRightCorner; }
+	void						setBoundingBoxUpperRightCorner(bxa::CVector3D& vecBoundingBoxUpperRightCorner) { m_vecBoundingBoxUpperRightCorner = vecBoundingBoxUpperRightCorner; }
+	bxa::CVector3D&					getBoundingBoxUpperRightCorner(void) { return m_vecBoundingBoxUpperRightCorner; }
 
-	void						setBoundingSphereCenterPosition(mcore::CVector3D& vecBoundingSphereCenterPosition) { m_vecBoundingSphereCenterPosition = vecBoundingSphereCenterPosition; }
-	mcore::CVector3D&					getBoundingSphereCenterPosition(void) { return m_vecBoundingSphereCenterPosition; }
+	void						setBoundingSphereCenterPosition(bxa::CVector3D& vecBoundingSphereCenterPosition) { m_vecBoundingSphereCenterPosition = vecBoundingSphereCenterPosition; }
+	bxa::CVector3D&					getBoundingSphereCenterPosition(void) { return m_vecBoundingSphereCenterPosition; }
 
 	void						setBoundingSphereRadius(float32 fBoundingSphereRadius) { m_fBoundingSphereRadius = fBoundingSphereRadius; }
 	float32						getBoundingSphereRadius(void) { return m_fBoundingSphereRadius; }
@@ -77,9 +77,9 @@ private:
 	uint32						m_uiClumpCount;
 
 	// GTA IV only
-	mcore::CVector3D					m_vecBoundingBoxLowerLeftCorner;
-	mcore::CVector3D					m_vecBoundingBoxUpperRightCorner;
-	mcore::CVector3D					m_vecBoundingSphereCenterPosition;
+	bxa::CVector3D					m_vecBoundingBoxLowerLeftCorner;
+	bxa::CVector3D					m_vecBoundingBoxUpperRightCorner;
+	bxa::CVector3D					m_vecBoundingSphereCenterPosition;
 	float32						m_fBoundingSphereRadius;
 	std::string					m_strLODModel;
 };

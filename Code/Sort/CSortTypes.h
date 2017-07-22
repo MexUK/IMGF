@@ -1,6 +1,6 @@
 #ifndef CSortTypes_H
 #define CSortTypes_H
 
-class CSortTypes : public mcore::CVectorPool<CSortType*> {};
+class CSortTypes : public bxa::CVectorPool<CSortType*> {};
 
 #endif

@@ -4,7 +4,7 @@
 #include "Window/CIMGFWindow.h"
 #include "Editors/CIMGEditor.h"
 
-using namespace mcore;
+using namespace bxa;
 
 void					CWindowManager::init(void)
 {

@@ -1,17 +1,17 @@
 #ifndef CIPLEntry_ENEX_H
 #define CIPLEntry_ENEX_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Type/Vector/CVector2D.h"
 #include "Type/Vector/CVector3D.h"
 #include "Format/RockstarGames/IPL/Entry/CIPLEntry_Data.h"
 #include <string>
 
-class mcore::CIPLEntry_ENEX : public mcore::CIPLEntry_Data
+class bxa::CIPLEntry_ENEX : public bxa::CIPLEntry_Data
 {
 public:
-	CIPLEntry_ENEX(mcore::CIPLFormat *pIPLFormat) :
+	CIPLEntry_ENEX(bxa::CIPLFormat *pIPLFormat) :
 		CIPLEntry_Data(pIPLFormat, IPL_SECTION_ENEX),
 		m_vecEntrancePosition{ 0.0f, 0.0f, 0.0f },
 		m_fRotation(0.0f),
@@ -31,20 +31,20 @@ public:
 	void						unserialize(void);
 	void						serialize(void);
 
-	void						setEntrancePosition(mcore::CVector3D& vecEntrancePosition) { m_vecEntrancePosition = vecEntrancePosition; }
-	mcore::CVector3D&					getEntrancePosition(void) { return m_vecEntrancePosition; }
+	void						setEntrancePosition(bxa::CVector3D& vecEntrancePosition) { m_vecEntrancePosition = vecEntrancePosition; }
+	bxa::CVector3D&					getEntrancePosition(void) { return m_vecEntrancePosition; }
 
 	void						setRotation(float32 fRotation) { m_fRotation = fRotation; }
 	float32						getRotation(void) { return m_fRotation; }
 
-	void						setSize(mcore::CVector2D& vecSize) { m_vecSize = vecSize; }
-	mcore::CVector2D&					getSize(void) { return m_vecSize; }
+	void						setSize(bxa::CVector2D& vecSize) { m_vecSize = vecSize; }
+	bxa::CVector2D&					getSize(void) { return m_vecSize; }
 
 	void						setConstant8(uint32 uiConstant8) { m_uiConstant8 = uiConstant8; }
 	uint32						getConstant8(void) { return m_uiConstant8; }
 
-	void						setExitPosition(mcore::CVector3D& vecExitPosition) { m_vecExitPosition = vecExitPosition; }
-	mcore::CVector3D&					getExitPosition(void) { return m_vecExitPosition; }
+	void						setExitPosition(bxa::CVector3D& vecExitPosition) { m_vecExitPosition = vecExitPosition; }
+	bxa::CVector3D&					getExitPosition(void) { return m_vecExitPosition; }
 
 	void						setExitRotation(float32 fExitRotation) { m_fExitRotation = fExitRotation; }
 	float32						getExitRotation(void) { return m_fExitRotation; }
@@ -72,11 +72,11 @@ public:
 
 private:
 	// GTA SA only
-	mcore::CVector3D					m_vecEntrancePosition;
+	bxa::CVector3D					m_vecEntrancePosition;
 	float32						m_fRotation;
-	mcore::CVector2D					m_vecSize;
+	bxa::CVector2D					m_vecSize;
 	uint32						m_uiConstant8;
-	mcore::CVector3D					m_vecExitPosition;
+	bxa::CVector3D					m_vecExitPosition;
 	float32						m_fExitRotation; // in degrees
 	uint32						m_uiTargetInterior;
 	uint32						m_uiMarkerType;

@@ -1,7 +1,7 @@
 #ifndef CImageManager_H
 #define CImageManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Object/CManager.h"
 #include "Object/CSingleton.h"
@@ -10,12 +10,12 @@
 #include "d3d9.h"
 #include <string>
 
-class mcore::CRasterDataFormatManager;
-class mcore::CImageFile;
+class bxa::CRasterDataFormatManager;
+class bxa::CImageFile;
 
 static std::string						strBlankString = ""; // todo - namespace
 
-class mcore::CImageManager : public mcore::CManager, public mcore::CSingleton<mcore::CImageManager>
+class bxa::CImageManager : public bxa::CManager, public bxa::CSingleton<bxa::CImageManager>
 {
 public:
 	CImageManager(void);

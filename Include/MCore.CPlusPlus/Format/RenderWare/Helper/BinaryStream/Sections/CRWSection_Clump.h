@@ -1,10 +1,10 @@
 #ifndef CRWSection_Clump_H
 #define CRWSection_Clump_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
 
-class mcore::CRWSection_Clump : public mcore::CRWSection
+class bxa::CRWSection_Clump : public bxa::CRWSection
 {
 public:
 	CRWSection_Clump(void);

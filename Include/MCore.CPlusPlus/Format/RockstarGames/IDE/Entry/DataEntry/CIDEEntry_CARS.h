@@ -1,16 +1,16 @@
 #ifndef CIDEEntry_CARS_H
 #define CIDEEntry_CARS_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IDE/Entry/CIDEEntry_Data.h"
 #include "Type/Vector/CVector2D.h"
 #include <string>
 
-class mcore::CIDEEntry_CARS : public mcore::CIDEEntry_Data
+class bxa::CIDEEntry_CARS : public bxa::CIDEEntry_Data
 {
 public:
-	CIDEEntry_CARS(mcore::CIDEFormat *pIDEFormat) :
+	CIDEEntry_CARS(bxa::CIDEFormat *pIDEFormat) :
 		CIDEEntry_Data(pIDEFormat, IDE_SECTION_CARS),
 		m_uiObjectId(0),
 		m_uiSpawnFrequency(0),
@@ -87,8 +87,8 @@ public:
 	void						setMaxVehicleCountAtOneTime(uint32 uiMaxVehicleCountAtOneTime) { m_uiMaxVehicleCountAtOneTime = uiMaxVehicleCountAtOneTime; }
 	uint32						getMaxVehicleCountAtOneTime(void) { return m_uiMaxVehicleCountAtOneTime; }
 
-	void						setWheelRadius(mcore::CVector2D& vecWheelRadius) { m_vecWheelRadius = vecWheelRadius; }
-	mcore::CVector2D&					getWheelRadius(void) { return m_vecWheelRadius; }
+	void						setWheelRadius(bxa::CVector2D& vecWheelRadius) { m_vecWheelRadius = vecWheelRadius; }
+	bxa::CVector2D&					getWheelRadius(void) { return m_vecWheelRadius; }
 
 	void						setDirtLevel(float32 fDirtLevel) { m_fDirtLevel = fDirtLevel; }
 	float32						getDirtLevel(void) { return m_fDirtLevel; }
@@ -126,7 +126,7 @@ private:
 	// GTA IV only
 	std::string					m_strAnimationFile2;
 	uint32						m_uiMaxVehicleCountAtOneTime;
-	mcore::CVector2D					m_vecWheelRadius;
+	bxa::CVector2D					m_vecWheelRadius;
 	float32						m_fDirtLevel;
 	uint32						m_uiLODMultiplier;
 	float32						m_fSwankness;

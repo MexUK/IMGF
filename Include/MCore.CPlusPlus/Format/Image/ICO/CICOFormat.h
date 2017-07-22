@@ -1,11 +1,11 @@
 #ifndef CICOFormat_H
 #define CICOFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/Image/BMP/CBMPFormat.h"
 
-class mcore::CICOFormat : public mcore::CBMPFormat
+class bxa::CICOFormat : public bxa::CBMPFormat
 {
 public:
 	CICOFormat(void);

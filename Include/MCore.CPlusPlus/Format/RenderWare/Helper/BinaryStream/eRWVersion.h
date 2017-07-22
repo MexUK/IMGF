@@ -1,10 +1,10 @@
 #ifndef eRWVersion_H
 #define eRWVersion_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-enum mcore::eRWVersion : uint8
+enum bxa::eRWVersion : uint8
 {
 	RW_VERSION_UNKNOWN,
 	RW_VERSION_3_0_0_0_2,

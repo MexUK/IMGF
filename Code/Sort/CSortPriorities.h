@@ -1,6 +1,6 @@
 #ifndef CSortPriorities_H
 #define CSortPriorities_H
 
-class CSortPriorities : public mcore::CVectorPool<CSortPriority*> {};
+class CSortPriorities : public bxa::CVectorPool<CSortPriority*> {};
 
 #endif

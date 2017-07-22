@@ -1,6 +1,6 @@
 #include "CUpdateConnectionManager.h"
 
-using namespace mcore;
+using namespace bxa;
 
 void			CUpdateConnectionManager::init(void)
 {

@@ -1,14 +1,14 @@
 #ifndef CTiming_H
 #define CTiming_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Object/CSingleton.h"
 #include <string>
 #include <map>
 #include <vector>
 
-class mcore::CTiming : public mcore::CSingleton<CTiming>
+class bxa::CTiming : public bxa::CSingleton<CTiming>
 {
 public:
 	void										start(std::string strTimingName);

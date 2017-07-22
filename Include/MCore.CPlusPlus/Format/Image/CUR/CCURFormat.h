@@ -1,11 +1,11 @@
 #ifndef CCURFormat_H
 #define CCURFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/Image/BMP/CBMPFormat.h"
 
-class mcore::CCURFormat : public CBMPFormat
+class bxa::CCURFormat : public CBMPFormat
 {
 public:
 	CCURFormat(void);

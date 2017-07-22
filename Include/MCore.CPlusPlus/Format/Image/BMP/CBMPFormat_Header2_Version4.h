@@ -1,11 +1,11 @@
 #ifndef CBMPFormat_Header2_Version4_H
 #define CBMPFormat_Header2_Version4_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
-struct mcore::CBMPFormat_Header2_Version4
+struct bxa::CBMPFormat_Header2_Version4
 {
 	uint32						m_uiWidth;
 	uint32						m_uiHeight;

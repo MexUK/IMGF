@@ -1,15 +1,15 @@
 #ifndef CIDEEntry_WEAP_H
 #define CIDEEntry_WEAP_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IDE/Entry/CIDEEntry_Data.h"
 #include <string>
 
-class mcore::CIDEEntry_WEAP : public mcore::CIDEEntry_Data
+class bxa::CIDEEntry_WEAP : public bxa::CIDEEntry_Data
 {
 public:
-	CIDEEntry_WEAP(mcore::CIDEFormat *pIDEFormat) :
+	CIDEEntry_WEAP(bxa::CIDEFormat *pIDEFormat) :
 		CIDEEntry_Data(pIDEFormat, IDE_SECTION_WEAP),
 		m_uiObjectId(0),
 		m_uiClumpCount(0),

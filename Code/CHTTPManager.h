@@ -11,7 +11,7 @@ void		OnBegin(const happyhttp::Response* r, void* userdata);
 void		OnData(const happyhttp::Response* r, void* userdata, const uint8* data, int n);
 void		OnComplete(const happyhttp::Response* r, void* userdata);
 
-class CHTTPManager : public mcore::CManager, public mcore::CSingleton<CHTTPManager>
+class CHTTPManager : public bxa::CManager, public bxa::CSingleton<CHTTPManager>
 {
 public:
 	void						init(void);

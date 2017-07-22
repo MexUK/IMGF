@@ -1,9 +1,9 @@
 #ifndef eEventType_H
 #define eEventType_H
 
-#include "mcore.h"
+#include "bxa.h"
 
-enum mcore::eEventType
+enum bxa::eEventType
 {
 	EVENT_TYPE_GENERAL			= 0,
 	EVENT_TYPE_WINDOW			= 1,

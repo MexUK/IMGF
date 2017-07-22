@@ -1,7 +1,7 @@
-#include "mcore.h"
+#include "bxa.h"
 #include "CEntryViewer.h"
 
-using namespace mcore;
+using namespace bxa;
 
 CEntryViewer::CEntryViewer(void) :
 	m_bWindowIsOpen(false),

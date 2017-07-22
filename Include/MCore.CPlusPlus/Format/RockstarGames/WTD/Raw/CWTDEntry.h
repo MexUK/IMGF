@@ -1,11 +1,11 @@
 #ifndef CWTDEntry_RG_H
 #define CWTDEntry_RG_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
-struct mcore::RG_CWTDEntry
+struct bxa::RG_CWTDEntry
 {
 	uint32					m_uiVTable2;
 	uint32					m_uiBlockMapOffset2;

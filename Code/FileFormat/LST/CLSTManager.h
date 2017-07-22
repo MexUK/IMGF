@@ -7,7 +7,7 @@
 
 struct CLSTFormat;
 
-class CLSTManager : public mcore::CFormatManager<CLSTFormat>, public mcore::CSingleton<CLSTManager>
+class CLSTManager : public bxa::CFormatManager<CLSTFormat>, public bxa::CSingleton<CLSTManager>
 {
 public:
 	CLSTManager(void);

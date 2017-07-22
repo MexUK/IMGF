@@ -8,17 +8,17 @@
 #include <string>
 #include <vector>
 
-class mcore::CIMGFormat;
-class mcore::CIMGEntry;
+class bxa::CIMGFormat;
+class bxa::CIMGEntry;
 
-class CDBFormat : public mcore::CFormat, public mcore::CVectorPool<CDBEntry*>
+class CDBFormat : public bxa::CFormat, public bxa::CVectorPool<CDBEntry*>
 {
 public:
-	CDBFormat(void) : CFormat(true, mcore::LITTLE_ENDIAN) {};
+	CDBFormat(void) : CFormat(true, bxa::LITTLE_ENDIAN) {};
 	
 	void								unload(void);
 
-	bool								isIMGEntryFound(mcore::CIMGFormat *pIMGFile, mcore::CIMGEntry *pIMGEntry);
+	bool								isIMGEntryFound(bxa::CIMGFormat *pIMGFile, bxa::CIMGEntry *pIMGEntry);
 	CDBEntry*							getEntryByNameExactCase(std::string strEntryName);
 
 	void								setDBVersion(uint32 uiDBVersion) { m_uiDBVersion = uiDBVersion; }

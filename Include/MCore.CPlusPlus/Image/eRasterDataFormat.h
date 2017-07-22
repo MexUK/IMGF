@@ -1,10 +1,10 @@
 #ifndef eRasterDataFormat_H
 #define eRasterDataFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-enum mcore::eRasterDataFormat : uint8
+enum bxa::eRasterDataFormat : uint8
 {
 	RASTERDATAFORMAT_UNKNOWN,
 	RASTERDATAFORMAT_DXT1,

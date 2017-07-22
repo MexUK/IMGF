@@ -1,13 +1,13 @@
 #ifndef CIntermediateBoundingObject_H
 #define CIntermediateBoundingObject_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "eIntermediateBoundingObjectType.h"
 #include "Type/Vector/CVector3D.h"
 #include "Type/Vector/CVector4D.h"
 
-class mcore::CIntermediateBoundingObject
+class bxa::CIntermediateBoundingObject
 {
 public:
 	CIntermediateBoundingObject(void) :
@@ -30,17 +30,17 @@ public:
 		m_vecCenter.m_z = 0.0f;
 	}
 
-	void								setBoundingObjectType(mcore::eIntermediateBoundingObjectType eIntermediateBoundingObjectTypeValue) { m_eBoundingObjectType = eIntermediateBoundingObjectTypeValue; }
-	mcore::eIntermediateBoundingObjectType		getBoundingObjectType(void) { return m_eBoundingObjectType; }
+	void								setBoundingObjectType(bxa::eIntermediateBoundingObjectType eIntermediateBoundingObjectTypeValue) { m_eBoundingObjectType = eIntermediateBoundingObjectTypeValue; }
+	bxa::eIntermediateBoundingObjectType		getBoundingObjectType(void) { return m_eBoundingObjectType; }
 
-	void								setMin(mcore::CVector4D vecMin) { m_vecMin = vecMin; }
-	mcore::CVector4D							getMin(void) { return m_vecMin; }
+	void								setMin(bxa::CVector4D vecMin) { m_vecMin = vecMin; }
+	bxa::CVector4D							getMin(void) { return m_vecMin; }
 
-	void								setMax(mcore::CVector4D vecMax) { m_vecMax = vecMax; }
-	mcore::CVector4D							getMax(void) { return m_vecMax; }
+	void								setMax(bxa::CVector4D vecMax) { m_vecMax = vecMax; }
+	bxa::CVector4D							getMax(void) { return m_vecMax; }
 
-	void								setCenter(mcore::CVector3D vecCenter) { m_vecCenter = vecCenter; }
-	mcore::CVector3D							getCenter(void) { return m_vecCenter; }
+	void								setCenter(bxa::CVector3D vecCenter) { m_vecCenter = vecCenter; }
+	bxa::CVector3D							getCenter(void) { return m_vecCenter; }
 
 	void								setRadius(float32 fRadius) { m_fRadius = fRadius; }
 	float32								getRadius(void) { return m_fRadius; }
@@ -52,17 +52,17 @@ public:
 	bool								doesHaveNormals(void) { return m_bHasNormals; }
 
 private:
-	mcore::eIntermediateBoundingObjectType		m_eBoundingObjectType;
+	bxa::eIntermediateBoundingObjectType		m_eBoundingObjectType;
 	union
 	{
 		struct
 		{
-			mcore::CVector4D					m_vecMin;
-			mcore::CVector4D					m_vecMax;
+			bxa::CVector4D					m_vecMin;
+			bxa::CVector4D					m_vecMax;
 		};
 		struct
 		{
-			mcore::CVector3D					m_vecCenter;
+			bxa::CVector3D					m_vecCenter;
 			float32						m_fRadius;
 			uint8						m_bHasPositions : 1;
 			uint8						m_bHasNormals : 1;

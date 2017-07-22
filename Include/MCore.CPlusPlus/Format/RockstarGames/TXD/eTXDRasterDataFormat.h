@@ -1,9 +1,9 @@
 #ifndef eTXDRasterDataFormat_H
 #define eTXDRasterDataFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 
-enum mcore::eTXDRasterDataFormat
+enum bxa::eTXDRasterDataFormat
 {
 	TXDRASTERDATAFORMAT_DEFAULT					= 0,
 	TXDRASTERDATAFORMAT_1555					= 0x100,

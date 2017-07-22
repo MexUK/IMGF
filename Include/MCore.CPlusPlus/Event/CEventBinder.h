@@ -1,7 +1,7 @@
 #ifndef CEventBinder_H
 #define CEventBinder_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Pool/CVectorPool.h"
 #include "CEventBoundFunction.h"
 
@@ -15,18 +15,18 @@ also move bindEvents/unbindEvents interface to a different class?
 
 */
 
-class mcore::CEventBinder
+class bxa::CEventBinder
 {
 public:
 	// todo virtual void										bindEvents(void) = 0;
 	virtual void										bindEvents(void) {};
 	// todo virtual void								unbindEvents(void) = 0;
 
-	mcore::CEventBoundFunction*							storeEventBoundFunction(mcore::CEventBoundFunction *pEventBoundFunction);
+	bxa::CEventBoundFunction*							storeEventBoundFunction(bxa::CEventBoundFunction *pEventBoundFunction);
 	void												unbindEvents(void);
 
 private:
-	mcore::CVectorPool<mcore::CEventBoundFunction*>		m_vecEventBoundFunctions;
+	bxa::CVectorPool<bxa::CEventBoundFunction*>		m_vecEventBoundFunctions;
 };
 
 #endif

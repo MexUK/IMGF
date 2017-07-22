@@ -1,10 +1,10 @@
 #ifndef CVector4ui8_H
 #define CVector4ui8_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-class mcore::CVector4ui8
+class bxa::CVector4ui8
 {
 public:
 	uint8	m_x;	// todo - rename to .x and .y and .z and .w

@@ -1,11 +1,11 @@
 #ifndef CIMGEntry_Fastman92_H
 #define CIMGEntry_Fastman92_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
-struct mcore::CIMGEntry_Fastman92
+struct bxa::CIMGEntry_Fastman92
 {
 	uint32		m_uiOffsetInSectors;
 	uint32		m_uiUncompressedSizeInSectors;

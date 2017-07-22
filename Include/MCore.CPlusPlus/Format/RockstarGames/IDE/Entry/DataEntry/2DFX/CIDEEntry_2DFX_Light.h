@@ -1,15 +1,15 @@
 #ifndef CIDEEntry_2DFX_Light_H
 #define CIDEEntry_2DFX_Light_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_2DFX.h"
 #include <string>
 
-class mcore::CIDEEntry_2DFX_Light : public mcore::CIDEEntry_2DFX
+class bxa::CIDEEntry_2DFX_Light : public bxa::CIDEEntry_2DFX
 {
 public:
-	CIDEEntry_2DFX_Light(mcore::CIDEFormat *pIDEFormat) :
-		CIDEEntry_2DFX(pIDEFormat, mcore::_2DFX_LIGHT),
+	CIDEEntry_2DFX_Light(bxa::CIDEFormat *pIDEFormat) :
+		CIDEEntry_2DFX(pIDEFormat, bxa::_2DFX_LIGHT),
 		m_fViewDistance(0.0f),
 		m_fOuterRange(0.0f),
 		m_fCoronaSize(0.0f),

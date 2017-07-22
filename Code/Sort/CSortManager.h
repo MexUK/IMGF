@@ -7,8 +7,8 @@
 #include <vector>
 #include <unordered_map>
 
-class mcore::CIMGFormat;
-class mcore::CIMGEntry;
+class bxa::CIMGFormat;
+class bxa::CIMGEntry;
 class CSortPriority;
 class CSortType;
 class CSortTypes;
@@ -16,7 +16,7 @@ class CSortPriorities;
 class CSortMenuItems;
 class CSortMenuItem;
 
-class CSortManager : public mcore::CManager
+class CSortManager : public bxa::CManager
 {
 public:
 	CSortManager(void);
@@ -25,7 +25,7 @@ public:
 	void									init(void);
 	void									uninit(void);
 
-	void									sort(mcore::CIMGFormat *pIMGFile);
+	void									sort(bxa::CIMGFormat *pIMGFile);
 
 	CSortTypes*								getSortTypes(void) { return m_pSortTypes; }
 	CSortPriorities*						getSortPriorities(void) { return m_pSortPriorities; }
@@ -38,7 +38,7 @@ public:
 	void									onClickMenuItem(uint16 usMenuHandle);
 
 private:
-	static bool								sortIMGEntries(mcore::CIMGEntry *p1, mcore::CIMGEntry *p2);
+	static bool								sortIMGEntries(bxa::CIMGEntry *p1, bxa::CIMGEntry *p2);
 
 	CSortTypes*								m_pSortTypes;
 	CSortPriorities*						m_pSortPriorities;

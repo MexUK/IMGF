@@ -1,9 +1,9 @@
 #ifndef eEvent_H
 #define eEvent_H
 
-#include "mcore.h"
+#include "bxa.h"
 
-enum mcore::eEvent
+enum bxa::eEvent
 {
 	EVENT_UNKNOWN,
 

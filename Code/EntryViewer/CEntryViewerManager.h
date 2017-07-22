@@ -12,11 +12,11 @@
 LRESULT CALLBACK	WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void				onPaint(HWND hwnd);
 
-class mcore::CIMGEntry;
+class bxa::CIMGEntry;
 class CTextureViewer;
 class CCollisionViewer;
 
-class CEntryViewerManager : public mcore::CManager
+class CEntryViewerManager : public bxa::CManager
 {
 public:
 	CEntryViewerManager(void);

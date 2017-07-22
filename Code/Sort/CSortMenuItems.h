@@ -3,7 +3,7 @@
 
 #include "CSortMenuItem.h"
 
-class CSortMenuItems : public mcore::CVectorPool<CSortMenuItem*>
+class CSortMenuItems : public bxa::CVectorPool<CSortMenuItem*>
 {
 public:
 	CSortMenuItem*	getEntryByMenuHandle(uint32 uiMenuHandle)

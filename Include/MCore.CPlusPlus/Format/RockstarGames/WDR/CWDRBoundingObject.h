@@ -1,9 +1,9 @@
 #ifndef CWDRBoundingObject_H
 #define CWDRBoundingObject_H
 
-#include "mcore.h"
+#include "bxa.h"
 
-class mcore::CWDRBoundingObject
+class bxa::CWDRBoundingObject
 {
 public:
 	float32					m_fMin[4]; // x y z w

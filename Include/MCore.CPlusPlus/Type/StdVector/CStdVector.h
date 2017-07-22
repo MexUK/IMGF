@@ -1,14 +1,14 @@
 #ifndef CStdVector_H
 #define CStdVector_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include <string>
 #include <vector>
 #include <deque>
 #include <unordered_map>
 
-class mcore::CStdVector
+class bxa::CStdVector
 {
 public:
 	static std::vector<std::string>					combineVectors(std::vector<std::string>& vecVector1, std::vector<std::string>& vecVector2);

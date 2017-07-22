@@ -1,15 +1,15 @@
 #ifndef CIDEEntry_HIER_H
 #define CIDEEntry_HIER_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IDE/Entry/CIDEEntry_Data.h"
 #include <string>
 
-class mcore::CIDEEntry_HIER : public mcore::CIDEEntry_Data
+class bxa::CIDEEntry_HIER : public bxa::CIDEEntry_Data
 {
 public:
-	CIDEEntry_HIER(mcore::CIDEFormat *pIDEFormat) :
+	CIDEEntry_HIER(bxa::CIDEFormat *pIDEFormat) :
 		CIDEEntry_Data(pIDEFormat, IDE_SECTION_HIER),
 		m_uiObjectId(0)
 	{

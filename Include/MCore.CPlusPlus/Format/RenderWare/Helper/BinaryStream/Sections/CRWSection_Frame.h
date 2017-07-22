@@ -1,11 +1,11 @@
 #ifndef CRWSection_Frame_H
 #define CRWSection_Frame_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
 #include <string>
 
-class mcore::CRWSection_Frame : public mcore::CRWSection
+class bxa::CRWSection_Frame : public bxa::CRWSection
 {
 public:
 	CRWSection_Frame(void);

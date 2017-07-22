@@ -1,7 +1,7 @@
 #ifndef CIDEFormat_H
 #define CIDEFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/Helper/SectionLines/CSectionLinesFormat.h"
 //#include "eDataType.h" // todo - no idea why this include is needed - it makes eIDESection underlined when not here
@@ -14,18 +14,18 @@
 #include <string>
 #include <vector>
 
-class mcore::CIDEFormat;
-class mcore::CIDEEntry;
+class bxa::CIDEFormat;
+class bxa::CIDEEntry;
 
-class mcore::CIDEFormat : public mcore::CSectionLinesFormat<mcore::CIDEFormat, mcore::CIDEEntry, mcore::eIDESection, mcore::CIDEEntry_Other, mcore::CIDEEntry_Section, mcore::CIDEEntry_Data>
+class bxa::CIDEFormat : public bxa::CSectionLinesFormat<bxa::CIDEFormat, bxa::CIDEEntry, bxa::eIDESection, bxa::CIDEEntry_Other, bxa::CIDEEntry_Section, bxa::CIDEEntry_Data>
 {
 public:
 	CIDEFormat(void);
 
-	mcore::CIDEEntry_Data*								createDataEntry(eIDESection eIDESectionValue, uint32 uiSectionSpecificType = 0);
+	bxa::CIDEEntry_Data*								createDataEntry(eIDESection eIDESectionValue, uint32 uiSectionSpecificType = 0);
 	
 	template<class EntryClass2>
-	std::vector<EntryClass2*>					getEntriesBySection(eIDESection eIDESectionValue, mcore::e2DFXType e2DFXTypeValue = mcore::_2DFX_UNKNOWN);
+	std::vector<EntryClass2*>					getEntriesBySection(eIDESection eIDESectionValue, bxa::e2DFXType e2DFXTypeValue = bxa::_2DFX_UNKNOWN);
 
 	eIDESection									getSectionFromText(std::string strIDESectionText);
 	std::string									getSectionText(eIDESection eIDESectionValue);
@@ -36,16 +36,16 @@ private:
 	void										unserialize(void);
 	void										serialize(void);
 
-	mcore::CIDEEntry_Data*								unserializeDataEntry(eIDESection eIDESectionValue);
+	bxa::CIDEEntry_Data*								unserializeDataEntry(eIDESection eIDESectionValue);
 
-	std::pair<mcore::e2DFXType, uint32>				detect2DFXTypeAndGame(void);
+	std::pair<bxa::e2DFXType, uint32>				detect2DFXTypeAndGame(void);
 	eIDEPathType								detectPATHType(void);
 };
 
 template<class EntryClass2>
-std::vector<EntryClass2*>						mcore::CIDEFormat::getEntriesBySection(eIDESection eIDESectionValue, mcore::e2DFXType e2DFXTypeValue)
+std::vector<EntryClass2*>						bxa::CIDEFormat::getEntriesBySection(eIDESection eIDESectionValue, bxa::e2DFXType e2DFXTypeValue)
 {
-	if (eIDESectionValue != IDE_SECTION_2DFX || e2DFXTypeValue == mcore::_2DFX_UNKNOWN)
+	if (eIDESectionValue != IDE_SECTION_2DFX || e2DFXTypeValue == bxa::_2DFX_UNKNOWN)
 	{
 		return CSectionLinesFormat::getEntriesBySection<EntryClass2>(eIDESectionValue);
 	}

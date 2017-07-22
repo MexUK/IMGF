@@ -1,7 +1,7 @@
 #ifndef CDataWriter_H
 #define CDataWriter_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "CDataStream.h"
 #include "Object/CIndexedInstance.h"
 #include "Type/Types.h"
@@ -23,9 +23,9 @@
 #include <vector>
 #include <fstream>
 
-class mcore::CDataWriter;
+class bxa::CDataWriter;
 
-class mcore::CDataWriter : public mcore::CDataStream, public mcore::CIndexedInstance<mcore::CDataWriter>
+class bxa::CDataWriter : public bxa::CDataStream, public bxa::CIndexedInstance<bxa::CDataWriter>
 {
 public:
 	CDataWriter(void);
@@ -59,36 +59,36 @@ public:
 	void					writeInt16(int16 iInt);
 	void					writeInt32(int32 iInt);
 	void					writeInt64(int64 iInt);
-	void					writePoint2D(mcore::CPoint2D& vecPoint);
-	void					writeVector2i32(mcore::CVector2i32& vecUints);
-	void					writeSize2D(mcore::CSize2D& vecSize);
-	void					writeVector2ui8(mcore::CVector2ui8& vecUints);
-	void					writeVector2ui32(mcore::CVector2ui32& vecUints);
-	void					writeVector3ui8(mcore::CVector3ui8& vecUints);
-	void					writeVector3ui32(mcore::CVector3ui32& vecUints);
-	void					writeVector4ui8(mcore::CVector4ui8& vecUints);
+	void					writePoint2D(bxa::CPoint2D& vecPoint);
+	void					writeVector2i32(bxa::CVector2i32& vecUints);
+	void					writeSize2D(bxa::CSize2D& vecSize);
+	void					writeVector2ui8(bxa::CVector2ui8& vecUints);
+	void					writeVector2ui32(bxa::CVector2ui32& vecUints);
+	void					writeVector3ui8(bxa::CVector3ui8& vecUints);
+	void					writeVector3ui32(bxa::CVector3ui32& vecUints);
+	void					writeVector4ui8(bxa::CVector4ui8& vecUints);
 	void					writeStdVectorUint32(std::vector<uint32>& vecUints);
-	void					writeStdVector4ui8(std::vector<mcore::CVector4ui8>& vecVectors);
+	void					writeStdVector4ui8(std::vector<bxa::CVector4ui8>& vecVectors);
 	void					writeStdVector4ui16(std::vector<CVector4ui16>& vecVectors);
 
 	// write float
 	void					writeFloat32(float32 fFloat);
 	void					writeFloat64(float64 fFloat);
-	void					writeVector2D(mcore::CVector2D& vecVector);
-	void					writeVector3D(mcore::CVector3D& vecVector);
-	void					writeVector4D(mcore::CVector4D& vecVector);
-	void					writeStdVector2D(std::vector<mcore::CVector2D>& vecVectors);
-	void					writeStdVector3D(std::vector<mcore::CVector3D>& vecVectors);
-	void					writeStdVector4D(std::vector<mcore::CVector4D>& vecVectors);
+	void					writeVector2D(bxa::CVector2D& vecVector);
+	void					writeVector3D(bxa::CVector3D& vecVector);
+	void					writeVector4D(bxa::CVector4D& vecVector);
+	void					writeStdVector2D(std::vector<bxa::CVector2D>& vecVectors);
+	void					writeStdVector3D(std::vector<bxa::CVector3D>& vecVectors);
+	void					writeStdVector4D(std::vector<bxa::CVector4D>& vecVectors);
 
 	// write token
 	void					writeTokenString(std::string& strString);
 	void					writeTokenInt32(int32 iInt);
 	void					writeTokenUint32(uint32 uiInt);
 	void					writeTokenFloat32(float32 fFloat);
-	void					writeTokenVector2D(mcore::CVector2D& vecVector);
-	void					writeTokenVector3D(mcore::CVector3D& vecVector);
-	void					writeTokenVector4D(mcore::CVector4D& vecVector);
+	void					writeTokenVector2D(bxa::CVector2D& vecVector);
+	void					writeTokenVector3D(bxa::CVector3D& vecVector);
+	void					writeTokenVector4D(bxa::CVector4D& vecVector);
 
 	// write string - type guessed
 	void					write(std::string& strData);
@@ -104,35 +104,35 @@ public:
 	void					write(int16 iInt);
 	void					write(int32 iInt);
 	void					write(int64 iInt);
-	void					write(mcore::CPoint2D& vecPoint);
-	void					write(mcore::CSize2D& vecSize);
-	void					write(mcore::CVector4ui8& vecUints);
+	void					write(bxa::CPoint2D& vecPoint);
+	void					write(bxa::CSize2D& vecSize);
+	void					write(bxa::CVector4ui8& vecUints);
 	void					write(std::vector<uint32>& vecUints);
-	void					write(std::vector<mcore::CVector2D>& vecVectors);
-	void					write(std::vector<mcore::CVector3D>& vecVectors);
-	void					write(std::vector<mcore::CVector4ui8>& vecVectors);
-	void					write(std::vector<mcore::CVector4ui16>& vecVectors);
+	void					write(std::vector<bxa::CVector2D>& vecVectors);
+	void					write(std::vector<bxa::CVector3D>& vecVectors);
+	void					write(std::vector<bxa::CVector4ui8>& vecVectors);
+	void					write(std::vector<bxa::CVector4ui16>& vecVectors);
 
 	// write float - type guessed
 	void					write(float32 fFloat);
 	void					write(float64 fFloat);
-	void					write(mcore::CVector2D& vecVector);
-	void					write(mcore::CVector3D& vecVector);
-	void					write(mcore::CVector4D& vecVector);
+	void					write(bxa::CVector2D& vecVector);
+	void					write(bxa::CVector3D& vecVector);
+	void					write(bxa::CVector4D& vecVector);
 
 	// write token - type guessed
 	void					writeToken(std::string& strString);
 	void					writeToken(int32 iInt);
 	void					writeToken(uint32 uiInt);
 	void					writeToken(float32 fFloat);
-	void					writeToken(mcore::CVector2D& vecVector);
-	void					writeToken(mcore::CVector3D& vecVector);
-	void					writeToken(mcore::CVector4D& vecVector);
+	void					writeToken(bxa::CVector2D& vecVector);
+	void					writeToken(bxa::CVector3D& vecVector);
+	void					writeToken(bxa::CVector4D& vecVector);
 
 	template <class DerivedFormatClass>
-	void					writeLineEntries(mcore::CVectorPool<DerivedFormatClass> *pPool);
+	void					writeLineEntries(bxa::CVectorPool<DerivedFormatClass> *pPool);
 	template <class SectionClass, class EntryClass>
-	void					writeSectionLineEntries(mcore::CVectorPool<SectionClass> *pPool);
+	void					writeSectionLineEntries(bxa::CVectorPool<SectionClass> *pPool);
 
 	// write raw struct
 	template <class T>
@@ -160,7 +160,7 @@ private:
 };
 
 template<class DerivedFormatClass>
-void						mcore::CDataWriter::writeLineEntries(mcore::CVectorPool<DerivedFormatClass> *pPool)
+void						bxa::CDataWriter::writeLineEntries(bxa::CVectorPool<DerivedFormatClass> *pPool)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 
@@ -172,7 +172,7 @@ void						mcore::CDataWriter::writeLineEntries(mcore::CVectorPool<DerivedFormatC
 }
 
 template <class SectionClass, class EntryClass>
-void						mcore::CDataWriter::writeSectionLineEntries(mcore::CVectorPool<SectionClass> *pPool)
+void						bxa::CDataWriter::writeSectionLineEntries(bxa::CVectorPool<SectionClass> *pPool)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 

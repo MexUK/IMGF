@@ -1,9 +1,9 @@
 #ifndef eEventFunctionType_H
 #define eEventFunctionType_H
 
-#include "mcore.h"
+#include "bxa.h"
 
-enum mcore::eEventFunctionType
+enum bxa::eEventFunctionType
 {
 	EVENT_FUNCTION_TYPE_1_ARG,
 	EVENT_FUNCTION_TYPE_2_ARGS,

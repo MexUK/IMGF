@@ -1,7 +1,7 @@
 #ifndef CRWSection_2dEffect_H
 #define CRWSection_2dEffect_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
 #include "Pool/CVectorPool.h"
 #include "Format/RenderWare/Helper/BinaryStream/Pools/C2dEffectsPool.h"
@@ -9,7 +9,7 @@
 #include "Type/Vector/CVector3D.h"
 #include <string>
 
-class mcore::CRWSection_2dEffect : public mcore::CRWSection
+class bxa::CRWSection_2dEffect : public bxa::CRWSection
 {
 public:
 	CRWSection_2dEffect(void);
@@ -18,10 +18,10 @@ public:
 	void							unserialize(void);
 	void							serialize(void);
 
-	mcore::C2dEffectsPool*					get2dEffects(void) { return m_p2dEffectsPool; }
+	bxa::C2dEffectsPool*					get2dEffects(void) { return m_p2dEffectsPool; }
 
 private:
-	mcore::C2dEffectsPool*					m_p2dEffectsPool;
+	bxa::C2dEffectsPool*					m_p2dEffectsPool;
 };
 
 #endif

@@ -1,14 +1,14 @@
 #ifndef CIDEEntry_TANM_H
 #define CIDEEntry_TANM_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IDE/Entry/CIDEEntry_Data.h"
 
-class mcore::CIDEEntry_TANM : public mcore::CIDEEntry_Data
+class bxa::CIDEEntry_TANM : public bxa::CIDEEntry_Data
 {
 public:
-	CIDEEntry_TANM(mcore::CIDEFormat *pIDEFormat) :
+	CIDEEntry_TANM(bxa::CIDEFormat *pIDEFormat) :
 		CIDEEntry_Data(pIDEFormat, IDE_SECTION_TANM)
 	{
 	};

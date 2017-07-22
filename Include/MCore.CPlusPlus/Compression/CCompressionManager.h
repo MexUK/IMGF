@@ -1,11 +1,11 @@
 #ifndef CCompressionManager_H
 #define CCompressionManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include <string>
 
-class mcore::CCompressionManager
+class bxa::CCompressionManager
 {
 public:
 	static std::string				compressZLib(std::string& strData, uint32 uiCompressionLevel = 9);

@@ -39,7 +39,7 @@
 #include <algorithm>
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 void					CIMGEditorTab::unload(void)
 {
@@ -69,14 +69,14 @@ bool					CIMGEditorTab::checkForErrors(void)
 		// check if IMG is fastman92 format and is encrypted
 		if (pIMGFormat->isEncrypted())
 		{
-			mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_21"), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_21"), MB_OK);
+			bxa::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_21"), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_21"), MB_OK);
 			return false;
 		}
 
 		// check if IMG is fastman92 format and has an unsupported game type
 		if (pIMGFormat->getGameType() != 0)
 		{
-			mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_68", pIMGFormat->getGameType()), CLocalizationManager::getInstance()->getTranslatedText("UnableToOpenIMG"), MB_OK);
+			bxa::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_68", pIMGFormat->getGameType()), CLocalizationManager::getInstance()->getTranslatedText("UnableToOpenIMG"), MB_OK);
 			return false;
 		}
 	}
@@ -84,7 +84,7 @@ bool					CIMGEditorTab::checkForErrors(void)
 	// check for unserialize error [includes file open/close errors]
 	if (pIMGFormat->doesHaveError())
 	{
-		mcore::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_23"), CLocalizationManager::getInstance()->getTranslatedText("UnableToOpenIMG"), MB_OK);
+		bxa::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_23"), CLocalizationManager::getInstance()->getTranslatedText("UnableToOpenIMG"), MB_OK);
 		return false;
 	}
 

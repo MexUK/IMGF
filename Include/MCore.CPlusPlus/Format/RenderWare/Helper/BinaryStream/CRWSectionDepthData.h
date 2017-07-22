@@ -1,10 +1,10 @@
 #ifndef CRWSectionDepthData_H
 #define CRWSectionDepthData_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-class mcore::CRWSectionDepthData
+class bxa::CRWSectionDepthData
 {
 public:
 	CRWSectionDepthData(void) :

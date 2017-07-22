@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-class CLSTSection : public mcore::CVectorPool<CLSTEntry*>
+class CLSTSection : public bxa::CVectorPool<CLSTEntry*>
 {
 public:
 	void								unload(void);

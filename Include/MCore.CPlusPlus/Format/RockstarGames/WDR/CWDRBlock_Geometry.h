@@ -1,13 +1,13 @@
 #ifndef CWDRBlock_Geometry_H
 #define CWDRBlock_Geometry_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include <vector>
 
-class mcore::CWDRBlock_VertexData;
-class mcore::CWDRBlock_IndexData;
+class bxa::CWDRBlock_VertexData;
+class bxa::CWDRBlock_IndexData;
 
-class mcore::CWDRBlock_Geometry
+class bxa::CWDRBlock_Geometry
 {
 public:
 	std::vector<CWDRBlock_VertexData*>		m_vecVertices;

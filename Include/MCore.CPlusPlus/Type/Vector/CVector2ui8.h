@@ -1,10 +1,10 @@
 #ifndef CVector2ui8_H
 #define CVector2ui8_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-class mcore::CVector2ui8
+class bxa::CVector2ui8
 {
 public:
 	int8	m_x;

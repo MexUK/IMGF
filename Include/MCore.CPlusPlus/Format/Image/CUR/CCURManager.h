@@ -1,14 +1,14 @@
 #ifndef CCURManager_H
 #define CCURManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 
-class mcore::CCURFormat;
-class mcore::CBMPFormat;
+class bxa::CCURFormat;
+class bxa::CBMPFormat;
 
-class mcore::CCURManager : public mcore::CFormatManager<mcore::CCURFormat>, public mcore::CSingleton<mcore::CCURManager>
+class bxa::CCURManager : public bxa::CFormatManager<bxa::CCURFormat>, public bxa::CSingleton<bxa::CCURManager>
 {
 public:
 	CCURManager(void);

@@ -25,7 +25,7 @@
 #include "Stream/CDataWriter.h"
 
 using namespace std;
-using namespace mcore;
+using namespace bxa;
 
 auto pOnPressButton		= [](void *pThemeDesigner, void *pTriggerArg) { ((CThemeDesignerTab_Save*) pThemeDesigner)->onPressButton((CButtonControl*) pTriggerArg); };
 
@@ -50,7 +50,7 @@ void									CThemeDesignerTab_Save::onPressButton(CButtonControl *pButton)
 		string strInitialDir = "";
 		string strExtensionFilter = "imgf-theme";
 		string strDefaultFileName = ((CEditControl*)pButton->getLayer()->getControlById(10))->getTextLines()[0] + "." + strExtensionFilter;
-		string strFilePath = mcore::CGUIManager::saveFileDialog(strInitialDir, strExtensionFilter, strDefaultFileName);
+		string strFilePath = bxa::CGUIManager::saveFileDialog(strInitialDir, strExtensionFilter, strDefaultFileName);
 		if (strFilePath == "")
 		{
 			return;

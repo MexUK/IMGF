@@ -1,7 +1,7 @@
 #ifndef CRWSection_TextureNative_H
 #define CRWSection_TextureNative_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
 #include "Pool/CVectorPool.h"
 #include "Image/eDXTCompressionType.h"
@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 
-class mcore::CRWSection_TextureNative : public mcore::CRWSection
+class bxa::CRWSection_TextureNative : public bxa::CRWSection
 {
 public:
 	CRWSection_TextureNative(void);
@@ -21,16 +21,16 @@ public:
 	void						unserialize(void);
 	void						serialize(void);
 	
-	void						convertToGame(mcore::ePlatformedGame ePlatformedGame, std::vector<std::string>& vecMipmapsRemoved);
-	void						convertToRasterDataFormat(mcore::eRasterDataFormat eRasterDataFormatValue, std::vector<std::string>& vecMipmapsRemoved);
+	void						convertToGame(bxa::ePlatformedGame ePlatformedGame, std::vector<std::string>& vecMipmapsRemoved);
+	void						convertToRasterDataFormat(bxa::eRasterDataFormat eRasterDataFormatValue, std::vector<std::string>& vecMipmapsRemoved);
 
 	bool						doesHaveValidTXDRasterDataFormat(void);
-	mcore::eRasterDataFormat			detectRasterDataFormat(void);
+	bxa::eRasterDataFormat			detectRasterDataFormat(void);
 
 	uint32						getBodyLength(void);
 	void						unswizzlePS2Format(void);
 	
-	mcore::CVectorPool<mcore::CRWEntry_TextureNative_MipMap*>&	getMipMaps(void) { return m_vecMipMaps; }
+	bxa::CVectorPool<bxa::CRWEntry_TextureNative_MipMap*>&	getMipMaps(void) { return m_vecMipMaps; }
 
 	static bool					doesTXDRasterDataFormatExist(uint32 uiTXDRasterDataFormat);
 	
@@ -61,14 +61,14 @@ public:
 	void						setTXDRasterDataFormat(uint32 uiTXDRasterDataFormat) { m_uiTXDRasterDataFormat = uiTXDRasterDataFormat; }
 	uint32						getTXDRasterDataFormat(void) { return m_uiTXDRasterDataFormat; }
 
-	void						setRasterDataFormat(mcore::eRasterDataFormat eRasterDataFormatValue, bool bUpdateTXDRasterDataFormat = true);
-	mcore::eRasterDataFormat			getRasterDataFormat(void) { return m_eRasterDataFormat; }
+	void						setRasterDataFormat(bxa::eRasterDataFormat eRasterDataFormatValue, bool bUpdateTXDRasterDataFormat = true);
+	bxa::eRasterDataFormat			getRasterDataFormat(void) { return m_eRasterDataFormat; }
 
 	void						setAlpha(uint32 uiAlpha) { m_uiAlpha = uiAlpha; }
 	uint32						getAlpha(void) { return m_uiAlpha; }
 
-	void						setImageSize(mcore::CSize2D& vecImageSize) { m_vecImageSize = vecImageSize; }
-	mcore::CSize2D&					getImageSize(void) { return m_vecImageSize; }
+	void						setImageSize(bxa::CSize2D& vecImageSize) { m_vecImageSize = vecImageSize; }
+	bxa::CSize2D&					getImageSize(void) { return m_vecImageSize; }
 
 	void						setBPP(uint8 ucBPP) { m_ucBPP = ucBPP; }
 	uint8						getBPP(void) { return m_ucBPP; }
@@ -79,8 +79,8 @@ public:
 	void						setRasterType(uint8 ucRasterType) { m_ucRasterType = ucRasterType; }
 	uint8						getRasterType(void) { return m_ucRasterType; }
 
-	void						setDXTCompressionType(mcore::eDXTCompressionType eCompressionAlgorithm) { m_eDXTCompressionType = eCompressionAlgorithm; }
-	mcore::eDXTCompressionType			getDXTCompressionType(void) { return m_eDXTCompressionType; }
+	void						setDXTCompressionType(bxa::eDXTCompressionType eCompressionAlgorithm) { m_eDXTCompressionType = eCompressionAlgorithm; }
+	bxa::eDXTCompressionType			getDXTCompressionType(void) { return m_eDXTCompressionType; }
 
 	void						setCubeTexture(bool bCubeTexture) { m_bCubeTexture = bCubeTexture; }
 	bool						getCubeTexture(void) { return m_bCubeTexture; }
@@ -124,7 +124,7 @@ private:
 	void						unclut(uint32 uiWidth, uint32 uiHeight);
 	
 private:
-	mcore::ePlatform					m_ePlatform;
+	bxa::ePlatform					m_ePlatform;
 
 	uint8						m_bHasDiffuse : 1;
 	uint8						m_bHasAlpha : 1;
@@ -136,12 +136,12 @@ private:
 	std::string					m_strDiffuseName;
 	std::string					m_strAlphaName;
 	uint32						m_uiTXDRasterDataFormat;
-	mcore::eRasterDataFormat			m_eRasterDataFormat;
+	bxa::eRasterDataFormat			m_eRasterDataFormat;
 	uint32						m_uiAlpha;
-	mcore::CSize2D						m_vecImageSize;
+	bxa::CSize2D						m_vecImageSize;
 	uint8						m_ucBPP;
 	uint8						m_ucRasterType;
-	mcore::eDXTCompressionType			m_eDXTCompressionType;
+	bxa::eDXTCompressionType			m_eDXTCompressionType;
 	uint8						m_bCubeTexture : 1;
 	uint8						m_bAutoMipMaps : 1;
 	uint8						m_bIsNotRWCompatible : 1;
@@ -149,7 +149,7 @@ private:
 	uint8						m_ucOriginalBPP;
 	uint32						m_uiMipMapCount;
 
-	mcore::CVectorPool<mcore::CRWEntry_TextureNative_MipMap*>	m_vecMipMaps;
+	bxa::CVectorPool<bxa::CRWEntry_TextureNative_MipMap*>	m_vecMipMaps;
 };
 
 #endif

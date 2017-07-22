@@ -1,10 +1,10 @@
 #ifndef CVector3i16_H
 #define CVector3i16_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-class mcore::CVector3i16
+class bxa::CVector3i16
 {
 public:
 	int16	m_x;	// todo - rename to .x and .y and .z

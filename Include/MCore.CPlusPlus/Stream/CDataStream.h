@@ -1,7 +1,7 @@
 #ifndef CDataStream_H
 #define CDataStream_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "eDataStreamType.h"
 #include "Unit/Byte/eEndian.h"
@@ -20,7 +20,7 @@ Modes:
 										This mode maps to byte vs token processing.
 */
 
-class mcore::CDataStream
+class bxa::CDataStream
 {
 public:
 	// data stream types: memory & file

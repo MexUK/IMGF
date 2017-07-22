@@ -1,12 +1,12 @@
 #ifndef CIPLEntry_PATH_Node_H
 #define CIPLEntry_PATH_Node_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_PATH.h"
 #include "Type/Vector/CVector3D.h"
 
-class mcore::CIPLEntry_PATH_Node : public mcore::CIPLEntry_PATH
+class bxa::CIPLEntry_PATH_Node : public bxa::CIPLEntry_PATH
 {
 public:
 	CIPLEntry_PATH_Node(CIPLFormat *pIPLFormat) :
@@ -36,8 +36,8 @@ public:
 	void							setIsCrossRoad(uint32 uiIsCrossRoad) { m_uiIsCrossRoad = uiIsCrossRoad; }
 	uint32							getIsCrossRoad(void) { return m_uiIsCrossRoad; }
 
-	void							setPosition(mcore::CVector3D& vecPosition) { m_vecPosition = vecPosition; }
-	mcore::CVector3D&						getPosition(void) { return m_vecPosition; }
+	void							setPosition(bxa::CVector3D& vecPosition) { m_vecPosition = vecPosition; }
+	bxa::CVector3D&						getPosition(void) { return m_vecPosition; }
 
 	void							setMedian(float32 fMedian) { m_fMedian = fMedian; }
 	float32							getMedian(void) { return m_fMedian; }
@@ -62,7 +62,7 @@ private:
 	uint32							m_uiNodeType;
 	uint32							m_uiNextNode;
 	uint32							m_uiIsCrossRoad;
-	mcore::CVector3D						m_vecPosition;
+	bxa::CVector3D						m_vecPosition;
 	float32							m_fMedian;
 	uint32							m_uiLeftLaneCount;
 	uint32							m_uiRightLaneCount;

@@ -1,13 +1,13 @@
 #ifndef CFormatManager_H
 #define CFormatManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Object/CManager.h"
 #include "Format/CFormat.h"
 #include <string>
 
 template<class T>
-class mcore::CFormatManager : public mcore::CManager
+class bxa::CFormatManager : public bxa::CManager
 {
 public:
 	static T*				parseViaMemory(std::string& strData);
@@ -21,7 +21,7 @@ public:
 
 
 template<class T>
-T*			mcore::CFormatManager<T>::parseViaMemory(std::string& strData)
+T*			bxa::CFormatManager<T>::parseViaMemory(std::string& strData)
 {
 	T *pFormat = new T;
 	pFormat->unserializeViaMemory(strData);
@@ -29,7 +29,7 @@ T*			mcore::CFormatManager<T>::parseViaMemory(std::string& strData)
 }
 
 template<class T>
-T*			mcore::CFormatManager<T>::parseViaFile(std::string& strFilePath)
+T*			bxa::CFormatManager<T>::parseViaFile(std::string& strFilePath)
 {
 	T *pFormat = new T;
 	pFormat->setFilePath(strFilePath);
@@ -38,7 +38,7 @@ T*			mcore::CFormatManager<T>::parseViaFile(std::string& strFilePath)
 }
 
 template<class T>
-T*			mcore::CFormatManager<T>::parseManyViaMemory(std::vector<std::string>& vecData)
+T*			bxa::CFormatManager<T>::parseManyViaMemory(std::vector<std::string>& vecData)
 {
 	T
 		*pFormat = new T[vecData.size()],
@@ -52,7 +52,7 @@ T*			mcore::CFormatManager<T>::parseManyViaMemory(std::vector<std::string>& vecD
 }
 
 template<class T>
-T*			mcore::CFormatManager<T>::parseManyViaFile(std::vector<std::string>& vecFilePaths)
+T*			bxa::CFormatManager<T>::parseManyViaFile(std::vector<std::string>& vecFilePaths)
 {
 	T
 		*pFormat = new T[vecFilePaths.size()],

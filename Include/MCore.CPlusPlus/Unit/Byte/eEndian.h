@@ -1,9 +1,9 @@
 #ifndef eEndian_H
 #define eEndian_H
 
-#include "mcore.h"
+#include "bxa.h"
 
-enum mcore::eEndian : uint8
+enum bxa::eEndian : uint8
 {
 	LITTLE_ENDIAN	=	0,
 	BIG_ENDIAN		=	1

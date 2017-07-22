@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-class CGUIStyles : public mcore::CMultipleTypeValuesUMapContainer<std::string>
+class CGUIStyles : public bxa::CMultipleTypeValuesUMapContainer<std::string>
 {
 public:
 	CGUIStyles(void);
@@ -40,8 +40,8 @@ public:
 
 	std::string				getTextAlignX(void);
 	std::string				getTextAlignY(void);
-	mcore::CPoint2D				getMinInnerSpacing(void);
-	mcore::CPoint2D				getMaxInnerSpacing(void);
+	bxa::CPoint2D				getMinInnerSpacing(void);
+	bxa::CPoint2D				getMaxInnerSpacing(void);
 	uint32					getInnerSpacingTotalX(void);
 	uint32					getInnerSpacingTotalY(void);
 
@@ -61,7 +61,7 @@ public:
 	void					setHasFillOverwrite(bool bHasFillOverwrite) { m_bHasFillOverwrite = bHasFillOverwrite; }
 	bool					doesHaveFillOverwrite(void) { return m_bHasFillOverwrite; }
 
-	static mcore::CMultipleTypeValuesUMapContainer<std::string>&	getStyleDefaultValues(void) { return m_umapStyleDefaultValues; }
+	static bxa::CMultipleTypeValuesUMapContainer<std::string>&	getStyleDefaultValues(void) { return m_umapStyleDefaultValues; }
 
 	static bool				doesDefaultStyleValueExist(std::string strStyleName);
 
@@ -69,7 +69,7 @@ private:
 	uint8													m_bHasFillOverwrite		: 1;
 	std::string												m_strItemComponent;
 	std::string												m_strItemStatus;
-	static mcore::CMultipleTypeValuesUMapContainer<std::string>	m_umapStyleDefaultValues;
+	static bxa::CMultipleTypeValuesUMapContainer<std::string>	m_umapStyleDefaultValues;
 };
 
 

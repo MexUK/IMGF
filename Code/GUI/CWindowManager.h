@@ -5,7 +5,7 @@
 
 class CWindow;
 
-class CWindowManager : public mcore::CManager
+class CWindowManager : public bxa::CManager
 {
 public:
 	void					init(void);

@@ -1,14 +1,14 @@
 #ifndef CRWEntry_2dEffect_ParticleEffect_H
 #define CRWEntry_2dEffect_ParticleEffect_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RenderWare/Helper/BinaryStream/Entries/C2dEffect.h"
 #include <string>
 
 // todo - fucking rename to without effect in name
 
-class mcore::CRWEntry_2dEffect_ParticleEffect : public mcore::C2dEffect
+class bxa::CRWEntry_2dEffect_ParticleEffect : public bxa::C2dEffect
 {
 public:
 	CRWEntry_2dEffect_ParticleEffect(void);

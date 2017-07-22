@@ -7,7 +7,7 @@
 
 class CSettingsData;
 
-class CSettingsManager : public mcore::CManager
+class CSettingsManager : public bxa::CManager
 {
 public:
 	void											init(void);

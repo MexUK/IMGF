@@ -3,14 +3,14 @@
 
 #define MAX_WATER_LEVEL_COUNT 48
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/CFormat.h"
 #include "CDATWaterproEntry.h"
 #include "Pool/CVectorPool.h"
 #include <vector>
 
-class mcore::CDATWaterproFormat : public mcore::CFormat, public mcore::CVectorPool<mcore::CDATWaterproEntry*>
+class bxa::CDATWaterproFormat : public bxa::CFormat, public bxa::CVectorPool<bxa::CDATWaterproEntry*>
 {
 public:
 	CDATWaterproFormat(void);

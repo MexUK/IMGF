@@ -1,16 +1,16 @@
 #ifndef CIDEEntry_H
 #define CIDEEntry_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "eIDESection.h"
 #include "Format/RockstarGames/Helper/SectionLines/CSectionLinesEntry.h"
 #include <string>
 #include <vector>
 
-class mcore::CIDEFormat;
+class bxa::CIDEFormat;
 
-class mcore::CIDEEntry : public mcore::CSectionLinesEntry<CIDEFormat, eIDESection>
+class bxa::CIDEEntry : public bxa::CSectionLinesEntry<CIDEFormat, eIDESection>
 {
 public:
 	CIDEEntry(CIDEFormat *pIDEFormat);

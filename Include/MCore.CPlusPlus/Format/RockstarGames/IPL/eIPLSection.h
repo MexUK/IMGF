@@ -1,10 +1,10 @@
 #ifndef eIPLSection_H
 #define eIPLSection_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-enum mcore::eIPLSection : uint8
+enum bxa::eIPLSection : uint8
 {
 	IPL_SECTION_UNKNOWN,
 	IPL_SECTION_INST,

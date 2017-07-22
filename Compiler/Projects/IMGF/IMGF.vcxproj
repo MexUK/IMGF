@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -20,14 +20,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
@@ -45,7 +45,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
-    <IncludePath>..\..\..\ThirdParty\HappyHTTP;..\..\..\ThirdParty\GLEW;..\..\..\ThirdParty\Freetype\include;..\..\..\ThirdParty\GLFW;..\..\..\ThirdParty\GLFW\include\;..\..\..\ThirdParty\freetype-gl;..\..\..\ThirdParty\INI;..\..\..\ThirdParty\Bitmap;..\..\..\ThirdParty\;..\..\..\Include\GUI\;..\..\..\Include\MCore.CPlusPlus\;..\..\..\Code\;..\..\..\Code\FileFormat\;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\..\ThirdParty\HappyHTTP;..\..\..\ThirdParty\GLEW;..\..\..\ThirdParty\Freetype\include;..\..\..\ThirdParty\GLFW;..\..\..\ThirdParty\GLFW\include\;..\..\..\ThirdParty\freetype-gl;..\..\..\ThirdParty\INI;..\..\..\ThirdParty\Bitmap;..\..\..\ThirdParty\;..\..\..\Include\GUI\;..\..\..\Include\BXA.CPlusPlus\;..\..\..\Code\;..\..\..\Code\FileFormat\;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\Lib\$(Configuration)\;..\..\..\Lib\ThirdParty\;..\..\..\Lib\ThirdParty\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -65,7 +65,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;MCore.CPlusPlus.lib;GUI.lib;freetype261-$(Configuration).lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;BXA.CPlusPlus.lib;GUI.lib;freetype261-$(Configuration).lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>

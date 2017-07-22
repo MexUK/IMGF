@@ -1,15 +1,15 @@
 #ifndef CWDRBlock_Model_H
 #define CWDRBlock_Model_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include <vector>
 
-class mcore::CWDRBlock_Geometry;
+class bxa::CWDRBlock_Geometry;
 
-class mcore::CWDRBlock_Model
+class bxa::CWDRBlock_Model
 {
 public:
-	std::vector<mcore::CWDRBlock_Geometry*>		m_vecGeometries;
+	std::vector<bxa::CWDRBlock_Geometry*>		m_vecGeometries;
 };
 
 #endif

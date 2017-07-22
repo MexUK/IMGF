@@ -1,10 +1,10 @@
 #ifndef eIDESection_H
 #define eIDESection_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-enum mcore::eIDESection : uint8
+enum bxa::eIDESection : uint8
 {
 	IDE_SECTION_UNKNOWN,
 	IDE_SECTION_OBJS,

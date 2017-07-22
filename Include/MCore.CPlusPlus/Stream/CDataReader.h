@@ -1,7 +1,7 @@
 #ifndef CDataReader_H
 #define CDataReader_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "CDataStream.h"
 #include "Object/CIndexedInstance.h"
 #include "Type/Types.h"
@@ -20,7 +20,7 @@
 #include <vector>
 #include <fstream>
 
-class mcore::CDataReader : public mcore::CDataStream, public mcore::CIndexedInstance<mcore::CDataReader>
+class bxa::CDataReader : public bxa::CDataStream, public bxa::CIndexedInstance<bxa::CDataReader>
 {
 public:
 	CDataReader(void);
@@ -51,37 +51,37 @@ public:
 	int32					readInt32(void);
 	int16					readInt16(void);
 	int8					readInt8(void);
-	mcore::CPoint2D			readPoint2D(void);
-	mcore::CVector2i32				readVector2i32(void);
-	mcore::CSize2D					readSize2D(void);
-	mcore::CVector2ui32			readVector2ui32(void);
+	bxa::CPoint2D			readPoint2D(void);
+	bxa::CVector2i32				readVector2i32(void);
+	bxa::CSize2D					readSize2D(void);
+	bxa::CVector2ui32			readVector2ui32(void);
 	CVector4ui8				readVector4ui8(void);
 	std::vector<uint32>			readUint32ArrayAsStdVector(uint32 uiValueCount);
-	std::vector<mcore::CVector2D>		readVector2DArrayAsStdVector(uint32 uiValueCount);
-	std::vector<mcore::CVector3D>		readVector3DArrayAsStdVector(uint32 uiValueCount);
-	std::vector<mcore::CVector4ui8>	readVector4ui8ArrayAsStdVector(uint32 uiValueCount);
-	std::vector<mcore::CVector4ui16>	readVector4ui16ArrayAsStdVector(uint32 uiValueCount);
+	std::vector<bxa::CVector2D>		readVector2DArrayAsStdVector(uint32 uiValueCount);
+	std::vector<bxa::CVector3D>		readVector3DArrayAsStdVector(uint32 uiValueCount);
+	std::vector<bxa::CVector4ui8>	readVector4ui8ArrayAsStdVector(uint32 uiValueCount);
+	std::vector<bxa::CVector4ui16>	readVector4ui16ArrayAsStdVector(uint32 uiValueCount);
 
 	// read float (binary mode)
 	float32					readFloat32(void);
-	mcore::CVector2D				readVector2D(void);
-	mcore::CVector3D				readVector3D(void);
-	mcore::CVector4D				readVector4D(void);
+	bxa::CVector2D				readVector2D(void);
+	bxa::CVector3D				readVector3D(void);
+	bxa::CVector4D				readVector4D(void);
 	
 	// read token (text mode)
 	std::string				readTokenString(void);
 	int32					readTokenInt32(void);
 	uint32					readTokenUint32(void);
 	float32					readTokenFloat32(void);
-	mcore::CVector2D				readTokenVector2D(void);
-	mcore::CVector3D				readTokenVector3D(void);
-	mcore::CVector4D				readTokenVector4D(void);
+	bxa::CVector2D				readTokenVector2D(void);
+	bxa::CVector3D				readTokenVector3D(void);
+	bxa::CVector4D				readTokenVector4D(void);
 
 	// read line tokens (text mode)
 	template <class DerivedFormatClass>
-	void					readLineEntries(mcore::CVectorPool<DerivedFormatClass> *pPool);
+	void					readLineEntries(bxa::CVectorPool<DerivedFormatClass> *pPool);
 	template <typename LineTypeEnum, class SectionClass, class EntryClass>
-	void					readSectionLineEntries(mcore::CVectorPool<SectionClass> *pPool);
+	void					readSectionLineEntries(bxa::CVectorPool<SectionClass> *pPool);
 
 	// read struct
 	template <class T>
@@ -173,7 +173,7 @@ private:
 };
 
 template <class DerivedFormatClass>
-void						mcore::CDataReader::readLineEntries(mcore::CVectorPool<DerivedFormatClass> *pPool)
+void						bxa::CDataReader::readLineEntries(bxa::CVectorPool<DerivedFormatClass> *pPool)
 {
 	CDataReader *pDataReader = CDataReader::getInstance();
 
@@ -188,7 +188,7 @@ void						mcore::CDataReader::readLineEntries(mcore::CVectorPool<DerivedFormatCl
 }
 
 template <typename LineTypeEnum, class SectionClass, class EntryClass>
-void					mcore::CDataReader::readSectionLineEntries(mcore::CVectorPool<SectionClass> *pPool)
+void					bxa::CDataReader::readSectionLineEntries(bxa::CVectorPool<SectionClass> *pPool)
 {
 	CDataReader *pDataReader = CDataReader::getInstance();
 

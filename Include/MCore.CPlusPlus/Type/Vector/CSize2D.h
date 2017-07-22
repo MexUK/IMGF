@@ -1,10 +1,10 @@
 #ifndef CSize2D_H
 #define CSize2D_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 
-class mcore::CSize2D
+class bxa::CSize2D
 {
 public:
 	uint32	m_x; // todo - rename to .width and .height

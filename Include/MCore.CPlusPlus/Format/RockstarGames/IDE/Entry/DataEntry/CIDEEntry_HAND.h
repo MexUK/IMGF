@@ -1,15 +1,15 @@
 #ifndef CIDEEntry_HAND_H
 #define CIDEEntry_HAND_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IDE/Entry/CIDEEntry_Data.h"
 #include <string>
 
-class mcore::CIDEEntry_HAND : public mcore::CIDEEntry_Data
+class bxa::CIDEEntry_HAND : public bxa::CIDEEntry_Data
 {
 public:
-	CIDEEntry_HAND(mcore::CIDEFormat *pIDEFormat) :
+	CIDEEntry_HAND(bxa::CIDEFormat *pIDEFormat) :
 		CIDEEntry_Data(pIDEFormat, IDE_SECTION_HAND),
 		m_uiObjectId(0)
 	{

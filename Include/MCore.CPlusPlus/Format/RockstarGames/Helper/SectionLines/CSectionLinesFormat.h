@@ -1,7 +1,7 @@
 #ifndef CSectionLinesFormat_H
 #define CSectionLinesFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormat.h"
 #include "Format/RockstarGames/e2DFXType.h"
 #include <string>
@@ -10,7 +10,7 @@
 #include <algorithm>
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
-class mcore::CSectionLinesFormat : public mcore::CFormat
+class bxa::CSectionLinesFormat : public bxa::CFormat
 {
 public:
 	CSectionLinesFormat(void);
@@ -61,14 +61,14 @@ private:
 
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
-mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::CSectionLinesFormat(void) :
+bxa::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::CSectionLinesFormat(void) :
 	CFormat(false),
 	m_eActiveReadSection((SectionEnum)0)
 {
 }
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
-void				mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::unload(void)
+void				bxa::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::unload(void)
 {
 	for (auto it : m_umapSectionEntries)
 	{
@@ -82,7 +82,7 @@ void				mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEn
 }
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
-void				mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::unserializeLine(void)
+void				bxa::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::unserializeLine(void)
 {
 	// initialize
 	EntryClass *pFormatEntry = nullptr;
@@ -157,7 +157,7 @@ void				mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEn
 }
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
-void				mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::unserializeText(void)
+void				bxa::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::unserializeText(void)
 {
 	CDataReader *pDataReader = CDataReader::getInstance();
 	pDataReader->readAndStoreLines();
@@ -168,7 +168,7 @@ void				mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEn
 }
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
-void				mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::serializeText(void)
+void				bxa::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::serializeText(void)
 {
 	CDataWriter *pDataWriter = CDataWriter::getInstance();
 	for (auto it : getSectionEntries())
@@ -182,7 +182,7 @@ void				mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEn
 }
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
-std::vector<std::vector<EntryClass*>>	mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::getSectionsBySection(SectionEnum eFormatSectionValue)
+std::vector<std::vector<EntryClass*>>	bxa::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::getSectionsBySection(SectionEnum eFormatSectionValue)
 {
 	std::vector<std::vector<EntryClass*>> vecFormatSections;
 	for (auto it : getSectionEntries())
@@ -196,14 +196,14 @@ std::vector<std::vector<EntryClass*>>	mcore::CSectionLinesFormat<FormatClass, En
 }
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
-OtherEntryClass*	mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::createOtherEntry(void)
+OtherEntryClass*	bxa::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::createOtherEntry(void)
 {
 	OtherEntryClass *pFormatEntry = new OtherEntryClass((FormatClass*)this);
 	return pFormatEntry;
 }
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
-SectionEntryClass*	mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::createSectionEntry(SectionEnum eFormatSectionValue)
+SectionEntryClass*	bxa::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::createSectionEntry(SectionEnum eFormatSectionValue)
 {
 	SectionEntryClass *pFormatEntry = new SectionEntryClass((FormatClass*)this);
 	pFormatEntry->setSectionType(eFormatSectionValue);
@@ -211,7 +211,7 @@ SectionEntryClass*	mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEn
 }
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
-std::vector<std::string>	mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::getModelNames(void)
+std::vector<std::string>	bxa::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::getModelNames(void)
 {
 	std::vector<std::string> vecModelNames;
 	for (auto it : getSectionEntries())
@@ -232,7 +232,7 @@ std::vector<std::string>	mcore::CSectionLinesFormat<FormatClass, EntryClass, Sec
 }
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
-std::vector<std::string>	mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::getTXDNames(void)
+std::vector<std::string>	bxa::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::getTXDNames(void)
 {
 	std::vector<std::string> vecTXDNames;
 	for (auto it : getSectionEntries())
@@ -253,7 +253,7 @@ std::vector<std::string>	mcore::CSectionLinesFormat<FormatClass, EntryClass, Sec
 }
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
-std::vector<std::string>	mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::getTXDNamesFromModelNames(std::vector<std::string>& vecModelNames)
+std::vector<std::string>	bxa::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::getTXDNamesFromModelNames(std::vector<std::string>& vecModelNames)
 {
 	std::vector<std::string> vecTextureNames;
 	for (auto strModelName : vecModelNames)
@@ -264,7 +264,7 @@ std::vector<std::string>	mcore::CSectionLinesFormat<FormatClass, EntryClass, Sec
 }
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
-std::string			mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::getTXDNameFromModelName(std::string strModelName)
+std::string			bxa::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::getTXDNameFromModelName(std::string strModelName)
 {
 	strModelName = CString2::toUpperCase(strModelName);
 	for (auto it : getSectionEntries())
@@ -281,7 +281,7 @@ std::string			mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, O
 }
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
-std::vector<EntryClass*>	mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::getEntriesByModelName(std::string strModelName)
+std::vector<EntryClass*>	bxa::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::getEntriesByModelName(std::string strModelName)
 {
 	strModelName = CString2::toUpperCase(strModelName);
 	std::vector<EntryClass*> vecFormatEntries;
@@ -299,7 +299,7 @@ std::vector<EntryClass*>	mcore::CSectionLinesFormat<FormatClass, EntryClass, Sec
 }
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
-std::vector<EntryClass*>	mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::getEntriesByTXDName(std::string strTXDName)
+std::vector<EntryClass*>	bxa::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::getEntriesByTXDName(std::string strTXDName)
 {
 	strTXDName = CString2::toUpperCase(strTXDName);
 	std::vector<EntryClass*> vecFormatEntries;
@@ -318,7 +318,7 @@ std::vector<EntryClass*>	mcore::CSectionLinesFormat<FormatClass, EntryClass, Sec
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
 template<class EntryClass2>
-std::vector<EntryClass2*>	mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::getEntriesBySection(SectionEnum eSectionValue)
+std::vector<EntryClass2*>	bxa::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::getEntriesBySection(SectionEnum eSectionValue)
 {
 	std::vector<EntryClass2*> vecDerivedEntries;
 	for (auto it : getSectionEntries())
@@ -358,7 +358,7 @@ bool						sortSectionLinesEntries_ObjectID(EntryClass *pFormatEntry1, EntryClass
 }
 
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
-void				mcore::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::sortAllSectionsByObjectId(void)
+void				bxa::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::sortAllSectionsByObjectId(void)
 {
 	for (auto it : getSectionEntries())
 	{

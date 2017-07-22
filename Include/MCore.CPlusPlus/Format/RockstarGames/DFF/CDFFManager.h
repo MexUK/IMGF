@@ -1,13 +1,13 @@
 #ifndef CDFFManager_H
 #define CDFFManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 
-class mcore::CDFFFormat;
+class bxa::CDFFFormat;
 
-class mcore::CDFFManager : public mcore::CFormatManager<mcore::CDFFFormat>, public mcore::CSingleton<mcore::CDFFManager>
+class bxa::CDFFManager : public bxa::CFormatManager<bxa::CDFFFormat>, public bxa::CSingleton<bxa::CDFFManager>
 {
 public:
 	CDFFManager(void);

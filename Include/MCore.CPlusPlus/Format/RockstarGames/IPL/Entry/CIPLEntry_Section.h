@@ -1,15 +1,15 @@
 #ifndef CIPLEntry_Section_H
 #define CIPLEntry_Section_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Format/RockstarGames/IPL/CIPLEntry.h"
 
-class mcore::CIPLFormat;
+class bxa::CIPLFormat;
 
-class mcore::CIPLEntry_Section : public mcore::CIPLEntry
+class bxa::CIPLEntry_Section : public bxa::CIPLEntry
 {
 public:
-	CIPLEntry_Section(mcore::CIPLFormat *pIPLFormat) :
+	CIPLEntry_Section(bxa::CIPLFormat *pIPLFormat) :
 		CIPLEntry(pIPLFormat)
 	{};
 

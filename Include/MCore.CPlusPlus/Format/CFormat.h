@@ -1,16 +1,16 @@
 #ifndef CFormat_H
 #define CFormat_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include "Unit/Byte/eEndian.h"
 #include <string>
 #include <vector>
 
-class mcore::CFormat
+class bxa::CFormat
 {
 public:
-	CFormat(bool bEntityUsesBinaryFile, mcore::eEndian eBinaryDataByteEndian = mcore::LITTLE_ENDIAN);
+	CFormat(bool bEntityUsesBinaryFile, bxa::eEndian eBinaryDataByteEndian = bxa::LITTLE_ENDIAN);
 
 	void						unserializeViaMemory(std::string& strData);
 	void						unserializeViaFile(std::string& strFilePath);
@@ -48,7 +48,7 @@ private:
 	
 private:
 	uint8						m_ucErrorCode;
-	mcore::eEndian						m_eEndian;							// only used for byte interpretation type: binary
+	bxa::eEndian						m_eEndian;							// only used for byte interpretation type: binary
 	std::string					m_strFilePath;						// only used for data stream type: file
 	uint8						m_bFormatUsesBinaryData	: 1;
 };

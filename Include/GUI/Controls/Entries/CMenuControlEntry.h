@@ -8,7 +8,7 @@
 
 class CMenuControlEntry;
 
-class CMenuControlEntry : public CGUIControlComponent_Text, public mcore::CVectorPool<CMenuControlEntry*>
+class CMenuControlEntry : public CGUIControlComponent_Text, public bxa::CVectorPool<CMenuControlEntry*>
 {
 public:
 	CMenuControlEntry(void);

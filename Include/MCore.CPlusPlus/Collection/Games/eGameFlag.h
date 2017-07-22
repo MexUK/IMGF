@@ -1,9 +1,9 @@
 #ifndef eGameFlag_H
 #define eGameFlag_H
 
-#include "mcore.h"
+#include "bxa.h"
 
-enum mcore::eGameFlag : uint8
+enum bxa::eGameFlag : uint8
 {
 	GAME_FLAG_UNKNOWN	= 0,
 	GAME_FLAG_GTA_III	= 1,

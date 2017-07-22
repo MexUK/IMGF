@@ -8,7 +8,7 @@
 
 class CTaskDispatchManager;
 
-class CTaskManager : public mcore::CManager
+class CTaskManager : public bxa::CManager
 {
 public:
 	CTaskManager(void);

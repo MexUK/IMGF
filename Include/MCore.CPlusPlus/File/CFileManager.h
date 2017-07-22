@@ -1,12 +1,12 @@
 #ifndef CFileManager_H
 #define CFileManager_H
 
-#include "mcore.h"
+#include "bxa.h"
 #include "Type/Types.h"
 #include <string>
 #include <vector>
 
-class mcore::CFileManager
+class bxa::CFileManager
 {
 public:
 	static std::string					getFileContent(std::string& strPath, bool bBinaryMode = true);
