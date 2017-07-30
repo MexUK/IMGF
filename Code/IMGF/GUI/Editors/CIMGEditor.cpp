@@ -976,20 +976,18 @@ void					CIMGEditor::loadRightClickMenu(int xPos, int yPos)
 	*/
 }
 
-void		CIMGEditor::initWindow(void)
+void		CIMGEditor::initEditor(void)
 {
-	int32 i, i2, x, y, w, h, w2, h2, h3, sw, sh, sw2, sh2;
+	int32 i, i2, x, y, w, h, w2, h2, h3;
 	CWindow *pWindow = bxgx::CGUIManager::getInstance()->getEntryByIndex(0);
 	uint32 uiTitleBarHeight = pWindow->getTitleBarHeight();
+
 	// all buttons
 	CButtonControl *pButton, *pOpenButton;
-
-	w = 100;
-	h = 20;
-
 	CGUIStyles *pButtonStyles = bxgx::CGUIManager::createStyles();
-	pButtonStyles->setStyle("fill-colour", CColour(240, 240, 240));
-	pButtonStyles->setStyle("border-colour", CColour(140, 140, 140));
+	CColour borderColour(50, 50, 50);
+	pButtonStyles->setStyle("fill-colour", CColour(255, 255, 255));
+	pButtonStyles->setStyle("border-colour", borderColour);
 	pButtonStyles->setStyle("text-align-x", string("left"));
 	pButtonStyles->setStyle("text-align-y", string("center"));
 	pButtonStyles->setStyle("inner-spacing-left", (int32) 8);
@@ -1000,9 +998,16 @@ void		CIMGEditor::initWindow(void)
 	w = 70;
 	h = 30;
 
-	pButton = addButton(x, y, w, h, "Formats", pButtonStyles);
+	CGUIStyles *pButtonStyles_TopLeftMenu = bxgx::CGUIManager::createStyles();
+	pButtonStyles_TopLeftMenu->setStyle("fill-colour", CColour(219, 239, 255));
+	pButtonStyles_TopLeftMenu->setStyle("border-colour", borderColour);
+	pButtonStyles_TopLeftMenu->setStyle("text-align-x", string("left"));
+	pButtonStyles_TopLeftMenu->setStyle("text-align-y", string("center"));
+	pButtonStyles_TopLeftMenu->setStyle("inner-spacing-left", (int32)8);
+
+	pButton = addButton(x, y, w, h, "Formats", pButtonStyles_TopLeftMenu);
 	x += w - 1;
-	pButton = addButton(x, y, w, h, "Utility", pButtonStyles);
+	pButton = addButton(x, y, w, h, "Utility", pButtonStyles_TopLeftMenu);
 
 	// formats menu
 	x = 0;
@@ -1011,23 +1016,30 @@ void		CIMGEditor::initWindow(void)
 	h = 40;
 	h2 = h - 1;
 
-	pButton = addButton(x, y, w, h, "DAT", pButtonStyles);
+	CGUIStyles *pButtonStyles_FormatsMenu = bxgx::CGUIManager::createStyles();
+	pButtonStyles_FormatsMenu->setStyle("fill-colour", CColour(149, 207, 255));
+	pButtonStyles_FormatsMenu->setStyle("border-colour", borderColour);
+	pButtonStyles_FormatsMenu->setStyle("text-align-x", string("left"));
+	pButtonStyles_FormatsMenu->setStyle("text-align-y", string("center"));
+	pButtonStyles_FormatsMenu->setStyle("inner-spacing-left", (int32)8);
+
+	pButton = addButton(x, y, w, h, "DAT", pButtonStyles_FormatsMenu);
 	y += h2;
-	pButton = addButton(x, y, w, h, "IMG", pButtonStyles);
+	pButton = addButton(x, y, w, h, "IMG", pButtonStyles_FormatsMenu);
 	y += h2;
-	pButton = addButton(x, y, w, h, "Item Definition", pButtonStyles);
+	pButton = addButton(x, y, w, h, "Item Definition", pButtonStyles_FormatsMenu);
 	y += h2;
-	pButton = addButton(x, y, w, h, "Item Placement", pButtonStyles);
+	pButton = addButton(x, y, w, h, "Item Placement", pButtonStyles_FormatsMenu);
 	y += h2;
-	pButton = addButton(x, y, w, h, "Models", pButtonStyles);
+	pButton = addButton(x, y, w, h, "Models", pButtonStyles_FormatsMenu);
 	y += h2;
-	pButton = addButton(x, y, w, h, "Collisions", pButtonStyles);
+	pButton = addButton(x, y, w, h, "Collisions", pButtonStyles_FormatsMenu);
 	y += h2;
-	pButton = addButton(x, y, w, h, "Textures", pButtonStyles);
+	pButton = addButton(x, y, w, h, "Textures", pButtonStyles_FormatsMenu);
 	y += h2;
-	pButton = addButton(x, y, w, h, "Animations", pButtonStyles);
+	pButton = addButton(x, y, w, h, "Animations", pButtonStyles_FormatsMenu);
 	y += h2;
-	pButton = addButton(x, y, w, h, "Radar", pButtonStyles);
+	pButton = addButton(x, y, w, h, "Radar", pButtonStyles_FormatsMenu);
 
 	// game information headers
 	x = 149;
@@ -1036,17 +1048,20 @@ void		CIMGEditor::initWindow(void)
 	h = 20;
 	h2 = 15;
 
-	addText(x, y, w, h, "Game");
+	CGUIStyles *pTextStyles_GameInfo = bxgx::CGUIManager::createStyles();
+	pTextStyles_GameInfo->setStyle("text-colour", CColour(255, 255, 255));
+
+	addText(x, y, w, h, "Game", pTextStyles_GameInfo);
 	y += h2;
-	addText(x, y, w, h, "Game Validity");
+	addText(x, y, w, h, "Game Validity", pTextStyles_GameInfo);
 	y += h2;
-	addText(x, y, w, h, "Game Location");
+	addText(x, y, w, h, "Game Location", pTextStyles_GameInfo);
 	y += h2;
-	addText(x, y, w, h, "File Game");
+	addText(x, y, w, h, "File Game", pTextStyles_GameInfo);
 	y += h2;
-	addText(x, y, w, h, "File Validity");
+	addText(x, y, w, h, "File Validity", pTextStyles_GameInfo);
 	y += h2;
-	addText(x, y, w, h, "File Location");
+	addText(x, y, w, h, "File Location", pTextStyles_GameInfo);
 
 	// game information values
 	x += 149;
@@ -1054,17 +1069,17 @@ void		CIMGEditor::initWindow(void)
 	w = 350;
 	h = 20;
 
-	addText(x, y, w, h, "GTA Vice City (PC, 1.0)");
+	addText(x, y, w, h, "GTA Vice City (PC, 1.0)", pTextStyles_GameInfo);
 	y += h2;
-	addText(x, y, w, h, "Launchable");
+	addText(x, y, w, h, "Launchable", pTextStyles_GameInfo);
 	y += h2;
-	addText(x, y, w, h, "C:/Program Files (x86)/Rockstar Games/Grand Theft Auto Vice City");
+	addText(x, y, w, h, "C:/Program Files (x86)/Rockstar Games/Grand Theft Auto Vice City", pTextStyles_GameInfo);
 	y += h2;
-	addText(x, y, w, h, "GTA Vice City (PC, RW 11.22.33.44)");
+	addText(x, y, w, h, "GTA Vice City (PC, RW 11.22.33.44)", pTextStyles_GameInfo);
 	y += h2;
-	addText(x, y, w, h, "Valid");
+	addText(x, y, w, h, "Valid", pTextStyles_GameInfo);
 	y += h2;
-	addText(x, y, w, h, "C:/Program Files (x86)/Rockstar Games/Grand Theft Auto Vice City/DATA/maps/a.txd");
+	addText(x, y, w, h, "C:/Program Files (x86)/Rockstar Games/Grand Theft Auto Vice City/DATA/maps/a.txd", pTextStyles_GameInfo);
 
 	// top menu - buttons
 	x = 138;
@@ -1073,22 +1088,30 @@ void		CIMGEditor::initWindow(void)
 	h = 30;
 	w2 = w - 1;
 
-	addButton(x, y, w, h, "Open", pButtonStyles);
+	CGUIStyles *pButtonStyles_TopMenu = bxgx::CGUIManager::createStyles();
+	CColour topMenuFillColour(175, 255, 149);
+	pButtonStyles_TopMenu->setStyle("fill-colour", topMenuFillColour);
+	pButtonStyles_TopMenu->setStyle("border-colour", borderColour);
+	pButtonStyles_TopMenu->setStyle("text-align-x", string("left"));
+	pButtonStyles_TopMenu->setStyle("text-align-y", string("center"));
+	pButtonStyles_TopMenu->setStyle("inner-spacing-left", (int32)8);
+
+	addButton(x, y, w, h, "Open", pButtonStyles_TopMenu);
 	x += w2;
-	addButton(x, y, w, h, "Close", pButtonStyles);
+	addButton(x, y, w, h, "Close", pButtonStyles_TopMenu);
 	x += w2;
-	addButton(x, y, w, h, "Save", pButtonStyles);
+	addButton(x, y, w, h, "Save", pButtonStyles_TopMenu);
 	x += w2;
 
 	// filter bar - search box
 	w2 = -1;
 	x += w2;
-	w = 270;
+	w = 278;
 	h = 30;
 
 	CGUIStyles *pSearchBoxStyles = bxgx::CGUIManager::createStyles();
-	pSearchBoxStyles->setStyle("fill-colour", CColour(255, 255, 255));
-	pSearchBoxStyles->setStyle("border-colour", CColour(140, 140, 140));
+	pSearchBoxStyles->setStyle("fill-colour", topMenuFillColour);
+	pSearchBoxStyles->setStyle("border-colour", borderColour);
 	pSearchBoxStyles->setStyle("text-colour", CColour(0, 0, 0));
 	pSearchBoxStyles->setStyle("text-align-x", string("left"));
 	pSearchBoxStyles->setStyle("text-align-y", string("center"));
@@ -1102,8 +1125,8 @@ void		CIMGEditor::initWindow(void)
 	h = 30;
 
 	CGUIStyles *pEntryTypeFilterStyles = bxgx::CGUIManager::createStyles();
-	pEntryTypeFilterStyles->setStyle("fill-colour", CColour(255, 255, 255));
-	pEntryTypeFilterStyles->setStyle("border-colour", CColour(140, 140, 140));
+	pEntryTypeFilterStyles->setStyle("fill-colour", topMenuFillColour);
+	pEntryTypeFilterStyles->setStyle("border-colour", borderColour);
 	pEntryTypeFilterStyles->setStyle("text-colour", CColour(0, 0, 0));
 	pEntryTypeFilterStyles->setStyle("text-align-x", string("left"));
 	pEntryTypeFilterStyles->setStyle("text-align-y", string("center"));
@@ -1118,8 +1141,8 @@ void		CIMGEditor::initWindow(void)
 	h = 30;
 
 	CGUIStyles *pEntryVersionFilterStyles = bxgx::CGUIManager::createStyles();
-	pEntryVersionFilterStyles->setStyle("fill-colour", CColour(255, 255, 255));
-	pEntryVersionFilterStyles->setStyle("border-colour", CColour(140, 140, 140));
+	pEntryVersionFilterStyles->setStyle("fill-colour", topMenuFillColour);
+	pEntryVersionFilterStyles->setStyle("border-colour", borderColour);
 	pEntryVersionFilterStyles->setStyle("text-colour", CColour(0, 0, 0));
 	pEntryVersionFilterStyles->setStyle("text-align-x", string("left"));
 	pEntryVersionFilterStyles->setStyle("text-align-y", string("center"));
@@ -1134,18 +1157,18 @@ void		CIMGEditor::initWindow(void)
 	w = 500;
 	h = 30;
 
-	int32 iIMGInstanceTabBarHeight = h;
-
 	CGUIStyles *pIMGInstanceTabBarStyles = bxgx::CGUIManager::createStyles();
-	//pIMGInstanceTabBarStyles->setStyle("fill-colour", CColour(255, 255, 255));
-	pIMGInstanceTabBarStyles->setStyle("border-colour", CColour(0, 0, 0));
+	pIMGInstanceTabBarStyles->setStyle("fill-colour", CColour(220, 220, 220));
+	pIMGInstanceTabBarStyles->setStyle("border-colour", borderColour);
 	pIMGInstanceTabBarStyles->setStyle("text-align-x", string("left"));
 	pIMGInstanceTabBarStyles->setStyle("text-align-y", string("center"));
 	pIMGInstanceTabBarStyles->setStyle("inner-spacing-x", (int32)8);
 
 	CTabControl *pIMGInstanceTabBar = addTabBar(CPoint2D(x, y), CSize2D(w, h), pIMGInstanceTabBarStyles);
 
-	pIMGInstanceTabBar->addTab("IMG1.img (#0)", true);
+	pIMGInstanceTabBar->addTab("gta3.img (#1000)", true);
+	pIMGInstanceTabBar->addTab("gta3 - backup.img (#1200)");
+	pIMGInstanceTabBar->addTab("gta3.img (#1000)");
 
 	// 2nd left menu - actions
 	x = 138;
@@ -1153,40 +1176,42 @@ void		CIMGEditor::initWindow(void)
 	w = 110;
 	h = 30;
 	h2 = h - 1;
-	h3 = h2 + 15;
+	h3 = h2 + 10;
 
-	addButton(x, y, w, h, "Import", pButtonStyles);
+	CGUIStyles *pButtonStyles_ActionMenu = pButtonStyles_TopMenu;
+
+	addButton(x, y, w, h, "Import", pButtonStyles_ActionMenu);
 	y += h2;
-	addButton(x, y, w, h, "Export", pButtonStyles);
+	addButton(x, y, w, h, "Export", pButtonStyles_ActionMenu);
 	y += h2;
-	addButton(x, y, w, h, "Quick Export", pButtonStyles);
+	addButton(x, y, w, h, "Quick Export", pButtonStyles_ActionMenu);
 	y += h3;
 
-	addButton(x, y, w, h, "Rename", pButtonStyles);
+	addButton(x, y, w, h, "Rename", pButtonStyles_ActionMenu);
 	y += h2;
-	addButton(x, y, w, h, "Replace", pButtonStyles);
+	addButton(x, y, w, h, "Replace", pButtonStyles_ActionMenu);
 	y += h2;
-	addButton(x, y, w, h, "Remove", pButtonStyles);
+	addButton(x, y, w, h, "Remove", pButtonStyles_ActionMenu);
 	y += h3;
 
-	addButton(x, y, w, h, "Merge", pButtonStyles);
+	addButton(x, y, w, h, "Merge", pButtonStyles_ActionMenu);
 	y += h2;
-	addButton(x, y, w, h, "Split", pButtonStyles);
+	addButton(x, y, w, h, "Split", pButtonStyles_ActionMenu);
 	y += h2;
-	addButton(x, y, w, h, "Convert", pButtonStyles);
+	addButton(x, y, w, h, "Convert", pButtonStyles_ActionMenu);
 	y += h3;
 
-	addButton(x, y, w, h, "Select", pButtonStyles);
+	addButton(x, y, w, h, "Select", pButtonStyles_ActionMenu);
 	y += h2;
-	addButton(x, y, w, h, "Sort", pButtonStyles);
+	addButton(x, y, w, h, "Sort", pButtonStyles_ActionMenu);
 	y += h2;
-	addButton(x, y, w, h, "LST", pButtonStyles);
+	addButton(x, y, w, h, "LST", pButtonStyles_ActionMenu);
 	y += h3;
 
 	// main editor component - entry list
 	x += w - 1;
 	y = 162 + 30;
-	w = 835;
+	w = 843;
 	h = 450;
 
 	uint32 uiEntryListWidth = w;
@@ -1194,7 +1219,7 @@ void		CIMGEditor::initWindow(void)
 
 	CGUIStyles *pEntryListStyles = bxgx::CGUIManager::createStyles();
 	pEntryListStyles->setStyle("fill-colour", CColour(255, 255, 255));
-	pEntryListStyles->setStyle("border-colour", CColour(140, 140, 140));
+	pEntryListStyles->setStyle("border-colour", borderColour);
 	pEntryListStyles->setStyle("list-header-row.fill-colour", CColour(250, 255, 235));
 	pEntryListStyles->setStyle("list-header-cell.text-align-x", string("left"));
 	pEntryListStyles->setStyle("list-header-cell.text-align-y", string("center"));
@@ -1210,11 +1235,11 @@ void		CIMGEditor::initWindow(void)
 	h2 = 10;
 	x = (pWindow->getSize().m_x - w2) - w;
 	y = uiTitleBarHeight + h2;
-	h = 10;
+	h = 12;
 	
 	CGUIStyles *pProgressBarStyles = bxgx::CGUIManager::createStyles();
 	pProgressBarStyles->setStyle("fill-colour", CColour(255, 255, 255));
-	pProgressBarStyles->setStyle("border-colour", CColour(0, 0, 0));
+	//pProgressBarStyles->setStyle("border-colour", borderColour);
 
 	addProgress(x, y, w, h, pProgressBarStyles);
 

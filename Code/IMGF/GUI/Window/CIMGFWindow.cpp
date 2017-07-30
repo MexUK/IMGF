@@ -38,14 +38,20 @@ void					CIMGFWindow::bindEvents(void)
 }
 
 // window initialization
-void					CIMGFWindow::initTabs(void)
+void					CIMGFWindow::initWindow(void)
 {
+	addTitleBar("IMG Factory");
+	
 	// window background colour
 	//getStyles()->setStyle("fill-colour", CColour(0xFF, 0xFF, 0xFF)); // white
-	getStyles()->setStyle("fill-colour", CColour(235, 235, 250)); // blue
-																  
+	//getStyles()->setStyle("fill-colour", CColour(235, 235, 250)); // light blue
+	//getStyles()->setStyle("fill-colour", CColour(0x21, 0x4E, 0x67));
+	getStyles()->setStyle("fill-colour", CColour(0, 140, 200, 255)); // medium blue
+
+	/*
 	// add tab bar
 	CEditor *pEditor = (CEditor*) getEntryByIndex(0);
+	*/
 
 	/*
 	CGUIStyles *pTabBarStyles = bxgx::CGUIManager::createStyles();
@@ -60,16 +66,7 @@ void					CIMGFWindow::initTabs(void)
 	pTabBar->addTab("Texture Editor");
 	*/
 
-
-
-
-	return; // todo
-
-	// set window properties
-	getStyles()->setStyle("fill-colour", CColour(0x21, 0x4E, 0x67));
-
-	
-
+	/*
 	// add window controls
 	CButtonControl *pButton = pEditor->addButton(CPoint2D((int32) 38, 35 + 38), CSize2D(172, 40), "Open");
 	pButton->setLayer(pEditor);
@@ -101,6 +98,7 @@ void					CIMGFWindow::initTabs(void)
 			// todo getIMGF()->getWindowManager()->render(); // todo - needed?
 		}
 	}, this);
+	*/
 }
 
 // render

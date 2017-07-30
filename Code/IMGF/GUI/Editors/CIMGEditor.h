@@ -21,8 +21,10 @@ public:
 		m_pEntryListControl(nullptr)
 	{}
 
+	void						initEditor(void);
 	void						initMenu(void);
 	void						loadRightClickMenu(int xPos, int yPos);
+	void						render(void);
 
 	CIMGEditorTab*				addTab(std::string strIMGPath, bxcf::eIMGVersion eIMGVersionValue);
 	CIMGEditorTab*				addBlankTab(std::string strIMGPath, bxcf::eIMGVersion eIMGVersionValue);
@@ -60,9 +62,6 @@ public:
 	CListControl*				getEntryListControl(void) { return m_pEntryListControl; }
 
 	std::vector<CSearchEntry*>&	getSearchEntries(void) { return m_vecSearchEntries; }
-
-	void						initWindow(void);
-	void						render(void);
 
 private:
 	CIMGEditorTab*				_addTab(bxcf::CIMGFormat *pIMGFormat);

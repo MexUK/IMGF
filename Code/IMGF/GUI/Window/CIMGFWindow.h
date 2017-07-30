@@ -10,7 +10,7 @@ class CIMGFWindow : public CWindow
 public:
 	CIMGFWindow(void);
 
-	void					initTabs(void);
+	void					initWindow(void);
 
 	void					bindEvents(void);
 
