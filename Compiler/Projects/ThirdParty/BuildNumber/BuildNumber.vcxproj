@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\ThirdParty\BuildNumber\buildnumber.c" />
+    <ClCompile Include="..\..\..\..\Dependencies\ThirdParty\BuildNumber\buildnumber.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\ThirdParty\BuildNumber\buildnumber.h" />
+    <ClInclude Include="..\..\..\..\Dependencies\ThirdParty\BuildNumber\buildnumber.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6FBD84F0-8530-44AD-A2E6-AFFC9A23EF67}</ProjectGuid>
@@ -25,13 +25,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -46,7 +46,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\..\..\..\..\IMGF\BuildEvents\BuildNumber\$(Configuration)\</OutDir>
+    <OutDir>..\..\..\..\Compiler\Events\BuildNumber\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\..\_Output\Intermediate\IMGF\ThirdParty\BuildNumber\$(Configuration)\</IntDir>
     <TargetName>BuildNumber</TargetName>
   </PropertyGroup>

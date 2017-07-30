@@ -225,990 +225,990 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\ThirdParty\Bitmap\bitmap.cpp">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\Bitmap\bitmap.cpp">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Bitmap</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\HappyHTTP\happyhttp.cpp">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\HappyHTTP\happyhttp.cpp">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\HappyHTTP</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\GLEW\glew.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLEW\glew.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLEW</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\GLEW\glewinfo.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLEW\glewinfo.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLEW</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\GLEW\visualinfo.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLEW\visualinfo.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLEW</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\GLFW\src\context.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLFW\src\context.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\GLFW\src\init.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLFW\src\init.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\GLFW\src\input.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLFW\src\input.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\GLFW\src\monitor.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLFW\src\monitor.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\GLFW\src\wgl_context.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLFW\src\wgl_context.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\GLFW\src\win32_init.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLFW\src\win32_init.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\GLFW\src\win32_monitor.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLFW\src\win32_monitor.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\GLFW\src\win32_time.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLFW\src\win32_time.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\GLFW\src\win32_tls.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLFW\src\win32_tls.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\GLFW\src\win32_window.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLFW\src\win32_window.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\GLFW\src\window.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLFW\src\window.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\GLFW\src\winmm_joystick.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLFW\src\winmm_joystick.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\GLM\detail\glm.cpp">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLM\detail\glm.cpp">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\freetype-gl\shader.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\freetype-gl\shader.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\freetype-gl\text-buffer.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\freetype-gl\text-buffer.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\freetype-gl\texture-atlas.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\freetype-gl\texture-atlas.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\freetype-gl\texture-font.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\freetype-gl\texture-font.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\freetype-gl\vector.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\freetype-gl\vector.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\freetype-gl\vertex-attribute.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\freetype-gl\vertex-attribute.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\freetype-gl\vertex-buffer.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\freetype-gl\vertex-buffer.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\freetype-gl\edtaa3func.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\freetype-gl\edtaa3func.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\freetype-gl\font-manager.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\freetype-gl\font-manager.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\freetype-gl\makefont.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\freetype-gl\makefont.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\freetype-gl\mat4.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\freetype-gl\mat4.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ThirdParty\freetype-gl\platform.c">
+    <ClCompile Include="..\..\..\Dependencies\ThirdParty\freetype-gl\platform.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\CDumpManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\CDumpManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\CHTTPManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\CHTTPManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\CInstallationMeta.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\CInstallationMeta.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\CIMGF.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\CIMGF.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\CLastUsedValueManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\CLastUsedValueManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\CLSTProcessingManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\CLSTProcessingManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\CPopupGUIManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\CPopupGUIManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\CSettingsManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\CSettingsManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\CSocketUtility.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\CSocketUtility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\DragDrop\CDragListCtrl.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDragListCtrl.cpp">
       <Filter>Source Files\DragDrop</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\DragDrop\CDropSource.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDropSource.cpp">
       <Filter>Source Files\DragDrop</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\DragDrop\CDropTarget.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDropTarget.cpp">
       <Filter>Source Files\DragDrop</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\EntryViewer\CCollisionViewer.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\EntryViewer\CCollisionViewer.cpp">
       <Filter>Source Files\EntryViewer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\EntryViewer\CEntryViewer.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\EntryViewer\CEntryViewer.cpp">
       <Filter>Source Files\EntryViewer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\EntryViewer\CEntryViewerManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\EntryViewer\CEntryViewerManager.cpp">
       <Filter>Source Files\EntryViewer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\EntryViewer\CTextureViewer.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\EntryViewer\CTextureViewer.cpp">
       <Filter>Source Files\EntryViewer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\FileFormat\DB\CDBEntry.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\DB\CDBEntry.cpp">
       <Filter>Source Files\FileFormat\DB</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\FileFormat\DB\CDBFormat.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\DB\CDBFormat.cpp">
       <Filter>Source Files\FileFormat\DB</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\FileFormat\DB\CDBManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\DB\CDBManager.cpp">
       <Filter>Source Files\FileFormat\DB</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\FileFormat\LST\CLSTEntry.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTEntry.cpp">
       <Filter>Source Files\FileFormat\LST</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\FileFormat\LST\CLSTFormat.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTFormat.cpp">
       <Filter>Source Files\FileFormat\LST</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\FileFormat\LST\CLSTSection.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTSection.cpp">
       <Filter>Source Files\FileFormat\LST</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\FileFormat\LST\CLSTManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTManager.cpp">
       <Filter>Source Files\FileFormat\LST</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\Globals.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\Globals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\GUI\CWindowManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\CWindowManager.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\GUI\Editors\CIMGEditor.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editors\CIMGEditor.cpp">
       <Filter>Source Files\GUI\Editors</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\GUI\Editors\Tab\CIMGEditorTab.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editors\Tab\CIMGEditorTab.cpp">
       <Filter>Source Files\GUI\Editors\Tab</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\GUI\Editor\CEditor.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\CEditor.cpp">
       <Filter>Source Files\GUI\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\GUI\Editor\Tab\CEditorTab.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tab\CEditorTab.cpp">
       <Filter>Source Files\GUI\Editor\Tab</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\GUI\ThemeDesigner\CThemeDesigner.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\CThemeDesigner.cpp">
       <Filter>Source Files\GUI\ThemeDesigner</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.cpp">
       <Filter>Source Files\GUI\ThemeDesigner</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.cpp">
       <Filter>Source Files\GUI\ThemeDesigner</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\GUI\ThemeDesigner\Tab\CThemeDesignerTab.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tab\CThemeDesignerTab.cpp">
       <Filter>Source Files\GUI\ThemeDesigner</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\GUI\Window\CIMGFWindow.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\CIMGFWindow.cpp">
       <Filter>Source Files\GUI\Window</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\Language\CLanguageManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\Language\CLanguageManager.cpp">
       <Filter>Source Files\Language</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\Main.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\Task\CTaskDispatchManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\Task\CTaskDispatchManager.cpp">
       <Filter>Source Files\Task</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\Task\CTaskManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\Task\CTaskManager.cpp">
       <Filter>Source Files\Task</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\RecentlyOpen\CRecentlyOpenEntry.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\RecentlyOpen\CRecentlyOpenEntry.cpp">
       <Filter>Source Files\RecentlyOpen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\RecentlyOpen\CRecentlyOpenManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\RecentlyOpen\CRecentlyOpenManager.cpp">
       <Filter>Source Files\RecentlyOpen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\Session\CSession.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\Session\CSession.cpp">
       <Filter>Source Files\Session</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\Session\CSessionManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\Session\CSessionManager.cpp">
       <Filter>Source Files\Session</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\Sort\CSortManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\Sort\CSortManager.cpp">
       <Filter>Source Files\Sort</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\Sort\CSortType.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\Sort\CSortType.cpp">
       <Filter>Source Files\Sort</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\Update\CUpdateConnectionManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\Update\CUpdateConnectionManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\Update\CUpdateManager.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\Update\CUpdateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\AutomatedTesting\CAutomatedTesting.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.cpp">
       <Filter>Source Files\AutomatedTesting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\ThirdParty\Bitmap\bitmap.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\Bitmap\bitmap.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Bitmap</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\HappyHTTP\happyhttp.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\HappyHTTP\happyhttp.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\HappyHTTP</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLEW\GL\glxew.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLEW\GL\glxew.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLEW\GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLEW\GL\wglew.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLEW\GL\wglew.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLEW\GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLEW\GL\glew.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLEW\GL\glew.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLEW\GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\wl_platform.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\wl_platform.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\x11_platform.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\x11_platform.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\xkb_unicode.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\xkb_unicode.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\cocoa_platform.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\cocoa_platform.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\egl_context.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\egl_context.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\glx_context.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\glx_context.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\internal.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\internal.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\iokit_joystick.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\iokit_joystick.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\linux_joystick.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\linux_joystick.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\mir_platform.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\mir_platform.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\nsgl_context.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\nsgl_context.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\posix_time.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\posix_time.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\posix_tls.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\posix_tls.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\wgl_context.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\wgl_context.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\win32_platform.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\win32_platform.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\win32_tls.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\win32_tls.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\src\winmm_joystick.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\src\winmm_joystick.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\include\GLFW\glfw3native.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\include\GLFW\glfw3native.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW\include\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\include\GLFW\glfw3.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\include\GLFW\glfw3.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW\include\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\deps\GL\glxext.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\deps\GL\glxext.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW\deps\GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\deps\GL\wglext.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\deps\GL\wglext.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW\deps\GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLFW\deps\GL\glext.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLFW\deps\GL\glext.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLFW\deps\GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\Freeglut\include\GL\freeglut_std.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\Freeglut\include\GL\freeglut_std.h">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLUT</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\Freeglut\include\GL\glut.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\Freeglut\include\GL\glut.h">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLUT</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\Freeglut\include\GL\freeglut.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\Freeglut\include\GL\freeglut.h">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLUT</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\Freeglut\include\GL\freeglut_ext.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\Freeglut\include\GL\freeglut_ext.h">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLUT</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\mat4x3.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\mat4x3.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\mat4x4.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\mat4x4.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\matrix.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\matrix.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\packing.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\packing.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\trigonometric.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\trigonometric.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\vec2.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\vec2.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\vec3.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\vec3.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\vec4.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\vec4.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\vector_relational.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\vector_relational.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\common.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\common.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\exponential.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\exponential.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\ext.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\ext.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\fwd.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\fwd.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\geometric.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\geometric.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\glm.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\glm.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\integer.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\integer.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\mat2x2.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\mat2x2.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\mat2x3.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\mat2x3.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\mat2x4.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\mat2x4.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\mat3x2.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\mat3x2.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\mat3x3.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\mat3x3.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\mat3x4.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\mat3x4.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\mat4x2.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\mat4x2.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\transform2.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\transform2.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\type_aligned.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\type_aligned.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\vector_angle.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\vector_angle.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\vector_query.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\vector_query.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\wrap.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\wrap.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\associated_min_max.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\associated_min_max.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\bit.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\bit.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\closest_point.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\closest_point.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\color_space.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\color_space.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\color_space_YCoCg.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\color_space_YCoCg.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\common.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\common.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\compatibility.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\compatibility.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\component_wise.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\component_wise.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\dual_quaternion.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\dual_quaternion.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\euler_angles.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\euler_angles.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\extend.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\extend.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\extended_min_max.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\extended_min_max.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\fast_exponential.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\fast_exponential.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\fast_square_root.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\fast_square_root.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\fast_trigonometry.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\fast_trigonometry.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\gradient_paint.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\gradient_paint.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\handed_coordinate_space.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\handed_coordinate_space.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\hash.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\hash.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\integer.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\integer.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\intersect.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\intersect.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\io.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\io.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\log_base.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\log_base.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\matrix_cross_product.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\matrix_cross_product.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\matrix_decompose.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\matrix_decompose.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\matrix_interpolation.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\matrix_interpolation.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\matrix_major_storage.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\matrix_major_storage.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\matrix_operation.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\matrix_operation.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\matrix_query.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\matrix_query.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\matrix_transform_2d.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\matrix_transform_2d.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\mixed_product.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\mixed_product.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\norm.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\norm.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\normal.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\normal.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\normalize_dot.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\normalize_dot.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\number_precision.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\number_precision.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\optimum_pow.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\optimum_pow.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\orthonormalize.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\orthonormalize.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\perpendicular.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\perpendicular.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\polar_coordinates.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\polar_coordinates.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\projection.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\projection.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\quaternion.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\quaternion.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\range.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\range.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\raw_data.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\raw_data.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\rotate_normalized_axis.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\rotate_normalized_axis.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\rotate_vector.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\rotate_vector.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\scalar_multiplication.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\scalar_multiplication.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\scalar_relational.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\scalar_relational.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\simd_mat4.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\simd_mat4.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\simd_quat.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\simd_quat.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\simd_vec4.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\simd_vec4.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\spline.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\spline.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\std_based_type.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\std_based_type.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\string_cast.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\string_cast.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtx\transform.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtx\transform.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\packing.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\packing.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\quaternion.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\quaternion.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\random.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\random.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\reciprocal.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\reciprocal.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\round.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\round.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\type_precision.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\type_precision.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\type_ptr.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\type_ptr.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\ulp.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\ulp.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\vec1.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\vec1.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\bitfield.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\bitfield.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\color_space.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\color_space.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\constants.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\constants.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\epsilon.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\epsilon.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\integer.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\integer.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\matrix_access.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\matrix_access.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\matrix_integer.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\matrix_integer.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\matrix_inverse.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\matrix_inverse.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\matrix_transform.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\matrix_transform.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\gtc\noise.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\gtc\noise.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\gtc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_vec1.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_vec1.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_vec2.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_vec2.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_vec3.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_vec3.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_vec4.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_vec4.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\_features.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\_features.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\_fixes.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\_fixes.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\_noise.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\_noise.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\_swizzle.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\_swizzle.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\_swizzle_func.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\_swizzle_func.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\_vectorize.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\_vectorize.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\func_common.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\func_common.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\func_exponential.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\func_exponential.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\func_geometric.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\func_geometric.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\func_integer.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\func_integer.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\func_matrix.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\func_matrix.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\func_packing.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\func_packing.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\func_trigonometric.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\func_trigonometric.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\func_vector_relational.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\func_vector_relational.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\intrinsic_common.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\intrinsic_common.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\intrinsic_exponential.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\intrinsic_exponential.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\intrinsic_geometric.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\intrinsic_geometric.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\intrinsic_integer.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\intrinsic_integer.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\intrinsic_matrix.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\intrinsic_matrix.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\intrinsic_trigonometric.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\intrinsic_trigonometric.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\intrinsic_vector_relational.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\intrinsic_vector_relational.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\precision.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\precision.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\setup.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\setup.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_float.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_float.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_gentype.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_gentype.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_half.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_half.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_int.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_int.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_mat.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_mat.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_mat2x2.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_mat2x2.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_mat2x3.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_mat2x3.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_mat2x4.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_mat2x4.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_mat3x2.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_mat3x2.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_mat3x3.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_mat3x3.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_mat3x4.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_mat3x4.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_mat4x2.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_mat4x2.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_mat4x3.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_mat4x3.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_mat4x4.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_mat4x4.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\GLM\detail\type_vec.hpp">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\detail\type_vec.hpp">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\freetype-gl\vec234.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\vec234.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\freetype-gl\vector.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\vector.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\freetype-gl\vertex-attribute.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\vertex-attribute.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\freetype-gl\vertex-buffer.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\vertex-buffer.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\freetype-gl\edtaa3func.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\edtaa3func.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\freetype-gl\font-manager.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\font-manager.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\freetype-gl\freetype-gl.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\freetype-gl.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\freetype-gl\markup.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\markup.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\freetype-gl\mat4.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\mat4.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\freetype-gl\opengl.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\opengl.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\freetype-gl\platform.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\platform.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\freetype-gl\shader.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\shader.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\freetype-gl\text-buffer.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\text-buffer.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\freetype-gl\texture-atlas.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\texture-atlas.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ThirdParty\freetype-gl\texture-font.h">
+    <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\texture-font.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\buildnumber.h">
+    <ClInclude Include="..\..\..\Code\IMGF\buildnumber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\CBuildMeta.h">
+    <ClInclude Include="..\..\..\Code\IMGF\CBuildMeta.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\CDumpManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\CDumpManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\CFilterOptions.h">
+    <ClInclude Include="..\..\..\Code\IMGF\CFilterOptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\CHTTPManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\CHTTPManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\CInstallationMeta.h">
+    <ClInclude Include="..\..\..\Code\IMGF\CInstallationMeta.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\CIMGF.h">
+    <ClInclude Include="..\..\..\Code\IMGF\CIMGF.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\CLastUsedValueManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\CLastUsedValueManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\CLSTProcessingManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\CLSTProcessingManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\CPopupGUIManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\CPopupGUIManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\CSearchEntry.h">
+    <ClInclude Include="..\..\..\Code\IMGF\CSearchEntry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\CSettingsManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\CSettingsManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\CSocketUtility.h">
+    <ClInclude Include="..\..\..\Code\IMGF\CSocketUtility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\DragDrop\CDragListCtrl.h">
+    <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDragListCtrl.h">
       <Filter>Header Files\DragDrop</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\DragDrop\CDropSource.h">
+    <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDropSource.h">
       <Filter>Header Files\DragDrop</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\DragDrop\CDropTarget.h">
+    <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDropTarget.h">
       <Filter>Header Files\DragDrop</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\EntryViewer\CCollisionViewer.h">
+    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\CCollisionViewer.h">
       <Filter>Header Files\EntryViewer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\EntryViewer\CEntryViewer.h">
+    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\CEntryViewer.h">
       <Filter>Header Files\EntryViewer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\EntryViewer\CEntryViewerManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\CEntryViewerManager.h">
       <Filter>Header Files\EntryViewer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\EntryViewer\CTextureViewer.h">
+    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\CTextureViewer.h">
       <Filter>Header Files\EntryViewer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\EntryViewer\CTextureViewerTextureData.h">
+    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\CTextureViewerTextureData.h">
       <Filter>Header Files\EntryViewer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\EntryViewer\eEntryViewerDisplayType.h">
+    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\eEntryViewerDisplayType.h">
       <Filter>Header Files\EntryViewer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\FileFormat\DB\CDBEntry.h">
+    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\DB\CDBEntry.h">
       <Filter>Header Files\FileFormat\DB</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\FileFormat\DB\CDBFormat.h">
+    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\DB\CDBFormat.h">
       <Filter>Header Files\FileFormat\DB</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\FileFormat\DB\CDBManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\DB\CDBManager.h">
       <Filter>Header Files\FileFormat\DB</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\FileFormat\LST\CLSTEntry.h">
+    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTEntry.h">
       <Filter>Header Files\FileFormat\LST</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\FileFormat\LST\CLSTFormat.h">
+    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTFormat.h">
       <Filter>Header Files\FileFormat\LST</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\FileFormat\LST\CLSTSection.h">
+    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTSection.h">
       <Filter>Header Files\FileFormat\LST</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\FileFormat\LST\CLSTManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTManager.h">
       <Filter>Header Files\FileFormat\LST</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Globals.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\GUI\CWindowManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\CWindowManager.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\GUI\Editors\CIMGEditor.h">
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\CIMGEditor.h">
       <Filter>Header Files\GUI\Editors</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\GUI\Editors\CTextureEditor.h">
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\CTextureEditor.h">
       <Filter>Header Files\GUI\Editors</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\GUI\Editors\Tab\CIMGEditorTab.h">
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\Tab\CIMGEditorTab.h">
       <Filter>Header Files\GUI\Editors</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\GUI\Editor\CEditor.h">
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\CEditor.h">
       <Filter>Header Files\GUI\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\GUI\Editor\Tab\CEditorTab.h">
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tab\CEditorTab.h">
       <Filter>Header Files\GUI\Editor\Tab</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\GUI\ThemeDesigner\CThemeDesigner.h">
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\CThemeDesigner.h">
       <Filter>Header Files\GUI\ThemeDesigner</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.h">
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.h">
       <Filter>Header Files\GUI\ThemeDesigner\Tabs</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.h">
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.h">
       <Filter>Header Files\GUI\ThemeDesigner\Tabs</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\GUI\ThemeDesigner\Tab\CThemeDesignerTab.h">
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tab\CThemeDesignerTab.h">
       <Filter>Header Files\GUI\ThemeDesigner\Tab</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\GUI\Window\CIMGFWindow.h">
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\CIMGFWindow.h">
       <Filter>Header Files\GUI\Window</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Language\CLanguage.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Language\CLanguage.h">
       <Filter>Header Files\Language</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Language\CLanguageManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Language\CLanguageManager.h">
       <Filter>Header Files\Language</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Task\CTaskDispatchManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskDispatchManager.h">
       <Filter>Header Files\Task</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Task\CTaskManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskManager.h">
       <Filter>Header Files\Task</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\WindowControlIds.h">
+    <ClInclude Include="..\..\..\Code\IMGF\WindowControlIds.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\RecentlyOpen\CRecentlyOpenEntry.h">
+    <ClInclude Include="..\..\..\Code\IMGF\RecentlyOpen\CRecentlyOpenEntry.h">
       <Filter>Header Files\RecentlyOpen</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\RecentlyOpen\CRecentlyOpenManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\RecentlyOpen\CRecentlyOpenManager.h">
       <Filter>Header Files\RecentlyOpen</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Session\CSession.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Session\CSession.h">
       <Filter>Header Files\Session</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Session\CSessionManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Session\CSessionManager.h">
       <Filter>Header Files\Session</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Sort\CSortManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Sort\CSortManager.h">
       <Filter>Header Files\Sort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Sort\CSortMenuItem.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Sort\CSortMenuItem.h">
       <Filter>Header Files\Sort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Sort\CSortMenuItems.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Sort\CSortMenuItems.h">
       <Filter>Header Files\Sort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Sort\CSortPriorities.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Sort\CSortPriorities.h">
       <Filter>Header Files\Sort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Sort\CSortPriority.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Sort\CSortPriority.h">
       <Filter>Header Files\Sort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Sort\CSortType.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Sort\CSortType.h">
       <Filter>Header Files\Sort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Sort\CSortTypes.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Sort\CSortTypes.h">
       <Filter>Header Files\Sort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Sort\eSortType.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Sort\eSortType.h">
       <Filter>Header Files\Sort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Update\CUpdateConnection.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Update\CUpdateConnection.h">
       <Filter>Header Files\Update</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Update\CUpdateConnectionManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Update\CUpdateConnectionManager.h">
       <Filter>Header Files\Update</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Update\CUpdateManager.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Update\CUpdateManager.h">
       <Filter>Header Files\Update</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\Task\Tasks\Renamer\CRenamedIMGEntry.h">
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Renamer\CRenamedIMGEntry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\AutomatedTesting\CAutomatedTesting.h">
+    <ClInclude Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.h">
       <Filter>Header Files\AutomatedTesting</Filter>
     </ClInclude>
   </ItemGroup>
