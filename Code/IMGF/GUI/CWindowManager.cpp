@@ -18,9 +18,10 @@ void					CWindowManager::uninit(void)
 CWindow*				CWindowManager::openWindow(void)
 {
 	CPoint2D vecWindowPosition = CPoint2D((int32)150, 150);
-	CSize2D vecWindowSize = CSize2D(1025, 698);
+	CSize2D vecWindowSize = CSize2D(1100, 698);
 	CIMGFWindow *pWindow = bxgx::CGUIManager::getInstance()->addTemplatedWindow<CIMGFWindow>(vecWindowPosition, vecWindowSize);
-	pWindow->setTitleBarHeight(25);
+	pWindow->addTitleBar("IMG Factory");
+	//pWindow->setTitleBarHeight(25);
 
 	CIMGEditor *pIMGEditor = new CIMGEditor; // CIMGEditor eventually extends CGUILayer - todo use pWindow->addTemplatedGroup<CIMGEditor>() instead?
 	pIMGEditor->setWindow(pWindow);

@@ -978,8 +978,9 @@ void					CIMGEditor::loadRightClickMenu(int xPos, int yPos)
 
 void		CIMGEditor::initWindow(void)
 {
-	uint32 i, i2, x, y, w, h, sw, sh, sw2, sh2;
-
+	int32 i, i2, x, y, w, h, w2, h2, h3, sw, sh, sw2, sh2;
+	CWindow *pWindow = bxgx::CGUIManager::getInstance()->getEntryByIndex(0);
+	uint32 uiTitleBarHeight = pWindow->getTitleBarHeight();
 	// all buttons
 	CButtonControl *pButton, *pOpenButton;
 
@@ -993,33 +994,229 @@ void		CIMGEditor::initWindow(void)
 	pButtonStyles->setStyle("text-align-y", string("center"));
 	pButtonStyles->setStyle("inner-spacing-left", (int32) 8);
 
-	// vertical buttons
-	i = 0;
-	i2 = 0;
-	x = 10;
-	y = 25 + 19 + 10 + h + 10;
-	sh = 10; // spacing height
-	sh2 = 30; // spacing height 2
+	// top left menu
+	x = 0;
+	y = uiTitleBarHeight - 1;
+	w = 70;
+	h = 30;
+
+	pButton = addButton(x, y, w, h, "Formats", pButtonStyles);
+	x += w - 1;
+	pButton = addButton(x, y, w, h, "Utility", pButtonStyles);
+
+	// formats menu
+	x = 0;
+	y += h - 1;
+	w = 139;
+	h = 40;
+	h2 = h - 1;
+
+	pButton = addButton(x, y, w, h, "DAT", pButtonStyles);
+	y += h2;
+	pButton = addButton(x, y, w, h, "IMG", pButtonStyles);
+	y += h2;
+	pButton = addButton(x, y, w, h, "Item Definition", pButtonStyles);
+	y += h2;
+	pButton = addButton(x, y, w, h, "Item Placement", pButtonStyles);
+	y += h2;
+	pButton = addButton(x, y, w, h, "Models", pButtonStyles);
+	y += h2;
+	pButton = addButton(x, y, w, h, "Collisions", pButtonStyles);
+	y += h2;
+	pButton = addButton(x, y, w, h, "Textures", pButtonStyles);
+	y += h2;
+	pButton = addButton(x, y, w, h, "Animations", pButtonStyles);
+	y += h2;
+	pButton = addButton(x, y, w, h, "Radar", pButtonStyles);
+
+	// game information headers
+	x = 149;
+	y = (uiTitleBarHeight - 1) + 10;
+	w = 150;
+	h = 20;
+	h2 = 15;
+
+	addText(x, y, w, h, "Game");
+	y += h2;
+	addText(x, y, w, h, "Game Validity");
+	y += h2;
+	addText(x, y, w, h, "Game Location");
+	y += h2;
+	addText(x, y, w, h, "File Game");
+	y += h2;
+	addText(x, y, w, h, "File Validity");
+	y += h2;
+	addText(x, y, w, h, "File Location");
+
+	// game information values
+	x += 149;
+	y = (uiTitleBarHeight - 1) + 10;
+	w = 350;
+	h = 20;
+
+	addText(x, y, w, h, "GTA Vice City (PC, 1.0)");
+	y += h2;
+	addText(x, y, w, h, "Launchable");
+	y += h2;
+	addText(x, y, w, h, "C:/Program Files (x86)/Rockstar Games/Grand Theft Auto Vice City");
+	y += h2;
+	addText(x, y, w, h, "GTA Vice City (PC, RW 11.22.33.44)");
+	y += h2;
+	addText(x, y, w, h, "Valid");
+	y += h2;
+	addText(x, y, w, h, "C:/Program Files (x86)/Rockstar Games/Grand Theft Auto Vice City/DATA/maps/a.txd");
+
+	// top menu - buttons
+	x = 138;
+	y = 133;
+	w = 100;
+	h = 30;
+	w2 = w - 1;
+
+	addButton(x, y, w, h, "Open", pButtonStyles);
+	x += w2;
+	addButton(x, y, w, h, "Close", pButtonStyles);
+	x += w2;
+	addButton(x, y, w, h, "Save", pButtonStyles);
+	x += w2;
+
+	// filter bar - search box
+	w2 = -1;
+	x += w2;
+	w = 270;
+	h = 30;
+
+	CGUIStyles *pSearchBoxStyles = bxgx::CGUIManager::createStyles();
+	pSearchBoxStyles->setStyle("fill-colour", CColour(255, 255, 255));
+	pSearchBoxStyles->setStyle("border-colour", CColour(140, 140, 140));
+	pSearchBoxStyles->setStyle("text-colour", CColour(0, 0, 0));
+	pSearchBoxStyles->setStyle("text-align-x", string("left"));
+	pSearchBoxStyles->setStyle("text-align-y", string("center"));
+	pSearchBoxStyles->setStyle("inner-spacing-x", (int32)8);
+
+	CEditControl *pSearchBox = addEdit(CPoint2D(x, y), CSize2D(w, h), "Search", false, pSearchBoxStyles);
+
+	// filter bar - entry type
+	x += w + w2;
+	w = 140;
+	h = 30;
+
+	CGUIStyles *pEntryTypeFilterStyles = bxgx::CGUIManager::createStyles();
+	pEntryTypeFilterStyles->setStyle("fill-colour", CColour(255, 255, 255));
+	pEntryTypeFilterStyles->setStyle("border-colour", CColour(140, 140, 140));
+	pEntryTypeFilterStyles->setStyle("text-colour", CColour(0, 0, 0));
+	pEntryTypeFilterStyles->setStyle("text-align-x", string("left"));
+	pEntryTypeFilterStyles->setStyle("text-align-y", string("center"));
+	pEntryTypeFilterStyles->setStyle("inner-spacing-x", (int32)8);
+
+	CDropControl *pEntryTypeFilter = addDrop(CPoint2D(x, y), CSize2D(w, h), pEntryTypeFilterStyles);
+	pEntryTypeFilter->addItem("Entry Type", true);
+
+	// filter bar - entry version
+	x += w + w2;
+	w = 240;
+	h = 30;
+
+	CGUIStyles *pEntryVersionFilterStyles = bxgx::CGUIManager::createStyles();
+	pEntryVersionFilterStyles->setStyle("fill-colour", CColour(255, 255, 255));
+	pEntryVersionFilterStyles->setStyle("border-colour", CColour(140, 140, 140));
+	pEntryVersionFilterStyles->setStyle("text-colour", CColour(0, 0, 0));
+	pEntryVersionFilterStyles->setStyle("text-align-x", string("left"));
+	pEntryVersionFilterStyles->setStyle("text-align-y", string("center"));
+	pEntryVersionFilterStyles->setStyle("inner-spacing-x", (int32)8);
+
+	CDropControl *pEntryVersionFilter = addDrop(CPoint2D(x, y), CSize2D(w, h), pEntryVersionFilterStyles);
+	pEntryVersionFilter->addItem("Entry Version", true);
+
+	// files tab bar
+	x = 138;
+	y = 162;
+	w = 500;
+	h = 30;
+
+	int32 iIMGInstanceTabBarHeight = h;
+
+	CGUIStyles *pIMGInstanceTabBarStyles = bxgx::CGUIManager::createStyles();
+	//pIMGInstanceTabBarStyles->setStyle("fill-colour", CColour(255, 255, 255));
+	pIMGInstanceTabBarStyles->setStyle("border-colour", CColour(0, 0, 0));
+	pIMGInstanceTabBarStyles->setStyle("text-align-x", string("left"));
+	pIMGInstanceTabBarStyles->setStyle("text-align-y", string("center"));
+	pIMGInstanceTabBarStyles->setStyle("inner-spacing-x", (int32)8);
+
+	CTabControl *pIMGInstanceTabBar = addTabBar(CPoint2D(x, y), CSize2D(w, h), pIMGInstanceTabBarStyles);
+
+	pIMGInstanceTabBar->addTab("IMG1.img (#0)", true);
+
+	// 2nd left menu - actions
+	x = 138;
+	y += h;
+	w = 110;
+	h = 30;
+	h2 = h - 1;
+	h3 = h2 + 15;
+
+	addButton(x, y, w, h, "Import", pButtonStyles);
+	y += h2;
+	addButton(x, y, w, h, "Export", pButtonStyles);
+	y += h2;
+	addButton(x, y, w, h, "Quick Export", pButtonStyles);
+	y += h3;
+
+	addButton(x, y, w, h, "Rename", pButtonStyles);
+	y += h2;
+	addButton(x, y, w, h, "Replace", pButtonStyles);
+	y += h2;
+	addButton(x, y, w, h, "Remove", pButtonStyles);
+	y += h3;
+
+	addButton(x, y, w, h, "Merge", pButtonStyles);
+	y += h2;
+	addButton(x, y, w, h, "Split", pButtonStyles);
+	y += h2;
+	addButton(x, y, w, h, "Convert", pButtonStyles);
+	y += h3;
+
+	addButton(x, y, w, h, "Select", pButtonStyles);
+	y += h2;
+	addButton(x, y, w, h, "Sort", pButtonStyles);
+	y += h2;
+	addButton(x, y, w, h, "LST", pButtonStyles);
+	y += h3;
+
+	// main editor component - entry list
+	x += w - 1;
+	y = 162 + 30;
+	w = 835;
+	h = 450;
+
+	uint32 uiEntryListWidth = w;
+	uint32 uiEntryListHeight = h;
+
+	CGUIStyles *pEntryListStyles = bxgx::CGUIManager::createStyles();
+	pEntryListStyles->setStyle("fill-colour", CColour(255, 255, 255));
+	pEntryListStyles->setStyle("border-colour", CColour(140, 140, 140));
+	pEntryListStyles->setStyle("list-header-row.fill-colour", CColour(250, 255, 235));
+	pEntryListStyles->setStyle("list-header-cell.text-align-x", string("left"));
+	pEntryListStyles->setStyle("list-header-cell.text-align-y", string("center"));
+	pEntryListStyles->setStyle("list-header-cell.inner-spacing-x", (int32)16);
+
+	CListControl *pEntryListControl = addList(CPoint2D((int32)x, (int32)y), CSize2D(w, h), pEntryListStyles);
+	pEntryListControl->setControlId(37);
+	setEntryListControl(pEntryListControl);
+
+	// progress bar
+	w = 150;
+	w2 = 10;
+	h2 = 10;
+	x = (pWindow->getSize().m_x - w2) - w;
+	y = uiTitleBarHeight + h2;
+	h = 10;
 	
-	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Open", pButtonStyles);
-	pOpenButton = pButton;
-	pButton->setControlId(100);
-	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Close", pButtonStyles);
-	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Close All", pButtonStyles);
+	CGUIStyles *pProgressBarStyles = bxgx::CGUIManager::createStyles();
+	pProgressBarStyles->setStyle("fill-colour", CColour(255, 255, 255));
+	pProgressBarStyles->setStyle("border-colour", CColour(0, 0, 0));
 
-	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * ++i2))), CSize2D(w, h), "Import", pButtonStyles);
-	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Export", pButtonStyles);
-	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Quick Export", pButtonStyles);
-
-	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * ++i2))), CSize2D(w, h), "Remove", pButtonStyles);
-	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Rename", pButtonStyles);
-	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Replace", pButtonStyles);
-
-	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * ++i2))), CSize2D(w, h), "Select All", pButtonStyles);
-	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Select Inverse", pButtonStyles);
-
-	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * ++i2))), CSize2D(w, h), "Sort", pButtonStyles);
-	pButton = addButton(CPoint2D((int32) x, (int32) (y + (h * i) + (sh * i++) + (sh2 * i2))), CSize2D(w, h), "Run LST", pButtonStyles);
+	addProgress(x, y, w, h, pProgressBarStyles);
 
 	/*
 	getWindow()->storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseUp, [](void *pControl, void *pTriggerArg)
@@ -1033,164 +1230,9 @@ void		CIMGEditor::initWindow(void)
 	}, pOpenButton));
 	*/
 
-	pOpenButton->storeEventBoundFunction(pOpenButton->bindEvent(EVENT_onLeftMouseUp, [](void *a,void*b){ getIMGF()->getTaskManager()->getDispatch()->onRequestOpen(); }));
+	//pOpenButton->storeEventBoundFunction(pOpenButton->bindEvent(EVENT_onLeftMouseUp, [](void *a,void*b){ getIMGF()->getTaskManager()->getDispatch()->onRequestOpen(); }));
 
-	// horizontal buttons
-	i = 0;
-	i2 = 0;
-	x = 10 + w + 10;
-	y = 25 + 19 + 10;
-	sw = 10; // spacing width
-	sw2 = 30; // spacing width 2
-
-	pButton = addButton(CPoint2D((int32) (x + (w * i) + (sw * i++) + (sw2 * i2)), (int32) y), CSize2D(w, h), "Rebuild", pButtonStyles);
-	pButton = addButton(CPoint2D((int32) (x + (w * i) + (sw * i++) + (sw2 * i2)), (int32) y), CSize2D(w, h), "Rebuild As", pButtonStyles);
-	pButton = addButton(CPoint2D((int32) (x + (w * i) + (sw * i++) + (sw2 * i2)), (int32) y), CSize2D(w, h), "Rebuild All", pButtonStyles);
-
-	pButton = addButton(CPoint2D((int32) (x + (w * i) + (sw * i++) + (sw2 * ++i2)), (int32) y), CSize2D(w, h), "Merge", pButtonStyles);
-	pButton = addButton(CPoint2D((int32) (x + (w * i) + (sw * i++) + (sw2 * i2)), (int32) y), CSize2D(w, h), "Split", pButtonStyles);
-	pButton = addButton(CPoint2D((int32) (x + (w * i) + (sw * i++) + (sw2 * i2)), (int32) y), CSize2D(w, h), "Convert", pButtonStyles);
-
-	uint32 uiButtonWidth = w;
-	uint32 uiButtonHeight = h;
-
-
-
-	// IMG instance tab bar
-	x = 10 + uiButtonWidth + 10;
-	y = 25 + 19 + 10 + uiButtonHeight + 10;
-	w = 500;
-	h = 20;
-
-	int32 iIMGInstanceTabBarHeight = h;
-
-	CGUIStyles *pIMGInstanceTabBarStyles = bxgx::CGUIManager::createStyles();
-	//pIMGInstanceTabBarStyles->setStyle("fill-colour", CColour(255, 255, 255));
-	pIMGInstanceTabBarStyles->setStyle("border-colour", CColour(0, 0, 0));
-	pIMGInstanceTabBarStyles->setStyle("text-align-x", string("left"));
-	pIMGInstanceTabBarStyles->setStyle("text-align-y", string("center"));
-	pIMGInstanceTabBarStyles->setStyle("inner-spacing-x", (int32) 8);
-
-	CTabControl *pIMGInstanceTabBar = addTabBar(CPoint2D(x, y), CSize2D(w, h), pIMGInstanceTabBarStyles);
-
-	pIMGInstanceTabBar->addTab("IMG1.img", true);
-
-
-	// filter bar: search box
-	x = 10 + uiButtonWidth + 10;
-	y = 25 + 19 + 10 + uiButtonHeight + 10 + iIMGInstanceTabBarHeight + 10;
-	w = 400;
-	h = 25;
-
-	CGUIStyles *pSearchBoxStyles = bxgx::CGUIManager::createStyles();
-	pSearchBoxStyles->setStyle("fill-colour", CColour(255, 255, 255));
-	pSearchBoxStyles->setStyle("text-colour", CColour(0, 0, 0));
-	pSearchBoxStyles->setStyle("text-align-x", string("left"));
-	pSearchBoxStyles->setStyle("text-align-y", string("center"));
-	pSearchBoxStyles->setStyle("inner-spacing-x", (int32)8);
-
-	CEditControl *pSearchBox = addEdit(CPoint2D(x, y), CSize2D(w, h), "Search", false, pSearchBoxStyles);
-
-
-
-	// filter bar: entry type
-	x = 10 + uiButtonWidth + 10 + 400 + 10;
-	y = 25 + 19 + 10 + uiButtonHeight + 10 + iIMGInstanceTabBarHeight + 10;
-	w = 140;
-	h = 25;
-
-	CGUIStyles *pEntryTypeFilterStyles = bxgx::CGUIManager::createStyles();
-	pEntryTypeFilterStyles->setStyle("fill-colour", CColour(255, 255, 255));
-	pEntryTypeFilterStyles->setStyle("text-colour", CColour(0, 0, 0));
-	pEntryTypeFilterStyles->setStyle("text-align-x", string("left"));
-	pEntryTypeFilterStyles->setStyle("text-align-y", string("center"));
-	pEntryTypeFilterStyles->setStyle("inner-spacing-x", (int32) 8);
-
-	CDropControl *pEntryTypeFilter = addDrop(CPoint2D(x, y), CSize2D(w, h), pEntryTypeFilterStyles);
-	pEntryTypeFilter->addItem("Entry Type", true);
-
-
-
-	// filter bar: entry version
-	x = 10 + uiButtonWidth + 10 + 400 + 10 + w + 10;
-	y = 25 + 19 + 10 + uiButtonHeight + 10 + iIMGInstanceTabBarHeight + 10;
-	w = 240;
-	h = 25;
-
-	CGUIStyles *pEntryVersionFilterStyles = bxgx::CGUIManager::createStyles();
-	pEntryVersionFilterStyles->setStyle("fill-colour", CColour(255, 255, 255));
-	pEntryVersionFilterStyles->setStyle("text-colour", CColour(0, 0, 0));
-	pEntryVersionFilterStyles->setStyle("text-align-x", string("left"));
-	pEntryVersionFilterStyles->setStyle("text-align-y", string("center"));
-	pEntryVersionFilterStyles->setStyle("inner-spacing-x", (int32) 8);
-
-	CDropControl *pEntryVersionFilter = addDrop(CPoint2D(x, y), CSize2D(w, h), pEntryVersionFilterStyles);
-	pEntryVersionFilter->addItem("Entry Version", true);
-
-
-
-	// entry list
-	x = 10 + uiButtonWidth + 10;
-	y = 25 + 19 + 10 + uiButtonHeight + 10 + 25 + 10 + iIMGInstanceTabBarHeight + 10;
-	w = 800;
-	h = 450;
-
-	uint32 uiEntryListWidth = w;
-	uint32 uiEntryListHeight = h;
-
-	CGUIStyles *pEntryListStyles = bxgx::CGUIManager::createStyles();
-	pEntryListStyles->setStyle("fill-colour", CColour(255, 255, 255));
-	pEntryListStyles->setStyle("list-header-row.fill-colour", CColour(250, 255, 235));
-	pEntryListStyles->setStyle("list-header-cell.text-align-x", string("left"));
-	pEntryListStyles->setStyle("list-header-cell.text-align-y", string("center"));
-	pEntryListStyles->setStyle("list-header-cell.inner-spacing-x", (int32) 8);
-
-	CListControl *pEntryListControl = addList(CPoint2D((int32) x, (int32) y), CSize2D(w, h), pEntryListStyles);
-	pEntryListControl->setControlId(37);
-	setEntryListControl(pEntryListControl);
-
-	int32 uiEntryListY = y = 25 + 19 + 10 + uiButtonHeight + 10 + 25 + 10;
-
-
-
-	// IMG stats
-	x = 10 + uiButtonWidth + 10;
-	y = uiEntryListY + uiEntryListHeight + 10 + iIMGInstanceTabBarHeight + 10;
-	w = 100;
-	h = 20;
-	addText(CPoint2D((int32) x, (int32) y), CSize2D(w, h), "IMG Entries: 0");
-
-	x = 10 + uiButtonWidth + 10 + 200;
-	y = uiEntryListY + uiEntryListHeight + 10 + iIMGInstanceTabBarHeight + 10;
-	w = 100;
-	h = 20;
-	addText(CPoint2D((int32) x, (int32) y), CSize2D(w, h), "IMG Version: 2 (GTA SA)");
-
-
-
-	// progress bar
-	CGUIStyles *pProgressBarStyles = bxgx::CGUIManager::createStyles();
-	pProgressBarStyles->setStyle("fill-colour", CColour(255, 255, 255));
-	pProgressBarStyles->setStyle("border-colour", CColour(0, 0, 0));
-
-	w = 100;
-	h = 20;
-	x = (10 + uiButtonWidth + 10 + uiEntryListWidth) - w;
-	y = uiEntryListY + uiEntryListHeight + 10 + iIMGInstanceTabBarHeight + 10;
-	addProgress(CPoint2D((int32) x, (int32) y), CSize2D(w, h), pProgressBarStyles);
-
-
-
-	// IMG path
-	x = 10 + uiButtonWidth + 10;
-	y = uiEntryListY + uiEntryListHeight + 10 + iIMGInstanceTabBarHeight + 10 + 25;
-	w = 100;
-	h = 20;
-	addText(CPoint2D((int32) x, (int32) y), CSize2D(w, h), "c:\\blah\\blah.img");
-
-
-
-	// init
+	// initialize
 	addColumnsToMainListView(IMG_UNKNOWN);
 }
 

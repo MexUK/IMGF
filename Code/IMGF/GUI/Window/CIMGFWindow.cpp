@@ -47,6 +47,7 @@ void					CIMGFWindow::initTabs(void)
 	// add tab bar
 	CEditor *pEditor = (CEditor*) getEntryByIndex(0);
 
+	/*
 	CGUIStyles *pTabBarStyles = bxgx::CGUIManager::createStyles();
 	pTabBarStyles->setStyle("border-colour", CColour(50, 50, 50));
 	pTabBarStyles->setStyle("text-align-x", string("left"));
@@ -57,6 +58,10 @@ void					CIMGFWindow::initTabs(void)
 
 	pTabBar->addTab("IMG Editor", true);
 	pTabBar->addTab("Texture Editor");
+	*/
+
+
+
 
 	return; // todo
 
