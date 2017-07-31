@@ -9,6 +9,9 @@
 
 class CSearchEntry;
 class CListControl;
+class CProgressControl;
+class CEditControl;
+class CDropControl;
 class bxcf::CIMGEntry;
 
 class CIMGEditor : public CEditor
@@ -25,6 +28,8 @@ public:
 	void						initMenu(void);
 	void						loadRightClickMenu(int xPos, int yPos);
 	void						render(void);
+
+	void						repositionAndResizeControls(void);
 
 	CIMGEditorTab*				addTab(std::string strIMGPath, bxcf::eIMGVersion eIMGVersionValue);
 	CIMGEditorTab*				addBlankTab(std::string strIMGPath, bxcf::eIMGVersion eIMGVersionValue);
@@ -70,7 +75,11 @@ private:
 	uint32						m_uiSelectedEntryCount;
 	uint32						m_uiSearchHitCount;
 	uint32						m_uiSearchFileCount;
-	CListControl*		m_pEntryListControl;
+	CListControl*				m_pEntryListControl;
+	CProgressControl*			m_pProgressBar;
+	CEditControl*				m_pSearchBox;
+	CDropControl*				m_pEntryTypeFilter;
+	CDropControl*				m_pEntryVersionFilter;
 	std::vector<CSearchEntry*>	m_vecSearchEntries;
 };
 

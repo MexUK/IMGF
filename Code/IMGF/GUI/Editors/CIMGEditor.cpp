@@ -18,6 +18,8 @@
 #include "Controls/CTabControl.h"
 #include "Controls/CListControl.h"
 #include "Controls/CButtonControl.h"
+#include "Controls/CProgressControl.h"
+#include "Controls/CEditControl.h"
 #include "Type/Vector/CColour.h"
 #include "CGUIManager.h"
 
@@ -1089,7 +1091,7 @@ void		CIMGEditor::initEditor(void)
 	w2 = w - 1;
 
 	CGUIStyles *pButtonStyles_TopMenu = bxgx::CGUIManager::createStyles();
-	CColour topMenuFillColour(175, 255, 149);
+	CColour topMenuFillColour(255, 149, 149);
 	pButtonStyles_TopMenu->setStyle("fill-colour", topMenuFillColour);
 	pButtonStyles_TopMenu->setStyle("border-colour", borderColour);
 	pButtonStyles_TopMenu->setStyle("text-align-x", string("left"));
@@ -1117,7 +1119,7 @@ void		CIMGEditor::initEditor(void)
 	pSearchBoxStyles->setStyle("text-align-y", string("center"));
 	pSearchBoxStyles->setStyle("inner-spacing-x", (int32)8);
 
-	CEditControl *pSearchBox = addEdit(CPoint2D(x, y), CSize2D(w, h), "Search", false, pSearchBoxStyles);
+	m_pSearchBox = addEdit(CPoint2D(x, y), CSize2D(w, h), "Search", false, pSearchBoxStyles);
 
 	// filter bar - entry type
 	x += w + w2;
@@ -1132,8 +1134,8 @@ void		CIMGEditor::initEditor(void)
 	pEntryTypeFilterStyles->setStyle("text-align-y", string("center"));
 	pEntryTypeFilterStyles->setStyle("inner-spacing-x", (int32)8);
 
-	CDropControl *pEntryTypeFilter = addDrop(CPoint2D(x, y), CSize2D(w, h), pEntryTypeFilterStyles);
-	pEntryTypeFilter->addItem("Entry Type", true);
+	m_pEntryTypeFilter = addDrop(CPoint2D(x, y), CSize2D(w, h), pEntryTypeFilterStyles);
+	m_pEntryTypeFilter->addItem("Entry Type", true);
 
 	// filter bar - entry version
 	x += w + w2;
@@ -1148,8 +1150,8 @@ void		CIMGEditor::initEditor(void)
 	pEntryVersionFilterStyles->setStyle("text-align-y", string("center"));
 	pEntryVersionFilterStyles->setStyle("inner-spacing-x", (int32)8);
 
-	CDropControl *pEntryVersionFilter = addDrop(CPoint2D(x, y), CSize2D(w, h), pEntryVersionFilterStyles);
-	pEntryVersionFilter->addItem("Entry Version", true);
+	m_pEntryVersionFilter = addDrop(CPoint2D(x, y), CSize2D(w, h), pEntryVersionFilterStyles);
+	m_pEntryVersionFilter->addItem("Entry Version", true);
 
 	// files tab bar
 	x = 138;
@@ -1178,7 +1180,13 @@ void		CIMGEditor::initEditor(void)
 	h2 = h - 1;
 	h3 = h2 + 10;
 
-	CGUIStyles *pButtonStyles_ActionMenu = pButtonStyles_TopMenu;
+	CColour secondLeftMenuFillColour(175, 255, 149);
+	CGUIStyles *pButtonStyles_ActionMenu = bxgx::CGUIManager::createStyles();
+	pButtonStyles_ActionMenu->setStyle("fill-colour", secondLeftMenuFillColour);
+	pButtonStyles_ActionMenu->setStyle("border-colour", borderColour);
+	pButtonStyles_ActionMenu->setStyle("text-align-x", string("left"));
+	pButtonStyles_ActionMenu->setStyle("text-align-y", string("center"));
+	pButtonStyles_ActionMenu->setStyle("inner-spacing-left", (int32)8);
 
 	addButton(x, y, w, h, "Import", pButtonStyles_ActionMenu);
 	y += h2;
@@ -1241,7 +1249,7 @@ void		CIMGEditor::initEditor(void)
 	pProgressBarStyles->setStyle("fill-colour", CColour(255, 255, 255));
 	//pProgressBarStyles->setStyle("border-colour", borderColour);
 
-	addProgress(x, y, w, h, pProgressBarStyles);
+	m_pProgressBar = addProgress(x, y, w, h, pProgressBarStyles);
 
 	/*
 	getWindow()->storeEventBoundFunction(getWindow()->bindEvent(EVENT_onLeftMouseUp, [](void *pControl, void *pTriggerArg)
@@ -1259,6 +1267,47 @@ void		CIMGEditor::initEditor(void)
 
 	// initialize
 	addColumnsToMainListView(IMG_UNKNOWN);
+
+	CEventManager::getInstance()->bindEvent(EVENT_onResizeWindow, [](void* pArg1, void* pArg2) {
+		((CIMGEditor*)pArg1)->repositionAndResizeControls();
+	}, this);
+
+	repositionAndResizeControls();
+}
+
+void		CIMGEditor::repositionAndResizeControls(void)
+{
+	CWindow *pWindow = bxgx::CGUIManager::getInstance()->getEntryByIndex(0);
+
+	CPoint2D point;
+	CSize2D size;
+	int32 iNewX, iNewY, iNewWidth, iNewHeight;
+	
+	// progress bar
+	point = m_pProgressBar->getPosition();
+	iNewX = (pWindow->getSize().m_x - m_pProgressBar->getSize().m_x) - 10;
+	m_pProgressBar->setPosition(CPoint2D(iNewX, point.m_y));
+
+	// filter bar - search box
+	size = m_pSearchBox->getSize();
+	iNewWidth = pWindow->getSize().m_x - 438 - 380 - 4;
+	m_pSearchBox->setSize(CSize2D(iNewWidth, size.m_y));
+
+	// filter bar - entry type
+	point = m_pEntryTypeFilter->getPosition();
+	iNewX = (m_pSearchBox->getPosition().m_x + iNewWidth) - 1;
+	m_pEntryTypeFilter->setPosition(CPoint2D(iNewX, point.m_y));
+
+	// filter bar - entry version
+	point = m_pEntryVersionFilter->getPosition();
+	iNewX = (m_pEntryTypeFilter->getPosition().m_x + m_pEntryTypeFilter->getSize().m_x) - 1;
+	m_pEntryVersionFilter->setPosition(CPoint2D(iNewX, point.m_y));
+
+	// grid
+	size = m_pEntryListControl->getSize();
+	iNewWidth = (((pWindow->getSize().m_x - 10) - 139) - 110) + 2;
+	iNewHeight = pWindow->getSize().m_y - (162 + 30) - 10;
+	m_pEntryListControl->setSize(CSize2D(iNewWidth, iNewHeight));
 }
 
 void		CIMGEditor::render(void)

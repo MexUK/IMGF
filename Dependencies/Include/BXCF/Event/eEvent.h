@@ -28,6 +28,7 @@ enum bxcf::eEvent
 	EVENT_onRender,
 	EVENT_onRenderBefore,
 	EVENT_onRenderAfter,
+	EVENT_onResizeWindow,
 
 	// window control base - bound to event type EVENT_TYPE_WINDOW
 	EVENT_onControlGainFocus,
