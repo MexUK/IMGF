@@ -988,12 +988,12 @@ void		CIMGEditor::addControls(void)
 	CColour borderColour(50, 50, 50);
 
 	// main editor component - entry list
-	x = 138;
+	x = 139;
 	w = 110;
 
-	x += w - 1;
+	x += w;
 	y = 162 + 30;
-	w = 843;
+	w = 841;
 	h = 450;
 
 	uint32 uiEntryListWidth = w;
@@ -1001,8 +1001,9 @@ void		CIMGEditor::addControls(void)
 
 	CGUIStyles *pEntryListStyles = bxgx::CGUIManager::createStyles();
 	pEntryListStyles->setStyle("fill-colour", CColour(255, 255, 255));
-	pEntryListStyles->setStyle("border-colour", borderColour);
-	pEntryListStyles->setStyle("list-header-row.fill-colour", CColour(250, 255, 235));
+	//pEntryListStyles->setStyle("border-colour", borderColour);
+	pEntryListStyles->setStyle("list-header-row.fill-colour", CColour(144, 144, 144));
+	pEntryListStyles->setStyle("list-header-row.text-colour", CColour(255, 255, 255));
 	pEntryListStyles->setStyle("list-header-cell.text-align-x", string("left"));
 	pEntryListStyles->setStyle("list-header-cell.text-align-y", string("center"));
 	pEntryListStyles->setStyle("list-header-cell.inner-spacing-x", (int32)16);
@@ -1032,7 +1033,7 @@ void		CIMGEditor::repositionAndResizeControls(void)
 
 	// grid
 	size = m_pEntryListControl->getSize();
-	iNewWidth = (((pWindow->getSize().m_x - 10) - 139) - 110) + 2;
+	iNewWidth = ((pWindow->getSize().m_x - 10) - 139) - 110;
 	iNewHeight = pWindow->getSize().m_y - (162 + 30) - 10;
 	m_pEntryListControl->setSize(CSize2D(iNewWidth, iNewHeight));
 }

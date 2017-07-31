@@ -42,6 +42,8 @@ public:
 	template <typename ValueType>
 	ValueType				getStyleDefaultValue(std::string strStyleName);
 
+	bool					doesHaveCompleteBorder(void);
+	bool					doesHaveBorderEdge(uint8 uiBorderEdge);
 	bool					doesHaveBorder(void);
 	bool					doesHaveLeftBorder(void);
 	bool					doesHaveRightBorder(void);
