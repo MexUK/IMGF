@@ -456,6 +456,9 @@
     <ClCompile Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.cpp">
       <Filter>Source Files\AutomatedTesting</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\CMainLayer.cpp">
+      <Filter>Source Files\GUI\Window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Dependencies\ThirdParty\Bitmap\bitmap.h">
@@ -1210,6 +1213,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.h">
       <Filter>Header Files\AutomatedTesting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\CMainLayer.h">
+      <Filter>Header Files\GUI\Window</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

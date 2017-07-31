@@ -66,7 +66,6 @@ template <class WindowClass>
 WindowClass*					bxgx::CGUIManager::addTemplatedWindow(bxcf::CPoint2D& vecWindowPosition, bxcf::CSize2D& vecWindowSize)
 {
 	WindowClass *pWindow = new WindowClass;
-	pWindow->init();
 
 	// check to position window at center of screen
 	if (vecWindowPosition.m_x == -1 && vecWindowPosition.m_y == -1)

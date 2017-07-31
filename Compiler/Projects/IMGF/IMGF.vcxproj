@@ -137,6 +137,7 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tab\CThemeDesignerTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\CIMGFWindow.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\CMainLayer.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Language\CLanguageManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Main.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Task\CTaskDispatchManager.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tab\CThemeDesignerTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\CIMGFWindow.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\CMainLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Language\CLanguage.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Language\CLanguageManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskDispatchManager.h" />

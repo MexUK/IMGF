@@ -80,8 +80,6 @@ void					CThemeDesigner::initWindowDesign(void)
 	{
 		pThemeDesignerTab->initDesign();
 	}
-
-	getWindow()->bindAllEvents();
 }
 
 // layers

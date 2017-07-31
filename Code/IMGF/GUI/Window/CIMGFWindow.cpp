@@ -17,88 +17,65 @@
 #include "Type/String/CString2.h"
 #include "GUI/ThemeDesigner/CThemeDesigner.h"
 #include "Type/Vector/CColour.h"
-#include "Controls/CTabControl.h"
+#include "GUI/Window/CMainLayer.h"
 
 using namespace std;
 using namespace bxcf;
 
 CIMGFWindow::CIMGFWindow(void)
 {
+	m_pMainLayer = new CMainLayer;
+}
+
+// main interface
+void					CIMGFWindow::init(void)
+{
+	CWindow::init();
+	initWindow();
+	initMainLayer();
+	initEditors();
+	bindEvents();
 }
 
 // event binding
 void					CIMGFWindow::bindEvents(void)
 {
+	CWindow::bindEvents();
+
+	/*
 	storeEventBoundFunction(bindEvent(EVENT_onRender, [](void *pWindow)
 	{
-		((CIMGFWindow*) pWindow)->onRender();
+	((CIMGFWindow*) pWindow)->onRender();
 	}, this));
-
-	CWindow::bindEvents();
+	*/
 }
 
 // window initialization
 void					CIMGFWindow::initWindow(void)
 {
-	addTitleBar("IMG Factory");
-	
-	// window background colour
-	//getStyles()->setStyle("fill-colour", CColour(0xFF, 0xFF, 0xFF)); // white
-	//getStyles()->setStyle("fill-colour", CColour(235, 235, 250)); // light blue
-	//getStyles()->setStyle("fill-colour", CColour(0x21, 0x4E, 0x67));
+	addTitleBar("IMG Factory 2.0 - Development Version");
 	getStyles()->setStyle("fill-colour", CColour(0, 140, 200, 255)); // medium blue
+}
 
-	/*
-	// add tab bar
-	CEditor *pEditor = (CEditor*) getEntryByIndex(0);
-	*/
+void					CIMGFWindow::initMainLayer(void)
+{
+	m_pMainLayer->setWindow(this);
+	m_pMainLayer->setIMGFWindow(this);
+	m_pMainLayer->init();
+}
 
-	/*
-	CGUIStyles *pTabBarStyles = bxgx::CGUIManager::createStyles();
-	pTabBarStyles->setStyle("border-colour", CColour(50, 50, 50));
-	pTabBarStyles->setStyle("text-align-x", string("left"));
-	pTabBarStyles->setStyle("text-align-y", string("center"));
-	pTabBarStyles->setStyle("inner-spacing-x", (int32) 10);
-	CTabControl *pTabBar = pEditor->addTabBar(CPoint2D((int32) -1, 24), CSize2D((int32) 500, 20), pTabBarStyles);
-	pTabBar->setActiveTabHeightDifference(4);
+void					CIMGFWindow::initEditors(void)
+{
+	//addEditor(new CDATEditor);
+	addEditor(new CIMGEditor); // CIMGEditor eventually extends CGUILayer - todo use pWindow->addTemplatedGroup<CIMGEditor>() instead?
+}
 
-	pTabBar->addTab("IMG Editor", true);
-	pTabBar->addTab("Texture Editor");
-	*/
-
-	/*
-	// add window controls
-	CButtonControl *pButton = pEditor->addButton(CPoint2D((int32) 38, 35 + 38), CSize2D(172, 40), "Open");
-	pButton->setLayer(pEditor);
-	pButton->setControlId(1);
-	pButton->getStyles()->setStyle("fill-colour", CColour(0, 0, 0));
-	//pButton->getStyles()->setStyle("fill-colour-start", CColour(255, 0, 0));
-	//pButton->getStyles()->setStyle("fill-colour-stop", CColour(255, 255, 0));
-	pButton->getStyles()->setStyle("border-intersection-radius", (float32)15.0f);
-	pButton->getStyles()->setStyle("text-colour", CColour(255, 128, 0));
-	pEditor->getControls().addEntry(pButton);
-
-	CListControl *pList = pEditor->addList(CPoint2D((int32) 252, 35 + 87), CSize2D(732, 480));
-	pList->setLayer(pEditor);
-	pList->getStyles()->setStyle("fill-colour", CColour(0xEC, 0xF3, 0xFD, 0xFF));
-	pList->getStyles()->setStyle("row-fill-colour-1", CColour(0xFF, 0x00, 0x00, 0xFF));
-	pList->getStyles()->setStyle("row-fill-colour-2", CColour(0x00, 0xFF, 0x00, 0xFF));
-	pList->setRowHeight(25);
-	pList->setControlId(2);
-	//((CIMGEditor*)getEntryByIndex(0))->setEntryListControl(pList);
-	pEditor->getControls().addEntry(pList);
-
-	bindEvent(EVENT_onPressButton, [](void *pWindow, void *pData)
-	{
-		CButtonControl *pButton = (CButtonControl*) pData;
-		if (pButton->getControlId() == 1)
-		{
-			getIMGF()->getTaskManager()->getDispatch()->onRequestOpen();
-			// todo getIMGF()->getWindowManager()->getMainWindow()->setMarkedToRedraw(true);
-			// todo getIMGF()->getWindowManager()->render(); // todo - needed?
-		}
-	}, this);
-	*/
+// editors (layers)
+void					CIMGFWindow::addEditor(CEditor *pEditor)
+{
+	pEditor->setWindow(this);
+	pEditor->init();
+	addEntry(pEditor);
 }
 
 // render

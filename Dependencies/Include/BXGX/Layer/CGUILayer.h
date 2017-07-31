@@ -42,8 +42,8 @@ public:
 
 	void					unload(void) {}
 
-	void					bindAllEvents(void);
-	void					unbindAllEvents(void);
+	void					bindEvents(void);
+	void					unbindEvents(void);
 
 	void					triggerEvent(bxcf::eEvent eEventId, void *pTriggerArgument);
 
@@ -129,8 +129,10 @@ private:
 	CGUIShape*					createShapeFromId(eGUIShape eShapeId);
 	CGUIControl*				createControlFromId(eGUIControl eControlId);
 
-private:
+protected:
 	CWindow*					m_pWindow;
+
+private:
 	bool						m_bEnabled;
 	bxcf::CVectorPool<CGUIShape*>		m_vecShapes;
 	bxcf::CVectorPool<CGUIControl*>	m_vecControls;

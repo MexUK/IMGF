@@ -12,16 +12,18 @@ class CEditor : public CGUILayer
 public:
 	CEditor(void);
 
-	CIMGFWindow*					getWindow(void) { return (CIMGFWindow*) CGUILayer::getWindow(); }
+	virtual void						init(void) = 0;
 
-	void						setActiveTab(CEditorTab *pActiveTab) { m_pActiveTab = pActiveTab; }
-	CEditorTab*					getActiveTab(void) { return m_pActiveTab; }
+	CIMGFWindow*						getWindow(void) { return (CIMGFWindow*) CGUILayer::getWindow(); }
 
-	bxcf::CVectorPool<CEditorTab*>&	getTabs(void) { return m_vecTabs; }
+	void								setActiveTab(CEditorTab *pActiveTab) { m_pActiveTab = pActiveTab; }
+	CEditorTab*							getActiveTab(void) { return m_pActiveTab; }
+
+	bxcf::CVectorPool<CEditorTab*>&		getTabs(void) { return m_vecTabs; }
 
 private:
-	CEditorTab*					m_pActiveTab;
-	bxcf::CVectorPool<CEditorTab*>	m_vecTabs;
+	CEditorTab*							m_pActiveTab;
+	bxcf::CVectorPool<CEditorTab*>		m_vecTabs;
 };
 
 #endif

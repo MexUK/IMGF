@@ -39,8 +39,8 @@ public:
 
 	void									bindEvents(void);
 	void									unbindEvents(void);
-	void									bindAllEvents(void);
-	void									unbindAllEvents(void);
+	void									bindLayerEvents(void);
+	void									unbindLayerEvents(void);
 	
 	void									unserialize(void);
 	void									serialize(void);
