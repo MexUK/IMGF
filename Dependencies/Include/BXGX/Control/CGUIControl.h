@@ -25,7 +25,7 @@ class CGUIControl : public CGUIItem, public bxcf::CEventType
 {
 public:
 	CGUIControl(eGUIControl eControlType);
-	~CGUIControl(void);
+	virtual ~CGUIControl(void);
 
 	void									unload(void) {}
 
@@ -38,12 +38,29 @@ public:
 	bool									triggerEvent(uint32 uiEventId, void *pTriggerArgument = nullptr);
 
 	virtual bool							isPointInItem(bxcf::CPoint2D& vecPoint);
-	bxcf::CPoint2D								getBoundingRectanglePosition(void) { return m_vecPosition; }
-	bxcf::CSize2D									getBoundingRectangleSize(void) { return m_vecSize; }
+	bxcf::CPoint2D							getBoundingRectanglePosition(void) { return m_vecPosition; }
+	bxcf::CSize2D							getBoundingRectangleSize(void) { return m_vecSize; }
 	void									moveItem(bxcf::CVector2i32& vecPositionChange) { m_vecPosition += vecPositionChange; }
 	void									resizeItemViaOffsets(bxcf::CVector2i32& vecItemSizeChange) { m_vecSize += bxcf::CSize2D(vecItemSizeChange.m_x, vecItemSizeChange.m_y); }
 
 	bool									doesControlHaveFocus(void);
+
+	virtual bool							onGainFocus(void) { return false; }
+	virtual bool							onLoseFocus(void) { return false; }
+
+	virtual bool							onMouseMove(bxcf::CPoint2D vecCursorPoint) { return false; }
+	virtual bool							onLeftMouseDown(bxcf::CPoint2D vecCursorPoint) { return false; }
+	virtual bool							onLeftMouseUp(bxcf::CPoint2D vecCursorPoint) { return false; }
+	virtual bool							onRightMouseDown(bxcf::CPoint2D vecCursorPoint) { return false; }
+	virtual bool							onRightMouseUp(bxcf::CPoint2D vecCursorPoint) { return false; }
+
+	virtual bool							onKeyDown(uint16 uiKey) { return false; }
+	virtual bool							onKeyUp(uint16 uiKey) { return false; }
+	virtual bool							onKeyHeld(uint16 uiKey) { return false; }
+
+	virtual bool							onRender(void) { return false; }
+	virtual bool							onRenderBefore(void) { return false; }
+	virtual bool							onRenderAfter(void) { return false; }
 
 	void									addScroll(CScrollControl *pScroll);
 

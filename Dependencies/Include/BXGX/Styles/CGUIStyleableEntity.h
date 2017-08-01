@@ -16,8 +16,13 @@ public:
 	void									setStyles(CGUIStyles *pStyles);
 	CGUIStyles*								getStyles(void);
 
+	void									setIndividualStyles(CGUIStyles *pStyles);
+	CGUIStyles*								getIndividualStyles(void);
+	void									resetIndividualStyles(void);
+
 private:
 	CGUIStyles*								m_pStyles;
+	CGUIStyles*								m_pIndividualStyles;
 };
 
 #endif

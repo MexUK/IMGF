@@ -53,7 +53,23 @@ public:
 
 	void									onWindowLoseFocus(void);
 
-	void									onMouseMove(bxcf::CPoint2D& vecCursorPosition);
+	virtual bool							onGainFocus(void) { return false; }
+	virtual bool							onLoseFocus(void) { return false; }
+
+	virtual bool							onMouseMove(bxcf::CPoint2D vecCursorPoint);
+	virtual bool							onLeftMouseDown(bxcf::CPoint2D vecCursorPoint) { return false; }
+	virtual bool							onLeftMouseUp(bxcf::CPoint2D vecCursorPoint) { return false; }
+	virtual bool							onRightMouseDown(bxcf::CPoint2D vecCursorPoint) { return false; }
+	virtual bool							onRightMouseUp(bxcf::CPoint2D vecCursorPoint) { return false; }
+
+	virtual bool							onKeyDown(uint16 uiKey) { return false; }
+	virtual bool							onKeyUp(uint16 uiKey) { return false; }
+	virtual bool							onKeyHeld(uint16 uiKey) { return false; }
+
+	virtual bool							onRender(void) { return false; }
+	virtual bool							onRenderBefore(void) { return false; }
+	virtual bool							onRenderAfter(void) { return false; }
+
 	void									onMouseDown(bxcf::CPoint2D& vecCursorPosition);
 	void									onMouseUp(bxcf::CPoint2D& vecCursorPosition);
 	void									onDoubleLeftClick(bxcf::CPoint2D& vecCursorPosition);

@@ -9,6 +9,9 @@
 #include "Event/CEventBinder.h"
 #include "Object/CSingleton.h"
 #include <Commctrl.h>
+#include <tuple>
+
+#include "Debug/CDebug.h"
 
 LRESULT CALLBACK				WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -33,6 +36,16 @@ public:
 	WindowClass*				addTemplatedWindow(bxcf::CPoint2D& vecWindowPosition = bxcf::CPoint2D(0, 0), bxcf::CSize2D& vecWindowSize = bxcf::CSize2D(800, 600));
 
 	void						processWindows(void);
+
+	template <typename ...Args>
+	void						triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCursorPoint, Args... args);
+	template <class T, typename ...Args>
+	inline bool					triggerItemEvent(uint32 uiEvent, T *pItem, Args... args);
+
+	inline bool					isWindowEvent(uint32 uiEvent);
+	inline bool					isMouseEvent(uint32 uiEvent);
+	inline bool					isKeyEvent(uint32 uiEvent);
+	inline bool					isRenderEvent(uint32 uiEvent);
 
 	void						onMouseMove(bxcf::CPoint2D& vecCursorPosition);
 
@@ -96,6 +109,99 @@ WindowClass*					bxgx::CGUIManager::addTemplatedWindow(bxcf::CPoint2D& vecWindow
 	render();
 
 	return pWindow;
+}
+
+template <typename ...Args>
+void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCursorPoint, Args... args)
+{
+	bool
+		bIsMouseEvent = isMouseEvent(uiEvent),
+		bIsKeyEvent = isKeyEvent(uiEvent),
+		bIsRenderEvent = isRenderEvent(uiEvent),
+		bIsWindowEvent = isWindowEvent(uiEvent);
+	for (CWindow *pWindow : getEntries())
+	{
+		for (CGUILayer *pLayer : pWindow->getEntries())
+		{
+			if (triggerItemEvent<CGUILayer>(uiEvent, pLayer, args...))
+			{
+				return;
+			}
+			for (CGUIShape *pShape : pLayer->getShapes().getEntries())
+			{
+				if (pShape->isEventUsageMarked(uiEvent))
+				{
+					if ((bIsMouseEvent && pShape->isPointInItem(vecCursorPoint)) || bIsRenderEvent)
+					{
+						if (triggerItemEvent<CGUIShape>(uiEvent, pShape, args...))
+						{
+							return;
+						}
+					}
+				}
+			}
+			uint32 uiStartTickCount = GetTickCount();
+			for (CGUIControl *pControl : pLayer->m_vecControls.getEntries()) // <--- this line causes huge lag
+			{
+				if (pControl->isEventUsageMarked(uiEvent))
+				{
+					if ((bIsMouseEvent && pControl->isPointInItem(vecCursorPoint)) || (bIsKeyEvent && pControl->doesControlHaveFocus()) || bIsRenderEvent)
+					{
+						if (triggerItemEvent<CGUIControl>(uiEvent, pControl, args...))
+						{
+							return;
+						}
+					}
+				}
+			}
+			bxcf::CDebug::log("Milliseconds: " + CString2::toString(GetTickCount() - uiStartTickCount));
+		}
+		
+		if (bIsWindowEvent)
+		{
+			if (triggerItemEvent<CWindow>(uiEvent, pWindow, args...))
+			{
+				return;
+			}
+		}
+	}
+}
+
+template <class T, typename ...Args>
+bool						bxgx::CGUIManager::triggerItemEvent(uint32 uiEvent, T *pItem, Args... args)
+{
+	bool bResult = false;
+
+	va_list list;
+	va_start(list, pItem);
+
+	switch (uiEvent)
+	{
+		// window
+	case WINDOW_GAIN_FOCUS:		bResult = pItem->onGainFocus();										break;
+	case WINDOW_LOSE_FOCUS:		bResult = pItem->onLoseFocus();										break;
+
+		// mouse
+	case MOUSE_MOVE:			bResult = pItem->onMouseMove(va_arg(list, bxcf::CPoint2D));			break;
+	case MOUSE_LEFT_DOWN:		bResult = pItem->onLeftMouseDown(va_arg(list, bxcf::CPoint2D));		break;
+	case MOUSE_LEFT_UP:			bResult = pItem->onLeftMouseUp(va_arg(list, bxcf::CPoint2D));		break;
+	case MOUSE_RIGHT_DOWN:		bResult = pItem->onRightMouseDown(va_arg(list, bxcf::CPoint2D));	break;
+	case MOUSE_RIGHT_UP:		bResult = pItem->onRightMouseUp(va_arg(list, bxcf::CPoint2D));		break;
+
+		// key
+	case KEY_DOWN:				bResult = pItem->onKeyDown(va_arg(list, uint16));					break;
+	case KEY_UP:				bResult = pItem->onKeyUp(va_arg(list, uint16));						break;
+	case KEY_HELD:				bResult = pItem->onKeyHeld(va_arg(list, uint16));					break;
+
+		// render
+	case RENDER:				bResult = pItem->onRender();										break;
+	case RENDER_BEFORE:			bResult = pItem->onRenderBefore();									break;
+	case RENDER_AFTER:			bResult = pItem->onRenderAfter();									break;
+	}
+
+	va_end(list);
+
+	return bResult;
 }
 
 #endif

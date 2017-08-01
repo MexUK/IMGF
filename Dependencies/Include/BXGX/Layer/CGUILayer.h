@@ -50,6 +50,23 @@ public:
 	void					unserialize(void);
 	void					serialize(void);
 
+	virtual bool							onGainFocus(void) { return false; }
+	virtual bool							onLoseFocus(void) { return false; }
+
+	virtual bool							onMouseMove(bxcf::CPoint2D vecCursorPoint);
+	virtual bool							onLeftMouseDown(bxcf::CPoint2D vecCursorPoint) { return false; }
+	virtual bool							onLeftMouseUp(bxcf::CPoint2D vecCursorPoint) { return false; }
+	virtual bool							onRightMouseDown(bxcf::CPoint2D vecCursorPoint) { return false; }
+	virtual bool							onRightMouseUp(bxcf::CPoint2D vecCursorPoint) { return false; }
+
+	virtual bool							onKeyDown(uint16 uiKey) { return false; }
+	virtual bool							onKeyUp(uint16 uiKey) { return false; }
+	virtual bool							onKeyHeld(uint16 uiKey) { return false; }
+
+	virtual bool							onRender(void) { return false; }
+	virtual bool							onRenderBefore(void) { return false; }
+	virtual bool							onRenderAfter(void) { return false; }
+
 	void					setWindow(CWindow *pWindow) { m_pWindow = pWindow; }
 	CWindow*				getWindow(void) { return m_pWindow; }
 
@@ -121,6 +138,9 @@ public:
 	CGUIControl*				getControlById(uint32 uiControlId);
 	CGUIShape*					getShapeById(uint32 uiShapeId);
 
+	void						setButtonCursorHover(CButtonControl *pButton) { m_pButtonCursorHover = pButton; }
+	CButtonControl *			getButtonCursorHover(void) { return m_pButtonCursorHover; }
+
 private:
 	void						_addControl(CGUIControl *pWindowControl, bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, CGUIStyles *pStyles);
 	void						_addControl(CGUIControl *pWindowControl, CGUIStyles *pStyles);
@@ -132,10 +152,11 @@ private:
 protected:
 	CWindow*					m_pWindow;
 
-private:
+public: // temp as public
 	bool						m_bEnabled;
 	bxcf::CVectorPool<CGUIShape*>		m_vecShapes;
 	bxcf::CVectorPool<CGUIControl*>	m_vecControls;
+	CButtonControl*				m_pButtonCursorHover;
 };
 
 #endif

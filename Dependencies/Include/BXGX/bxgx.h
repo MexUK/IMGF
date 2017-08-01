@@ -18,36 +18,41 @@ namespace bxgx
 	class CGUIManager;
 
 	// events
-	namespace event
+	namespace events
 	{
 		// window
-		const uint16		WINDOW_GAIN_FOCUS			= 1000;
-		const uint16		WINDOW_LOSE_FOCUS			= 1001;
+		const uint32		WINDOW_GAIN_FOCUS			= 1000;
+		const uint32		WINDOW_LOSE_FOCUS			= 1001;
 
 		// mouse
-		const uint16		MOUSE_MOVE					= 2000;
+		const uint32		MOUSE_MOVE					= 2000;
 
-		const uint16		MOUSE_LEFT_PRESS			= 2001;
-		const uint16		MOUSE_LEFT_RELEASE			= 2002;
-		const uint16		MOUSE_DOUBLE_LEFT_RELEASE	= 2003;
-		const uint16		MOUSE_DOUBLE_LEFT_HELD		= 2004;
+		const uint32		MOUSE_LEFT_DOWN				= 2001;
+		const uint32		MOUSE_LEFT_UP				= 2002;
+		const uint32		MOUSE_DOUBLE_LEFT_DOWN		= 2003;
+		const uint32		MOUSE_DOUBLE_LEFT_UP		= 2004;
 
-		const uint16		MOUSE_RIGHT_PRESS			= 2100;
-		const uint16		MOUSE_RIGHT_RELEASE			= 2101;
-		const uint16		MOUSE_DOUBLE_RIGHT_RELEASE	= 2102;
-		const uint16		MOUSE_DOUBLE_RIGHT_HELD		= 2103;
+		const uint32		MOUSE_RIGHT_DOWN			= 2100;
+		const uint32		MOUSE_RIGHT_UP				= 2101;
+		const uint32		MOUSE_DOUBLE_RIGHT_DOWN		= 2102;
+		const uint32		MOUSE_DOUBLE_RIGHT_UP		= 2103;
 
-		const uint16		MOUSE_WHEEL_MOVE			= 2200;
-		const uint16		MOUSE_WHEEL_PRESS			= 2201;
-		const uint16		MOUSE_WHEEL_RELEASE			= 2202;
-		const uint16		MOUSE_DOUBLE_WHEEL_RELEASE	= 2203;
-		const uint16		MOUSE_DOUBLE_WHEEL_HELD		= 2204;
+		const uint32		MOUSE_WHEEL_MOVE			= 2200;
+		const uint32		MOUSE_WHEEL_DOWN			= 2201;
+		const uint32		MOUSE_WHEEL_UP				= 2202;
+		const uint32		MOUSE_DOUBLE_WHEEL_DOWN		= 2203;
+		const uint32		MOUSE_DOUBLE_WHEEL_UP		= 2204;
 
 		// key
-		const uint16		KEY_PRESS					= 3000;
-		const uint16		KEY_RELEASE					= 3001;
-		const uint16		KEY_HELD					= 3002;
-		const uint16		KEY_DOUBLE_RELEASE			= 3003;
-		const uint16		KEY_DOUBLE_HELD				= 3004;
+		const uint32		KEY_DOWN					= 3000;
+		const uint32		KEY_UP						= 3001;
+		const uint32		KEY_HELD					= 3002;
+		const uint32		KEY_DOUBLE_DOWN				= 3003;
+		const uint32		KEY_DOUBLE_UP				= 3004;
+
+		// render
+		const uint32		RENDER_BEFORE				= 4000;
+		const uint32		RENDER						= 4001;
+		const uint32		RENDER_AFTER				= 4002;
 	};
 };

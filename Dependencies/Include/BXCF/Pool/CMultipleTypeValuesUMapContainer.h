@@ -29,6 +29,7 @@ public:
 	ValueType*								getEntryPointer(KeyClass key);				// does check if the key exists
 	void*									getEntryVoidPointer(KeyClass key);			// does check if the key exists
 	void									removeAllEntries(void);
+	void									removeAllEntriesNoDelete(void);
 	void									removeEntry(KeyClass key);
 
 protected:
@@ -141,6 +142,12 @@ void				bxcf::CMultipleTypeValuesUMapContainer<KeyClass>::removeAllEntries(void)
 	{
 		delete m_umapEntries[it.first];
 	}
+	m_umapEntries.clear();
+}
+
+template <class KeyClass>
+void				bxcf::CMultipleTypeValuesUMapContainer<KeyClass>::removeAllEntriesNoDelete(void)
+{
 	m_umapEntries.clear();
 }
 

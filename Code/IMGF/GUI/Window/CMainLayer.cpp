@@ -182,6 +182,7 @@ void		CMainLayer::addControls(void)
 	CColour filtersFillColour(255, 149, 149);
 	pSearchBoxStyles->setStyle("fill-colour", filtersFillColour);
 	pSearchBoxStyles->setStyle("border-colour", borderColour);
+	pSearchBoxStyles->setStyle("border-state-left", true);
 	pSearchBoxStyles->setStyle("text-colour", CColour(0, 0, 0));
 	pSearchBoxStyles->setStyle("text-align-x", string("left"));
 	pSearchBoxStyles->setStyle("text-align-y", string("center"));

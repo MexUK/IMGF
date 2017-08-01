@@ -78,6 +78,8 @@ public:
 
 	static bool				doesDefaultStyleValueExist(std::string strStyleName);
 
+	void					loadFromStyles(CGUIStyles *pGUIStyles);
+
 private:
 	uint8													m_bHasFillOverwrite		: 1;
 	std::string												m_strItemComponent;

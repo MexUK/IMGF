@@ -20,7 +20,7 @@ public:
 
 	void					addEditor(CEditor *pEditor);
 
-	void					onRender(void);
+	bool					onRender(void);
 
 	void					onDropFiles(std::vector<std::string>& vecPaths);
 

@@ -61,6 +61,9 @@ void					CIMGFWindow::initMainLayer(void)
 {
 	m_pMainLayer->setWindow(this);
 	m_pMainLayer->setIMGFWindow(this);
+	m_pMainLayer->setEnabled(true);
+	addEntry(m_pMainLayer);
+
 	m_pMainLayer->init();
 }
 
@@ -79,10 +82,12 @@ void					CIMGFWindow::addEditor(CEditor *pEditor)
 }
 
 // render
-void					CIMGFWindow::onRender(void)
+bool					CIMGFWindow::onRender(void)
 {
 	renderTitleBar();
 	renderEtc();
+
+	return true;
 }
 
 void					CIMGFWindow::renderTitleBar(void)
