@@ -154,67 +154,6 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCur
 			}
 		}
 	}
-
-	/*
-	return;
-
-	bool
-		bIsMouseEvent = isMouseEvent(uiEvent),
-		bIsKeyEvent = isKeyEvent(uiEvent),
-		bIsRenderEvent = isRenderEvent(uiEvent),
-		bIsWindowEvent = isWindowEvent(uiEvent);
-	for (CWindow *pWindow : getEntries())
-	{
-		for (CGUILayer *pLayer : pWindow->getEntries())
-		{
-			if (triggerItemEvent<CGUILayer>(uiEvent, pLayer, args...))
-			{
-				return;
-			}
-			for (CGUIShape *pShape : pLayer->getShapes()->getEntries())
-			{
-				if (pShape->isEventUsageMarked(uiEvent))
-				{
-					if ((bIsMouseEvent && pShape->isPointInItem(vecCursorPoint)) || bIsRenderEvent)
-					{
-						if (triggerItemEvent<CGUIShape>(uiEvent, pShape, args...))
-						{
-							return;
-						}
-					}
-				}
-			}
-			for (CGUIControl *pControl : pLayer->getControls()->getEntries())
-			{
-				//uint32 uiStartTickCount1 = GetTickCount();
-				if (pControl->isEventUsageMarked(uiEvent))
-				{
-					//bxcf::CDebug::log("Milliseconds1: " + CString2::toString(GetTickCount() - uiStartTickCount1));
-					if ((bIsMouseEvent && pControl->isPointInItem(vecCursorPoint)) || (bIsKeyEvent && pControl->doesControlHaveFocus()) || bIsRenderEvent)
-					{
-						//uint32 uiStartTickCount2 = GetTickCount();
-						if (triggerItemEvent<CGUIControl>(uiEvent, pControl, args...))
-						{
-							//bxcf::CDebug::log("Milliseconds2: " + CString2::toString(GetTickCount() - uiStartTickCount2));
-							return;
-						}
-					}
-				}
-			}
-		}
-		
-		//if (bIsWindowEvent) // remove from here coz onMouseMove etc needed for windows too
-		//{
-			if (pWindow->isEventUsageMarked(uiEvent))
-			{
-				if (triggerItemEvent<CWindow>(uiEvent, pWindow, args...))
-				{
-					return;
-				}
-			}
-		//}
-	}
-	*/
 }
 
 template <typename ...Args>
@@ -225,30 +164,42 @@ bool						bxgx::CGUIManager::triggerItemEvent(uint32 uiEvent, CGUIEventUtilizer 
 	va_list list;
 	va_start(list, pItem);
 
-	//uint32 uiStartTickCount3, uiStartTickCount4;
-
 	switch (uiEvent)
 	{
 		// window
-	case WINDOW_GAIN_FOCUS:		bResult = pItem->onGainFocus();										break;
-	case WINDOW_LOSE_FOCUS:		bResult = pItem->onLoseFocus();										break;
+	case WINDOW_GAIN_FOCUS:			bResult = pItem->onGainFocus();											break;
+	case WINDOW_LOSE_FOCUS:			bResult = pItem->onLoseFocus();											break;
 
 		// mouse
-	case MOUSE_MOVE:			/*uiStartTickCount3 = GetTickCount();*/ bResult = pItem->onMouseMove(va_arg(list, bxcf::CPoint2D));		/*bxcf::CDebug::log("Milliseconds3: " + CString2::toString(GetTickCount() - uiStartTickCount3));*/		break;
-	case MOUSE_LEFT_DOWN:		bResult = pItem->onLeftMouseDown(va_arg(list, bxcf::CPoint2D));		break;
-	case MOUSE_LEFT_UP:			bResult = pItem->onLeftMouseUp(va_arg(list, bxcf::CPoint2D));		break;
-	case MOUSE_RIGHT_DOWN:		bResult = pItem->onRightMouseDown(va_arg(list, bxcf::CPoint2D));	break;
-	case MOUSE_RIGHT_UP:		bResult = pItem->onRightMouseUp(va_arg(list, bxcf::CPoint2D));		break;
+	case MOUSE_MOVE:				bResult = pItem->onMouseMove(va_arg(list, bxcf::CPoint2D));				break;
+	
+	case MOUSE_LEFT_DOWN:			bResult = pItem->onLeftMouseDown(va_arg(list, bxcf::CPoint2D));			break;
+	case MOUSE_LEFT_UP:				bResult = pItem->onLeftMouseUp(va_arg(list, bxcf::CPoint2D));			break;
+	case MOUSE_DOUBLE_LEFT_DOWN:	bResult = pItem->onDoubleLeftMouseDown(va_arg(list, bxcf::CPoint2D));	break;
+	case MOUSE_DOUBLE_LEFT_UP:		bResult = pItem->onDoubleLeftMouseUp(va_arg(list, bxcf::CPoint2D));		break;
+	
+	case MOUSE_RIGHT_DOWN:			bResult = pItem->onRightMouseDown(va_arg(list, bxcf::CPoint2D));		break;
+	case MOUSE_RIGHT_UP:			bResult = pItem->onRightMouseUp(va_arg(list, bxcf::CPoint2D));			break;
+	case MOUSE_DOUBLE_RIGHT_DOWN:	bResult = pItem->onDoubleRightMouseDown(va_arg(list, bxcf::CPoint2D));	break;
+	case MOUSE_DOUBLE_RIGHT_UP:		bResult = pItem->onDoubleRightMouseUp(va_arg(list, bxcf::CPoint2D));	break;
+
+	case MOUSE_WHEEL_MOVE:			bResult = pItem->onMouseWheelMove(va_arg(list, bxcf::CPoint2D));		break;
+	case MOUSE_WHEEL_DOWN:			bResult = pItem->onMouseWheelDown(va_arg(list, bxcf::CPoint2D));		break;
+	case MOUSE_WHEEL_UP:			bResult = pItem->onMouseWheelUp(va_arg(list, bxcf::CPoint2D));			break;
+	case MOUSE_DOUBLE_WHEEL_DOWN:	bResult = pItem->onDoubleMouseWheelDown(va_arg(list, bxcf::CPoint2D));	break;
+	case MOUSE_DOUBLE_WHEEL_UP:		bResult = pItem->onDoubleMouseWheelUp(va_arg(list, bxcf::CPoint2D));	break;
 
 		// key
-	case KEY_DOWN:				bResult = pItem->onKeyDown(va_arg(list, uint16));					break;
-	case KEY_UP:				bResult = pItem->onKeyUp(va_arg(list, uint16));						break;
-	case KEY_HELD:				bResult = pItem->onKeyHeld(va_arg(list, uint16));					break;
+	case KEY_DOWN:					bResult = pItem->onKeyDown(va_arg(list, uint16));						break;
+	case KEY_UP:					bResult = pItem->onKeyUp(va_arg(list, uint16));							break;
+	case KEY_HELD:					bResult = pItem->onKeyHeld(va_arg(list, uint16));						break;
+	case KEY_DOUBLE_DOWN:			bResult = pItem->onDoubleKeyDown(va_arg(list, uint16));					break;
+	case KEY_DOUBLE_UP:				bResult = pItem->onDoubleKeyUp(va_arg(list, uint16));					break;
 
 		// render
-	case RENDER:				/*uiStartTickCount4 = GetTickCount();*/ bResult = pItem->onRender();									/*bxcf::CDebug::log("Milliseconds4: " + CString2::toString(GetTickCount() - uiStartTickCount4));*/	break;
-	case RENDER_BEFORE:			bResult = pItem->onRenderBefore();									break;
-	case RENDER_AFTER:			bResult = pItem->onRenderAfter();									break;
+	case RENDER:					bResult = pItem->onRender();											break;
+	case RENDER_BEFORE:				bResult = pItem->onRenderBefore();										break;
+	case RENDER_AFTER:				bResult = pItem->onRenderAfter();										break;
 	}
 
 	va_end(list);

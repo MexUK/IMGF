@@ -54,7 +54,7 @@ public:
 	bool					isPointInItem(bxcf::CPoint2D& vecPoint);
 	bool					doesItemHaveFocus(void) { return true; }
 
-	bool					onMouseMove(bxcf::CPoint2D vecCursorPoint);
+	bool					onMouseMove(bxcf::CPoint2D& vecCursorPoint);
 
 	void					setWindow(CWindow *pWindow) { m_pWindow = pWindow; }
 	CWindow*				getWindow(void) { return m_pWindow; }

@@ -22,16 +22,29 @@ public:
 	virtual bool							onGainFocus(void) { return false; }
 	virtual bool							onLoseFocus(void) { return false; }
 
-	virtual bool							onMouseMove(bxcf::CPoint2D vecCursorPoint) { return false; }
-	virtual bool							onLeftMouseDown(bxcf::CPoint2D vecCursorPoint) { return false; }
-	virtual bool							onLeftMouseUp(bxcf::CPoint2D vecCursorPoint) { return false; }
-	virtual bool							onLeftMouseDoubleUp(bxcf::CPoint2D vecCursorPoint) { return false; }
-	virtual bool							onRightMouseDown(bxcf::CPoint2D vecCursorPoint) { return false; }
-	virtual bool							onRightMouseUp(bxcf::CPoint2D vecCursorPoint) { return false; }
+	virtual bool							onMouseMove(bxcf::CPoint2D& vecCursorPoint) { return false; }
+
+	virtual bool							onLeftMouseDown(bxcf::CPoint2D& vecCursorPoint) { return false; }
+	virtual bool							onLeftMouseUp(bxcf::CPoint2D& vecCursorPoint) { return false; }
+	virtual bool							onDoubleLeftMouseDown(bxcf::CPoint2D& vecCursorPoint) { return false; }
+	virtual bool							onDoubleLeftMouseUp(bxcf::CPoint2D& vecCursorPoint) { return false; }
+
+	virtual bool							onRightMouseDown(bxcf::CPoint2D& vecCursorPoint) { return false; }
+	virtual bool							onRightMouseUp(bxcf::CPoint2D& vecCursorPoint) { return false; }
+	virtual bool							onDoubleRightMouseDown(bxcf::CPoint2D& vecCursorPoint) { return false; }
+	virtual bool							onDoubleRightMouseUp(bxcf::CPoint2D& vecCursorPoint) { return false; }
+
+	virtual bool							onMouseWheelMove(bxcf::CPoint2D& vecCursorPoint) { return false; }
+	virtual bool							onMouseWheelDown(bxcf::CPoint2D& vecCursorPoint) { return false; }
+	virtual bool							onMouseWheelUp(bxcf::CPoint2D& vecCursorPoint) { return false; }
+	virtual bool							onDoubleMouseWheelDown(bxcf::CPoint2D& vecCursorPoint) { return false; }
+	virtual bool							onDoubleMouseWheelUp(bxcf::CPoint2D& vecCursorPoint) { return false; }
 
 	virtual bool							onKeyDown(uint16 uiKey) { return false; }
 	virtual bool							onKeyUp(uint16 uiKey) { return false; }
 	virtual bool							onKeyHeld(uint16 uiKey) { return false; }
+	virtual bool							onDoubleKeyDown(uint16 uiKey) { return false; }
+	virtual bool							onDoubleKeyUp(uint16 uiKey) { return false; }
 
 	virtual bool							onRender(void) { return false; }
 	virtual bool							onRenderBefore(void) { return false; }

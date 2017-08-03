@@ -18,8 +18,6 @@ public:
 	void									serialize(void);
 
 	bool									onRender(void);
-
-	bool									isPointInControl(bxcf::CPoint2D& vecPoint) { return false; }
 };
 
 #endif

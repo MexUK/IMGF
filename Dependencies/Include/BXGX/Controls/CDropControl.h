@@ -24,8 +24,8 @@ public:
 
 	CDropControlEntry*						addItem(std::string strItemText, bool bIsActiveItem = false);
 	void									removeItem(CDropControlEntry *pDropEntry);
-
-	bool									isPointInControl(bxcf::CPoint2D& vecPoint);
+	
+	bxcf::CSize2D							getBoundingRectangleSize(void);
 	bool									isPointInSelectionList(bxcf::CPoint2D& vecPoint);
 
 	bxcf::CPoint2D								getSelectionListPosition(void);

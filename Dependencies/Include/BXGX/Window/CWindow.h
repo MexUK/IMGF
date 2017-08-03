@@ -57,10 +57,10 @@ public:
 
 	void									onWindowLoseFocus(void);
 
-	bool									onMouseMove(bxcf::CPoint2D vecCursorPoint);
-	bool									onLeftMouseDown(bxcf::CPoint2D vecCursorPoint);
-	bool									onLeftMouseUp(bxcf::CPoint2D vecCursorPoint);
-	bool									onLeftMouseDoubleUp(bxcf::CPoint2D vecCursorPoint);
+	bool									onMouseMove(bxcf::CPoint2D& vecCursorPoint);
+	bool									onLeftMouseDown(bxcf::CPoint2D& vecCursorPoint);
+	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPoint);
+	bool									onDoubleLeftMouseUp(bxcf::CPoint2D& vecCursorPoint);
 
 	virtual void							render(void);
 	void									renderNow(void);

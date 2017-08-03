@@ -51,8 +51,8 @@ namespace bxgx
 		const uint32		KEY_DOUBLE_UP				= 3004;
 
 		// render
-		const uint32		RENDER_BEFORE				= 4000;
-		const uint32		RENDER						= 4001;
+		const uint32		RENDER						= 4000;
+		const uint32		RENDER_BEFORE				= 4001;
 		const uint32		RENDER_AFTER				= 4002;
 	};
 };

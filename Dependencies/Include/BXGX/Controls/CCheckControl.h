@@ -17,12 +17,10 @@ public:
 
 	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPosition);
 	bool									onRender(void);
-	
-	bool									isPointInControl(bxcf::CPoint2D& vecPoint);
 
-	bxcf::CSize2D									getTotalSize(void); // todo - duplicated code in check and radio controls
+	bxcf::CSize2D							getBoundingRectangleSize(void);
 
-	bxcf::CPoint2D								getTextPosition(void);
+	bxcf::CPoint2D							getTextPosition(void);
 
 	int32									getMarkableTextSpacing(void); // todo - duplicated code in check and radio controls
 	
