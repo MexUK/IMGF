@@ -4,8 +4,8 @@
 #include "Type/Types.h"
 #include "Globals.h"
 #include "Object/CManager.h"
-#include "CBuildMeta.h"
-#include "CInstallationMeta.h"
+#include "Program/CBuildMeta.h"
+#include "Program/CInstallationMeta.h"
 
 #define WINAPI __stdcall
 uint32 WINAPI		onInitializationThreadStart(void *pThreadParameter);

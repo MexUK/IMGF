@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include "GUI/Editor/Tab/CEditorTab.h"
 #include "Format/RockstarGames/IMG/CIMGFormat.h"
-#include "CFilterOptions.h"
+#include "Tasks/Filter/CFilterOptions.h"
 #include <string>
 #include <vector>
 

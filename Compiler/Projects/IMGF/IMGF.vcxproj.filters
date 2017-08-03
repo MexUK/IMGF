@@ -16,12 +16,6 @@
     <Filter Include="Header Files\Sort">
       <UniqueIdentifier>{fc15c735-231f-4610-9fdd-cf9fc8cd7db4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Update">
-      <UniqueIdentifier>{95b2575e-7be2-40fb-91af-dd87b2413458}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Update">
-      <UniqueIdentifier>{f523ed23-3a91-4ae9-a6a1-f6364a501146}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Language">
       <UniqueIdentifier>{a9118a4d-ad5e-44a6-bda7-62616d8db766}</UniqueIdentifier>
     </Filter>
@@ -42,12 +36,6 @@
     </Filter>
     <Filter Include="Header Files\Task">
       <UniqueIdentifier>{befc1e00-668e-48a0-8882-4c1d1ea436fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Task\Tasks">
-      <UniqueIdentifier>{99c715cc-064b-48b2-a226-24145895d91a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Task\Tasks\Renamer">
-      <UniqueIdentifier>{06b42a44-c4fe-45e5-9d42-75bab9b326d5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\GUI">
       <UniqueIdentifier>{a997370a-be7d-4701-bde1-31b10bf89c3e}</UniqueIdentifier>
@@ -115,9 +103,6 @@
     <Filter Include="Source Files\TEMP_LOCATION_ThirdParty\Bitmap">
       <UniqueIdentifier>{193c374c-d3a6-43c9-bcad-83ac3e5a7cbc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\TEMP_LOCATION_ThirdParty\HappyHTTP">
-      <UniqueIdentifier>{059560bd-9a99-4ce8-a86a-97081f1bd445}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\TEMP_LOCATION_ThirdParty\GLEW">
       <UniqueIdentifier>{b0827121-b351-4d5a-9889-52ea80a97d12}</UniqueIdentifier>
     </Filter>
@@ -150,9 +135,6 @@
     </Filter>
     <Filter Include="Header Files\TEMP_LOCATION_ThirdParty\GLUT">
       <UniqueIdentifier>{2e4027c5-b5ce-4a82-8cd5-954916bc5896}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\TEMP_LOCATION_ThirdParty\HappyHTTP">
-      <UniqueIdentifier>{6c9574fc-3c78-495d-b399-316d43f14dbf}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\TEMP_LOCATION_ThirdParty\GLUT">
       <UniqueIdentifier>{c55307d2-f13a-4539-bd5d-14b806f8bd60}</UniqueIdentifier>
@@ -220,16 +202,64 @@
     <Filter Include="Source Files\FileFormat\LST">
       <UniqueIdentifier>{4b4c91de-4010-415e-81ec-1a3171e0800e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tasks">
+      <UniqueIdentifier>{99c715cc-064b-48b2-a226-24145895d91a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tasks\Renamer">
+      <UniqueIdentifier>{06b42a44-c4fe-45e5-9d42-75bab9b326d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tasks\Find">
+      <UniqueIdentifier>{c33c94a2-1e11-4cd9-92cd-675a3a85d538}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tasks">
+      <UniqueIdentifier>{b2fda12f-aa2f-4b0c-9d00-4c2af1b97312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tasks\Dump">
+      <UniqueIdentifier>{21293ff8-29e8-4198-97c7-6caff15e41f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tasks\Dump">
+      <UniqueIdentifier>{bbc20b3c-1891-4a21-afce-82780a8e479b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tasks\LST">
+      <UniqueIdentifier>{bd42fc3f-8aaf-4fa4-8862-ddde441b4cb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tasks\LST">
+      <UniqueIdentifier>{b5d49263-0934-470f-889b-412339d4070d}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\RecentlyOpen">
       <UniqueIdentifier>{1e2d2531-5e76-46e9-8e26-1226df840c87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Settings">
+      <UniqueIdentifier>{19319d26-7cab-4a6f-a92c-9c8e99bac28d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Settings">
+      <UniqueIdentifier>{46637ec4-55df-4816-a42d-4d9941fe82f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Updater">
+      <UniqueIdentifier>{f523ed23-3a91-4ae9-a6a1-f6364a501146}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Updater">
+      <UniqueIdentifier>{95b2575e-7be2-40fb-91af-dd87b2413458}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tasks\Filter">
+      <UniqueIdentifier>{6d550429-6c6f-4f0e-ba3a-214c13330254}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Program">
+      <UniqueIdentifier>{ab68d552-0099-4058-9d8f-0d6a74a45d31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Program">
+      <UniqueIdentifier>{ff67ada2-70a4-4e75-bfbe-1a47ebd98825}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Popups">
+      <UniqueIdentifier>{f0abdd53-8498-4ece-be3e-fa39a5b900f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Popups">
+      <UniqueIdentifier>{31386831-0560-4a8d-8b2f-1de4adb3bfa2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Dependencies\ThirdParty\Bitmap\bitmap.cpp">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Bitmap</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Dependencies\ThirdParty\HappyHTTP\happyhttp.cpp">
-      <Filter>Source Files\TEMP_LOCATION_ThirdParty\HappyHTTP</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLEW\glew.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\GLEW</Filter>
@@ -315,31 +345,7 @@
     <ClCompile Include="..\..\..\Dependencies\ThirdParty\freetype-gl\platform.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\CDumpManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\CHTTPManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\CInstallationMeta.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\CIMGF.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\CLastUsedValueManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\CLSTProcessingManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\CPopupGUIManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\CSettingsManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\CSocketUtility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDragListCtrl.cpp">
@@ -447,25 +453,40 @@
     <ClCompile Include="..\..\..\Code\IMGF\Sort\CSortType.cpp">
       <Filter>Source Files\Sort</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Update\CUpdateConnectionManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Update\CUpdateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.cpp">
       <Filter>Source Files\AutomatedTesting</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\CMainLayer.cpp">
       <Filter>Source Files\GUI\Window</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Dump\CDumpManager.cpp">
+      <Filter>Source Files\Tasks\Dump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Tasks\LST\CLSTProcessingManager.cpp">
+      <Filter>Source Files\Tasks\LST</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Settings\CSettingsManager.cpp">
+      <Filter>Source Files\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Updater\CUpdateManager.cpp">
+      <Filter>Source Files\Updater</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Updater\CUpdateConnectionManager.cpp">
+      <Filter>Source Files\Updater</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Program\CInstallationMeta.cpp">
+      <Filter>Source Files\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\CLastUsedValueManager.cpp">
+      <Filter>Source Files\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Popups\CPopupGUIManager.cpp">
+      <Filter>Source Files\GUI\Popups</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Dependencies\ThirdParty\Bitmap\bitmap.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Bitmap</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Dependencies\ThirdParty\HappyHTTP\happyhttp.h">
-      <Filter>Header Files\TEMP_LOCATION_ThirdParty\HappyHTTP</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLEW\GL\glxew.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\GLEW\GL</Filter>
@@ -1025,43 +1046,7 @@
     <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\texture-font.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\buildnumber.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\CBuildMeta.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\CDumpManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\CFilterOptions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\CHTTPManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\CInstallationMeta.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\CIMGF.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\CLastUsedValueManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\CLSTProcessingManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\CPopupGUIManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\CSearchEntry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\CSettingsManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\CSocketUtility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDragListCtrl.h">
@@ -1160,9 +1145,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskManager.h">
       <Filter>Header Files\Task</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\WindowControlIds.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\RecentlyOpen\CRecentlyOpenEntry.h">
       <Filter>Header Files\RecentlyOpen</Filter>
     </ClInclude>
@@ -1199,23 +1181,61 @@
     <ClInclude Include="..\..\..\Code\IMGF\Sort\eSortType.h">
       <Filter>Header Files\Sort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Update\CUpdateConnection.h">
-      <Filter>Header Files\Update</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Update\CUpdateConnectionManager.h">
-      <Filter>Header Files\Update</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Update\CUpdateManager.h">
-      <Filter>Header Files\Update</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Renamer\CRenamedIMGEntry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.h">
       <Filter>Header Files\AutomatedTesting</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\CMainLayer.h">
       <Filter>Header Files\GUI\Window</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Find\CSearchEntry.h">
+      <Filter>Header Files\Tasks\Find</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Renamer\CRenamedIMGEntry.h">
+      <Filter>Header Files\Tasks\Renamer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Dump\CDumpManager.h">
+      <Filter>Header Files\Tasks\Dump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\LST\CLSTProcessingManager.h">
+      <Filter>Header Files\Tasks\LST</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Settings\CSettingsManager.h">
+      <Filter>Header Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Updater\CUpdateManager.h">
+      <Filter>Header Files\Updater</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Updater\CUpdateConnection.h">
+      <Filter>Header Files\Updater</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Updater\CUpdateConnectionManager.h">
+      <Filter>Header Files\Updater</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Filter\CFilterOptions.h">
+      <Filter>Header Files\Tasks\Filter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Program\CInstallationMeta.h">
+      <Filter>Header Files\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Program\CBuildMeta.h">
+      <Filter>Header Files\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\CLastUsedValueManager.h">
+      <Filter>Header Files\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\CPopupGUIManager.h">
+      <Filter>Header Files\GUI\Popups</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\WindowControlIds.h">
+      <Filter>Header Files\GUI\Popups</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Program\buildnumber.h">
+      <Filter>Header Files\Program</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\Code\IMGF\Resources\Program Icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

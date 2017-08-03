@@ -6,7 +6,7 @@
 #include "Path/CPathManager.h"
 #include "File/CFileManager.h"
 #include "Localization/CLocalizationManager.h"
-#include "CSettingsManager.h"
+#include "Settings/CSettingsManager.h"
 #include "Format/RockstarGames/COL/CCOLManager.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWVersion.h"

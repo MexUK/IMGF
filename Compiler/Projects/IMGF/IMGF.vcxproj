@@ -60,7 +60,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <PreprocessorDefinitions>_WINSOCK_DEPRECATED_NO_WARNINGS;_GLFW_USE_OPENGL;_GLFW_WIN32;_GLFW_WGL;GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_GLFW_USE_OPENGL;_GLFW_WIN32;_GLFW_WGL;GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
@@ -103,15 +103,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\CDumpManager.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\CHTTPManager.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\CInstallationMeta.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\CIMGF.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\CLastUsedValueManager.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\CLSTProcessingManager.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\CPopupGUIManager.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\CSettingsManager.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\CSocketUtility.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDragListCtrl.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDropSource.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDropTarget.cpp" />
@@ -132,6 +124,7 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editors\Tab\CIMGEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\CEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tab\CEditorTab.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Popups\CPopupGUIManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\CThemeDesigner.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.cpp" />
@@ -140,6 +133,11 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\CMainLayer.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Language\CLanguageManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Main.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Program\CInstallationMeta.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Settings\CSettingsManager.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Dump\CDumpManager.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Tasks\LST\CLSTProcessingManager.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Task\CLastUsedValueManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Task\CTaskDispatchManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Task\CTaskManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\RecentlyOpen\CRecentlyOpenEntry.cpp" />
@@ -148,8 +146,8 @@
     <ClCompile Include="..\..\..\Code\IMGF\Session\CSessionManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Sort\CSortManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Sort\CSortType.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\Update\CUpdateConnectionManager.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\Update\CUpdateManager.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Updater\CUpdateConnectionManager.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Updater\CUpdateManager.cpp" />
     <ClCompile Include="..\..\..\Dependencies\ThirdParty\Bitmap\bitmap.cpp" />
     <ClCompile Include="..\..\..\Dependencies\ThirdParty\freetype-gl\edtaa3func.c" />
     <ClCompile Include="..\..\..\Dependencies\ThirdParty\freetype-gl\font-manager.c" />
@@ -179,23 +177,10 @@
     <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLFW\src\window.c" />
     <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLFW\src\winmm_joystick.c" />
     <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLM\detail\glm.cpp" />
-    <ClCompile Include="..\..\..\Dependencies\ThirdParty\HappyHTTP\happyhttp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\buildnumber.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\CBuildMeta.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\CDumpManager.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\CFilterOptions.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\CHTTPManager.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\CInstallationMeta.h" />
     <ClInclude Include="..\..\..\Code\IMGF\CIMGF.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\CLastUsedValueManager.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\CLSTProcessingManager.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\CPopupGUIManager.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\CSearchEntry.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\CSettingsManager.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\CSocketUtility.h" />
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDragListCtrl.h" />
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDropSource.h" />
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDropTarget.h" />
@@ -219,6 +204,8 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\Tab\CIMGEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\CEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tab\CEditorTab.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\CPopupGUIManager.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\WindowControlIds.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\CThemeDesigner.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.h" />
@@ -227,10 +214,21 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\CMainLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Language\CLanguage.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Language\CLanguageManager.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Program\buildnumber.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Program\CBuildMeta.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Program\CInstallationMeta.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Settings\CSettingsManager.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Dump\CDumpManager.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Filter\CFilterOptions.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Find\CSearchEntry.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\LST\CLSTProcessingManager.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Renamer\CRenamedIMGEntry.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Task\CLastUsedValueManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskDispatchManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskManager.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Renamer\CRenamedIMGEntry.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\WindowControlIds.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Updater\CUpdateConnection.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Updater\CUpdateConnectionManager.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Updater\CUpdateManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\RecentlyOpen\CRecentlyOpenEntry.h" />
     <ClInclude Include="..\..\..\Code\IMGF\RecentlyOpen\CRecentlyOpenManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Session\CSession.h" />
@@ -243,9 +241,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\Sort\CSortType.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Sort\CSortTypes.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Sort\eSortType.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\Update\CUpdateConnection.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\Update\CUpdateConnectionManager.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\Update\CUpdateManager.h" />
     <ClInclude Include="..\..\..\Dependencies\ThirdParty\Bitmap\bitmap.h" />
     <ClInclude Include="..\..\..\Dependencies\ThirdParty\Freeglut\include\GL\freeglut.h" />
     <ClInclude Include="..\..\..\Dependencies\ThirdParty\Freeglut\include\GL\freeglut_ext.h" />
@@ -433,7 +428,9 @@
     <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\vec3.hpp" />
     <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\vec4.hpp" />
     <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\vector_relational.hpp" />
-    <ClInclude Include="..\..\..\Dependencies\ThirdParty\HappyHTTP\happyhttp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\Code\IMGF\Resources\Program Icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -14,7 +14,7 @@
 #include "CSortType.h"
 #include "eSortType.h"
 #include "GUI/CGUIManager.h"
-#include "CPopupGUIManager.h"
+#include "GUI/Popups/CPopupGUIManager.h"
 #include "Format/RockstarGames/IDE/CIDEManager.h"
 #include "Format/RockstarGames/IDE/CIDEManager.h"
 #include "Format/RockstarGames/COL/CCOLManager.h"

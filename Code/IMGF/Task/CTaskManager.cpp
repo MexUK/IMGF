@@ -8,7 +8,7 @@
 #include "Type/StdVector/CStdVector.h"
 #include "Format/Text/INI/CINIManager.h"
 #include "GUI/Editors/CIMGEditor.h"
-#include "CSettingsManager.h"
+#include "Settings/CSettingsManager.h"
 
 using namespace std;
 using namespace bxcf;

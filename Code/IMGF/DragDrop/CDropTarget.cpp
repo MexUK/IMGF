@@ -18,7 +18,7 @@
 #include "Format/RenderWare/Helper/BinaryStream/CRWManager.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWVersionManager.h"
 #include "CIMGF.h"
-#include "CPopupGUIManager.h"
+#include "GUI/Popups/CPopupGUIManager.h"
 #include "Image/CRasterDataFormat.h"
 #include "Localization/CLocalizationManager.h"
 #include "Debug/CDebug.h"

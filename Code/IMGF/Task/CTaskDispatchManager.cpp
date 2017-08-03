@@ -45,17 +45,17 @@
 #include "Format/RenderWare/Helper/BinaryStream/CRWManager.h"
 #include "RecentlyOpen/CRecentlyOpenManager.h"
 #include "Session/CSessionManager.h"
-#include "CPopupGUIManager.h"
-#include "CLSTProcessingManager.h"
-#include "CDumpManager.h"
-#include "CSettingsManager.h"
+#include "GUI/Popups/CPopupGUIManager.h"
+#include "Tasks/LST/CLSTProcessingManager.h"
+#include "Tasks/Dump/CDumpManager.h"
+#include "Settings/CSettingsManager.h"
 #include "Sort/CSortManager.h"
 #include "Sort/CSortPriority.h"
-#include "CHTTPManager.h"
+#include "Protocol/HTTP.h"
 #include "DB/CDBManager.h"
 #include "DB/CDBFormat.h"
 #include "Image/CRasterDataFormat.h"
-#include "CSearchEntry.h"
+#include "Tasks/Find/CSearchEntry.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWVersionManager.h"
 #include "EntryViewer/CEntryViewerManager.h"
 #include "Format/RockstarGames/IDE/CIDEFormat.h"
@@ -100,10 +100,10 @@
 #include "Format/RenderWare/Helper/BinaryStream/Entries/2dEffects/CRWEntry_2dEffect_SlotmachineWheel.h"
 #include "Format/RenderWare/Helper/BinaryStream/Entries/2dEffects/CRWEntry_2dEffect_StreetSign.h"
 #include "Format/RenderWare/Helper/BinaryStream/Entries/2dEffects/CRWEntry_2dEffect_SunGlare.h"
-#include "Update/CUpdateManager.h"
-#include "Update/CUpdateConnectionManager.h"
-#include "Update/CUpdateConnection.h"
-#include "buildnumber.h"
+#include "Updater/CUpdateManager.h"
+#include "Updater/CUpdateConnectionManager.h"
+#include "Updater/CUpdateConnection.h"
+#include "Program/buildnumber.h"
 #include "Format/RockstarGames/COL/CCOLVersionManager.h"
 #include "Format/RockstarGames/COL/CCOLVersion.h"
 #include "Math/CMath.h"
@@ -122,7 +122,7 @@
 #include "Sort/CSortPriorities.h"
 #include "EntryViewer/CTextureViewer.h"
 #include "EntryViewer/CCollisionViewer.h"
-#include "Task/Tasks/Renamer/CRenamedIMGEntry.h"
+#include "Tasks/Renamer/CRenamedIMGEntry.h"
 #include "Format/RenderWare/Helper/BinaryStream/CTextureEntry.h"
 #include "Collection/Games/eGame.h"
 #include "CLastUsedValueManager.h"
@@ -5260,7 +5260,7 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 			}
 
 			pActiveUpdateConnection = pUpdateConnection;
-			strFileContent = CHTTPManager::getInstance()->getFileContent(pUpdateConnection->getLatestVersionURL());
+			strFileContent = HTTP::getInstance()->getFileContent(pUpdateConnection->getLatestVersionURL());
 			if (strFileContent == "")
 			{
 				continue;
@@ -5292,7 +5292,7 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 			getIMGF()->getTaskManager()->onTaskUnpause();
 			if (uiResult == IDOK)
 			{
-				string strNewProgramData = CHTTPManager::getInstance()->getFileContent(pActiveUpdateConnection->getDownloadFolderURL() + strLatestVersionFileName);
+				string strNewProgramData = HTTP::getInstance()->getFileContent(pActiveUpdateConnection->getDownloadFolderURL() + strLatestVersionFileName);
 
 				TCHAR szFilename[MAX_PATH];
 				GetModuleFileName(NULL, szFilename, MAX_PATH);
@@ -5353,7 +5353,7 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 			}
 
 			pActiveUpdateConnection = pUpdateConnection;
-			strFileContent = CHTTPManager::getInstance()->getFileContent(pUpdateConnection->getLatestVersionURL());
+			strFileContent = HTTP::getInstance()->getFileContent(pUpdateConnection->getLatestVersionURL());
 			if (strFileContent == "")
 			{
 				continue;
@@ -5371,7 +5371,7 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 			return;
 		}
 
-		vector<string> vecData = CString2::split(CHTTPManager::getInstance()->getFileContent(pActiveUpdateConnection->getLatestVersionURL()), "\n");
+		vector<string> vecData = CString2::split(HTTP::getInstance()->getFileContent(pActiveUpdateConnection->getLatestVersionURL()), "\n");
 		string strLatestVersion = vecData[0];
 		string strLatestVersionFileName = vecData[1];
 
@@ -5384,7 +5384,7 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 			getIMGF()->getTaskManager()->onTaskUnpause();
 			if (uiResult == IDOK)
 			{
-				string strNewProgramData = CHTTPManager::getInstance()->getFileContent(pActiveUpdateConnection->getDownloadFolderURL() + strLatestVersionFileName);
+				string strNewProgramData = HTTP::getInstance()->getFileContent(pActiveUpdateConnection->getDownloadFolderURL() + strLatestVersionFileName);
 
 				TCHAR szFilename[MAX_PATH];
 				GetModuleFileName(NULL, szFilename, MAX_PATH);
@@ -5437,7 +5437,7 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 void		CTaskDispatchManager::onRequestAutoUpdate(void)
 {
 	getIMGF()->getTaskManager()->onTaskBegin("onRequestAutoUpdate");
-	vector<string> vecData = CString2::split(CHTTPManager::getInstance()->getFileContent("http://updater.imgfactory.mvec.io/latest-version.txt"), "\n");
+	vector<string> vecData = CString2::split(HTTP::getInstance()->getFileContent("http://updater.imgfactory.mvec.io/latest-version.txt"), "\n");
 	if (vecData.size() == 0)
 	{
 		// e.g. no network connection
@@ -5456,7 +5456,7 @@ void		CTaskDispatchManager::onRequestAutoUpdate(void)
 		getIMGF()->getTaskManager()->onTaskUnpause();
 		if (uiResult == IDOK)
 		{
-			string strNewProgramData = CHTTPManager::getInstance()->getFileContent("http://updater.imgfactory.mvec.io/versions/" + strLatestVersionFileName);
+			string strNewProgramData = HTTP::getInstance()->getFileContent("http://updater.imgfactory.mvec.io/versions/" + strLatestVersionFileName);
 
 			TCHAR szFilename[MAX_PATH];
 			GetModuleFileName(NULL, szFilename, MAX_PATH);
