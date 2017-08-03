@@ -17,7 +17,7 @@
 #include "Format/RockstarGames/COL/CCOLFormat.h"
 #include "Format/RockstarGames/COL/CCOLEntry.h"
 #include "GUI/CGUIManager.h"
-#include "Sort/CSortManager.h"
+#include "Tasks/Sort/CSortManager.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 #include "Localization/CLocalizationManager.h"
 

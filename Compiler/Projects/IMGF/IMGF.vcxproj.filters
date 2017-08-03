@@ -13,23 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Sort">
-      <UniqueIdentifier>{fc15c735-231f-4610-9fdd-cf9fc8cd7db4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Language">
       <UniqueIdentifier>{a9118a4d-ad5e-44a6-bda7-62616d8db766}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Session">
-      <UniqueIdentifier>{ecf839c6-8780-4cfe-b762-c36dae0d72a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Session">
-      <UniqueIdentifier>{38855132-7c6a-4906-8860-111b11d72e94}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Language">
       <UniqueIdentifier>{f2126496-1edc-40ef-bfee-8a1d2d90d936}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Sort">
-      <UniqueIdentifier>{43c515c4-f4f9-4907-805c-301d6114a2ff}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Task">
       <UniqueIdentifier>{de2e17cc-117f-4264-abcc-10930003e944}</UniqueIdentifier>
@@ -169,9 +157,6 @@
     <Filter Include="Header Files\EntryViewer">
       <UniqueIdentifier>{b5d46eb4-4ad1-4395-83e9-ee576e8f2bf6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\RecentlyOpen">
-      <UniqueIdentifier>{c9957d33-1558-40c7-a043-8b5a833dfa22}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\FileFormat">
       <UniqueIdentifier>{be344ecf-bbe9-42e8-8f93-338d1c58b864}</UniqueIdentifier>
     </Filter>
@@ -226,9 +211,6 @@
     <Filter Include="Header Files\Tasks\LST">
       <UniqueIdentifier>{b5d49263-0934-470f-889b-412339d4070d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\RecentlyOpen">
-      <UniqueIdentifier>{1e2d2531-5e76-46e9-8e26-1226df840c87}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Settings">
       <UniqueIdentifier>{19319d26-7cab-4a6f-a92c-9c8e99bac28d}</UniqueIdentifier>
     </Filter>
@@ -255,6 +237,24 @@
     </Filter>
     <Filter Include="Header Files\GUI\Popups">
       <UniqueIdentifier>{31386831-0560-4a8d-8b2f-1de4adb3bfa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tasks\RecentlyOpen">
+      <UniqueIdentifier>{b3c91b9e-7abd-4c5c-9eef-7dc4061fdaa7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tasks\Sort">
+      <UniqueIdentifier>{8a83b32b-ed53-492f-b270-aeae5d2a389f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tasks\Session">
+      <UniqueIdentifier>{1855c45e-a919-43bc-acb2-1fd402fd12a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tasks\RecentlyOpen">
+      <UniqueIdentifier>{e51e9d95-6516-46f1-aaba-b980584d28e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tasks\Sort">
+      <UniqueIdentifier>{477d7b3a-cab0-4673-993b-a8adebf8143d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tasks\Session">
+      <UniqueIdentifier>{7707ff7c-3e6a-4f9f-80eb-8b863c202f30}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -435,24 +435,6 @@
     <ClCompile Include="..\..\..\Code\IMGF\Task\CTaskManager.cpp">
       <Filter>Source Files\Task</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\RecentlyOpen\CRecentlyOpenEntry.cpp">
-      <Filter>Source Files\RecentlyOpen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\RecentlyOpen\CRecentlyOpenManager.cpp">
-      <Filter>Source Files\RecentlyOpen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Session\CSession.cpp">
-      <Filter>Source Files\Session</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Session\CSessionManager.cpp">
-      <Filter>Source Files\Session</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Sort\CSortManager.cpp">
-      <Filter>Source Files\Sort</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Sort\CSortType.cpp">
-      <Filter>Source Files\Sort</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.cpp">
       <Filter>Source Files\AutomatedTesting</Filter>
     </ClCompile>
@@ -482,6 +464,24 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Popups\CPopupGUIManager.cpp">
       <Filter>Source Files\GUI\Popups</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Sort\CSortManager.cpp">
+      <Filter>Source Files\Tasks\Sort</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Sort\CSortType.cpp">
+      <Filter>Source Files\Tasks\Sort</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Session\CSessionManager.cpp">
+      <Filter>Source Files\Tasks\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Session\CSession.cpp">
+      <Filter>Source Files\Tasks\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Tasks\RecentlyOpen\CRecentlyOpenManager.cpp">
+      <Filter>Source Files\Tasks\RecentlyOpen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Tasks\RecentlyOpen\CRecentlyOpenEntry.cpp">
+      <Filter>Source Files\Tasks\RecentlyOpen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1145,42 +1145,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskManager.h">
       <Filter>Header Files\Task</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\RecentlyOpen\CRecentlyOpenEntry.h">
-      <Filter>Header Files\RecentlyOpen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\RecentlyOpen\CRecentlyOpenManager.h">
-      <Filter>Header Files\RecentlyOpen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Session\CSession.h">
-      <Filter>Header Files\Session</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Session\CSessionManager.h">
-      <Filter>Header Files\Session</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Sort\CSortManager.h">
-      <Filter>Header Files\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Sort\CSortMenuItem.h">
-      <Filter>Header Files\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Sort\CSortMenuItems.h">
-      <Filter>Header Files\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Sort\CSortPriorities.h">
-      <Filter>Header Files\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Sort\CSortPriority.h">
-      <Filter>Header Files\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Sort\CSortType.h">
-      <Filter>Header Files\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Sort\CSortTypes.h">
-      <Filter>Header Files\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Sort\eSortType.h">
-      <Filter>Header Files\Sort</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.h">
       <Filter>Header Files\AutomatedTesting</Filter>
     </ClInclude>
@@ -1231,6 +1195,42 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Program\buildnumber.h">
       <Filter>Header Files\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\CSortType.h">
+      <Filter>Header Files\Tasks\Sort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\CSortTypes.h">
+      <Filter>Header Files\Tasks\Sort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\eSortType.h">
+      <Filter>Header Files\Tasks\Sort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\CSortManager.h">
+      <Filter>Header Files\Tasks\Sort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\CSortMenuItem.h">
+      <Filter>Header Files\Tasks\Sort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\CSortMenuItems.h">
+      <Filter>Header Files\Tasks\Sort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\CSortPriorities.h">
+      <Filter>Header Files\Tasks\Sort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\CSortPriority.h">
+      <Filter>Header Files\Tasks\Sort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Session\CSession.h">
+      <Filter>Header Files\Tasks\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Session\CSessionManager.h">
+      <Filter>Header Files\Tasks\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\RecentlyOpen\CRecentlyOpenManager.h">
+      <Filter>Header Files\Tasks\RecentlyOpen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\RecentlyOpen\CRecentlyOpenEntry.h">
+      <Filter>Header Files\Tasks\RecentlyOpen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

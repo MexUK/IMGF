@@ -4,14 +4,14 @@
 #include "Format/RenderWare/Helper/BinaryStream/CRWManager.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWVersionManager.h"
 #include "Format/RAGE/CRageManager.h"
-#include "RecentlyOpen/CRecentlyOpenManager.h"
-#include "Session/CSessionManager.h"
+#include "Tasks/RecentlyOpen/CRecentlyOpenManager.h"
+#include "Tasks/Session/CSessionManager.h"
 #include "GUI/Popups/CPopupGUIManager.h"
 #include "Tasks/LST/CLSTProcessingManager.h"
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
 #include "Settings/CSettingsManager.h"
-#include "Sort/CSortManager.h"
+#include "Tasks/Sort/CSortManager.h"
 #include "Format/RockstarGames/IMG/CIMGManager.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
@@ -249,6 +249,7 @@ void				CIMGF::initStaticData(void)
 
 void				CIMGF::initEventBinding(void)
 {
+	/*
 	auto pOnEntriesExtensionChange = [](void *pData)
 	{
 		if (getIMGF()->getEntryListTab() != nullptr) // When opening an IMG parseIMG() will call addEntry() which will trigger this callback, but the active view instance won't be set yet.
@@ -267,6 +268,7 @@ void				CIMGF::initEventBinding(void)
 	CEventManager::getInstance()->bindEvent(EVENT_onStoreIMGEntry,				pOnTaskProgress);
 	CEventManager::getInstance()->bindEvent(EVENT_onAddIMGEntryExtension,		pOnEntriesExtensionChange);
 	CEventManager::getInstance()->bindEvent(EVENT_onRemoveIMGEntryExtension,	pOnEntriesExtensionChange);
+	*/
 }
 
 void				CIMGF::initSettings(void)
