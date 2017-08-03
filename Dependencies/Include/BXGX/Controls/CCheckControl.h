@@ -15,9 +15,8 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	void									onMouseUp(bxcf::CPoint2D& vecCursorPosition);
-
-	void									render(void);
+	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPosition);
+	bool									onRender(void);
 	
 	bool									isPointInControl(bxcf::CPoint2D& vecPoint);
 

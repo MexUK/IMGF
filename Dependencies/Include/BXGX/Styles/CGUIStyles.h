@@ -110,45 +110,59 @@ ValueType				CGUIStyles::getStyle(std::string strStyleName)
 	default style: fill-colour		- eventually can be fully resolved to encounter for default values for multiple components - todo
 	*/
 
-	bool
-		bHasComponent = getItemComponent() != "",
-		bHasStatus = getItemStatus() != "";
 	std::string
-		strStyleNameFullyResolved = (getItemComponent() == "" ? "default." : (getItemComponent() + ".")) + strStyleName + (getItemStatus() == "" ? "" : (":" + getItemStatus())), // with component and status
-		strStyleNameWithStatus = strStyleName + (getItemStatus() == "" ? "" : (":" + getItemStatus())),
-		strStyleNameWithComponent = (getItemComponent() == "" ? "default." : (getItemComponent() + ".")) + strStyleName;
+		&strItemComponent = getItemComponent(),
+		&strItemStatus = getItemStatus();
+	bool
+		bHasComponent = strItemComponent != "",
+		bHasStatus = strItemStatus != "";
+	std::string
+		strStyleNamePartial1 = (!bHasStatus ? "" : (":" + strItemStatus)),
+		strStyleNameWithComponent = (!bHasComponent ? "default." : (strItemComponent + ".")) + strStyleName,
+		strStyleNameFullyResolved = strStyleNameWithComponent + strStyleNamePartial1, // with component and status
+		strStyleNameWithStatus = strStyleName + strStyleNamePartial1;
 
-	if (bHasComponent && bHasStatus && doesStyleExist(strStyleNameFullyResolved))
+	if (bHasComponent && bHasStatus)
 	{
-		// e.g. drop-triangle.fill-colour:list-open
-		return *getEntryPointer<ValueType>(strStyleNameFullyResolved);
+		if (doesStyleExist(strStyleNameFullyResolved))
+		{
+			// e.g. drop-triangle.fill-colour:list-open
+			return *getEntryPointer<ValueType>(strStyleNameFullyResolved);
+		}
+		else if (doesDefaultStyleValueExist(strStyleNameFullyResolved))
+		{
+			// e.g. drop-triangle.fill-colour:list-open
+			return getStyleDefaultValue<ValueType>(strStyleNameFullyResolved);
+		}
 	}
-	else if (bHasComponent && bHasStatus && doesDefaultStyleValueExist(strStyleNameFullyResolved))
+	else if (bHasStatus)
 	{
-		// e.g. drop-triangle.fill-colour:list-open
-		return getStyleDefaultValue<ValueType>(strStyleNameFullyResolved);
+		if (doesStyleExist(strStyleNameWithStatus))
+		{
+			// e.g. fill-colour:list-open
+			return *getEntryPointer<ValueType>(strStyleNameWithStatus);
+		}
+		else if (doesDefaultStyleValueExist(strStyleNameWithStatus))
+		{
+			// e.g. fill-colour:list-open
+			return getStyleDefaultValue<ValueType>(strStyleNameWithStatus);
+		}
 	}
-	else if (bHasStatus && doesStyleExist(strStyleNameWithStatus))
+	else if (bHasComponent)
 	{
-		// e.g. fill-colour:list-open
-		return *getEntryPointer<ValueType>(strStyleNameWithStatus);
+		if (doesStyleExist(strStyleNameWithComponent))
+		{
+			// e.g. drop-triangle.fill-colour
+			return *getEntryPointer<ValueType>(strStyleNameWithComponent);
+		}
+		else if (doesDefaultStyleValueExist(strStyleNameWithComponent))
+		{
+			// e.g. drop-triangle.fill-colour
+			return getStyleDefaultValue<ValueType>(strStyleNameWithComponent);
+		}
 	}
-	else if (bHasStatus && doesDefaultStyleValueExist(strStyleNameWithStatus))
-	{
-		// e.g. fill-colour:list-open
-		return getStyleDefaultValue<ValueType>(strStyleNameWithStatus);
-	}
-	else if (bHasComponent && doesStyleExist(strStyleNameWithComponent))
-	{
-		// e.g. drop-triangle.fill-colour
-		return *getEntryPointer<ValueType>(strStyleNameWithComponent);
-	}
-	else if (bHasComponent && doesDefaultStyleValueExist(strStyleNameWithComponent))
-	{
-		// e.g. drop-triangle.fill-colour
-		return getStyleDefaultValue<ValueType>(strStyleNameWithComponent);
-	}
-	else if (doesStyleExist(strStyleName))
+
+	if (doesStyleExist(strStyleName))
 	{
 		// e.g. fill-colour
 		return *getEntryPointer<ValueType>(strStyleName);

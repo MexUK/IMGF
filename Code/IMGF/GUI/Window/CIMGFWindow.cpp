@@ -31,9 +31,12 @@ CIMGFWindow::CIMGFWindow(void)
 void					CIMGFWindow::init(void)
 {
 	CWindow::init();
+
 	initWindow();
 	initMainLayer();
+
 	initEditors();
+
 	bindEvents();
 }
 
@@ -41,13 +44,6 @@ void					CIMGFWindow::init(void)
 void					CIMGFWindow::bindEvents(void)
 {
 	CWindow::bindEvents();
-
-	/*
-	storeEventBoundFunction(bindEvent(EVENT_onRender, [](void *pWindow)
-	{
-	((CIMGFWindow*) pWindow)->onRender();
-	}, this));
-	*/
 }
 
 // window initialization
@@ -63,7 +59,6 @@ void					CIMGFWindow::initMainLayer(void)
 	m_pMainLayer->setIMGFWindow(this);
 	m_pMainLayer->setEnabled(true);
 	addEntry(m_pMainLayer);
-
 	m_pMainLayer->init();
 }
 
@@ -77,8 +72,9 @@ void					CIMGFWindow::initEditors(void)
 void					CIMGFWindow::addEditor(CEditor *pEditor)
 {
 	pEditor->setWindow(this);
-	pEditor->init();
+	pEditor->setEnabled(true);
 	addEntry(pEditor);
+	pEditor->init();
 }
 
 // render

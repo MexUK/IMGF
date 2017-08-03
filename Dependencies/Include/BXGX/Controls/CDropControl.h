@@ -19,9 +19,8 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	void									onMouseUp(bxcf::CPoint2D& vecCursorPosition);
-
-	void									render(void);
+	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPosition);
+	bool									onRender(void);
 
 	CDropControlEntry*						addItem(std::string strItemText, bool bIsActiveItem = false);
 	void									removeItem(CDropControlEntry *pDropEntry);

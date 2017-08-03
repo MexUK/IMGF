@@ -19,9 +19,8 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	void									onLeftMouseDown(bxcf::CPoint2D& vecCursorPosition);
-
-	void									render(void);
+	bool									onLeftMouseDown(bxcf::CPoint2D& vecCursorPosition);
+	bool									onRender(void);
 
 	uint32									getActiveIndex(void);
 

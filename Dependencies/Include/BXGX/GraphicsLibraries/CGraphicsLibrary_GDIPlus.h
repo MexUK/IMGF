@@ -7,6 +7,7 @@
 #include "GraphicsLibrary/CGraphicsLibrary.h"
 #include "String/CGUIString.h"
 #include <vector>
+#include <unordered_map>
 #include <Windows.h>
 #include <Gdiplus.h>
 
@@ -72,14 +73,15 @@ private:
 	Gdiplus::Pen*			createPenFromStyles(CGUIStyles *pStyles);
 	Gdiplus::Brush*			createBackgroundBrushFromStyles(CGUIStyles *pStyles);
 	Gdiplus::Brush*			createTextBrushFromStyles(CGUIStyles *pStyles);
-	Gdiplus::Font*			createFontFromStyles(CGUIStyles *pStyles);
+	Gdiplus::Font*			getFontFromStyles(CGUIStyles *pStyles);
 
 	Gdiplus::Point*			getGdiplusPointsFromVectorPoints(std::vector<bxcf::CPoint2D>& vecPoints);
 	Gdiplus::Rect			getGdiplusRect(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize);
 	Gdiplus::Color			getGdiplusColourFromColour(bxcf::CColour *pColour);
 
 private:
-	Gdiplus::Graphics*		m_pGraphics;
+	Gdiplus::Graphics*									m_pGraphics;
+	std::unordered_map<std::string, Gdiplus::Font*>		m_umapFonts;
 };
 
 #endif

@@ -337,8 +337,6 @@ void		CMainLayer::initControls(void)
 		((CMainLayer*)pArg1)->repositionAndResizeControls();
 	}, this);
 	repositionAndResizeControls();
-
-	bindEvents();
 }
 
 void		CMainLayer::repositionAndResizeControls(void)

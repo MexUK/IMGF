@@ -8,6 +8,7 @@
 #include "Type/Vector/CPoint2D.h"
 #include "Type/Vector/CSize2D.h"
 #include "Event/eEvent.h"
+#include "Event/CGUIEventUtilizer.h"
 #include <string>
 #include <vector>
 
@@ -35,7 +36,7 @@ class CTextControl;
 class CGUIStyles;
 class CGUIItem;
 
-class CGUILayer
+class CGUILayer : public CGUIEventUtilizer
 {
 public:
 	CGUILayer(void);
@@ -50,22 +51,10 @@ public:
 	void					unserialize(void);
 	void					serialize(void);
 
-	virtual bool							onGainFocus(void) { return false; }
-	virtual bool							onLoseFocus(void) { return false; }
+	bool					isPointInItem(bxcf::CPoint2D& vecPoint);
+	bool					doesItemHaveFocus(void) { return true; }
 
-	virtual bool							onMouseMove(bxcf::CPoint2D vecCursorPoint);
-	virtual bool							onLeftMouseDown(bxcf::CPoint2D vecCursorPoint) { return false; }
-	virtual bool							onLeftMouseUp(bxcf::CPoint2D vecCursorPoint) { return false; }
-	virtual bool							onRightMouseDown(bxcf::CPoint2D vecCursorPoint) { return false; }
-	virtual bool							onRightMouseUp(bxcf::CPoint2D vecCursorPoint) { return false; }
-
-	virtual bool							onKeyDown(uint16 uiKey) { return false; }
-	virtual bool							onKeyUp(uint16 uiKey) { return false; }
-	virtual bool							onKeyHeld(uint16 uiKey) { return false; }
-
-	virtual bool							onRender(void) { return false; }
-	virtual bool							onRenderBefore(void) { return false; }
-	virtual bool							onRenderAfter(void) { return false; }
+	bool					onMouseMove(bxcf::CPoint2D vecCursorPoint);
 
 	void					setWindow(CWindow *pWindow) { m_pWindow = pWindow; }
 	CWindow*				getWindow(void) { return m_pWindow; }
@@ -132,8 +121,8 @@ public:
 	CTriangleShape*			addIsoscelesTriangle(bxcf::CPoint2D& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle = 25.0f, float32 fBaseAngle = 0.0f, CGUIStyles *pStyles = nullptr);	// tip angle parameter is in degrees
 
 	// CGUILayer continued.
-	bxcf::CVectorPool<CGUIShape*>&		getShapes(void) { return m_vecShapes; }
-	bxcf::CVectorPool<CGUIControl*>&	getControls(void) { return m_vecControls; }
+	bxcf::CVectorPool<CGUIShape*>*		getShapes(void) { return m_pShapes; }
+	bxcf::CVectorPool<CGUIControl*>*	getControls(void) { return m_pControls; }
 
 	CGUIControl*				getControlById(uint32 uiControlId);
 	CGUIShape*					getShapeById(uint32 uiShapeId);
@@ -150,13 +139,13 @@ private:
 	CGUIControl*				createControlFromId(eGUIControl eControlId);
 
 protected:
-	CWindow*					m_pWindow;
+	CWindow*							m_pWindow;
 
-public: // temp as public
-	bool						m_bEnabled;
-	bxcf::CVectorPool<CGUIShape*>		m_vecShapes;
-	bxcf::CVectorPool<CGUIControl*>	m_vecControls;
-	CButtonControl*				m_pButtonCursorHover;
+private:
+	bool								m_bEnabled;
+	bxcf::CVectorPool<CGUIShape*>*		m_pShapes;
+	bxcf::CVectorPool<CGUIControl*>*	m_pControls;
+	CButtonControl*						m_pButtonCursorHover;
 };
 
 #endif

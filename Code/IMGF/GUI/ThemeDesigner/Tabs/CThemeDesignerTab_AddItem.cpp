@@ -227,7 +227,7 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown(CPoint2D& vecCursorPosit
 		if (getThemeDesigner()->getActiveItemRectangle() != nullptr)
 		{
 			getThemeDesigner()->getActiveItemRectangle()->unbindEvents();
-			getThemeDesigner()->getActiveItemRectangle()->getLayer()->getShapes().removeEntry(getThemeDesigner()->getActiveItemRectangle());
+			getThemeDesigner()->getActiveItemRectangle()->getLayer()->getShapes()->removeEntry(getThemeDesigner()->getActiveItemRectangle());
 			getThemeDesigner()->setActiveItemRectangle(nullptr);
 			getThemeDesigner()->getWindow()->setMarkedToRedraw(true);
 		}
@@ -244,7 +244,7 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown(CPoint2D& vecCursorPosit
 		if (getThemeDesigner()->getActiveItemRectangle() != nullptr)
 		{
 			getThemeDesigner()->getActiveItemRectangle()->unbindEvents();
-			getThemeDesigner()->getActiveItemRectangle()->getLayer()->getShapes().removeEntry(getThemeDesigner()->getActiveItemRectangle());
+			getThemeDesigner()->getActiveItemRectangle()->getLayer()->getShapes()->removeEntry(getThemeDesigner()->getActiveItemRectangle());
 			getThemeDesigner()->setActiveItemRectangle(nullptr);
 			getThemeDesigner()->getWindow()->setMarkedToRedraw(true);
 		}
@@ -293,7 +293,7 @@ void									CThemeDesignerTab_AddItem::onMouseMove(CPoint2D& vecCursorPosition)
 		if (getThemeDesigner()->getItemHoverRectangle() != nullptr)
 		{
 			getThemeDesigner()->getItemHoverRectangle()->unbindEvents();
-			getThemeDesigner()->getItemHoverRectangle()->getLayer()->getShapes().removeEntry(getThemeDesigner()->getItemHoverRectangle());
+			getThemeDesigner()->getItemHoverRectangle()->getLayer()->getShapes()->removeEntry(getThemeDesigner()->getItemHoverRectangle());
 			getThemeDesigner()->setItemHoverRectangle(nullptr);
 			getThemeDesigner()->getWindow()->setMarkedToRedraw(true);
 		}
@@ -309,7 +309,7 @@ void									CThemeDesignerTab_AddItem::onMouseMove(CPoint2D& vecCursorPosition)
 		if (getThemeDesigner()->getItemHoverRectangle() != nullptr)
 		{
 			getThemeDesigner()->getItemHoverRectangle()->unbindEvents();
-			getThemeDesigner()->getItemHoverRectangle()->getLayer()->getShapes().removeEntry(getThemeDesigner()->getItemHoverRectangle());
+			getThemeDesigner()->getItemHoverRectangle()->getLayer()->getShapes()->removeEntry(getThemeDesigner()->getItemHoverRectangle());
 			getThemeDesigner()->setItemHoverRectangle(nullptr);
 			getThemeDesigner()->getWindow()->setMarkedToRedraw(true);
 		}

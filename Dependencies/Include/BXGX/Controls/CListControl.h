@@ -21,9 +21,8 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	void									onMouseDown(bxcf::CPoint2D& vecCursorPosition);
-
-	void									render(void);
+	bool									onLeftMouseDown(bxcf::CPoint2D& vecCursorPosition);
+	bool									onRender(void);
 
 	CListControlHeader*						addHeader(std::string strHeaderText, uint32 uiColumnWidth);
 

@@ -18,11 +18,10 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	void									onMouseDown(bxcf::CPoint2D& vecCursorPosition);
-	void									onMouseUp(bxcf::CPoint2D& vecCursorPosition);
-	void									onMouseMove(bxcf::CPoint2D& vecCursorPosition);
-
-	void									render(void);
+	bool									onLeftMouseDown(bxcf::CPoint2D& vecCursorPosition);
+	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPosition);
+	bool									onMouseMove(bxcf::CPoint2D& vecCursorPosition);
+	bool									onRender(void);
 
 	bool									isPointInSeekBar(bxcf::CPoint2D& vecPoint);
 	uint32									getSeekBarPositionOffset(void);

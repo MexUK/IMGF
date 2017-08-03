@@ -16,7 +16,7 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	void									render(void);
+	bool									onRender(void);
 
 	bxcf::CSize2D									getSeekBarSize(void);		// in pixels
 	uint32									getSeekBarSizeWidth(void);	// in pixels

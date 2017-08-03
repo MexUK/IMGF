@@ -17,7 +17,7 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	void									render(void);
+	bool									onRender(void);
 
 	bool									isPointInControl(bxcf::CPoint2D& vecPoint) { return false; }
 };

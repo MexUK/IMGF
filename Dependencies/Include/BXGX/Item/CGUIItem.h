@@ -5,12 +5,13 @@
 #include "Type/Vector/CPoint2D.h"
 #include "Type/Vector/CSize2D.h"
 #include "Styles/CGUIStyleableEntity.h"
+#include "Event/CGUIEventUtilizer.h"
 #include <unordered_map>
 
 class CGUILayer;
 class CWindow;
 
-class CGUIItem : public CGUIStyleableEntity
+class CGUIItem : public CGUIStyleableEntity, public CGUIEventUtilizer
 {
 public:
 	CGUIItem(void);
@@ -20,37 +21,11 @@ public:
 
 	virtual void							unserialize(bool bSkipItemId = false)	= 0;
 	virtual void							serialize(void)							= 0;
-
-	//virtual void							render(void)											= 0;
-	inline virtual bool						isPointInItem(bxcf::CPoint2D& vecPoint)						= 0;
+	
 	virtual bxcf::CPoint2D					getBoundingRectanglePosition(void)						= 0;
 	virtual bxcf::CSize2D					getBoundingRectangleSize(void)							= 0;
 	virtual void							moveItem(bxcf::CVector2i32& vecItemPositionChange)			= 0;
 	virtual void							resizeItemViaOffsets(bxcf::CVector2i32& vecItemSizeChange)	= 0;
-
-	void									markEventUsage(uint32 uiEvent) { m_umapEventUsages[uiEvent] = true; }
-	void									markEventUsages(uint32 uiEventCount, ...);
-	void									unmarkEventUsage(uint32 uiEvent) { m_umapEventUsages.erase(uiEvent); }
-	inline bool								isEventUsageMarked(uint32 uiEvent) { return m_umapEventUsages.find(uiEvent) != m_umapEventUsages.end(); }
-
-	/*
-	virtual bool							onGainFocus(void) = 0;
-	virtual bool							onLoseFocus(void) = 0;
-
-	virtual bool							onMouseMove(bxcf::CPoint2D vecCursorPoint) = 0;
-	virtual bool							onLeftMouseDown(bxcf::CPoint2D vecCursorPoint) = 0;
-	virtual bool							onLeftMouseUp(bxcf::CPoint2D vecCursorPoint) = 0;
-	virtual bool							onRightMouseDown(bxcf::CPoint2D vecCursorPoint) = 0;
-	virtual bool							onRightMouseUp(bxcf::CPoint2D vecCursorPoint) = 0;
-
-	virtual bool							onKeyDown(uint16 uiKey) = 0;
-	virtual bool							onKeyUp(uint16 uiKey) = 0;
-	virtual bool							onKeyHeld(uint16 uiKey) = 0;
-
-	virtual bool							onRender(void) = 0;
-	virtual bool							onRenderBefore(void) = 0;
-	virtual bool							onRenderAfter(void) = 0;
-	*/
 
 	void									onMoveItem(bxcf::CVector2i32& vecItemPositionChange);
 	void									onResizeItem(bxcf::CVector2i32& vecItemPositionChange, bxcf::CVector2i32& vecItemSizeChange);

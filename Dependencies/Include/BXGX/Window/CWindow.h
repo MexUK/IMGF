@@ -17,6 +17,7 @@
 #include "Styles/CGUIStyleableEntity.h"
 #include "Interaction/CRectangleItemPlacement.h"
 #include "Event/Events.h"
+#include "Event/CGUIEventUtilizer.h"
 #include <functional>
 #include <unordered_map>
 #include <vector>
@@ -27,7 +28,7 @@ class CGUIStyles;
 class CWindow;
 class bxcf::CInputEventCallbacks;
 
-class CWindow : /*public bxcf::EventTriggerable, */public bxcf::EventBindable<CWindow>, public bxcf::CEventType, public CGUIStyleableEntity, public bxcf::CVectorPool<CGUILayer*>
+class CWindow : /*public bxcf::EventTriggerable, */public bxcf::EventBindable<CWindow>, public bxcf::CEventType, public CGUIStyleableEntity, public bxcf::CVectorPool<CGUILayer*>, public CGUIEventUtilizer
 {
 public:
 	CWindow(void);
@@ -45,6 +46,9 @@ public:
 	void									unserialize(void);
 	void									serialize(void);
 
+	bool									isPointInItem(bxcf::CPoint2D& vecPoint) { return true; }
+	bool									doesItemHaveFocus(void) { return true; }
+
 	// old - temp
 	bxcf::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
 	bxcf::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
@@ -53,26 +57,10 @@ public:
 
 	void									onWindowLoseFocus(void);
 
-	virtual bool							onGainFocus(void) { return false; }
-	virtual bool							onLoseFocus(void) { return false; }
-
-	virtual bool							onMouseMove(bxcf::CPoint2D vecCursorPoint);
-	virtual bool							onLeftMouseDown(bxcf::CPoint2D vecCursorPoint) { return false; }
-	virtual bool							onLeftMouseUp(bxcf::CPoint2D vecCursorPoint) { return false; }
-	virtual bool							onRightMouseDown(bxcf::CPoint2D vecCursorPoint) { return false; }
-	virtual bool							onRightMouseUp(bxcf::CPoint2D vecCursorPoint) { return false; }
-
-	virtual bool							onKeyDown(uint16 uiKey) { return false; }
-	virtual bool							onKeyUp(uint16 uiKey) { return false; }
-	virtual bool							onKeyHeld(uint16 uiKey) { return false; }
-
-	virtual bool							onRender(void) { return false; }
-	virtual bool							onRenderBefore(void) { return false; }
-	virtual bool							onRenderAfter(void) { return false; }
-
-	void									onMouseDown(bxcf::CPoint2D& vecCursorPosition);
-	void									onMouseUp(bxcf::CPoint2D& vecCursorPosition);
-	void									onDoubleLeftClick(bxcf::CPoint2D& vecCursorPosition);
+	bool									onMouseMove(bxcf::CPoint2D vecCursorPoint);
+	bool									onLeftMouseDown(bxcf::CPoint2D vecCursorPoint);
+	bool									onLeftMouseUp(bxcf::CPoint2D vecCursorPoint);
+	bool									onLeftMouseDoubleUp(bxcf::CPoint2D vecCursorPoint);
 
 	virtual void							render(void);
 	void									renderNow(void);
@@ -215,6 +203,7 @@ private:
 	bxcf::eEventType							m_eEventTriggerEventTypeId;
 	// todo CRectangleItemPlacement<CWindow>	m_placeableWindow;		// gui windows
 	CRectangleItemPlacement<CGUIItem>		m_placeableItem;		// gui items - e.g. shapes and controls
+	std::unordered_map<uint32, bool>		m_umapEventUsages;
 
 	/*
 	todo

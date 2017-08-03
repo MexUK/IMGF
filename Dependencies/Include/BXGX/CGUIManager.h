@@ -9,6 +9,8 @@
 #include "Event/CEventBinder.h"
 #include "Object/CSingleton.h"
 #include <Commctrl.h>
+#include <unordered_map>
+#include <set>
 #include <tuple>
 
 #include "Debug/CDebug.h"
@@ -17,6 +19,7 @@ LRESULT CALLBACK				WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 class CGraphicsLibrary;
 class CGUIStyles;
+class CGUIEventUtilizer;
 
 class bxgx::CGUIManager : public bxcf::CManager, public bxcf::CSingleton<bxgx::CGUIManager>, public bxcf::CVectorPool<CWindow*>, public bxcf::CEventBinder
 {
@@ -39,8 +42,8 @@ public:
 
 	template <typename ...Args>
 	void						triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCursorPoint, Args... args);
-	template <class T, typename ...Args>
-	inline bool					triggerItemEvent(uint32 uiEvent, T *pItem, Args... args);
+	template <typename ...Args>
+	inline bool					triggerItemEvent(uint32 uiEvent, CGUIEventUtilizer *pItem, Args... args);
 
 	inline bool					isWindowEvent(uint32 uiEvent);
 	inline bool					isMouseEvent(uint32 uiEvent);
@@ -70,9 +73,12 @@ private:
 	bool						createWindow(CWindow *pWindow);
 
 private:
-	CGraphicsLibrary*			m_pGraphicsLibrary;
-	CWindow*					m_pActiveWindow;
-	bxcf::CPoint2D				m_vecCursorPosition;
+	CGraphicsLibrary*								m_pGraphicsLibrary;
+	CWindow*										m_pActiveWindow;
+	bxcf::CPoint2D									m_vecCursorPosition;
+
+public:
+	std::unordered_map<uint32, std::set<CGUIEventUtilizer*>>	m_umapEventControls;
 };
 
 template <class WindowClass>
@@ -114,6 +120,44 @@ WindowClass*					bxgx::CGUIManager::addTemplatedWindow(bxcf::CPoint2D& vecWindow
 template <typename ...Args>
 void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCursorPoint, Args... args)
 {
+	if (m_umapEventControls.find(uiEvent) == m_umapEventControls.end())
+	{
+		return;
+	}
+
+	bool
+		bIsMouseEvent = isMouseEvent(uiEvent),
+		bIsKeyEvent = isKeyEvent(uiEvent),
+		bIsRenderEvent = isRenderEvent(uiEvent),
+		bIsWindowEvent = isWindowEvent(uiEvent),
+		bTriggerEventForControl;
+
+	for (CGUIEventUtilizer *pGUIEventUtilizer : m_umapEventControls[uiEvent])
+	{
+		if (pGUIEventUtilizer->isEventUsageMarked(uiEvent))
+		{
+			bTriggerEventForControl = true;
+			if (bIsMouseEvent)
+			{
+				bTriggerEventForControl = pGUIEventUtilizer->isPointInItem(vecCursorPoint);
+			}
+			else if (bIsKeyEvent)
+			{
+				bTriggerEventForControl = pGUIEventUtilizer->doesItemHaveFocus();
+			}
+			if (bTriggerEventForControl)
+			{
+				if (triggerItemEvent(uiEvent, pGUIEventUtilizer, args...))
+				{
+					return;
+				}
+			}
+		}
+	}
+
+	/*
+	return;
+
 	bool
 		bIsMouseEvent = isMouseEvent(uiEvent),
 		bIsKeyEvent = isKeyEvent(uiEvent),
@@ -127,7 +171,7 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCur
 			{
 				return;
 			}
-			for (CGUIShape *pShape : pLayer->getShapes().getEntries())
+			for (CGUIShape *pShape : pLayer->getShapes()->getEntries())
 			{
 				if (pShape->isEventUsageMarked(uiEvent))
 				{
@@ -140,40 +184,48 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCur
 					}
 				}
 			}
-			uint32 uiStartTickCount = GetTickCount();
-			for (CGUIControl *pControl : pLayer->m_vecControls.getEntries()) // <--- this line causes huge lag
+			for (CGUIControl *pControl : pLayer->getControls()->getEntries())
 			{
+				//uint32 uiStartTickCount1 = GetTickCount();
 				if (pControl->isEventUsageMarked(uiEvent))
 				{
+					//bxcf::CDebug::log("Milliseconds1: " + CString2::toString(GetTickCount() - uiStartTickCount1));
 					if ((bIsMouseEvent && pControl->isPointInItem(vecCursorPoint)) || (bIsKeyEvent && pControl->doesControlHaveFocus()) || bIsRenderEvent)
 					{
+						//uint32 uiStartTickCount2 = GetTickCount();
 						if (triggerItemEvent<CGUIControl>(uiEvent, pControl, args...))
 						{
+							//bxcf::CDebug::log("Milliseconds2: " + CString2::toString(GetTickCount() - uiStartTickCount2));
 							return;
 						}
 					}
 				}
 			}
-			bxcf::CDebug::log("Milliseconds: " + CString2::toString(GetTickCount() - uiStartTickCount));
 		}
 		
-		if (bIsWindowEvent)
-		{
-			if (triggerItemEvent<CWindow>(uiEvent, pWindow, args...))
+		//if (bIsWindowEvent) // remove from here coz onMouseMove etc needed for windows too
+		//{
+			if (pWindow->isEventUsageMarked(uiEvent))
 			{
-				return;
+				if (triggerItemEvent<CWindow>(uiEvent, pWindow, args...))
+				{
+					return;
+				}
 			}
-		}
+		//}
 	}
+	*/
 }
 
-template <class T, typename ...Args>
-bool						bxgx::CGUIManager::triggerItemEvent(uint32 uiEvent, T *pItem, Args... args)
+template <typename ...Args>
+bool						bxgx::CGUIManager::triggerItemEvent(uint32 uiEvent, CGUIEventUtilizer *pItem, Args... args)
 {
 	bool bResult = false;
 
 	va_list list;
 	va_start(list, pItem);
+
+	//uint32 uiStartTickCount3, uiStartTickCount4;
 
 	switch (uiEvent)
 	{
@@ -182,7 +234,7 @@ bool						bxgx::CGUIManager::triggerItemEvent(uint32 uiEvent, T *pItem, Args... 
 	case WINDOW_LOSE_FOCUS:		bResult = pItem->onLoseFocus();										break;
 
 		// mouse
-	case MOUSE_MOVE:			bResult = pItem->onMouseMove(va_arg(list, bxcf::CPoint2D));			break;
+	case MOUSE_MOVE:			/*uiStartTickCount3 = GetTickCount();*/ bResult = pItem->onMouseMove(va_arg(list, bxcf::CPoint2D));		/*bxcf::CDebug::log("Milliseconds3: " + CString2::toString(GetTickCount() - uiStartTickCount3));*/		break;
 	case MOUSE_LEFT_DOWN:		bResult = pItem->onLeftMouseDown(va_arg(list, bxcf::CPoint2D));		break;
 	case MOUSE_LEFT_UP:			bResult = pItem->onLeftMouseUp(va_arg(list, bxcf::CPoint2D));		break;
 	case MOUSE_RIGHT_DOWN:		bResult = pItem->onRightMouseDown(va_arg(list, bxcf::CPoint2D));	break;
@@ -194,7 +246,7 @@ bool						bxgx::CGUIManager::triggerItemEvent(uint32 uiEvent, T *pItem, Args... 
 	case KEY_HELD:				bResult = pItem->onKeyHeld(va_arg(list, uint16));					break;
 
 		// render
-	case RENDER:				bResult = pItem->onRender();										break;
+	case RENDER:				/*uiStartTickCount4 = GetTickCount();*/ bResult = pItem->onRender();									/*bxcf::CDebug::log("Milliseconds4: " + CString2::toString(GetTickCount() - uiStartTickCount4));*/	break;
 	case RENDER_BEFORE:			bResult = pItem->onRenderBefore();									break;
 	case RENDER_AFTER:			bResult = pItem->onRenderAfter();									break;
 	}

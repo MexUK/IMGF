@@ -23,10 +23,9 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	void									onKeyDown(uint8 uiCharCode);
-	void									onCharDown(uint8 uiCharCode);
-
-	void									render(void);
+	bool									onKeyDown(uint8 uiCharCode);
+	bool									onCharDown(uint8 uiCharCode);
+	bool									onRender(void);
 	
 	bxcf::CPoint2D								getCaretRenderStartPosition(void);	// in pixels
 	bxcf::CPoint2D								getCaretRenderEndPosition(void);	// in pixels
