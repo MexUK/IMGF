@@ -44,6 +44,7 @@ void					CThemeDesigner::bindEvents(void)
 
 void					CThemeDesigner::initWindow(void)
 {
+	/*
 	CPoint2D vecWindowPosition((int32)10, 10);
 	CSize2D vecWindowSize(500, 500);
 	CWindow *pWindow = bxgx::CGUIManager::getInstance()->addWindow(vecWindowPosition, vecWindowSize);
@@ -69,6 +70,7 @@ void					CThemeDesigner::initWindow(void)
 	m_umapTabControlEntries["save"] = pTabControl->addTab("Save");
 	m_umapTabControlEntries["download"] = pTabControl->addTab("Download");
 	m_umapTabControlEntries["upload"] = pTabControl->addTab("Upload");
+	*/
 }
 
 void					CThemeDesigner::initWindowDesign(void)

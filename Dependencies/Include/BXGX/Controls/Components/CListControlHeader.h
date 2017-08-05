@@ -4,7 +4,7 @@
 #include "Type/Types.h"
 #include "Controls/Components/CGUIControlComponent_Text.h"
 
-class CListControlHeader : public CGUIControlComponent_Text
+class CListControlHeader : public CGUIControlComponent_Text, public CGUIStyleableEntity
 {
 public:
 	CListControlHeader(void);

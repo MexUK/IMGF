@@ -103,6 +103,8 @@ public:
 	static uint32							getCRC(std::string& strData);
 	static std::string						extractQuotedData(std::string& strData, uint32 uiQuoteIndex = 0);
 	static std::string						collectAsString(std::string& strData, std::string strCharactersToCollect);
+	static std::string						getToken(std::string& strData, std::string strToken, uint32 uiTokenIndex);
+
 	static std::string						convertCStringToStdString(CString str)
 	{
 		CT2CA pszConvertedAnsiString(str);

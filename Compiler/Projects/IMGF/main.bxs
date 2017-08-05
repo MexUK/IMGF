@@ -1,0 +1,64 @@
+// window
+
+.mainLayer
+fill 255 0 0
+
+.titleBar
+fill 50 50 50
+
+// main layer
+
+.topLeftMenuButton
+fill 219 239 255
+line left 135 135 135
+text left center
+spacing x 8
+
+.leftMenuButton
+fill 122 195 255
+line top 135 135 135
+text left center
+spacing x 8
+
+.gameInfoText
+text 255 255 255
+
+.topMenuButton
+fill 255 209 209
+line left 135 135 135
+text left center
+spacing x 8
+
+.filter
+fill 255 149 149
+line left 135 135 135
+text 0 0 0 left center
+spacing x 8
+
+.fileTabBar
+fill 220 220 220
+line left 135 135 135
+text left center
+spacing x 8
+
+.secondLeftMenu
+fill 255 209 209
+line top 135 135 135
+text left center
+spacing x 8
+
+.progressBar
+fill 255 255 255
+
+// img editor
+
+.imgEditor_grid
+fill 255 255 255
+
+.imgEditor_grid:headerRow
+fill 144 144 144
+text 255 255 255
+
+.imgEditor_grid:headerCell
+text 0 0 0 left center
+spacing x 16

@@ -66,6 +66,7 @@ void									CThemeDesignerTab_Save::onPressButton(CButtonControl *pButton)
 // design
 void									CThemeDesignerTab_Save::initDesign(void)
 {
+	/*
 	CThemeDesigner *pThemeDesigner = getThemeDesigner();
 
 	CGUILayer *pLayer = pThemeDesigner->addLayer("save", false);
@@ -88,4 +89,5 @@ void									CThemeDesignerTab_Save::initDesign(void)
 	pControl = (CGUIControl*) pLayer->addEdit(CPoint2D((int32) 20, 80), CSize2D(400, 30), "", false, pStyles_GoldBorder);
 	pControl->setControlId(10);
 	pControl = (CGUIControl*) pLayer->addButton(CPoint2D((int32) 20, 400), CSize2D(80, 30), "Save", pStyles_SaveButton);
+	*/
 }

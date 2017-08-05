@@ -55,6 +55,7 @@ void									CThemeDesignerTab_AddItem::bindEvents(void)
 // design
 void									CThemeDesignerTab_AddItem::initDesign(void)
 {
+	/*
 	setShapeIconStartPosition(CPoint2D((int32) 30, 120));
 	setShapeTextStartPosition(CPoint2D((int32) 60, 120));
 	setControlIconStartPosition(CPoint2D((int32) (250 + 30), 120));
@@ -181,11 +182,13 @@ void									CThemeDesignerTab_AddItem::initDesign(void)
 	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiControlTextX, uiControlIconY + 240), CSize2D(150, 30), "Scroll", pStyles_BlueText);
 	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiControlTextX, uiControlIconY + 270), CSize2D(150, 30), "Tabs", pStyles_BlueText);
 	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiControlTextX, uiControlIconY + 300), CSize2D(150, 30), "Text", pStyles_BlueText);
+	*/
 }
 
 // input - theme designer window
 void									CThemeDesignerTab_AddItem::onLeftMouseDown(CPoint2D& vecCursorPosition)
 {
+	/*
 	getIMGF()->getThemeDesigner()->setThemeDesignerModeEnabled(true);
 	bxgx::CGUIManager::getInstance()->getEntryByIndex(1)->setMarkedToRedraw(true); // redraw main window title bar
 
@@ -251,10 +254,12 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown(CPoint2D& vecCursorPosit
 
 		getIMGF()->getThemeDesigner()->setThemeDesignerModeEnabled(false);
 	}
+	*/
 }
 
 void									CThemeDesignerTab_AddItem::onMouseMove(CPoint2D& vecCursorPosition)
 {
+	/*
 	uint32
 		uiShapeIndex,
 		uiControlIndex;
@@ -314,11 +319,13 @@ void									CThemeDesignerTab_AddItem::onMouseMove(CPoint2D& vecCursorPosition)
 			getThemeDesigner()->getWindow()->setMarkedToRedraw(true);
 		}
 	}
+	*/
 }
 
 // input - main window
 void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow(CPoint2D& vecCursorPosition)
 {
+	/*
 	CWindow *pMainWindow = bxgx::CGUIManager::getInstance()->getEntryByIndex(1);
 
 	uint32 uiAddItemType = getActiveItemType();
@@ -389,6 +396,7 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow(CPoint2D& vec
 
 		pMainWindow->setMarkedToRedraw(true);
 	}
+	*/
 }
 
 void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow_WindowEventType(CPoint2D& vecCursorPosition)

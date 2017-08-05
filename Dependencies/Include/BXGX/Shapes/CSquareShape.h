@@ -12,10 +12,12 @@ public:
 	CSquareShape(void);
 
 	void							bindEvents(void);
-	void							render(void);
+
+	bool							onRender(void);
+
 	bool							isPointInItem(bxcf::CPoint2D& vecPoint);
-	bxcf::CPoint2D						getBoundingRectanglePosition(void);
-	bxcf::CSize2D							getBoundingRectangleSize(void);
+	bxcf::CPoint2D					getBoundingRectanglePosition(void);
+	bxcf::CSize2D					getBoundingRectangleSize(void);
 };
 
 #endif

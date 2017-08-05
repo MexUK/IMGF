@@ -985,7 +985,10 @@ void					CIMGEditor::loadRightClickMenu(int xPos, int yPos)
 void		CIMGEditor::addControls(void)
 {
 	int32 i, i2, x, y, w, h, w2, w3, h2, h3;
-	CColour borderColour(50, 50, 50);
+	CColour
+		borderColour(50, 50, 50);
+	string
+		strStyleGroup;
 
 	// main editor component - entry list
 	x = 139;
@@ -995,20 +998,9 @@ void		CIMGEditor::addControls(void)
 	y = 162 + 30;
 	w = 841;
 	h = 450;
+	strStyleGroup = "imgEditor_grid";
 
-	uint32 uiEntryListWidth = w;
-	uint32 uiEntryListHeight = h;
-
-	CGUIStyles *pEntryListStyles = bxgx::CGUIManager::createStyles();
-	pEntryListStyles->setStyle("fill-colour", CColour(255, 255, 255));
-	//pEntryListStyles->setStyle("border-colour", borderColour);
-	pEntryListStyles->setStyle("list-header-row.fill-colour", CColour(144, 144, 144));
-	pEntryListStyles->setStyle("list-header-row.text-colour", CColour(255, 255, 255));
-	pEntryListStyles->setStyle("list-header-cell.text-align-x", string("left"));
-	pEntryListStyles->setStyle("list-header-cell.text-align-y", string("center"));
-	pEntryListStyles->setStyle("list-header-cell.inner-spacing-x", (int32)16);
-
-	CListControl *pEntryListControl = addList(CPoint2D((int32)x, (int32)y), CSize2D(w, h), pEntryListStyles);
+	CListControl *pEntryListControl = addList(CPoint2D((int32)x, (int32)y), CSize2D(w, h), strStyleGroup);
 	pEntryListControl->setControlId(37);
 	setEntryListControl(pEntryListControl);
 }

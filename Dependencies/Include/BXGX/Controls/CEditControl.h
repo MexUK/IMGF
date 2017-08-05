@@ -27,8 +27,8 @@ public:
 	bool									onCharDown(uint8 uiCharCode);
 	bool									onRender(void);
 	
-	bxcf::CPoint2D								getCaretRenderStartPosition(void);	// in pixels
-	bxcf::CPoint2D								getCaretRenderEndPosition(void);	// in pixels
+	bxcf::CPoint2D							getCaretRenderStartPosition(uint32 uiStyleFlags, std::string& strStyleGroup);	// in pixels
+	bxcf::CPoint2D							getCaretRenderEndPosition(uint32 uiStyleFlags, std::string& strStyleGroup);		// in pixels
 
 	bool									isCaretAtFarLeft(void);
 	bool									isCaretAtFarRight(void);

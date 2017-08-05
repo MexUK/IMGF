@@ -8,14 +8,18 @@
 #include "Styles/CCoordinates.h"
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 class CGUIStyles;
 
 namespace bxgx
 {
-	// functions
-	template <typename ...T>
-	CGUIStyles*		styles(T...); // in CGUIStyles.h
+	namespace styles
+	{
+		// functions
+		template <typename ...T>
+		CGUIStyles*		make(T...); // in CGUIStyles.h
+	};
 };
 
 class CGUIStyles : public bxcf::CMultipleTypeValuesUMapContainer<std::string>
@@ -84,7 +88,25 @@ private:
 	uint8													m_bHasFillOverwrite		: 1;
 	std::string												m_strItemComponent;
 	std::string												m_strItemStatus;
+	int32													m_zIndex;
 	static bxcf::CMultipleTypeValuesUMapContainer<std::string>	m_umapStyleDefaultValues;
+
+public:
+	CGUIStyles*												m_pLinkedStyles;
+
+	// Example: m_umapStyles[DEFAULT_STATUS][BUTTON][DEFAULT_CONTROL_COMPONENT][ALL_FRAGMENTS][FILL][COLOUR] = CColour*
+	std::unordered_map<std::string,
+		std::unordered_map<uint32,
+			std::unordered_map<uint32,
+				std::unordered_map<uint32,
+					std::unordered_map<uint32,
+						std::unordered_map<uint32, void*>
+					>
+				>
+			>
+		>
+	>														m_umapCustomStyleGroups, m_umapControlStyleGroups, m_umapDefaultCustomStyleGroups, m_umapDefaultControlStyleGroups;
+
 };
 
 
@@ -188,7 +210,7 @@ ValueType				CGUIStyles::getStyleDefaultValue(std::string strStyleName)
 }
 
 template <typename ...T>
-CGUIStyles*		bxgx::styles(T... ppStyles)
+CGUIStyles*		bxgx::styles::make(T... ppStyles)
 {
 	std::vector<const char * /*, sizeof...(T)*/> vecStyles = { ppStyles ... };
 	CGUIStyles * pStyles = new CGUIStyles;

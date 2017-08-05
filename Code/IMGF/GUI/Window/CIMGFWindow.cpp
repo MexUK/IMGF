@@ -88,8 +88,10 @@ bool					CIMGFWindow::onRender(void)
 
 void					CIMGFWindow::renderTitleBar(void)
 {
+	/*
 	CGraphicsLibrary *pGFX = bxgx::CGUIManager::getInstance()->getGraphicsLibrary();
 
+	string strStyleGroup = "titleBar";
 	string strTitleBarText = "IMG Factory ALPHA";
 	uint32 uiTitleBarTextFontSize = 14;
 	CGUIStyles styles9;
@@ -99,14 +101,14 @@ void					CIMGFWindow::renderTitleBar(void)
 
 	CGUIStyles styles1;
 	styles1.setEntry("fill-colour", CColour(50, 50, 50));
-	pGFX->drawRectangle(CPoint2D((int32) 0, 0), CSize2D(getSize().m_x, getTitleBarHeight()), &styles1);
+	pGFX->drawRectangle(CPoint2D((int32) 0, 0), CSize2D(getSize().m_x, getTitleBarHeight()), 0, strStyleGroup);
 
 	CGUIStyles styles2;
 	styles2.setStyle("text-align-x", string("left"));
 	styles2.setStyle("text-align-y", string("center"));
 	styles2.setEntry("text-colour", CColour(0xE1, 0xE6, 0xEF));
 	styles2.setEntry("text-size", uiTitleBarTextFontSize);
-	pGFX->drawText(CPoint2D(uiTitleBarTextX, 1), CSize2D(uiTitleBarTextWidth, getTitleBarHeight()), strTitleBarText, &styles2);
+	pGFX->drawText(CPoint2D(uiTitleBarTextX, 1), CSize2D(uiTitleBarTextWidth, getTitleBarHeight()), strTitleBarText, 0, strStyleGroup);
 
 	if (getIMGF()->getThemeDesigner()->isThemeDesignerModeEnabled())
 	{
@@ -115,12 +117,14 @@ void					CIMGFWindow::renderTitleBar(void)
 		//stylesThemeDesigner.setStyle<string>("text-style", "bold");
 		stylesThemeDesigner.setStyle<uint32>("text-size", 15);
 		string strText = "[Theme Designer Mode]";
-		pGFX->drawText(CPoint2D((int32) 10, 8), CSize2D(200, 20), strText, &stylesThemeDesigner);
+		pGFX->drawText(CPoint2D((int32) 10, 8), CSize2D(200, 20), strText, 0, strStyleGroup);
 	}
+	*/
 }
 
 void					CIMGFWindow::renderEtc(void)
 {
+	/*
 	CGraphicsLibrary *pGFX = bxgx::CGUIManager::getInstance()->getGraphicsLibrary();
 	CPoint2D vecDrawStartPosition = CPoint2D(0, getTitleBarHeight());
 
@@ -161,12 +165,12 @@ void					CIMGFWindow::renderEtc(void)
 	styles3.setEntry("border-colour", CColour(0xFD, 0xFE, 0xFE, 0xFF));
 	pGFX->drawRectangle(CPoint2D(vecDrawStartPosition.m_x + 226, vecDrawStartPosition.m_y + 57), CSize2D(777, 528), &styles3);
 	
-	/*
+	///////////
 	todo
 	CGUIStyles styles8;
 	styles8.setEntry("fill-colour", CColour(0xEC, 0xF3, 0xFD, 0xFF));
 	pGFX->drawRectangleFill(CSize2D(vecDrawStartPosition.m_x + 252, vecDrawStartPosition.m_y + 87), CSize2D(732, 480), &styles8);
-	*/
+	///////////
 	
 	CGUIStyles styles4;
 	styles4.setEntry("fill-colour-start", CColour(0x54, 0x89, 0xA7, 0xFF));
@@ -192,6 +196,7 @@ void					CIMGFWindow::renderEtc(void)
 		pGFX->drawRectangleFill(CPoint2D(38, uiButtonY), CSize2D(172, 40), &styles7);
 		uiButtonY += 40;
 	}
+	*/
 }
 
 // input processing

@@ -25,7 +25,7 @@ public:
 	static void							removeFile(std::string& strPath);
 	static std::string					getFileNameFromNameWithoutExtension(std::string& strFolderPath, std::string strFileNameWithoutExtension);
 	static std::string					getNextIncrementingFileName(std::string& strFilePath);
-	static bool							doesFileExist(std::string& strPath);
+	static bool							doesFileExist(std::string strPath);
 	static std::vector<std::string>		getFileNames(std::string& strFolderPath);
 	static std::vector<std::string>		getFileNamesByExtension(std::string& strFolderPath, std::string strFileExtension);
 	static std::vector<std::string>		getFilePaths(std::string strFolderPath, bool bDeep = false, bool bFoldersOnly = false, std::string strExtensionFilter = "", bool bFilesOnly = false);

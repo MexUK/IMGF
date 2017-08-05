@@ -74,6 +74,7 @@
 #include "Task/CLastUsedValueManager.h"
 #include "GUI/Window/CIMGFWindow.h"
 #include "GUI/ThemeDesigner/CThemeDesigner.h"
+#include "Styles/CStyleManager.h"
 
 using namespace std;
 using namespace bxcf;
@@ -237,6 +238,7 @@ void				CIMGF::initSingletonObjects(void)
 	CPlatformManager::getInstance()->init();
 	CRageManager::getInstance()->init();
 	CRWManager::getInstance()->init();
+	CStyleManager::getInstance()->init();
 	CTXDManager::getInstance()->init();
 	CWDRManager::getInstance()->init();
 	CWTDManager::getInstance()->init();
