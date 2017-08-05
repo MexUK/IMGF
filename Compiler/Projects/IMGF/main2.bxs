@@ -1,3 +1,15 @@
+// window
+
+.titleBar
+fill 50 50 50
+
+// layers
+
+.mainLayer
+fill 255 0 0
+
+// main layer
+
 .main_lineLeft
 line left 135 135 135
 
@@ -34,6 +46,8 @@ fill 255 209 209
 
 .progressBar
 fill 255 255 255
+
+// img editor
 
 .imgEditor_grid
 fill 255 255 255

@@ -104,6 +104,8 @@ public:
 	static std::string						extractQuotedData(std::string& strData, uint32 uiQuoteIndex = 0);
 	static std::string						collectAsString(std::string& strData, std::string strCharactersToCollect);
 	static std::string						getToken(std::string& strData, std::string strToken, uint32 uiTokenIndex);
+	static bool								isStringChars(std::string& strData);
+	static bool								isUintBetween(std::string& strData, uint32 uiMin, uint32 uiMax);
 
 	static std::string						convertCStringToStdString(CString str)
 	{

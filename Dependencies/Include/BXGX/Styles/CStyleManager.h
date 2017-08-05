@@ -16,12 +16,15 @@ public:
 
 	void											initDefaultStyles(void);
 	void											initStyles(void);
+	void											initReversedKeywords(void);
 
 	bool											doesHaveStyleComponent(uint32 uiStyleComponent, uint32 uiStyleFlags, std::string& strStyleGroup);
 	//bool											doesHaveStyleFragment(uint32 uiStyleComponent, uint32 uiStyleFragment, uint32 uiStyleFlags, std::string& strStyleGroup);
 	bool											doesHaveStyleProperty(uint32 uiStyleComponent, uint32 uiStyleProperty, uint32 uiStyleFlags, std::string& strStyleGroup);
 
-	void*											getStorageValueFromMarkupValue(std::string& strMarkupValue);	// Example: "false" -> bool false
+	void*											getStyleValueFromMarkupStyleValue(std::string& strMarkupValue);	// Example: "false" -> bool false
+	//void											getStylePropertyAndValueFromMarkupStyleValue(std::string& strMarkupStyleValue, uint32& uiStyleProperty, void* pStyleValue, bool& bIsPartialValueToken);
+	void											getStylePropertyAndValueFromMarkupStyleValues(std::vector<std::string>& vecMarkupStyleValues, uint32 uiStyleComponent, uint32& uiStyleProperty, void* pStyleValue, uint32& uiTokenCountRead);
 
 	template <typename T>
 	T												getStyleIfExists(uint32 uiStyleComponent, uint32 uiStyleProperty, uint32 uiStyleFlags, std::string& strStyleGroup);
@@ -37,11 +40,13 @@ public:
 	CGUIStyles*										m_pDefaultControlStyles;
 
 	std::unordered_map<std::string, uint32>			m_umapControls;				// Example: ["grid"] = bxgx::controls::GRID
+	std::unordered_map<std::string, uint32>			m_umapControlComponents;	// Example: ["headers"] = bxgx::controls::components::HEADERS
 	std::unordered_map<std::string, uint32>			m_umapStyleComponents;		// Example: ["text"] = bxgx::styles::components::TEXT
+	std::unordered_map<std::string, uint32>			m_umapStyleStatuses;		// Example: ["hover"] = bxgx::styles::statuses::HOVER
 	std::unordered_map<std::string, uint32>			m_umapStyleProperties;		// Example: ["colour"] = bxgx::styles::components::COLOUR
 	std::unordered_map<std::string, uint32>			m_umapStyleFragments;		// Example: ["left"] = bxgx::styles::fragments::LEFT
-	std::unordered_map<std::string, uint32>			m_umapControlComponents;	// Example: ["headers"] = bxgx::controls::components::HEADERS
-	std::unordered_map<std::string, void*>			m_umapStyleValues;			// Example: ["false"] = bool* false
+
+	std::unordered_map<std::string, std::pair<uint32, void*>>		m_umapStyleValues;			// Example: ["false"] = pair(bxgx::styles::properties::STATUS, bool* false)
 
 	std::unordered_map<std::string,
 		std::unordered_map<uint32,

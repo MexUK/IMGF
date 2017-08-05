@@ -71,7 +71,8 @@ namespace bxgx
 		namespace components // bits: 8-13 (6 bits)
 		{
 			const uint32		DEFAULT_CONTROL_COMPONENT	= 256;
-			const uint32		HEADERS						= 257;
+			const uint32		HEADER_ROW					= 257;
+			const uint32		HEADER_CELL					= 258;
 		};
 	};
 
@@ -90,6 +91,7 @@ namespace bxgx
 			const uint32		FILL						= 0;
 			const uint32		LINE						= 1;
 			const uint32		TEXT						= 2;
+			const uint32		SPACING						= 3;
 		};
 
 		namespace properties
@@ -101,7 +103,7 @@ namespace bxgx
 			const uint32		WEIGHT						= 4;
 			const uint32		STYLE						= 5;
 			const uint32		ALIGN						= 6;
-			const uint32		SPACING						= 7;
+			const uint32		STATUS						= 7;
 		};
 
 		namespace fragments // bits: 20-27 (8 bits)
@@ -121,6 +123,18 @@ namespace bxgx
 			const uint32		Y							= 1048588; // e.g. y align for text
 			const uint32		MIN							= 1048589; // e.g. min spacing for text
 			const uint32		MAX							= 1048590; // e.g. max spacing for text
+		};
+
+		namespace values
+		{
+			const uint32		BOLD						= 0;
+			const uint32		ITALIC						= 1;
+			const uint32		UNDERLINE					= 2;
+			const uint32		STRIKETHROUGH				= 3;
+
+			const uint32		LEFT						= 4;
+			const uint32		RIGHT						= 5;
+			const uint32		CENTER						= 6;
 		};
 
 		// functions

@@ -18,9 +18,7 @@ public:
 
 	std::unordered_map<uint32,
 		std::unordered_map<uint32,
-			std::unordered_map<uint32,
-				std::vector<void*>
-			>
+			std::unordered_map<uint32, void*>
 		>
 	>					m_umapStyles;
 };

@@ -1,10 +1,12 @@
 // window
 
-.mainLayer
-fill 255 0 0
-
 .titleBar
 fill 50 50 50
+
+// layers
+
+.mainLayer
+fill 255 0 0
 
 // main layer
 
