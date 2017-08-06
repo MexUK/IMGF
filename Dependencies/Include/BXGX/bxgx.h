@@ -52,38 +52,39 @@ namespace bxgx
 		const uint32		RENDER_AFTER				= 4002;
 	};
 
-	namespace controls // bits: 0-7 (8 bits)
+	namespace controls
 	{
 		const uint32		ANY_CONTROL					= 0;
 		const uint32		BUTTON						= 1;
 		const uint32		CHECK						= 2;
-		const uint32		DROP						= 3;
-		const uint32		EDIT						= 4;
-		const uint32		IMAGE						= 5;
-		const uint32		LIST						= 6;
-		const uint32		MENU						= 7;
-		const uint32		PROGRESS					= 8;
-		const uint32		RADIO						= 9;
-		const uint32		SCROLL						= 10;
-		const uint32		TAB							= 11;
-		const uint32		TEXT						= 12;
+		const uint32		DROP						= 4;
+		const uint32		EDIT						= 8;
+		const uint32		IMAGE						= 16;
+		const uint32		LIST						= 32;
+		const uint32		MENU						= 64;
+		const uint32		PROGRESS					= 128;
+		const uint32		RADIO						= 256;
+		const uint32		SCROLL						= 512;
+		const uint32		TAB							= 1024;
+		const uint32		TEXT						= 2048;
 
-		namespace components // bits: 8-13 (6 bits)
+		namespace components
 		{
-			const uint32		DEFAULT_CONTROL_COMPONENT	= 256;
-			const uint32		HEADER_ROW					= 257;
-			const uint32		HEADER_CELL					= 258;
+			const uint32		DEFAULT_CONTROL_COMPONENT	= 4096;
+			const uint32		HEADER_ROW					= 8192;
+			const uint32		HEADER_CELL					= 16384;
 		};
 	};
 
 	namespace styles
 	{
-		namespace statuses // bits: 14-19 (6 bits)
+		namespace statuses
 		{
-			const uint32		DEFAULT_STATUS				= 16384;
-			const uint32		HOVER						= 16385;
-			const uint32		CHECKED						= 16386;
-			const uint32		UNCHECKED					= 16387;
+			const uint32		DEFAULT_STATUS				= 32768;
+			const uint32		HOVER						= 65536;
+			const uint32		HOVER2						= 131072;
+			//const uint32		CHECKED						= 131072;
+			const uint32		UNCHECKED					= 262144;
 		};
 
 		namespace components
@@ -106,23 +107,25 @@ namespace bxgx
 			const uint32		STATUS						= 7;
 		};
 
-		namespace fragments // bits: 20-27 (8 bits)
+		namespace fragments
 		{
-			const uint32		ALL_STYLE_FRAGMENTS			= 1048576;
-			const uint32		LEFT						= 1048577;
-			const uint32		RIGHT						= 1048578;
-			const uint32		TOP							= 1048579;
-			const uint32		BOTTOM						= 1048580;
+			const uint32		ALL_STYLE_FRAGMENTS			= 524288;
+			const uint32		LEFT						= 1048576;
+			const uint32		RIGHT						= 2097152;
+			const uint32		TOP							= 4194304;
+			const uint32		BOTTOM						= 8388608;
+
 			const uint32		TOP_LEFT					= 1048581;
 			const uint32		TOP_RIGHT					= 1048582;
 			const uint32		BOTTOM_LEFT					= 1048583;
 			const uint32		BOTTOM_RIGHT				= 1048584;
 			const uint32		START						= 1048585; // e.g. start colour for gradient
 			const uint32		STOP						= 1048586; // e.g. stop colour for gradient
-			const uint32		X							= 1048587; // e.g. x align for text
-			const uint32		Y							= 1048588; // e.g. y align for text
-			const uint32		MIN							= 1048589; // e.g. min spacing for text
-			const uint32		MAX							= 1048590; // e.g. max spacing for text
+
+			const uint32		X							= 16777216; // e.g. x align for text
+			const uint32		Y							= 33554432; // e.g. y align for text
+			const uint32		MIN							= 67108864; // e.g. min spacing for text
+			const uint32		MAX							= 134217728; // e.g. max spacing for text
 		};
 
 		namespace values
@@ -135,6 +138,8 @@ namespace bxgx
 			const uint32		LEFT						= 4;
 			const uint32		RIGHT						= 5;
 			const uint32		CENTER						= 6;
+			const uint32		TOP							= 7;
+			const uint32		BOTTOM						= 8;
 		};
 
 		// functions

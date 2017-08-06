@@ -1,5 +1,8 @@
 // window
 
+.window
+fill 0 140 200
+
 .titleBar
 fill 50 50 50
 

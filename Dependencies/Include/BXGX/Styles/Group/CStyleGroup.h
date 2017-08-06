@@ -14,6 +14,7 @@ public:
 	bool				m_bIsCustomStyleGroup;
 	std::string			m_strName;
 	uint32				m_uiControlComponent;
+	uint32				m_uiStyleStatus;
 	CStyleGroup*		m_pLinkedStyleGroup;
 
 	std::unordered_map<uint32,

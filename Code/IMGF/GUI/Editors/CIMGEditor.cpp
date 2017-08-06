@@ -1000,7 +1000,7 @@ void		CIMGEditor::addControls(void)
 	h = 450;
 	strStyleGroup = "imgEditor_grid";
 
-	CListControl *pEntryListControl = addList(CPoint2D((int32)x, (int32)y), CSize2D(w, h), strStyleGroup);
+	CListControl *pEntryListControl = addList(x, y, w, h, strStyleGroup);
 	pEntryListControl->setControlId(37);
 	setEntryListControl(pEntryListControl);
 }

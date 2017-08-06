@@ -24,7 +24,7 @@ public:
 
 	void*											getStyleValueFromMarkupStyleValue(std::string& strMarkupValue);	// Example: "false" -> bool false
 	//void											getStylePropertyAndValueFromMarkupStyleValue(std::string& strMarkupStyleValue, uint32& uiStyleProperty, void* pStyleValue, bool& bIsPartialValueToken);
-	void											getStylePropertyAndValueFromMarkupStyleValues(std::vector<std::string>& vecMarkupStyleValues, uint32 uiStyleComponent, uint32& uiStyleProperty, void* pStyleValue, uint32& uiTokenCountRead);
+	bool											getStylePropertyAndValueFromMarkupStyleValues(std::vector<std::string>& vecMarkupStyleValues, uint32 uiTokenIndex, uint32 uiStyleComponent, uint32& uiStyleProperty, uint32& uiStyleFragment, void*& pStyleValue, uint32& uiTokenCountRead);
 
 	template <typename T>
 	T												getStyleIfExists(uint32 uiStyleComponent, uint32 uiStyleProperty, uint32 uiStyleFlags, std::string& strStyleGroup);
@@ -96,7 +96,7 @@ T													CStyleManager::getStyleIfExists(uint32 uiStyleComponent, uint32 ui
 		}
 	}
 
-	return *(T*)0;
+	return T();
 }
 
 template <typename T>

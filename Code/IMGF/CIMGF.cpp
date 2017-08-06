@@ -118,6 +118,7 @@ CIMGF::~CIMGF(void)
 // init/uninit (ocurs in original thread)
 void				CIMGF::init(void)
 {
+	CStyleManager::getInstance()->init();
 	m_pWindowManager->init();
 	m_pThemeDesigner->init();
 	initInitializationThread();
@@ -238,7 +239,6 @@ void				CIMGF::initSingletonObjects(void)
 	CPlatformManager::getInstance()->init();
 	CRageManager::getInstance()->init();
 	CRWManager::getInstance()->init();
-	CStyleManager::getInstance()->init();
 	CTXDManager::getInstance()->init();
 	CWDRManager::getInstance()->init();
 	CWTDManager::getInstance()->init();
