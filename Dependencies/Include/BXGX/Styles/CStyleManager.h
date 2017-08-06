@@ -19,7 +19,7 @@ public:
 	void											initReversedKeywords(void);
 
 	bool											doesHaveStyleComponent(uint32 uiStyleComponent, uint32 uiStyleFlags, std::string& strStyleGroup);
-	//bool											doesHaveStyleFragment(uint32 uiStyleComponent, uint32 uiStyleFragment, uint32 uiStyleFlags, std::string& strStyleGroup);
+	bool											doesHaveStyleFragment(uint32 uiStyleComponent, uint32 uiStyleFlags, std::string& strStyleGroup);
 	bool											doesHaveStyleProperty(uint32 uiStyleComponent, uint32 uiStyleProperty, uint32 uiStyleFlags, std::string& strStyleGroup);
 
 	void*											getStyleValueFromMarkupStyleValue(std::string& strMarkupValue);	// Example: "false" -> bool false

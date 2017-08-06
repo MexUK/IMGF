@@ -65,7 +65,7 @@ namespace bxgx
 		const uint32		PROGRESS					= 128;
 		const uint32		RADIO						= 256;
 		const uint32		SCROLL						= 512;
-		const uint32		TAB							= 1024;
+		const uint32		TAB_BAR						= 1024;
 		const uint32		TEXT						= 2048;
 
 		namespace components
@@ -73,6 +73,7 @@ namespace bxgx
 			const uint32		DEFAULT_CONTROL_COMPONENT	= 4096;
 			const uint32		HEADER_ROW					= 8192;
 			const uint32		HEADER_CELL					= 16384;
+			const uint32		TAB							= 16384;
 		};
 	};
 
