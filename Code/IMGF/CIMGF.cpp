@@ -119,9 +119,10 @@ CIMGF::~CIMGF(void)
 void				CIMGF::init(void)
 {
 	CStyleManager::getInstance()->init();
+	_init();
 	m_pWindowManager->init();
 	m_pThemeDesigner->init();
-	initInitializationThread();
+	//initInitializationThread();
 }
 
 void				CIMGF::uninit(void)

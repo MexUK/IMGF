@@ -5,6 +5,16 @@ fill 0 140 200
 
 .titleBar
 fill 50 50 50
+text 234 234 234
+
+.titleBarIcon
+line 230 230 230
+
+.titleBarIcon:hover
+fill 25 25 25
+
+.titleBarIcon:hover2
+fill 80 0 0
 
 // layers
 
@@ -41,7 +51,7 @@ fill 255 209 209
 fill 255 149 149
 text 0 0 0
 
-.fileTabBar .main_lineLeft .main_text .main_spacing
+.fileTabBar:tab .main_lineLeft .main_text .main_spacing
 fill 220 220 220
 
 .secondLeftMenu .main_lineTop .main_text .main_spacing
