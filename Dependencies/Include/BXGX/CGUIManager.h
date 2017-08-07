@@ -152,7 +152,7 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCur
 			{
 				if (bIsRenderEvent)
 				{
-					pStyleManager->m_strRenderingStyleGroup = pGUIEventUtilizer->getStyleGroup();
+					pStyleManager->m_vecRenderingStyleGroups = pGUIEventUtilizer->getStyleGroups();
 					pStyleManager->m_uiRenderingItemType = pGUIEventUtilizer->getItemType();
 					pStyleManager->m_uiRenderingItemSubType = pGUIEventUtilizer->getItemSubType();
 					pStyleManager->m_uiRenderingControlComponent = bxgx::controls::components::DEFAULT_CONTROL_COMPONENT;

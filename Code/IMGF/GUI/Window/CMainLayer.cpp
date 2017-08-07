@@ -49,7 +49,7 @@ void		CMainLayer::addControls(void)
 	h = 30;
 	strStyleGroup = "topLeftMenuButton";
 
-	pButton = addButton(x, y, w, h, "Formats", strStyleGroup);
+	pButton = addButton(x, y, w, h, "Formats", "firstItemHorizontally " + strStyleGroup);
 	x += w - 1;
 	pButton = addButton(x, y, w, h, "Utility", strStyleGroup);
 
@@ -61,7 +61,7 @@ void		CMainLayer::addControls(void)
 	h2 = h;
 	strStyleGroup = "leftMenuButton";
 
-	pButton = addButton(x, y, w, h, "DAT", strStyleGroup);
+	pButton = addButton(x, y, w, h, "DAT", strStyleGroup + " firstItemVertically");
 	y += h2;
 	pButton = addButton(x, y, w, h, "IMG", strStyleGroup);
 	y += h2;
@@ -125,7 +125,7 @@ void		CMainLayer::addControls(void)
 	w2 = w;
 	strStyleGroup = "topMenuButton";
 
-	addButton(x, y, w, h, "Open", strStyleGroup);
+	addButton(x, y, w, h, "Open", strStyleGroup + " firstItemHorizontally");
 	x += w2;
 	addButton(x, y, w, h, "Close", strStyleGroup);
 	x += w2;
@@ -180,7 +180,7 @@ void		CMainLayer::addControls(void)
 	h3 = h2 + 0;
 	strStyleGroup = "secondLeftMenu";
 
-	addButton(x, y, w, h, "Import", strStyleGroup);
+	addButton(x, y, w, h, "Import", strStyleGroup + " firstItemVertically");
 	y += h2;
 	addButton(x, y, w, h, "Export", strStyleGroup);
 	y += h2;

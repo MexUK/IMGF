@@ -16,12 +16,26 @@ fill 25 25 25
 .titleBarIcon:hover2
 fill 80 0 0
 
-// layers
+
+
+// layer
 
 .mainLayer
 fill 255 0 0
 
-// main layer
+
+
+// utility
+
+.noLeftLine
+line left false
+
+.noTopLine
+line top false
+
+.firstItemHorizontally .noLeftLine
+
+.firstItemVertically .noTopLine
 
 .main_lineLeft
 line left 135 135 135
@@ -34,6 +48,10 @@ text left center
 
 .main_spacing
 --spacing x 8
+
+
+
+// main layer
 
 .topLeftMenuButton .main_lineLeft .main_text .main_spacing
 fill 219 239 255
@@ -59,6 +77,8 @@ fill 255 209 209
 
 .progressBar
 fill 255 255 255
+
+
 
 // img editor
 

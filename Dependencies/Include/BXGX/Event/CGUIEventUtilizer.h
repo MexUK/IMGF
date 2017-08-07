@@ -4,6 +4,7 @@
 #include "bxgx.h"
 #include "Type/Types.h"
 #include <string>
+#include <vector>
 
 class CGUIEventUtilizer
 {
@@ -21,10 +22,11 @@ public:
 	// rendering
 	void									setRenderingControComponent(uint32 uiControlComponent);
 	void									resetRenderingControComponent(void);
-	void									setRenderingStyleGroup(std::string strStyleGroup);
-	void									resetRenderingStyleGroup(void);
 	void									setRenderingStyleStatus(uint32 uiStyleStatus);
 	void									resetRenderingStyleStatus(void);
+	void									setRenderingStyleGroups(std::string strStyleGroups);
+	void									setRenderingStyleGroups(std::vector<std::string> vecStyleGroups);
+	void									resetRenderingStyleGroups(void);
 
 	// point testing
 	inline virtual bool						isPointInItem(bxcf::CPoint2D& vecPoint) = 0;
@@ -64,9 +66,9 @@ public:
 	virtual bool							onRenderBefore(void) { return false; }
 	virtual bool							onRenderAfter(void) { return false; }
 
-	void									setStyleGroup(std::string& strStyleGroup) { m_strStyleGroup = strStyleGroup; }
-	std::string&							getStyleGroup(void) { return m_strStyleGroup; }
+	void									setStyleGroups(std::vector<std::string>& vecStyleGroups) { m_vecStyleGroups = vecStyleGroups; }
+	std::vector<std::string>&				getStyleGroups(void) { return m_vecStyleGroups; }
 
 private:
-	std::string								m_strStyleGroup;
+	std::vector<std::string>				m_vecStyleGroups;
 };

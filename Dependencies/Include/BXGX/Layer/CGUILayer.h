@@ -68,60 +68,60 @@ public:
 	CGUIItem*				getItemByPoint(bxcf::CPoint2D& vecPoint);
 
 	// controls
-	CGUIControl*			addControl(eGUIControl eControlId, std::string strStyleGroup = "");
+	CGUIControl*			addControl(eGUIControl eControlId, std::string strStyleGroups = "");
 
-	CButtonControl*			addButton(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strButtonText, std::string strStyleGroup = "");
-	CCheckControl*			addCheck(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strCheckText, std::string strStyleGroup = "");
-	CDropControl*			addDrop(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroup = "");
-	CEditControl*			addEdit(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strEditText = "", bool bMultiLine = false, std::string strStyleGroup = "");
-	CImageControl*			addImage(bxcf::CPoint2D& vecPosition, std::string& strImagePath, bxcf::CSize2D vecSize = bxcf::CSize2D(0, 0), std::string strStyleGroup = "");
-	// todo CImageControl*			addImageMem(bxcf::CPoint2D& vecPosition, std::string& strImageData, bxcf::CSize2D vecSize = bxcf::CSize2D(0, 0), std::string strStyleGroup = "");
-	CListControl*			addList(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroup = "");
-	CMenuControl*			addMenu(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroup = "");
-	CProgressControl*		addProgress(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroup = "");
-	CRadioControl*			addRadio(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strRadioText, std::string strStyleGroup = "");
-	CScrollControl*			addScroll(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroup = "");
-	CTabControl*			addTabBar(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroup = "");
-	CTextControl*			addText(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strText, std::string strStyleGroup = "");
+	CButtonControl*			addButton(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strButtonText, std::string strStyleGroups = "");
+	CCheckControl*			addCheck(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strCheckText, std::string strStyleGroups = "");
+	CDropControl*			addDrop(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "");
+	CEditControl*			addEdit(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strEditText = "", bool bMultiLine = false, std::string strStyleGroups = "");
+	CImageControl*			addImage(bxcf::CPoint2D& vecPosition, std::string& strImagePath, bxcf::CSize2D vecSize = bxcf::CSize2D(0, 0), std::string strStyleGroups = "");
+	// todo CImageControl*			addImageMem(bxcf::CPoint2D& vecPosition, std::string& strImageData, bxcf::CSize2D vecSize = bxcf::CSize2D(0, 0), std::string strStyleGroups = "");
+	CListControl*			addList(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "");
+	CMenuControl*			addMenu(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "");
+	CProgressControl*		addProgress(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "");
+	CRadioControl*			addRadio(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strRadioText, std::string strStyleGroups = "");
+	CScrollControl*			addScroll(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "");
+	CTabControl*			addTabBar(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "");
+	CTextControl*			addText(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strText, std::string strStyleGroups = "");
 
-	CButtonControl*			addButton(int32 x, int32 y, int32 w, int32 h, std::string strButtonText, std::string strStyleGroup = "");
-	CCheckControl*			addCheck(int32 x, int32 y, int32 w, int32 h, std::string strCheckText, std::string strStyleGroup = "");
-	CDropControl*			addDrop(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroup = "");
-	CEditControl*			addEdit(int32 x, int32 y, int32 w, int32 h, std::string strEditText = "", bool bMultiLine = false, std::string strStyleGroup = "");
-	CImageControl*			addImage(int32 x, int32 y, std::string& strImagePath, int32 w = 0, int32 h = 0, std::string strStyleGroup = "");
-	CListControl*			addList(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroup = "");
-	CMenuControl*			addMenu(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroup = "");
-	CProgressControl*		addProgress(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroup = "");
-	CRadioControl*			addRadio(int32 x, int32 y, int32 w, int32 h, std::string strRadioText, std::string strStyleGroup = "");
-	CScrollControl*			addScroll(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroup = "");
-	CTabControl*			addTabBar(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroup = "");
-	CTextControl*			addText(int32 x, int32 y, int32 w, int32 h, std::string strText, std::string strStyleGroup = "");
+	CButtonControl*			addButton(int32 x, int32 y, int32 w, int32 h, std::string strButtonText, std::string strStyleGroups = "");
+	CCheckControl*			addCheck(int32 x, int32 y, int32 w, int32 h, std::string strCheckText, std::string strStyleGroups = "");
+	CDropControl*			addDrop(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
+	CEditControl*			addEdit(int32 x, int32 y, int32 w, int32 h, std::string strEditText = "", bool bMultiLine = false, std::string strStyleGroups = "");
+	CImageControl*			addImage(int32 x, int32 y, std::string& strImagePath, int32 w = 0, int32 h = 0, std::string strStyleGroups = "");
+	CListControl*			addList(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
+	CMenuControl*			addMenu(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
+	CProgressControl*		addProgress(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
+	CRadioControl*			addRadio(int32 x, int32 y, int32 w, int32 h, std::string strRadioText, std::string strStyleGroups = "");
+	CScrollControl*			addScroll(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
+	CTabControl*			addTabBar(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
+	CTextControl*			addText(int32 x, int32 y, int32 w, int32 h, std::string strText, std::string strStyleGroups = "");
 
 	//CTextControl*			addText(int32 x, int32 y, int32 w, int32 h, std::string strText, std::string strStyles);
 
 	// shapes
-	CGUIShape*				addShape(eGUIShape eShapeId, std::string strStyleGroup = "");
+	CGUIShape*				addShape(eGUIShape eShapeId, std::string strStyleGroups = "");
 
-	CLineShape*				addLine(bxcf::CPoint2D& vecPoint1, bxcf::CPoint2D& vecPoint2, std::string strStyleGroup = "");
-	CSquareShape*			addSquare(bxcf::CPoint2D& vecPosition, uint32 uiSideLength, std::string strStyleGroup = "");
-	CRectangleShape*		addRectangle(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroup = "");
-	CCircleShape*			addCircle(bxcf::CPoint2D& vecPosition, uint32 uiRadius, std::string strStyleGroup = "");		// position is top left of circle
-	CEllipseShape*			addEllipse(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroup = "");
-	CPolygonShape*			addPolygon(std::vector<bxcf::CPoint2D>& vecPoints, std::string strStyleGroup = "");
+	CLineShape*				addLine(bxcf::CPoint2D& vecPoint1, bxcf::CPoint2D& vecPoint2, std::string strStyleGroups = "");
+	CSquareShape*			addSquare(bxcf::CPoint2D& vecPosition, uint32 uiSideLength, std::string strStyleGroups = "");
+	CRectangleShape*		addRectangle(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "");
+	CCircleShape*			addCircle(bxcf::CPoint2D& vecPosition, uint32 uiRadius, std::string strStyleGroups = "");		// position is top left of circle
+	CEllipseShape*			addEllipse(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "");
+	CPolygonShape*			addPolygon(std::vector<bxcf::CPoint2D>& vecPoints, std::string strStyleGroups = "");
 
-	CLineShape*				addLine(int32 x1, int32 y1, int32 x2, int32 y2, std::string strStyleGroup = "");
-	CSquareShape*			addSquare(int32 x, int32 y, int32 w, std::string strStyleGroup = "");
-	CRectangleShape*		addRectangle(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroup = "");
-	CCircleShape*			addCircle(int32 x, int32 y, int32 r, std::string strStyleGroup = "");		// position is top left of circle
-	CEllipseShape*			addEllipse(int32 x, int32 y, int32 rw, int32 rh, std::string strStyleGroup = "");
+	CLineShape*				addLine(int32 x1, int32 y1, int32 x2, int32 y2, std::string strStyleGroups = "");
+	CSquareShape*			addSquare(int32 x, int32 y, int32 w, std::string strStyleGroups = "");
+	CRectangleShape*		addRectangle(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
+	CCircleShape*			addCircle(int32 x, int32 y, int32 r, std::string strStyleGroups = "");		// position is top left of circle
+	CEllipseShape*			addEllipse(int32 x, int32 y, int32 rw, int32 rh, std::string strStyleGroups = "");
 	
-	CTriangleShape*			addTriangle(bxcf::CPoint2D& vecPoint1, bxcf::CPoint2D& vecPoint2, bxcf::CPoint2D& vecPoint3, std::string strStyleGroup = "");		// scalene or any triangle type
-	CTriangleShape*			addEquilateralTriangle(bxcf::CPoint2D& vecPosition, float32 fSideLength, uint32 uiPointingDirection, std::string strStyleGroup = ""); // [parameter uiPointingDirection] Left=1,Top=2,Right=3,Bottom=4,TopLeft=5,TopRight=6,BottomRight=7,BottomLeft=8
-	CTriangleShape*			addEquilateralTriangle(bxcf::CPoint2D& vecBottomLeftPoint, bxcf::CPoint2D& vecBottomRightPoint, std::string strStyleGroup = "");
-	CTriangleShape*			addEquilateralTriangle(bxcf::CPoint2D& vecBottomLeftPoint, float32 fSideLength, float32 fBaseAngle = 0.0f, std::string strStyleGroup = "");	// base angle parameter is in degrees
-	CTriangleShape*			addIsoscelesTriangle(bxcf::CPoint2D& vecPosition, float32 fBaseLength, float32 fLegLength, uint32 uiPointingDirection, std::string strStyleGroup = ""); // [parameter uiPointingDirection] Left=1,Top=2,Right=3,Bottom=4,TopLeft=5,TopRight=6,BottomRight=7,BottomLeft=8
-	CTriangleShape*			addIsoscelesTriangle(bxcf::CPoint2D& vecBaseCenterPoint, bxcf::CPoint2D& vecTipPoint, uint32 uiBaseHalfWidth, std::string strStyleGroup = "");
-	CTriangleShape*			addIsoscelesTriangle(bxcf::CPoint2D& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle = 25.0f, float32 fBaseAngle = 0.0f, std::string strStyleGroup = "");	// tip angle parameter is in degrees
+	CTriangleShape*			addTriangle(bxcf::CPoint2D& vecPoint1, bxcf::CPoint2D& vecPoint2, bxcf::CPoint2D& vecPoint3, std::string strStyleGroups = "");		// scalene or any triangle type
+	CTriangleShape*			addEquilateralTriangle(bxcf::CPoint2D& vecPosition, float32 fSideLength, uint32 uiPointingDirection, std::string strStyleGroups = ""); // [parameter uiPointingDirection] Left=1,Top=2,Right=3,Bottom=4,TopLeft=5,TopRight=6,BottomRight=7,BottomLeft=8
+	CTriangleShape*			addEquilateralTriangle(bxcf::CPoint2D& vecBottomLeftPoint, bxcf::CPoint2D& vecBottomRightPoint, std::string strStyleGroups = "");
+	CTriangleShape*			addEquilateralTriangle(bxcf::CPoint2D& vecBottomLeftPoint, float32 fSideLength, float32 fBaseAngle = 0.0f, std::string strStyleGroups = "");	// base angle parameter is in degrees
+	CTriangleShape*			addIsoscelesTriangle(bxcf::CPoint2D& vecPosition, float32 fBaseLength, float32 fLegLength, uint32 uiPointingDirection, std::string strStyleGroups = ""); // [parameter uiPointingDirection] Left=1,Top=2,Right=3,Bottom=4,TopLeft=5,TopRight=6,BottomRight=7,BottomLeft=8
+	CTriangleShape*			addIsoscelesTriangle(bxcf::CPoint2D& vecBaseCenterPoint, bxcf::CPoint2D& vecTipPoint, uint32 uiBaseHalfWidth, std::string strStyleGroups = "");
+	CTriangleShape*			addIsoscelesTriangle(bxcf::CPoint2D& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle = 25.0f, float32 fBaseAngle = 0.0f, std::string strStyleGroups = "");	// tip angle parameter is in degrees
 
 	// CGUILayer continued.
 	bxcf::CVectorPool<CGUIShape*>*		getShapes(void) { return m_pShapes; }
@@ -134,9 +134,9 @@ public:
 	CButtonControl *			getButtonCursorHover(void) { return m_pButtonCursorHover; }
 
 private:
-	void						_addControl(CGUIControl *pWindowControl, bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string& strStyleGroup);
-	void						_addControl(CGUIControl *pWindowControl, std::string& strStyleGroup);
-	void						_addShape(CGUIShape *pShape, std::string& strStyleGroup);
+	void						_addControl(CGUIControl *pWindowControl, bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string& strStyleGroups);
+	void						_addControl(CGUIControl *pWindowControl, std::string& strStyleGroups);
+	void						_addShape(CGUIShape *pShape, std::string& strStyleGroups);
 
 	CGUIShape*					createShapeFromId(eGUIShape eShapeId);
 	CGUIControl*				createControlFromId(eGUIControl eControlId);

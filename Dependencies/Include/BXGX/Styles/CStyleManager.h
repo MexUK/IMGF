@@ -3,6 +3,7 @@
 #include "TYpe/Types.h"
 #include "Object/CSingleton.h"
 #include <string>
+#include <vector>
 #include <unordered_map>
 
 class CGUIStyles;
@@ -20,6 +21,7 @@ public:
 	bool											doesHaveStyleComponent(uint32 uiStyleComponent);
 	bool											doesHaveStyleFragment(uint32 uiStyleComponent, uint32 uiStyleFragment);
 	bool											doesHaveStyleProperty(uint32 uiStyleComponent, uint32 uiStyleProperty);
+	bool											doesStyleExist(uint32 uiStyleComponent, uint32 uiStyleProperty, uint32 uiStyleFragment);
 
 	bool											getStylePropertyAndValueFromMarkupStyleValues(std::vector<std::string>& vecMarkupStyleValues, uint32 uiTokenIndex, uint32 uiStyleComponent, uint32& uiStyleProperty, uint32& uiStyleFragment, void*& pStyleValue, uint32& uiTokenCountRead);
 
@@ -28,7 +30,7 @@ public:
 	template <typename T>
 	T												getStyleWithFragment(uint32 uiStyleComponent, uint32 uiStyleProperty, uint32 uiStyleFragment);
 	template <typename T>
-	T												getStyleFast(uint32 uiStyleComponent, uint32 uiStyleProperty);
+	T												getStyleFast(std::string& strRenderingStyleGroup, uint32 uiStyleComponent, uint32 uiStyleProperty);
 
 	/*
 	inline uint32									getControlFromFlags(uint32 uiStyleFlags);
@@ -48,7 +50,7 @@ public:
 	uint32											m_uiRenderingControlComponent; // main, headerRow, headerCell, tab, etc
 	uint32											m_uiRenderingStyleStatus; // default, hover, etc
 	uint32											m_uiRenderingStyleFragment; // all, left, right, etc
-	std::string										m_strRenderingStyleGroup; // blank string, or string
+	std::vector<std::string>						m_vecRenderingStyleGroups;
 
 	//CGUIStyles*										m_pDefaultControlStyles;
 
@@ -80,57 +82,61 @@ public:
 template <typename T>
 T													CStyleManager::getStyle(uint32 uiStyleComponent, uint32 uiStyleProperty)
 {
-	if (m_umapCustomStyleGroups.find(m_strRenderingStyleGroup) != m_umapCustomStyleGroups.end())
+	for (string& strRenderingStyleGroup : m_vecRenderingStyleGroups)
 	{
-		if (m_umapCustomStyleGroups[m_strRenderingStyleGroup].find(m_uiRenderingStyleStatus) != m_umapCustomStyleGroups[m_strRenderingStyleGroup].end())
+		if (m_umapCustomStyleGroups.find(strRenderingStyleGroup) != m_umapCustomStyleGroups.end())
 		{
-			if (m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus].find(m_uiRenderingControlComponent) != m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus].end())
+			if (m_umapCustomStyleGroups[strRenderingStyleGroup].find(m_uiRenderingStyleStatus) != m_umapCustomStyleGroups[strRenderingStyleGroup].end())
 			{
-				if (m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent].find(uiStyleComponent) != m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent].end())
+				if (m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus].find(m_uiRenderingControlComponent) != m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus].end())
 				{
-					if (m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent].find(m_uiRenderingStyleFragment) != m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent].end())
+					if (m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent].find(uiStyleComponent) != m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent].end())
 					{
-						if (m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment].find(uiStyleProperty) != m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment].end())
+						if (m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent].find(m_uiRenderingStyleFragment) != m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent].end())
 						{
-							return *(T*)m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment][uiStyleProperty];
+							if (m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment].find(uiStyleProperty) != m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment].end())
+							{
+								return *(T*)m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment][uiStyleProperty];
+							}
 						}
 					}
 				}
 			}
 		}
 	}
-
 	return T();
 }
 
 template <typename T>
 T													CStyleManager::getStyleWithFragment(uint32 uiStyleComponent, uint32 uiStyleProperty, uint32 uiStyleFragment)
 {
-	if (m_umapCustomStyleGroups.find(m_strRenderingStyleGroup) != m_umapCustomStyleGroups.end())
+	for (string& strRenderingStyleGroup : m_vecRenderingStyleGroups)
 	{
-		if (m_umapCustomStyleGroups[m_strRenderingStyleGroup].find(m_uiRenderingStyleStatus) != m_umapCustomStyleGroups[m_strRenderingStyleGroup].end())
+		if (m_umapCustomStyleGroups.find(strRenderingStyleGroup) != m_umapCustomStyleGroups.end())
 		{
-			if (m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus].find(m_uiRenderingControlComponent) != m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus].end())
+			if (m_umapCustomStyleGroups[strRenderingStyleGroup].find(m_uiRenderingStyleStatus) != m_umapCustomStyleGroups[strRenderingStyleGroup].end())
 			{
-				if (m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent].find(uiStyleComponent) != m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent].end())
+				if (m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus].find(m_uiRenderingControlComponent) != m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus].end())
 				{
-					if (m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent].find(uiStyleFragment) != m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent].end())
+					if (m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent].find(uiStyleComponent) != m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent].end())
 					{
-						if (m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][uiStyleFragment].find(uiStyleProperty) != m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][uiStyleFragment].end())
+						if (m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent].find(uiStyleFragment) != m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent].end())
 						{
-							return *(T*)m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][uiStyleFragment][uiStyleProperty];
+							if (m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][uiStyleFragment].find(uiStyleProperty) != m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][uiStyleFragment].end())
+							{
+								return *(T*)m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][uiStyleFragment][uiStyleProperty];
+							}
 						}
 					}
 				}
 			}
 		}
 	}
-
 	return T();
 }
 
 template <typename T>
-T													CStyleManager::getStyleFast(uint32 uiStyleComponent, uint32 uiStyleProperty)
+T													CStyleManager::getStyleFast(std::string& strRenderingStyleGroup, uint32 uiStyleComponent, uint32 uiStyleProperty)
 {
-	return *(T*)m_umapCustomStyleGroups[m_strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment][uiStyleProperty];
+	return *(T*)m_umapCustomStyleGroups[strRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment][uiStyleProperty];
 }
