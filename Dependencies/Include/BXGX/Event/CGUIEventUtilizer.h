@@ -2,6 +2,8 @@
 
 #include "bxcf.h"
 #include "bxgx.h"
+#include "Type/Types.h"
+#include <string>
 
 class CGUIEventUtilizer
 {
@@ -11,6 +13,18 @@ public:
 	void									markEventUsage(uint32 uiEvent);
 	void									unmarkEventUsage(uint32 uiEvent);
 	bool									isEventUsageMarked(uint32 uiEvent);
+
+	// item
+	inline virtual uint32					getItemType(void) = 0;
+	virtual uint32							getItemSubType(void) = 0;
+
+	// rendering
+	void									setRenderingControComponent(uint32 uiControlComponent);
+	void									resetRenderingControComponent(void);
+	void									setRenderingStyleGroup(std::string strStyleGroup);
+	void									resetRenderingStyleGroup(void);
+	void									setRenderingStyleStatus(uint32 uiStyleStatus);
+	void									resetRenderingStyleStatus(void);
 
 	// point testing
 	inline virtual bool						isPointInItem(bxcf::CPoint2D& vecPoint) = 0;
@@ -49,4 +63,10 @@ public:
 	virtual bool							onRender(void) { return false; }
 	virtual bool							onRenderBefore(void) { return false; }
 	virtual bool							onRenderAfter(void) { return false; }
+
+	void									setStyleGroup(std::string& strStyleGroup) { m_strStyleGroup = strStyleGroup; }
+	std::string&							getStyleGroup(void) { return m_strStyleGroup; }
+
+private:
+	std::string								m_strStyleGroup;
 };

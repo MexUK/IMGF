@@ -5,16 +5,6 @@ fill 0 140 200
 
 .titleBar
 fill 50 50 50
-text 234 234 234
-
-.titleBarIcon
-line 230 230 230
-
-.titleBarIcon:hover
-fill 25 25 25
-
-.titleBarIcon:hover2
-fill 80 0 0
 
 // layers
 
@@ -23,44 +13,39 @@ fill 255 0 0
 
 // main layer
 
-.topLeftMenuButton
-fill 219 239 255
+.main_lineLeft
 line left 135 135 135
+
+.main_lineTop
+line top 135 135 135
+
+.main_text
 text left center
+
+.main_spacing
 --spacing x 8
 
-.leftMenuButton
+.topLeftMenuButton .main_lineLeft .main_text .main_spacing
+fill 219 239 255
+
+.leftMenuButton .main_lineTop .main_text .main_spacing
 fill 122 195 255
-line top 135 135 135
-text left center
---spacing x 8
 
 .gameInfoText
 text 255 255 255
 
-.topMenuButton
+.topMenuButton .main_lineLeft .main_text .main_spacing
 fill 255 209 209
-line left 135 135 135
-text left center
---spacing x 8
 
-.filter
+.filter .main_lineLeft .main_text .main_spacing
 fill 255 149 149
-line left 135 135 135
-text 0 0 0 left center
---spacing x 8
+text 0 0 0
 
-.fileTabBar:tab
+.fileTabBar .main_lineLeft .main_text .main_spacing
 fill 220 220 220
-line left 135 135 135
-text left center
---spacing x 8
 
-.secondLeftMenu
+.secondLeftMenu .main_lineTop .main_text .main_spacing
 fill 255 209 209
-line top 135 135 135
-text left center
---spacing x 8
 
 .progressBar
 fill 255 255 255
@@ -74,6 +59,6 @@ fill 255 255 255
 fill 144 144 144
 text 255 255 255
 
-.imgEditor_grid:headerCell
-text left center
+.imgEditor_grid:headerCell .main_text
+text 0 0 0
 --spacing x 16

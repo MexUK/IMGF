@@ -25,6 +25,9 @@ public:
 	virtual void							unserialize(bool bSkipShapeId = false);
 	virtual void							serialize(void);
 
+	uint32									getItemType(void) { return bxgx::item::SHAPE; }
+	uint32									getItemSubType(void) { return m_eShapeType; }
+
 	bool									doesItemHaveFocus(void) { return true; }
 
 	bxcf::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);

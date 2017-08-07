@@ -17,7 +17,6 @@
 #include "Styles/CGUIStyleableEntity.h"
 #include "Interaction/CRectangleItemPlacement.h"
 #include "Event/Events.h"
-#include "Event/CGUIEventUtilizer.h"
 #include <functional>
 #include <unordered_map>
 #include <vector>
@@ -46,6 +45,9 @@ public:
 	void									unserialize(void);
 	void									serialize(void);
 
+	uint32									getItemType(void) { return bxgx::item::WINDOW; }
+	uint32									getItemSubType(void) { return bxgx::item::window::TYPE_1; }
+
 	bool									isPointInItem(bxcf::CPoint2D& vecPoint) { return true; }
 	bool									doesItemHaveFocus(void) { return true; }
 
@@ -61,6 +63,8 @@ public:
 	bool									onLeftMouseDown(bxcf::CPoint2D& vecCursorPoint);
 	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPoint);
 	bool									onDoubleLeftMouseUp(bxcf::CPoint2D& vecCursorPoint);
+
+	bool									onRender(void);
 
 	virtual void							render(void);
 	void									renderNow(void);

@@ -27,8 +27,8 @@ public:
 	bool									onCharDown(uint8 uiCharCode);
 	bool									onRender(void);
 	
-	bxcf::CPoint2D							getCaretRenderStartPosition(uint32 uiStyleFlags, std::string& strStyleGroup);	// in pixels
-	bxcf::CPoint2D							getCaretRenderEndPosition(uint32 uiStyleFlags, std::string& strStyleGroup);		// in pixels
+	bxcf::CPoint2D							getCaretRenderStartPosition(void);	// in pixels
+	bxcf::CPoint2D							getCaretRenderEndPosition(void);		// in pixels
 
 	bool									isCaretAtFarLeft(void);
 	bool									isCaretAtFarRight(void);
@@ -44,9 +44,9 @@ public:
 	void									setCaretPositionStartY(uint32 uiCaretPositionStartY) { m_vecCaretPositionStart.m_y = uiCaretPositionStartY; }	// parameter is character y position
 	void									setCaretPositionEndX(uint32 uiCaretPositionEndX) { m_vecCaretPositionEnd.m_x = uiCaretPositionEndX; }			// parameter is character x position
 	void									setCaretPositionEndY(uint32 uiCaretPositionEndY) { m_vecCaretPositionEnd.m_y = uiCaretPositionEndY; }			// parameter is character y position
-	bxcf::CVector2ui32&							getCaretPosition(void) { return m_vecCaretPositionStart; }														// return    is character x,y position
-	bxcf::CVector2ui32&							getCaretPositionStart(void) { return m_vecCaretPositionStart; }													// return    is character x,y position
-	bxcf::CVector2ui32&							getCaretPositionEnd(void) { return m_vecCaretPositionEnd; }														// return    is character x,y position
+	bxcf::CVector2ui32&						getCaretPosition(void) { return m_vecCaretPositionStart; }														// return    is character x,y position
+	bxcf::CVector2ui32&						getCaretPositionStart(void) { return m_vecCaretPositionStart; }													// return    is character x,y position
+	bxcf::CVector2ui32&						getCaretPositionEnd(void) { return m_vecCaretPositionEnd; }														// return    is character x,y position
 	uint32									getCaretPositionStartX(void) { return m_vecCaretPositionStart.m_x; }											// return    is character x position
 	uint32									getCaretPositionStartY(void) { return m_vecCaretPositionStart.m_y; }											// return    is character y position
 	uint32									getCaretPositionEndX(void) { return m_vecCaretPositionEnd.m_x; }												// return    is character x position
@@ -73,7 +73,7 @@ public:
 	void									cutSelectedText(void);
 	void									pasteText(void);
 
-	bxcf::CPoint2D								getTextLinePosition(uint32 uiLineIndex);	// in pixels
+	bxcf::CPoint2D							getTextLinePosition(uint32 uiLineIndex);	// in pixels
 	void									setLineText(uint32 uiLineIndex, std::string& strText);
 	std::string&							getLineText(uint32 uiLineIndex);
 	void									addTextToLine(uint32 uiLineIndex, std::string& strText);
@@ -106,7 +106,7 @@ private:
 	void									addLine(uint32 uiLineIndex, std::string& strText);
 	void									removeLine(uint32 uiLineIndex);
 	void									mergeLines(uint32 uiRowIndex1, uint32 uiRowIndex2);		// parameters are character y positions
-	void									splitLine(bxcf::CVector2ui32& vecCharacterPosition);			// parameter is character position
+	void									splitLine(bxcf::CVector2ui32& vecCharacterPosition);	// parameter is character position
 
 	void									addCharacter(uint32 uiCharCode);
 	void									removeCharacterToLeft(void);
@@ -124,8 +124,8 @@ private:
 	uint8									m_bHasHorizontalScrollBar	: 1;
 	uint8									m_bHasVerticalScrollBar		: 1;
 	uint8									m_bReadOnly					: 1;
-	bxcf::CVector2ui32							m_vecCaretPositionStart;				// character position
-	bxcf::CVector2ui32							m_vecCaretPositionEnd;					// character position
+	bxcf::CVector2ui32						m_vecCaretPositionStart;				// character position
+	bxcf::CVector2ui32						m_vecCaretPositionEnd;					// character position
 	std::vector<std::string>				m_vecTextLines;
 };
 

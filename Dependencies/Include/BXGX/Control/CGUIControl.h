@@ -37,6 +37,9 @@ public:
 	bxcf::CEventBoundFunction*				bindEvent(uint32 uiEventId, bxcf::CInputEventCallbacks *pObject, void *pTriggerArgument = nullptr, int32 iZOrder = 0);
 	bool									triggerEvent(uint32 uiEventId, void *pTriggerArgument = nullptr);
 
+	uint32									getItemType(void) { return bxgx::item::CONTROL; }
+	uint32									getItemSubType(void) { return m_eControlType; }
+
 	virtual bool							isPointInItem(bxcf::CPoint2D& vecPoint);
 	bool									doesItemHaveFocus(void) { return doesControlHaveFocus(); }
 

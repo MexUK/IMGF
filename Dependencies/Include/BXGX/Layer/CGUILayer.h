@@ -51,6 +51,9 @@ public:
 	void					unserialize(void);
 	void					serialize(void);
 
+	uint32					getItemType(void) { return bxgx::item::LAYER; }
+	uint32					getItemSubType(void) { return bxgx::item::layer::TYPE_1; }
+
 	bool					isPointInItem(bxcf::CPoint2D& vecPoint);
 	bool					doesItemHaveFocus(void) { return true; }
 

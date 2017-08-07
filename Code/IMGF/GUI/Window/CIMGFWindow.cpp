@@ -80,10 +80,12 @@ void					CIMGFWindow::addEditor(CEditor *pEditor)
 // render
 bool					CIMGFWindow::onRender(void)
 {
+	CWindow::onRender();
+
 	renderTitleBar();
 	renderEtc();
 
-	return true;
+	return false;
 }
 
 void					CIMGFWindow::renderTitleBar(void)

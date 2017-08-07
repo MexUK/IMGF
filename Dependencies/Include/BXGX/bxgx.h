@@ -54,6 +54,7 @@ namespace bxgx
 
 	namespace controls
 	{
+		/*
 		const uint32		ANY_CONTROL					= 0;
 		const uint32		BUTTON						= 1;
 		const uint32		CHECK						= 2;
@@ -67,13 +68,24 @@ namespace bxgx
 		const uint32		SCROLL						= 512;
 		const uint32		TAB_BAR						= 1024;
 		const uint32		TEXT						= 2048;
+		*/
 
 		namespace components
 		{
-			const uint32		DEFAULT_CONTROL_COMPONENT	= 4096;
-			const uint32		HEADER_ROW					= 8192;
-			const uint32		HEADER_CELL					= 16384;
-			const uint32		TAB							= 16384;
+			const uint32		DEFAULT_CONTROL_COMPONENT	= 0;
+			const uint32		HEADER_ROW					= 1;
+			const uint32		HEADER_CELL					= 2;
+			const uint32		TAB							= 3;
+			const uint32		ICON						= 4;
+			const uint32		LIST						= 5;
+			const uint32		LIST_ROW					= 6;
+			const uint32		ARROW						= 7;
+			const uint32		CARET						= 8;
+			const uint32		SELECTION					= 9;
+			const uint32		ROW							= 10;
+			const uint32		CELL						= 11;
+			const uint32		INNER_BAR					= 12;
+			const uint32		SEEK_BAR					= 13;
 		};
 	};
 
@@ -81,11 +93,11 @@ namespace bxgx
 	{
 		namespace statuses
 		{
-			const uint32		DEFAULT_STATUS				= 32768;
-			const uint32		HOVER						= 65536;
-			const uint32		HOVER2						= 131072;
-			//const uint32		CHECKED						= 131072;
-			const uint32		UNCHECKED					= 262144;
+			const uint32		DEFAULT_STATUS				= 0;
+			const uint32		HOVER						= 1;
+			const uint32		HOVER2						= 2;
+			const uint32		CHECKED						= 3;
+			const uint32		UNCHECKED					= 4;
 		};
 
 		namespace components
@@ -110,23 +122,21 @@ namespace bxgx
 
 		namespace fragments
 		{
-			const uint32		ALL_STYLE_FRAGMENTS			= 524288;
-			const uint32		LEFT						= 1048576;
-			const uint32		RIGHT						= 2097152;
-			const uint32		TOP							= 4194304;
-			const uint32		BOTTOM						= 8388608;
-
-			const uint32		TOP_LEFT					= 1048581;
-			const uint32		TOP_RIGHT					= 1048582;
-			const uint32		BOTTOM_LEFT					= 1048583;
-			const uint32		BOTTOM_RIGHT				= 1048584;
-			const uint32		START						= 1048585; // e.g. start colour for gradient
-			const uint32		STOP						= 1048586; // e.g. stop colour for gradient
-
-			const uint32		X							= 16777216; // e.g. x align for text
-			const uint32		Y							= 33554432; // e.g. y align for text
-			const uint32		MIN							= 67108864; // e.g. min spacing for text
-			const uint32		MAX							= 134217728; // e.g. max spacing for text
+			const uint32		ALL_STYLE_FRAGMENTS			= 0;
+			const uint32		LEFT						= 1;
+			const uint32		RIGHT						= 2;
+			const uint32		TOP							= 3;
+			const uint32		BOTTOM						= 4;
+			const uint32		TOP_LEFT					= 5;
+			const uint32		TOP_RIGHT					= 6;
+			const uint32		BOTTOM_LEFT					= 7;
+			const uint32		BOTTOM_RIGHT				= 8;
+			const uint32		START						= 9; // e.g. start colour for gradient
+			const uint32		STOP						= 10; // e.g. stop colour for gradient
+			const uint32		X							= 11; // e.g. x align for text
+			const uint32		Y							= 12; // e.g. y align for text
+			const uint32		MIN							= 13; // e.g. min spacing for text
+			const uint32		MAX							= 14; // e.g. max spacing for text
 		};
 
 		namespace values
@@ -135,7 +145,6 @@ namespace bxgx
 			const uint32		ITALIC						= 1;
 			const uint32		UNDERLINE					= 2;
 			const uint32		STRIKETHROUGH				= 3;
-
 			const uint32		LEFT						= 4;
 			const uint32		RIGHT						= 5;
 			const uint32		CENTER						= 6;
@@ -146,5 +155,23 @@ namespace bxgx
 		// functions
 		template <typename ...T>
 		CGUIStyles*		make(T...); // in CGUIStyles.h
+	};
+
+	namespace item
+	{
+		const uint32		WINDOW			= 0;
+		const uint32		LAYER			= 1;
+		const uint32		CONTROL			= 2;
+		const uint32		SHAPE			= 3;
+
+		namespace window
+		{
+			const uint32		TYPE_1			= 0;
+		};
+
+		namespace layer
+		{
+			const uint32		TYPE_1			= 0;
+		};
 	};
 };

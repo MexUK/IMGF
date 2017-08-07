@@ -28,10 +28,10 @@ public:
 	bxcf::CSize2D							getBoundingRectangleSize(void);
 	bool									isPointInSelectionList(bxcf::CPoint2D& vecPoint);
 
-	bxcf::CPoint2D								getSelectionListPosition(void);
-	bxcf::CSize2D									getSelectionListSize(void);
-	bxcf::CPoint2D								getSelectionListEntryPosition(uint32 uiEntryIndex);
-	bxcf::CSize2D									getSelectionListEntrySize(void);
+	bxcf::CPoint2D							getSelectionListPosition(void);
+	bxcf::CSize2D							getSelectionListSize(void);
+	bxcf::CPoint2D							getSelectionListEntryPosition(uint32 uiEntryIndex);
+	bxcf::CSize2D							getSelectionListEntrySize(void);
 	uint32									getSelectionListEntryFromPoint(bxcf::CPoint2D& vecCursorPosition);
 
 	void									setSize(bxcf::CSize2D& vecSize);
@@ -51,7 +51,7 @@ public:
 	bool									isSelectionListOpen(void) { return m_bSelectionListOpen; }
 
 private:
-	bxcf::CPoint2D								getDropTrianglePosition(void);
+	bxcf::CPoint2D							getDropTrianglePosition(void);
 	float32									getDropTriangleSideLength(void);
 	float32									getDropTriangleSideHeight(void);
 

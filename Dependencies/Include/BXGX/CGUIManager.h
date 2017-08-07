@@ -8,6 +8,7 @@
 #include "Window/CWindow.h"
 #include "Event/CEventBinder.h"
 #include "Object/CSingleton.h"
+#include "Styles/CStyleManager.h"
 #include <Commctrl.h>
 #include <unordered_map>
 #include <set>
@@ -131,6 +132,8 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCur
 		bIsRenderEvent = isRenderEvent(uiEvent),
 		bIsWindowEvent = isWindowEvent(uiEvent),
 		bTriggerEventForControl;
+	CStyleManager
+		*pStyleManager = CStyleManager::getInstance();
 
 	for (CGUIEventUtilizer *pGUIEventUtilizer : m_umapEventControls[uiEvent])
 	{
@@ -147,6 +150,16 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCur
 			}
 			if (bTriggerEventForControl)
 			{
+				if (bIsRenderEvent)
+				{
+					pStyleManager->m_strRenderingStyleGroup = pGUIEventUtilizer->getStyleGroup();
+					pStyleManager->m_uiRenderingItemType = pGUIEventUtilizer->getItemType();
+					pStyleManager->m_uiRenderingItemSubType = pGUIEventUtilizer->getItemSubType();
+					pStyleManager->m_uiRenderingControlComponent = bxgx::controls::components::DEFAULT_CONTROL_COMPONENT;
+					pStyleManager->m_uiRenderingStyleStatus = bxgx::styles::statuses::DEFAULT_STATUS;
+					pStyleManager->m_uiRenderingStyleFragment = bxgx::styles::fragments::ALL_STYLE_FRAGMENTS;
+				}
+
 				if (triggerItemEvent(uiEvent, pGUIEventUtilizer, args...))
 				{
 					return;
