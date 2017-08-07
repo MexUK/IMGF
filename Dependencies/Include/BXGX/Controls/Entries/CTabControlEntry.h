@@ -4,13 +4,12 @@
 #include "Type/Types.h"
 #include "Controls/Components/CGUIControlComponent_Text.h"
 #include "Styles/CGUIStyleableEntity.h"
-//#include "Event/CGUIEventUtilizer.h"
 #include <string>
 #include <vector>
 
 class CTabControl;
 
-class CTabControlEntry : public CGUIControlComponent_Text, public CGUIStyleableEntity//, public CGUIEventUtilizer
+class CTabControlEntry : public CGUIControlComponent_Text, public CGUIStyleableEntity
 {
 public:
 	CTabControlEntry(void);

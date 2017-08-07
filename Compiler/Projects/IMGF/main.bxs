@@ -51,7 +51,7 @@ line top 135 135 135
 text left center
 
 .main_spacing
---spacing x 8
+spacing x 8
 
 
 
@@ -95,4 +95,4 @@ text 255 255 255
 
 .imgEditor_grid:headerCell .main_text
 text 0 0 0
---spacing x 16
+spacing x 16

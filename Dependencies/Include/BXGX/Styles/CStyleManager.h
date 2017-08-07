@@ -47,6 +47,9 @@ public:
 
 	bxcf::CColour									getLineColour(void);
 
+	uint32											getSpacingX(void);
+	uint32											getSpacingY(void);
+
 public:
 	uint32											m_uiRenderingItemType; // window, layer, shape, or control
 	uint32											m_uiRenderingItemSubType; // type of shape, type of control, etc
