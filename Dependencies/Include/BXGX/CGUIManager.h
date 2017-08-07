@@ -11,7 +11,7 @@
 #include "Styles/CStyleManager.h"
 #include <Commctrl.h>
 #include <unordered_map>
-#include <set>
+#include <vector>
 #include <tuple>
 
 #include "Debug/CDebug.h"
@@ -79,7 +79,7 @@ private:
 	bxcf::CPoint2D									m_vecCursorPosition;
 
 public:
-	std::unordered_map<uint32, std::set<CGUIEventUtilizer*>>	m_umapEventControls;
+	std::unordered_map<uint32, std::vector<CGUIEventUtilizer*>>	m_umapEventControls;
 };
 
 template <class WindowClass>
@@ -137,33 +137,33 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCur
 
 	for (CGUIEventUtilizer *pGUIEventUtilizer : m_umapEventControls[uiEvent])
 	{
-		if (pGUIEventUtilizer->isEventUsageMarked(uiEvent))
+		if (bIsMouseEvent)
+		{
+			bTriggerEventForControl = pGUIEventUtilizer->isPointInItem(vecCursorPoint);
+		}
+		else if (bIsKeyEvent)
+		{
+			bTriggerEventForControl = pGUIEventUtilizer->doesItemHaveFocus();
+		}
+		else
 		{
 			bTriggerEventForControl = true;
-			if (bIsMouseEvent)
+		}
+		if (bTriggerEventForControl)
+		{
+			if (bIsRenderEvent)
 			{
-				bTriggerEventForControl = pGUIEventUtilizer->isPointInItem(vecCursorPoint);
+				pStyleManager->m_vecRenderingStyleGroups = pGUIEventUtilizer->getStyleGroups();
+				pStyleManager->m_uiRenderingItemType = pGUIEventUtilizer->getItemType();
+				pStyleManager->m_uiRenderingItemSubType = pGUIEventUtilizer->getItemSubType();
+				pStyleManager->m_uiRenderingControlComponent = bxgx::controls::components::DEFAULT_CONTROL_COMPONENT;
+				pStyleManager->m_uiRenderingStyleStatus = bxgx::styles::statuses::DEFAULT_STATUS;
+				pStyleManager->m_uiRenderingStyleFragment = bxgx::styles::fragments::ALL_STYLE_FRAGMENTS;
 			}
-			else if (bIsKeyEvent)
-			{
-				bTriggerEventForControl = pGUIEventUtilizer->doesItemHaveFocus();
-			}
-			if (bTriggerEventForControl)
-			{
-				if (bIsRenderEvent)
-				{
-					pStyleManager->m_vecRenderingStyleGroups = pGUIEventUtilizer->getStyleGroups();
-					pStyleManager->m_uiRenderingItemType = pGUIEventUtilizer->getItemType();
-					pStyleManager->m_uiRenderingItemSubType = pGUIEventUtilizer->getItemSubType();
-					pStyleManager->m_uiRenderingControlComponent = bxgx::controls::components::DEFAULT_CONTROL_COMPONENT;
-					pStyleManager->m_uiRenderingStyleStatus = bxgx::styles::statuses::DEFAULT_STATUS;
-					pStyleManager->m_uiRenderingStyleFragment = bxgx::styles::fragments::ALL_STYLE_FRAGMENTS;
-				}
 
-				if (triggerItemEvent(uiEvent, pGUIEventUtilizer, args...))
-				{
-					return;
-				}
+			if (triggerItemEvent(uiEvent, pGUIEventUtilizer, args...))
+			{
+				return;
 			}
 		}
 	}
