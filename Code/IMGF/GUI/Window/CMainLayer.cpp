@@ -61,7 +61,7 @@ void		CMainLayer::addControls(void)
 	h2 = h;
 	strStyleGroup = "leftMenuButton";
 
-	pButton = addButton(x, y, w, h, "DAT", strStyleGroup + " firstItemVertically");
+	pButton = addButton(x, y, w, h, "DAT", strStyleGroup);
 	y += h2;
 	pButton = addButton(x, y, w, h, "IMG", strStyleGroup);
 	y += h2;
