@@ -24,7 +24,7 @@ public:
 
 	uint32									getActiveIndex(void);
 
-	CTabControlEntry*						addTab(std::string strTabText, bool bSetActiveTab = false);
+	CTabControlEntry*						addTab(std::string strTabText, bool bSetActiveTab = false, std::string strStyleGroups = "");
 	void									removeTab(CTabControlEntry *pTab);
 
 	CTabControlEntry*						getTabFromPosition(bxcf::CPoint2D& vecPosition);

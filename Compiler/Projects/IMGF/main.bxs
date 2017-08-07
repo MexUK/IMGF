@@ -34,8 +34,12 @@ line left false
 line top false
 
 .firstItemHorizontally .noLeftLine
+.firstItemHorizontally:tab .noLeftLine
 
 .firstItemVertically .noTopLine
+
+.thirdItemVertically
+line top 0 0 0
 
 .main_lineLeft
 line left 135 135 135

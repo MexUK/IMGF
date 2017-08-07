@@ -20,10 +20,12 @@ public:
 	virtual uint32							getItemSubType(void) = 0;
 
 	// rendering
-	void									setRenderingControComponent(uint32 uiControlComponent);
-	void									resetRenderingControComponent(void);
+	void									setRenderingControlComponent(uint32 uiControlComponent);
+	void									resetRenderingControlComponent(void);
 	void									setRenderingStyleStatus(uint32 uiStyleStatus);
 	void									resetRenderingStyleStatus(void);
+	void									setRenderingStyleFragment(uint32 uiStyleFragment);
+	void									resetRenderingStyleFragment(void);
 	void									setRenderingStyleGroups(std::string strStyleGroups);
 	void									setRenderingStyleGroups(std::vector<std::string> vecStyleGroups);
 	void									resetRenderingStyleGroups(void);

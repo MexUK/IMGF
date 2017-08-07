@@ -167,7 +167,7 @@ void		CMainLayer::addControls(void)
 	CTabControl *pIMGInstanceTabBar = addTabBar(CPoint2D(x, y), CSize2D(w, h), strStyleGroup);
 
 	CTabControlEntry * pTab;
-	pTab = pIMGInstanceTabBar->addTab("gta3.img (#1000)", true);
+	pTab = pIMGInstanceTabBar->addTab("gta3.img (#1000)", true, "firstItemHorizontally");
 	pTab = pIMGInstanceTabBar->addTab("gta3 - backup.img (#1200)");
 	pTab = pIMGInstanceTabBar->addTab("gta3.img (#1000)");
 
@@ -187,21 +187,21 @@ void		CMainLayer::addControls(void)
 	addButton(x, y, w, h, "Quick Export", strStyleGroup);
 	y += h3;
 
-	addButton(x, y, w, h, "Rename", strStyleGroup);
+	addButton(x, y, w, h, "Rename", "thirdItemVertically " + strStyleGroup);
 	y += h2;
 	addButton(x, y, w, h, "Replace", strStyleGroup);
 	y += h2;
 	addButton(x, y, w, h, "Remove", strStyleGroup);
 	y += h3;
 
-	addButton(x, y, w, h, "Merge", strStyleGroup);
+	addButton(x, y, w, h, "Merge", "thirdItemVertically " + strStyleGroup);
 	y += h2;
 	addButton(x, y, w, h, "Split", strStyleGroup);
 	y += h2;
 	addButton(x, y, w, h, "Convert", strStyleGroup);
 	y += h3;
 
-	addButton(x, y, w, h, "Select", strStyleGroup);
+	addButton(x, y, w, h, "Select", "thirdItemVertically " + strStyleGroup);
 	y += h2;
 	addButton(x, y, w, h, "Sort", strStyleGroup);
 	y += h2;

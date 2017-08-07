@@ -2,6 +2,7 @@
 
 #include "TYpe/Types.h"
 #include "Object/CSingleton.h"
+#include "Type/Vector/CColour.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -43,6 +44,8 @@ public:
 	bool											doesHaveRightLine(void);
 	bool											doesHaveTopLine(void);
 	bool											doesHaveBottomLine(void);
+
+	bxcf::CColour									getLineColour(void);
 
 public:
 	uint32											m_uiRenderingItemType; // window, layer, shape, or control
