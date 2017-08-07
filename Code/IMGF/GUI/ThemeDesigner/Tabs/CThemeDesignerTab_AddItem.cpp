@@ -45,8 +45,8 @@ void									CThemeDesignerTab_AddItem::bindEvents(void)
 	getThemeDesigner()->getWindow()->bindEvent(EVENT_onLeftMouseDown, pOnLeftMouseDown_ThemeDesigner, this);
 	getThemeDesigner()->getWindow()->bindEvent(EVENT_onMouseMove, pOnMouseMove_ThemeDesigner, this);
 
-	CEventManager *pEventManager = CEventManager::getInstance();
-	CWindow *pMainWindow = bxgx::CGUIManager::getInstance()->getEntryByIndex(1);
+	CEventManager *pEventManager = CEventManager::get();
+	CWindow *pMainWindow = bxgx::CGUIManager::get()->getEntryByIndex(1);
 	pEventManager->bindEvent(EVENT_TYPE_THEME_DESIGNER, (uint32) pMainWindow->getWindowHandle(), EVENT_onLeftMouseDown, pOnLeftMouseDown_ThemeDesigner_MainWindow, this);
 
 	pMainWindow->bindEvent(EVENT_onLeftMouseDown, pOnLeftMouseDown_ThemeDesigner_MainWindow_WindowEventType, this);
@@ -190,7 +190,7 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown(CPoint2D& vecCursorPosit
 {
 	/*
 	getIMGF()->getThemeDesigner()->setThemeDesignerModeEnabled(true);
-	bxgx::CGUIManager::getInstance()->getEntryByIndex(1)->setMarkedToRedraw(true); // redraw main window title bar
+	bxgx::CGUIManager::get()->getEntryByIndex(1)->setMarkedToRedraw(true); // redraw main window title bar
 
 	uint32
 		uiShapeIndex,
@@ -326,7 +326,7 @@ void									CThemeDesignerTab_AddItem::onMouseMove(CPoint2D& vecCursorPosition)
 void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow(CPoint2D& vecCursorPosition)
 {
 	/*
-	CWindow *pMainWindow = bxgx::CGUIManager::getInstance()->getEntryByIndex(1);
+	CWindow *pMainWindow = bxgx::CGUIManager::get()->getEntryByIndex(1);
 
 	uint32 uiAddItemType = getActiveItemType();
 	if (uiAddItemType != 0)
@@ -402,7 +402,7 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow(CPoint2D& vec
 void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow_WindowEventType(CPoint2D& vecCursorPosition)
 {
 	// check to set item active
-	CWindow *pMainWindow = bxgx::CGUIManager::getInstance()->getEntryByIndex(1);
+	CWindow *pMainWindow = bxgx::CGUIManager::get()->getEntryByIndex(1);
 	CGUILayer *pLayer = pMainWindow->getEntryByIndex(0);
 	CGUIItem *pItem = pLayer->getItemByPoint(vecCursorPosition);
 	if (pItem)

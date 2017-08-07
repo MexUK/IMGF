@@ -18,7 +18,7 @@
 #include "GUI/CGUIManager.h"
 #include "Window/CWindow.h"
 #include "Controls/CTextControl.h"
-#include "Controls/CListControl.h"
+#include "Controls/CGridControl.h"
 #include "Controls/CButtonControl.h"
 #include "Controls/CCheckControl.h"
 #include "Controls/CDropControl.h"
@@ -118,8 +118,8 @@ CIMGF::~CIMGF(void)
 // init/uninit (ocurs in original thread)
 void				CIMGF::init(void)
 {
-	bxgx::CGUIManager::getInstance()->init();
-	CStyleManager::getInstance()->init();
+	bxgx::CGUIManager::get()->init();
+	CStyleManager::get()->init();
 	m_pWindowManager->init();
 	m_pThemeDesigner->init();
 	_init();
@@ -189,7 +189,7 @@ void				CIMGF::initInstallationMeta(void)
 		{
 			/*
 			todo
-			//string strChosenInstallationFolder = bxcf::CGUIManager::chooseFolderDialog(getDialog()->GetSafeHwnd(), CLocalizationManager::getInstance()->getTranslatedText("ChooseFolderPopup_11"), getIMGF()->getLastUsedDirectory("INSTALLATION"));
+			//string strChosenInstallationFolder = bxcf::CGUIManager::chooseFolderDialog(getDialog()->GetSafeHwnd(), CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_11"), getIMGF()->getLastUsedDirectory("INSTALLATION"));
 			string strChosenInstallationFolder = bxcf::CGUIManager::chooseFolderDialog(getActiveWindow() ? getActiveWindow()->getWindowHandle() : NULL, "Choose the installation folder for IMGF. (e.g. In program files x86)", getIMGF()->getLastUsedDirectory("INSTALLATION"));
 			if (strChosenInstallationFolder == "")
 			{
@@ -223,26 +223,26 @@ void				CIMGF::initStoredObjects(void)
 void				CIMGF::initSingletonObjects(void)
 {
 	// initialize singleton objects
-	CBMPManager::getInstance()->init();
-	CCOLManager::getInstance()->init();
-	CCURManager::getInstance()->init();
-	CDATLoaderManager::getInstance()->init();
-	CDATPathManager::getInstance()->init();
-	CDBManager::getInstance()->init();
-	CDFFManager::getInstance()->init();
-	CGameManager::getInstance()->init();
-	CICOManager::getInstance()->init();
-	CIDEManager::getInstance()->init();
-	CImageManager::getInstance()->init();
-	CIMGManager::getInstance()->init();
-	CIPLManager::getInstance()->init();
-	CLSTManager::getInstance()->init();
-	CPlatformManager::getInstance()->init();
-	CRageManager::getInstance()->init();
-	CRWManager::getInstance()->init();
-	CTXDManager::getInstance()->init();
-	CWDRManager::getInstance()->init();
-	CWTDManager::getInstance()->init();
+	CBMPManager::get()->init();
+	CCOLManager::get()->init();
+	CCURManager::get()->init();
+	CDATLoaderManager::get()->init();
+	CDATPathManager::get()->init();
+	CDBManager::get()->init();
+	CDFFManager::get()->init();
+	CGameManager::get()->init();
+	CICOManager::get()->init();
+	CIDEManager::get()->init();
+	CImageManager::get()->init();
+	CIMGManager::get()->init();
+	CIPLManager::get()->init();
+	CLSTManager::get()->init();
+	CPlatformManager::get()->init();
+	CRageManager::get()->init();
+	CRWManager::get()->init();
+	CTXDManager::get()->init();
+	CWDRManager::get()->init();
+	CWTDManager::get()->init();
 }
 
 void				CIMGF::initStaticData(void)
@@ -266,11 +266,11 @@ void				CIMGF::initEventBinding(void)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	};
 	
-	CEventManager::getInstance()->bindEvent(EVENT_onTaskProgress,				pOnTaskProgress);
-	CEventManager::getInstance()->bindEvent(EVENT_onParseIMGEntry,				pOnTaskProgress);
-	CEventManager::getInstance()->bindEvent(EVENT_onStoreIMGEntry,				pOnTaskProgress);
-	CEventManager::getInstance()->bindEvent(EVENT_onAddIMGEntryExtension,		pOnEntriesExtensionChange);
-	CEventManager::getInstance()->bindEvent(EVENT_onRemoveIMGEntryExtension,	pOnEntriesExtensionChange);
+	CEventManager::get()->bindEvent(EVENT_onTaskProgress,				pOnTaskProgress);
+	CEventManager::get()->bindEvent(EVENT_onParseIMGEntry,				pOnTaskProgress);
+	CEventManager::get()->bindEvent(EVENT_onStoreIMGEntry,				pOnTaskProgress);
+	CEventManager::get()->bindEvent(EVENT_onAddIMGEntryExtension,		pOnEntriesExtensionChange);
+	CEventManager::get()->bindEvent(EVENT_onRemoveIMGEntryExtension,	pOnEntriesExtensionChange);
 	*/
 }
 
@@ -282,10 +282,10 @@ void				CIMGF::initSettings(void)
 void				CIMGF::initLocalization(void)
 {
 	eLanguage eActiveLanguage = (eLanguage)getIMGF()->getSettingsManager()->getSettingInt("Language");
-	CLocalizationManager::getInstance()->setActiveLanguage(eActiveLanguage);
-	CLocalizationManager::getInstance()->setActiveLanguageName(getIMGF()->getLanguageManager()->getLanguageById(eActiveLanguage)->getLanguageName());
-	CLocalizationManager::getInstance()->setInstallationPath(CRegistryManager::getSoftwareValueString("IMGF\\InternalSettings", "InstallationPath"));
-	CLocalizationManager::getInstance()->loadTranslatedText();
+	CLocalizationManager::get()->setActiveLanguage(eActiveLanguage);
+	CLocalizationManager::get()->setActiveLanguageName(getIMGF()->getLanguageManager()->getLanguageById(eActiveLanguage)->getLanguageName());
+	CLocalizationManager::get()->setInstallationPath(CRegistryManager::getSoftwareValueString("IMGF\\InternalSettings", "InstallationPath"));
+	CLocalizationManager::get()->loadTranslatedText();
 }
 
 void				CIMGF::initSorting(void)
@@ -359,7 +359,7 @@ void				CIMGF::initTempStuff(void)
 void				CIMGF::openWindow(void)
 {
 	getWindowManager()->openWindow();
-	CEventManager::getInstance()->triggerEvent(EVENT_onToolReady);
+	CEventManager::get()->triggerEvent(EVENT_onToolReady);
 }
 
 void				CIMGF::processWindows(void)
@@ -369,12 +369,12 @@ void				CIMGF::processWindows(void)
 
 CWindow*			CIMGF::getActiveWindow(void)
 {
-	return bxgx::CGUIManager::getInstance()->getActiveWindow();
+	return bxgx::CGUIManager::get()->getActiveWindow();
 }
 
 CEditorTab*			CIMGF::getActiveTab(void)
 {
-	CIMGFWindow *pIMGFWindow = (CIMGFWindow*) bxgx::CGUIManager::getInstance()->getEntryByIndex(0);
+	CIMGFWindow *pIMGFWindow = (CIMGFWindow*) bxgx::CGUIManager::get()->getEntryByIndex(0);
 	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
 	CEditorTab *pEditorTab = pIMGEditor->getActiveTab();
 	return pEditorTab;
@@ -382,14 +382,14 @@ CEditorTab*			CIMGF::getActiveTab(void)
 
 CIMGEditor*			CIMGF::getIMGEditor(void)
 {
-	CIMGFWindow *pIMGFWindow = (CIMGFWindow*) bxgx::CGUIManager::getInstance()->getEntryByIndex(0);
+	CIMGFWindow *pIMGFWindow = (CIMGFWindow*) bxgx::CGUIManager::get()->getEntryByIndex(0);
 	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
 	return pIMGEditor;
 }
 
 CIMGEditorTab*		CIMGF::getEntryListTab(void)
 {
-	CIMGFWindow *pIMGFWindow = (CIMGFWindow*) bxgx::CGUIManager::getInstance()->getEntryByIndex(0);
+	CIMGFWindow *pIMGFWindow = (CIMGFWindow*) bxgx::CGUIManager::get()->getEntryByIndex(0);
 	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
 	CIMGEditorTab *pIMGEditorTab = (CIMGEditorTab*) pIMGEditor->getTabs().getEntryByIndex(0);
 	return pIMGEditorTab;

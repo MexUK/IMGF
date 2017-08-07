@@ -8,7 +8,7 @@
 #include <string>
 
 class CSearchEntry;
-class CListControl;
+class CGridControl;
 class bxcf::CIMGEntry;
 
 class CIMGEditor : public CEditor
@@ -58,13 +58,13 @@ public:
 	void						setSearchFileCount(uint32 uiSearchFileCount) { m_uiSearchFileCount = uiSearchFileCount; }
 	uint32						getSearchFileCount(void) { return m_uiSearchFileCount; }
 
-	void						setEntryListControl(CListControl *pEntryListControl) { m_pEntryListControl = pEntryListControl; }
-	CListControl*				getEntryListControl(void) { return m_pEntryListControl; }
+	void						setEntryListControl(CGridControl *pEntryListControl) { m_pEntryListControl = pEntryListControl; }
+	CGridControl*				getEntryListControl(void) { return m_pEntryListControl; }
 
 	std::vector<CSearchEntry*>&	getSearchEntries(void) { return m_vecSearchEntries; }
 
 public:
-	CListControl*				m_pEntryListControl;
+	CGridControl*				m_pEntryListControl;
 
 private:
 	void						addControls(void);

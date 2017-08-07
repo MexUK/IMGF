@@ -25,12 +25,12 @@ class CCheckControl;
 class CDropControl;
 class CEditControl;
 class CImageControl;
-class CListControl;
+class CGridControl;
 class CMenuControl;
 class CProgressControl;
 class CRadioControl;
 class CScrollControl;
-class CTabControl;
+class CTabBarControl;
 class CTextControl;
 
 class CGUIStyles;
@@ -76,12 +76,12 @@ public:
 	CEditControl*			addEdit(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strEditText = "", bool bMultiLine = false, std::string strStyleGroups = "");
 	CImageControl*			addImage(bxcf::CPoint2D& vecPosition, std::string& strImagePath, bxcf::CSize2D vecSize = bxcf::CSize2D(0, 0), std::string strStyleGroups = "");
 	// todo CImageControl*			addImageMem(bxcf::CPoint2D& vecPosition, std::string& strImageData, bxcf::CSize2D vecSize = bxcf::CSize2D(0, 0), std::string strStyleGroups = "");
-	CListControl*			addList(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "");
+	CGridControl*			addList(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "");
 	CMenuControl*			addMenu(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "");
 	CProgressControl*		addProgress(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "");
 	CRadioControl*			addRadio(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strRadioText, std::string strStyleGroups = "");
 	CScrollControl*			addScroll(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "");
-	CTabControl*			addTabBar(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "");
+	CTabBarControl*			addTabBar(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "");
 	CTextControl*			addText(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strText, std::string strStyleGroups = "");
 
 	CButtonControl*			addButton(int32 x, int32 y, int32 w, int32 h, std::string strButtonText, std::string strStyleGroups = "");
@@ -89,12 +89,12 @@ public:
 	CDropControl*			addDrop(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
 	CEditControl*			addEdit(int32 x, int32 y, int32 w, int32 h, std::string strEditText = "", bool bMultiLine = false, std::string strStyleGroups = "");
 	CImageControl*			addImage(int32 x, int32 y, std::string& strImagePath, int32 w = 0, int32 h = 0, std::string strStyleGroups = "");
-	CListControl*			addList(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
+	CGridControl*			addList(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
 	CMenuControl*			addMenu(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
 	CProgressControl*		addProgress(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
 	CRadioControl*			addRadio(int32 x, int32 y, int32 w, int32 h, std::string strRadioText, std::string strStyleGroups = "");
 	CScrollControl*			addScroll(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
-	CTabControl*			addTabBar(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
+	CTabBarControl*			addTabBar(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
 	CTextControl*			addText(int32 x, int32 y, int32 w, int32 h, std::string strText, std::string strStyleGroups = "");
 
 	//CTextControl*			addText(int32 x, int32 y, int32 w, int32 h, std::string strText, std::string strStyles);

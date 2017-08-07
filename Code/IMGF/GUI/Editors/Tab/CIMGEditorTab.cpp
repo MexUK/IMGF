@@ -32,7 +32,7 @@
 #include "GUI/CGUIManager.h"
 #include "DB/CDBManager.h"
 #include "Tasks/RecentlyOpen/CRecentlyOpenManager.h"
-#include "Controls/CListControl.h"
+#include "Controls/CGridControl.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "GUI/Popups/CPopupGUIManager.h"
 #include "Task/CTaskManager.h"
@@ -69,14 +69,14 @@ bool					CIMGEditorTab::checkForErrors(void)
 		// check if IMG is fastman92 format and is encrypted
 		if (pIMGFormat->isEncrypted())
 		{
-			bxcf::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_21"), CLocalizationManager::getInstance()->getTranslatedText("TextPopupTitle_21"), MB_OK);
+			bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_21"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_21"), MB_OK);
 			return false;
 		}
 
 		// check if IMG is fastman92 format and has an unsupported game type
 		if (pIMGFormat->getGameType() != 0)
 		{
-			bxcf::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_68", pIMGFormat->getGameType()), CLocalizationManager::getInstance()->getTranslatedText("UnableToOpenIMG"), MB_OK);
+			bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_68", pIMGFormat->getGameType()), CLocalizationManager::get()->getTranslatedText("UnableToOpenIMG"), MB_OK);
 			return false;
 		}
 	}
@@ -84,7 +84,7 @@ bool					CIMGEditorTab::checkForErrors(void)
 	// check for unserialize error [includes file open/close errors]
 	if (pIMGFormat->doesHaveError())
 	{
-		bxcf::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_23"), CLocalizationManager::getInstance()->getTranslatedText("UnableToOpenIMG"), MB_OK);
+		bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_23"), CLocalizationManager::get()->getTranslatedText("UnableToOpenIMG"), MB_OK);
 		return false;
 	}
 
@@ -114,7 +114,7 @@ void					CIMGEditorTab::initTab(void)
 	string strDBFilePath = CPathManager::replaceFileExtension(getIMGFile()->getFilePath(), "db");
 	if (CFileManager::doesFileExist(strDBFilePath))
 	{
-		m_pDBFile = CDBManager::getInstance()->parseViaFile(strDBFilePath);
+		m_pDBFile = CDBManager::get()->parseViaFile(strDBFilePath);
 
 		if (m_pDBFile->doesHaveError())
 		{
@@ -125,8 +125,8 @@ void					CIMGEditorTab::initTab(void)
 	if (m_pDBFile == nullptr)
 	{
 		// either the db file doesn't exist or the db file is corrupt
-		//pEditorTab->m_pDBFile = CDBManager::getInstance()->createDBFileFromIMGFile(pEditorTab->getIMGFile());
-		m_pDBFile = CDBManager::getInstance()->createBlankDBFile();
+		//pEditorTab->m_pDBFile = CDBManager::get()->createDBFileFromIMGFile(pEditorTab->getIMGFile());
+		m_pDBFile = CDBManager::get()->createBlankDBFile();
 	}
 	loadProtectedEntryStates();
 
@@ -155,11 +155,11 @@ void					CIMGEditorTab::checkForUnknownRWVersionEntries(void)
 
 		getIMGF()->getTaskManager()->onTaskPause();
 		getIMGF()->getPopupGUIManager()->showListViewDialog(
-			CLocalizationManager::getInstance()->getTranslatedText("UnknownVersions"),
-			CLocalizationManager::getInstance()->getTranslatedFormattedText("UnknownVersionsCheck", CPathManager::getFileName(getIMGFile()->getFilePath()).c_str(), vecUnknownRWVersionEntries.size()),
-			CLocalizationManager::getInstance()->getTranslatedText("Window_OrphanEntries_EntryName"),
+			CLocalizationManager::get()->getTranslatedText("UnknownVersions"),
+			CLocalizationManager::get()->getTranslatedFormattedText("UnknownVersionsCheck", CPathManager::getFileName(getIMGFile()->getFilePath()).c_str(), vecUnknownRWVersionEntries.size()),
+			CLocalizationManager::get()->getTranslatedText("Window_OrphanEntries_EntryName"),
 			vecIMGEntryNames,
-			CLocalizationManager::getInstance()->getTranslatedFormattedText("SaveFilePopup_3_InitialFilename",
+			CLocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_3_InitialFilename",
 			CPathManager::replaceFileExtension(CPathManager::getFileName(getIMGFile()->getFilePath()), "TXT").c_str()),
 			"UNKNOWNRWVERSIONS"
 			);
@@ -183,7 +183,7 @@ void					CIMGEditorTab::log(string strText, bool bExtendedModeOnly)
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
 			{
 				string strExtendedLogPath = CPathManager::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
-				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::getInstance()->getTranslatedText("LogFilename_Extended");
+				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::get()->getTranslatedText("LogFilename_Extended");
 				CFileManager::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 		}
@@ -201,7 +201,7 @@ void					CIMGEditorTab::log(string strText, bool bExtendedModeOnly)
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingBasic"))
 			{
 				string strExtendedLogPath = CPathManager::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
-				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::getInstance()->getTranslatedText("LogFilename_Basic");
+				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::get()->getTranslatedText("LogFilename_Basic");
 				CFileManager::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 			
@@ -209,7 +209,7 @@ void					CIMGEditorTab::log(string strText, bool bExtendedModeOnly)
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
 			{
 				string strExtendedLogPath = CPathManager::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
-				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::getInstance()->getTranslatedText("LogFilename_Extended");
+				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::get()->getTranslatedText("LogFilename_Extended");
 				CFileManager::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 		}
@@ -670,7 +670,7 @@ void					CIMGEditorTab::addAllEntriesToMainListView(void)
 }
 void					CIMGEditorTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 {
-	CListControlEntry *pListEntry = new CListControlEntry;
+	CGridControlEntry *pListEntry = new CGridControlEntry;
 
 	pListEntry->setList(getWindow()->getEntryListControl());
 
@@ -759,11 +759,11 @@ void					CIMGEditorTab::updateEntryCountText(void)
 		uiEntryCount = getIMGFile()->getEntryCount();
 	if (isFilterActive())
 	{
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(20))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_FilteredEntryCount", uiFilteredEntryCount, uiEntryCount).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(20))->SetWindowTextW(CLocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_FilteredEntryCount", uiFilteredEntryCount, uiEntryCount).c_str());
 	}
 	else
 	{
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(20))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_EntryCount", uiEntryCount).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(20))->SetWindowTextW(CLocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_EntryCount", uiEntryCount).c_str());
 	}
 	*/
 }
@@ -771,7 +771,7 @@ void					CIMGEditorTab::updateIMGText(void)
 {
 	/*
 	todo
-	string strPlatformName = CPlatformManager::getInstance()->getPlatformName(getIMGFile()->getPlatform());
+	string strPlatformName = CPlatformManager::get()->getPlatformName(getIMGFile()->getPlatform());
 
 	if (getIMGFile()->getIMGVersion() == IMG_FASTMAN92)
 	{
@@ -780,21 +780,21 @@ void					CIMGEditorTab::updateIMGText(void)
 		string strVersionSuffix = "";
 		if (uiEntryCount == uiUncompressedEntryCount)
 		{
-			strVersionSuffix = CLocalizationManager::getInstance()->getTranslatedText("CompressionValue_Uncompressed");
+			strVersionSuffix = CLocalizationManager::get()->getTranslatedText("CompressionValue_Uncompressed");
 		}
 		else if (uiUncompressedEntryCount == 0)
 		{
-			strVersionSuffix = CLocalizationManager::getInstance()->getTranslatedText("CompressionValue_Compressed");
+			strVersionSuffix = CLocalizationManager::get()->getTranslatedText("CompressionValue_Compressed");
 		}
 		else
 		{
-			strVersionSuffix = CLocalizationManager::getInstance()->getTranslatedText("CompressionValue_PartiallyCompressed");
+			strVersionSuffix = CLocalizationManager::get()->getTranslatedText("CompressionValue_PartiallyCompressed");
 		}
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getIMGVersionName(IMG_FASTMAN92, getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), strVersionSuffix.c_str()).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::get()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getIMGVersionName(IMG_FASTMAN92, getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), strVersionSuffix.c_str()).c_str());
 	}
 	else
 	{
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getIMGVersionName(getIMGFile()->getIMGVersion(), getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), CIMGManager::getIMGVersionGames(getIMGFile()->getIMGVersion()).c_str()).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::get()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getIMGVersionName(getIMGFile()->getIMGVersion(), getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), CIMGManager::getIMGVersionGames(getIMGFile()->getIMGVersion()).c_str()).c_str());
 	}
 	*/
 }
@@ -817,7 +817,7 @@ void					CIMGEditorTab::rebuild(string strIMGPath, bool bLog)
 	setIMGModifiedSinceRebuild(false);
 	if (bLog)
 	{
-		log(CLocalizationManager::getInstance()->getTranslatedText("Log_127"));
+		log(CLocalizationManager::get()->getTranslatedText("Log_127"));
 	}
 }
 uint32			CIMGEditorTab::merge(string strPath, vector<string>& vecImportedEntryNames)
@@ -868,7 +868,7 @@ void					CIMGEditorTab::splitSelectedEntries(string strPath, eIMGVersion eIMGVer
 		}
 	}
 
-	log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_128", vecIMGEntries.size(), CPathManager::getFileName(strPath).c_str()));
+	log(CLocalizationManager::get()->getTranslatedFormattedText("Log_128", vecIMGEntries.size(), CPathManager::getFileName(strPath).c_str()));
 	*/
 }
 void					CIMGEditorTab::replace(vector<string>& vecPaths, vector<string>& vecReplacedEntryNames)
@@ -905,7 +905,7 @@ void					CIMGEditorTab::searchText(void)
 
 	if (strSearchText == "")
 	{
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(0))->SetWindowTextW(CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", 0).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(0))->SetWindowTextW(CLocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", 0).c_str());
 		return;
 	}
 
@@ -950,7 +950,7 @@ void					CIMGEditorTab::searchText(void)
 			{
 				if (strEntryExtension == "COL")
 				{
-					if (CString2::toUpperCase(CCOLManager::getInstance()->getCOLVersionText(pIMGEntry->getCOLVersion())).find(strSearchText) != string::npos)
+					if (CString2::toUpperCase(CCOLManager::get()->getCOLVersionText(pIMGEntry->getCOLVersion())).find(strSearchText) != string::npos)
 					{
 						bMatch = true;
 					}
@@ -967,7 +967,7 @@ void					CIMGEditorTab::searchText(void)
 					}
 					else
 					{
-						if (CString2::toUpperCase(pIMGEntry->getRWVersion()->getVersionName() + " (" + CLocalizationManager::getInstance()->getTranslatedText(pIMGEntry->getRWVersion()->getLocalizationKey()) + ")").find(strSearchText) != string::npos)
+						if (CString2::toUpperCase(pIMGEntry->getRWVersion()->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pIMGEntry->getRWVersion()->getLocalizationKey()) + ")").find(strSearchText) != string::npos)
 						{
 							bMatch = true;
 						}
@@ -1019,7 +1019,7 @@ void					CIMGEditorTab::searchText(void)
 		}
 		else if (strEntryExtension == "TXD" || CPathManager::isModelExtension(strEntryExtension))
 		{
-			strExtraInfo = pIMGEntry->getRWVersion() == nullptr ? CLocalizationManager::getInstance()->getTranslatedText("Window_Main_Combo_RWVersion_Unknown") : pIMGEntry->getRWVersion()->getVersionName() + " (" + CLocalizationManager::getInstance()->getTranslatedText(pIMGEntry->getRWVersion()->getLocalizationKey()) + ")";
+			strExtraInfo = pIMGEntry->getRWVersion() == nullptr ? CLocalizationManager::get()->getTranslatedText("Window_Main_Combo_RWVersion_Unknown") : pIMGEntry->getRWVersion()->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pIMGEntry->getRWVersion()->getLocalizationKey()) + ")";
 		}
 		pListControl->InsertItem(LVIF_TEXT | LVIF_PARAM, uiRowIndex, CString2::convertStdStringToStdWString(pIMGEntry->getEntryName()).c_str(), 0, 0, 0, (DWORD)pSearchEntry);
 		pListControl->SetItem(uiRowIndex, 1, LVIF_TEXT, CString2::convertStdStringToStdWString(CPathManager::getFileName(pSearchEntry->getWindowTab()->getIMGFile()->getFilePath())).c_str(), 0, 0, 0, 0);
@@ -1030,11 +1030,11 @@ void					CIMGEditorTab::searchText(void)
 	wstring wstrSearchResultText;
 	if (bAllTabs)
 	{
-		wstrSearchResultText = CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_AllTabs", uiMatchCount, uiFileCountWithMatches);
+		wstrSearchResultText = CLocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_AllTabs", uiMatchCount, uiFileCountWithMatches);
 	}
 	else
 	{
-		wstrSearchResultText = CLocalizationManager::getInstance()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", uiMatchCount);
+		wstrSearchResultText = CLocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", uiMatchCount);
 	}
 
 	((CStatic*)getIMGF()->getDialog()->GetDlgItem(0))->SetWindowTextW(wstrSearchResultText.c_str());
@@ -1112,19 +1112,19 @@ void					CIMGEditorTab::sortEntries(void)
 		{
 			break;
 		}
-		vecExtendedLogLines.push_back(CLocalizationManager::getInstance()->getTranslatedFormattedText("Sort_Priority_N_WithName", (i + 1), pSortPriority->getType()->getText().c_str()));
+		vecExtendedLogLines.push_back(CLocalizationManager::get()->getTranslatedFormattedText("Sort_Priority_N_WithName", (i + 1), pSortPriority->getType()->getText().c_str()));
 		i++;
 		pSortPriority2 = pSortPriority;
 	}
 	if (vecExtendedLogLines.size() == 1)
 	{
-		log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_129", pSortPriority2->getType()->getText().c_str()));
+		log(CLocalizationManager::get()->getTranslatedFormattedText("Log_129", pSortPriority2->getType()->getText().c_str()));
 	}
 	else
 	{
-		log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_130", vecExtendedLogLines.size()));
+		log(CLocalizationManager::get()->getTranslatedFormattedText("Log_130", vecExtendedLogLines.size()));
 	}
-	log(CLocalizationManager::getInstance()->getTranslatedText("Log_131"), true);
+	log(CLocalizationManager::get()->getTranslatedText("Log_131"), true);
 	log(CString2::join(vecExtendedLogLines, "\n"), true);
 
 	// render
@@ -1199,7 +1199,7 @@ void				CIMGEditorTab::loadFilter_Version(void)
 	uint32
 		i = 1,
 		uiCurSel = 0;
-	string strUnknownVersionText = CLocalizationManager::getInstance()->getTranslatedText("UnknownVersion");
+	string strUnknownVersionText = CLocalizationManager::get()->getTranslatedText("UnknownVersion");
 	for (auto strVersionText : vecVersions)
 	{
 		pComboBox->InsertString(i, CString2::convertStdStringToStdWString(strVersionText).c_str());
@@ -1239,7 +1239,7 @@ void				CIMGEditorTab::unloadFilter_Type(void)
 		pComboBox->DeleteString(0);
 	}
 
-	pComboBox->InsertString(0, CLocalizationManager::getInstance()->getTranslatedTextW("AllTypes").c_str());
+	pComboBox->InsertString(0, CLocalizationManager::get()->getTranslatedTextW("AllTypes").c_str());
 
 	pComboBox->SetCurSel(0);
 	*/
@@ -1255,7 +1255,7 @@ void				CIMGEditorTab::unloadFilter_Version(void)
 		pComboBox->DeleteString(0);
 	}
 
-	pComboBox->InsertString(0, CLocalizationManager::getInstance()->getTranslatedTextW("AllVersions").c_str());
+	pComboBox->InsertString(0, CLocalizationManager::get()->getTranslatedTextW("AllVersions").c_str());
 
 	pComboBox->SetCurSel(0);
 	*/

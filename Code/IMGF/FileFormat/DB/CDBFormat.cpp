@@ -17,7 +17,7 @@ void								CDBFormat::unload(void)
 void								CDBFormat::unserialize(void)
 {
 	unload();
-	CDataReader *pDataReader = CDataReader::getInstance();
+	CDataReader *pDataReader = CDataReader::get();
 
 	// DB file header
 	m_uiDBVersion = pDataReader->readUint32();
@@ -39,7 +39,7 @@ void								CDBFormat::unserialize(void)
 
 void								CDBFormat::serialize(void)
 {
-	CDataWriter *pDataWriter = CDataWriter::getInstance();
+	CDataWriter *pDataWriter = CDataWriter::get();
 
 	// DB file header
 	pDataWriter->writeUint32(getDBVersion());

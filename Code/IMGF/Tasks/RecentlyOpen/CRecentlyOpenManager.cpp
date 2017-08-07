@@ -53,10 +53,10 @@ void					CRecentlyOpenManager::loadRecentlyOpenEntries(void)
 
 	if (uiRecentlyOpenedCount == 0)
 	{
-		AppendMenu(getIMGF()->m_hSubMenu_File_OpenRecent, MF_STRING | MF_DISABLED, 1881, CLocalizationManager::getInstance()->getTranslatedTextW("Menu_RecentlyOpenFiles_NoFiles").c_str());
+		AppendMenu(getIMGF()->m_hSubMenu_File_OpenRecent, MF_STRING | MF_DISABLED, 1881, CLocalizationManager::get()->getTranslatedTextW("Menu_RecentlyOpenFiles_NoFiles").c_str());
 	}
 
-	AppendMenu(getIMGF()->m_hSubMenu_File_OpenRecent, MF_STRING, 1880, CLocalizationManager::getInstance()->getTranslatedTextW("Menu_RecentlyOpenFiles_Clear").c_str());
+	AppendMenu(getIMGF()->m_hSubMenu_File_OpenRecent, MF_STRING, 1880, CLocalizationManager::get()->getTranslatedTextW("Menu_RecentlyOpenFiles_Clear").c_str());
 	*/
 }
 void					CRecentlyOpenManager::unloadRecentlyOpenEntries(void)

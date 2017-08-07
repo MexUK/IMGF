@@ -168,7 +168,7 @@ private:
 template<class DerivedFormatClass>
 void						bxcf::CDataWriter::writeLineEntries(bxcf::CVectorPool<DerivedFormatClass> *pPool)
 {
-	CDataWriter *pDataWriter = CDataWriter::getInstance();
+	CDataWriter *pDataWriter = CDataWriter::get();
 
 	for (DerivedFormatClass *pEntry : pPool->getEntries())
 	{
@@ -180,7 +180,7 @@ void						bxcf::CDataWriter::writeLineEntries(bxcf::CVectorPool<DerivedFormatCla
 template <class SectionClass, class EntryClass>
 void						bxcf::CDataWriter::writeSectionLineEntries(bxcf::CVectorPool<SectionClass> *pPool)
 {
-	CDataWriter *pDataWriter = CDataWriter::getInstance();
+	CDataWriter *pDataWriter = CDataWriter::get();
 
 	for (SectionClass *pSection : pPool->getEntries())
 	{

@@ -175,7 +175,7 @@ private:
 template <class DerivedFormatClass>
 void						bxcf::CDataReader::readLineEntries(bxcf::CVectorPool<DerivedFormatClass> *pPool)
 {
-	CDataReader *pDataReader = CDataReader::getInstance();
+	CDataReader *pDataReader = CDataReader::get();
 
 	pDataReader->readAndStoreLines();
 	while (pDataReader->iterateLines())
@@ -190,7 +190,7 @@ void						bxcf::CDataReader::readLineEntries(bxcf::CVectorPool<DerivedFormatClas
 template <typename LineTypeEnum, class SectionClass, class EntryClass>
 void					bxcf::CDataReader::readSectionLineEntries(bxcf::CVectorPool<SectionClass> *pPool)
 {
-	CDataReader *pDataReader = CDataReader::getInstance();
+	CDataReader *pDataReader = CDataReader::get();
 
 	SectionClass *pSection = nullptr;
 	EntryClass *pEntry = nullptr;

@@ -56,10 +56,10 @@ void									CThemeDesignerTab_Save::onPressButton(CButtonControl *pButton)
 			return;
 		}
 
-		CWindow *pMainWindow = bxgx::CGUIManager::getInstance()->getEntryByIndex(1);
+		CWindow *pMainWindow = bxgx::CGUIManager::get()->getEntryByIndex(1);
 		pMainWindow->serialize();
 
-		CFileManager::storeFile(strFilePath, CDataWriter::getInstance()->getData(), false, true);
+		CFileManager::storeFile(strFilePath, CDataWriter::get()->getData(), false, true);
 	}
 }
 

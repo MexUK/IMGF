@@ -82,7 +82,7 @@ BOOL CDropSource::OnRenderFileData(LPFORMATETC lpFormatEtc, CFile* pFile)
 		if (!pDraggableFile->m_bLogged)
 		{
 			pDraggableFile->m_bLogged = true;
-			getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_1", m_vecDraggableFiles[lpFormatEtc->lindex]->m_strFileName.c_str()));
+			getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_1", m_vecDraggableFiles[lpFormatEtc->lindex]->m_strFileName.c_str()));
 		}
 	}
 	*/

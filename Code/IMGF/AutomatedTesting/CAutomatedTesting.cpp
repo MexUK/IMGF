@@ -9,7 +9,7 @@ template<class Manager, class Format>
 void						testFormatSerialization(string strFormatFilePath)
 {
 	// test parsing
-	Format *pFormat = Manager::getInstance()->parseViaFile(strFormatFilePath);
+	Format *pFormat = Manager::get()->parseViaFile(strFormatFilePath);
 	bool bHasError = pFormat->doesHaveError();
 	if(bHasError)
 	{

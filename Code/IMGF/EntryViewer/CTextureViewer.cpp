@@ -119,7 +119,7 @@ DWORD WINAPI		CTextureViewer::onThreadStarted(LPVOID lpParam)
 	bool bNotCorrupt = false;
 	if (pTextureViewer->getIMGEntry()->isCOLFile())
 	{
-		CCOLFormat *pCOLFile = CCOLManager::getInstance()->parseViaMemory(pEntryViewerManager->getIMGEntry()->getEntryData());
+		CCOLFormat *pCOLFile = CCOLManager::get()->parseViaMemory(pEntryViewerManager->getIMGEntry()->getEntryData());
 		//delete pCOLFile;
 		if (pCOLFile->doesHaveError())
 		{
@@ -182,7 +182,7 @@ void				CTextureViewer::prepareRenderData(void)
 
 void				CTextureViewer::prepareRenderData_TXD(void)
 {
-	CTXDFormat *pTXDFile = CTXDManager::getInstance()->parseViaMemory(getIMGEntry()->getEntryData());
+	CTXDFormat *pTXDFile = CTXDManager::get()->parseViaMemory(getIMGEntry()->getEntryData());
 	if (pTXDFile->doesHaveError())
 	{
 		//string a = pTXDFile->getCorruptReason();
@@ -323,7 +323,7 @@ void				CTextureViewer::prepareRenderData_TXD(void)
 
 void				CTextureViewer::prepareRenderData_WTD(void)
 {
-	CWTDFormat *pWTDFile = CWTDManager::getInstance()->parseViaMemory(getIMGEntry()->getEntryData());
+	CWTDFormat *pWTDFile = CWTDManager::get()->parseViaMemory(getIMGEntry()->getEntryData());
 	if (pWTDFile->doesHaveError())
 	{
 		setEntityDataIsCorrupt(true);
@@ -442,7 +442,7 @@ void				CTextureViewer::openWindow(void)
 	if (!RegisterClassEx(&wc))
 	{
 		DWORD uiError = GetLastError();
-		bxcf::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedFormattedText("TextPopup_52", uiError), CLocalizationManager::getInstance()->getTranslatedText("TextPopup_Title52"), MB_OK);
+		bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_52", uiError), CLocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
 		return;
 	}
 
@@ -450,13 +450,13 @@ void				CTextureViewer::openWindow(void)
 	hwndEntryViewerWindow = CreateWindowEx(
 		WS_EX_CLIENTEDGE,
 		szClassName,
-		CLocalizationManager::getInstance()->getTranslatedTextW("Window_EntryViewer_Title").c_str(),
+		CLocalizationManager::get()->getTranslatedTextW("Window_EntryViewer_Title").c_str(),
 		WS_OVERLAPPEDWINDOW | WS_VSCROLL,
 		uiEntryViewerWindowX, uiEntryViewerWindowY, uiEntryViewerWindowWidth, uiEntryViewerWindowHeight,
 		NULL, NULL, hInstance, NULL);
 	if (hwndEntryViewerWindow == NULL)
 	{
-		bxcf::CGUIManager::showMessage(CLocalizationManager::getInstance()->getTranslatedText("TextPopup_53"), CLocalizationManager::getInstance()->getTranslatedText("TextPopup_Title52"), MB_OK);
+		bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_53"), CLocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
 		return;
 	}
 	setWindowHwnd(hwndEntryViewerWindow);
@@ -487,11 +487,11 @@ void				CTextureViewer::openWindow(void)
 	setViewMenu(hMenu_View);
 	setDisplayTypeMenu(hMenu_View_DisplayType);
 
-	AppendMenu(hMenubar, MF_POPUP, (UINT_PTR)hMenu_View, CLocalizationManager::getInstance()->getTranslatedTextW("EntryViewerMenu_View").c_str());
-	AppendMenu(hMenu_View, MF_STRING | MF_POPUP, (UINT_PTR)hMenu_View_DisplayType, CLocalizationManager::getInstance()->getTranslatedTextW("EntryViewerMenu_DisplayType").c_str());
-	AppendMenu(hMenu_View_DisplayType, MF_STRING, 1000, CLocalizationManager::getInstance()->getTranslatedTextW("EntryViewerMenu_DisplayType_Float").c_str());
-	AppendMenu(hMenu_View_DisplayType, MF_STRING | MF_CHECKED, 1001, CLocalizationManager::getInstance()->getTranslatedTextW("EntryViewerMenu_DisplayType_Single").c_str());
-	AppendMenu(hMenu_View, MF_STRING, 1020, CLocalizationManager::getInstance()->getTranslatedTextW("EntryViewerMenu_PreviewTextures").c_str());
+	AppendMenu(hMenubar, MF_POPUP, (UINT_PTR)hMenu_View, CLocalizationManager::get()->getTranslatedTextW("EntryViewerMenu_View").c_str());
+	AppendMenu(hMenu_View, MF_STRING | MF_POPUP, (UINT_PTR)hMenu_View_DisplayType, CLocalizationManager::get()->getTranslatedTextW("EntryViewerMenu_DisplayType").c_str());
+	AppendMenu(hMenu_View_DisplayType, MF_STRING, 1000, CLocalizationManager::get()->getTranslatedTextW("EntryViewerMenu_DisplayType_Float").c_str());
+	AppendMenu(hMenu_View_DisplayType, MF_STRING | MF_CHECKED, 1001, CLocalizationManager::get()->getTranslatedTextW("EntryViewerMenu_DisplayType_Single").c_str());
+	AppendMenu(hMenu_View, MF_STRING, 1020, CLocalizationManager::get()->getTranslatedTextW("EntryViewerMenu_PreviewTextures").c_str());
 
 	::SetMenu(hwndEntryViewerWindow, hMenubar);
 
@@ -1631,7 +1631,7 @@ void			CTextureViewer::renderDisplayType_Single(void)
 			rect.top = uiImageY - yCurrentScroll;
 			rect.right = 8000;
 			rect.bottom = 8000;
-			strText = CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextureViewer_BPP", pImageData->m_ucBPP);
+			strText = CLocalizationManager::get()->getTranslatedFormattedText("Window_TextureViewer_BPP", pImageData->m_ucBPP);
 			DrawText(hdc, CString2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // BPP
 
 			// draw texture raster format
@@ -1724,7 +1724,7 @@ void			CTextureViewer::renderDisplayType_Single(void)
 	rect.top = 10;
 	rect.right = 8000;
 	rect.bottom = 8000;
-	string strText = CLocalizationManager::getInstance()->getTranslatedText("Window_TextureViewer_Zoom");
+	string strText = CLocalizationManager::get()->getTranslatedText("Window_TextureViewer_Zoom");
 	DrawText(hdc, CString2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX);
 
 	// vertical line next to textures list
@@ -1783,7 +1783,7 @@ void			CTextureViewer::renderDisplayType_Single(void)
 	rect.top = 25;
 	rect.right = 8000;
 	rect.bottom = 8000;
-	strText = CLocalizationManager::getInstance()->getTranslatedFormattedText("Window_TextureViewer_BPP", pActiveImageData->m_ucBPP);
+	strText = CLocalizationManager::get()->getTranslatedFormattedText("Window_TextureViewer_BPP", pActiveImageData->m_ucBPP);
 	DrawText(hdc, CString2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // BPP
 
 	rect.left = g_uiLeftPanelWidth + 145 + 5;

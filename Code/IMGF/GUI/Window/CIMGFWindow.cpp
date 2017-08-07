@@ -1,7 +1,7 @@
 #include "CIMGFWindow.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "Controls/CButtonControl.h"
-#include "Controls/CListControl.h"
+#include "Controls/CGridControl.h"
 #include "Styles/CGUIStyles.h"
 #include "GUI/CWindowManager.h"
 #include "GUI/CGUIManager.h"
@@ -91,7 +91,7 @@ bool					CIMGFWindow::onRender(void)
 void					CIMGFWindow::renderTitleBar(void)
 {
 	/*
-	CGraphicsLibrary *pGFX = bxgx::CGUIManager::getInstance()->getGraphicsLibrary();
+	CGraphicsLibrary *pGFX = bxgx::CGUIManager::get()->getGraphicsLibrary();
 
 	string strStyleGroup = "titleBar";
 	string strTitleBarText = "IMG Factory ALPHA";
@@ -127,7 +127,7 @@ void					CIMGFWindow::renderTitleBar(void)
 void					CIMGFWindow::renderEtc(void)
 {
 	/*
-	CGraphicsLibrary *pGFX = bxgx::CGUIManager::getInstance()->getGraphicsLibrary();
+	CGraphicsLibrary *pGFX = bxgx::CGUIManager::get()->getGraphicsLibrary();
 	CPoint2D vecDrawStartPosition = CPoint2D(0, getTitleBarHeight());
 
 	return; // todo
@@ -246,7 +246,7 @@ void					CIMGFWindow::onDropFiles(vector<string>& vecPaths)
 		{
 			getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strPath);
 		}
-		//getIMGF()->getEntryListTab()->log(CLocalizationManager::getInstance()->getTranslatedFormattedText("Log_23", vecImportPaths.size()));
+		//getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_23", vecImportPaths.size()));
 
 		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}

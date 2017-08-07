@@ -8,8 +8,8 @@
 #include <unordered_map>
 
 class CWindow;
-class CTabControl;
-class CTabControlEntry;
+class CTabBarControl;
+class CTabBarControlEntry;
 class CGUILayer;
 class CRectangleShape;
 
@@ -30,8 +30,8 @@ public:
 	void									setWindow(CWindow* pWindow) { m_pWindow = pWindow; }
 	CWindow*								getWindow(void) { return m_pWindow; }
 
-	void									setTabControl(CTabControl *pTabControl) { m_pTabControl = pTabControl; }
-	CTabControl*							getTabControl(void) { return m_pTabControl; }
+	void									setTabControl(CTabBarControl *pTabControl) { m_pTabControl = pTabControl; }
+	CTabBarControl*							getTabControl(void) { return m_pTabControl; }
 
 	void									setItemHoverRectangle(CRectangleShape* pRectangle) { m_pItemHoverRectangle = pRectangle; }
 	CRectangleShape*						getItemHoverRectangle(void) { return m_pItemHoverRectangle; }
@@ -45,10 +45,10 @@ public:
 private:
 	uint8													m_bThemeDesignerModeEnabled : 1;
 	CWindow*												m_pWindow;
-	CTabControl*											m_pTabControl;
+	CTabBarControl*											m_pTabControl;
 	CRectangleShape*										m_pItemHoverRectangle;
 	CRectangleShape*										m_pActiveItemRectangle;
-	std::unordered_map<std::string, CTabControlEntry*>		m_umapTabControlEntries;
+	std::unordered_map<std::string, CTabBarControlEntry*>		m_umapTabControlEntries;
 public: // todo
 	std::unordered_map<std::string, CGUILayer*>				m_umapTabLayers;
 };

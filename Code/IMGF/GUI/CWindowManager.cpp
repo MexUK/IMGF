@@ -20,7 +20,7 @@ CWindow*				CWindowManager::openWindow(void)
 	CPoint2D vecWindowPosition = CPoint2D((int32)150, 150);
 	CSize2D vecWindowSize = CSize2D(1100, 652);
 
-	CIMGFWindow *pWindow = bxgx::CGUIManager::getInstance()->addTemplatedWindow<CIMGFWindow>(vecWindowPosition, vecWindowSize);
+	CIMGFWindow *pWindow = bxgx::CGUIManager::get()->addTemplatedWindow<CIMGFWindow>(vecWindowPosition, vecWindowSize);
 	if (!pWindow)
 	{
 		return nullptr;
@@ -34,5 +34,5 @@ CWindow*				CWindowManager::openWindow(void)
 // window processing
 void					CWindowManager::processWindows(void)
 {
-	bxgx::CGUIManager::getInstance()->processWindows();
+	bxgx::CGUIManager::get()->processWindows();
 }

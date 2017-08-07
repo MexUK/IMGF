@@ -2,7 +2,7 @@
 #include "Window/CWindow.h"
 #include "CGUIManager.h"
 #include "Type/Vector/CColour.h"
-#include "Controls/CTabControl.h"
+#include "Controls/CTabBarControl.h"
 #include "Controls/CDropControl.h"
 #include "Controls/CButtonControl.h"
 #include "Controls/CProgressControl.h"
@@ -164,12 +164,12 @@ void		CMainLayer::addControls(void)
 	h = 30;
 	strStyleGroup = "fileTabBar";
 
-	CTabControl *pIMGInstanceTabBar = addTabBar(CPoint2D(x, y), CSize2D(w, h), strStyleGroup);
+	CTabBarControl *pIMGInstanceTabBar = addTabBar(CPoint2D(x, y), CSize2D(w, h), strStyleGroup);
 
-	CTabControlEntry * pTab;
-	pTab = pIMGInstanceTabBar->addTab("gta3.img (#1000)", true, "firstItemHorizontally");
-	pTab = pIMGInstanceTabBar->addTab("gta3 - backup.img (#1200)");
-	pTab = pIMGInstanceTabBar->addTab("gta3.img (#1000)");
+	CTabBarControlEntry * pTab;
+	pTab = pIMGInstanceTabBar->addTab("gta3.img (1000)", true, "firstItemHorizontally");
+	pTab = pIMGInstanceTabBar->addTab("gta3 - backup.img (1200)");
+	pTab = pIMGInstanceTabBar->addTab("gta3.img (1000)");
 
 	// 2nd left menu - actions
 	x = 139;
@@ -222,7 +222,7 @@ void		CMainLayer::addControls(void)
 
 void		CMainLayer::initControls(void)
 {
-	CEventManager::getInstance()->bindEvent(EVENT_onResizeWindow, [](void* pArg1, void* pArg2) {
+	CEventManager::get()->bindEvent(EVENT_onResizeWindow, [](void* pArg1, void* pArg2) {
 		((CMainLayer*)pArg1)->repositionAndResizeControls();
 	}, this);
 	repositionAndResizeControls();

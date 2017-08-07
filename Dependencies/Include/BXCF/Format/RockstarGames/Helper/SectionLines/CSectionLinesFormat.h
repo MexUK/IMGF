@@ -86,7 +86,7 @@ void				bxcf::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEnt
 {
 	// initialize
 	EntryClass *pFormatEntry = nullptr;
-	CDataReader *pDataReader = CDataReader::getInstance();
+	CDataReader *pDataReader = CDataReader::get();
 	string strActiveLine = *pDataReader->getActiveLine();
 
 	// remove comment from end of line
@@ -159,7 +159,7 @@ void				bxcf::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEnt
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
 void				bxcf::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::unserializeText(void)
 {
-	CDataReader *pDataReader = CDataReader::getInstance();
+	CDataReader *pDataReader = CDataReader::get();
 	pDataReader->readAndStoreLines();
 	while (pDataReader->iterateLines())
 	{
@@ -170,7 +170,7 @@ void				bxcf::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEnt
 template<class FormatClass, class EntryClass, typename SectionEnum, class OtherEntryClass, class SectionEntryClass, class DataEntryClass>
 void				bxcf::CSectionLinesFormat<FormatClass, EntryClass, SectionEnum, OtherEntryClass, SectionEntryClass, DataEntryClass>::serializeText(void)
 {
-	CDataWriter *pDataWriter = CDataWriter::getInstance();
+	CDataWriter *pDataWriter = CDataWriter::get();
 	for (auto it : getSectionEntries())
 	{
 		for (EntryClass *pFormatEntry : it.second)

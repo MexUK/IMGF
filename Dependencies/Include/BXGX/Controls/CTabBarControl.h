@@ -24,24 +24,24 @@ public:
 
 	uint32									getActiveIndex(void);
 
-	CTabBarControlEntry*						addTab(std::string strTabText, bool bSetActiveTab = false, std::string strStyleGroups = "");
+	CTabBarControlEntry*					addTab(std::string strTabText, bool bSetActiveTab = false, std::string strStyleGroups = "");
 	void									removeTab(CTabBarControlEntry *pTab);
 
-	CTabBarControlEntry*						getTabFromPosition(bxcf::CPoint2D& vecPosition);
+	CTabBarControlEntry*					getTabFromPosition(bxcf::CPoint2D& vecPosition);
 
 	void									bindTabLayer(CTabBarControlEntry *pTab, CGUILayer *pLayer);
 	void									applyTabLayer(CTabBarControlEntry *pTab, CTabBarControlEntry *pPreviousTab);
 
 	void									setActiveTab(CTabBarControlEntry* pActiveTab) { m_pActiveTab = pActiveTab; }
-	CTabBarControlEntry*						getActiveTab(void) { return m_pActiveTab; }
+	CTabBarControlEntry*					getActiveTab(void) { return m_pActiveTab; }
 
 	void									setActiveTabHeightDifference(uint32 uiActiveTabHeightDifference) { m_uiActiveTabHeightDifference = uiActiveTabHeightDifference; }
 	uint32									getActiveTabHeightDifference(void) { return m_uiActiveTabHeightDifference; }
 
 private:
-	CTabBarControlEntry*										m_pActiveTab;
+	CTabBarControlEntry*									m_pActiveTab;
 	uint32													m_uiActiveTabHeightDifference;
-	std::unordered_map<CTabBarControlEntry*, CGUILayer*>		m_umapTabLayers;
+	std::unordered_map<CTabBarControlEntry*, CGUILayer*>	m_umapTabLayers;
 };
 
 #endif

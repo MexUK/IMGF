@@ -15,7 +15,7 @@ void						CLSTFormat::unload(void)
 
 void						CLSTFormat::unserialize(void)
 {
-	CDataReader *pDataReader = CDataReader::getInstance();
+	CDataReader *pDataReader = CDataReader::get();
 	pDataReader->readAndStoreLines();
 	while (pDataReader->iterateLines() && pDataReader->getUserData() == 0) // LST format user data for data reader: 0 = normal processing, 1 = stop processing (e.g. found END in file)
 	{
@@ -27,7 +27,7 @@ void						CLSTFormat::unserializeLine(void)
 {
 	// initialize
 	static CLSTSection *pLSTActiveSection = nullptr;
-	CDataReader *pDataReader = CDataReader::getInstance();
+	CDataReader *pDataReader = CDataReader::get();
 	string strActiveLine = *pDataReader->getActiveLine();
 
 	// remove comment from end of line ( comment characters: # ; )

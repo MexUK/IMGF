@@ -6,7 +6,7 @@
 #include "Layer/CGUILayer.h"
 #include "Shape/CGUIShape.h"
 #include "Styles/CGUIStyles.h"
-#include "Controls/CTabControl.h"
+#include "Controls/CTabBarControl.h"
 #include "GUI/ThemeDesigner/Tabs/CThemeDesignerTab_AddItem.h"
 #include "GUI/ThemeDesigner/Tabs/CThemeDesignerTab_Save.h"
 #include "Type/Vector/CColour.h"
@@ -30,7 +30,7 @@ void					CThemeDesigner::init(void)
 	todo
 	initWindow();
 	initWindowDesign();
-	CEventManager::getInstance()->bindEvent(EVENT_onToolReady, [](void *pBoundArg) { ((CThemeDesigner*) pBoundArg)->bindEvents(); }, this);
+	CEventManager::get()->bindEvent(EVENT_onToolReady, [](void *pBoundArg) { ((CThemeDesigner*) pBoundArg)->bindEvents(); }, this);
 	*/
 }
 
@@ -47,7 +47,7 @@ void					CThemeDesigner::initWindow(void)
 	/*
 	CPoint2D vecWindowPosition((int32)10, 10);
 	CSize2D vecWindowSize(500, 500);
-	CWindow *pWindow = bxgx::CGUIManager::getInstance()->addWindow(vecWindowPosition, vecWindowSize);
+	CWindow *pWindow = bxgx::CGUIManager::get()->addWindow(vecWindowPosition, vecWindowSize);
 	pWindow->getStyles()->setStyle("fill-colour", CColour(33, 78, 103));
 	setWindow(pWindow);
 
@@ -61,7 +61,7 @@ void					CThemeDesigner::initWindow(void)
 	//pStyles_TabControl->setStyle<bool>("border-state-top", false);
 
 	CGUILayer *pLayer_ThemeDesignerWindow = pWindow->addLayer(pWindow, true);
-	CTabControl *pTabControl = pLayer_ThemeDesignerWindow->addTabBar(CPoint2D((int32)0, 0), CSize2D(vecWindowSize.m_x, 25), pStyles_TabControl);
+	CTabBarControl *pTabControl = pLayer_ThemeDesignerWindow->addTabBar(CPoint2D((int32)0, 0), CSize2D(vecWindowSize.m_x, 25), pStyles_TabControl);
 	setTabControl(pTabControl);
 	m_umapTabControlEntries["items"] = pTabControl->addTab("Items");
 	m_umapTabControlEntries["add_item"] = pTabControl->addTab("Add Item", true);
@@ -97,5 +97,5 @@ CGUILayer*				CThemeDesigner::addLayer(string strLayerKey, bool bLayerIsEnabled)
 void					CThemeDesigner::setThemeDesignerModeEnabled(bool bThemeDesignerModeEnabled)
 {
 	m_bThemeDesignerModeEnabled = bThemeDesignerModeEnabled;
-	bxgx::CGUIManager::getInstance()->getEntryByIndex(1)->setEventTriggerEventTypeId(bThemeDesignerModeEnabled ? EVENT_TYPE_THEME_DESIGNER : EVENT_TYPE_WINDOW);
+	bxgx::CGUIManager::get()->getEntryByIndex(1)->setEventTriggerEventTypeId(bThemeDesignerModeEnabled ? EVENT_TYPE_THEME_DESIGNER : EVENT_TYPE_WINDOW);
 }

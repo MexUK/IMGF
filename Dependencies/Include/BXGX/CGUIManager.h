@@ -133,7 +133,7 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCur
 		bIsWindowEvent = isWindowEvent(uiEvent),
 		bTriggerEventForControl;
 	CStyleManager
-		*pStyleManager = CStyleManager::getInstance();
+		*pStyleManager = CStyleManager::get();
 
 	for (CGUIEventUtilizer *pGUIEventUtilizer : m_umapEventControls[uiEvent])
 	{

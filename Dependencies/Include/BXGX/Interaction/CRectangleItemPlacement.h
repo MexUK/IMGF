@@ -136,14 +136,14 @@ void					CRectangleItemPlacement<Item>::checkToStartMovingOrResizingItem(bxcf::C
 			{
 				// move item
 				startMovingItem(pItem);
-				bxcf::CEventManager::getInstance()->setEventHogged(true);
+				bxcf::CEventManager::get()->setEventHogged(true);
 				break;
 			}
 			else
 			{
 				// resize item
 				startResizingItem(pItem, uiRectangleEdges);
-				bxcf::CEventManager::getInstance()->setEventHogged(true);
+				bxcf::CEventManager::get()->setEventHogged(true);
 				break;
 			}
 		}
@@ -176,14 +176,14 @@ void					CRectangleItemPlacement<Item>::onMouseMove(bxcf::CPoint2D& vecCursorPoi
 	if (isMovingItem())
 	{
 		bxcf::CVector2i32
-			vecItemPositionChange = bxcf::CEventManager::getInstance()->getScreenCursorMoveDifference();
+			vecItemPositionChange = bxcf::CEventManager::get()->getScreenCursorMoveDifference();
 		getItemBeingMoved()->onMoveItem(vecItemPositionChange);
 		getWindow()->setMarkedToRedraw(true);
 	}
 	if (isResizingItem())
 	{
 		bxcf::CVector2i32
-			vecCursorChange = bxcf::CEventManager::getInstance()->getScreenCursorMoveDifference(),
+			vecCursorChange = bxcf::CEventManager::get()->getScreenCursorMoveDifference(),
 			vecItemPositionChange,
 			vecItemSizeChange;
 		bxcf::CMath::getResizePositionAndSizeChange(vecCursorChange, getResizingItemEdges(), vecItemPositionChange, vecItemSizeChange);

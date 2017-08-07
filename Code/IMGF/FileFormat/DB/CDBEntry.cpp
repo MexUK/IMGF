@@ -7,7 +7,7 @@ using namespace bxcf;
 
 void				CDBEntry::unserialize(void)
 {
-	CDataReader *pDataReader = CDataReader::getInstance();
+	CDataReader *pDataReader = CDataReader::get();
 
 	uint32 uiEntryNameLength = pDataReader->readUint32();
 	m_strEntryName = string((char*)pDataReader->readCString(uiEntryNameLength));
@@ -19,7 +19,7 @@ void				CDBEntry::unserialize(void)
 
 void				CDBEntry::serialize(void)
 {
-	CDataWriter *pDataWriter = CDataWriter::getInstance();
+	CDataWriter *pDataWriter = CDataWriter::get();
 
 	pDataWriter->writeUint32(m_strEntryName.length());
 	pDataWriter->writeStringRef(m_strEntryName);

@@ -1,20 +1,20 @@
-#ifndef CListControl_H
-#define CListControl_H
+#ifndef CGridControl_H
+#define CGridControl_H
 
 #include "Type/Types.h"
 #include "Control/CGUIControl.h"
 #include "Styles/CGUIStyles.h"
-#include "Controls/Entries/CListControlEntry.h"
-#include "Controls/Components/CListControlHeader.h"
+#include "Controls/Entries/CGridControlEntry.h"
+#include "Controls/Components/CGridControlHeader.h"
 #include "Pool/CVectorPool.h"
 #include "Type/Vector/CPoint2D.h"
 #include <string>
 #include <vector>
 
-class CListControl : public CGUIControl, public bxcf::CVectorPool<CListControlEntry*>
+class CGridControl : public CGUIControl, public bxcf::CVectorPool<CGridControlEntry*>
 {
 public:
-	CListControl(void);
+	CGridControl(void);
 
 	void									bindEvents(void);
 
@@ -24,7 +24,7 @@ public:
 	bool									onLeftMouseDown(bxcf::CPoint2D& vecCursorPosition);
 	bool									onRender(void);
 
-	CListControlHeader*						addHeader(std::string strHeaderText, uint32 uiColumnWidth);
+	CGridControlHeader*						addHeader(std::string strHeaderText, uint32 uiColumnWidth);
 
 	bxcf::CPoint2D								getRowPosition(uint32 uiRowIndex);	// in pixels
 	bxcf::CSize2D									getRowSize(void);					// in pixels
@@ -47,14 +47,14 @@ public:
 	void									setHasVerticalScrollBar(bool bHasVerticalScrollBar) { m_bHasVerticalScrollBar = bHasVerticalScrollBar; }
 	bool									doesHaveVerticalScrollBar(void) { return m_bHasVerticalScrollBar; }
 	
-	bxcf::CVectorPool<CListControlHeader*>&		getHeaders(void) { return m_vecHeaders; }
+	bxcf::CVectorPool<CGridControlHeader*>&		getHeaders(void) { return m_vecHeaders; }
 
 private:
 	uint32									m_uiRowHeight;				// in pixels
 	uint32									m_uiColumnWidth;			// in pixels
 	uint32									m_uiRowTextHeight;			// in pixels
 	uint8									m_bHasVerticalScrollBar		: 1;
-	bxcf::CVectorPool<CListControlHeader*>		m_vecHeaders;
+	bxcf::CVectorPool<CGridControlHeader*>		m_vecHeaders;
 };
 
 #endif

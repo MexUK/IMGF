@@ -60,7 +60,7 @@ void		CSessionManager::loadSessions(void)
 
 	if (uiSessionCount == 0)
 	{
-		// todo AppendMenu(getIMGF()->m_hSubMenu_File_Sessions, MF_STRING | MF_DISABLED, 1981, CLocalizationManager::getInstance()->getTranslatedTextW("Menu_Sessions_NoSessions").c_str());
+		// todo AppendMenu(getIMGF()->m_hSubMenu_File_Sessions, MF_STRING | MF_DISABLED, 1981, CLocalizationManager::get()->getTranslatedTextW("Menu_Sessions_NoSessions").c_str());
 	}
 }
 void		CSessionManager::unloadSessions(void)
