@@ -15,7 +15,7 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	bool									onRender(void);
+	void									onRender(void);
 
 	void									setImage(Gdiplus::Image *pImage) { m_pImage = pImage; }
 	Gdiplus::Image*							getImage(void) { return m_pImage; }

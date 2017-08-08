@@ -25,7 +25,7 @@ public:
 
 	bool									onKeyDown(uint8 uiCharCode);
 	bool									onCharDown(uint8 uiCharCode);
-	bool									onRender(void);
+	void									onRender(void);
 	
 	bxcf::CPoint2D							getCaretRenderStartPosition(void);	// in pixels
 	bxcf::CPoint2D							getCaretRenderEndPosition(void);		// in pixels

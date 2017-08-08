@@ -16,7 +16,7 @@ public:
 	void									serialize(void);
 
 	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPosition);
-	bool									onRender(void);
+	void									onRender(void);
 
 	bxcf::CSize2D							getBoundingRectangleSize(void);
 

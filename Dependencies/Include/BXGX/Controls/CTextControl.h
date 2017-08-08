@@ -16,7 +16,7 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	bool									onRender(void);
+	void									onRender(void);
 };
 
 #endif

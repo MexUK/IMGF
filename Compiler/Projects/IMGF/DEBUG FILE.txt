@@ -1,0 +1,23 @@
+Duration of render event: 141
+Duration of render event: 78
+Duration of getFontFromStyles render event ----------------------------------------------->: 16
+Duration of render event: 125
+Duration of render event: 94
+Duration of render event: 63
+Duration of render event: 78
+Duration of render event: 78
+Duration of getFontFromStyles render event ----------------------------------------------->: 16
+Duration of render event: 78
+Duration of getFontFromStyles render event ----------------------------------------------->: 16
+Duration of render event: 79
+Duration of render event: 63
+Duration of getFontFromStyles render event ----------------------------------------------->: 15
+Duration of render event: 78
+Duration of render event: 63
+Duration of render event: 78
+Duration of getFontFromStyles render event ----------------------------------------------->: 16
+Duration of render event: 78
+Duration of render event: 63
+Duration of render event: 110
+Duration of render event: 94
+Duration of render event: 94

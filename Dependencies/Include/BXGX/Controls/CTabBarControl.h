@@ -20,7 +20,7 @@ public:
 	void									serialize(void);
 
 	bool									onLeftMouseDown(bxcf::CPoint2D& vecCursorPosition);
-	bool									onRender(void);
+	void									onRender(void);
 
 	uint32									getActiveIndex(void);
 

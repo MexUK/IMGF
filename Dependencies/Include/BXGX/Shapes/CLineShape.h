@@ -13,7 +13,7 @@ public:
 
 	void							bindEvents(void);
 
-	bool							onRender(void);
+	void							onRender(void);
 
 	bool							isPointInItem(bxcf::CPoint2D& vecPoint);
 	bxcf::CPoint2D					getBoundingRectanglePosition(void);

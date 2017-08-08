@@ -64,7 +64,7 @@ public:
 	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPoint);
 	bool									onDoubleLeftMouseUp(bxcf::CPoint2D& vecCursorPoint);
 
-	bool									onRender(void);
+	void									onRender(void);
 
 	virtual void							render(void);
 	void									renderNow(void);

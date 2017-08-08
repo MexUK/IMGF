@@ -21,7 +21,7 @@ public:
 	bool									onLeftMouseDown(bxcf::CPoint2D& vecCursorPosition);
 	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPosition);
 	bool									onMouseMove(bxcf::CPoint2D& vecCursorPosition);
-	bool									onRender(void);
+	void									onRender(void);
 
 	void									setCursorHoverActive(bool bCursorHoverIsActive) { m_bCursorHoverIsActive = bCursorHoverIsActive; }
 	bool									isCursorHoverActive(void) { return m_bCursorHoverIsActive; }

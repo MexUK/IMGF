@@ -21,7 +21,7 @@ public:
 	bool									onLeftMouseDown(bxcf::CPoint2D& vecCursorPosition);
 	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPosition);
 	bool									onMouseMove(bxcf::CPoint2D& vecCursorPosition);
-	bool									onRender(void);
+	void									onRender(void);
 
 	bool									isPointInSeekBar(bxcf::CPoint2D& vecPoint);
 	uint32									getSeekBarPositionOffset(void);

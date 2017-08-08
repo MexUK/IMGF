@@ -20,7 +20,7 @@ public:
 	void									serialize(void);
 
 	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPosition);
-	bool									onRender(void);
+	void									onRender(void);
 
 	CDropControlEntry*						addItem(std::string strItemText, bool bIsActiveItem = false);
 	void									removeItem(CDropControlEntry *pDropEntry);

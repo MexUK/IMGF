@@ -151,18 +151,19 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCur
 		}
 		if (bTriggerEventForControl)
 		{
-			//if (bIsRenderEvent)
-			//{
-				pStyleManager->m_pRenderingEventUtilizer = pGUIEventUtilizer;
-				pStyleManager->m_vecRenderingStyleGroups = pGUIEventUtilizer->getStyleGroups();
-				pStyleManager->m_uiRenderingItemType = pGUIEventUtilizer->getItemType();
-				pStyleManager->m_uiRenderingItemSubType = pGUIEventUtilizer->getItemSubType();
-				pStyleManager->m_uiRenderingControlComponent = bxgx::controls::components::DEFAULT_CONTROL_COMPONENT;
-				pStyleManager->m_uiRenderingStyleStatus = bxgx::styles::statuses::DEFAULT_STATUS;
-				pStyleManager->m_uiRenderingStyleFragment = bxgx::styles::fragments::ALL_STYLE_FRAGMENTS;
-			//}
+			pStyleManager->m_pRenderingEventUtilizer = pGUIEventUtilizer;
+			pStyleManager->m_vecRenderingStyleGroups = pGUIEventUtilizer->getStyleGroups();
+			pStyleManager->m_uiRenderingItemType = pGUIEventUtilizer->getItemType();
+			pStyleManager->m_uiRenderingItemSubType = pGUIEventUtilizer->getItemSubType();
+			pStyleManager->m_uiRenderingControlComponent = bxgx::controls::components::DEFAULT_CONTROL_COMPONENT;
+			pStyleManager->m_uiRenderingStyleStatus = bxgx::styles::statuses::DEFAULT_STATUS;
+			pStyleManager->m_uiRenderingStyleFragment = bxgx::styles::fragments::ALL_STYLE_FRAGMENTS;
 
-			if (triggerItemEvent(uiEvent, pGUIEventUtilizer, args...))
+			if (bIsRenderEvent)
+			{
+				triggerItemEvent(uiEvent, pGUIEventUtilizer, args...);
+			}
+			else if (triggerItemEvent(uiEvent, pGUIEventUtilizer, args...))
 			{
 				return;
 			}
@@ -211,22 +212,9 @@ bool						bxgx::CGUIManager::triggerItemEvent(uint32 uiEvent, CGUIEventUtilizer 
 	case KEY_DOUBLE_UP:				bResult = pItem->onDoubleKeyUp(va_arg(list, uint16));					break;
 
 		// render
-	case RENDER:
-	{
-		uint32 uiTime1 = GetTickCount();
-
-		bResult = pItem->onRender();
-
-		uint32 uiTime2 = GetTickCount();
-
-		uint32 uiDuration = uiTime2 - uiTime1;
-		//CDebug::log("Duration of third render event: " + CString2::toString(uiDuration) + " (" + (CStyleManager::get()->m_vecRenderingStyleGroups.size() ? CStyleManager::get()->m_vecRenderingStyleGroups[0] : "") + ")");
-
-
-		break;
-	}
-	case RENDER_BEFORE:				bResult = pItem->onRenderBefore();										break;
-	case RENDER_AFTER:				bResult = pItem->onRenderAfter();										break;
+	case RENDER:					pItem->onRender();														break;
+	case RENDER_BEFORE:				pItem->onRenderBefore();												break;
+	case RENDER_AFTER:				pItem->onRenderAfter();													break;
 	}
 
 	va_end(list);

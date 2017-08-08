@@ -22,7 +22,7 @@ public:
 	void										serialize(void);
 
 	bool										onLeftMouseDown(bxcf::CPoint2D& vecCursorPosition);
-	bool										onRender(void);
+	void										onRender(void);
 
 	CGridControlHeader*							addHeader(std::string strHeaderText, uint32 uiColumnWidth);
 

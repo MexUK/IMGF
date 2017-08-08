@@ -22,176 +22,29 @@ public:
 	}
 };
 
-/*
-static const size_t InitialFNV = 2166136261U;
-static const size_t FNVMultiple = 16777619;
-class CStyleManager_Hash2
-{
-public:
-	size_t operator()(const std::string &s) const noexcept
-	{
-		size_t hash = InitialFNV;
-		for (size_t i = 0, j = s.length(); i < j; i++)
-		{
-			hash ^= (s[i]);       // xor  the low 8 bits
-			hash *= FNVMultiple;  // multiply by the magic number
-		}
-		return hash;
-	}
-};
-*/
-
-/*
-typedef std::unordered_map<uint32,
-			std::unordered_map<uint32,
-				std::unordered_map<uint32,
-					std::unordered_map<uint32,
-						std::unordered_map<uint32,
-							std::unordered_map<uint32, void*>
-						>
-					>
-				>
-			>
-		> container6d_1;
-
-typedef std::unordered_map<CGUIEventUtilizer*,
-			std::unordered_map<uint32,
-				std::unordered_map<uint32,
-					std::unordered_map<uint32,
-						std::unordered_map<uint32,
-							std::unordered_map<uint32, void*>
-						>
-					>
-				>
-			>
-		> container6d_2;
-*/
-
-/*
-typedef std::tr1::unordered_map<uint32,
-			std::tr1::unordered_map<uint32,
-				std::tr1::unordered_map<uint32,
-					std::tr1::unordered_map<uint32,
-						std::tr1::unordered_map<uint32,
-							std::tr1::unordered_map<uint32, void*, CStyleManager_Hash1>,
+typedef google::dense_hash_map___Int<uint32,
+			google::dense_hash_map___Int<uint32,
+				google::dense_hash_map___Int<uint32,
+					google::dense_hash_map___Int<uint32,
+						google::dense_hash_map___Int<uint32,
+							google::dense_hash_map___Int<uint32, void*, CStyleManager_Hash1>,
 						CStyleManager_Hash1>,
 					CStyleManager_Hash1>,
 				CStyleManager_Hash1>,
 			CStyleManager_Hash1>,
 		CStyleManager_Hash1> container6d_1;
 
-typedef std::tr1::unordered_map<CGUIEventUtilizer*,
-			std::tr1::unordered_map<uint32,
-				std::tr1::unordered_map<uint32,
-					std::tr1::unordered_map<uint32,
-						std::tr1::unordered_map<uint32,
-							std::tr1::unordered_map<uint32, void*, CStyleManager_Hash1>,
-						CStyleManager_Hash1>,
-					CStyleManager_Hash1>,
-				CStyleManager_Hash1>,
-			CStyleManager_Hash1>
-		> container6d_2;
-*/
-
-//static CGUIEventUtilizerBlank * g_pGUIEventUtilizerBlank = new CGUIEventUtilizerBlank;
-
-/*
-template <class Value_>
-struct umap_google__uint32 : public google::dense_hash_map<uint32, Value_>
-{
-	umap_google__uint32(void) :
-		dense_hash_map()
-	{
-		set_empty_key(-1);
-		set_deleted_key(-2);
-	}
-};
-
-template <class Value_>
-struct umap_google__CGUIEventUtilizerPointer : public google::dense_hash_map<CGUIEventUtilizer*, Value_>
-{
-	umap_google__CGUIEventUtilizerPointer(void) :
-		dense_hash_map()
-	{
-		set_empty_key(nullptr);
-		set_deleted_key(g_pGUIEventUtilizerBlank);
-	}
-};
-
-typedef umap_google__uint32<
-			umap_google__uint32<
-				umap_google__uint32<
-					umap_google__uint32<
-						umap_google__uint32<
-							umap_google__uint32<void*>
-						>
-					>
-				>
-			>
-		> container6d_1;
-
-typedef umap_google__CGUIEventUtilizerPointer<
-			umap_google__uint32<
-				umap_google__uint32<
-					umap_google__uint32<
-						umap_google__uint32<
-							umap_google__uint32<void*>
-						>
-					>
-				>
-			>
-		> container6d_2;
-*/
-
-typedef google::dense_hash_map___Int<uint32,
-			google::dense_hash_map___Int<uint32,
-				google::dense_hash_map___Int<uint32,
-					google::dense_hash_map___Int<uint32,
-						google::dense_hash_map___Int<uint32,
-							google::dense_hash_map___Int<uint32, void*>
-						>
-					>
-				>
-			>
-		> container6d_1;
-
 typedef google::dense_hash_map___Pointer<CGUIEventUtilizer*,
 			google::dense_hash_map___Int<uint32,
 				google::dense_hash_map___Int<uint32,
 					google::dense_hash_map___Int<uint32,
 						google::dense_hash_map___Int<uint32,
-							google::dense_hash_map___Int<uint32, void*>
-						>
-					>
-				>
-			>
+							google::dense_hash_map___Int<uint32, void*, CStyleManager_Hash1>,
+						CStyleManager_Hash1>,
+					CStyleManager_Hash1>,
+				CStyleManager_Hash1>,
+			CStyleManager_Hash1>
 		> container6d_2;
-
-/*
-typedef std::map<uint32,
-			std::map<uint32,
-				std::map<uint32,
-					std::map<uint32,
-						std::map<uint32,
-							std::map<uint32, void*>
-						>
-					>
-				>
-			>
-		> container6d_1;
-
-typedef std::map<CGUIEventUtilizer*,
-			std::map<uint32,
-				std::map<uint32,
-					std::map<uint32,
-						std::map<uint32,
-							std::map<uint32, void*>
-						>
-					>
-				>
-			>
-		> container6d_2;
-*/
 
 class CStyleManager : public bxcf::CSingleton<CStyleManager>
 {
@@ -241,15 +94,13 @@ public:
 	uint32											getSpacingY(void);
 
 public:
-	uint32											m_uiRenderingItemType; // window, layer, shape, or control
-	uint32											m_uiRenderingItemSubType; // type of shape, type of control, etc
-	uint32											m_uiRenderingControlComponent; // main, headerRow, headerCell, tab, etc
-	uint32											m_uiRenderingStyleStatus; // default, hover, etc
-	uint32											m_uiRenderingStyleFragment; // all, left, right, etc
+	uint32											m_uiRenderingItemType;			// window, layer, shape, or control
+	uint32											m_uiRenderingItemSubType;		// type of shape, type of control, etc
+	uint32											m_uiRenderingControlComponent;	// main, headerRow, headerCell, tab, etc
+	uint32											m_uiRenderingStyleStatus;		// default, hover, etc
+	uint32											m_uiRenderingStyleFragment;		// all, left, right, etc
 	CGUIEventUtilizer*								m_pRenderingEventUtilizer;
 	std::vector<uint32>								m_vecRenderingStyleGroups;
-
-	//CGUIStyles*										m_pDefaultControlStyles;
 
 	std::unordered_map<std::string, uint32>			m_umapControls;				// Example: ["grid"] = bxgx::controls::GRID
 	std::unordered_map<std::string, uint32>			m_umapControlComponents;	// Example: ["headers"] = bxgx::controls::components::HEADERS
@@ -264,35 +115,6 @@ public:
 
 	container6d_1									m_umapCustomStyleGroups, m_umapControlStyleGroups, m_umapDefaultCustomStyleGroups, m_umapDefaultControlStyleGroups;
 	container6d_2									m_umapItemsStyles;
-
-	/*
-	std::unordered_map<uint32,
-		std::unordered_map<uint32,
-			std::unordered_map<uint32,
-				std::unordered_map<uint32,
-					std::unordered_map<uint32,
-						std::unordered_map<uint32, void*>
-					>
-				>
-			>
-		>
-	>												m_umapCustomStyleGroups,
-													m_umapControlStyleGroups,
-													m_umapDefaultCustomStyleGroups,
-													m_umapDefaultControlStyleGroups;
-
-	std::unordered_map<CGUIEventUtilizer*,
-		std::unordered_map<uint32,
-			std::unordered_map<uint32,
-				std::unordered_map<uint32,
-					std::unordered_map<uint32,
-						std::unordered_map<uint32, void*>
-					>
-				>
-			>
-		>
-	>												m_umapItemsStyles;
-	*/
 };
 
 template <typename T>
@@ -311,22 +133,6 @@ T*													CStyleManager::getNativeStyle(uint32 uiStyleComponent, uint32 uiS
 template <typename T>
 T*													CStyleManager::getNativeStyle(CGUIEventUtilizer *pGUIEventUtilizer, uint32 uiStyleComponent, uint32 uiStyleProperty)
 {
-	/*
-	if (m_umapItemsStyles[m_pRenderingEventUtilizer][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment].find(uiStyleProperty) != m_umapItemsStyles[m_pRenderingEventUtilizer][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment].end())
-	{
-		return (T*)m_umapItemsStyles[m_pRenderingEventUtilizer][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment][uiStyleProperty];
-	}
-	for (uint32 uiRenderingStyleGroup : m_vecRenderingStyleGroups)
-	{
-		if (m_umapCustomStyleGroups[uiRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment].find(uiStyleProperty) != m_umapCustomStyleGroups[uiRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment].end())
-		{
-			return (T*)m_umapCustomStyleGroups[uiRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment][uiStyleProperty];
-		}
-	}
-	return nullptr;
-	*/
-
-	///*
 	if (m_umapItemsStyles.find(pGUIEventUtilizer) != m_umapItemsStyles.end())
 	{
 		auto &umap1 = m_umapItemsStyles[pGUIEventUtilizer];
@@ -378,62 +184,6 @@ T*													CStyleManager::getNativeStyle(CGUIEventUtilizer *pGUIEventUtilize
 			}
 		}
 	}
-	//*/
-
-	/*
-	if (m_umapItemsStyles.count(pGUIEventUtilizer))
-	{
-		auto &umap1 = m_umapItemsStyles[pGUIEventUtilizer];
-		if (umap1.count(m_uiRenderingStyleStatus))
-		{
-			auto &umap2 = umap1[m_uiRenderingStyleStatus];
-			if (umap2.count(m_uiRenderingControlComponent))
-			{
-				auto &umap3 = umap2[m_uiRenderingControlComponent];
-				if (umap3.count(uiStyleComponent))
-				{
-					auto &umap4 = umap3[uiStyleComponent];
-					if (umap4.count(m_uiRenderingStyleFragment))
-					{
-						auto &umap5 = umap4[m_uiRenderingStyleFragment];
-						if (umap5.count(uiStyleProperty))
-						{
-							return (T*)umap5[uiStyleProperty];
-						}
-					}
-				}
-			}
-		}
-	}
-	for (std::string& strRenderingStyleGroup : m_vecRenderingStyleGroups)
-	{
-		if (m_umapCustomStyleGroups.count(strRenderingStyleGroup))
-		{
-			auto &umap1 = m_umapCustomStyleGroups[strRenderingStyleGroup];
-			if (umap1.count(m_uiRenderingStyleStatus))
-			{
-				auto &umap2 = umap1[m_uiRenderingStyleStatus];
-				if (umap2.count(m_uiRenderingControlComponent))
-				{
-					auto &umap3 = umap2[m_uiRenderingControlComponent];
-					if (umap3.count(uiStyleComponent))
-					{
-						auto &umap4 = umap3[uiStyleComponent];
-						if (umap4.count(m_uiRenderingStyleFragment))
-						{
-							auto &umap5 = umap4[m_uiRenderingStyleFragment];
-							if (umap5.count(uiStyleProperty))
-							{
-								return (T*)umap5[uiStyleProperty];
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	*/
-
 	return nullptr;
 }
 

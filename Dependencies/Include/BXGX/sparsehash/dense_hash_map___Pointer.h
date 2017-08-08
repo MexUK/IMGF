@@ -199,12 +199,7 @@ class dense_hash_map___Pointer {
                           const key_equal& eql = key_equal(),
                           const allocator_type& alloc = allocator_type())
       : rep(expected_max_items_in_table, hf, eql, SelectKey(), SetKey(),
-            alloc)
-  {
-	  //static CGUIEventUtilizerBlank * pBlank = new CGUIEventUtilizerBlank;
-	  //set_empty_key(nullptr);
-	  //set_deleted_key(nullptr);
-  }
+            alloc), m_bMapIsInitialized(false) {}
 
   template <class InputIterator>
   dense_hash_map___Pointer(InputIterator f, InputIterator l,
@@ -214,7 +209,7 @@ class dense_hash_map___Pointer {
                  const key_equal& eql = key_equal(),
                  const allocator_type& alloc = allocator_type())
       : rep(expected_max_items_in_table, hf, eql, SelectKey(), SetKey(),
-            alloc) {
+            alloc), m_bMapIsInitialized(false) {
     set_empty_key(empty_key_val);
     rep.insert(f, l);
   }
@@ -271,28 +266,32 @@ class dense_hash_map___Pointer {
   // Lookup routines
   iterator find(const key_type& key) { return rep.find(key); }
   const_iterator find(const key_type& key) const { return rep.find(key); }
-
+  
+  bool m_bMapIsInitialized;
+  
   data_type& operator[](const key_type& key) {  // This is our value-add!
     // If key is in the hashtable, returns find(key)->second,
     // otherwise returns insert(value_type(key, T()).first->second.
     // Note it does not create an empty T unless the find fails.
-
-	  if (!use_empty())
-	  {
-		  set_empty_key(nullptr);
-		  set_deleted_key(g_pBlankGUIEventUtilizer);
-	  }
-
+	
+	if (!m_bMapIsInitialized && !use_empty())
+	{
+		set_empty_key(nullptr);
+		set_deleted_key(g_pBlankGUIEventUtilizer);
+		m_bMapIsInitialized = true;
+	}
+	
     return rep.template find_or_insert<data_type>(key).second;
   }
 
   data_type& operator[](key_type&& key) {
-	  
-	  if (!use_empty())
-	  {
-		  set_empty_key(nullptr);
-		  set_deleted_key(g_pBlankGUIEventUtilizer);
-	  }
+
+	if (!m_bMapIsInitialized && !use_empty())
+	{
+		set_empty_key(nullptr);
+		set_deleted_key(g_pBlankGUIEventUtilizer);
+		m_bMapIsInitialized = true;
+	}
 
     return rep.template find_or_insert<data_type>(std::move(key)).second;
   }

@@ -64,9 +64,9 @@ public:
 	virtual bool							onDoubleKeyDown(uint16 uiKey) { return false; }
 	virtual bool							onDoubleKeyUp(uint16 uiKey) { return false; }
 
-	virtual bool							onRender(void) { return false; }
-	virtual bool							onRenderBefore(void) { return false; }
-	virtual bool							onRenderAfter(void) { return false; }
+	virtual void							onRender(void) {}
+	virtual void							onRenderBefore(void) {}
+	virtual void							onRenderAfter(void) {}
 
 	void									setStyleGroups(std::vector<std::string>& vecStyleGroups);
 	void									setStyleGroups(std::vector<uint32>& vecStyleGroups) { m_vecStyleGroups = vecStyleGroups; }
