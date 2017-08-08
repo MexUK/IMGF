@@ -22,12 +22,13 @@ public:
 	void									setTabControl(CTabBarControl *pTabControl) { m_pTabControl = pTabControl; }
 	CTabBarControl*							getTabControl(void) { return m_pTabControl; }
 
-	void									setStyleGroups(std::vector<std::string>& vecStyleGroups) { m_vecStyleGroups = vecStyleGroups; }
-	std::vector<std::string>&				getStyleGroups(void) { return m_vecStyleGroups; }
+	void									setStyleGroups(std::vector<std::string>& vecStyleGroups);
+	void									setStyleGroups(std::vector<uint32>& vecStyleGroups) { m_vecStyleGroups = vecStyleGroups; }
+	std::vector<uint32>&					getStyleGroups(void) { return m_vecStyleGroups; }
 
 private:
 	CTabBarControl*							m_pTabControl;
-	std::vector<std::string>				m_vecStyleGroups;
+	std::vector<uint32>						m_vecStyleGroups;
 };
 
 #endif

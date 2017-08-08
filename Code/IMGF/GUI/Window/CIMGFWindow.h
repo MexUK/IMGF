@@ -16,13 +16,9 @@ public:
 
 	void					init(void);
 
-	void					bindEvents(void);
-
 	void					addEditor(CEditor *pEditor);
 
-	bool					onRender(void);
-
-	void					onDropFiles(std::vector<std::string>& vecPaths);
+	//void					onDropFiles(std::vector<std::string>& vecPaths);
 
 public:
 	CMainLayer*				m_pMainLayer;
@@ -32,9 +28,6 @@ private:
 	void					initWindow(void);
 	void					initMainLayer(void);
 	void					initEditors(void);
-
-	void					renderTitleBar(void);
-	void					renderEtc(void);
 };
 
 #endif

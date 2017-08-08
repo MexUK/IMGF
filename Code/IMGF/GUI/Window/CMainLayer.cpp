@@ -105,6 +105,7 @@ void		CMainLayer::addControls(void)
 	w = 350;
 	h = 20;
 
+	/*
 	addText(x, y, w, h, "GTA Vice City (PC, 1.0)", strStyleGroup);
 	y += h2;
 	addText(x, y, w, h, "Launchable", strStyleGroup);
@@ -116,6 +117,18 @@ void		CMainLayer::addControls(void)
 	addText(x, y, w, h, "Valid", strStyleGroup);
 	y += h2;
 	addText(x, y, w, h, "C:/Program Files (x86)/Rockstar Games/Grand Theft Auto Vice City/DATA/maps/a.txd", strStyleGroup);
+	*/
+	addText(x, y, w, h, "No file is open", strStyleGroup);
+	y += h2;
+	addText(x, y, w, h, "-", strStyleGroup);
+	y += h2;
+	addText(x, y, w, h, "-", strStyleGroup);
+	y += h2;
+	addText(x, y, w, h, "-", strStyleGroup);
+	y += h2;
+	addText(x, y, w, h, "-", strStyleGroup);
+	y += h2;
+	addText(x, y, w, h, "-", strStyleGroup);
 
 	// top menu - buttons
 	x = 139;
@@ -164,12 +177,15 @@ void		CMainLayer::addControls(void)
 	h = 30;
 	strStyleGroup = "fileTabBar";
 
-	CTabBarControl *pIMGInstanceTabBar = addTabBar(CPoint2D(x, y), CSize2D(w, h), strStyleGroup);
+	CTabBarControl *pIMGInstanceTabBar = addTabBar(CPoint2D(x, y), CSize2D((getWindow()->getSize().m_x - 10) - 249, h), strStyleGroup);
+	pIMGInstanceTabBar->setDefaultText("No tabs to display");
 
+	/*
 	CTabBarControlEntry * pTab;
 	pTab = pIMGInstanceTabBar->addTab("gta3.img (1000)", true, "firstItemHorizontally");
 	pTab = pIMGInstanceTabBar->addTab("gta3 - backup.img (1200)");
 	pTab = pIMGInstanceTabBar->addTab("gta3.img (1000)");
+	*/
 
 	// 2nd left menu - actions
 	x = 139;

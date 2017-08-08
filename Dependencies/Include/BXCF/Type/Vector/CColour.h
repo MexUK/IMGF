@@ -23,6 +23,9 @@ public:
 	uint8					green(void) { return m_y; }
 	uint8					blue(void) { return m_z; }
 	uint8					alpha(void) { return m_w; }
+
+	void					lighten(float32 fMultiplier);
+	void					darken(float32 fMultiplier);
 };
 
 #endif

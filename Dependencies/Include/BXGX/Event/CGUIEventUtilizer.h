@@ -27,7 +27,7 @@ public:
 	void									setRenderingStyleFragment(uint32 uiStyleFragment);
 	void									resetRenderingStyleFragment(void);
 	void									setRenderingStyleGroups(std::string strStyleGroups);
-	void									setRenderingStyleGroups(std::vector<std::string> vecStyleGroups);
+	void									setRenderingStyleGroups(std::vector<uint32> vecStyleGroups);
 	void									resetRenderingStyleGroups(void);
 
 	// point testing
@@ -68,9 +68,10 @@ public:
 	virtual bool							onRenderBefore(void) { return false; }
 	virtual bool							onRenderAfter(void) { return false; }
 
-	void									setStyleGroups(std::vector<std::string>& vecStyleGroups) { m_vecStyleGroups = vecStyleGroups; }
-	std::vector<std::string>&				getStyleGroups(void) { return m_vecStyleGroups; }
+	void									setStyleGroups(std::vector<std::string>& vecStyleGroups);
+	void									setStyleGroups(std::vector<uint32>& vecStyleGroups) { m_vecStyleGroups = vecStyleGroups; }
+	std::vector<uint32>&					getStyleGroups(void) { return m_vecStyleGroups; }
 
 private:
-	std::vector<std::string>				m_vecStyleGroups;
+	std::vector<uint32>						m_vecStyleGroups;
 };

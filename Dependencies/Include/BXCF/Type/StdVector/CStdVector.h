@@ -12,6 +12,10 @@ class bxcf::CStdVector
 {
 public:
 	static std::vector<std::string>					combineVectors(std::vector<std::string>& vecVector1, std::vector<std::string>& vecVector2);
+
+	template <class T>
+	static std::vector<T>							combineVectors(std::vector<T>& vecVector1, std::vector<T>& vecVector2);
+
 	static void										addToVector(std::vector<std::string>& vecVector1, std::vector<std::string>& vecVector2);
 	static std::deque<std::string>					convertVectorToDeque(std::vector<std::string>& vecVector);
 	static std::unordered_map<std::string, bool>	convertVectorToUnorderedMap(std::vector<std::string>& vecVector);
@@ -23,5 +27,22 @@ public:
 	static bool										isIn(std::vector<std::string>& vecVector1, std::string& strLookFor);
 	static void										sortAZCaseInsensitive(std::vector<std::string>& vecVector);
 };
+
+template <class T>
+static std::vector<T>								bxcf::CStdVector::combineVectors(std::vector<T>& vecVector1, std::vector<T>& vecVector2)
+{
+	uint32 i = 0;
+	vector<T> vecValues;
+	vecValues.resize(vecVector1.size() + vecVector2.size());
+	for (T& value : vecVector1)
+	{
+		vecValues[i++] = value;
+	}
+	for (T& value : vecVector2)
+	{
+		vecValues[i++] = value;
+	}
+	return vecValues;
+}
 
 #endif

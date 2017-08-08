@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Type/Types.h"
+#include "Styles/CStyleManager.h"
 #include <string>
 #include <unordered_map>
 
@@ -10,7 +11,10 @@ public:
 	void			unserialize
 	(
 		std::string strFilePath,
-		std::unordered_map<std::string,
+		container6d_1 &umapCustomStyleGroups,
+		container6d_1 &umapControlStyleGroups
+		/*
+		std::unordered_map<uint32,
 			std::unordered_map<uint32,
 				std::unordered_map<uint32,
 					std::unordered_map<uint32,
@@ -21,7 +25,7 @@ public:
 				>
 			>
 		> &umapCustomStyleGroups,
-		std::unordered_map<std::string,
+		std::unordered_map<uint32,
 			std::unordered_map<uint32,
 				std::unordered_map<uint32,
 					std::unordered_map<uint32,
@@ -32,6 +36,7 @@ public:
 				>
 			>
 		> &umapControlStyleGroups
+		*/
 	);
 	void			serialize(void);
 };

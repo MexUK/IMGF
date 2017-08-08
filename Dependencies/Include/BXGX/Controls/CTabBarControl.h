@@ -38,9 +38,13 @@ public:
 	void									setActiveTabHeightDifference(uint32 uiActiveTabHeightDifference) { m_uiActiveTabHeightDifference = uiActiveTabHeightDifference; }
 	uint32									getActiveTabHeightDifference(void) { return m_uiActiveTabHeightDifference; }
 
+	void									setDefaultText(std::string strDefaultText) { m_strDefaultText = strDefaultText; }
+	std::string								getDefaultText(void) { return m_strDefaultText; }
+
 private:
 	CTabBarControlEntry*									m_pActiveTab;
 	uint32													m_uiActiveTabHeightDifference;
+	std::string												m_strDefaultText;
 	std::unordered_map<CTabBarControlEntry*, CGUILayer*>	m_umapTabLayers;
 };
 
