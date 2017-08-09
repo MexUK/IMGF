@@ -9,7 +9,15 @@
 class CDropControlEntry : public CGUIControlComponent_Text
 {
 public:
+	CDropControlEntry(void);
+
 	void									unload(void) {}
+
+	void									setIsSelectable(bool bIsSelectable) { m_bIsSelectable = bIsSelectable; }
+	bool									isSelectable(void) { return m_bIsSelectable; }
+
+private:
+	bool									m_bIsSelectable;
 };
 
 #endif

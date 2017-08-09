@@ -26,6 +26,7 @@ class CDropTarget;
 class CGUIStyles;
 class CWindow;
 class bxcf::CInputEventCallbacks;
+class CGUIControl;
 
 class CWindow : /*public bxcf::EventTriggerable, */public bxcf::EventBindable<CWindow>, public bxcf::CEventType, public CGUIStyleableEntity, public bxcf::CVectorPool<CGUILayer*>, public CGUIEventUtilizer
 {
@@ -50,6 +51,10 @@ public:
 
 	bool									isPointInItem(bxcf::CPoint2D& vecPoint) { return true; }
 	bool									doesItemHaveFocus(void) { return true; }
+
+	bool									isPointInControl(bxcf::CPoint2D& vecPoint);
+	CGUIControl*							getControlFromPoint(bxcf::CPoint2D& vecPoint);
+	bool									doesDropHaveListOpen(void);
 
 	// old - temp
 	bxcf::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
@@ -130,6 +135,7 @@ public:
 
 	bool									doesActiveItemExist(void) { return m_pActiveItem != nullptr; }
 	void									setActiveItem(CGUIItem *pItem);
+	CGUIItem*								getActiveItem(void) { return m_pActiveItem; }
 	void									clearActiveItem(void);
 
 	void									unmarkRadios(CRadioControl *pRadio);
@@ -143,9 +149,6 @@ public:
 	void									setMarkedToRedraw(bool bMarkedToRedraw) { m_bMarkedToRedraw = bMarkedToRedraw; }
 	void									markToRedraw(void) { m_bMarkedToRedraw = true; }
 	bool									isMarkedToRedraw(void) { return m_bMarkedToRedraw; }
-	
-	void									setFocusedControl(CGUIControl *pWindowControl) { m_pFocusedControl = pWindowControl; }
-	CGUIControl*							getFocusedControl(void) { return m_pFocusedControl; }
 
 	void									setPosition(bxcf::CPoint2D& vecPosition);
 	bxcf::CPoint2D&							getPosition(void) { return m_vecPosition; }
@@ -178,13 +181,12 @@ public:
 	bxcf::CSize2D&							getPreviousSize(void) { return m_vecPreviousSize; }
 
 	void									setEventTriggerEventTypeId(bxcf::eEventType eEventTriggerEventTypeId) { m_eEventTriggerEventTypeId = eEventTriggerEventTypeId; }
-	bxcf::eEventType							getEventTriggerEventTypeId(void) { return m_eEventTriggerEventTypeId; }
+	bxcf::eEventType						getEventTriggerEventTypeId(void) { return m_eEventTriggerEventTypeId; }
 
 private:
 	const char *							m_pClassName;
 	HWND									m_hwndWindow;
 	CWindow*								m_pParentWindow;
-	CGUIControl*							m_pFocusedControl;
 	bxcf::CPoint2D							m_vecPosition;
 	bxcf::CSize2D							m_vecSize;
 	uint32									m_uiWindowResizeEdges;
@@ -204,7 +206,7 @@ private:
 	bxcf::CPoint2D							m_vecPreviousPosition;
 	bxcf::CSize2D							m_vecPreviousSize;
 	CGUIItem*								m_pActiveItem;
-	bxcf::eEventType							m_eEventTriggerEventTypeId;
+	bxcf::eEventType						m_eEventTriggerEventTypeId;
 	// todo CRectangleItemPlacement<CWindow>	m_placeableWindow;		// gui windows
 	CRectangleItemPlacement<CGUIItem>		m_placeableItem;		// gui items - e.g. shapes and controls
 	std::unordered_map<uint32, bool>		m_umapEventUsages;

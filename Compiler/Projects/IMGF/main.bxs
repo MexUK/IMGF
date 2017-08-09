@@ -76,6 +76,15 @@ text 0 0 0
 .filter:arrow
 fill 0 0 0
 
+.filter:list
+fill 255 255 255
+
+.filter:listRow .main_text .main_spacing
+text 0 0 0
+
+.filter:caret
+line 0 0 0
+
 .fileTabBarBlank
 text 255 255 255
 

@@ -25,11 +25,11 @@ public:
 
 	bool									onKeyDown(uint8 uiCharCode);
 	bool									onCharDown(uint8 uiCharCode);
-	bool									onLeftMouseDown(bxcf::CPoint2D& vecCursorPoint);
+	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPoint);
 	void									onRender(void);
 	
 	bxcf::CPoint2D							getCaretRenderStartPosition(void);	// in pixels
-	bxcf::CPoint2D							getCaretRenderEndPosition(void);		// in pixels
+	bxcf::CPoint2D							getCaretRenderEndPosition(void);	// in pixels
 
 	bool									isCaretAtFarLeft(void);
 	bool									isCaretAtFarRight(void);
@@ -56,8 +56,8 @@ public:
 	void									moveCaret(bxcf::CVector2i32& vecCharacterPositionIncrease);						// parameter is character position offset
 	void									moveCaretX(int32 iCaretMoveX) { moveCaret(bxcf::CVector2i32(iCaretMoveX, 0)); }	// parameter is character x position offset
 	void									moveCaretY(int32 iCaretMoveY) { moveCaret(bxcf::CVector2i32(0, iCaretMoveY)); }	// parameter is character x position offset
-	void									moveCaretLeft(uint32 uiCharacterPositionIncrease);							// parameter is character x position offset
-	void									moveCaretRight(uint32 uiCharacterPositionIncrease);							// parameter is character x position offset
+	void									moveCaretLeft(uint32 uiCharacterPositionIncrease);								// parameter is character x position offset
+	void									moveCaretRight(uint32 uiCharacterPositionIncrease);								// parameter is character x position offset
 
 	bool									isTextSelected(void);
 	void									selectAllText(void);
@@ -115,7 +115,7 @@ private:
 	void									removeCharacter(bxcf::CVector2ui32& vecCharacterPosition);	// parameter is character position
 
 	void									removeSelectedText(void);
-	void									removeTextRange(bxcf::CVector2ui32& vecRangeStart, bxcf::CVector2ui32& vecRangeEnd); // range inclusive
+	void									removeTextRange(bxcf::CVector2ui32& vecRangeStart, bxcf::CVector2ui32& vecRangeEnd);	// range inclusive
 	void									removeLineTextCharacters(bxcf::CVector2ui32& vecRangeStart, uint32 uiLineCharacterEnd);
 
 	uint32									getLineMaxCharacterIndex(uint32 uiLineIndex);

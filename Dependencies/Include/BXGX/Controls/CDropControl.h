@@ -5,11 +5,12 @@
 #include "Control/CGUIControl.h"
 #include "Pool/CVectorPool.h"
 #include "Controls/Entries/CDropControlEntry.h"
+#include "Controls/Components/CGUIControlComponent_Text.h"
 #include "Type/Vector/CPoint2D.h"
 #include "Type/Vector/CSize2D.h"
 #include <string>
 
-class CDropControl : public CGUIControl, public bxcf::CVectorPool<CDropControlEntry*>
+class CDropControl : public CGUIControl, public bxcf::CVectorPool<CDropControlEntry*>, public CGUIControlComponent_Text
 {
 public:
 	CDropControl(void);
@@ -22,7 +23,7 @@ public:
 	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPosition);
 	void									onRender(void);
 
-	CDropControlEntry*						addItem(std::string strItemText, bool bIsActiveItem = false);
+	CDropControlEntry*						addItem(std::string strItemText, bool bIsActiveItem = false, bool bIsSelectable = true);
 	void									removeItem(CDropControlEntry *pDropEntry);
 	
 	bxcf::CSize2D							getBoundingRectangleSize(void);

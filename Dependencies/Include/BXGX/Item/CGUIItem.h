@@ -33,11 +33,14 @@ public:
 	void									setActiveItem(void);
 
 	CWindow*								getWindow(void);
+	void									markToRedraw(void);
 
 	bool									isPointInBoundingRectangle(bxcf::CPoint2D& vecPoint, uint32 uiOuterSpacing);
 
 	void									setLayer(CGUILayer* pLayer) { m_pLayer = pLayer; }
 	CGUILayer*								getLayer(void) { return m_pLayer; }
+
+	bool									doesItemHaveFocus(void);
 
 private:
 	CGUILayer*								m_pLayer;

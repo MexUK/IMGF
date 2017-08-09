@@ -41,14 +41,11 @@ public:
 	uint32									getItemSubType(void) { return m_eControlType; }
 
 	virtual bool							isPointInItem(bxcf::CPoint2D& vecPoint);
-	bool									doesItemHaveFocus(void) { return doesControlHaveFocus(); }
 
-	bxcf::CPoint2D							getBoundingRectanglePosition(void) { return m_vecPosition; }
-	bxcf::CSize2D							getBoundingRectangleSize(void) { return m_vecSize; }
+	virtual bxcf::CPoint2D					getBoundingRectanglePosition(void) { return m_vecPosition; }
+	virtual bxcf::CSize2D					getBoundingRectangleSize(void) { return m_vecSize; }
 	void									moveItem(bxcf::CVector2i32& vecPositionChange) { m_vecPosition += vecPositionChange; }
 	void									resizeItemViaOffsets(bxcf::CVector2i32& vecItemSizeChange) { m_vecSize += bxcf::CSize2D(vecItemSizeChange.m_x, vecItemSizeChange.m_y); }
-
-	bool									doesControlHaveFocus(void);
 
 	void									addScroll(CScrollControl *pScroll);
 

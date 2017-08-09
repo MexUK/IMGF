@@ -151,16 +151,16 @@ void		CMainLayer::addControls(void)
 	w = 140;
 	h = 30;
 
-	m_pEntryTypeFilter = addDrop(CPoint2D(x, y), CSize2D(w, h), strStyleGroup);
-	m_pEntryTypeFilter->addItem("Entry Type", true);
+	m_pEntryTypeFilter = addDrop(CPoint2D(x, y), CSize2D(w, h), "Entry Type", strStyleGroup);
+	m_pEntryTypeFilter->addItem("No file is open", false, false);
 
 	// filter bar - entry version
 	x += w + w2;
 	w = 240;
 	h = 30;
 
-	m_pEntryVersionFilter = addDrop(CPoint2D(x, y), CSize2D(w, h), strStyleGroup);
-	m_pEntryVersionFilter->addItem("Entry Version", true);
+	m_pEntryVersionFilter = addDrop(CPoint2D(x, y), CSize2D(w, h), "Entry Version", strStyleGroup);
+	m_pEntryVersionFilter->addItem("No file is open", false, false);
 
 	// files tab bar
 	x = 139;

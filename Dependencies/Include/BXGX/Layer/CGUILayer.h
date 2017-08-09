@@ -58,6 +58,7 @@ public:
 	bool					isPointInItem(bxcf::CPoint2D& vecPoint);
 	bool					doesItemHaveFocus(void) { return true; }
 
+	bool					onLeftMouseUp(bxcf::CPoint2D& vecCursorPoint);
 	bool					onMouseMove(bxcf::CPoint2D& vecCursorPoint);
 
 	void					setWindow(CWindow *pWindow) { m_pWindow = pWindow; }
@@ -73,7 +74,7 @@ public:
 
 	CButtonControl*			addButton(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strButtonText, std::string strStyleGroups = "");
 	CCheckControl*			addCheck(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strCheckText, std::string strStyleGroups = "");
-	CDropControl*			addDrop(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "");
+	CDropControl*			addDrop(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strDefaultText, std::string strStyleGroups = "");
 	CEditControl*			addEdit(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strEditText = "", bool bMultiLine = false, std::string strStyleGroups = "");
 	CImageControl*			addImage(bxcf::CPoint2D& vecPosition, std::string& strImagePath, bxcf::CSize2D vecSize = bxcf::CSize2D(0, 0), std::string strStyleGroups = "");
 	// todo CImageControl*			addImageMem(bxcf::CPoint2D& vecPosition, std::string& strImageData, bxcf::CSize2D vecSize = bxcf::CSize2D(0, 0), std::string strStyleGroups = "");
@@ -87,7 +88,7 @@ public:
 
 	CButtonControl*			addButton(int32 x, int32 y, int32 w, int32 h, std::string strButtonText, std::string strStyleGroups = "");
 	CCheckControl*			addCheck(int32 x, int32 y, int32 w, int32 h, std::string strCheckText, std::string strStyleGroups = "");
-	CDropControl*			addDrop(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
+	CDropControl*			addDrop(int32 x, int32 y, int32 w, int32 h, std::string strDefaultText, std::string strStyleGroups = "");
 	CEditControl*			addEdit(int32 x, int32 y, int32 w, int32 h, std::string strEditText = "", bool bMultiLine = false, std::string strStyleGroups = "");
 	CImageControl*			addImage(int32 x, int32 y, std::string& strImagePath, int32 w = 0, int32 h = 0, std::string strStyleGroups = "");
 	CGridControl*			addList(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "");
@@ -132,7 +133,12 @@ public:
 	CGUIShape*					getShapeById(uint32 uiShapeId);
 
 	void						setButtonCursorHover(CButtonControl *pButton) { m_pButtonCursorHover = pButton; }
-	CButtonControl *			getButtonCursorHover(void) { return m_pButtonCursorHover; }
+	CButtonControl*				getButtonCursorHover(void) { return m_pButtonCursorHover; }
+	void						clearButtonCursorHover(void) { m_pButtonCursorHover = nullptr; }
+
+	void						setDropWithListOpen(CDropControl *pDrop) { m_pDropWithListOpen = pDrop; }
+	CDropControl*				getDropWithListOpen(void) { return m_pDropWithListOpen; }
+	void						clearDropWithListOpen(void) { m_pDropWithListOpen = nullptr; }
 
 private:
 	void						_addControl(CGUIControl *pWindowControl, bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string& strStyleGroups);
@@ -150,6 +156,7 @@ private:
 	bxcf::CVectorPool<CGUIShape*>*		m_pShapes;
 	bxcf::CVectorPool<CGUIControl*>*	m_pControls;
 	CButtonControl*						m_pButtonCursorHover;
+	CDropControl*						m_pDropWithListOpen;
 };
 
 #endif

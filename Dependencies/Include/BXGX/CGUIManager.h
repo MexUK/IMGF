@@ -131,7 +131,8 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCur
 		bIsKeyEvent = isKeyEvent(uiEvent),
 		bIsRenderEvent = isRenderEvent(uiEvent),
 		bIsWindowEvent = isWindowEvent(uiEvent),
-		bTriggerEventForControl;
+		bTriggerEventForControl,
+		bTriggerEvents = true;
 	CStyleManager
 		*pStyleManager = CStyleManager::get();
 
@@ -140,10 +141,11 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCur
 		if (bIsMouseEvent)
 		{
 			bTriggerEventForControl = pGUIEventUtilizer->isPointInItem(vecCursorPoint);
-			if (uiEvent == MOUSE_LEFT_DOWN && bTriggerEventForControl && pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL)
+			if (uiEvent == MOUSE_LEFT_UP && bTriggerEventForControl && pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL)
 			{
-				((CGUIControl*)pGUIEventUtilizer)->setActiveItem();
-				return;
+				CGUIControl *pControl = (CGUIControl*)pGUIEventUtilizer;
+				pControl->setActiveItem();
+				pControl->markToRedraw();
 			}
 		}
 		else if (bIsKeyEvent)
@@ -154,7 +156,8 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCur
 		{
 			bTriggerEventForControl = true;
 		}
-		if (bTriggerEventForControl)
+
+		if (bTriggerEvents && bTriggerEventForControl)
 		{
 			pStyleManager->m_pRenderingEventUtilizer = pGUIEventUtilizer;
 			pStyleManager->m_vecRenderingStyleGroups = pGUIEventUtilizer->getStyleGroups();
@@ -170,7 +173,7 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCur
 			}
 			else if (triggerItemEvent(uiEvent, pGUIEventUtilizer, args...))
 			{
-				return;
+				bTriggerEvents = false;
 			}
 		}
 	}

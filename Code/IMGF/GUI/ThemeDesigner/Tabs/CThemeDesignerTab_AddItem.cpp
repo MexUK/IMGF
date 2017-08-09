@@ -485,12 +485,12 @@ eGUIControl								CThemeDesignerTab_AddItem::getControlIdFromIndex(uint32 uiCon
 	case 1:		return GUI_CONTROL_CHECK;
 	case 2:		return GUI_CONTROL_DROP;
 	case 3:		return GUI_CONTROL_EDIT;
-	case 4:		return GUI_CONTROL_LIST;
+	case 4:		return GUI_CONTROL_GRID;
 	case 5:		return GUI_CONTROL_MENU;
 	case 6:		return GUI_CONTROL_PROGRESS;
 	case 7:		return GUI_CONTROL_RADIO;
 	case 8:		return GUI_CONTROL_SCROLL;
-	case 9:		return GUI_CONTROL_TAB;
+	case 9:		return GUI_CONTROL_TAB_BAR;
 	case 10:	return GUI_CONTROL_TEXT;
 	}
 	return GUI_CONTROL_UNKNOWN;
@@ -504,12 +504,12 @@ CSize2D							CThemeDesignerTab_AddItem::getControlDefaultSize(eGUIControl eCont
 	case GUI_CONTROL_CHECK:		return CSize2D(20, 20);
 	case GUI_CONTROL_DROP:		return CSize2D(80, 25);
 	case GUI_CONTROL_EDIT:		return CSize2D(100, 20);
-	case GUI_CONTROL_LIST:		return CSize2D(250, 250);
+	case GUI_CONTROL_GRID:		return CSize2D(250, 250);
 	case GUI_CONTROL_MENU:		return CSize2D(250, 20);
 	case GUI_CONTROL_PROGRESS:	return CSize2D(100, 25);
 	case GUI_CONTROL_RADIO:		return CSize2D(20, 20);
 	case GUI_CONTROL_SCROLL:	return CSize2D(250, 15);
-	case GUI_CONTROL_TAB:		return CSize2D(250, 25);
+	case GUI_CONTROL_TAB_BAR:		return CSize2D(250, 25);
 	case GUI_CONTROL_TEXT:		return CSize2D(250, 50);
 	}
 	return CSize2D(50, 50);
