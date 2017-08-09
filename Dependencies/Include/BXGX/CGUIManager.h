@@ -140,6 +140,11 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCur
 		if (bIsMouseEvent)
 		{
 			bTriggerEventForControl = pGUIEventUtilizer->isPointInItem(vecCursorPoint);
+			if (uiEvent == MOUSE_LEFT_DOWN && bTriggerEventForControl && pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL)
+			{
+				((CGUIControl*)pGUIEventUtilizer)->setActiveItem();
+				return;
+			}
 		}
 		else if (bIsKeyEvent)
 		{

@@ -242,7 +242,12 @@ class dense_hash_map___Int {
     rep.set_resizing_parameters(shrink, grow);
   }
 
-  void resize(size_type hint) { rep.resize(hint); }
+  void resize(size_type hint)
+  {
+	  if (!m_bMapIsInitialized) initHashMap();
+
+	  rep.resize(hint);
+  }
   void rehash(size_type hint) { resize(hint); }  // the tr1 name
 
   // Lookup routines
@@ -250,35 +255,37 @@ class dense_hash_map___Int {
   const_iterator find(const key_type& key) const { return rep.find(key); }
 
   bool m_bMapIsInitialized;
+
+  void initHashMap(void)
+  {
+	  set_empty_key(-1);
+	  set_deleted_key(-2);
+	  m_bMapIsInitialized = true;
+  }
   
   data_type& operator[](const key_type& key) {  // This is our value-add!
     // If key is in the hashtable, returns find(key)->second,
     // otherwise returns insert(value_type(key, T()).first->second.
     // Note it does not create an empty T unless the find fails.
 	
-	if (!m_bMapIsInitialized && !use_empty())
-	{
-		set_empty_key(-1);
-		set_deleted_key(-2);
-		m_bMapIsInitialized = true;
-	}
+	if (!m_bMapIsInitialized) initHashMap();
 
     return rep.template find_or_insert<data_type>(key).second;
   }
 
   data_type& operator[](key_type&& key) {
-
-	if (!m_bMapIsInitialized && !use_empty())
-	{
-		set_empty_key(-1);
-		set_deleted_key(-2);
-		m_bMapIsInitialized = true;
-	}
+	
+	if (!m_bMapIsInitialized) initHashMap();
 
     return rep.template find_or_insert<data_type>(std::move(key)).second;
   }
 
-  size_type count(const key_type& key) const { return rep.count(key); }
+  size_type count(const key_type& key)
+  {
+	  if (!m_bMapIsInitialized) initHashMap();
+
+	  return rep.count(key);
+  }
 
   std::pair<iterator, iterator> equal_range(const key_type& key) {
     return rep.equal_range(key);

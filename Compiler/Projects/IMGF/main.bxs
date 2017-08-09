@@ -73,6 +73,9 @@ fill 233 238 5
 fill 238 210 5
 text 0 0 0
 
+.filter:arrow
+fill 0 0 0
+
 .fileTabBarBlank
 text 255 255 255
 

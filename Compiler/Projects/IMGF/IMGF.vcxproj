@@ -104,6 +104,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\CIMGF.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDragDrop.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDragListCtrl.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDropSource.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDropTarget.cpp" />
@@ -124,13 +125,13 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editors\Tab\CIMGEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\CEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tab\CEditorTab.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\CMainLayer.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Popups\CPopupGUIManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\CThemeDesigner.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tab\CThemeDesignerTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\CIMGFWindow.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\CMainLayer.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Language\CLanguageManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Main.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Program\CInstallationMeta.cpp" />
@@ -181,6 +182,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.h" />
     <ClInclude Include="..\..\..\Code\IMGF\CIMGF.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDragDrop.h" />
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDragListCtrl.h" />
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDropSource.h" />
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDropTarget.h" />
@@ -204,6 +206,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\Tab\CIMGEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\CEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tab\CEditorTab.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\CMainLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\CPopupGUIManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\WindowControlIds.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\CThemeDesigner.h" />
@@ -211,7 +214,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tab\CThemeDesignerTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\CIMGFWindow.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\CMainLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Language\CLanguage.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Language\CLanguageManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Program\buildnumber.h" />
@@ -428,9 +430,13 @@
     <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\vec3.hpp" />
     <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\vec4.hpp" />
     <ClInclude Include="..\..\..\Dependencies\ThirdParty\GLM\vector_relational.hpp" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\Code\IMGF\Resources\Program Icon.ico" />
+    <ResourceCompile Include="IMGF.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\Resources\AppIcon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

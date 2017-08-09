@@ -18,8 +18,6 @@ public:
 
 	void					addEditor(CEditor *pEditor);
 
-	//void					onDropFiles(std::vector<std::string>& vecPaths);
-
 public:
 	CMainLayer*				m_pMainLayer;
 	CIMGEditor*				m_pIMGEditor;

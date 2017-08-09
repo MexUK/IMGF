@@ -13,12 +13,30 @@
 
 class CGUIStyles;
 
-class CStyleManager_Hash1
+class CStyleManager_MapUtility_Uint32
 {
 public:
-	inline size_t operator()(const uint32 & uiValue) const
+	inline size_t operator()(const uint32 &uiValue) const
 	{
 		return uiValue;
+	}
+	inline constexpr bool operator()(const uint32 &lhs, const uint32 &rhs) const
+	{
+		return lhs == rhs;
+	}
+};
+
+class CStyleManager_MapUtility_CGUIEventUtilizerPointer
+{
+public:
+	inline size_t operator()(const CGUIEventUtilizer *val) const // https://stackoverflow.com/questions/20953390/what-is-the-fastest-hash-function-for-pointers
+	{
+        static const size_t shift = (size_t)log2(1 + sizeof(CGUIEventUtilizer));
+        return (size_t)(val) >> shift;
+    }
+	inline constexpr bool operator()(const CGUIEventUtilizer *lhs, const CGUIEventUtilizer *rhs) const
+	{
+		return ((uint32)lhs) == (uint32)rhs;
 	}
 };
 
@@ -27,24 +45,24 @@ typedef google::dense_hash_map___Int<uint32,
 				google::dense_hash_map___Int<uint32,
 					google::dense_hash_map___Int<uint32,
 						google::dense_hash_map___Int<uint32,
-							google::dense_hash_map___Int<uint32, void*, CStyleManager_Hash1>,
-						CStyleManager_Hash1>,
-					CStyleManager_Hash1>,
-				CStyleManager_Hash1>,
-			CStyleManager_Hash1>,
-		CStyleManager_Hash1> container6d_1;
+							google::dense_hash_map___Int<uint32, void*, CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
+						CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
+					CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
+				CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
+			CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
+		CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32> container6d_1;
 
 typedef google::dense_hash_map___Pointer<CGUIEventUtilizer*,
 			google::dense_hash_map___Int<uint32,
 				google::dense_hash_map___Int<uint32,
 					google::dense_hash_map___Int<uint32,
 						google::dense_hash_map___Int<uint32,
-							google::dense_hash_map___Int<uint32, void*, CStyleManager_Hash1>,
-						CStyleManager_Hash1>,
-					CStyleManager_Hash1>,
-				CStyleManager_Hash1>,
-			CStyleManager_Hash1>
-		> container6d_2;
+							google::dense_hash_map___Int<uint32, void*, CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
+						CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
+					CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
+				CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
+			CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
+		CStyleManager_MapUtility_CGUIEventUtilizerPointer, CStyleManager_MapUtility_CGUIEventUtilizerPointer> container6d_2;
 
 class CStyleManager : public bxcf::CSingleton<CStyleManager>
 {
@@ -76,7 +94,7 @@ public:
 	T												getStyleFast(std::string& strRenderingStyleGroup, uint32 uiStyleComponent, uint32 uiStyleProperty);
 
 	template <typename T>
-	T*												getNativeStyle(uint32 uiStyleComponent, uint32 uiStyleProperty);
+	inline T*										getNativeStyle(uint32 uiStyleComponent, uint32 uiStyleProperty);
 	template <typename T>
 	T*												getNativeStyle(CGUIEventUtilizer *pGUIEventUtilizer, uint32 uiStyleComponent, uint32 uiStyleProperty);
 
@@ -133,22 +151,22 @@ T*													CStyleManager::getNativeStyle(uint32 uiStyleComponent, uint32 uiS
 template <typename T>
 T*													CStyleManager::getNativeStyle(CGUIEventUtilizer *pGUIEventUtilizer, uint32 uiStyleComponent, uint32 uiStyleProperty)
 {
-	if (m_umapItemsStyles.find(pGUIEventUtilizer) != m_umapItemsStyles.end())
+	if (m_umapItemsStyles.count(pGUIEventUtilizer))
 	{
 		auto &umap1 = m_umapItemsStyles[pGUIEventUtilizer];
-		if (umap1.find(m_uiRenderingStyleStatus) != umap1.end())
+		if (umap1.count(m_uiRenderingStyleStatus))
 		{
 			auto &umap2 = umap1[m_uiRenderingStyleStatus];
-			if (umap2.find(m_uiRenderingControlComponent) != umap2.end())
+			if (umap2.count(m_uiRenderingControlComponent))
 			{
 				auto &umap3 = umap2[m_uiRenderingControlComponent];
-				if (umap3.find(uiStyleComponent) != umap3.end())
+				if (umap3.count(uiStyleComponent))
 				{
 					auto &umap4 = umap3[uiStyleComponent];
-					if (umap4.find(m_uiRenderingStyleFragment) != umap4.end())
+					if (umap4.count(m_uiRenderingStyleFragment))
 					{
 						auto &umap5 = umap4[m_uiRenderingStyleFragment];
-						if (umap5.find(uiStyleProperty) != umap5.end())
+						if (umap5.count(uiStyleProperty))
 						{
 							return (T*)umap5[uiStyleProperty];
 						}
@@ -159,22 +177,22 @@ T*													CStyleManager::getNativeStyle(CGUIEventUtilizer *pGUIEventUtilize
 	}
 	for (uint32 uiRenderingStyleGroup : m_vecRenderingStyleGroups)
 	{
-		if (m_umapCustomStyleGroups.find(uiRenderingStyleGroup) != m_umapCustomStyleGroups.end())
+		if (m_umapCustomStyleGroups.count(uiRenderingStyleGroup))
 		{
 			auto &umap1 = m_umapCustomStyleGroups[uiRenderingStyleGroup];
-			if (umap1.find(m_uiRenderingStyleStatus) != umap1.end())
+			if (umap1.count(m_uiRenderingStyleStatus))
 			{
 				auto &umap2 = umap1[m_uiRenderingStyleStatus];
-				if (umap2.find(m_uiRenderingControlComponent) != umap2.end())
+				if (umap2.count(m_uiRenderingControlComponent))
 				{
 					auto &umap3 = umap2[m_uiRenderingControlComponent];
-					if (umap3.find(uiStyleComponent) != umap3.end())
+					if (umap3.count(uiStyleComponent))
 					{
 						auto &umap4 = umap3[uiStyleComponent];
-						if (umap4.find(m_uiRenderingStyleFragment) != umap4.end())
+						if (umap4.count(m_uiRenderingStyleFragment))
 						{
 							auto &umap5 = umap4[m_uiRenderingStyleFragment];
-							if (umap5.find(uiStyleProperty) != umap5.end())
+							if (umap5.count(uiStyleProperty))
 							{
 								return (T*)umap5[uiStyleProperty];
 							}

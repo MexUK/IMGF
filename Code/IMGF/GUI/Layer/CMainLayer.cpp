@@ -24,23 +24,15 @@ void		CMainLayer::init(void)
 // controls
 void		CMainLayer::addControls(void)
 {
-	int32 i, i2, x, y, w, h, w2, w3, h2, h3;
+	int32
+		i, i2, x, y, w, h, w2, w3, h2, h3;
 	uint32
 		uiTitleBarHeight = getWindow()->getTitleBarHeight();
-	CColour
-		borderColour(135, 135, 135),
-		borderColour2(0, 0, 0);
 	string
 		strStyleGroup;
 
 	// all buttons
-	CButtonControl *pButton, *pOpenButton;
-	CGUIStyles *pButtonStyles = bxgx::CGUIManager::createStyles();
-	pButtonStyles->setStyle("fill-colour", CColour(255, 255, 255));
-	pButtonStyles->setStyle("border-colour", borderColour);
-	pButtonStyles->setStyle("text-align-x", string("left"));
-	pButtonStyles->setStyle("text-align-y", string("center"));
-	pButtonStyles->setStyle("inner-spacing-left", (int32)8);
+	CButtonControl *pButton;
 
 	// top left menu
 	x = 0;

@@ -25,6 +25,7 @@ public:
 
 	bool									onKeyDown(uint8 uiCharCode);
 	bool									onCharDown(uint8 uiCharCode);
+	bool									onLeftMouseDown(bxcf::CPoint2D& vecCursorPoint);
 	void									onRender(void);
 	
 	bxcf::CPoint2D							getCaretRenderStartPosition(void);	// in pixels

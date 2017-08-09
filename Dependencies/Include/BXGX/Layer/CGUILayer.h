@@ -5,6 +5,7 @@
 #include "Pool/CVectorPool.h"
 #include "Shape/CGUIShape.h"
 #include "Control/CGUIControl.h"
+#include "Control/eGUIControl.h"
 #include "Type/Vector/CPoint2D.h"
 #include "Type/Vector/CSize2D.h"
 #include "Event/eEvent.h"
@@ -65,7 +66,7 @@ public:
 	void					setEnabled(bool bEnabled);
 	bool					isEnabled(void) { return m_bEnabled; }
 
-	CGUIItem*				getItemByPoint(bxcf::CPoint2D& vecPoint);
+	CGUIItem*				getItemByPoint(bxcf::CPoint2D& vecPoint, eGUIControl eControlType = GUI_CONTROL_UNKNOWN);
 
 	// controls
 	CGUIControl*			addControl(eGUIControl eControlId, std::string strStyleGroups = "");

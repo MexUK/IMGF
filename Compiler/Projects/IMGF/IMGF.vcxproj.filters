@@ -256,6 +256,12 @@
     <Filter Include="Source Files\Tasks\Session">
       <UniqueIdentifier>{7707ff7c-3e6a-4f9f-80eb-8b863c202f30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GUI\Layer">
+      <UniqueIdentifier>{60b5e6bc-080d-4563-a54b-857dd208bf8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layer">
+      <UniqueIdentifier>{956838c3-dd9c-4514-bf1a-5c55554d0a06}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Dependencies\ThirdParty\Bitmap\bitmap.cpp">
@@ -438,9 +444,6 @@
     <ClCompile Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.cpp">
       <Filter>Source Files\AutomatedTesting</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\CMainLayer.cpp">
-      <Filter>Source Files\GUI\Window</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\Tasks\Dump\CDumpManager.cpp">
       <Filter>Source Files\Tasks\Dump</Filter>
     </ClCompile>
@@ -482,6 +485,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\Tasks\RecentlyOpen\CRecentlyOpenEntry.cpp">
       <Filter>Source Files\Tasks\RecentlyOpen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDragDrop.cpp">
+      <Filter>Source Files\DragDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\CMainLayer.cpp">
+      <Filter>Source Files\GUI\Layer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1148,9 +1157,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.h">
       <Filter>Header Files\AutomatedTesting</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\CMainLayer.h">
-      <Filter>Header Files\GUI\Window</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Tasks\Find\CSearchEntry.h">
       <Filter>Header Files\Tasks\Find</Filter>
     </ClInclude>
@@ -1232,9 +1238,23 @@
     <ClInclude Include="..\..\..\Code\IMGF\Tasks\RecentlyOpen\CRecentlyOpenEntry.h">
       <Filter>Header Files\Tasks\RecentlyOpen</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDragDrop.h">
+      <Filter>Header Files\DragDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\CMainLayer.h">
+      <Filter>Header Files\GUI\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\Code\IMGF\Resources\Program Icon.ico">
+    <ResourceCompile Include="IMGF.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\Resources\AppIcon1.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

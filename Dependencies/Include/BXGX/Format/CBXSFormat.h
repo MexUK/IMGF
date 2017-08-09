@@ -8,35 +8,6 @@
 class CBXSFormat
 {
 public:
-	void			unserialize
-	(
-		std::string strFilePath,
-		container6d_1 &umapCustomStyleGroups,
-		container6d_1 &umapControlStyleGroups
-		/*
-		std::unordered_map<uint32,
-			std::unordered_map<uint32,
-				std::unordered_map<uint32,
-					std::unordered_map<uint32,
-						std::unordered_map<uint32,
-							std::unordered_map<uint32, void*>
-						>
-					>
-				>
-			>
-		> &umapCustomStyleGroups,
-		std::unordered_map<uint32,
-			std::unordered_map<uint32,
-				std::unordered_map<uint32,
-					std::unordered_map<uint32,
-						std::unordered_map<uint32,
-							std::unordered_map<uint32, void*>
-						>
-					>
-				>
-			>
-		> &umapControlStyleGroups
-		*/
-	);
+	void			unserialize(std::string strFilePath, container6d_1 &umapCustomStyleGroups, container6d_1 &umapControlStyleGroups);
 	void			serialize(void);
 };
