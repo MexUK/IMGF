@@ -75,6 +75,9 @@
     <PreBuildEvent>
       <Message>Build Number</Message>
     </PreBuildEvent>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -125,6 +128,7 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editors\Tab\CIMGEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\CEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tab\CEditorTab.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Events\CButtonPressManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\CMainLayer.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Popups\CPopupGUIManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\CThemeDesigner.cpp" />
@@ -206,6 +210,8 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\Tab\CIMGEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\CEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tab\CEditorTab.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Events\CButtonPressManager.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Events\EButtons.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\CMainLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\CPopupGUIManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\WindowControlIds.h" />
@@ -214,6 +220,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tab\CThemeDesignerTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\CIMGFWindow.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\imgf.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Language\CLanguage.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Language\CLanguageManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Program\buildnumber.h" />

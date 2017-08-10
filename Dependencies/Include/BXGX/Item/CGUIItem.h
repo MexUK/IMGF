@@ -40,11 +40,14 @@ public:
 	void									setLayer(CGUILayer* pLayer) { m_pLayer = pLayer; }
 	CGUILayer*								getLayer(void) { return m_pLayer; }
 
+	void									setId(uint32 uiId) { m_uiId = uiId; }
+	uint32									getId(void) { return m_uiId; }
+
 	bool									doesItemHaveFocus(void);
 
 private:
 	CGUILayer*								m_pLayer;
-	std::unordered_map<uint32, bool>		m_umapEventUsages;
+	uint32									m_uiId;
 };
 
 #endif

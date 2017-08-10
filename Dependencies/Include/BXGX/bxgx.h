@@ -52,24 +52,16 @@ namespace bxgx
 		const uint32		RENDER_AFTER				= 4002;
 	};
 
+	namespace control
+	{
+		namespace events
+		{
+			enum EInputEvents;
+		};
+	};
+
 	namespace controls
 	{
-		/*
-		const uint32		ANY_CONTROL					= 0;
-		const uint32		BUTTON						= 1;
-		const uint32		CHECK						= 2;
-		const uint32		DROP						= 4;
-		const uint32		EDIT						= 8;
-		const uint32		IMAGE						= 16;
-		const uint32		LIST						= 32;
-		const uint32		MENU						= 64;
-		const uint32		PROGRESS					= 128;
-		const uint32		RADIO						= 256;
-		const uint32		SCROLL						= 512;
-		const uint32		TAB_BAR						= 1024;
-		const uint32		TEXT						= 2048;
-		*/
-
 		namespace components
 		{
 			const uint32		DEFAULT_CONTROL_COMPONENT	= 0;

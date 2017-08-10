@@ -75,6 +75,7 @@
 #include "GUI/Window/CIMGFWindow.h"
 #include "GUI/ThemeDesigner/CThemeDesigner.h"
 #include "Styles/CStyleManager.h"
+#include "GUI/Events/CButtonPressManager.h"
 
 using namespace std;
 using namespace bxcf;
@@ -83,6 +84,7 @@ using namespace bxcf;
 CIMGF::CIMGF(void)
 {
 	// construct objects stored by CIMGF
+	m_pButtonPressManager	= new CButtonPressManager;
 	m_pEntryViewerManager	= new CEntryViewerManager;
 	m_pPopupGUIManager		= new CPopupGUIManager;
 	m_pLanguageManager		= new CLanguageManager;
@@ -100,6 +102,7 @@ CIMGF::CIMGF(void)
 CIMGF::~CIMGF(void)
 {
 	// destruct objects stored by CIMGF
+	delete m_pButtonPressManager;
 	delete m_pEntryViewerManager;
 	delete m_pPopupGUIManager;
 	delete m_pLanguageManager;
@@ -209,6 +212,7 @@ void				CIMGF::initStoredObjects(void)
 {
 	// initialize objects stored by CIMGF
 	// Excludes: CWindowManager and CSortManager
+	m_pButtonPressManager->init();
 	m_pEntryViewerManager->init();
 	m_pPopupGUIManager->init();
 	m_pLanguageManager->init();

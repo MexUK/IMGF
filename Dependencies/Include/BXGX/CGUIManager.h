@@ -9,6 +9,7 @@
 #include "Event/CEventBinder.h"
 #include "Object/CSingleton.h"
 #include "Styles/CStyleManager.h"
+#include "Event/EInputEvents.h"
 #include <Commctrl.h>
 #include <unordered_map>
 #include <vector>
@@ -146,6 +147,11 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCur
 				CGUIControl *pControl = (CGUIControl*)pGUIEventUtilizer;
 				pControl->setActiveItem();
 				pControl->markToRedraw();
+
+				if (pControl->getControlType() == GUI_CONTROL_BUTTON)
+				{
+					bxcf::Events::trigger(bxgx::control::events::PRESS_BUTTON, (CButtonControl*)pControl);
+				}
 			}
 		}
 		else if (bIsKeyEvent)

@@ -1,0 +1,36 @@
+#pragma once
+
+#include "imgf.h"
+
+enum imgf::mainLayer::buttons::EButtons
+{
+	FORMATS,
+	UTILITY,
+
+	DAT,
+	IMG,
+	ITEM_DEFINITION,
+	ITEM_PLACEMENT,
+	MODELS,
+	COLLISIONS,
+	TEXTURES,
+	ANIMATIONS,
+	RADAR,
+
+	OPEN,
+	CLOSE,
+	SAVE,
+
+	IMPORT,
+	EXPORT,
+	QUICK_EXPORT,
+	RENAME,
+	REPLACE,
+	REMOVE,
+	MERGE,
+	SPLIT,
+	CONVERT,
+	SELECT,
+	SORT,
+	LST
+};

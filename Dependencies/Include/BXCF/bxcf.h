@@ -2,6 +2,8 @@
 
 #include "Type/Types.h"
 #include <string>
+#include <unordered_map>
+#include <vector>
 
 namespace bxcf
 {
@@ -25,11 +27,11 @@ namespace bxcf
 	enum eEventFunctionType;
 	enum eEventType;
 
-	template <class TStruct, typename ...Args> struct EventFunction;
+	template <typename ...Args> struct EventFunction;
 	struct Events;
 	template <class TStruct> struct EventBindable;
 	struct EventTriggerable;
-	template <class TBindableStruct> struct EventUtilizer;
+	template <typename ...Args> std::unordered_map<int, std::vector< bxcf::EventFunction<Args...> >> g_eventBoundFunctions;
 
 	enum eExceptionCode;
 

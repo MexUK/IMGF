@@ -16,6 +16,7 @@ class CEditorTab;
 class CIMGEditor;
 class CIMGEditorTab;
 
+class CButtonPressManager;
 class CSessionManager;
 class CRecentlyOpenManager;
 class CPopupGUIManager;
@@ -97,6 +98,7 @@ private:
 	CBuildMeta					m_buildMeta;
 	CInstallationMeta			m_installationMeta;
 
+	CButtonPressManager*		m_pButtonPressManager;
 	CDumpManager*				m_pDumpManager;
 	CEntryViewerManager*		m_pEntryViewerManager;
 	CPopupGUIManager*			m_pPopupGUIManager;
