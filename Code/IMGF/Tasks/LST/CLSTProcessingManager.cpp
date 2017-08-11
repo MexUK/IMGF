@@ -16,7 +16,7 @@
 #include "Format/RockstarGames/COL/CCOLManager.h"
 #include "Format/RockstarGames/COL/CCOLFormat.h"
 #include "Format/RockstarGames/COL/CCOLEntry.h"
-#include "GUI/CGUIManager.h"
+#include "Input/CInputManager.h"
 #include "Tasks/Sort/CSortManager.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 #include "Localization/CLocalizationManager.h"
@@ -43,10 +43,10 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 	}
 	if (strGTARootFolderPath == "")
 	{
-		strGTARootFolderPath = bxcf::CGUIManager::chooseFolderDialog(CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("LST_GAME"));
+		strGTARootFolderPath = bxcf::CInputManager::chooseFolderDialog(CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("LST_GAME"));
 		if (strGTARootFolderPath == "")
 		{
-			bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_60"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_60"), MB_OK);
+			bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_60"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_60"), MB_OK);
 			return;
 		}
 		strGTARootFolderPath = CPathManager::addSlashToEnd(strGTARootFolderPath);
@@ -61,14 +61,14 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 	{
 		if (!pLSTFile->getEntryByName("cdimages")->doesEntryExistByName("gamepath"))
 		{
-			bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "cdimages"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+			bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "cdimages"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 			return;
 		}
 
 		string strIMGPath = strGTARootFolderPath + pLSTFile->getEntryByName("cdimages")->getEntryByName("gamepath")->getValuesLine();
 		if (!CFileManager::doesFileExist(strIMGPath))
 		{
-			bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_27", strIMGPath.c_str()), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+			bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_27", strIMGPath.c_str()), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 			return;
 		}
 		getIMGF()->getTaskManager()->getDispatch()->onRequestOpen2(strIMGPath);
@@ -86,7 +86,7 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 			{
 				if (strSourceFolderPath == "")
 				{
-					bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "cdimages"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+					bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "cdimages"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 					return;
 				}
 
@@ -136,14 +136,14 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 	{
 		if (!pLSTFile->getEntryByName("collisions")->doesEntryExistByName("gamepath"))
 		{
-			bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "collisions"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+			bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "collisions"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 			return;
 		}
 
 		string strCOLPath = strGTARootFolderPath + pLSTFile->getEntryByName("collisions")->getEntryByName("gamepath")->getValuesLine();
 		if (!CFileManager::doesFileExist(strCOLPath))
 		{
-			bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_29", strCOLPath.c_str()), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+			bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_29", strCOLPath.c_str()), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 			return;
 		}
 		CCOLFormat *pCOLFile = CCOLManager::get()->parseViaFile(strCOLPath);
@@ -177,7 +177,7 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 				{
 					if (strSourceFolderPath == "")
 					{
-						bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "collisions"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+						bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "collisions"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 						return;
 					}
 
@@ -243,13 +243,13 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 			{
 				if (strSourceFolderPath == "")
 				{
-					bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "other"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+					bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "other"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 					return;
 				}
 
 				if (strGamePathFolderPath == "")
 				{
-					bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "other"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+					bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "other"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 					return;
 				}
 
@@ -280,13 +280,13 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 			{
 				if (strSourceFolderPath == "")
 				{
-					bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "other"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+					bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "other"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 					return;
 				}
 
 				if (strGamePathFolderPath == "")
 				{
-					bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "other"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+					bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "other"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 					return;
 				}
 

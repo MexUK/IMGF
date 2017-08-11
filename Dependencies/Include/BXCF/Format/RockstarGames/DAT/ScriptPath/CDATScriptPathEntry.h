@@ -3,7 +3,7 @@
 
 #include "bxcf.h"
 #include "Type/Types.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec3f.h"
 
 class bxcf::CDATScriptPathEntry
 {
@@ -12,14 +12,14 @@ public:
 	
 	void					unload(void) {}
 
-	void					setPosition(bxcf::CVector3D& vecPosition) { m_vecPosition = vecPosition; }
-	bxcf::CVector3D&				getPosition(void) { return m_vecPosition; }
+	void					setPosition(bxcf::Vec3f& vecPosition) { m_vecPosition = vecPosition; }
+	bxcf::Vec3f&				getPosition(void) { return m_vecPosition; }
 	
 	void					unserialize(void); // todo
 	void					serialize(void); // todo
 	
 private:
-	bxcf::CVector3D				m_vecPosition;
+	bxcf::Vec3f				m_vecPosition;
 };
 
 #endif

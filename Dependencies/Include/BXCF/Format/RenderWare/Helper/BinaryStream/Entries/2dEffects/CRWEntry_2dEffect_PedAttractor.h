@@ -4,7 +4,7 @@
 #include "bxcf.h"
 #include "Type/Types.h"
 #include "Format/RenderWare/Helper/BinaryStream/Entries/C2dEffect.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec3f.h"
 #include <string>
 
 class bxcf::CRWEntry_2dEffect_PedAttractor : public bxcf::C2dEffect
@@ -18,8 +18,8 @@ public:
 	void							setType(int32 iType) { m_iType = iType; }
 	int32							getType(void) { return m_iType; }
 
-	void							setRotation(uint8 ucRotationIndex, bxcf::CVector3D& vecRotation) { m_vecRotation[ucRotationIndex] = vecRotation; }
-	bxcf::CVector3D&						getRotation(uint8 ucRotationIndex) { return m_vecRotation[ucRotationIndex]; }
+	void							setRotation(uint8 ucRotationIndex, bxcf::Vec3f& vecRotation) { m_vecRotation[ucRotationIndex] = vecRotation; }
+	bxcf::Vec3f&						getRotation(uint8 ucRotationIndex) { return m_vecRotation[ucRotationIndex]; }
 
 	void							setExternalScriptName(std::string& strExternalScriptName) { m_strExternalScriptName = strExternalScriptName; }
 	std::string&					getExternalScriptName(void) { return m_strExternalScriptName; }
@@ -41,7 +41,7 @@ public:
 
 private:
 	int32							m_iType;
-	bxcf::CVector3D						m_vecRotation[3];
+	bxcf::Vec3f						m_vecRotation[3];
 	std::string						m_strExternalScriptName;
 	int32							m_iPedExistingProbability;
 	uint8							m_ucUnknown1;

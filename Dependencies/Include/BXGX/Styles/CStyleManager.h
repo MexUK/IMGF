@@ -2,7 +2,7 @@
 
 #include "Type/Types.h"
 #include "Object/CSingleton.h"
-#include "Type/Vector/CColour.h"
+#include "Type/Colour/CColour.h"
 #include "Event/CGUIEventUtilizer.h"
 #include <string>
 #include <vector>

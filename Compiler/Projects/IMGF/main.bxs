@@ -1,7 +1,7 @@
 // window
 
 .window
-fill 0 0 0
+fill 255 255 255
 
 .titleBar
 fill 50 50 50
@@ -42,10 +42,10 @@ line top false
 line top 0 0 0
 
 .main_lineLeft
-line left 135 135 135
+line left 100 100 100
 
 .main_lineTop
-line top 135 135 135
+line top 100 100 100
 
 .main_text
 text left center
@@ -64,7 +64,7 @@ fill 72 238 5
 fill 72 238 5
 
 .gameInfoText
-text 255 255 255
+text 0 0 0
 
 .topMenuButton .main_lineLeft .main_text .main_spacing
 fill 233 238 5
@@ -86,7 +86,7 @@ text 0 0 0
 line 0 0 0
 
 .fileTabBarBlank
-text 255 255 255
+text 0 0 0
 
 .fileTabBar:tab .main_lineLeft .main_text .main_spacing
 fill 255 255 255

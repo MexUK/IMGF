@@ -7,8 +7,8 @@
 #include "Collection/Games/ePlatformedGame.h"
 #include "Format/RockstarGames/IMG/eIMGVersion.h"
 #include "Compression/eCompressionAlgorithm.h"
-#include "Type/Vector/CVector2D.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec2f.h"
+#include "Type/Vector/Vec3f.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -325,10 +325,10 @@ struct CTXDOrganizerDialogData
 struct CDATPathsMoverDialogData
 {
 	bool							m_bMove;
-	bxcf::CVector2D						m_vecOutputMapRangeMin;
-	bxcf::CVector2D						m_vecOutputMapRangeMax;
-	bxcf::CVector2D						m_vecOutputTileSize;
-	bxcf::CVector3D						m_vecPositionOffset;
+	bxcf::Vec2f						m_vecOutputMapRangeMin;
+	bxcf::Vec2f						m_vecOutputMapRangeMax;
+	bxcf::Vec2f						m_vecOutputTileSize;
+	bxcf::Vec3f						m_vecPositionOffset;
 	std::string						m_strInputFolderPath;
 	std::string						m_strOutputFolderPath;
 };
@@ -344,7 +344,7 @@ struct CMapMoverAndIDShifterDialogData
 	std::string						m_strUpdateIPLInFolderPath;
 	std::string						m_strOutputFolderPath;
 	uint32							m_uiIDStart;
-	bxcf::CVector3D						m_vecPositionOffset;
+	bxcf::Vec3f						m_vecPositionOffset;
 	bool							m_bIgnoreDefaultObjects;
 	bxcf::ePlatformedGame					m_eIgnoreDefaultObjectsGame;
 	bool							m_bIgnoreFilesShifter;

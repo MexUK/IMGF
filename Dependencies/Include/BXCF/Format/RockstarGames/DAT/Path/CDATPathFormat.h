@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-class bxcf::CVector3D;
+class bxcf::Vec3f;
 
 class bxcf::CDATPathFormat : public bxcf::CFormat
 {
@@ -19,7 +19,7 @@ public:
 	void												setPathsFormat(bxcf::eDATPathFormat eFormat) { m_header.m_ePathsFormat = eFormat; }
 	bxcf::eDATPathFormat										getPathsFormat(void) { return m_header.m_ePathsFormat; }
 
-	void												applyOffsetToPositions(bxcf::CVector3D& vecPositionOffset);
+	void												applyOffsetToPositions(bxcf::Vec3f& vecPositionOffset);
 
 	void												addPathNode(CDATEntry_Paths_General_PathNode pathNode);
 	void												addNaviNode(CDATEntry_Paths_General_NaviNode naviNode);

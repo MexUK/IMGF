@@ -4,7 +4,7 @@
 #include "bxcf.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IDE/Entry/CIDEEntry_Data.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec3f.h"
 #include <string>
 
 class bxcf::CIDEEntry_ANIM : public bxcf::CIDEEntry_Data
@@ -47,14 +47,14 @@ public:
 	void						setUnknown1(uint32 uiUnknown1) { m_uiUnknown1 = uiUnknown1; }
 	uint32						getUnknown1(void) { return m_uiUnknown1; }
 
-	void						setBoundingBoxLowerLeftCorner(bxcf::CVector3D& vecBoundingBoxLowerLeftCorner) { m_vecBoundingBoxLowerLeftCorner = vecBoundingBoxLowerLeftCorner; }
-	bxcf::CVector3D&					getBoundingBoxLowerLeftCorner(void) { return m_vecBoundingBoxLowerLeftCorner; }
+	void						setBoundingBoxLowerLeftCorner(bxcf::Vec3f& vecBoundingBoxLowerLeftCorner) { m_vecBoundingBoxLowerLeftCorner = vecBoundingBoxLowerLeftCorner; }
+	bxcf::Vec3f&					getBoundingBoxLowerLeftCorner(void) { return m_vecBoundingBoxLowerLeftCorner; }
 
-	void						setBoundingBoxUpperRightCorner(bxcf::CVector3D& vecBoundingBoxUpperRightCorner) { m_vecBoundingBoxUpperRightCorner = vecBoundingBoxUpperRightCorner; }
-	bxcf::CVector3D&					getBoundingBoxUpperRightCorner(void) { return m_vecBoundingBoxUpperRightCorner; }
+	void						setBoundingBoxUpperRightCorner(bxcf::Vec3f& vecBoundingBoxUpperRightCorner) { m_vecBoundingBoxUpperRightCorner = vecBoundingBoxUpperRightCorner; }
+	bxcf::Vec3f&					getBoundingBoxUpperRightCorner(void) { return m_vecBoundingBoxUpperRightCorner; }
 
-	void						setBoundingSphereCenterPosition(bxcf::CVector3D& vecBoundingSphereCenterPosition) { m_vecBoundingSphereCenterPosition = vecBoundingSphereCenterPosition; }
-	bxcf::CVector3D&					getBoundingSphereCenterPosition(void) { return m_vecBoundingSphereCenterPosition; }
+	void						setBoundingSphereCenterPosition(bxcf::Vec3f& vecBoundingSphereCenterPosition) { m_vecBoundingSphereCenterPosition = vecBoundingSphereCenterPosition; }
+	bxcf::Vec3f&					getBoundingSphereCenterPosition(void) { return m_vecBoundingSphereCenterPosition; }
 
 	void						setBoundingSphereRadius(float32 fBoundingSphereRadius) { m_fBoundingSphereRadius = fBoundingSphereRadius; }
 	float32						getBoundingSphereRadius(void) { return m_fBoundingSphereRadius; }
@@ -75,9 +75,9 @@ private:
 
 	// GTA IV only
 	uint32						m_uiUnknown1;
-	bxcf::CVector3D					m_vecBoundingBoxLowerLeftCorner;
-	bxcf::CVector3D					m_vecBoundingBoxUpperRightCorner;
-	bxcf::CVector3D					m_vecBoundingSphereCenterPosition;
+	bxcf::Vec3f					m_vecBoundingBoxLowerLeftCorner;
+	bxcf::Vec3f					m_vecBoundingBoxUpperRightCorner;
+	bxcf::Vec3f					m_vecBoundingSphereCenterPosition;
 	float32						m_fBoundingSphereRadius;
 	std::string					m_strLODModel;
 };

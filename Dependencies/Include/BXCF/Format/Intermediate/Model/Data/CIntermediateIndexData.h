@@ -3,23 +3,23 @@
 
 #include "bxcf.h"
 #include "Type/Types.h"
-#include "Type/Vector/CVector3ui32.h"
+#include "Type/Vector/Vec3u.h"
 
 class bxcf::CIntermediateIndexData
 {
 public:
 	CIntermediateIndexData(void)
 	{
-		m_vecVertexIndices.m_x = 0;
-		m_vecVertexIndices.m_y = 0;
-		m_vecVertexIndices.m_z = 0;
+		m_vecVertexIndices.x = 0;
+		m_vecVertexIndices.y = 0;
+		m_vecVertexIndices.z = 0;
 	};
 
-	void								setVertexIndices(bxcf::CVector3ui32& vecVertexIndices) { m_vecVertexIndices = vecVertexIndices; }
-	bxcf::CVector3ui32&						getVertexIndices(void) { return m_vecVertexIndices; }
+	void								setVertexIndices(bxcf::Vec3u& vecVertexIndices) { m_vecVertexIndices = vecVertexIndices; }
+	bxcf::Vec3u&						getVertexIndices(void) { return m_vecVertexIndices; }
 
 private:
-	bxcf::CVector3ui32						m_vecVertexIndices;
+	bxcf::Vec3u						m_vecVertexIndices;
 };
 
 #endif

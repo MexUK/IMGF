@@ -4,8 +4,8 @@
 #include "bxcf.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IPL/Entry/CIPLEntry_Data.h"
-#include "Type/Vector/CVector3D.h"
-#include "Type/Vector/CVector4D.h"
+#include "Type/Vector/Vec3f.h"
+#include "Type/Vector/Vec4f.h"
 #include <string>
 
 class bxcf::CIPLEntry_INST : public bxcf::CIPLEntry_Data
@@ -40,14 +40,14 @@ public:
 	void						setInterior(uint32 uiInterior) { m_uiInterior = uiInterior; }
 	uint32						getInterior(void) { return m_uiInterior; }
 
-	void						setPosition(bxcf::CVector3D& vecPosition) { m_vecPosition = vecPosition; }
-	bxcf::CVector3D&					getPosition(void) { return m_vecPosition; }
+	void						setPosition(bxcf::Vec3f& vecPosition) { m_vecPosition = vecPosition; }
+	bxcf::Vec3f&					getPosition(void) { return m_vecPosition; }
 
-	void						setScale(bxcf::CVector3D& vecScale) { m_vecScale = vecScale; }
-	bxcf::CVector3D&					getScale(void) { return m_vecScale; }
+	void						setScale(bxcf::Vec3f& vecScale) { m_vecScale = vecScale; }
+	bxcf::Vec3f&					getScale(void) { return m_vecScale; }
 
-	void						setRotation(bxcf::CVector4D& vecRotation) { m_vecRotation = vecRotation; }
-	bxcf::CVector4D&					getRotation(void) { return m_vecRotation; }
+	void						setRotation(bxcf::Vec4f& vecRotation) { m_vecRotation = vecRotation; }
+	bxcf::Vec4f&					getRotation(void) { return m_vecRotation; }
 
 	void						setLOD(int32 iLOD) { m_iLOD = iLOD; }
 	int32						getLOD(void) { return m_iLOD; }
@@ -57,9 +57,9 @@ private:
 	uint32						m_uiObjectId;
 	std::string					m_strModelName;
 	uint32						m_uiInterior;
-	bxcf::CVector3D					m_vecPosition;
-	bxcf::CVector3D					m_vecScale;
-	bxcf::CVector4D					m_vecRotation;
+	bxcf::Vec3f					m_vecPosition;
+	bxcf::Vec3f					m_vecScale;
+	bxcf::Vec4f					m_vecRotation;
 	int32						m_iLOD;
 };
 

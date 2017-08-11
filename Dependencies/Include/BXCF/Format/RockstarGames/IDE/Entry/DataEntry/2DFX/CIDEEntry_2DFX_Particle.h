@@ -3,8 +3,8 @@
 
 #include "bxcf.h"
 #include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_2DFX.h"
-#include "Type/Vector/CVector3D.h"
-#include "Type/Vector/CVector3ui32.h"
+#include "Type/Vector/Vec3f.h"
+#include "Type/Vector/Vec3u.h"
 #include <string>
 
 class bxcf::CIDEEntry_2DFX_Particle : public bxcf::CIDEEntry_2DFX
@@ -19,9 +19,9 @@ public:
 		m_uiUnknown2(0),
 		m_uiUnknown3(0)
 	{
-		m_vecColour2.m_x = 0;
-		m_vecColour2.m_y = 0;
-		m_vecColour2.m_z = 0;
+		m_vecColour2.x = 0;
+		m_vecColour2.y = 0;
+		m_vecColour2.z = 0;
 	};
 
 	void						unserialize(void);
@@ -30,8 +30,8 @@ public:
 	void						setParticleType(uint32 uiParticleType) { m_uiParticleType = uiParticleType; }
 	uint32						getParticleType(void) { return m_uiParticleType; }
 
-	void						setStrength(bxcf::CVector3D& vecStrength) { m_vecStrength = vecStrength; }
-	bxcf::CVector3D&					getStrength(void) { return m_vecStrength; }
+	void						setStrength(bxcf::Vec3f& vecStrength) { m_vecStrength = vecStrength; }
+	bxcf::Vec3f&					getStrength(void) { return m_vecStrength; }
 
 	void						setSize(float32 fSize) { m_fSize = fSize; }
 	float32						getSize(void) { return m_fSize; }
@@ -51,8 +51,8 @@ public:
 	void						setUnknown3(uint32 uiUnknown3) { m_uiUnknown3 = uiUnknown3; }
 	uint32						getUnknown3(void) { return m_uiUnknown3; }
 
-	void						setColour2(bxcf::CVector3ui32& vecColour2) { m_vecColour2 = vecColour2; }
-	bxcf::CVector3ui32&				getColour2(void) { return m_vecColour2; }
+	void						setColour2(bxcf::Vec3u& vecColour2) { m_vecColour2 = vecColour2; }
+	bxcf::Vec3u&				getColour2(void) { return m_vecColour2; }
 
 private:
 	// GTA III era & GTA IV
@@ -60,7 +60,7 @@ private:
 
 	// GTA III era only
 	uint32						m_uiParticleType;
-	bxcf::CVector3D					m_vecStrength;
+	bxcf::Vec3f					m_vecStrength;
 
 	// GTA IV only
 	std::string					m_strParticleName;
@@ -68,7 +68,7 @@ private:
 	uint32						m_uiDrawDistance;
 	uint32						m_uiUnknown2;
 	uint32						m_uiUnknown3;
-	bxcf::CVector3ui32				m_vecColour2;
+	bxcf::Vec3u				m_vecColour2;
 };
 
 #endif

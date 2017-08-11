@@ -5,11 +5,11 @@
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
 #include "Format/RenderWare/Helper/BinaryStream/eRWSection.h"
 #include "Partial/CRWGeometryBoundingInfo.h"
-#include "Type/Vector/CVector2D.h"
-#include "Type/Vector/CVector3D.h"
-#include "Type/Vector/CVector4D.h"
-#include "Type/Vector/CVector4ui8.h"
-#include "Type/Vector/CVector4ui16.h"
+#include "Type/Vector/Vec2f.h"
+#include "Type/Vector/Vec3f.h"
+#include "Type/Vector/Vec4f.h"
+#include "Type/Vector/Vec4u8.h"
+#include "Type/Vector/Vec4u16.h"
 #include <string>
 
 class bxcf::CIntermediateGeometry;
@@ -55,20 +55,20 @@ public:
 	void							setSpecularColour(uint32 uiSpecularColour) { m_uiSpecularColour = uiSpecularColour; }
 	uint32							getSpecularColour(void) { return m_uiSpecularColour; }
 
-	void							setVertexColours(std::vector<bxcf::CVector4ui8>& vecVertexColours); // Remainder is filled with 0xFFFFFFFF until vertex count is reached,
-	std::vector<bxcf::CVector4ui8>&		getVertexColours(void) { return m_vecVertexColours; }
+	void							setVertexColours(std::vector<bxcf::Vec4u8>& vecVertexColours); // Remainder is filled with 0xFFFFFFFF until vertex count is reached,
+	std::vector<bxcf::Vec4u8>&		getVertexColours(void) { return m_vecVertexColours; }
 
-	void							setTextureCoordinates(std::vector<bxcf::CVector2D>& vecTextureCoordinates) { m_vecTextureCoordinates = vecTextureCoordinates; }
-	std::vector<bxcf::CVector2D>&			getTextureCoordinates(void) { return m_vecTextureCoordinates; }
+	void							setTextureCoordinates(std::vector<bxcf::Vec2f>& vecTextureCoordinates) { m_vecTextureCoordinates = vecTextureCoordinates; }
+	std::vector<bxcf::Vec2f>&			getTextureCoordinates(void) { return m_vecTextureCoordinates; }
 
-	void							setVertexIndices(std::vector<bxcf::CVector4ui16>& vecVertexIndices) { m_vecVertexIndices = vecVertexIndices; }
-	std::vector<bxcf::CVector4ui16>&		getVertexIndices(void) { return m_vecVertexIndices; }
+	void							setVertexIndices(std::vector<bxcf::Vec4u16>& vecVertexIndices) { m_vecVertexIndices = vecVertexIndices; }
+	std::vector<bxcf::Vec4u16>&		getVertexIndices(void) { return m_vecVertexIndices; }
 
-	void							setVertexPositions(std::vector<bxcf::CVector3D>& vecVertexPositions) { m_vecVertexPositions = vecVertexPositions; }
-	std::vector<bxcf::CVector3D>&			getVertexPositions(void) { return m_vecVertexPositions; }
+	void							setVertexPositions(std::vector<bxcf::Vec3f>& vecVertexPositions) { m_vecVertexPositions = vecVertexPositions; }
+	std::vector<bxcf::Vec3f>&			getVertexPositions(void) { return m_vecVertexPositions; }
 
-	void							setVertexNormals(std::vector<bxcf::CVector3D>& vecVertexNormals) { m_vecVertexNormals = vecVertexNormals; }
-	std::vector<bxcf::CVector3D>&			getVertexNormals(void) { return m_vecVertexNormals; }
+	void							setVertexNormals(std::vector<bxcf::Vec3f>& vecVertexNormals) { m_vecVertexNormals = vecVertexNormals; }
+	std::vector<bxcf::Vec3f>&			getVertexNormals(void) { return m_vecVertexNormals; }
 
 	void							setBoundingInfo(bxcf::CRWGeometryBoundingInfo& boundingInfo) { m_boundingInfo = boundingInfo; }
 	bxcf::CRWGeometryBoundingInfo&		getBoundingInfo(void) { return m_boundingInfo; }
@@ -85,11 +85,11 @@ private:
 	uint32							m_uiDiffuseColour;
 	uint32							m_uiSpecularColour;
 	
-	std::vector<bxcf::CVector4ui8>		m_vecVertexColours;
-	std::vector<bxcf::CVector2D>			m_vecTextureCoordinates;
-	std::vector<bxcf::CVector4ui16>		m_vecVertexIndices;
-	std::vector<bxcf::CVector3D>			m_vecVertexPositions;
-	std::vector<bxcf::CVector3D>			m_vecVertexNormals;
+	std::vector<bxcf::Vec4u8>		m_vecVertexColours;
+	std::vector<bxcf::Vec2f>			m_vecTextureCoordinates;
+	std::vector<bxcf::Vec4u16>		m_vecVertexIndices;
+	std::vector<bxcf::Vec3f>			m_vecVertexPositions;
+	std::vector<bxcf::Vec3f>			m_vecVertexNormals;
 
 	bxcf::CRWGeometryBoundingInfo			m_boundingInfo;
 };

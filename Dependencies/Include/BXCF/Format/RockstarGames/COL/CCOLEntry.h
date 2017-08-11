@@ -2,7 +2,7 @@
 #define CCOLEntry_H
 
 #include "bxcf.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec3f.h"
 #include "TShapes.h"
 #include "CCOLVersion.h"
 #include <string>
@@ -23,7 +23,7 @@ public:
 	uint32						calculateCollisionMeshVertexCount(void);
 	uint32						calculateShadowMeshVertexCount(void);
 
-	void						applyCollisionMeshVerticesOffset(bxcf::CVector3D vecAxisOffsets);
+	void						applyCollisionMeshVerticesOffset(bxcf::Vec3f vecAxisOffsets);
 
 	TBounds&					getBoundingObjects(void) { return m_boundingObjects; }
 	std::vector<TSphere>&		getCollisionSpheres(void) { return m_vecCollisionSpheres; }

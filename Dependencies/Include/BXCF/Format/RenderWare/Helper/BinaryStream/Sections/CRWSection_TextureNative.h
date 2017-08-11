@@ -8,7 +8,7 @@
 #include "Collection/Games/ePlatformedGame.h"
 #include "Image/eRasterDataFormat.h"
 #include "Format/RenderWare/Helper/BinaryStream/Entries/CRWEntry_TextureNative_MipMap.h"
-#include "Type/Vector/CSize2D.h"
+#include "Type/Vector/Vec2u.h"
 #include "Platform/Hardware/ePlatform.h"
 #include <string>
 #include <vector>
@@ -67,8 +67,8 @@ public:
 	void						setAlpha(uint32 uiAlpha) { m_uiAlpha = uiAlpha; }
 	uint32						getAlpha(void) { return m_uiAlpha; }
 
-	void						setImageSize(bxcf::CSize2D& vecImageSize) { m_vecImageSize = vecImageSize; }
-	bxcf::CSize2D&					getImageSize(void) { return m_vecImageSize; }
+	void						setImageSize(bxcf::Vec2u& vecImageSize) { m_vecImageSize = vecImageSize; }
+	bxcf::Vec2u&					getImageSize(void) { return m_vecImageSize; }
 
 	void						setBPP(uint8 ucBPP) { m_ucBPP = ucBPP; }
 	uint8						getBPP(void) { return m_ucBPP; }
@@ -138,7 +138,7 @@ private:
 	uint32						m_uiTXDRasterDataFormat;
 	bxcf::eRasterDataFormat			m_eRasterDataFormat;
 	uint32						m_uiAlpha;
-	bxcf::CSize2D						m_vecImageSize;
+	bxcf::Vec2u						m_vecImageSize;
 	uint8						m_ucBPP;
 	uint8						m_ucRasterType;
 	bxcf::eDXTCompressionType			m_eDXTCompressionType;

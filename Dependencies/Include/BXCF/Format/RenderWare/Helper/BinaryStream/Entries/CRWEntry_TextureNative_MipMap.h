@@ -3,7 +3,7 @@
 
 #include "bxcf.h"
 #include "Type/Types.h"
-#include "Type/Vector/CSize2D.h"
+#include "Type/Vector/Vec2u.h"
 #include "Image/eRasterDataFormat.h"
 #include <string>
 
@@ -15,10 +15,10 @@ public:
 	CRWEntry_TextureNative_MipMap(CRWSection_TextureNative *pTextureNative) :
 		m_pTextureNative(pTextureNative)
 	{
-		m_vecImageSize.m_x = 0;
-		m_vecImageSize.m_y = 0;
-		m_vecSwizzledImageSize.m_x = 0;
-		m_vecSwizzledImageSize.m_y = 0;
+		m_vecImageSize.x = 0;
+		m_vecImageSize.y = 0;
+		m_vecSwizzledImageSize.x = 0;
+		m_vecSwizzledImageSize.y = 0;
 	};
 
 	void						unload(void) {}
@@ -33,19 +33,19 @@ public:
 	void						setRasterData(std::string& strData) { m_strRasterData = strData; }
 	std::string&				getRasterData(void) { return m_strRasterData; }
 
-	void						setImageSize(bxcf::CSize2D& vecImageSize) { m_vecImageSize = vecImageSize; }
-	bxcf::CSize2D&					getImageSize(void) { return m_vecImageSize; }
+	void						setImageSize(bxcf::Vec2u& vecImageSize) { m_vecImageSize = vecImageSize; }
+	bxcf::Vec2u&					getImageSize(void) { return m_vecImageSize; }
 
-	void						setSwizzledImageSize(bxcf::CSize2D& vecSwizzledImageSize) { m_vecSwizzledImageSize = vecSwizzledImageSize; }
-	bxcf::CSize2D&					getSwizzledImageSize(void) { return m_vecSwizzledImageSize; }
+	void						setSwizzledImageSize(bxcf::Vec2u& vecSwizzledImageSize) { m_vecSwizzledImageSize = vecSwizzledImageSize; }
+	bxcf::Vec2u&					getSwizzledImageSize(void) { return m_vecSwizzledImageSize; }
 
 	void						setTexture(CRWSection_TextureNative *pTextureNative) { m_pTextureNative = pTextureNative; }
 	CRWSection_TextureNative*	getTexture(void) { return m_pTextureNative; }
 
 private:
 	CRWSection_TextureNative*	m_pTextureNative;
-	bxcf::CSize2D						m_vecImageSize;
-	bxcf::CSize2D						m_vecSwizzledImageSize;
+	bxcf::Vec2u						m_vecImageSize;
+	bxcf::Vec2u						m_vecSwizzledImageSize;
 	std::string					m_strRasterData;
 };
 

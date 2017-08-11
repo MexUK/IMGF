@@ -16,9 +16,9 @@ public:
 
 	bool									checkToRecalculateStringSize(CGUIStyles *pStyles);
 
-	bxcf::CSize2D&								getTextSize(void) { return m_gstrText.getSize(); }
-	uint32									getTextWidth(void) { return m_gstrText.getSize().m_x; }
-	uint32									getTextHeight(void) { return m_gstrText.getSize().m_y; }
+	bxcf::Vec2u&								getTextSize(void) { return m_gstrText.getSize(); }
+	uint32									getTextWidth(void) { return m_gstrText.getSize().x; }
+	uint32									getTextHeight(void) { return m_gstrText.getSize().y; }
 
 	void									setText(std::string& strText) { m_gstrText.setString(strText); }
 	std::string&							getText(void) { return m_gstrText.getString(); }

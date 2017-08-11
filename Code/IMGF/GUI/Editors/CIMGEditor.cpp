@@ -12,11 +12,15 @@
 #include "Format/RenderWare/Helper/BinaryStream/CRWVersion.h"
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
-#include "GUI/Window/CIMGFWindow.h"
+#include "GUI/Windows/CMainWindow.h"
 #include "Styles/CGUIStyles.h"
-#include "Type/Vector/CColour.h"
+#include "Type/Colour/CColour.h"
 #include "CGUIManager.h"
 #include "Controls/CGridControl.h"
+#include "GUI/Editor/EEditorItems.h"
+#include "GUI/Windows/CMainWindow.h"
+#include "GUI/Layers/CMainLayer.h"
+#include "Controls/CTabBarControl.h"
 
 // for menu start - todo
 #include "Format/RenderWare/Helper/BinaryStream/CRWManager.h"
@@ -37,6 +41,16 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace imgf::editor::items;
+
+CIMGEditor::CIMGEditor(void) :
+	m_pMainWindow(nullptr),
+	m_uiSelectedEntryCount(0),
+	m_uiSearchHitCount(0), // todo - rename to SearchHitEntryCount
+	m_uiSearchFileCount(0), // todo - rename to SearchHitFileCount
+	m_pEntryGrid(nullptr)
+{
+}
 
 // editor initialization
 void				CIMGEditor::init(void)
@@ -93,21 +107,21 @@ CIMGEditorTab*		CIMGEditor::_addTab(CIMGFormat *pIMGFormat)
 {
 	uint32 uiTabIndex = getTabs().getNextEntryIndex();
 
-	CIMGEditorTab *pEditorTab = new CIMGEditorTab;
-	pEditorTab->setWindow(this);
-	pEditorTab->setIndex(uiTabIndex);
-	pEditorTab->setIMGFile(pIMGFormat);
+	CIMGEditorTab *pIMGTab = new CIMGEditorTab; // m_pMainWindow->getMainLayer()->getTabBar()->addTab<CIMGEditorTab>();
+	pIMGTab->setEditor(this);
+	pIMGTab->setIndex(uiTabIndex);
+	pIMGTab->setIMGFile(pIMGFormat);
 
-	if (pEditorTab->onTabFormatReady())
+	if (pIMGTab->onTabFormatReady())
 	{
-		getTabs().addEntry(pEditorTab);
-		setActiveTab(pEditorTab);
-		return pEditorTab;
+		getTabs().addEntry(pIMGTab);
+		setActiveTab(pIMGTab);
+		return pIMGTab;
 	}
 	else
 	{
-		pEditorTab->unload();
-		delete pEditorTab;
+		pIMGTab->unload();
+		delete pIMGTab;
 
 		getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(1); // todo - have like getIMGF()->getTaskManager()->setProgressComplete(void) instead of these 2 lines
 		getIMGF()->getTaskManager()->onTaskProgressTick();
@@ -284,28 +298,26 @@ void					CIMGEditor::readdColumnsToMainListView(eIMGVersion eIMGVersionValue)
 }
 void					CIMGEditor::addColumnsToMainListView(eIMGVersion eIMGVersionValue)
 {
-	CGridControl *pList = (CGridControl*) getControlById(37);
-
-	pList->addHeader("ID" /* todo CLocalizationManager::get()->getTranslatedText("Window_Main_ListView_ColumnTitle_ID")*/, 45);
-	pList->addHeader("Type" /* CLocalizationManager::get()->getTranslatedText("Window_Main_ListView_ColumnTitle_Type")*/, 40);
-	pList->addHeader("Name" /* CLocalizationManager::get()->getTranslatedText("Window_Main_ListView_ColumnTitle_Name")*/, 150);
-	pList->addHeader("Offset" /* CLocalizationManager::get()->getTranslatedText("Offset")*/, 85);
-	pList->addHeader("Size" /* CLocalizationManager::get()->getTranslatedText("Size")*/, 70);
+	m_pEntryGrid->addHeader("ID" /* todo CLocalizationManager::get()->getTranslatedText("Window_Main_ListView_ColumnTitle_ID")*/, 45);
+	m_pEntryGrid->addHeader("Type" /* CLocalizationManager::get()->getTranslatedText("Window_Main_ListView_ColumnTitle_Type")*/, 40);
+	m_pEntryGrid->addHeader("Name" /* CLocalizationManager::get()->getTranslatedText("Window_Main_ListView_ColumnTitle_Name")*/, 150);
+	m_pEntryGrid->addHeader("Offset" /* CLocalizationManager::get()->getTranslatedText("Offset")*/, 85);
+	m_pEntryGrid->addHeader("Size" /* CLocalizationManager::get()->getTranslatedText("Size")*/, 70);
 
 	switch (eIMGVersionValue)
 	{
 	case IMG_UNKNOWN:
 	case IMG_1:
 	case IMG_2:
-		pList->addHeader("Version" /* CLocalizationManager::get()->getTranslatedText("Version")*/, 125);
+		m_pEntryGrid->addHeader("Version" /* CLocalizationManager::get()->getTranslatedText("Version")*/, 125);
 		break;
 	case IMG_3:
-		pList->addHeader("Resource Type" /* CLocalizationManager::get()->getTranslatedText("ResourceType")*/, 125);
+		m_pEntryGrid->addHeader("Resource Type" /* CLocalizationManager::get()->getTranslatedText("ResourceType")*/, 125);
 		break;
 	case IMG_FASTMAN92:
-		pList->addHeader("Version" /* CLocalizationManager::get()->getTranslatedText("Version")*/, 125);
-		pList->addHeader("Compression" /* CLocalizationManager::get()->getTranslatedText("Compression")*/, 125);
-		pList->addHeader("Encryption" /* CLocalizationManager::get()->getTranslatedText("Encryption")*/, 125);
+		m_pEntryGrid->addHeader("Version" /* CLocalizationManager::get()->getTranslatedText("Version")*/, 125);
+		m_pEntryGrid->addHeader("Compression" /* CLocalizationManager::get()->getTranslatedText("Compression")*/, 125);
+		m_pEntryGrid->addHeader("Encryption" /* CLocalizationManager::get()->getTranslatedText("Encryption")*/, 125);
 		break;
 	}
 }
@@ -1000,9 +1012,8 @@ void		CIMGEditor::addControls(void)
 	h = 450;
 	strStyleGroup = "imgEditor_grid";
 
-	CGridControl *pEntryListControl = addGrid(x, y, w, h, strStyleGroup);
-	pEntryListControl->setControlId(37);
-	setEntryListControl(pEntryListControl);
+	m_pEntryGrid = addGrid(x, y, w, h, strStyleGroup, IMG_GRID);
+	//m_pEntryGrid->setControlId(37);
 }
 
 void		CIMGEditor::initControls(void)
@@ -1019,15 +1030,15 @@ void		CIMGEditor::repositionAndResizeControls(void)
 {
 	CWindow *pWindow = getWindow();
 
-	CPoint2D point;
-	CSize2D size;
+	Vec2i point;
+	Vec2u size;
 	int32 iNewX, iNewY, iNewWidth, iNewHeight;
 
 	// grid
-	size = m_pEntryListControl->getSize();
-	iNewWidth = ((pWindow->getSize().m_x - 10) - 139) - 110;
-	iNewHeight = pWindow->getSize().m_y - (162 + 30) - 10;
-	m_pEntryListControl->setSize(CSize2D(iNewWidth, iNewHeight));
+	size = m_pEntryGrid->getSize();
+	iNewWidth = ((pWindow->getSize().x - 10) - 139) - 110;
+	iNewHeight = pWindow->getSize().y - (162 + 30) - 10;
+	m_pEntryGrid->setSize(Vec2u(iNewWidth, iNewHeight));
 }
 
 // render

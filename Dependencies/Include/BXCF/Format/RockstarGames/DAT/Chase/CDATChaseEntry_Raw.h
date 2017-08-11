@@ -3,21 +3,21 @@
 
 #include "bxcf.h"
 #include "Type/Types.h"
-#include "Type/Vector/CVector3i8.h"
-#include "Type/Vector/CVector3i16.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec3i8.h"
+#include "Type/Vector/Vec3i16.h"
+#include "Type/Vector/Vec3f.h"
 
 #pragma pack(push, 1)
 struct bxcf::CDATChaseEntry_Raw
 {
-	bxcf::CVector3i16				m_vecVelocity;
-	bxcf::CVector3i8				m_vecRight;
-	bxcf::CVector3i8				m_vecTop;
+	bxcf::Vec3i16				m_vecVelocity;
+	bxcf::Vec3i8				m_vecRight;
+	bxcf::Vec3i8				m_vecTop;
 	int8					m_iSteeringAngle;
 	int8					m_iGasPedalPower;
 	int8					m_iBrakePedalPower;
 	int8					m_iHandbrakeUsed;
-	bxcf::CVector3D				m_vecPosition;
+	bxcf::Vec3f				m_vecPosition;
 };
 #pragma pack(pop)
 

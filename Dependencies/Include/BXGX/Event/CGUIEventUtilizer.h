@@ -35,7 +35,7 @@ public:
 	void									resetRenderingStyleGroups(void);
 
 	// point testing
-	inline virtual bool						isPointInItem(bxcf::CPoint2D& vecPoint) = 0;
+	inline virtual bool						isPointInItem(bxcf::Vec2i& vecPoint) = 0;
 
 	// focus testing
 	inline virtual bool						doesItemHaveFocus(void) = 0;
@@ -44,23 +44,23 @@ public:
 	virtual bool							onGainFocus(void) { return false; }
 	virtual bool							onLoseFocus(void) { return false; }
 
-	virtual bool							onMouseMove(bxcf::CPoint2D& vecCursorPoint) { return false; }
+	virtual bool							onMouseMove(bxcf::Vec2i& vecCursorPoint) { return false; }
 
-	virtual bool							onLeftMouseDown(bxcf::CPoint2D& vecCursorPoint) { return false; }
-	virtual bool							onLeftMouseUp(bxcf::CPoint2D& vecCursorPoint) { return false; }
-	virtual bool							onDoubleLeftMouseDown(bxcf::CPoint2D& vecCursorPoint) { return false; }
-	virtual bool							onDoubleLeftMouseUp(bxcf::CPoint2D& vecCursorPoint) { return false; }
+	virtual bool							onLeftMouseDown(bxcf::Vec2i& vecCursorPoint) { return false; }
+	virtual bool							onLeftMouseUp(bxcf::Vec2i& vecCursorPoint) { return false; }
+	virtual bool							onDoubleLeftMouseDown(bxcf::Vec2i& vecCursorPoint) { return false; }
+	virtual bool							onDoubleLeftMouseUp(bxcf::Vec2i& vecCursorPoint) { return false; }
 
-	virtual bool							onRightMouseDown(bxcf::CPoint2D& vecCursorPoint) { return false; }
-	virtual bool							onRightMouseUp(bxcf::CPoint2D& vecCursorPoint) { return false; }
-	virtual bool							onDoubleRightMouseDown(bxcf::CPoint2D& vecCursorPoint) { return false; }
-	virtual bool							onDoubleRightMouseUp(bxcf::CPoint2D& vecCursorPoint) { return false; }
+	virtual bool							onRightMouseDown(bxcf::Vec2i& vecCursorPoint) { return false; }
+	virtual bool							onRightMouseUp(bxcf::Vec2i& vecCursorPoint) { return false; }
+	virtual bool							onDoubleRightMouseDown(bxcf::Vec2i& vecCursorPoint) { return false; }
+	virtual bool							onDoubleRightMouseUp(bxcf::Vec2i& vecCursorPoint) { return false; }
 
-	virtual bool							onMouseWheelMove(bxcf::CPoint2D& vecCursorPoint) { return false; }
-	virtual bool							onMouseWheelDown(bxcf::CPoint2D& vecCursorPoint) { return false; }
-	virtual bool							onMouseWheelUp(bxcf::CPoint2D& vecCursorPoint) { return false; }
-	virtual bool							onDoubleMouseWheelDown(bxcf::CPoint2D& vecCursorPoint) { return false; }
-	virtual bool							onDoubleMouseWheelUp(bxcf::CPoint2D& vecCursorPoint) { return false; }
+	virtual bool							onMouseWheelMove(bxcf::Vec2i& vecCursorPoint) { return false; }
+	virtual bool							onMouseWheelDown(bxcf::Vec2i& vecCursorPoint) { return false; }
+	virtual bool							onMouseWheelUp(bxcf::Vec2i& vecCursorPoint) { return false; }
+	virtual bool							onDoubleMouseWheelDown(bxcf::Vec2i& vecCursorPoint) { return false; }
+	virtual bool							onDoubleMouseWheelUp(bxcf::Vec2i& vecCursorPoint) { return false; }
 
 	virtual bool							onMouseEnter(void) { return false; }
 	virtual bool							onMouseExit(void) { return false; }

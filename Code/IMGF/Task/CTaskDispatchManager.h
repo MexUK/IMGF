@@ -13,10 +13,13 @@ class bxcf::CRasterDataFormat;
 class bxcf::CRWVersion;
 class bxcf::CCOLVersion;
 struct CRenamedIMGEntry;
+class CMainWindow;
 
 class CTaskDispatchManager : public bxcf::CManager
 {
 public:
+	CTaskDispatchManager(void);
+
 	void						init(void);
 	void						uninit(void);
 
@@ -144,6 +147,9 @@ public:
 	void						onRequestSortIDEAndIPLFilesByObjectId(void);
 	void						onRequestExtractDVCAndNVCColoursIntoDFFs(void);
 	void						onRequestExtract2DFXIntoDFFs(void);
+
+private:
+	CMainWindow*				m_pMainWindow;
 };
 
 #endif

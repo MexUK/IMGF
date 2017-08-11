@@ -3,8 +3,8 @@
 
 #include "bxcf.h"
 #include "Type/Types.h"
-#include "Type/Vector/CVector2D.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec2f.h"
+#include "Type/Vector/Vec3f.h"
 #include "Format/RockstarGames/IPL/Entry/CIPLEntry_Data.h"
 #include <string>
 
@@ -31,20 +31,20 @@ public:
 	void						unserialize(void);
 	void						serialize(void);
 
-	void						setEntrancePosition(bxcf::CVector3D& vecEntrancePosition) { m_vecEntrancePosition = vecEntrancePosition; }
-	bxcf::CVector3D&					getEntrancePosition(void) { return m_vecEntrancePosition; }
+	void						setEntrancePosition(bxcf::Vec3f& vecEntrancePosition) { m_vecEntrancePosition = vecEntrancePosition; }
+	bxcf::Vec3f&					getEntrancePosition(void) { return m_vecEntrancePosition; }
 
 	void						setRotation(float32 fRotation) { m_fRotation = fRotation; }
 	float32						getRotation(void) { return m_fRotation; }
 
-	void						setSize(bxcf::CVector2D& vecSize) { m_vecSize = vecSize; }
-	bxcf::CVector2D&					getSize(void) { return m_vecSize; }
+	void						setSize(bxcf::Vec2f& vecSize) { m_vecSize = vecSize; }
+	bxcf::Vec2f&					getSize(void) { return m_vecSize; }
 
 	void						setConstant8(uint32 uiConstant8) { m_uiConstant8 = uiConstant8; }
 	uint32						getConstant8(void) { return m_uiConstant8; }
 
-	void						setExitPosition(bxcf::CVector3D& vecExitPosition) { m_vecExitPosition = vecExitPosition; }
-	bxcf::CVector3D&					getExitPosition(void) { return m_vecExitPosition; }
+	void						setExitPosition(bxcf::Vec3f& vecExitPosition) { m_vecExitPosition = vecExitPosition; }
+	bxcf::Vec3f&					getExitPosition(void) { return m_vecExitPosition; }
 
 	void						setExitRotation(float32 fExitRotation) { m_fExitRotation = fExitRotation; }
 	float32						getExitRotation(void) { return m_fExitRotation; }
@@ -72,11 +72,11 @@ public:
 
 private:
 	// GTA SA only
-	bxcf::CVector3D					m_vecEntrancePosition;
+	bxcf::Vec3f					m_vecEntrancePosition;
 	float32						m_fRotation;
-	bxcf::CVector2D					m_vecSize;
+	bxcf::Vec2f					m_vecSize;
 	uint32						m_uiConstant8;
-	bxcf::CVector3D					m_vecExitPosition;
+	bxcf::Vec3f					m_vecExitPosition;
 	float32						m_fExitRotation; // in degrees
 	uint32						m_uiTargetInterior;
 	uint32						m_uiMarkerType;

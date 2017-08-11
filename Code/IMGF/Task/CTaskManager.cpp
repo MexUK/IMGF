@@ -166,7 +166,7 @@ void							CTaskManager::onTaskEnd(string strFeatureName, bool bFeatureAborted)
 			strFeatureName != "onRequestFilter" &&
 			strFeatureName != "onRequestSearchSelection")
 		{
-			//bxcf::CGUIManager::showMessage("Feature: " + strFeatureName, "Feature Causing Rebuild Bug", MB_OK);
+			//bxcf::CInputManager::showMessage("Feature: " + strFeatureName, "Feature Causing Rebuild Bug", MB_OK);
 			getIMGF()->getTaskManager()->getDispatch()->onRequestRebuild();
 		}
 	}

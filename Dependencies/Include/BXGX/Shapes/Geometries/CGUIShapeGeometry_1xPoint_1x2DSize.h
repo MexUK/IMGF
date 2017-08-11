@@ -2,9 +2,9 @@
 #define CGUIShapeGeometry_1xPoint_1x2DSize_H
 
 #include "Type/Types.h"
-#include "Type/Vector/CVector2i32.h"
-#include "Type/Vector/CPoint2D.h"
-#include "Type/Vector/CSize2D.h"
+#include "Type/Vector/Vec2i.h"
+#include "Type/Vector/Vec2i.h"
+#include "Type/Vector/Vec2u.h"
 #include "Shape/eGUIShape.h"
 #include "Shape/CGUIShape.h"
 
@@ -16,18 +16,18 @@ public:
 	void							unserialize(bool bSkipShapeId = false);
 	void							serialize(void);
 
-	void							moveItem(bxcf::CVector2i32& vecPositionChange) { m_vecPosition += vecPositionChange; }
-	void							resizeItemViaOffsets(bxcf::CVector2i32& vecItemSizeChange) { m_vecSize += bxcf::CSize2D(vecItemSizeChange.m_x, vecItemSizeChange.m_y); }
+	void							moveItem(bxcf::Vec2i& vecPositionChange) { m_vecPosition += vecPositionChange; }
+	void							resizeItemViaOffsets(bxcf::Vec2i& vecItemSizeChange) { m_vecSize += bxcf::Vec2u(vecItemSizeChange.x, vecItemSizeChange.y); }
 
-	void							setPosition(bxcf::CPoint2D& vecPosition) { m_vecPosition = vecPosition; }
-	bxcf::CPoint2D&						getPosition(void) { return m_vecPosition; }
+	void							setPosition(bxcf::Vec2i& vecPosition) { m_vecPosition = vecPosition; }
+	bxcf::Vec2i&						getPosition(void) { return m_vecPosition; }
 
-	void							setSize(bxcf::CSize2D& vecSize) { m_vecSize = vecSize; }
-	bxcf::CSize2D&						getSize(void) { return m_vecSize; }
+	void							setSize(bxcf::Vec2u& vecSize) { m_vecSize = vecSize; }
+	bxcf::Vec2u&						getSize(void) { return m_vecSize; }
 	
 private:
-	bxcf::CPoint2D						m_vecPosition;
-	bxcf::CSize2D							m_vecSize;
+	bxcf::Vec2i						m_vecPosition;
+	bxcf::Vec2u							m_vecSize;
 };
 
 #endif

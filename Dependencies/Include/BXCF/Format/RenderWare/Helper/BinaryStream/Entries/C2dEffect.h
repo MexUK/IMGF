@@ -4,7 +4,7 @@
 #include "bxcf.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/e2DFXType.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec3f.h"
 
 class bxcf::C2dEffect;
 
@@ -27,8 +27,8 @@ public:
 	void							setDataSize(uint32 uiDataSize) { m_uiDataSize = uiDataSize; }
 	uint32							getDataSize(void) { return m_uiDataSize; }
 
-	void							setPosition(bxcf::CVector3D& vecPosition) { m_vecPosition = vecPosition; }
-	bxcf::CVector3D&						getPosition(void) { return m_vecPosition; }
+	void							setPosition(bxcf::Vec3f& vecPosition) { m_vecPosition = vecPosition; }
+	bxcf::Vec3f&						getPosition(void) { return m_vecPosition; }
 
 	void							set2DFXType(e2DFXType e2DFXTypeValue) { m_e2DFXType = e2DFXTypeValue; }
 	e2DFXType						get2DFXType(void) { return m_e2DFXType; }
@@ -37,7 +37,7 @@ protected:
 	uint32							m_uiDataSize;
 
 private:
-	bxcf::CVector3D						m_vecPosition;
+	bxcf::Vec3f						m_vecPosition;
 	e2DFXType						m_e2DFXType;
 };
 

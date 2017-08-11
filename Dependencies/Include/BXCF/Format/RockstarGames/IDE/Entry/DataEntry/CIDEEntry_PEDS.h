@@ -4,7 +4,7 @@
 #include "bxcf.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IDE/Entry/CIDEEntry_Data.h"
-#include "Type/Vector/CVector2ui32.h"
+#include "Type/Vector/Vec2u.h"
 #include <string>
 
 class bxcf::CIDEEntry_PEDS : public bxcf::CIDEEntry_Data
@@ -15,8 +15,8 @@ public:
 		m_uiObjectId(0),
 		m_uiCarsCanDrive(0)
 	{
-		m_vecPreferredRadioStations.m_x = 0;
-		m_vecPreferredRadioStations.m_y = 0;
+		m_vecPreferredRadioStations.x = 0;
+		m_vecPreferredRadioStations.y = 0;
 	};
 
 	void						unserialize(void);
@@ -46,8 +46,8 @@ public:
 	void						setAnimationFile(std::string& strAnimationFile) { m_strAnimationFile = strAnimationFile; }
 	std::string&				getAnimationFile(void) { return m_strAnimationFile; }
 
-	void						setPreferredRadioStations(bxcf::CVector2ui32& vecPreferredRadioStations) { m_vecPreferredRadioStations = vecPreferredRadioStations; }
-	bxcf::CVector2ui32&				getPreferredRadioStations(void) { return m_vecPreferredRadioStations; }
+	void						setPreferredRadioStations(bxcf::Vec2u& vecPreferredRadioStations) { m_vecPreferredRadioStations = vecPreferredRadioStations; }
+	bxcf::Vec2u&				getPreferredRadioStations(void) { return m_vecPreferredRadioStations; }
 
 	void						setVoiceArchive(std::string& strVoiceArchive) { m_strVoiceArchive = strVoiceArchive; }
 	std::string&				getVoiceArchive(void) { return m_strVoiceArchive; }
@@ -91,7 +91,7 @@ private:
 	std::string					m_strDefaultPedType;
 	std::string					m_strAnimationGroup;
 	std::string					m_strAnimationFile;
-	bxcf::CVector2ui32				m_vecPreferredRadioStations;
+	bxcf::Vec2u				m_vecPreferredRadioStations;
 	std::string					m_strVoices[2];
 
 	// GTA III era only

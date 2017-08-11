@@ -7,7 +7,7 @@
 #include "Controls/Entries/CGridControlEntry.h"
 #include "Controls/Components/CGridControlHeader.h"
 #include "Pool/CVectorPool.h"
-#include "Type/Vector/CPoint2D.h"
+#include "Type/Vector/Vec2i.h"
 #include <string>
 #include <vector>
 
@@ -21,16 +21,16 @@ public:
 	void										unserialize(bool bSkipControlId = false);
 	void										serialize(void);
 
-	bool										onLeftMouseDown(bxcf::CPoint2D& vecCursorPosition);
+	bool										onLeftMouseDown(bxcf::Vec2i& vecCursorPosition);
 	void										onRender(void);
 
 	CGridControlHeader*							addHeader(std::string strHeaderText, uint32 uiColumnWidth);
 
-	bxcf::CPoint2D								getRowPosition(uint32 uiRowIndex);	// in pixels
-	bxcf::CSize2D								getRowSize(void);					// in pixels
+	bxcf::Vec2i								getRowPosition(uint32 uiRowIndex);	// in pixels
+	bxcf::Vec2u								getRowSize(void);					// in pixels
 
-	bxcf::CPoint2D								getCellTextPosition(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);	// in pixels
-	bxcf::CSize2D								getCellTextSize(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);		// in pixels
+	bxcf::Vec2i								getCellTextPosition(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);	// in pixels
+	bxcf::Vec2u								getCellTextSize(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);		// in pixels
 
 	void										setRowHeight(uint32 uiRowHeight) { m_uiRowHeight = uiRowHeight; }	// in pixels
 	uint32										getRowHeight(void) { return m_uiRowHeight; }						// in pixels

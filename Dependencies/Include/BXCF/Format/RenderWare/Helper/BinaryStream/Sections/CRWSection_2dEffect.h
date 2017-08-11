@@ -5,8 +5,8 @@
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
 #include "Pool/CVectorPool.h"
 #include "Format/RenderWare/Helper/BinaryStream/Pools/C2dEffectsPool.h"
-#include "Type/Vector/CVector2D.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec2f.h"
+#include "Type/Vector/Vec3f.h"
 #include <string>
 
 class bxcf::CRWSection_2dEffect : public bxcf::CRWSection

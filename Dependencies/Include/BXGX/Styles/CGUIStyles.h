@@ -3,7 +3,7 @@
 
 #include "bxgx.h"
 #include "Type/Types.h"
-#include "Type/Vector/CPoint2D.h"
+#include "Type/Vector/Vec2i.h"
 #include "Pool/CMultipleTypeValuesUMapContainer.h"
 #include "Styles/CCoordinates.h"
 #include <string>
@@ -57,8 +57,8 @@ public:
 
 	std::string				getTextAlignX(void);
 	std::string				getTextAlignY(void);
-	bxcf::CPoint2D				getMinInnerSpacing(void);
-	bxcf::CPoint2D				getMaxInnerSpacing(void);
+	bxcf::Vec2i				getMinInnerSpacing(void);
+	bxcf::Vec2i				getMaxInnerSpacing(void);
 	uint32					getInnerSpacingTotalX(void);
 	uint32					getInnerSpacingTotalY(void);
 

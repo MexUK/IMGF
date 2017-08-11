@@ -6,7 +6,7 @@
 #include "CIMGF.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "Path/CPathManager.h"
-#include "GUI/CGUIManager.h"
+#include "Input/CInputManager.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 #include "Format/RockstarGames/TXD/CTXDManager.h"
 #include "Format/RockstarGames/TXD/CTXDFormat.h"

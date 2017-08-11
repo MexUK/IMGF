@@ -7,14 +7,14 @@
 #include "Type/Types.h"
 #include "eDataStreamType.h"
 #include "Unit/Byte/eEndian.h"
-#include "Type/Vector/CVector2D.h"
-#include "Type/Vector/CVector2ui32.h"
-#include "Type/Vector/CVector3D.h"
-#include "Type/Vector/CVector4D.h"
-#include "Type/Vector/CVector4ui8.h"
-#include "Type/Vector/CVector4ui16.h"
-#include "Type/Vector/CPoint2D.h"
-#include "Type/Vector/CSize2D.h"
+#include "Type/Vector/Vec2f.h"
+#include "Type/Vector/Vec2u.h"
+#include "Type/Vector/Vec3f.h"
+#include "Type/Vector/Vec4f.h"
+#include "Type/Vector/Vec4u8.h"
+#include "Type/Vector/Vec4u16.h"
+#include "Type/Vector/Vec2i.h"
+#include "Type/Vector/Vec2u.h"
 #include "Pool/CVectorPool.h"
 #include <string>
 #include <vector>
@@ -51,31 +51,31 @@ public:
 	int32					readInt32(void);
 	int16					readInt16(void);
 	int8					readInt8(void);
-	bxcf::CPoint2D			readPoint2D(void);
-	bxcf::CVector2i32				readVector2i32(void);
-	bxcf::CSize2D					readSize2D(void);
-	bxcf::CVector2ui32			readVector2ui32(void);
-	CVector4ui8				readVector4ui8(void);
+	bxcf::Vec2i			readVec2i(void);
+	bxcf::Vec2i				readVector2i32(void);
+	bxcf::Vec2u					readVec2u(void);
+	bxcf::Vec2u			readVector2ui32(void);
+	Vec4u8				readVector4ui8(void);
 	std::vector<uint32>			readUint32ArrayAsStdVector(uint32 uiValueCount);
-	std::vector<bxcf::CVector2D>		readVector2DArrayAsStdVector(uint32 uiValueCount);
-	std::vector<bxcf::CVector3D>		readVector3DArrayAsStdVector(uint32 uiValueCount);
-	std::vector<bxcf::CVector4ui8>	readVector4ui8ArrayAsStdVector(uint32 uiValueCount);
-	std::vector<bxcf::CVector4ui16>	readVector4ui16ArrayAsStdVector(uint32 uiValueCount);
+	std::vector<bxcf::Vec2f>		readVector2DArrayAsStdVector(uint32 uiValueCount);
+	std::vector<bxcf::Vec3f>		readVector3DArrayAsStdVector(uint32 uiValueCount);
+	std::vector<bxcf::Vec4u8>	readVector4ui8ArrayAsStdVector(uint32 uiValueCount);
+	std::vector<bxcf::Vec4u16>	readVector4ui16ArrayAsStdVector(uint32 uiValueCount);
 
 	// read float (binary mode)
 	float32					readFloat32(void);
-	bxcf::CVector2D				readVector2D(void);
-	bxcf::CVector3D				readVector3D(void);
-	bxcf::CVector4D				readVector4D(void);
+	bxcf::Vec2f				readVector2D(void);
+	bxcf::Vec3f				readVector3D(void);
+	bxcf::Vec4f				readVector4D(void);
 	
 	// read token (text mode)
 	std::string				readTokenString(void);
 	int32					readTokenInt32(void);
 	uint32					readTokenUint32(void);
 	float32					readTokenFloat32(void);
-	bxcf::CVector2D				readTokenVector2D(void);
-	bxcf::CVector3D				readTokenVector3D(void);
-	bxcf::CVector4D				readTokenVector4D(void);
+	bxcf::Vec2f				readTokenVector2D(void);
+	bxcf::Vec3f				readTokenVector3D(void);
+	bxcf::Vec4f				readTokenVector4D(void);
 
 	// read line tokens (text mode)
 	template <class DerivedFormatClass>

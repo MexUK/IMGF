@@ -2,14 +2,14 @@
 #include "Math/CMath.h"
 #include "Event/eEvent.h"
 #include "Event/CEventManager.h"
-#include "GUI/CGUIManager.h"
+#include "Input/CInputManager.h"
 #include "Layer/CGUILayer.h"
 #include "Shape/CGUIShape.h"
 #include "Styles/CGUIStyles.h"
 #include "Controls/CTabBarControl.h"
 #include "GUI/ThemeDesigner/Tabs/CThemeDesignerTab_AddItem.h"
 #include "GUI/ThemeDesigner/Tabs/CThemeDesignerTab_Save.h"
-#include "Type/Vector/CColour.h"
+#include "Type/Colour/CColour.h"
 #include <vector>
 
 using namespace std;
@@ -45,8 +45,8 @@ void					CThemeDesigner::bindEvents(void)
 void					CThemeDesigner::initWindow(void)
 {
 	/*
-	CPoint2D vecWindowPosition((int32)10, 10);
-	CSize2D vecWindowSize(500, 500);
+	Vec2i vecWindowPosition((int32)10, 10);
+	Vec2u vecWindowSize(500, 500);
 	CWindow *pWindow = bxgx::CGUIManager::get()->addWindow(vecWindowPosition, vecWindowSize);
 	pWindow->getStyles()->setStyle("fill-colour", CColour(33, 78, 103));
 	setWindow(pWindow);
@@ -61,7 +61,7 @@ void					CThemeDesigner::initWindow(void)
 	//pStyles_TabControl->setStyle<bool>("border-state-top", false);
 
 	CGUILayer *pLayer_ThemeDesignerWindow = pWindow->addLayer(pWindow, true);
-	CTabBarControl *pTabControl = pLayer_ThemeDesignerWindow->addTabBar(CPoint2D((int32)0, 0), CSize2D(vecWindowSize.m_x, 25), pStyles_TabControl);
+	CTabBarControl *pTabControl = pLayer_ThemeDesignerWindow->addTabBar(Vec2i((int32)0, 0), Vec2u(vecWindowSize.x, 25), pStyles_TabControl);
 	setTabControl(pTabControl);
 	m_umapTabControlEntries["items"] = pTabControl->addTab("Items");
 	m_umapTabControlEntries["add_item"] = pTabControl->addTab("Add Item", true);

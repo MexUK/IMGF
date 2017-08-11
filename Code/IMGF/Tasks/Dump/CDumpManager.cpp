@@ -7,7 +7,7 @@
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
 #include "GUI/Popups/CPopupGUIManager.h"
 #include "Format/RockstarGames/IMG/CIMGFormat.h"
-#include "GUI/CGUIManager.h"
+#include "Input/CInputManager.h"
 #include "Path/CPathManager.h"
 #include "Type/String/CString2.h"
 #include "File/CFileManager.h"
@@ -298,9 +298,9 @@ void		CDumpManager::process(void)
 					uint32 uiTextureIndex = 0;
 					for (auto pTexture : pTXDFile->getTextures())
 					{
-						if (!CTXDFormat::isTextureResolutionValid(pTexture->getImageSize().m_x, pTexture->getImageSize().m_y, pTXDFile->getGames()))
+						if (!CTXDFormat::isTextureResolutionValid(pTexture->getImageSize().x, pTexture->getImageSize().y, pTXDFile->getGames()))
 						{
-							vecInvalidResolutionTXDs.push_back("[" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName() + " (" + CString2::toString(pTexture->getImageSize().m_x) + " x " + CString2::toString(pTexture->getImageSize().m_y) + ")");
+							vecInvalidResolutionTXDs.push_back("[" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName() + " (" + CString2::toString(pTexture->getImageSize().x) + " x " + CString2::toString(pTexture->getImageSize().y) + ")");
 						}
 
 						if (!CTXDFormat::isTextureNameValid(pTexture->getDiffuseName()) || !CTXDFormat::isTextureNameValid(pTexture->getAlphaName(), true))
@@ -367,9 +367,9 @@ void		CDumpManager::process(void)
 								CDebugger::log("pTexture->m_ucBPP: " + CString2::toString(pTexture->getBPP()));
 								*/
 
-								if (!CTXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().m_x, (uint16)pTexture->getImageSize().m_y, pTXDFile->getGames()))
+								if (!CTXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getGames()))
 								{
-									vecInvalidResolutionTXDs.push_back("[" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName() + " (" + CString2::toString(pTexture->getImageSize().m_x) + " x " + CString2::toString(pTexture->getImageSize().m_y) + ")");
+									vecInvalidResolutionTXDs.push_back("[" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName() + " (" + CString2::toString(pTexture->getImageSize().x) + " x " + CString2::toString(pTexture->getImageSize().y) + ")");
 								}
 
 								if (!CTXDFormat::isTextureNameValid(pTexture->getDiffuseName()) || !CTXDFormat::isTextureNameValid(pTexture->getAlphaName(), true))
@@ -423,15 +423,15 @@ void		CDumpManager::process(void)
 									string strImageDataBGRA = pMipmap->getRasterDataBGRA32();
 									if (strImageDataBGRA == "")
 									{
-										vecMipmapSkippedEntries.push_back(CLocalizationManager::get()->getTranslatedFormattedText("Log_TextureInfo", pIMGEntry->getEntryName().c_str(), uiTextureIndex + 1, pTexture->getDiffuseName().c_str(), uiMipmapIndex + 1, pMipmap->getImageSize().m_x, pMipmap->getImageSize().m_y));
+										vecMipmapSkippedEntries.push_back(CLocalizationManager::get()->getTranslatedFormattedText("Log_TextureInfo", pIMGEntry->getEntryName().c_str(), uiTextureIndex + 1, pTexture->getDiffuseName().c_str(), uiMipmapIndex + 1, pMipmap->getImageSize().x, pMipmap->getImageSize().y));
 										//uiMipmapSkippedCount++;
 										uiMipmapIndex++;
 										continue;
 									}
 
 									CBMPFormat *pBMPFile = new CBMPFormat;
-									pBMPFile->setWidth(pMipmap->getImageSize().m_x);
-									pBMPFile->setHeight(pMipmap->getImageSize().m_y);
+									pBMPFile->setWidth(pMipmap->getImageSize().x);
+									pBMPFile->setHeight(pMipmap->getImageSize().y);
 									pBMPFile->setBPP(32);
 
 									pBMPFile->setRasterData(strImageDataBGRA);
@@ -503,8 +503,8 @@ void		CDumpManager::process(void)
 										strDDSFilePath = CPathManager::getNextFileName(strDDSFilePath, uiMipmapIndex, "-Mipmap");
 
 										CDDSFormat ddsFile;
-										ddsFile.m_uiWidth = pMipmap->getImageSize().m_x;
-										ddsFile.m_uiHeight = pMipmap->getImageSize().m_y;
+										ddsFile.m_uiWidth = pMipmap->getImageSize().x;
+										ddsFile.m_uiHeight = pMipmap->getImageSize().y;
 										//ddsFile.m_strRasterData = CImageManager::swapRowsAndColumns(CImageManager::convertBGRA32ToRGBA32(strImageDataBGRA), ddsFile.m_uiWidth, ddsFile.m_uiHeight);
 										ddsFile.m_strRasterData = CImageManager::convertBGRA32ToDXT(CImageManager::swapRowsAndColumns(strImageDataBGRA, ddsFile.m_uiWidth, ddsFile.m_uiHeight), DXT_1, ddsFile.m_uiWidth, ddsFile.m_uiHeight);
 										ddsFile.serializeViaFile(strDDSFilePath);
@@ -922,7 +922,7 @@ void		CDumpManager::process(void)
 	if (bSuccessfulResult)
 	{
 		getIMGF()->getTaskManager()->onTaskPause();
-		bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_1"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_1"));
+		bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_1"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_1"));
 		getIMGF()->getTaskManager()->onTaskUnpause();
 	}
 	else

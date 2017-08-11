@@ -2,8 +2,8 @@
 #define CRectangleItemPlacement_H
 
 #include "Type/Types.h"
-#include "Type/Vector/CPoint2D.h"
-#include "Type/Vector/CSize2D.h"
+#include "Type/Vector/Vec2i.h"
+#include "Type/Vector/Vec2u.h"
 #include "Pool/CVectorPool.h"
 #include "Event/eEvent.h"
 #include "Event/CEventManager.h"
@@ -32,9 +32,9 @@ public:
 	void						stopResizingItem(void);
 	bool						isResizingItem(void) { return m_pItemBeingResized != nullptr; }
 	
-	void						onLeftMouseDown(bxcf::CPoint2D& vecCursorPoint);
-	void						onLeftMouseUp(bxcf::CPoint2D& vecCursorPoint);
-	void						onMouseMove(bxcf::CPoint2D& vecCursorPoint);
+	void						onLeftMouseDown(bxcf::Vec2i& vecCursorPoint);
+	void						onLeftMouseUp(bxcf::Vec2i& vecCursorPoint);
+	void						onMouseMove(bxcf::Vec2i& vecCursorPoint);
 
 	void						setItemBeingMoved(Item *pItem) { m_pItemBeingMoved = pItem; }
 	Item*						getItemBeingMoved(void) { return m_pItemBeingMoved; }
@@ -52,7 +52,7 @@ public:
 	bxcf::CVectorPool<Item*>*			getItems(void) { return m_pvecItems; }
 
 private:
-	void						checkToStartMovingOrResizingItem(bxcf::CPoint2D& vecCursorPoint, uint32 uiOuterSpacing);
+	void						checkToStartMovingOrResizingItem(bxcf::Vec2i& vecCursorPoint, uint32 uiOuterSpacing);
 	
 private:
 	Item*						m_pItemBeingMoved;		// the item that is being moved or resized
@@ -124,7 +124,7 @@ void					CRectangleItemPlacement<Item>::stopResizingItem(void)
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::checkToStartMovingOrResizingItem(bxcf::CPoint2D& vecCursorPoint, uint32 uiOuterSpacing)
+void					CRectangleItemPlacement<Item>::checkToStartMovingOrResizingItem(bxcf::Vec2i& vecCursorPoint, uint32 uiOuterSpacing)
 {
 	uint32 uiRectangleEdges;
 	for(Item *pItem : getItems()->getEntries())
@@ -151,14 +151,14 @@ void					CRectangleItemPlacement<Item>::checkToStartMovingOrResizingItem(bxcf::C
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::onLeftMouseDown(bxcf::CPoint2D& vecCursorPoint)
+void					CRectangleItemPlacement<Item>::onLeftMouseDown(bxcf::Vec2i& vecCursorPoint)
 {
 	uint32 uiOuterSpacing = 1;
 	checkToStartMovingOrResizingItem(vecCursorPoint, uiOuterSpacing);
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::onLeftMouseUp(bxcf::CPoint2D& vecCursorPoint)
+void					CRectangleItemPlacement<Item>::onLeftMouseUp(bxcf::Vec2i& vecCursorPoint)
 {
 	if (isMovingItem())
 	{
@@ -171,18 +171,18 @@ void					CRectangleItemPlacement<Item>::onLeftMouseUp(bxcf::CPoint2D& vecCursorP
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::onMouseMove(bxcf::CPoint2D& vecCursorPoint)
+void					CRectangleItemPlacement<Item>::onMouseMove(bxcf::Vec2i& vecCursorPoint)
 {
 	if (isMovingItem())
 	{
-		bxcf::CVector2i32
+		bxcf::Vec2i
 			vecItemPositionChange = bxcf::CEventManager::get()->getScreenCursorMoveDifference();
 		getItemBeingMoved()->onMoveItem(vecItemPositionChange);
 		getWindow()->setMarkedToRedraw(true);
 	}
 	if (isResizingItem())
 	{
-		bxcf::CVector2i32
+		bxcf::Vec2i
 			vecCursorChange = bxcf::CEventManager::get()->getScreenCursorMoveDifference(),
 			vecItemPositionChange,
 			vecItemSizeChange;

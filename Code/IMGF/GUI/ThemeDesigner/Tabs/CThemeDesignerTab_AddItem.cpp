@@ -2,7 +2,7 @@
 #include "Math/CMath.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
-#include "GUI/CGUIManager.h"
+#include "Input/CInputManager.h"
 #include "Styles/CGUIStyles.h"
 #include "Shapes/CRectangleShape.h"
 #include "Shapes/Geometries/CGUIShapeGeometry_1xPoint_1x1DSize.h"
@@ -15,17 +15,17 @@
 #include "Controls/CRadioControl.h"
 #include "Controls/CDropControl.h"
 #include "GUI/ThemeDesigner/CThemeDesigner.h"
-#include "Type/Vector/CColour.h"
+#include "Type/Colour/CColour.h"
 #include "CIMGF.h"
 #include "GUI/ThemeDesigner/CThemeDesigner.h"
 
 using namespace std;
 using namespace bxcf;
 
-auto pOnLeftMouseDown_ThemeDesigner				= [](void *pThemeDesigner, void *pTriggerArg) { ((CThemeDesignerTab_AddItem*) pThemeDesigner)->onLeftMouseDown(*(CPoint2D*) pTriggerArg); };
-auto pOnMouseMove_ThemeDesigner					= [](void *pThemeDesigner, void *pTriggerArg) { ((CThemeDesignerTab_AddItem*) pThemeDesigner)->onMouseMove(*(CPoint2D*) pTriggerArg); };
-auto pOnLeftMouseDown_ThemeDesigner_MainWindow	= [](void *pThemeDesigner, void *pTriggerArg) { ((CThemeDesignerTab_AddItem*) pThemeDesigner)->onLeftMouseDown_MainWindow(*(CPoint2D*) pTriggerArg); };
-auto pOnLeftMouseDown_ThemeDesigner_MainWindow_WindowEventType	= [](void *pThemeDesigner, void *pTriggerArg) { ((CThemeDesignerTab_AddItem*) pThemeDesigner)->onLeftMouseDown_MainWindow_WindowEventType(*(CPoint2D*) pTriggerArg); };
+auto pOnLeftMouseDown_ThemeDesigner				= [](void *pThemeDesigner, void *pTriggerArg) { ((CThemeDesignerTab_AddItem*) pThemeDesigner)->onLeftMouseDown(*(Vec2i*) pTriggerArg); };
+auto pOnMouseMove_ThemeDesigner					= [](void *pThemeDesigner, void *pTriggerArg) { ((CThemeDesignerTab_AddItem*) pThemeDesigner)->onMouseMove(*(Vec2i*) pTriggerArg); };
+auto pOnLeftMouseDown_ThemeDesigner_MainWindow	= [](void *pThemeDesigner, void *pTriggerArg) { ((CThemeDesignerTab_AddItem*) pThemeDesigner)->onLeftMouseDown_MainWindow(*(Vec2i*) pTriggerArg); };
+auto pOnLeftMouseDown_ThemeDesigner_MainWindow_WindowEventType	= [](void *pThemeDesigner, void *pTriggerArg) { ((CThemeDesignerTab_AddItem*) pThemeDesigner)->onLeftMouseDown_MainWindow_WindowEventType(*(Vec2i*) pTriggerArg); };
 
 CThemeDesignerTab_AddItem::CThemeDesignerTab_AddItem(CThemeDesigner *pThemeDesigner) :
 	CThemeDesignerTab(pThemeDesigner),
@@ -56,12 +56,12 @@ void									CThemeDesignerTab_AddItem::bindEvents(void)
 void									CThemeDesignerTab_AddItem::initDesign(void)
 {
 	/*
-	setShapeIconStartPosition(CPoint2D((int32) 30, 120));
-	setShapeTextStartPosition(CPoint2D((int32) 60, 120));
-	setControlIconStartPosition(CPoint2D((int32) (250 + 30), 120));
-	setControlTextStartPosition(CPoint2D((int32) (250 + 60), 120));
-	setItemRowSize(CSize2D(210, 30));
-	setItemSize(CSize2D(210, 16));
+	setShapeIconStartPosition(Vec2i((int32) 30, 120));
+	setShapeTextStartPosition(Vec2i((int32) 60, 120));
+	setControlIconStartPosition(Vec2i((int32) (250 + 30), 120));
+	setControlTextStartPosition(Vec2i((int32) (250 + 60), 120));
+	setItemRowSize(Vec2u(210, 30));
+	setItemSize(Vec2u(210, 16));
 
 	CThemeDesigner *pThemeDesigner = getThemeDesigner();
 
@@ -73,9 +73,9 @@ void									CThemeDesignerTab_AddItem::initDesign(void)
 	CGUIControl *pControl = nullptr;
 
 	// fetch window positions and sizes
-	CSize2D vecWindowSize = pThemeDesigner->getWindow()->getSize();
-	CPoint2D vecWindowCenterPosition = CPoint2D(vecWindowSize.m_x, vecWindowSize.m_y) / 2;
-	uint32 uiCenterX = CMath::getCenterX(vecWindowSize.m_x);
+	Vec2u vecWindowSize = pThemeDesigner->getWindow()->getSize();
+	Vec2i vecWindowCenterPosition = Vec2i(vecWindowSize.x, vecWindowSize.y) / 2;
+	uint32 uiCenterX = CMath::getCenterX(vecWindowSize.x);
 
 	// create styles
 	CGUIStyles
@@ -102,44 +102,44 @@ void									CThemeDesignerTab_AddItem::initDesign(void)
 	pStyles_Radio->setStyle<CColour>("fill-colour:marked", CColour(85, 33, 33));
 
 	// add 2 lines
-	pShape = (CGUIShape*) pLayer->addLine(CPoint2D((int32) 0, 80), CPoint2D(vecWindowSize.m_x, 80), pStyles_GoldBorder);					// horizontal line
-	pShape = (CGUIShape*) pLayer->addLine(CPoint2D(uiCenterX, 25), CPoint2D(uiCenterX, vecWindowSize.m_y), pStyles_GoldBorder);	// vertical line
+	pShape = (CGUIShape*) pLayer->addLine(Vec2i((int32) 0, 80), Vec2i(vecWindowSize.x, 80), pStyles_GoldBorder);					// horizontal line
+	pShape = (CGUIShape*) pLayer->addLine(Vec2i(uiCenterX, 25), Vec2i(uiCenterX, vecWindowSize.y), pStyles_GoldBorder);	// vertical line
 	
 	// add headers
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D((int32) 20, 50), CSize2D(150, 30), "Shapes", pStyles_GoldText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiCenterX + 20, 50), CSize2D(150, 30), "Controls", pStyles_GoldText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i((int32) 20, 50), Vec2u(150, 30), "Shapes", pStyles_GoldText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiCenterX + 20, 50), Vec2u(150, 30), "Controls", pStyles_GoldText);
 
 	// prepare shape icons and text
 	uint32
-		uiShapeIconX = getShapeIconStartPosition().m_x,
-		uiShapeTextX = getShapeTextStartPosition().m_x,
-		uiShapeIconY = getShapeIconStartPosition().m_y;
+		uiShapeIconX = getShapeIconStartPosition().x,
+		uiShapeTextX = getShapeTextStartPosition().x,
+		uiShapeIconY = getShapeIconStartPosition().y;
 
-	vector<CPoint2D> vecPolygonPoints;
+	vector<Vec2i> vecPolygonPoints;
 	vecPolygonPoints.resize(5);
-	vecPolygonPoints[0] = CPoint2D(uiShapeIconX, uiShapeIconY + 90);
-	vecPolygonPoints[1] = CPoint2D(uiShapeIconX + 15, uiShapeIconY + 90 + 3);
-	vecPolygonPoints[2] = CPoint2D(uiShapeIconX + 12, uiShapeIconY + 90 + 10);
-	vecPolygonPoints[3] = CPoint2D(uiShapeIconX + 7, uiShapeIconY + 90 + 5);
-	vecPolygonPoints[4] = CPoint2D(uiShapeIconX + 4, uiShapeIconY + 90 + 15);
+	vecPolygonPoints[0] = Vec2i(uiShapeIconX, uiShapeIconY + 90);
+	vecPolygonPoints[1] = Vec2i(uiShapeIconX + 15, uiShapeIconY + 90 + 3);
+	vecPolygonPoints[2] = Vec2i(uiShapeIconX + 12, uiShapeIconY + 90 + 10);
+	vecPolygonPoints[3] = Vec2i(uiShapeIconX + 7, uiShapeIconY + 90 + 5);
+	vecPolygonPoints[4] = Vec2i(uiShapeIconX + 4, uiShapeIconY + 90 + 15);
 
 	// add shape icons
-	pShape = (CGUIShape*) pLayer->addCircle(				CPoint2D(uiShapeIconX, uiShapeIconY),			7, pStyles_BlueBorder); // todo - make addCircle take a float for radius coz diameter might be odd number
-	pShape = (CGUIShape*) pLayer->addEllipse(				CPoint2D(uiShapeIconX + 3, uiShapeIconY + 30),	CSize2D(8, 14), pStyles_BlueBorder);
-	pShape = (CGUIShape*) pLayer->addLine(					CPoint2D(uiShapeIconX, uiShapeIconY + 60),		CPoint2D(uiShapeIconX + 15, 120 + 60 + 15), pStyles_BlueBorder);
+	pShape = (CGUIShape*) pLayer->addCircle(				Vec2i(uiShapeIconX, uiShapeIconY),			7, pStyles_BlueBorder); // todo - make addCircle take a float for radius coz diameter might be odd number
+	pShape = (CGUIShape*) pLayer->addEllipse(				Vec2i(uiShapeIconX + 3, uiShapeIconY + 30),	Vec2u(8, 14), pStyles_BlueBorder);
+	pShape = (CGUIShape*) pLayer->addLine(					Vec2i(uiShapeIconX, uiShapeIconY + 60),		Vec2i(uiShapeIconX + 15, 120 + 60 + 15), pStyles_BlueBorder);
 	pShape = (CGUIShape*) pLayer->addPolygon(vecPolygonPoints, pStyles_BlueBorder);
-	pShape = (CGUIShape*) pLayer->addRectangle(				CPoint2D(uiShapeIconX + 3, uiShapeIconY + 120),	CSize2D(8, 15), pStyles_BlueBorder);
-	pShape = (CGUIShape*) pLayer->addSquare(				CPoint2D(uiShapeIconX, uiShapeIconY + 150),		15, pStyles_BlueBorder);
-	pShape = (CGUIShape*) pLayer->addEquilateralTriangle(	CPoint2D(uiShapeIconX, uiShapeIconY + 195),		15.0f, 0.0f, pStyles_BlueBorder);
+	pShape = (CGUIShape*) pLayer->addRectangle(				Vec2i(uiShapeIconX + 3, uiShapeIconY + 120),	Vec2u(8, 15), pStyles_BlueBorder);
+	pShape = (CGUIShape*) pLayer->addSquare(				Vec2i(uiShapeIconX, uiShapeIconY + 150),		15, pStyles_BlueBorder);
+	pShape = (CGUIShape*) pLayer->addEquilateralTriangle(	Vec2i(uiShapeIconX, uiShapeIconY + 195),		15.0f, 0.0f, pStyles_BlueBorder);
 
 	// add shape text
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiShapeTextX, uiShapeIconY), CSize2D(150, 30), "Circle", pStyles_BlueText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiShapeTextX, uiShapeIconY + 30), CSize2D(150, 30), "Ellipse", pStyles_BlueText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiShapeTextX, uiShapeIconY + 60), CSize2D(150, 30), "Line", pStyles_BlueText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiShapeTextX, uiShapeIconY + 90), CSize2D(150, 30), "Polygon", pStyles_BlueText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiShapeTextX, uiShapeIconY + 120), CSize2D(150, 30), "Rectangle", pStyles_BlueText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiShapeTextX, uiShapeIconY + 150), CSize2D(150, 30), "Square", pStyles_BlueText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiShapeTextX, uiShapeIconY + 180), CSize2D(150, 30), "Triangle", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiShapeTextX, uiShapeIconY), Vec2u(150, 30), "Circle", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiShapeTextX, uiShapeIconY + 30), Vec2u(150, 30), "Ellipse", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiShapeTextX, uiShapeIconY + 60), Vec2u(150, 30), "Line", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiShapeTextX, uiShapeIconY + 90), Vec2u(150, 30), "Polygon", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiShapeTextX, uiShapeIconY + 120), Vec2u(150, 30), "Rectangle", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiShapeTextX, uiShapeIconY + 150), Vec2u(150, 30), "Square", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiShapeTextX, uiShapeIconY + 180), Vec2u(150, 30), "Triangle", pStyles_BlueText);
 
 	// prepare control icons and text
 	uint32
@@ -148,45 +148,45 @@ void									CThemeDesignerTab_AddItem::initDesign(void)
 		uiControlIconY = 120;
 
 	// add control icons
-	pControl = (CGUIControl*) pLayer->addButton(CPoint2D(uiControlIconX, uiControlIconY), CSize2D(15, 9), "", pStyles_BlueBorder);
+	pControl = (CGUIControl*) pLayer->addButton(Vec2i(uiControlIconX, uiControlIconY), Vec2u(15, 9), "", pStyles_BlueBorder);
 
-	pControl = (CGUIControl*) pLayer->addCheck(CPoint2D(uiControlIconX, uiControlIconY + 30), CSize2D(15, 15), "", pStyles_BlueBorder);
+	pControl = (CGUIControl*) pLayer->addCheck(Vec2i(uiControlIconX, uiControlIconY + 30), Vec2u(15, 15), "", pStyles_BlueBorder);
 	((CCheckControl*) pControl)->setMarked(true);
 
-	pControl = (CGUIControl*) pLayer->addDrop(CPoint2D(uiControlIconX, uiControlIconY + 60), CSize2D(15, 10), pStyles_BlueBorder);
+	pControl = (CGUIControl*) pLayer->addDrop(Vec2i(uiControlIconX, uiControlIconY + 60), Vec2u(15, 10), pStyles_BlueBorder);
 
-	pControl = (CGUIControl*) pLayer->addTextBox(CPoint2D(uiControlIconX, uiControlIconY + 90), CSize2D(15, 15), "", true, pStyles_Edit);
-	pControl = (CGUIControl*) pLayer->addList(CPoint2D(uiControlIconX, uiControlIconY + 120), CSize2D(15, 15), pStyles_BlueBorder);
-	// todo pControl = (CGUIControl*) pLayer->addMenu(CPoint2D(uiControlIconX, uiControlIconY + 150), CSize2D(15, 15), pStyles_BlueBorder);
+	pControl = (CGUIControl*) pLayer->addTextBox(Vec2i(uiControlIconX, uiControlIconY + 90), Vec2u(15, 15), "", true, pStyles_Edit);
+	pControl = (CGUIControl*) pLayer->addList(Vec2i(uiControlIconX, uiControlIconY + 120), Vec2u(15, 15), pStyles_BlueBorder);
+	// todo pControl = (CGUIControl*) pLayer->addMenu(Vec2i(uiControlIconX, uiControlIconY + 150), Vec2u(15, 15), pStyles_BlueBorder);
 
-	pControl = (CGUIControl*) pLayer->addProgress(CPoint2D(uiControlIconX, uiControlIconY + 180), CSize2D(15, 12), pStyles_Progress);
+	pControl = (CGUIControl*) pLayer->addProgress(Vec2i(uiControlIconX, uiControlIconY + 180), Vec2u(15, 12), pStyles_Progress);
 	((CProgressControl*) pControl)->setProgress(0.7);
 	((CProgressControl*) pControl)->setCompletionPercentageShown(false);
 
-	pControl = (CGUIControl*) pLayer->addRadio(CPoint2D(uiControlIconX, uiControlIconY + 210), CSize2D(15, 15), "", pStyles_Radio);
+	pControl = (CGUIControl*) pLayer->addRadio(Vec2i(uiControlIconX, uiControlIconY + 210), Vec2u(15, 15), "", pStyles_Radio);
 	((CRadioControl*) pControl)->setMarked(true);
 
-	pControl = (CGUIControl*) pLayer->addScroll(CPoint2D(uiControlIconX, uiControlIconY + 240), CSize2D(10, 15), pStyles_BlueBorder);
-	// todo pControl = (CGUIControl*) pLayer->addTabs(CPoint2D(uiControlIconX, uiControlIconY + 270), CSize2D(15, 15), "Tabs", pStyles_BlueBorder);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiControlIconX, uiControlIconY + 300), CSize2D(15, 15), "abc", pStyles_BlueBorderAndText);
+	pControl = (CGUIControl*) pLayer->addScroll(Vec2i(uiControlIconX, uiControlIconY + 240), Vec2u(10, 15), pStyles_BlueBorder);
+	// todo pControl = (CGUIControl*) pLayer->addTabs(Vec2i(uiControlIconX, uiControlIconY + 270), Vec2u(15, 15), "Tabs", pStyles_BlueBorder);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiControlIconX, uiControlIconY + 300), Vec2u(15, 15), "abc", pStyles_BlueBorderAndText);
 
 	// add control text
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiControlTextX, uiControlIconY), CSize2D(150, 30), "Button", pStyles_BlueText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiControlTextX, uiControlIconY + 30), CSize2D(150, 30), "Check", pStyles_BlueText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiControlTextX, uiControlIconY + 60), CSize2D(150, 30), "Drop", pStyles_BlueText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiControlTextX, uiControlIconY + 90), CSize2D(150, 30), "Edit", pStyles_BlueText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiControlTextX, uiControlIconY + 120), CSize2D(150, 30), "List", pStyles_BlueText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiControlTextX, uiControlIconY + 150), CSize2D(150, 30), "Menu", pStyles_BlueText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiControlTextX, uiControlIconY + 180), CSize2D(150, 30), "Progress", pStyles_BlueText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiControlTextX, uiControlIconY + 210), CSize2D(150, 30), "Radio", pStyles_BlueText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiControlTextX, uiControlIconY + 240), CSize2D(150, 30), "Scroll", pStyles_BlueText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiControlTextX, uiControlIconY + 270), CSize2D(150, 30), "Tabs", pStyles_BlueText);
-	pControl = (CGUIControl*) pLayer->addText(CPoint2D(uiControlTextX, uiControlIconY + 300), CSize2D(150, 30), "Text", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiControlTextX, uiControlIconY), Vec2u(150, 30), "Button", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiControlTextX, uiControlIconY + 30), Vec2u(150, 30), "Check", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiControlTextX, uiControlIconY + 60), Vec2u(150, 30), "Drop", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiControlTextX, uiControlIconY + 90), Vec2u(150, 30), "Edit", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiControlTextX, uiControlIconY + 120), Vec2u(150, 30), "List", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiControlTextX, uiControlIconY + 150), Vec2u(150, 30), "Menu", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiControlTextX, uiControlIconY + 180), Vec2u(150, 30), "Progress", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiControlTextX, uiControlIconY + 210), Vec2u(150, 30), "Radio", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiControlTextX, uiControlIconY + 240), Vec2u(150, 30), "Scroll", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiControlTextX, uiControlIconY + 270), Vec2u(150, 30), "Tabs", pStyles_BlueText);
+	pControl = (CGUIControl*) pLayer->addText(Vec2i(uiControlTextX, uiControlIconY + 300), Vec2u(150, 30), "Text", pStyles_BlueText);
 	*/
 }
 
 // input - theme designer window
-void									CThemeDesignerTab_AddItem::onLeftMouseDown(CPoint2D& vecCursorPosition)
+void									CThemeDesignerTab_AddItem::onLeftMouseDown(Vec2i& vecCursorPosition)
 {
 	/*
 	getIMGF()->getThemeDesigner()->setThemeDesignerModeEnabled(true);
@@ -195,9 +195,9 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown(CPoint2D& vecCursorPosit
 	uint32
 		uiShapeIndex,
 		uiControlIndex;
-	CPoint2D
+	Vec2i
 		vecRectanglePosition;
-	CSize2D
+	Vec2u
 		vecRectangleSize(210, 30); // todo - move to object property
 	bool
 		bShowRectangle = false;
@@ -257,15 +257,15 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown(CPoint2D& vecCursorPosit
 	*/
 }
 
-void									CThemeDesignerTab_AddItem::onMouseMove(CPoint2D& vecCursorPosition)
+void									CThemeDesignerTab_AddItem::onMouseMove(Vec2i& vecCursorPosition)
 {
 	/*
 	uint32
 		uiShapeIndex,
 		uiControlIndex;
-	CPoint2D
+	Vec2i
 		vecRectanglePosition;
-	CSize2D
+	Vec2u
 		vecRectangleSize(210, 30); // todo - move to object property
 	bool
 		bShowRectangle = false;
@@ -323,7 +323,7 @@ void									CThemeDesignerTab_AddItem::onMouseMove(CPoint2D& vecCursorPosition)
 }
 
 // input - main window
-void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow(CPoint2D& vecCursorPosition)
+void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow(Vec2i& vecCursorPosition)
 {
 	/*
 	CWindow *pMainWindow = bxgx::CGUIManager::get()->getEntryByIndex(1);
@@ -349,26 +349,26 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow(CPoint2D& vec
 				break;
 			case GUI_SHAPE_GEOMETRY_1_POINT_1_X_2D_SIZE: // ellipse, rectangle
 				((CGUIShapeGeometry_1xPoint_1x2DSize*) pShape)->setPosition(vecCursorPosition);
-				((CGUIShapeGeometry_1xPoint_1x2DSize*) pShape)->setSize(CSize2D(10, 15));
+				((CGUIShapeGeometry_1xPoint_1x2DSize*) pShape)->setSize(Vec2u(10, 15));
 				break;
 			case GUI_SHAPE_GEOMETRY_2_POINTS: // line
 				((CGUIShapeGeometry_2xPoints*) pShape)->setPoint1(vecCursorPosition);
-				((CGUIShapeGeometry_2xPoints*) pShape)->setPoint2(vecCursorPosition + CPoint2D((int32) 15, 15));
+				((CGUIShapeGeometry_2xPoints*) pShape)->setPoint2(vecCursorPosition + Vec2i((int32) 15, 15));
 				break;
 			case GUI_SHAPE_GEOMETRY_3_POINTS: // triangle
 				((CGUIShapeGeometry_3xPoints*) pShape)->setPoint1(vecCursorPosition);
-				((CGUIShapeGeometry_3xPoints*) pShape)->setPoint2(vecCursorPosition + CPoint2D((int32) 0, 10));
-				((CGUIShapeGeometry_3xPoints*) pShape)->setPoint3(vecCursorPosition + CPoint2D((int32) 15, 5));
+				((CGUIShapeGeometry_3xPoints*) pShape)->setPoint2(vecCursorPosition + Vec2i((int32) 0, 10));
+				((CGUIShapeGeometry_3xPoints*) pShape)->setPoint3(vecCursorPosition + Vec2i((int32) 15, 5));
 				break;
 			case GUI_SHAPE_GEOMETRY_N_POINTS: // polygon
 			{
-				vector<CPoint2D> vecPolygonPoints;
+				vector<Vec2i> vecPolygonPoints;
 				vecPolygonPoints.resize(5);
-				vecPolygonPoints[0] = CPoint2D(vecCursorPosition.m_x, vecCursorPosition.m_y);
-				vecPolygonPoints[1] = CPoint2D(vecCursorPosition.m_x + 15, vecCursorPosition.m_y + 3);
-				vecPolygonPoints[2] = CPoint2D(vecCursorPosition.m_x + 12, vecCursorPosition.m_y + 10);
-				vecPolygonPoints[3] = CPoint2D(vecCursorPosition.m_x + 7, vecCursorPosition.m_y + 5);
-				vecPolygonPoints[4] = CPoint2D(vecCursorPosition.m_x + 4, vecCursorPosition.m_y + 15);
+				vecPolygonPoints[0] = Vec2i(vecCursorPosition.x, vecCursorPosition.y);
+				vecPolygonPoints[1] = Vec2i(vecCursorPosition.x + 15, vecCursorPosition.y + 3);
+				vecPolygonPoints[2] = Vec2i(vecCursorPosition.x + 12, vecCursorPosition.y + 10);
+				vecPolygonPoints[3] = Vec2i(vecCursorPosition.x + 7, vecCursorPosition.y + 5);
+				vecPolygonPoints[4] = Vec2i(vecCursorPosition.x + 4, vecCursorPosition.y + 15);
 				((CGUIShapeGeometry_NxPoints*) pShape)->setPoints(vecPolygonPoints);
 				break;
 			}
@@ -399,7 +399,7 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow(CPoint2D& vec
 	*/
 }
 
-void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow_WindowEventType(CPoint2D& vecCursorPosition)
+void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow_WindowEventType(Vec2i& vecCursorPosition)
 {
 	// check to set item active
 	CWindow *pMainWindow = bxgx::CGUIManager::get()->getEntryByIndex(1);
@@ -442,24 +442,24 @@ void									CThemeDesignerTab_AddItem::onLeftMouseDown_MainWindow_WindowEventTy
 }
 
 // other
-uint32									CThemeDesignerTab_AddItem::getTabShapeIndexFromPoint(CPoint2D& vecCursorPosition) // todo - rename method? // todo - repeated code f7h8e5t
+uint32									CThemeDesignerTab_AddItem::getTabShapeIndexFromPoint(Vec2i& vecCursorPosition) // todo - rename method? // todo - repeated code f7h8e5t
 {
-	return CMath::getRowIndexInRectangle(vecCursorPosition, getShapeIconStartPosition() - CPoint2D(10, getItemSize().m_y / 2), getItemSize().m_x, getItemRowSize().m_y, 7);
+	return CMath::getRowIndexInRectangle(vecCursorPosition, getShapeIconStartPosition() - Vec2i(10, getItemSize().y / 2), getItemSize().x, getItemRowSize().y, 7);
 }
 
-uint32									CThemeDesignerTab_AddItem::getTabControlIndexFromPoint(CPoint2D& vecCursorPosition) // todo - rename method? // todo - repeated code f7h8e5t
+uint32									CThemeDesignerTab_AddItem::getTabControlIndexFromPoint(Vec2i& vecCursorPosition) // todo - rename method? // todo - repeated code f7h8e5t
 {
-	return CMath::getRowIndexInRectangle(vecCursorPosition, getControlIconStartPosition() - CPoint2D(10, getItemSize().m_y / 2), getItemSize().m_x, getItemRowSize().m_y, 11);
+	return CMath::getRowIndexInRectangle(vecCursorPosition, getControlIconStartPosition() - Vec2i(10, getItemSize().y / 2), getItemSize().x, getItemRowSize().y, 11);
 }
 
-CPoint2D								CThemeDesignerTab_AddItem::getShapeRowPoint(uint32 uiShapeRowIndex) // todo - repeated code f7h8e5t
+Vec2i								CThemeDesignerTab_AddItem::getShapeRowPoint(uint32 uiShapeRowIndex) // todo - repeated code f7h8e5t
 {
-	return getShapeIconStartPosition() + CPoint2D(-10, ((int32)(uiShapeRowIndex * getItemRowSize().m_y)) - ((int32) (getItemSize().m_y / 2))); // todo - 10 repeated 4 times - move to object property
+	return getShapeIconStartPosition() + Vec2i(-10, ((int32)(uiShapeRowIndex * getItemRowSize().y)) - ((int32) (getItemSize().y / 2))); // todo - 10 repeated 4 times - move to object property
 }
 
-CPoint2D								CThemeDesignerTab_AddItem::getControlRowPoint(uint32 uiControlRowIndex) // todo - repeated code f7h8e5t
+Vec2i								CThemeDesignerTab_AddItem::getControlRowPoint(uint32 uiControlRowIndex) // todo - repeated code f7h8e5t
 {
-	return getControlIconStartPosition() + CPoint2D(-10, ((int32) (uiControlRowIndex * getItemRowSize().m_y)) - ((int32) (getItemSize().m_y / 2)));
+	return getControlIconStartPosition() + Vec2i(-10, ((int32) (uiControlRowIndex * getItemRowSize().y)) - ((int32) (getItemSize().y / 2)));
 }
 
 eGUIShape								CThemeDesignerTab_AddItem::getShapeIdFromIndex(uint32 uiShapeIndex)
@@ -496,21 +496,21 @@ eGUIControl								CThemeDesignerTab_AddItem::getControlIdFromIndex(uint32 uiCon
 	return GUI_CONTROL_UNKNOWN;
 }
 
-CSize2D							CThemeDesignerTab_AddItem::getControlDefaultSize(eGUIControl eControlId)
+Vec2u							CThemeDesignerTab_AddItem::getControlDefaultSize(eGUIControl eControlId)
 {
 	switch (eControlId)
 	{
-	case GUI_CONTROL_BUTTON:	return CSize2D(60, 20);
-	case GUI_CONTROL_CHECK:		return CSize2D(20, 20);
-	case GUI_CONTROL_DROP:		return CSize2D(80, 25);
-	case GUI_CONTROL_TEXT_BOX:	return CSize2D(100, 20);
-	case GUI_CONTROL_GRID:		return CSize2D(250, 250);
-	case GUI_CONTROL_MENU:		return CSize2D(250, 20);
-	case GUI_CONTROL_PROGRESS:	return CSize2D(100, 25);
-	case GUI_CONTROL_RADIO:		return CSize2D(20, 20);
-	case GUI_CONTROL_SCROLL:	return CSize2D(250, 15);
-	case GUI_CONTROL_TAB_BAR:		return CSize2D(250, 25);
-	case GUI_CONTROL_TEXT:		return CSize2D(250, 50);
+	case GUI_CONTROL_BUTTON:	return Vec2u(60, 20);
+	case GUI_CONTROL_CHECK:		return Vec2u(20, 20);
+	case GUI_CONTROL_DROP:		return Vec2u(80, 25);
+	case GUI_CONTROL_TEXT_BOX:	return Vec2u(100, 20);
+	case GUI_CONTROL_GRID:		return Vec2u(250, 250);
+	case GUI_CONTROL_MENU:		return Vec2u(250, 20);
+	case GUI_CONTROL_PROGRESS:	return Vec2u(100, 25);
+	case GUI_CONTROL_RADIO:		return Vec2u(20, 20);
+	case GUI_CONTROL_SCROLL:	return Vec2u(250, 15);
+	case GUI_CONTROL_TAB_BAR:		return Vec2u(250, 25);
+	case GUI_CONTROL_TEXT:		return Vec2u(250, 50);
 	}
-	return CSize2D(50, 50);
+	return Vec2u(50, 50);
 }

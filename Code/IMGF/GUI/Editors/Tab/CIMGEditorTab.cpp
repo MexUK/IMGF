@@ -28,8 +28,8 @@
 #include "Tasks/Sort/CSortPriorities.h"
 #include "Platform/Hardware/CPlatformManager.h"
 #include "Settings/CSettingsManager.h"
-#include "GUI/CGUIManager.h"
-#include "GUI/CGUIManager.h"
+#include "Input/CInputManager.h"
+#include "Input/CInputManager.h"
 #include "DB/CDBManager.h"
 #include "Tasks/RecentlyOpen/CRecentlyOpenManager.h"
 #include "Controls/CGridControl.h"
@@ -69,14 +69,14 @@ bool					CIMGEditorTab::checkForErrors(void)
 		// check if IMG is fastman92 format and is encrypted
 		if (pIMGFormat->isEncrypted())
 		{
-			bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_21"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_21"), MB_OK);
+			bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_21"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_21"), MB_OK);
 			return false;
 		}
 
 		// check if IMG is fastman92 format and has an unsupported game type
 		if (pIMGFormat->getGameType() != 0)
 		{
-			bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_68", pIMGFormat->getGameType()), CLocalizationManager::get()->getTranslatedText("UnableToOpenIMG"), MB_OK);
+			bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_68", pIMGFormat->getGameType()), CLocalizationManager::get()->getTranslatedText("UnableToOpenIMG"), MB_OK);
 			return false;
 		}
 	}
@@ -84,7 +84,7 @@ bool					CIMGEditorTab::checkForErrors(void)
 	// check for unserialize error [includes file open/close errors]
 	if (pIMGFormat->doesHaveError())
 	{
-		bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_23"), CLocalizationManager::get()->getTranslatedText("UnableToOpenIMG"), MB_OK);
+		bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_23"), CLocalizationManager::get()->getTranslatedText("UnableToOpenIMG"), MB_OK);
 		return false;
 	}
 
@@ -522,14 +522,14 @@ void					CIMGEditorTab::addColumnsToMainListView(void)
 }
 void					CIMGEditorTab::readdAllEntriesToMainListView(void)
 {
-	getWindow()->getEntryListControl()->removeAllEntries();
+	m_pEditor->getEntryGrid()->removeAllEntries();
 	
-	getIMGF()->getIMGEditor()->setSelectedEntryCount(0);
-	getIMGF()->getIMGEditor()->updateSelectedEntryCountText();
+	m_pEditor->setSelectedEntryCount(0);
+	m_pEditor->updateSelectedEntryCountText();
 
 	addAllEntriesToMainListView();
 
-	getWindow()->getEntryListControl()->getWindow()->render();
+	m_pEditor->getEntryGrid()->getWindow()->markToRedraw();
 }
 void					CIMGEditorTab::addAllEntriesToMainListView(void)
 {
@@ -672,9 +672,9 @@ void					CIMGEditorTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 {
 	CGridControlEntry *pListEntry = new CGridControlEntry;
 
-	pListEntry->setList(getWindow()->getEntryListControl());
+	pListEntry->setList(m_pEditor->getEntryGrid());
 
-	uint32 uiEntryIndex = getWindow()->getEntryListControl()->getEntryCount();
+	uint32 uiEntryIndex = m_pEditor->getEntryGrid()->getEntryCount();
 	string strExtensionUpper = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
 	bool bFastman92IMGFormat = pIMGEntry->getIMGFile()->getIMGVersion() == IMG_FASTMAN92;
 
@@ -693,7 +693,7 @@ void					CIMGEditorTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 	}
 
 	pListEntry->getText().push_back(vecText);
-	getWindow()->getEntryListControl()->addEntry(pListEntry);
+	m_pEditor->getEntryGrid()->addEntry(pListEntry);
 
 	/*
 	todo

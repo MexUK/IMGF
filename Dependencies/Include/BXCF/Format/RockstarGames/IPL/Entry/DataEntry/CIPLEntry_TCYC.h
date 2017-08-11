@@ -2,7 +2,7 @@
 #define CIPLEntry_TCYC_H
 
 #include "bxcf.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec3f.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IPL/Entry/CIPLEntry_Data.h"
 
@@ -17,11 +17,11 @@ public:
 	void						unserialize(void);
 	void						serialize(void);
 
-	void						setPositionLower(bxcf::CVector3D& vecPositionLower) { m_vecPositionLower = vecPositionLower; }
-	bxcf::CVector3D&					getPositionLower(void) { return m_vecPositionLower; }
+	void						setPositionLower(bxcf::Vec3f& vecPositionLower) { m_vecPositionLower = vecPositionLower; }
+	bxcf::Vec3f&					getPositionLower(void) { return m_vecPositionLower; }
 
-	void						setPositionUpper(bxcf::CVector3D& vecPositionUpper) { m_vecPositionUpper = vecPositionUpper; }
-	bxcf::CVector3D&					getPositionUpper(void) { return m_vecPositionUpper; }
+	void						setPositionUpper(bxcf::Vec3f& vecPositionUpper) { m_vecPositionUpper = vecPositionUpper; }
+	bxcf::Vec3f&					getPositionUpper(void) { return m_vecPositionUpper; }
 
 	void						setUnknown1(uint32 uiUnknown1) { m_uiUnknown1 = uiUnknown1; }
 	uint32						getUnknown1(void) { return m_uiUnknown1; }
@@ -40,8 +40,8 @@ public:
 
 private:
 	// GTA SA only
-	bxcf::CVector3D					m_vecPositionLower;
-	bxcf::CVector3D					m_vecPositionUpper;
+	bxcf::Vec3f					m_vecPositionLower;
+	bxcf::Vec3f					m_vecPositionUpper;
 	uint32						m_uiUnknown1;
 	uint32						m_uiWeatherId;
 	int32						m_iBrightness;

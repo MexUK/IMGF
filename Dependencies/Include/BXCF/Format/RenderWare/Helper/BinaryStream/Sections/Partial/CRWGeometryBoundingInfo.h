@@ -3,7 +3,7 @@
 
 #include "bxcf.h"
 #include "Type/Types.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec3f.h"
 
 class bxcf::CRWGeometryBoundingInfo
 {
@@ -15,8 +15,8 @@ public:
 		m_bHasNormals(false)
 	{};
 
-	void							setCenter(bxcf::CVector3D& vecCenter) { m_vecCenter = vecCenter; }
-	bxcf::CVector3D&						getCenter(void) { return m_vecCenter; }
+	void							setCenter(bxcf::Vec3f& vecCenter) { m_vecCenter = vecCenter; }
+	bxcf::Vec3f&						getCenter(void) { return m_vecCenter; }
 
 	void							setCenterRadius(float32 fCenterRadius) { m_fCenterRadius = fCenterRadius; }
 	float32							getCenterRadius(void) { return m_fCenterRadius; }
@@ -28,7 +28,7 @@ public:
 	bool							doesHaveNormals(void) { return m_bHasNormals; }
 
 private:
-	bxcf::CVector3D						m_vecCenter;
+	bxcf::Vec3f						m_vecCenter;
 	float32							m_fCenterRadius;
 	bool							m_bHasPosition;
 	bool							m_bHasNormals;

@@ -6,8 +6,8 @@
 #include "Shape/CGUIShape.h"
 #include "Control/CGUIControl.h"
 #include "Control/eGUIControl.h"
-#include "Type/Vector/CPoint2D.h"
-#include "Type/Vector/CSize2D.h"
+#include "Type/Vector/Vec2i.h"
+#include "Type/Vector/Vec2u.h"
 #include "Event/eEvent.h"
 #include "Event/CGUIEventUtilizer.h"
 #include <string>
@@ -55,11 +55,11 @@ public:
 	uint32					getItemType(void) { return bxgx::item::LAYER; }
 	uint32					getItemSubType(void) { return bxgx::item::layer::TYPE_1; }
 
-	bool					isPointInItem(bxcf::CPoint2D& vecPoint);
+	bool					isPointInItem(bxcf::Vec2i& vecPoint);
 	bool					doesItemHaveFocus(void) { return true; }
 
-	bool					onLeftMouseUp(bxcf::CPoint2D& vecCursorPoint);
-	bool					onMouseMove(bxcf::CPoint2D& vecCursorPoint);
+	bool					onLeftMouseUp(bxcf::Vec2i& vecCursorPoint);
+	bool					onMouseMove(bxcf::Vec2i& vecCursorPoint);
 
 	void					setWindow(CWindow *pWindow) { m_pWindow = pWindow; }
 	CWindow*				getWindow(void) { return m_pWindow; }
@@ -71,24 +71,24 @@ public:
 	void					setId(uint32 uiId) { m_uiId = uiId; }
 	uint32					getId(void) { return m_uiId; }
 
-	CGUIItem*				getItemByPoint(bxcf::CPoint2D& vecPoint, eGUIControl eControlType = GUI_CONTROL_UNKNOWN);
+	CGUIItem*				getItemByPoint(bxcf::Vec2i& vecPoint, eGUIControl eControlType = GUI_CONTROL_UNKNOWN);
 
 	// controls
 	CGUIControl*			addControl(eGUIControl eControlId, std::string strStyleGroups = "", uint32 uiItemId = -1);
 
-	CButtonControl*			addButton(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strButtonText, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CCheckControl*			addCheck(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strCheckText, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CDropControl*			addDrop(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strDefaultText, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CImageControl*			addImage(bxcf::CPoint2D& vecPosition, std::string& strImagePath, bxcf::CSize2D vecSize = bxcf::CSize2D(0, 0), std::string strStyleGroups = "", uint32 uiItemId = -1);
-	// todo CImageControl*			addImageMem(bxcf::CPoint2D& vecPosition, std::string& strImageData, bxcf::CSize2D vecSize = bxcf::CSize2D(0, 0), std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CGridControl*			addGrid(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CMenuControl*			addMenu(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CProgressControl*		addProgress(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CRadioControl*			addRadio(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strRadioText, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CScrollControl*			addScroll(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CTabBarControl*			addTabBar(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CTextControl*			addText(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strText, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CTextBoxControl*		addTextBox(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strText = "", bool bMultiLine = false, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CButtonControl*			addButton(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strButtonText, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CCheckControl*			addCheck(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strCheckText, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CDropControl*			addDrop(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strDefaultText, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CImageControl*			addImage(bxcf::Vec2i& vecPosition, std::string& strImagePath, bxcf::Vec2u vecSize = bxcf::Vec2u(0, 0), std::string strStyleGroups = "", uint32 uiItemId = -1);
+	// todo CImageControl*			addImageMem(bxcf::Vec2i& vecPosition, std::string& strImageData, bxcf::Vec2u vecSize = bxcf::Vec2u(0, 0), std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CGridControl*			addGrid(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CMenuControl*			addMenu(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CProgressControl*		addProgress(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CRadioControl*			addRadio(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strRadioText, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CScrollControl*			addScroll(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CTabBarControl*			addTabBar(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CTextControl*			addText(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strText, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CTextBoxControl*		addTextBox(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strText = "", bool bMultiLine = false, std::string strStyleGroups = "", uint32 uiItemId = -1);
 
 	CButtonControl*			addButton(int32 x, int32 y, int32 w, int32 h, std::string strButtonText, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CCheckControl*			addCheck(int32 x, int32 y, int32 w, int32 h, std::string strCheckText, std::string strStyleGroups = "", uint32 uiItemId = -1);
@@ -108,12 +108,12 @@ public:
 	// shapes
 	CGUIShape*				addShape(eGUIShape eShapeId, std::string strStyleGroups = "", uint32 uiItemId = -1);
 
-	CLineShape*				addLine(bxcf::CPoint2D& vecPoint1, bxcf::CPoint2D& vecPoint2, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CSquareShape*			addSquare(bxcf::CPoint2D& vecPosition, uint32 uiSideLength, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CRectangleShape*		addRectangle(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CCircleShape*			addCircle(bxcf::CPoint2D& vecPosition, uint32 uiRadius, std::string strStyleGroups = "", uint32 uiItemId = -1);		// position is top left of circle
-	CEllipseShape*			addEllipse(bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CPolygonShape*			addPolygon(std::vector<bxcf::CPoint2D>& vecPoints, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CLineShape*				addLine(bxcf::Vec2i& vecPoint1, bxcf::Vec2i& vecPoint2, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CSquareShape*			addSquare(bxcf::Vec2i& vecPosition, uint32 uiSideLength, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CRectangleShape*		addRectangle(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CCircleShape*			addCircle(bxcf::Vec2i& vecPosition, uint32 uiRadius, std::string strStyleGroups = "", uint32 uiItemId = -1);		// position is top left of circle
+	CEllipseShape*			addEllipse(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CPolygonShape*			addPolygon(std::vector<bxcf::Vec2i>& vecPoints, std::string strStyleGroups = "", uint32 uiItemId = -1);
 
 	CLineShape*				addLine(int32 x1, int32 y1, int32 x2, int32 y2, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CSquareShape*			addSquare(int32 x, int32 y, int32 w, std::string strStyleGroups = "", uint32 uiItemId = -1);
@@ -121,13 +121,13 @@ public:
 	CCircleShape*			addCircle(int32 x, int32 y, int32 r, std::string strStyleGroups = "", uint32 uiItemId = -1);		// position is top left of circle
 	CEllipseShape*			addEllipse(int32 x, int32 y, int32 rw, int32 rh, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	
-	CTriangleShape*			addTriangle(bxcf::CPoint2D& vecPoint1, bxcf::CPoint2D& vecPoint2, bxcf::CPoint2D& vecPoint3, std::string strStyleGroups = "", uint32 uiItemId = -1);		// scalene or any triangle type
-	CTriangleShape*			addEquilateralTriangle(bxcf::CPoint2D& vecPosition, float32 fSideLength, uint32 uiPointingDirection, std::string strStyleGroups = "", uint32 uiItemId = -1); // [parameter uiPointingDirection] Left=1,Top=2,Right=3,Bottom=4,TopLeft=5,TopRight=6,BottomRight=7,BottomLeft=8
-	CTriangleShape*			addEquilateralTriangle(bxcf::CPoint2D& vecBottomLeftPoint, bxcf::CPoint2D& vecBottomRightPoint, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CTriangleShape*			addEquilateralTriangle(bxcf::CPoint2D& vecBottomLeftPoint, float32 fSideLength, float32 fBaseAngle = 0.0f, std::string strStyleGroups = "", uint32 uiItemId = -1);	// base angle parameter is in degrees
-	CTriangleShape*			addIsoscelesTriangle(bxcf::CPoint2D& vecPosition, float32 fBaseLength, float32 fLegLength, uint32 uiPointingDirection, std::string strStyleGroups = "", uint32 uiItemId = -1); // [parameter uiPointingDirection] Left=1,Top=2,Right=3,Bottom=4,TopLeft=5,TopRight=6,BottomRight=7,BottomLeft=8
-	CTriangleShape*			addIsoscelesTriangle(bxcf::CPoint2D& vecBaseCenterPoint, bxcf::CPoint2D& vecTipPoint, uint32 uiBaseHalfWidth, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CTriangleShape*			addIsoscelesTriangle(bxcf::CPoint2D& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle = 25.0f, float32 fBaseAngle = 0.0f, std::string strStyleGroups = "", uint32 uiItemId = -1);	// tip angle parameter is in degrees
+	CTriangleShape*			addTriangle(bxcf::Vec2i& vecPoint1, bxcf::Vec2i& vecPoint2, bxcf::Vec2i& vecPoint3, std::string strStyleGroups = "", uint32 uiItemId = -1);		// scalene or any triangle type
+	CTriangleShape*			addEquilateralTriangle(bxcf::Vec2i& vecPosition, float32 fSideLength, uint32 uiPointingDirection, std::string strStyleGroups = "", uint32 uiItemId = -1); // [parameter uiPointingDirection] Left=1,Top=2,Right=3,Bottom=4,TopLeft=5,TopRight=6,BottomRight=7,BottomLeft=8
+	CTriangleShape*			addEquilateralTriangle(bxcf::Vec2i& vecBottomLeftPoint, bxcf::Vec2i& vecBottomRightPoint, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CTriangleShape*			addEquilateralTriangle(bxcf::Vec2i& vecBottomLeftPoint, float32 fSideLength, float32 fBaseAngle = 0.0f, std::string strStyleGroups = "", uint32 uiItemId = -1);	// base angle parameter is in degrees
+	CTriangleShape*			addIsoscelesTriangle(bxcf::Vec2i& vecPosition, float32 fBaseLength, float32 fLegLength, uint32 uiPointingDirection, std::string strStyleGroups = "", uint32 uiItemId = -1); // [parameter uiPointingDirection] Left=1,Top=2,Right=3,Bottom=4,TopLeft=5,TopRight=6,BottomRight=7,BottomLeft=8
+	CTriangleShape*			addIsoscelesTriangle(bxcf::Vec2i& vecBaseCenterPoint, bxcf::Vec2i& vecTipPoint, uint32 uiBaseHalfWidth, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CTriangleShape*			addIsoscelesTriangle(bxcf::Vec2i& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle = 25.0f, float32 fBaseAngle = 0.0f, std::string strStyleGroups = "", uint32 uiItemId = -1);	// tip angle parameter is in degrees
 
 	// CGUILayer continued.
 	bxcf::CVectorPool<CGUIShape*>*		getShapes(void) { return m_pShapes; }
@@ -145,7 +145,7 @@ public:
 	void						clearDropWithListOpen(void) { m_pDropWithListOpen = nullptr; }
 
 private:
-	void						_addControl(CGUIControl *pWindowControl, bxcf::CPoint2D& vecPosition, bxcf::CSize2D& vecSize, std::string& strStyleGroups, uint32 uiItemId);
+	void						_addControl(CGUIControl *pWindowControl, bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string& strStyleGroups, uint32 uiItemId);
 	void						_addControl(CGUIControl *pWindowControl, std::string& strStyleGroups, uint32 uiItemId);
 	void						_addShape(CGUIShape *pShape, std::string& strStyleGroups, uint32 uiItemId);
 

@@ -3,7 +3,7 @@
 
 #include "bxcf.h"
 #include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_2DFX.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec3f.h"
 
 class bxcf::CIDEEntry_2DFX_Ped : public bxcf::CIDEEntry_2DFX
 {
@@ -22,17 +22,17 @@ public:
 	void						setBehaviour(uint32 uiBehaviour) { m_uiBehaviour = uiBehaviour; }
 	uint32						getBehaviour(void) { return m_uiBehaviour; }
 
-	void						setUnknown2(bxcf::CVector3D& vecUnknown2) { m_vecUnknown2 = vecUnknown2; }
-	bxcf::CVector3D&					getUnknown2(void) { return m_vecUnknown2; }
+	void						setUnknown2(bxcf::Vec3f& vecUnknown2) { m_vecUnknown2 = vecUnknown2; }
+	bxcf::Vec3f&					getUnknown2(void) { return m_vecUnknown2; }
 
-	void						setPedRotation(bxcf::CVector3D& vecPedRotation) { m_vecPedRotation = vecPedRotation; }
-	bxcf::CVector3D&					getPedRotation(void) { return m_vecPedRotation; }
+	void						setPedRotation(bxcf::Vec3f& vecPedRotation) { m_vecPedRotation = vecPedRotation; }
+	bxcf::Vec3f&					getPedRotation(void) { return m_vecPedRotation; }
 
 private:
 	// GTA III era only
 	uint32						m_uiBehaviour;
-	bxcf::CVector3D					m_vecUnknown2;
-	bxcf::CVector3D					m_vecPedRotation;
+	bxcf::Vec3f					m_vecUnknown2;
+	bxcf::Vec3f					m_vecPedRotation;
 };
 
 #endif

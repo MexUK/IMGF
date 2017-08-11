@@ -18,9 +18,9 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	bool									onLeftMouseDown(bxcf::CPoint2D& vecCursorPosition);
-	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPosition);
-	bool									onMouseMove(bxcf::CPoint2D& vecCursorPosition);
+	bool									onLeftMouseDown(bxcf::Vec2i& vecCursorPosition);
+	bool									onLeftMouseUp(bxcf::Vec2i& vecCursorPosition);
+	bool									onMouseMove(bxcf::Vec2i& vecCursorPosition);
 	void									onRender(void);
 
 	void									setCursorHoverActive(bool bCursorHoverIsActive) { m_bCursorHoverIsActive = bCursorHoverIsActive; }

@@ -4,7 +4,7 @@
 #include "bxcf.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IPL/Entry/CIPLEntry_Data.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec3f.h"
 #include <string>
 
 class bxcf::CIPLEntry_AUZO : public bxcf::CIPLEntry_Data
@@ -30,14 +30,14 @@ public:
 	void						setSoundId(uint32 uiSoundID) { m_uiSoundId = uiSoundID; }
 	uint32						getSoundId(void) { return m_uiSoundId; }
 
-	void						setLowerLeftPosition(bxcf::CVector3D& vecLowerLeftPosition) { m_vecLowerLeftPosition = vecLowerLeftPosition; }
-	bxcf::CVector3D&					getLowerLeftPosition(void) { return m_vecLowerLeftPosition; }
+	void						setLowerLeftPosition(bxcf::Vec3f& vecLowerLeftPosition) { m_vecLowerLeftPosition = vecLowerLeftPosition; }
+	bxcf::Vec3f&					getLowerLeftPosition(void) { return m_vecLowerLeftPosition; }
 
-	void						setUpperRightPosition(bxcf::CVector3D& vecUpperRightPosition) { m_vecUpperRightPosition = vecUpperRightPosition; }
-	bxcf::CVector3D&					getUpperRightPosition(void) { return m_vecUpperRightPosition; }
+	void						setUpperRightPosition(bxcf::Vec3f& vecUpperRightPosition) { m_vecUpperRightPosition = vecUpperRightPosition; }
+	bxcf::Vec3f&					getUpperRightPosition(void) { return m_vecUpperRightPosition; }
 
-	void						setCenterPosition(bxcf::CVector3D& vecCenterPosition) { m_vecCenterPosition = vecCenterPosition; }
-	bxcf::CVector3D&					getCenterPosition(void) { return m_vecCenterPosition; }
+	void						setCenterPosition(bxcf::Vec3f& vecCenterPosition) { m_vecCenterPosition = vecCenterPosition; }
+	bxcf::Vec3f&					getCenterPosition(void) { return m_vecCenterPosition; }
 
 	void						setRadius(float32 fRadius) { m_fRadius = fRadius; }
 	float32						getRadius(void) { return m_fRadius; }
@@ -47,9 +47,9 @@ private:
 	std::string					m_strZoneName;
 	uint32						m_uiSoundId;
 	uint32						m_uiSwitch;
-	bxcf::CVector3D					m_vecLowerLeftPosition;
-	bxcf::CVector3D					m_vecUpperRightPosition;
-	bxcf::CVector3D					m_vecCenterPosition;
+	bxcf::Vec3f					m_vecLowerLeftPosition;
+	bxcf::Vec3f					m_vecUpperRightPosition;
+	bxcf::Vec3f					m_vecCenterPosition;
 	float32						m_fRadius;
 };
 

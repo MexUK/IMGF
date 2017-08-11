@@ -112,7 +112,7 @@ class CGUIEventUtilizerBlank : public CGUIEventUtilizer
 {
 	uint32 getItemType(void) { return -1; }
 	uint32 getItemSubType(void) { return -1; }
-	bool isPointInItem(bxcf::CPoint2D& vec) { return false; }
+	bool isPointInItem(bxcf::Vec2i& vec) { return false; }
 	bool doesItemHaveFocus(void) { return false; }
 };
 

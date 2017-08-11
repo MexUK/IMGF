@@ -18,10 +18,10 @@ public:
 		m_bHasPositions(false),
 		m_bHasNormals(false)
 	{
-		bxcf::CVector3D vecCenter;
-		vecCenter.m_x = 0.0f;
-		vecCenter.m_y = 0.0f;
-		vecCenter.m_z = 0.0f;
+		bxcf::Vec3f vecCenter;
+		vecCenter.x = 0.0f;
+		vecCenter.y = 0.0f;
+		vecCenter.z = 0.0f;
 		m_pBoundingObject = new bxcf::CIntermediateBoundingObject;
 		m_pBoundingObject->setBoundingObjectType(bxcf::BOUNDING_OBJECT_TYPE_SPHERE);
 		m_pBoundingObject->setCenter(vecCenter);

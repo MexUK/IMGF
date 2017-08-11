@@ -2,16 +2,16 @@
 #define CWDRBlock_VertexData_H
 
 #include "bxcf.h"
-#include "Type/Vector/CVector2D.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec2f.h"
+#include "Type/Vector/Vec3f.h"
 
 class bxcf::CWDRBlock_VertexData
 {
 public:
-	bxcf::CVector3D					m_vecPosition;
-	bxcf::CVector3D					m_vecNormals;
+	bxcf::Vec3f					m_vecPosition;
+	bxcf::Vec3f					m_vecNormals;
 	uint32						m_uiColour; // RGBA
-	bxcf::CVector2D					m_vecTextureCoordinates;
+	bxcf::Vec2f					m_vecTextureCoordinates;
 	float32						m_fNormals2[4];
 };
 

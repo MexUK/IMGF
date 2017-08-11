@@ -18,7 +18,7 @@ public:
 
 	void									onRender(void);
 
-	bxcf::CSize2D									getSeekBarSize(void);		// in pixels
+	bxcf::Vec2u									getSeekBarSize(void);		// in pixels
 	uint32									getSeekBarSizeWidth(void);	// in pixels
 
 	std::string								getProgressPercentText(void);

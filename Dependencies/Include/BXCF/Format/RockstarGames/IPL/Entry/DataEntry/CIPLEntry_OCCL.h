@@ -4,7 +4,7 @@
 #include "bxcf.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IPL/Entry/CIPLEntry_Data.h"
-#include "Type/Vector/CVector2D.h"
+#include "Type/Vector/Vec2f.h"
 
 class bxcf::CIPLEntry_OCCL : public bxcf::CIPLEntry_Data
 {
@@ -25,14 +25,14 @@ public:
 	void						unserialize(void);
 	void						serialize(void);
 
-	void						setMidPosition(bxcf::CVector2D& vecMidPosition) { m_vecMidPosition = vecMidPosition; }
-	bxcf::CVector2D&					getMidPosition(void) { return m_vecMidPosition; }
+	void						setMidPosition(bxcf::Vec2f& vecMidPosition) { m_vecMidPosition = vecMidPosition; }
+	bxcf::Vec2f&					getMidPosition(void) { return m_vecMidPosition; }
 
 	void						setBottomHeightZ(float32 fBottomHeightZ) { m_fBottomHeightZ = fBottomHeightZ; }
 	float32						getBottomHeightZ(void) { return m_fBottomHeightZ; }
 
-	void						setWidth(bxcf::CVector2D& vecWidth) { m_vecWidth = vecWidth; }
-	bxcf::CVector2D&					getWidth(void) { return m_vecWidth; }
+	void						setWidth(bxcf::Vec2f& vecWidth) { m_vecWidth = vecWidth; }
+	bxcf::Vec2f&					getWidth(void) { return m_vecWidth; }
 
 	void						setHeight(float32 fHeight) { m_fHeight = fHeight; }
 	float32						getHeight(void) { return m_fHeight; }
@@ -51,9 +51,9 @@ public:
 
 private:
 	// GTA VC only
-	bxcf::CVector2D					m_vecMidPosition;
+	bxcf::Vec2f					m_vecMidPosition;
 	float32						m_fBottomHeightZ;
-	bxcf::CVector2D					m_vecWidth;
+	bxcf::Vec2f					m_vecWidth;
 	float32						m_fHeight;
 	float32						m_fRotation;
 

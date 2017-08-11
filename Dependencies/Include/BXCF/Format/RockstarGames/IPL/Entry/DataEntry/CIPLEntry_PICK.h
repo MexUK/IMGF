@@ -3,7 +3,7 @@
 
 #include "bxcf.h"
 #include "Type/Types.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec3f.h"
 #include "Format/RockstarGames/IPL/Entry/CIPLEntry_Data.h"
 
 class bxcf::CIPLEntry_PICK : public bxcf::CIPLEntry_Data
@@ -20,13 +20,13 @@ public:
 	void						setWeaponId(uint32 uiWeaponId) { m_uiWeaponId = uiWeaponId; }
 	uint32						getWeaponId(void) { return m_uiWeaponId; }
 
-	void						setPosition(bxcf::CVector3D& vecPosition) { m_vecPosition = vecPosition; }
-	bxcf::CVector3D&					getPosition(void) { return m_vecPosition; }
+	void						setPosition(bxcf::Vec3f& vecPosition) { m_vecPosition = vecPosition; }
+	bxcf::Vec3f&					getPosition(void) { return m_vecPosition; }
 
 private:
 	// GTA SA only
 	uint32						m_uiWeaponId;
-	bxcf::CVector3D					m_vecPosition;
+	bxcf::Vec3f					m_vecPosition;
 };
 
 #endif

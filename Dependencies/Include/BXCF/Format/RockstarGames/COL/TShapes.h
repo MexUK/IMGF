@@ -2,14 +2,14 @@
 #define TShapes_H
 
 #include "bxcf.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec3f.h"
 
 struct bxcf::TBounds
 {
 	float32			m_fRadius;
-	bxcf::CVector3D		m_vecCenter;
-	bxcf::CVector3D		m_vecMin;
-	bxcf::CVector3D		m_vecMax;
+	bxcf::Vec3f		m_vecCenter;
+	bxcf::Vec3f		m_vecMin;
+	bxcf::Vec3f		m_vecMax;
 };
 
 struct bxcf::TSurface
@@ -23,26 +23,26 @@ struct bxcf::TSurface
 struct bxcf::TSphere
 {
 	float32			m_fRadius;
-	bxcf::CVector3D		m_vecCenter;
+	bxcf::Vec3f		m_vecCenter;
 	TSurface		m_surface;
 };
 
 struct bxcf::TBox
 {
-	bxcf::CVector3D		m_min;
-	bxcf::CVector3D		m_max;
+	bxcf::Vec3f		m_min;
+	bxcf::Vec3f		m_max;
 	TSurface		m_surface;
 };
 
 struct bxcf::TFaceGroup
 {
-	bxcf::CVector3D		m_min;
-	bxcf::CVector3D		m_max;
+	bxcf::Vec3f		m_min;
+	bxcf::Vec3f		m_max;
 	uint16			m_startFace;
 	uint16			m_endFace;
 };
 
-struct bxcf::TVertex : public bxcf::CVector3D
+struct bxcf::TVertex : public bxcf::Vec3f
 {
 };
 

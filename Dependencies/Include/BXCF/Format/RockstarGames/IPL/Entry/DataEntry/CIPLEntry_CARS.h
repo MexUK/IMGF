@@ -4,8 +4,8 @@
 #include "bxcf.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IPL/Entry/CIPLEntry_Data.h"
-#include "Type/Vector/CVector3D.h"
-#include "Type/Vector/CVector2i32.h"
+#include "Type/Vector/Vec3f.h"
+#include "Type/Vector/Vec2i.h"
 
 class bxcf::CIPLEntry_CARS : public bxcf::CIPLEntry_Data
 {
@@ -13,7 +13,7 @@ public:
 	CIPLEntry_CARS(bxcf::CIPLFormat *pIPLFormat) :
 		CIPLEntry_Data(pIPLFormat, IPL_SECTION_CARS),
 		m_vecPosition{ 0.0f, 0.0f, 0.0f },
-		m_zRotation(0.0f),
+		zRotation(0.0f),
 		m_iVehicleModelId(0),
 		m_uiForceSpawn(0),
 		m_uiAlarmTriggerProbability(0),
@@ -21,8 +21,8 @@ public:
 		m_uiUnknown1(0),
 		m_uiUnknown2(0)
 	{
-		m_iVehicleColour.m_x = 0;
-		m_iVehicleColour.m_y = 0;
+		m_iVehicleColour.x = 0;
+		m_iVehicleColour.y = 0;
 	};
 
 	void						unserialize(void);
@@ -34,17 +34,17 @@ public:
 	void						serialize_Text(void);
 	void						serialize_Binary(void);
 
-	void						setPosition(bxcf::CVector3D& vecPosition) { m_vecPosition = vecPosition; }
-	bxcf::CVector3D&					getPosition(void) { return m_vecPosition; }
+	void						setPosition(bxcf::Vec3f& vecPosition) { m_vecPosition = vecPosition; }
+	bxcf::Vec3f&					getPosition(void) { return m_vecPosition; }
 
-	void						setZRotation(float32 m_zRotation) { m_zRotation = m_zRotation; } // in radians
-	float32						getZRotation(void) { return m_zRotation; } // in radians
+	void						setZRotation(float32 zRotation) { zRotation = zRotation; } // in radians
+	float32						getZRotation(void) { return zRotation; } // in radians
 
 	void						setVehicleModelId(uint32 iVehicleModelId) { m_iVehicleModelId = iVehicleModelId; }
 	uint32						getVehicleModelId(void) { return m_iVehicleModelId; }
 
-	void						setVehicleColour(bxcf::CVector2i32& vecVehicleColour) { m_iVehicleColour = vecVehicleColour; }
-	bxcf::CVector2i32&				getVehicleColour(void) { return m_iVehicleColour; }
+	void						setVehicleColour(bxcf::Vec2i& vecVehicleColour) { m_iVehicleColour = vecVehicleColour; }
+	bxcf::Vec2i&				getVehicleColour(void) { return m_iVehicleColour; }
 
 	void						setForceSpawn(uint32 uiForceSpawn) { m_uiForceSpawn = uiForceSpawn; }
 	uint32						getForceSpawn(void) { return m_uiForceSpawn; }
@@ -63,10 +63,10 @@ public:
 
 private:
 	// GTA SA only
-	bxcf::CVector3D					m_vecPosition;
-	float32						m_zRotation; // in radians
+	bxcf::Vec3f					m_vecPosition;
+	float32						zRotation; // in radians
 	int32						m_iVehicleModelId;
-	bxcf::CVector2i32					m_iVehicleColour;
+	bxcf::Vec2i					m_iVehicleColour;
 	uint32						m_uiForceSpawn;
 	uint32						m_uiAlarmTriggerProbability;
 	uint32						m_uiDoorLockProbability;

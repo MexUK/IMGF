@@ -18,7 +18,7 @@ class CIMGEditorTab : public CEditorTab
 {
 public:
 	CIMGEditorTab(void) :
-		m_pWindow(nullptr),
+		m_pEditor(nullptr),
 		m_bRestoringFilterOptions(false),
 		m_bIMGModifiedSinceRebuild(false),
 		m_uiOverwriteEntryOption(0)
@@ -108,8 +108,8 @@ public:
 
 	void						checkForUnknownRWVersionEntries(void);
 	
-	void						setWindow(CIMGEditor *pEntryListWindow) { m_pWindow = pEntryListWindow; }
-	CIMGEditor*			getWindow(void) { return m_pWindow; }
+	void						setEditor(CIMGEditor *pEditor) { m_pEditor = pEditor; }
+	CIMGEditor*					getEditor(void) { return m_pEditor; }
 
 	CDBFormat*					m_pDBFile; // todo - make private
 
@@ -120,8 +120,8 @@ private:
 	void						loadProtectedEntryState(bxcf::CIMGEntry *pIMGEntry);
 
 private:
-	CIMGEditor*			m_pWindow;
-	bxcf::CIMGFormat*					m_pIMGFile;
+	CIMGEditor*					m_pEditor;
+	bxcf::CIMGFormat*			m_pIMGFile;
 	std::vector<std::string>	m_vecLogLinesGUI;
 	std::vector<std::string>	m_vecLogLinesBasic;
 	std::vector<std::string>	m_vecLogLinesExtended;

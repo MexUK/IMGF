@@ -4,8 +4,8 @@
 #include "bxcf.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IPL/Entry/CIPLEntry_Data.h"
-#include "Type/Vector/CVector2D.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec2f.h"
+#include "Type/Vector/Vec3f.h"
 #include <string>
 
 class bxcf::CIPLEntry_GRGE : public bxcf::CIPLEntry_Data
@@ -24,14 +24,14 @@ public:
 	void						unserialize(void);
 	void						serialize(void);
 
-	void						setPosition(bxcf::CVector3D& vecPosition) { m_vecPosition = vecPosition; }
-	bxcf::CVector3D&					getPosition(void) { return m_vecPosition; }
+	void						setPosition(bxcf::Vec3f& vecPosition) { m_vecPosition = vecPosition; }
+	bxcf::Vec3f&					getPosition(void) { return m_vecPosition; }
 
-	void						setLine(bxcf::CVector2D& vecLine) { m_vecLine = vecLine; }
-	bxcf::CVector2D&					getLine(void) { return m_vecLine; }
+	void						setLine(bxcf::Vec2f& vecLine) { m_vecLine = vecLine; }
+	bxcf::Vec2f&					getLine(void) { return m_vecLine; }
 
-	void						setCubePosition(bxcf::CVector3D& vecCubePosition) { m_vecCubePosition = vecCubePosition; }
-	bxcf::CVector3D&					getCubePosition(void) { return m_vecCubePosition; }
+	void						setCubePosition(bxcf::Vec3f& vecCubePosition) { m_vecCubePosition = vecCubePosition; }
+	bxcf::Vec3f&					getCubePosition(void) { return m_vecCubePosition; }
 
 	void						setGarageFlags(uint32 uiGarageFlags) { m_uiGarageFlags = uiGarageFlags; }
 	uint32						getGarageFlags(void) { return m_uiGarageFlags; }
@@ -44,9 +44,9 @@ public:
 
 private:
 	// GTA SA only
-	bxcf::CVector3D					m_vecPosition;
-	bxcf::CVector2D					m_vecLine;
-	bxcf::CVector3D					m_vecCubePosition;
+	bxcf::Vec3f					m_vecPosition;
+	bxcf::Vec2f					m_vecLine;
+	bxcf::Vec3f					m_vecCubePosition;
 	uint32						m_uiGarageFlags;
 	uint32						m_uiGarageType;
 	std::string					m_strGarageName;

@@ -4,7 +4,7 @@
 #include "bxcf.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IDE/Entry/CIDEEntry_Data.h"
-#include "Type/Vector/CVector2D.h"
+#include "Type/Vector/Vec2f.h"
 #include <string>
 
 class bxcf::CIDEEntry_CARS : public bxcf::CIDEEntry_Data
@@ -87,8 +87,8 @@ public:
 	void						setMaxVehicleCountAtOneTime(uint32 uiMaxVehicleCountAtOneTime) { m_uiMaxVehicleCountAtOneTime = uiMaxVehicleCountAtOneTime; }
 	uint32						getMaxVehicleCountAtOneTime(void) { return m_uiMaxVehicleCountAtOneTime; }
 
-	void						setWheelRadius(bxcf::CVector2D& vecWheelRadius) { m_vecWheelRadius = vecWheelRadius; }
-	bxcf::CVector2D&					getWheelRadius(void) { return m_vecWheelRadius; }
+	void						setWheelRadius(bxcf::Vec2f& vecWheelRadius) { m_vecWheelRadius = vecWheelRadius; }
+	bxcf::Vec2f&					getWheelRadius(void) { return m_vecWheelRadius; }
 
 	void						setDirtLevel(float32 fDirtLevel) { m_fDirtLevel = fDirtLevel; }
 	float32						getDirtLevel(void) { return m_fDirtLevel; }
@@ -126,7 +126,7 @@ private:
 	// GTA IV only
 	std::string					m_strAnimationFile2;
 	uint32						m_uiMaxVehicleCountAtOneTime;
-	bxcf::CVector2D					m_vecWheelRadius;
+	bxcf::Vec2f					m_vecWheelRadius;
 	float32						m_fDirtLevel;
 	uint32						m_uiLODMultiplier;
 	float32						m_fSwankness;

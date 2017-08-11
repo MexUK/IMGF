@@ -6,12 +6,22 @@ namespace imgf
 	{
 		enum ELayers;
 	};
+
+	namespace editor
+	{
+		namespace items
+		{
+			enum EEditorItems;
+		};
+	};
+
 	namespace mainLayer
 	{
 		namespace buttons
 		{
 			enum EButtons;
 		};
+
 		namespace mainMenuType
 		{
 			enum EMainMenuType;

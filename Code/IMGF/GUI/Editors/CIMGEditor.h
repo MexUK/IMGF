@@ -7,6 +7,7 @@
 #include "Format/RockstarGames/IMG/eIMGVersion.h"
 #include <string>
 
+class CMainWindow;
 class CSearchEntry;
 class CGridControl;
 class bxcf::CIMGEntry;
@@ -14,12 +15,7 @@ class bxcf::CIMGEntry;
 class CIMGEditor : public CEditor
 {
 public:
-	CIMGEditor(void) :
-		m_uiSelectedEntryCount(0),
-		m_uiSearchHitCount(0), // todo - rename to SearchHitEntryCount
-		m_uiSearchFileCount(0), // todo - rename to SearchHitFileCount
-		m_pEntryListControl(nullptr)
-	{}
+	CIMGEditor(void);
 
 	void						init(void);
 	void						render(void);
@@ -49,6 +45,9 @@ public:
 
 	std::vector<bxcf::CIMGFormat*>	getAllMainWindowTabsIMGFiles(void);
 
+	void						setMainWindow(CMainWindow *pMainWindow) { m_pMainWindow = pMainWindow; }
+	CMainWindow*				getMainWindow(void) { return m_pMainWindow; }
+
 	void						setSelectedEntryCount(uint32 uiSelectedEntryCount) { m_uiSelectedEntryCount = uiSelectedEntryCount; }
 	uint32						getSelectedEntryCount(void) { return m_uiSelectedEntryCount; }
 
@@ -58,13 +57,13 @@ public:
 	void						setSearchFileCount(uint32 uiSearchFileCount) { m_uiSearchFileCount = uiSearchFileCount; }
 	uint32						getSearchFileCount(void) { return m_uiSearchFileCount; }
 
-	void						setEntryListControl(CGridControl *pEntryListControl) { m_pEntryListControl = pEntryListControl; }
-	CGridControl*				getEntryListControl(void) { return m_pEntryListControl; }
+	void						setEntryGrid(CGridControl *pEntryGrid) { m_pEntryGrid = pEntryGrid; }
+	CGridControl*				getEntryGrid(void) { return m_pEntryGrid; }
 
 	std::vector<CSearchEntry*>&	getSearchEntries(void) { return m_vecSearchEntries; }
 
 public:
-	CGridControl*				m_pEntryListControl;
+	CGridControl*				m_pEntryGrid;
 
 private:
 	void						addControls(void);
@@ -76,6 +75,7 @@ private:
 	CIMGEditorTab*				_addTab(bxcf::CIMGFormat *pIMGFormat);
 
 private:
+	CMainWindow*				m_pMainWindow;
 	uint32						m_uiSelectedEntryCount;
 	uint32						m_uiSearchHitCount;
 	uint32						m_uiSearchFileCount;

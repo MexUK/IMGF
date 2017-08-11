@@ -6,8 +6,8 @@
 #include "Pool/CVectorPool.h"
 #include "Controls/Entries/CDropControlEntry.h"
 #include "Controls/Components/CGUIControlComponent_Text.h"
-#include "Type/Vector/CPoint2D.h"
-#include "Type/Vector/CSize2D.h"
+#include "Type/Vector/Vec2i.h"
+#include "Type/Vector/Vec2u.h"
 #include <string>
 
 class CDropControl : public CGUIControl, public bxcf::CVectorPool<CDropControlEntry*>, public CGUIControlComponent_Text
@@ -20,24 +20,24 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	bool									onLeftMouseDown(bxcf::CPoint2D& vecCursorPosition);
-	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPosition);
-	bool									onMouseMove(bxcf::CPoint2D& vecCursorPosition);
+	bool									onLeftMouseDown(bxcf::Vec2i& vecCursorPosition);
+	bool									onLeftMouseUp(bxcf::Vec2i& vecCursorPosition);
+	bool									onMouseMove(bxcf::Vec2i& vecCursorPosition);
 	void									onRender(void);
 
 	CDropControlEntry*						addItem(std::string strItemText, bool bIsActiveItem = false, bool bIsSelectable = true);
 	void									removeItem(CDropControlEntry *pDropEntry);
 	
-	bxcf::CSize2D							getBoundingRectangleSize(void);
-	bool									isPointInSelectionList(bxcf::CPoint2D& vecPoint);
+	bxcf::Vec2u							getBoundingRectangleSize(void);
+	bool									isPointInSelectionList(bxcf::Vec2i& vecPoint);
 
-	bxcf::CPoint2D							getSelectionListPosition(void);
-	bxcf::CSize2D							getSelectionListSize(void);
-	bxcf::CPoint2D							getSelectionListEntryPosition(uint32 uiEntryIndex);
-	bxcf::CSize2D							getSelectionListEntrySize(void);
-	uint32									getSelectionListEntryFromPoint(bxcf::CPoint2D& vecCursorPosition);
+	bxcf::Vec2i							getSelectionListPosition(void);
+	bxcf::Vec2u							getSelectionListSize(void);
+	bxcf::Vec2i							getSelectionListEntryPosition(uint32 uiEntryIndex);
+	bxcf::Vec2u							getSelectionListEntrySize(void);
+	uint32									getSelectionListEntryFromPoint(bxcf::Vec2i& vecCursorPosition);
 
-	void									setSize(bxcf::CSize2D& vecSize);
+	void									setSize(bxcf::Vec2u& vecSize);
 
 	uint32									getActiveIndex(void);
 
@@ -54,7 +54,7 @@ public:
 	bool									isSelectionListOpen(void) { return m_bSelectionListOpen; }
 
 private:
-	bxcf::CPoint2D							getDropTrianglePosition(void);
+	bxcf::Vec2i							getDropTrianglePosition(void);
 	float32									getDropTriangleSideLength(void);
 	float32									getDropTriangleSideHeight(void);
 

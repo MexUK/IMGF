@@ -2,14 +2,14 @@
 #define CInputEventCallbacks_H
 
 #include "bxcf.h"
-#include "Type/Vector/CPoint2D.h"
+#include "Type/Vector/Vec2i.h"
 
 class bxcf::CInputEventCallbacks
 {
 public:
-	virtual void					onLeftMouseDown(bxcf::CPoint2D& vecCursorPoint) {}
-	virtual void					onLeftMouseUp(bxcf::CPoint2D& vecCursorPoint) {}
-	virtual void					onMouseMove(bxcf::CPoint2D& vecCursorPoint) {}
+	virtual void					onLeftMouseDown(bxcf::Vec2i& vecCursorPoint) {}
+	virtual void					onLeftMouseUp(bxcf::Vec2i& vecCursorPoint) {}
+	virtual void					onMouseMove(bxcf::Vec2i& vecCursorPoint) {}
 };
 
 #endif

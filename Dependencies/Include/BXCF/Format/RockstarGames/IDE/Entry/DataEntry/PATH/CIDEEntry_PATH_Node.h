@@ -3,7 +3,7 @@
 
 #include "bxcf.h"
 #include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_PATH.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec3f.h"
 #include <string>
 
 class bxcf::CIDEEntry_PATH_Node : public bxcf::CIDEEntry_PATH
@@ -33,8 +33,8 @@ public:
 	void							setIsCrossRoad(uint32 uiIsCrossRoad) { m_uiIsCrossRoad = uiIsCrossRoad; }
 	uint32							isCrossRoad(void) { return m_uiIsCrossRoad; }
 
-	void							setPosition(bxcf::CVector3D& vecPosition) { m_vecPosition = vecPosition; }
-	bxcf::CVector3D&						getPosition(void) { return m_vecPosition; }
+	void							setPosition(bxcf::Vec3f& vecPosition) { m_vecPosition = vecPosition; }
+	bxcf::Vec3f&						getPosition(void) { return m_vecPosition; }
 
 	void							setUnknown1(float32 fUnknown1) { m_fUnknown1 = fUnknown1; }
 	float32							getUnknown1(void) { return m_fUnknown1; }
@@ -50,7 +50,7 @@ private:
 	uint32							m_uiNodeType;
 	uint32							m_uiNextNode;
 	uint32							m_uiIsCrossRoad;
-	bxcf::CVector3D						m_vecPosition;
+	bxcf::Vec3f						m_vecPosition;
 	float32							m_fUnknown1;
 	uint32							m_uiLeftLaneCount;
 	uint32							m_uiRightLaneCount;

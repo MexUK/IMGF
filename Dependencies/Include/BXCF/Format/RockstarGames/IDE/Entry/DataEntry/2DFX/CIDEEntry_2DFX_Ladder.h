@@ -3,7 +3,7 @@
 
 #include "bxcf.h"
 #include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_2DFX.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec3f.h"
 #include <string>
 
 class bxcf::CIDEEntry_2DFX_Ladder : public bxcf::CIDEEntry_2DFX
@@ -21,23 +21,23 @@ public:
 	void						unserialize(void);
 	void						serialize(void);
 
-	void						setLadderStartPosition(bxcf::CVector3D& vecLadderStartPosition) { m_vecLadderStartPosition = vecLadderStartPosition; }
-	bxcf::CVector3D&					getLadderStartPosition(void) { return m_vecLadderStartPosition; }
+	void						setLadderStartPosition(bxcf::Vec3f& vecLadderStartPosition) { m_vecLadderStartPosition = vecLadderStartPosition; }
+	bxcf::Vec3f&					getLadderStartPosition(void) { return m_vecLadderStartPosition; }
 
-	void						setLadderEndPosition(bxcf::CVector3D& vecLadderEndPosition) { m_vecLadderEndPosition = vecLadderEndPosition; }
-	bxcf::CVector3D&					getLadderEndPosition(void) { return m_vecLadderEndPosition; }
+	void						setLadderEndPosition(bxcf::Vec3f& vecLadderEndPosition) { m_vecLadderEndPosition = vecLadderEndPosition; }
+	bxcf::Vec3f&					getLadderEndPosition(void) { return m_vecLadderEndPosition; }
 
-	void						setClimbDirectionPosition(bxcf::CVector3D& vecClimbDirectionPosition) { m_vecClimbDirectionPosition = vecClimbDirectionPosition; }
-	bxcf::CVector3D&					getClimbDirectionPosition(void) { return m_vecClimbDirectionPosition; }
+	void						setClimbDirectionPosition(bxcf::Vec3f& vecClimbDirectionPosition) { m_vecClimbDirectionPosition = vecClimbDirectionPosition; }
+	bxcf::Vec3f&					getClimbDirectionPosition(void) { return m_vecClimbDirectionPosition; }
 
 	void						setFlags(uint32 uiFlags) { m_uiFlags = uiFlags; }
 	uint32						getFlags(void) { return m_uiFlags; }
 
 private:
 	// GTA IV only
-	bxcf::CVector3D					m_vecLadderStartPosition;
-	bxcf::CVector3D					m_vecLadderEndPosition;
-	bxcf::CVector3D					m_vecClimbDirectionPosition;
+	bxcf::Vec3f					m_vecLadderStartPosition;
+	bxcf::Vec3f					m_vecLadderEndPosition;
+	bxcf::Vec3f					m_vecClimbDirectionPosition;
 	uint32						m_uiFlags;
 };
 

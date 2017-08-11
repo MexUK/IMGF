@@ -2,7 +2,7 @@
 #define CGUIManager_H
 
 #include "bxgx.h"
-#include "Type/Vector/CSize2D.h"
+#include "Type/Vector/Vec2u.h"
 #include "Object/CManager.h"
 #include "Pool/CVectorPool.h"
 #include "Window/CWindow.h"
@@ -37,17 +37,17 @@ public:
 	void						unserialize(void);
 	void						serialize(void);
 
-	CWindow*					addWindow(bxcf::CPoint2D& vecWindowPosition = bxcf::CPoint2D((uint32)-1, (uint32)-1), bxcf::CSize2D& vecWindowSize = bxcf::CSize2D((uint32)800, (uint32)600));
+	CWindow*					addWindow(bxcf::Vec2i& vecWindowPosition = bxcf::Vec2i((uint32)-1, (uint32)-1), bxcf::Vec2u& vecWindowSize = bxcf::Vec2u((uint32)800, (uint32)600));
 	CWindow*					addWindow(uint32 x = -1, uint32 y = -1, uint32 w = 800, uint32 h = 600);
 	template <class WindowClass>
-	WindowClass*				addWindow(bxcf::CPoint2D& vecWindowPosition = bxcf::CPoint2D(-1, -1), bxcf::CSize2D& vecWindowSize = bxcf::CSize2D(800, 600));
+	WindowClass*				addWindow(bxcf::Vec2i& vecWindowPosition = bxcf::Vec2i(-1, -1), bxcf::Vec2u& vecWindowSize = bxcf::Vec2u(800, 600));
 	template <class WindowClass>
 	WindowClass*				addWindow(uint32 x = -1, uint32 y = -1, uint32 w = 800, uint32 h = 600);
 
 	void						processWindows(void);
 
 	template <typename ...Args>
-	void						triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCursorPoint, Args... args);
+	void						triggerEvent(uint32 uiEvent, bxcf::Vec2i& vecCursorPoint, Args... args);
 	template <typename ...Args>
 	inline bool					triggerItemEvent(uint32 uiEvent, CGUIEventUtilizer *pItem, Args... args);
 
@@ -56,7 +56,7 @@ public:
 	inline bool					isKeyEvent(uint32 uiEvent);
 	inline bool					isRenderEvent(uint32 uiEvent);
 
-	void						onMouseMove(bxcf::CPoint2D& vecCursorPosition);
+	void						onMouseMove(bxcf::Vec2i& vecCursorPosition);
 
 	void						render(void);
 	void						renderNow(void);
@@ -72,8 +72,8 @@ public:
 	void						setActiveWindow(CWindow *pActiveWindow) { m_pActiveWindow = pActiveWindow; }
 	CWindow*					getActiveWindow(void) { return m_pActiveWindow; }
 
-	void						setCursorPosition(bxcf::CPoint2D vecCursorPosition) { m_vecCursorPosition = vecCursorPosition; }
-	bxcf::CPoint2D&				getCursorPosition(void) { return m_vecCursorPosition; }
+	void						setCursorPosition(bxcf::Vec2i vecCursorPosition) { m_vecCursorPosition = vecCursorPosition; }
+	bxcf::Vec2i&				getCursorPosition(void) { return m_vecCursorPosition; }
 
 private:
 	bool						createWindow(CWindow *pWindow);
@@ -81,7 +81,7 @@ private:
 private:
 	CGraphicsLibrary*								m_pGraphicsLibrary;
 	CWindow*										m_pActiveWindow;
-	bxcf::CPoint2D									m_vecCursorPosition;
+	bxcf::Vec2i									m_vecCursorPosition;
 	CGUIItem*										m_pItemMouseIsOver;
 
 public:
@@ -91,25 +91,25 @@ public:
 template <class WindowClass>
 WindowClass*					bxgx::CGUIManager::addWindow(uint32 x, uint32 y, uint32 w, uint32 h)
 {
-	return addWindow<WindowClass>(CPoint2D(x, y), CSize2D(w, h));
+	return addWindow<WindowClass>(Vec2i(x, y), Vec2u(w, h));
 }
 
 template <class WindowClass>
-WindowClass*					bxgx::CGUIManager::addWindow(bxcf::CPoint2D& vecWindowPosition, bxcf::CSize2D& vecWindowSize)
+WindowClass*					bxgx::CGUIManager::addWindow(bxcf::Vec2i& vecWindowPosition, bxcf::Vec2u& vecWindowSize)
 {
 	WindowClass *pWindow = new WindowClass;
 
 	// check to position window at center of screen
-	if (vecWindowPosition.m_x == -1 && vecWindowPosition.m_y == -1)
+	if (vecWindowPosition.x == -1 && vecWindowPosition.y == -1)
 	{
 		RECT rectScreenSize;
 		GetWindowRect(GetDesktopWindow(), &rectScreenSize);
-		bxcf::CSize2D vecScreenSize(rectScreenSize.right, rectScreenSize.bottom);
+		bxcf::Vec2u vecScreenSize(rectScreenSize.right, rectScreenSize.bottom);
 
-		vecWindowPosition = bxcf::CPoint2D((vecScreenSize.m_x / 2) - (vecWindowSize.m_x / 2), (vecScreenSize.m_y / 2) - (vecWindowSize.m_y / 2));
+		vecWindowPosition = bxcf::Vec2i((vecScreenSize.x / 2) - (vecWindowSize.x / 2), (vecScreenSize.y / 2) - (vecWindowSize.y / 2));
 	}
 
-	pWindow->setPosition(bxcf::CPoint2D(vecWindowPosition.m_x, vecWindowPosition.m_y)); // todo - send directly
+	pWindow->setPosition(bxcf::Vec2i(vecWindowPosition.x, vecWindowPosition.y)); // todo - send directly
 	pWindow->setSize(vecWindowSize);
 	addEntry(pWindow);
 
@@ -131,7 +131,7 @@ WindowClass*					bxgx::CGUIManager::addWindow(bxcf::CPoint2D& vecWindowPosition,
 }
 
 template <typename ...Args>
-void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCursorPoint, Args... args)
+void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::Vec2i& vecCursorPoint, Args... args)
 {
 	if (m_umapEventControls.find(uiEvent) == m_umapEventControls.end())
 	{
@@ -239,23 +239,23 @@ bool						bxgx::CGUIManager::triggerItemEvent(uint32 uiEvent, CGUIEventUtilizer 
 	case WINDOW_LOSE_FOCUS:			bResult = pItem->onLoseFocus();											break;
 
 		// mouse
-	case MOUSE_MOVE:				bResult = pItem->onMouseMove(va_arg(list, bxcf::CPoint2D));				break;
+	case MOUSE_MOVE:				bResult = pItem->onMouseMove(va_arg(list, bxcf::Vec2i));				break;
 	
-	case MOUSE_LEFT_DOWN:			bResult = pItem->onLeftMouseDown(va_arg(list, bxcf::CPoint2D));			break;
-	case MOUSE_LEFT_UP:				bResult = pItem->onLeftMouseUp(va_arg(list, bxcf::CPoint2D));			break;
-	case MOUSE_DOUBLE_LEFT_DOWN:	bResult = pItem->onDoubleLeftMouseDown(va_arg(list, bxcf::CPoint2D));	break;
-	case MOUSE_DOUBLE_LEFT_UP:		bResult = pItem->onDoubleLeftMouseUp(va_arg(list, bxcf::CPoint2D));		break;
+	case MOUSE_LEFT_DOWN:			bResult = pItem->onLeftMouseDown(va_arg(list, bxcf::Vec2i));			break;
+	case MOUSE_LEFT_UP:				bResult = pItem->onLeftMouseUp(va_arg(list, bxcf::Vec2i));			break;
+	case MOUSE_DOUBLE_LEFT_DOWN:	bResult = pItem->onDoubleLeftMouseDown(va_arg(list, bxcf::Vec2i));	break;
+	case MOUSE_DOUBLE_LEFT_UP:		bResult = pItem->onDoubleLeftMouseUp(va_arg(list, bxcf::Vec2i));		break;
 	
-	case MOUSE_RIGHT_DOWN:			bResult = pItem->onRightMouseDown(va_arg(list, bxcf::CPoint2D));		break;
-	case MOUSE_RIGHT_UP:			bResult = pItem->onRightMouseUp(va_arg(list, bxcf::CPoint2D));			break;
-	case MOUSE_DOUBLE_RIGHT_DOWN:	bResult = pItem->onDoubleRightMouseDown(va_arg(list, bxcf::CPoint2D));	break;
-	case MOUSE_DOUBLE_RIGHT_UP:		bResult = pItem->onDoubleRightMouseUp(va_arg(list, bxcf::CPoint2D));	break;
+	case MOUSE_RIGHT_DOWN:			bResult = pItem->onRightMouseDown(va_arg(list, bxcf::Vec2i));		break;
+	case MOUSE_RIGHT_UP:			bResult = pItem->onRightMouseUp(va_arg(list, bxcf::Vec2i));			break;
+	case MOUSE_DOUBLE_RIGHT_DOWN:	bResult = pItem->onDoubleRightMouseDown(va_arg(list, bxcf::Vec2i));	break;
+	case MOUSE_DOUBLE_RIGHT_UP:		bResult = pItem->onDoubleRightMouseUp(va_arg(list, bxcf::Vec2i));	break;
 
-	case MOUSE_WHEEL_MOVE:			bResult = pItem->onMouseWheelMove(va_arg(list, bxcf::CPoint2D));		break;
-	case MOUSE_WHEEL_DOWN:			bResult = pItem->onMouseWheelDown(va_arg(list, bxcf::CPoint2D));		break;
-	case MOUSE_WHEEL_UP:			bResult = pItem->onMouseWheelUp(va_arg(list, bxcf::CPoint2D));			break;
-	case MOUSE_DOUBLE_WHEEL_DOWN:	bResult = pItem->onDoubleMouseWheelDown(va_arg(list, bxcf::CPoint2D));	break;
-	case MOUSE_DOUBLE_WHEEL_UP:		bResult = pItem->onDoubleMouseWheelUp(va_arg(list, bxcf::CPoint2D));	break;
+	case MOUSE_WHEEL_MOVE:			bResult = pItem->onMouseWheelMove(va_arg(list, bxcf::Vec2i));		break;
+	case MOUSE_WHEEL_DOWN:			bResult = pItem->onMouseWheelDown(va_arg(list, bxcf::Vec2i));		break;
+	case MOUSE_WHEEL_UP:			bResult = pItem->onMouseWheelUp(va_arg(list, bxcf::Vec2i));			break;
+	case MOUSE_DOUBLE_WHEEL_DOWN:	bResult = pItem->onDoubleMouseWheelDown(va_arg(list, bxcf::Vec2i));	break;
+	case MOUSE_DOUBLE_WHEEL_UP:		bResult = pItem->onDoubleMouseWheelUp(va_arg(list, bxcf::Vec2i));	break;
 
 	case MOUSE_ENTER:				bResult = pItem->onMouseEnter();										break;
 	case MOUSE_EXIT:				bResult = pItem->onMouseExit();											break;

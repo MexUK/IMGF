@@ -262,11 +262,29 @@
     <Filter Include="Source Files\GUI\Layer">
       <UniqueIdentifier>{956838c3-dd9c-4514-bf1a-5c55554d0a06}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GUI\Events">
+    <Filter Include="Header Files\GUI\Windows">
+      <UniqueIdentifier>{ce7ea86c-fbbc-4c45-add9-e716e894ed1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Windows">
+      <UniqueIdentifier>{4e253473-55bd-4c05-92cb-6d78b8871be6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layers">
+      <UniqueIdentifier>{fd058a8a-04d6-4130-b271-bdec9ba707f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layers">
+      <UniqueIdentifier>{731de0f5-7694-4bbc-b20d-6c748c1d5fd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Input">
+      <UniqueIdentifier>{61a3e08f-4936-4af3-8632-053cf1d4d7a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Input">
       <UniqueIdentifier>{a8c25a8d-52ee-4996-be46-b0df79e64209}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GUI\Events">
-      <UniqueIdentifier>{61a3e08f-4936-4af3-8632-053cf1d4d7a1}</UniqueIdentifier>
+    <Filter Include="Header Files\GUI\Input\Buttons">
+      <UniqueIdentifier>{241ebf46-5228-4bf0-add0-cf6ac2b8f20d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Input\Buttons">
+      <UniqueIdentifier>{6a318758-5ee6-4cfd-a82c-9baa523b6e2f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -405,9 +423,6 @@
     <ClCompile Include="..\..\..\Code\IMGF\Globals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\CWindowManager.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editors\CIMGEditor.cpp">
       <Filter>Source Files\GUI\Editors</Filter>
     </ClCompile>
@@ -431,9 +446,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tab\CThemeDesignerTab.cpp">
       <Filter>Source Files\GUI\ThemeDesigner</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\CIMGFWindow.cpp">
-      <Filter>Source Files\GUI\Window</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\Language\CLanguageManager.cpp">
       <Filter>Source Files\Language</Filter>
@@ -495,11 +507,17 @@
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDragDrop.cpp">
       <Filter>Source Files\DragDrop</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\CMainLayer.cpp">
-      <Filter>Source Files\GUI\Layer</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\CWindowManager.cpp">
+      <Filter>Source Files\GUI\Window</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Events\CButtonPressManager.cpp">
-      <Filter>Source Files\GUI\Events</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layers\CMainLayer.cpp">
+      <Filter>Source Files\GUI\Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Input\Buttons\CButtonPressManager.cpp">
+      <Filter>Source Files\GUI\Input\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Windows\CMainWindow.cpp">
+      <Filter>Source Files\GUI\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1118,16 +1136,10 @@
     <ClInclude Include="..\..\..\Code\IMGF\Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\CWindowManager.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\CIMGEditor.h">
       <Filter>Header Files\GUI\Editors</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\CTextureEditor.h">
-      <Filter>Header Files\GUI\Editors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\Tab\CIMGEditorTab.h">
       <Filter>Header Files\GUI\Editors</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\CEditor.h">
@@ -1147,9 +1159,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tab\CThemeDesignerTab.h">
       <Filter>Header Files\GUI\ThemeDesigner\Tab</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\CIMGFWindow.h">
-      <Filter>Header Files\GUI\Window</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Language\CLanguage.h">
       <Filter>Header Files\Language</Filter>
@@ -1250,26 +1259,38 @@
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDragDrop.h">
       <Filter>Header Files\DragDrop</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\CMainLayer.h">
-      <Filter>Header Files\GUI\Layer</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Events\CButtonPressManager.h">
-      <Filter>Header Files\GUI\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Events\EButtons.h">
-      <Filter>Header Files\GUI\Events</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\imgf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\EMainMenuType.h">
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\Tab\CIMGEditorTab.h">
+      <Filter>Header Files\GUI\Editors\Tab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\EEditorItems.h">
+      <Filter>Header Files\GUI\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\CWindowManager.h">
       <Filter>Header Files\GUI\Window</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\ELayers.h">
-      <Filter>Header Files\GUI\Window</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\ELayers.h">
+      <Filter>Header Files\GUI\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layers\CMainLayer.h">
+      <Filter>Header Files\GUI\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\EMainMenuType.h">
+      <Filter>Header Files\GUI\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\Buttons\CButtonPressManager.h">
+      <Filter>Header Files\GUI\Input\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\Buttons\EButtons.h">
+      <Filter>Header Files\GUI\Input\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Windows\CMainWindow.h">
+      <Filter>Header Files\GUI\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

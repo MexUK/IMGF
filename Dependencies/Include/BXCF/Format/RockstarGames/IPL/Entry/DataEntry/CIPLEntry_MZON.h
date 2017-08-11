@@ -4,7 +4,7 @@
 #include "bxcf.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IPL/Entry/CIPLEntry_Data.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec3f.h"
 
 class bxcf::CIPLEntry_MZON : public bxcf::CIPLEntry_Data
 {
@@ -23,11 +23,11 @@ public:
 	void						setZoneType(uint32 uiZoneType) { m_uiZoneType = uiZoneType; }
 	uint32						getZoneType(void) { return m_uiZoneType; }
 
-	void						setBottomLeftPosition(bxcf::CVector3D& vecBottomLeftPosition) { m_vecBottomLeftPosition = vecBottomLeftPosition; }
-	bxcf::CVector3D&					getBottomLeftPosition(void) { return m_vecBottomLeftPosition; }
+	void						setBottomLeftPosition(bxcf::Vec3f& vecBottomLeftPosition) { m_vecBottomLeftPosition = vecBottomLeftPosition; }
+	bxcf::Vec3f&					getBottomLeftPosition(void) { return m_vecBottomLeftPosition; }
 
-	void						setTopRightPosition(bxcf::CVector3D& vecTopRightPosition) { m_vecTopRightPosition = vecTopRightPosition; }
-	bxcf::CVector3D&					getTopRightPosition(void) { return m_vecTopRightPosition; }
+	void						setTopRightPosition(bxcf::Vec3f& vecTopRightPosition) { m_vecTopRightPosition = vecTopRightPosition; }
+	bxcf::Vec3f&					getTopRightPosition(void) { return m_vecTopRightPosition; }
 
 	void						setLevel(uint32 uiLevel) { m_uiLevel = uiLevel; }
 	uint32						getLevel(void) { return m_uiLevel; }
@@ -39,8 +39,8 @@ private:
 	// GTA IV only
 	std::string					m_strZoneName;
 	uint32						m_uiZoneType;
-	bxcf::CVector3D					m_vecBottomLeftPosition;
-	bxcf::CVector3D					m_vecTopRightPosition;
+	bxcf::Vec3f					m_vecBottomLeftPosition;
+	bxcf::Vec3f					m_vecTopRightPosition;
 	uint32						m_uiLevel;
 	std::string					m_strZoneText;
 };

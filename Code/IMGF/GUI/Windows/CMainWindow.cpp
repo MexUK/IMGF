@@ -1,0 +1,140 @@
+#include "CMainWindow.h"
+#include "GUI/Editors/CIMGEditor.h"
+#include "Controls/CButtonControl.h"
+#include "Controls/CGridControl.h"
+#include "Styles/CGUIStyles.h"
+#include "GUI/Window/CWindowManager.h"
+#include "Input/CInputManager.h"
+#include "GraphicsLibrary/CGraphicsLibrary.h"
+#include "Event/CEventManager.h"
+#include "Event/eEvent.h"
+#include "Globals.h"
+#include "CIMGF.h"
+#include "Task/CTaskManager.h"
+#include "Task/CTaskDispatchManager.h"
+#include "File/CFileManager.h"
+#include "Path/CPathManager.h"
+#include "Type/String/CString2.h"
+#include "GUI/ThemeDesigner/CThemeDesigner.h"
+#include "Type/Colour/CColour.h"
+#include "GUI/Layers/CMainLayer.h"
+#include "GUI/Layer/EMainMenuType.h"
+#include "GUI/Layer/ELayers.h"
+
+using namespace std;
+using namespace bxcf;
+using namespace imgf::mainLayer::mainMenuType;
+using namespace imgf::layers;
+
+CMainWindow::CMainWindow(void) :
+	m_uiMainMenuType(FORMATS)
+{
+}
+
+// main interface
+void					CMainWindow::init(void)
+{
+	initWindow();
+	initLayers();
+	CWindow::bindEvents();
+}
+
+// window initialization
+void					CMainWindow::initWindow(void)
+{
+	CWindow::init();
+
+	addTitleBar("IMG Factory 2.0 - Development Version");
+}
+
+void					CMainWindow::initLayers(void)
+{
+	initMainLayer();
+	initMainMenuLayers();
+	initEditors();
+}
+
+// layer initialization
+void					CMainWindow::initMainLayer(void)
+{
+	m_pMainLayer = addLayer<CMainLayer>(-1, true);
+	m_pMainLayer->setIMGFWindow(this);
+	m_pMainLayer->init();
+}
+
+void					CMainWindow::initMainMenuLayers(void)
+{
+	int32
+		x, y, y2, w, h, h2;
+	CButtonControl
+		*pButton;
+	string
+		strStyleGroup;
+
+	// formats menu
+	CGUILayer *pFormatsLayer = addLayer(FORMATS_MENU, true);
+
+	x = 0;
+	y = getTitleBarHeight() + 30;
+	y2 = y;
+	w = 139;
+	h = 40;
+	h2 = h;
+	strStyleGroup = "leftMenuButton";
+
+	pButton = pFormatsLayer->addButton(x, y, w, h, "DAT", strStyleGroup);
+	y += h2;
+	pButton = pFormatsLayer->addButton(x, y, w, h, "IMG", strStyleGroup);
+	y += h2;
+	pButton = pFormatsLayer->addButton(x, y, w, h, "Item Definition", strStyleGroup);
+	y += h2;
+	pButton = pFormatsLayer->addButton(x, y, w, h, "Item Placement", strStyleGroup);
+	y += h2;
+	pButton = pFormatsLayer->addButton(x, y, w, h, "Models", strStyleGroup);
+	y += h2;
+	pButton = pFormatsLayer->addButton(x, y, w, h, "Collisions", strStyleGroup);
+	y += h2;
+	pButton = pFormatsLayer->addButton(x, y, w, h, "Textures", strStyleGroup);
+	y += h2;
+	pButton = pFormatsLayer->addButton(x, y, w, h, "Animations", strStyleGroup);
+	y += h2;
+	pButton = pFormatsLayer->addButton(x, y, w, h, "Radar", strStyleGroup);
+
+	// utility menu
+	CGUILayer *pUtilityLayer = addLayer(UTILITY_MENU, false);
+
+	x = 0;
+	y = y2;
+	w = 139;
+	h = 40;
+	h2 = h;
+	strStyleGroup = "leftMenuButton";
+
+	pButton = pUtilityLayer->addButton(x, y, w, h, "Export Game", strStyleGroup);
+	y += h2;
+	pButton = pUtilityLayer->addButton(x, y, w, h, "Mod Includer", strStyleGroup);
+	y += h2;
+}
+
+void					CMainWindow::initEditors(void)
+{
+	//m_pDATEditor = addLayer<CDATEditor>(-1, false);
+	m_pIMGEditor = addLayer<CIMGEditor>(-1, true);
+
+	//m_pDATEditor->setMainWindow(this);
+	m_pIMGEditor->setMainWindow(this);
+
+	//m_pDATEditor->init();
+	m_pIMGEditor->init();
+}
+
+// main menu type
+void					CMainWindow::setMainMenuType(EMainMenuType uiMainMenuType)
+{
+	if (uiMainMenuType == m_uiMainMenuType)
+	{
+		return;
+	}
+	m_uiMainMenuType = uiMainMenuType;
+	swapLayersEnabled(FORMATS_MENU, UTILITY_MENU);
+}

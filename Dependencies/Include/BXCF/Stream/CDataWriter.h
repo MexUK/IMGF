@@ -7,17 +7,17 @@
 #include "Type/Types.h"
 #include "eDataStreamType.h"
 #include "Unit/Byte/eEndian.h"
-#include "Type/Vector/CVector2D.h"
-#include "Type/Vector/CVector3D.h"
-#include "Type/Vector/CVector4D.h"
-#include "Type/Vector/CVector2ui8.h"
-#include "Type/Vector/CVector2ui32.h"
-#include "Type/Vector/CVector3ui8.h"
-#include "Type/Vector/CVector3ui32.h"
-#include "Type/Vector/CVector4ui8.h"
-#include "Type/Vector/CVector4ui16.h"
-#include "Type/Vector/CPoint2D.h"
-#include "Type/Vector/CSize2D.h"
+#include "Type/Vector/Vec2f.h"
+#include "Type/Vector/Vec3f.h"
+#include "Type/Vector/Vec4f.h"
+#include "Type/Vector/Vec2u8.h"
+#include "Type/Vector/Vec2u.h"
+#include "Type/Vector/Vec3u8.h"
+#include "Type/Vector/Vec3u.h"
+#include "Type/Vector/Vec4u8.h"
+#include "Type/Vector/Vec4u16.h"
+#include "Type/Vector/Vec2i.h"
+#include "Type/Vector/Vec2u.h"
 #include "Pool/CVectorPool.h"
 #include <string>
 #include <vector>
@@ -59,36 +59,36 @@ public:
 	void					writeInt16(int16 iInt);
 	void					writeInt32(int32 iInt);
 	void					writeInt64(int64 iInt);
-	void					writePoint2D(bxcf::CPoint2D& vecPoint);
-	void					writeVector2i32(bxcf::CVector2i32& vecUints);
-	void					writeSize2D(bxcf::CSize2D& vecSize);
-	void					writeVector2ui8(bxcf::CVector2ui8& vecUints);
-	void					writeVector2ui32(bxcf::CVector2ui32& vecUints);
-	void					writeVector3ui8(bxcf::CVector3ui8& vecUints);
-	void					writeVector3ui32(bxcf::CVector3ui32& vecUints);
-	void					writeVector4ui8(bxcf::CVector4ui8& vecUints);
+	void					writeVec2i(bxcf::Vec2i& vecPoint);
+	void					writeVector2i32(bxcf::Vec2i& vecUints);
+	void					writeVec2u(bxcf::Vec2u& vecSize);
+	void					writeVector2ui8(bxcf::Vec2u8& vecUints);
+	void					writeVector2ui32(bxcf::Vec2u& vecUints);
+	void					writeVector3ui8(bxcf::Vec3u8& vecUints);
+	void					writeVector3ui32(bxcf::Vec3u& vecUints);
+	void					writeVector4ui8(bxcf::Vec4u8& vecUints);
 	void					writeStdVectorUint32(std::vector<uint32>& vecUints);
-	void					writeStdVector4ui8(std::vector<bxcf::CVector4ui8>& vecVectors);
-	void					writeStdVector4ui16(std::vector<CVector4ui16>& vecVectors);
+	void					writeStdVector4ui8(std::vector<bxcf::Vec4u8>& vecVectors);
+	void					writeStdVector4ui16(std::vector<Vec4u16>& vecVectors);
 
 	// write float
 	void					writeFloat32(float32 fFloat);
 	void					writeFloat64(float64 fFloat);
-	void					writeVector2D(bxcf::CVector2D& vecVector);
-	void					writeVector3D(bxcf::CVector3D& vecVector);
-	void					writeVector4D(bxcf::CVector4D& vecVector);
-	void					writeStdVector2D(std::vector<bxcf::CVector2D>& vecVectors);
-	void					writeStdVector3D(std::vector<bxcf::CVector3D>& vecVectors);
-	void					writeStdVector4D(std::vector<bxcf::CVector4D>& vecVectors);
+	void					writeVector2D(bxcf::Vec2f& vecVector);
+	void					writeVector3D(bxcf::Vec3f& vecVector);
+	void					writeVector4D(bxcf::Vec4f& vecVector);
+	void					writeStdVector2D(std::vector<bxcf::Vec2f>& vecVectors);
+	void					writeStdVector3D(std::vector<bxcf::Vec3f>& vecVectors);
+	void					writeStdVector4D(std::vector<bxcf::Vec4f>& vecVectors);
 
 	// write token
 	void					writeTokenString(std::string& strString);
 	void					writeTokenInt32(int32 iInt);
 	void					writeTokenUint32(uint32 uiInt);
 	void					writeTokenFloat32(float32 fFloat);
-	void					writeTokenVector2D(bxcf::CVector2D& vecVector);
-	void					writeTokenVector3D(bxcf::CVector3D& vecVector);
-	void					writeTokenVector4D(bxcf::CVector4D& vecVector);
+	void					writeTokenVector2D(bxcf::Vec2f& vecVector);
+	void					writeTokenVector3D(bxcf::Vec3f& vecVector);
+	void					writeTokenVector4D(bxcf::Vec4f& vecVector);
 
 	// write string - type guessed
 	void					write(std::string& strData);
@@ -104,30 +104,30 @@ public:
 	void					write(int16 iInt);
 	void					write(int32 iInt);
 	void					write(int64 iInt);
-	void					write(bxcf::CPoint2D& vecPoint);
-	void					write(bxcf::CSize2D& vecSize);
-	void					write(bxcf::CVector4ui8& vecUints);
+	void					write(bxcf::Vec2i& vecPoint);
+	void					write(bxcf::Vec2u& vecSize);
+	void					write(bxcf::Vec4u8& vecUints);
 	void					write(std::vector<uint32>& vecUints);
-	void					write(std::vector<bxcf::CVector2D>& vecVectors);
-	void					write(std::vector<bxcf::CVector3D>& vecVectors);
-	void					write(std::vector<bxcf::CVector4ui8>& vecVectors);
-	void					write(std::vector<bxcf::CVector4ui16>& vecVectors);
+	void					write(std::vector<bxcf::Vec2f>& vecVectors);
+	void					write(std::vector<bxcf::Vec3f>& vecVectors);
+	void					write(std::vector<bxcf::Vec4u8>& vecVectors);
+	void					write(std::vector<bxcf::Vec4u16>& vecVectors);
 
 	// write float - type guessed
 	void					write(float32 fFloat);
 	void					write(float64 fFloat);
-	void					write(bxcf::CVector2D& vecVector);
-	void					write(bxcf::CVector3D& vecVector);
-	void					write(bxcf::CVector4D& vecVector);
+	void					write(bxcf::Vec2f& vecVector);
+	void					write(bxcf::Vec3f& vecVector);
+	void					write(bxcf::Vec4f& vecVector);
 
 	// write token - type guessed
 	void					writeToken(std::string& strString);
 	void					writeToken(int32 iInt);
 	void					writeToken(uint32 uiInt);
 	void					writeToken(float32 fFloat);
-	void					writeToken(bxcf::CVector2D& vecVector);
-	void					writeToken(bxcf::CVector3D& vecVector);
-	void					writeToken(bxcf::CVector4D& vecVector);
+	void					writeToken(bxcf::Vec2f& vecVector);
+	void					writeToken(bxcf::Vec3f& vecVector);
+	void					writeToken(bxcf::Vec4f& vecVector);
 
 	template <class DerivedFormatClass>
 	void					writeLineEntries(bxcf::CVectorPool<DerivedFormatClass> *pPool);

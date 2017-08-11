@@ -5,9 +5,9 @@
 #include "Type/Types.h"
 #include "eDataStreamType.h"
 #include "Unit/Byte/eEndian.h"
-#include "Type/Vector/CVector2D.h"
-#include "Type/Vector/CVector3D.h"
-#include "Type/Vector/CVector4D.h"
+#include "Type/Vector/Vec2f.h"
+#include "Type/Vector/Vec3f.h"
+#include "Type/Vector/Vec4f.h"
 #include <string>
 #include <vector>
 #include <fstream>

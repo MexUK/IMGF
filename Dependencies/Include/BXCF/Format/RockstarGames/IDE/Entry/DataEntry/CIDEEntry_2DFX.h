@@ -5,9 +5,9 @@
 #include "Type/Types.h"
 #include "Format/RockstarGames/IDE/Entry/CIDEEntry_Data.h"
 #include "Format/RockstarGames/e2DFXType.h"
-#include "Type/Vector/CVector3ui32.h"
-#include "Type/Vector/CVector3D.h"
-#include "Type/Vector/CVector4D.h"
+#include "Type/Vector/Vec3u.h"
+#include "Type/Vector/Vec3f.h"
+#include "Type/Vector/Vec4f.h"
 #include <string>
 
 class bxcf::CIDEEntry_2DFX : public bxcf::CIDEEntry_Data
@@ -22,9 +22,9 @@ public:
 		m_ui2dfxType(0),
 		m_vecRotation{ 0.0f, 0.0f, 0.0f, 0.0f }
 	{
-		m_vecColour.m_x = 0;
-		m_vecColour.m_y = 0;
-		m_vecColour.m_z = 0;
+		m_vecColour.x = 0;
+		m_vecColour.y = 0;
+		m_vecColour.z = 0;
 	}
 	~CIDEEntry_2DFX(void)
 	{
@@ -39,11 +39,11 @@ public:
 	void						setObjectId(uint32 uiObjectId) { m_uiObjectId = uiObjectId; }
 	uint32						getObjectId(void) { return m_uiObjectId; }
 
-	void						setPosition(bxcf::CVector3D& vecPosition) { m_vecPosition = vecPosition; }
-	bxcf::CVector3D&					getPosition(void) { return m_vecPosition; }
+	void						setPosition(bxcf::Vec3f& vecPosition) { m_vecPosition = vecPosition; }
+	bxcf::Vec3f&					getPosition(void) { return m_vecPosition; }
 
-	void						setColour(bxcf::CVector3ui32& vecColour) { m_vecColour = vecColour; }
-	bxcf::CVector3ui32&				getColour(void) { return m_vecColour; }
+	void						setColour(bxcf::Vec3u& vecColour) { m_vecColour = vecColour; }
+	bxcf::Vec3u&				getColour(void) { return m_vecColour; }
 
 	void						setUnknown1(uint32 uiUnknown1) { m_uiUnknown1 = uiUnknown1; }
 	uint32						getUnknown1(void) { return m_uiUnknown1; }
@@ -54,25 +54,25 @@ public:
 	void						setModelName(std::string& strModelName) { m_strModelName = strModelName; }
 	std::string&				getModelName(void) { return m_strModelName; }
 
-	void						setRotation(bxcf::CVector4D& vecRotation) { m_vecRotation = vecRotation; }
-	bxcf::CVector4D&					getRotation(void) { return m_vecRotation; }
+	void						setRotation(bxcf::Vec4f& vecRotation) { m_vecRotation = vecRotation; }
+	bxcf::Vec4f&					getRotation(void) { return m_vecRotation; }
 
 private:
 	bxcf::e2DFXType					m_e2DFXType;
-	bxcf::CVector3D					m_vecPosition; // GTA III era + GTA IV
+	bxcf::Vec3f					m_vecPosition; // GTA III era + GTA IV
 	uint32						m_ui2dfxType; // GTA III era + GTA IV
 	union
 	{
 		struct // GTA III era only
 		{
 			uint32						m_uiObjectId;
-			bxcf::CVector3ui32				m_vecColour;
+			bxcf::Vec3u				m_vecColour;
 			uint32						m_uiUnknown1;
 		};
 		struct // GTA IV only
 		{
 			std::string					m_strModelName;
-			bxcf::CVector4D					m_vecRotation;
+			bxcf::Vec4f					m_vecRotation;
 		};
 	};
 };

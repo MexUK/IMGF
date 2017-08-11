@@ -4,7 +4,7 @@
 #include "bxcf.h"
 #include "Type/Types.h"
 #include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_PATH.h"
-#include "Type/Vector/CVector3D.h"
+#include "Type/Vector/Vec3f.h"
 
 class bxcf::CIPLEntry_PATH_Node : public bxcf::CIPLEntry_PATH
 {
@@ -36,8 +36,8 @@ public:
 	void							setIsCrossRoad(uint32 uiIsCrossRoad) { m_uiIsCrossRoad = uiIsCrossRoad; }
 	uint32							getIsCrossRoad(void) { return m_uiIsCrossRoad; }
 
-	void							setPosition(bxcf::CVector3D& vecPosition) { m_vecPosition = vecPosition; }
-	bxcf::CVector3D&						getPosition(void) { return m_vecPosition; }
+	void							setPosition(bxcf::Vec3f& vecPosition) { m_vecPosition = vecPosition; }
+	bxcf::Vec3f&						getPosition(void) { return m_vecPosition; }
 
 	void							setMedian(float32 fMedian) { m_fMedian = fMedian; }
 	float32							getMedian(void) { return m_fMedian; }
@@ -62,7 +62,7 @@ private:
 	uint32							m_uiNodeType;
 	uint32							m_uiNextNode;
 	uint32							m_uiIsCrossRoad;
-	bxcf::CVector3D						m_vecPosition;
+	bxcf::Vec3f						m_vecPosition;
 	float32							m_fMedian;
 	uint32							m_uiLeftLaneCount;
 	uint32							m_uiRightLaneCount;

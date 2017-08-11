@@ -4,8 +4,8 @@
 #include "bxcf.h"
 #include "Type/Types.h"
 #include "Format/RenderWare/Helper/BinaryStream/Entries/C2dEffect.h"
-#include "Type/Vector/CVector2ui8.h"
-#include "Type/Vector/CVector3ui8.h"
+#include "Type/Vector/Vec2u8.h"
+#include "Type/Vector/Vec3u8.h"
 #include <string>
 
 class bxcf::CRWEntry_2dEffect_Light : public bxcf::C2dEffect
@@ -58,11 +58,11 @@ public:
 	void							setFlags2(uint8 ucFlags2) { m_ucFlags2 = ucFlags2; }
 	uint8							getFlags2(void) { return m_ucFlags2; }
 
-	void							setLookDirection(bxcf::CVector3ui8& vecLookDirection) { m_vecLookDirection = vecLookDirection; }
-	bxcf::CVector3ui8&					getLookDirection(void) { return m_vecLookDirection; }
+	void							setLookDirection(bxcf::Vec3u8& vecLookDirection) { m_vecLookDirection = vecLookDirection; }
+	bxcf::Vec3u8&					getLookDirection(void) { return m_vecLookDirection; }
 
-	void							setPadding(bxcf::CVector2ui8& vecPadding) { m_vecPadding = vecPadding; }
-	bxcf::CVector2ui8&					getPadding(void) { return m_vecPadding; }
+	void							setPadding(bxcf::Vec2u8& vecPadding) { m_vecPadding = vecPadding; }
+	bxcf::Vec2u8&					getPadding(void) { return m_vecPadding; }
 
 private:
 	uint32							m_uiColor;
@@ -79,8 +79,8 @@ private:
 	std::string						m_strShadowTexName;
 	uint8							m_ucShadowZDistance;
 	uint8							m_ucFlags2;
-	bxcf::CVector3ui8						m_vecLookDirection;
-	bxcf::CVector2ui8						m_vecPadding;
+	bxcf::Vec3u8						m_vecLookDirection;
+	bxcf::Vec2u8						m_vecPadding;
 };
 
 #endif

@@ -15,16 +15,16 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPosition);
+	bool									onLeftMouseUp(bxcf::Vec2i& vecCursorPosition);
 	void									onRender(void);
 
-	bxcf::CSize2D							getBoundingRectangleSize(void);
+	bxcf::Vec2u							getBoundingRectangleSize(void);
 
-	bxcf::CPoint2D							getIconCenterPosition(void);
+	bxcf::Vec2i							getIconCenterPosition(void);
 	
 	uint32									getIconRadius(void);
 
-	bxcf::CPoint2D							getTextPosition(void);
+	bxcf::Vec2i							getTextPosition(void);
 
 	int32									getMarkableTextSpacing(void); // todo - duplicated code in check and radio controls
 

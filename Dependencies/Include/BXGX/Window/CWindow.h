@@ -4,9 +4,9 @@
 #include <Windows.h>
 #include <gdiplus.h>
 #include "Type/Types.h"
-#include "Type/Vector/CPoint2D.h"
-#include "Type/Vector/CSize2D.h"
-#include "Type/Vector/CColour.h"
+#include "Type/Vector/Vec2i.h"
+#include "Type/Vector/Vec2u.h"
+#include "Type/Colour/CColour.h"
 #include "Pool/CVectorPool.h"
 #include "Event/CEventType.h"
 #include "Event/CEventBoundFunction.h"
@@ -49,11 +49,11 @@ public:
 	uint32									getItemType(void) { return bxgx::item::WINDOW; }
 	uint32									getItemSubType(void) { return bxgx::item::window::TYPE_1; }
 
-	bool									isPointInItem(bxcf::CPoint2D& vecPoint) { return true; }
+	bool									isPointInItem(bxcf::Vec2i& vecPoint) { return true; }
 	bool									doesItemHaveFocus(void) { return true; }
 
-	bool									isPointInControl(bxcf::CPoint2D& vecPoint);
-	CGUIControl*							getControlFromPoint(bxcf::CPoint2D& vecPoint);
+	bool									isPointInControl(bxcf::Vec2i& vecPoint);
+	CGUIControl*							getControlFromPoint(bxcf::Vec2i& vecPoint);
 	bool									doesDropHaveListOpen(void);
 
 	// old - temp
@@ -64,10 +64,10 @@ public:
 
 	void									onWindowLoseFocus(void);
 
-	bool									onLeftMouseDown(bxcf::CPoint2D& vecCursorPoint);
-	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPoint);
-	bool									onDoubleLeftMouseUp(bxcf::CPoint2D& vecCursorPoint);
-	bool									onMouseMove(bxcf::CPoint2D& vecCursorPoint);
+	bool									onLeftMouseDown(bxcf::Vec2i& vecCursorPoint);
+	bool									onLeftMouseUp(bxcf::Vec2i& vecCursorPoint);
+	bool									onDoubleLeftMouseUp(bxcf::Vec2i& vecCursorPoint);
+	bool									onMouseMove(bxcf::Vec2i& vecCursorPoint);
 
 	void									onRender(void);
 
@@ -106,16 +106,16 @@ public:
 	void									removeTitleBar(void);
 
 private:
-	bxcf::CPoint2D							getTitleBarIconPosition(uint32 uiIconIndex);
-	bxcf::CSize2D							getTitleBarIconSize(void);
-	bool									isPointInTitleBar(bxcf::CPoint2D& vecPoint);
+	bxcf::Vec2i							getTitleBarIconPosition(uint32 uiIconIndex);
+	bxcf::Vec2u							getTitleBarIconSize(void);
+	bool									isPointInTitleBar(bxcf::Vec2i& vecPoint);
 	CGUIStyles								getTitleBarIconStyles(void);
 	void									onClickTitleBarIcon(uint32 uiIconIndex);
 
 	uint8									getTitleBarIconCursorHoverIndex(void);
 	bool									isCursorHoveringTitleBarIcon(void);
-	bxcf::CPoint2D							getTitleBarIconsHoverPosition(void);
-	bxcf::CSize2D							getTitleBarIconsHoverSize(void);
+	bxcf::Vec2i							getTitleBarIconsHoverPosition(void);
+	bxcf::Vec2u							getTitleBarIconsHoverSize(void);
 
 	void									renderTitleBar(void);
 	void									renderTitleBarBackground(void);
@@ -155,11 +155,11 @@ public:
 	void									markToRedraw(void) { m_bMarkedToRedraw = true; }
 	bool									isMarkedToRedraw(void) { return m_bMarkedToRedraw; }
 
-	void									setPosition(bxcf::CPoint2D& vecPosition);
-	bxcf::CPoint2D&							getPosition(void) { return m_vecPosition; }
+	void									setPosition(bxcf::Vec2i& vecPosition);
+	bxcf::Vec2i&							getPosition(void) { return m_vecPosition; }
 
-	void									setSize(bxcf::CSize2D& vecSize);
-	bxcf::CSize2D&							getSize(void) { return m_vecSize; }
+	void									setSize(bxcf::Vec2u& vecSize);
+	bxcf::Vec2u&							getSize(void) { return m_vecSize; }
 
 	void									setMovingWindow(bool bMovingMainWindow) { m_bMovingWindow = bMovingMainWindow; }
 	bool									isMovingWindow(void) { return m_bMovingWindow; }
@@ -179,11 +179,11 @@ public:
 	void									setMinimized(bool bMinimized);
 	bool									isMinimized(void) { return m_bMinimized; }
 
-	void									setPreviousPosition(bxcf::CPoint2D& vecPreviousPosition) { m_vecPreviousPosition = vecPreviousPosition; }
-	bxcf::CPoint2D&							getPreviousPosition(void) { return m_vecPreviousPosition; }
+	void									setPreviousPosition(bxcf::Vec2i& vecPreviousPosition) { m_vecPreviousPosition = vecPreviousPosition; }
+	bxcf::Vec2i&							getPreviousPosition(void) { return m_vecPreviousPosition; }
 
-	void									setPreviousSize(bxcf::CSize2D& vecPreviousSize) { m_vecPreviousSize = vecPreviousSize; }
-	bxcf::CSize2D&							getPreviousSize(void) { return m_vecPreviousSize; }
+	void									setPreviousSize(bxcf::Vec2u& vecPreviousSize) { m_vecPreviousSize = vecPreviousSize; }
+	bxcf::Vec2u&							getPreviousSize(void) { return m_vecPreviousSize; }
 
 	void									setEventTriggerEventTypeId(bxcf::eEventType eEventTriggerEventTypeId) { m_eEventTriggerEventTypeId = eEventTriggerEventTypeId; }
 	bxcf::eEventType						getEventTriggerEventTypeId(void) { return m_eEventTriggerEventTypeId; }
@@ -192,8 +192,8 @@ private:
 	const char *							m_pClassName;
 	HWND									m_hwndWindow;
 	CWindow*								m_pParentWindow;
-	bxcf::CPoint2D							m_vecPosition;
-	bxcf::CSize2D							m_vecSize;
+	bxcf::Vec2i							m_vecPosition;
+	bxcf::Vec2u							m_vecSize;
 	uint32									m_uiWindowResizeEdges;
 	CDropTarget*							m_pDropTarget;
 	uint32									m_uiTitleBarHeight;
@@ -208,8 +208,8 @@ private:
 	uint8									m_bMinimized					: 1;
 	uint8									m_bTitleBarIconHoverStatus		: 1;
 	uint8									m_bTitleBarExists				: 1;
-	bxcf::CPoint2D							m_vecPreviousPosition;
-	bxcf::CSize2D							m_vecPreviousSize;
+	bxcf::Vec2i							m_vecPreviousPosition;
+	bxcf::Vec2u							m_vecPreviousSize;
 	CGUIItem*								m_pActiveItem;
 	bxcf::eEventType						m_eEventTriggerEventTypeId;
 	// todo CRectangleItemPlacement<CWindow>	m_placeableWindow;		// gui windows

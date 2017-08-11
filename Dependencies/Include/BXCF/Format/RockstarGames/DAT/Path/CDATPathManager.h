@@ -4,7 +4,7 @@
 #include "bxcf.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
-#include "Type/Vector/CVector2D.h"
+#include "Type/Vector/Vec2f.h"
 #include "Collection/Games/ePlatformedGame.h"
 #include <string>
 #include <vector>
@@ -21,8 +21,8 @@ public:
 	void						init(void);
 	void						uninit(void);
 
-	static uint32		getAreaIdFromPosition(bxcf::CVector2D& vecPosition, bxcf::CVector2D& vecMapRangeMin, bxcf::CVector2D& vecMapRangeMax, bxcf::CVector2D& vecAreaSize);
-	static uint32		getTileCount(bxcf::CVector2D& vecMapRangeMin, bxcf::CVector2D& vecMapRangeMax, bxcf::CVector2D& vecAreaSize);
+	static uint32		getAreaIdFromPosition(bxcf::Vec2f& vecPosition, bxcf::Vec2f& vecMapRangeMin, bxcf::Vec2f& vecMapRangeMax, bxcf::Vec2f& vecAreaSize);
+	static uint32		getTileCount(bxcf::Vec2f& vecMapRangeMin, bxcf::Vec2f& vecMapRangeMax, bxcf::Vec2f& vecAreaSize);
 
 	static bool					findPathNode(std::vector<bxcf::CDATPathFormat*>& veCDATFormatPaths, bxcf::CDATEntry_Paths_General_PathNode& pathNodeToFind, uint32& uiAreaId_Out, uint32& uiNodeId_Out);
 	static bool					findNaviNode(std::vector<bxcf::CDATPathFormat*>& veCDATFormatPaths, bxcf::CDATEntry_Paths_General_NaviNode& naviNodeToFind, uint32& uiAreaId_Out, uint32& uiNodeId_Out);

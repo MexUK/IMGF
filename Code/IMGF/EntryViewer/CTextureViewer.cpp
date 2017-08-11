@@ -12,7 +12,7 @@
 #include "CTextureViewerTextureData.h"
 #include "Image/CImageManager.h"
 #include "Localization/CLocalizationManager.h"
-#include "GUI/CGUIManager.h"
+#include "Input/CInputManager.h"
 #include "Type/String/CString2.h"
 #include <gdiplus.h>
 
@@ -208,7 +208,7 @@ void				CTextureViewer::prepareRenderData_TXD(void)
 			string strBMPImageDataStr = pMipmap->getRasterDataBGRA32();
 			const char *pBmpImageData = strBMPImageDataStr.c_str();
 
-			HBITMAP hBitmap = CreateBitmap(pMipmap->getImageSize().m_x, pMipmap->getImageSize().m_y, 1, 32, pBmpImageData);
+			HBITMAP hBitmap = CreateBitmap(pMipmap->getImageSize().x, pMipmap->getImageSize().y, 1, 32, pBmpImageData);
 
 			//HDC memDC = CreateCompatibleDC(NULL);
 			//HBITMAP hBitmap = CreateCompatibleBitmap(NULL, pMipmap->getImageSize(true), pMipmap->getImageSize(false));
@@ -294,8 +294,8 @@ void				CTextureViewer::prepareRenderData_TXD(void)
 
 			pTextureData->m_uiIndex = uiTextureIndex;
 			pTextureData->m_hBitmap = hBitmap;
-			pTextureData->m_uiWidth = pTexture->getImageSize().m_x;
-			pTextureData->m_uiHeight = pTexture->getImageSize().m_y;
+			pTextureData->m_uiWidth = pTexture->getImageSize().x;
+			pTextureData->m_uiHeight = pTexture->getImageSize().y;
 			pTextureData->m_strDiffuseName = pTexture->getDiffuseName();
 			pTextureData->m_strAlphaName = pTexture->getAlphaName();
 			pTextureData->m_ucBPP = pTexture->getOriginalBPP() == 0 ? pTexture->getBPP() : pTexture->getOriginalBPP();
@@ -442,7 +442,7 @@ void				CTextureViewer::openWindow(void)
 	if (!RegisterClassEx(&wc))
 	{
 		DWORD uiError = GetLastError();
-		bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_52", uiError), CLocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
+		bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_52", uiError), CLocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
 		return;
 	}
 
@@ -456,7 +456,7 @@ void				CTextureViewer::openWindow(void)
 		NULL, NULL, hInstance, NULL);
 	if (hwndEntryViewerWindow == NULL)
 	{
-		bxcf::CGUIManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_53"), CLocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
+		bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_53"), CLocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
 		return;
 	}
 	setWindowHwnd(hwndEntryViewerWindow);
@@ -561,7 +561,7 @@ LRESULT CALLBACK WndProc_ComboBox(
 {
 	if ((HWND)lParam == hWndComboBox)
 	{
-		bxcf::CGUIManager::showMessage("T", "D");
+		bxcf::CInputManager::showMessage("T", "D");
 	}
 	if ((uMsg == WM_COMMAND) && (HIWORD(wParam) == BN_CLICKED))
 	{
