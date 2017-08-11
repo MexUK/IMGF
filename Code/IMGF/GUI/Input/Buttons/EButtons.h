@@ -17,6 +17,7 @@ enum imgf::mainLayer::buttons::EButtons
 	ANIMATIONS,
 	RADAR,
 
+	NEW,
 	OPEN,
 	CLOSE,
 	SAVE,

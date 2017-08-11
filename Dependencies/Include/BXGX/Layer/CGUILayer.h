@@ -79,7 +79,7 @@ public:
 	CButtonControl*			addButton(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strButtonText, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CCheckControl*			addCheck(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strCheckText, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CDropControl*			addDrop(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strDefaultText, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CImageControl*			addImage(bxcf::Vec2i& vecPosition, std::string& strImagePath, bxcf::Vec2u vecSize = bxcf::Vec2u(0, 0), std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CImageControl*			addImage(bxcf::Vec2i& vecPosition, std::string strImagePath, bxcf::Vec2u vecSize = bxcf::Vec2u(0, 0), std::string strStyleGroups = "", uint32 uiItemId = -1);
 	// todo CImageControl*			addImageMem(bxcf::Vec2i& vecPosition, std::string& strImageData, bxcf::Vec2u vecSize = bxcf::Vec2u(0, 0), std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CGridControl*			addGrid(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CMenuControl*			addMenu(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
@@ -93,7 +93,7 @@ public:
 	CButtonControl*			addButton(int32 x, int32 y, int32 w, int32 h, std::string strButtonText, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CCheckControl*			addCheck(int32 x, int32 y, int32 w, int32 h, std::string strCheckText, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CDropControl*			addDrop(int32 x, int32 y, int32 w, int32 h, std::string strDefaultText, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CImageControl*			addImage(int32 x, int32 y, std::string& strImagePath, int32 w = 0, int32 h = 0, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CImageControl*			addImage(int32 x, int32 y, std::string strImagePath, int32 w = 0, int32 h = 0, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CGridControl*			addGrid(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CMenuControl*			addMenu(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CProgressControl*		addProgress(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "", uint32 uiItemId = -1);

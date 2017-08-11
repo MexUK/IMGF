@@ -3,6 +3,7 @@
 
 #include <Windows.h>
 #include <gdiplus.h>
+#include "bxcf.h"
 #include "Type/Types.h"
 #include "Type/Vector/Vec2i.h"
 #include "Type/Vector/Vec2u.h"
@@ -69,7 +70,8 @@ public:
 	bool									onDoubleLeftMouseUp(bxcf::Vec2i& vecCursorPoint);
 	bool									onMouseMove(bxcf::Vec2i& vecCursorPoint);
 
-	void									onRender(void);
+	void									onRenderBefore(void);
+	void									onRenderAfter(void);
 
 	virtual void							render(void);
 	void									renderNow(void);
@@ -81,6 +83,15 @@ public:
 	bool									checkToStartMovingOrResizingWindow(bool bCursorIsHoveringTitleBarIcon = false);
 	bool									checkToStopMovingOrResizingWindow(void);
 	bool									checkToMoveOrResizeWindow(void);
+
+	void									setMaxSizeApplies(bool bMaxSizeApplies) { m_bMaxSizeApplies = bMaxSizeApplies; }
+	bool									doesMaxSizeApply(void) { return m_bMaxSizeApplies; }
+
+	void									setMinSize(bxcf::Vec2u& vecMinSize) { m_vecMinSize = vecMinSize; }
+	bxcf::Vec2u&							getMinSize(void) { return m_vecMinSize; }
+
+	void									setMaxSize(bxcf::Vec2u& vecMaxSize) { m_vecMaxSize = vecMaxSize; }
+	bxcf::Vec2u&							getMaxSize(void) { return m_vecMaxSize; }
 
 	void									setClassName(const char * pClassName) { m_pClassName = pClassName; }
 	const char *							getClassName(void) { return m_pClassName; }
@@ -106,16 +117,16 @@ public:
 	void									removeTitleBar(void);
 
 private:
-	bxcf::Vec2i							getTitleBarIconPosition(uint32 uiIconIndex);
-	bxcf::Vec2u							getTitleBarIconSize(void);
+	bxcf::Vec2i								getTitleBarIconPosition(uint32 uiIconIndex);
+	bxcf::Vec2u								getTitleBarIconSize(void);
 	bool									isPointInTitleBar(bxcf::Vec2i& vecPoint);
 	CGUIStyles								getTitleBarIconStyles(void);
 	void									onClickTitleBarIcon(uint32 uiIconIndex);
 
 	uint8									getTitleBarIconCursorHoverIndex(void);
 	bool									isCursorHoveringTitleBarIcon(void);
-	bxcf::Vec2i							getTitleBarIconsHoverPosition(void);
-	bxcf::Vec2u							getTitleBarIconsHoverSize(void);
+	bxcf::Vec2i								getTitleBarIconsHoverPosition(void);
+	bxcf::Vec2u								getTitleBarIconsHoverSize(void);
 
 	void									renderTitleBar(void);
 	void									renderTitleBarBackground(void);
@@ -192,8 +203,10 @@ private:
 	const char *							m_pClassName;
 	HWND									m_hwndWindow;
 	CWindow*								m_pParentWindow;
-	bxcf::Vec2i							m_vecPosition;
-	bxcf::Vec2u							m_vecSize;
+	bxcf::Vec2i								m_vecPosition;
+	bxcf::Vec2u								m_vecSize;
+	bxcf::Vec2u								m_vecMinSize;
+	bxcf::Vec2u								m_vecMaxSize;
 	uint32									m_uiWindowResizeEdges;
 	CDropTarget*							m_pDropTarget;
 	uint32									m_uiTitleBarHeight;
@@ -208,8 +221,9 @@ private:
 	uint8									m_bMinimized					: 1;
 	uint8									m_bTitleBarIconHoverStatus		: 1;
 	uint8									m_bTitleBarExists				: 1;
-	bxcf::Vec2i							m_vecPreviousPosition;
-	bxcf::Vec2u							m_vecPreviousSize;
+	uint8									m_bMaxSizeApplies				: 1;
+	bxcf::Vec2i								m_vecPreviousPosition;
+	bxcf::Vec2u								m_vecPreviousSize;
 	CGUIItem*								m_pActiveItem;
 	bxcf::eEventType						m_eEventTriggerEventTypeId;
 	// todo CRectangleItemPlacement<CWindow>	m_placeableWindow;		// gui windows

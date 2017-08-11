@@ -1002,18 +1002,14 @@ void		CIMGEditor::addControls(void)
 	string
 		strStyleGroup;
 
-	// main editor component - entry list
-	x = 139;
-	w = 110;
-
-	x += w;
+	// main editor component - IMG entry list
+	x = 139 + 139;
 	y = 162 + 30;
-	w = 841;
-	h = 450;
+	w = m_pWindow->getSize().x - x;
+	h = m_pWindow->getSize().y - y;
 	strStyleGroup = "imgEditor_grid";
 
 	m_pEntryGrid = addGrid(x, y, w, h, strStyleGroup, IMG_GRID);
-	//m_pEntryGrid->setControlId(37);
 }
 
 void		CIMGEditor::initControls(void)
@@ -1028,16 +1024,14 @@ void		CIMGEditor::initControls(void)
 
 void		CIMGEditor::repositionAndResizeControls(void)
 {
-	CWindow *pWindow = getWindow();
-
 	Vec2i point;
 	Vec2u size;
 	int32 iNewX, iNewY, iNewWidth, iNewHeight;
 
 	// grid
 	size = m_pEntryGrid->getSize();
-	iNewWidth = ((pWindow->getSize().x - 10) - 139) - 110;
-	iNewHeight = pWindow->getSize().y - (162 + 30) - 10;
+	iNewWidth = m_pWindow->getSize().x - m_pEntryGrid->getPosition().x;
+	iNewHeight = m_pWindow->getSize().y - m_pEntryGrid->getPosition().y;
 	m_pEntryGrid->setSize(Vec2u(iNewWidth, iNewHeight));
 }
 

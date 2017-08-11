@@ -31,7 +31,8 @@ void		CMainLayer::addControls(void)
 	int32
 		i, i2, x, y, y2, w, h, w2, w3, h2, h3;
 	uint32
-		uiTitleBarHeight = getWindow()->getTitleBarHeight();
+		uiTitleBarHeight = getWindow()->getTitleBarHeight(),
+		uiButtonHeight = 37;
 	CButtonControl
 		*pButton;
 	string
@@ -41,7 +42,7 @@ void		CMainLayer::addControls(void)
 	x = 0;
 	y = uiTitleBarHeight;
 	w = 70;
-	h = 30;
+	h = uiButtonHeight;
 	strStyleGroup = "topLeftMenuButton";
 
 	pButton = addButton(x, y, w, h, "Formats", "firstItemHorizontally " + strStyleGroup, FORMATS);
@@ -49,8 +50,8 @@ void		CMainLayer::addControls(void)
 	pButton = addButton(x, y, w, h, "Utility", strStyleGroup, UTILITY);
 
 	// game information headers
-	x = 149;
-	y = (uiTitleBarHeight - 1) + 10;
+	x = 149 + 139;
+	y = (uiTitleBarHeight - 1) + uiButtonHeight + 10;
 	w = 150;
 	h = 20;
 	h2 = 15;
@@ -70,7 +71,7 @@ void		CMainLayer::addControls(void)
 
 	// game information values
 	x += 149;
-	y = (uiTitleBarHeight - 1) + 10;
+	y = (uiTitleBarHeight - 1) + uiButtonHeight + 10;
 	w = 350;
 	h = 20;
 
@@ -100,14 +101,16 @@ void		CMainLayer::addControls(void)
 	addText(x, y, w, h, "-", strStyleGroup);
 
 	// top menu - buttons
-	x = 139;
-	y = 133;
-	w = 100;
-	h = 30;
+	x = 139 + 139;
+	y = uiTitleBarHeight;
+	w = 139;
+	h = uiButtonHeight;
 	w2 = w;
 	strStyleGroup = "topMenuButton";
 
-	addButton(x, y, w, h, "Open", strStyleGroup + " firstItemHorizontally", OPEN);
+	addButton(x, y, w, h, "New", strStyleGroup + " firstItemHorizontally", NEW);
+	x += w2;
+	addButton(x, y, w, h, "Open", strStyleGroup, OPEN);
 	x += w2;
 	addButton(x, y, w, h, "Close", strStyleGroup, CLOSE);
 	x += w2;
@@ -117,26 +120,29 @@ void		CMainLayer::addControls(void)
 	// filter bar - search box
 	w2 = 0;
 	x += w2;
-	w = 273;
-	h = 30;
+	w = m_pWindow->getSize().x - x;
+	h = uiButtonHeight;
 	strStyleGroup = "filter";
 
-	m_pSearchBox = addTextBox(Vec2i(x, y), Vec2u(w, h), "Search", false, strStyleGroup);
+	m_pSearchBox = addTextBox(x, y, w, h, "Search", false, strStyleGroup);
 
 	// filter bar - entry type
-	x += w + w2;
 	w = 140;
-	h = 30;
+	w2 = 140;
+	x = (m_pWindow->getSize().x - w) - w2;
+	y = uiButtonHeight + 75;
+	h = 32;
 
-	m_pEntryTypeFilter = addDrop(Vec2i(x, y), Vec2u(w, h), "Entry Type", strStyleGroup);
+	m_pEntryTypeFilter = addDrop(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally");
 	m_pEntryTypeFilter->addItem("No file is open", false, false);
 
 	// filter bar - entry version
-	x += w + w2;
-	w = 240;
-	h = 30;
+	w = w2;
+	x = m_pWindow->getSize().x - w;
+	y = uiButtonHeight + 75;
+	h = 32;
 
-	m_pEntryVersionFilter = addDrop(Vec2i(x, y), Vec2u(w, h), "Entry Version", strStyleGroup);
+	m_pEntryVersionFilter = addDrop(x, y, w, h, "Entry Version", strStyleGroup);
 	m_pEntryVersionFilter->addItem("No file is open", false, false);
 
 	// files tab bar
@@ -146,7 +152,7 @@ void		CMainLayer::addControls(void)
 	h = 30;
 	strStyleGroup = "fileTabBar";
 
-	m_pTabBar = addTabBar(Vec2i(x, y), Vec2u((getWindow()->getSize().x - 10) - 249, h), strStyleGroup);
+	m_pTabBar = addTabBar(x, y, (getWindow()->getSize().x - 10) - 249, h, strStyleGroup);
 	m_pTabBar->setDefaultText("No tabs to display");
 
 	/*
@@ -158,9 +164,9 @@ void		CMainLayer::addControls(void)
 
 	// 2nd left menu - actions
 	x = 139;
-	y += h;
-	w = 110;
-	h = 30;
+	y = uiTitleBarHeight + uiButtonHeight;
+	w = 139;
+	h = uiButtonHeight;
 	h2 = h;
 	h3 = h2 + 0;
 	strStyleGroup = "secondLeftMenu";
@@ -196,13 +202,21 @@ void		CMainLayer::addControls(void)
 	// progress bar
 	w = 150;
 	w2 = 10;
-	h2 = 10;
+	h2 = uiButtonHeight + 10;
 	x = (m_pWindow->getSize().x - w2) - w;
 	y = uiTitleBarHeight + h2;
 	h = 5;
 	strStyleGroup = "progressBar";
 
 	m_pProgressBar = addProgress(x, y, w, h, strStyleGroup);
+
+	// logo
+	x = 139 + 14;
+	y = uiTitleBarHeight;
+	w = 0;
+	h = 0;
+
+	addImage(x, y, "imgf-logo.png", w, h);
 }
 
 void		CMainLayer::initControls(void)
@@ -228,16 +242,16 @@ void		CMainLayer::repositionAndResizeControls(void)
 
 	// filter bar - search box
 	size = m_pSearchBox->getSize();
-	iNewWidth = pWindow->getSize().x - 438 - 380 - 9;
+	iNewWidth = pWindow->getSize().x - m_pSearchBox->getPosition().x;
 	m_pSearchBox->setSize(Vec2u(iNewWidth, size.y));
 
 	// filter bar - entry type
 	point = m_pEntryTypeFilter->getPosition();
-	iNewX = (m_pSearchBox->getPosition().x + iNewWidth) - 1;
+	iNewX = (pWindow->getSize().x - m_pEntryTypeFilter->getSize().x) - m_pEntryVersionFilter->getSize().x;
 	m_pEntryTypeFilter->setPosition(Vec2i(iNewX, point.y));
 
 	// filter bar - entry version
 	point = m_pEntryVersionFilter->getPosition();
-	iNewX = (m_pEntryTypeFilter->getPosition().x + m_pEntryTypeFilter->getSize().x) - 1;
+	iNewX = pWindow->getSize().x - m_pEntryVersionFilter->getSize().x;
 	m_pEntryVersionFilter->setPosition(Vec2i(iNewX, point.y));
 }

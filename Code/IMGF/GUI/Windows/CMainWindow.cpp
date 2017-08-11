@@ -66,6 +66,8 @@ void					CMainWindow::initMainMenuLayers(void)
 {
 	int32
 		x, y, y2, w, h, h2;
+	uint32
+		uiButtonHeight = 37;
 	CButtonControl
 		*pButton;
 	string
@@ -75,10 +77,10 @@ void					CMainWindow::initMainMenuLayers(void)
 	CGUILayer *pFormatsLayer = addLayer(FORMATS_MENU, true);
 
 	x = 0;
-	y = getTitleBarHeight() + 30;
+	y = getTitleBarHeight() + uiButtonHeight;
 	y2 = y;
 	w = 139;
-	h = 40;
+	h = uiButtonHeight;
 	h2 = h;
 	strStyleGroup = "leftMenuButton";
 
@@ -106,7 +108,7 @@ void					CMainWindow::initMainMenuLayers(void)
 	x = 0;
 	y = y2;
 	w = 139;
-	h = 40;
+	h = uiButtonHeight;
 	h2 = h;
 	strStyleGroup = "leftMenuButton";
 
