@@ -86,7 +86,7 @@ void									CThemeDesignerTab_Save::initDesign(void)
 
 	CGUIControl *pControl = nullptr;
 	pControl = (CGUIControl*) pLayer->addText(CPoint2D((int32) 20, 50), CSize2D(150, 30), "Theme Name", pStyles_GoldText);
-	pControl = (CGUIControl*) pLayer->addEdit(CPoint2D((int32) 20, 80), CSize2D(400, 30), "", false, pStyles_GoldBorder);
+	pControl = (CGUIControl*) pLayer->addTextBox(CPoint2D((int32) 20, 80), CSize2D(400, 30), "", false, pStyles_GoldBorder);
 	pControl->setControlId(10);
 	pControl = (CGUIControl*) pLayer->addButton(CPoint2D((int32) 20, 400), CSize2D(80, 30), "Save", pStyles_SaveButton);
 	*/

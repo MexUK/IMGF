@@ -1,6 +1,6 @@
-#ifndef CIMGFWindow_H
-#define CIMGFWindow_H
+#pragma once
 
+#include "imgf.h"
 #include "Window/CWindow.h"
 #include <string>
 #include <vector>
@@ -16,16 +16,20 @@ public:
 
 	void					init(void);
 
-	void					addEditor(CEditor *pEditor);
+	void					setMainMenuType(imgf::mainLayer::mainMenuType::EMainMenuType uiMainMenuType);
+
+private:
+	void					initWindow(void);
+	void					initLayers(void);
+
+	void					initMainLayer(void);
+	void					initMainMenuLayers(void);
+	void					initEditors(void);
 
 public:
 	CMainLayer*				m_pMainLayer;
 	CIMGEditor*				m_pIMGEditor;
 
 private:
-	void					initWindow(void);
-	void					initMainLayer(void);
-	void					initEditors(void);
+	imgf::mainLayer::mainMenuType::EMainMenuType		m_uiMainMenuType;
 };
-
-#endif

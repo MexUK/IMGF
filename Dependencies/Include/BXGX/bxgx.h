@@ -6,12 +6,14 @@
 #include <string>
 
 class CGUIStyles;
-class CGUIManager;
 
 namespace bxgx
 {
 	// classes
 	class CGUIManager;
+
+	// functions
+	inline CGUIManager*		get(void);
 
 	// events
 	namespace events
@@ -38,6 +40,9 @@ namespace bxgx
 		const uint32		MOUSE_WHEEL_UP				= 2202;
 		const uint32		MOUSE_DOUBLE_WHEEL_DOWN		= 2203;
 		const uint32		MOUSE_DOUBLE_WHEEL_UP		= 2204;
+
+		const uint32		MOUSE_ENTER					= 2300;
+		const uint32		MOUSE_EXIT					= 2301;
 
 		// key
 		const uint32		KEY_DOWN					= 3000;

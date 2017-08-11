@@ -4,6 +4,7 @@
 #include "Event/Events.h"
 
 class CButtonControl;
+class CIMGFWindow;
 
 class CButtonPressManager : public bxcf::EventBindable<CButtonPressManager>
 {
@@ -46,4 +47,7 @@ private:
 	void					select(void);
 	void					sort(void);
 	void					lst(void);
+
+private:
+	CIMGFWindow*			m_pMainWindow;
 };

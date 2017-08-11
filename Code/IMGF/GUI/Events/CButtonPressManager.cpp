@@ -1,13 +1,20 @@
 #include "CButtonPressManager.h"
 #include "GUI/Events/EButtons.h"
 #include "Controls/CButtonControl.h"
+#include "Globals.h"
+#include "CIMGF.h"
+#include "GUI/CWindowManager.h"
+#include "GUI/Window/CIMGFWindow.h"
+#include "GUI/Window/EMainMenuType.h"
 
 using namespace imgf::mainLayer::buttons;
 using namespace bxgx::control::events;
+using namespace imgf::mainLayer::mainMenuType;
 
 // main interface
 void					CButtonPressManager::init(void)
 {
+	m_pMainWindow = g_pIMGF->getWindowManager()->getMainWindow();
 	bindEvents();
 }
 
@@ -22,8 +29,8 @@ void					CButtonPressManager::onPressButton(CButtonControl *pButton)
 {
 	switch (pButton->getId())
 	{
-	case FORMATS:			return formats();
-	case UTILITY:			return utility();
+	case EButtons::FORMATS:	return formats();
+	case EButtons::UTILITY:	return utility();
 
 	case DAT:				return dat();
 	case IMG:				return img();
@@ -57,10 +64,12 @@ void					CButtonPressManager::onPressButton(CButtonControl *pButton)
 // button press - menu type menu
 void					CButtonPressManager::formats(void)
 {
+	m_pMainWindow->setMainMenuType(EMainMenuType::FORMATS);
 }
 
 void					CButtonPressManager::utility(void)
 {
+	m_pMainWindow->setMainMenuType(EMainMenuType::UTILITY);
 }
 
 // button press - format menu

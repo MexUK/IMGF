@@ -155,7 +155,7 @@ void									CThemeDesignerTab_AddItem::initDesign(void)
 
 	pControl = (CGUIControl*) pLayer->addDrop(CPoint2D(uiControlIconX, uiControlIconY + 60), CSize2D(15, 10), pStyles_BlueBorder);
 
-	pControl = (CGUIControl*) pLayer->addEdit(CPoint2D(uiControlIconX, uiControlIconY + 90), CSize2D(15, 15), "", true, pStyles_Edit);
+	pControl = (CGUIControl*) pLayer->addTextBox(CPoint2D(uiControlIconX, uiControlIconY + 90), CSize2D(15, 15), "", true, pStyles_Edit);
 	pControl = (CGUIControl*) pLayer->addList(CPoint2D(uiControlIconX, uiControlIconY + 120), CSize2D(15, 15), pStyles_BlueBorder);
 	// todo pControl = (CGUIControl*) pLayer->addMenu(CPoint2D(uiControlIconX, uiControlIconY + 150), CSize2D(15, 15), pStyles_BlueBorder);
 
@@ -484,7 +484,7 @@ eGUIControl								CThemeDesignerTab_AddItem::getControlIdFromIndex(uint32 uiCon
 	case 0:		return GUI_CONTROL_BUTTON;
 	case 1:		return GUI_CONTROL_CHECK;
 	case 2:		return GUI_CONTROL_DROP;
-	case 3:		return GUI_CONTROL_EDIT;
+	case 3:		return GUI_CONTROL_TEXT_BOX;
 	case 4:		return GUI_CONTROL_GRID;
 	case 5:		return GUI_CONTROL_MENU;
 	case 6:		return GUI_CONTROL_PROGRESS;
@@ -503,7 +503,7 @@ CSize2D							CThemeDesignerTab_AddItem::getControlDefaultSize(eGUIControl eCont
 	case GUI_CONTROL_BUTTON:	return CSize2D(60, 20);
 	case GUI_CONTROL_CHECK:		return CSize2D(20, 20);
 	case GUI_CONTROL_DROP:		return CSize2D(80, 25);
-	case GUI_CONTROL_EDIT:		return CSize2D(100, 20);
+	case GUI_CONTROL_TEXT_BOX:	return CSize2D(100, 20);
 	case GUI_CONTROL_GRID:		return CSize2D(250, 250);
 	case GUI_CONTROL_MENU:		return CSize2D(250, 20);
 	case GUI_CONTROL_PROGRESS:	return CSize2D(100, 25);

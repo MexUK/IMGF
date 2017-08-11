@@ -22,6 +22,7 @@ LRESULT CALLBACK				WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 class CGraphicsLibrary;
 class CGUIStyles;
 class CGUIEventUtilizer;
+class CGUIItem;
 
 class bxgx::CGUIManager : public bxcf::CManager, public bxcf::CSingleton<bxgx::CGUIManager>, public bxcf::CVectorPool<CWindow*>, public bxcf::CEventBinder
 {
@@ -36,9 +37,12 @@ public:
 	void						unserialize(void);
 	void						serialize(void);
 
-	CWindow*					addWindow(bxcf::CPoint2D& vecWindowPosition = bxcf::CPoint2D((uint32) 0, (uint32) 0), bxcf::CSize2D& vecWindowSize = bxcf::CSize2D((uint32) 800, (uint32) 600));
+	CWindow*					addWindow(bxcf::CPoint2D& vecWindowPosition = bxcf::CPoint2D((uint32)-1, (uint32)-1), bxcf::CSize2D& vecWindowSize = bxcf::CSize2D((uint32)800, (uint32)600));
+	CWindow*					addWindow(uint32 x = -1, uint32 y = -1, uint32 w = 800, uint32 h = 600);
 	template <class WindowClass>
-	WindowClass*				addTemplatedWindow(bxcf::CPoint2D& vecWindowPosition = bxcf::CPoint2D(0, 0), bxcf::CSize2D& vecWindowSize = bxcf::CSize2D(800, 600));
+	WindowClass*				addWindow(bxcf::CPoint2D& vecWindowPosition = bxcf::CPoint2D(-1, -1), bxcf::CSize2D& vecWindowSize = bxcf::CSize2D(800, 600));
+	template <class WindowClass>
+	WindowClass*				addWindow(uint32 x = -1, uint32 y = -1, uint32 w = 800, uint32 h = 600);
 
 	void						processWindows(void);
 
@@ -78,13 +82,20 @@ private:
 	CGraphicsLibrary*								m_pGraphicsLibrary;
 	CWindow*										m_pActiveWindow;
 	bxcf::CPoint2D									m_vecCursorPosition;
+	CGUIItem*										m_pItemMouseIsOver;
 
 public:
 	std::unordered_map<uint32, std::vector<CGUIEventUtilizer*>>	m_umapEventControls;
 };
 
 template <class WindowClass>
-WindowClass*					bxgx::CGUIManager::addTemplatedWindow(bxcf::CPoint2D& vecWindowPosition, bxcf::CSize2D& vecWindowSize)
+WindowClass*					bxgx::CGUIManager::addWindow(uint32 x, uint32 y, uint32 w, uint32 h)
+{
+	return addWindow<WindowClass>(CPoint2D(x, y), CSize2D(w, h));
+}
+
+template <class WindowClass>
+WindowClass*					bxgx::CGUIManager::addWindow(bxcf::CPoint2D& vecWindowPosition, bxcf::CSize2D& vecWindowSize)
 {
 	WindowClass *pWindow = new WindowClass;
 
@@ -137,20 +148,48 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::CPoint2D& vecCur
 	CStyleManager
 		*pStyleManager = CStyleManager::get();
 
-	for (CGUIEventUtilizer *pGUIEventUtilizer : m_umapEventControls[uiEvent])
+	auto umapEventControls = m_umapEventControls;
+
+	for (CGUIEventUtilizer *pGUIEventUtilizer : umapEventControls[uiEvent])
 	{
 		if (bIsMouseEvent)
 		{
 			bTriggerEventForControl = pGUIEventUtilizer->isPointInItem(vecCursorPoint);
-			if (uiEvent == MOUSE_LEFT_UP && bTriggerEventForControl && pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL)
+			if (bTriggerEventForControl)
 			{
-				CGUIControl *pControl = (CGUIControl*)pGUIEventUtilizer;
-				pControl->setActiveItem();
-				pControl->markToRedraw();
-
-				if (pControl->getControlType() == GUI_CONTROL_BUTTON)
+				if (uiEvent == MOUSE_LEFT_UP)
 				{
-					bxcf::Events::trigger(bxgx::control::events::PRESS_BUTTON, (CButtonControl*)pControl);
+					if (pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL)
+					{
+						CGUIControl *pControl = (CGUIControl*)pGUIEventUtilizer;
+						pControl->setActiveItem();
+						pControl->markToRedraw();
+
+						if (pControl->getControlType() == GUI_CONTROL_BUTTON)
+						{
+							bxcf::Events::trigger(bxgx::control::events::PRESS_BUTTON, (CButtonControl*)pControl);
+						}
+					}
+				}
+				else if (uiEvent == MOUSE_MOVE)
+				{
+					if (pGUIEventUtilizer != m_pItemMouseIsOver)
+					{
+						if (m_pItemMouseIsOver)
+						{
+							triggerItemEvent(MOUSE_EXIT, m_pItemMouseIsOver);
+							bxcf::Events::trigger(bxgx::control::events::MOUSE_EXIT_ITEM, m_pItemMouseIsOver);
+						}
+
+						CGUIItem *pGUIItem = (CGUIItem*)pGUIEventUtilizer;
+						m_pItemMouseIsOver = pGUIItem;
+
+						if (pGUIItem->getItemType() == bxgx::item::CONTROL || pGUIItem->getItemType() == bxgx::item::SHAPE)
+						{
+							triggerItemEvent(MOUSE_ENTER, pGUIItem);
+							bxcf::Events::trigger(bxgx::control::events::MOUSE_ENTER_ITEM, pGUIItem);
+						}
+					}
 				}
 			}
 		}
@@ -218,6 +257,9 @@ bool						bxgx::CGUIManager::triggerItemEvent(uint32 uiEvent, CGUIEventUtilizer 
 	case MOUSE_DOUBLE_WHEEL_DOWN:	bResult = pItem->onDoubleMouseWheelDown(va_arg(list, bxcf::CPoint2D));	break;
 	case MOUSE_DOUBLE_WHEEL_UP:		bResult = pItem->onDoubleMouseWheelUp(va_arg(list, bxcf::CPoint2D));	break;
 
+	case MOUSE_ENTER:				bResult = pItem->onMouseEnter();										break;
+	case MOUSE_EXIT:				bResult = pItem->onMouseExit();											break;
+
 		// key
 	case KEY_DOWN:					bResult = pItem->onKeyDown(va_arg(list, uint16));						break;
 	case KEY_UP:					bResult = pItem->onKeyUp(va_arg(list, uint16));							break;
@@ -235,5 +277,7 @@ bool						bxgx::CGUIManager::triggerItemEvent(uint32 uiEvent, CGUIEventUtilizer 
 
 	return bResult;
 }
+
+inline bxgx::CGUIManager*		bxgx::get(void) { return bxgx::CGUIManager::get(); }
 
 #endif

@@ -6,13 +6,17 @@
 #include "Controls/CDropControl.h"
 #include "Controls/CButtonControl.h"
 #include "Controls/CProgressControl.h"
-#include "Controls/CEditControl.h"
+#include "Controls/CTextBoxControl.h"
 #include "GUI/Window/CIMGFWindow.h"
 #include "GUI/Editors/CIMGEditor.h"
+#include "GUI/Window/ELayers.h"
+#include "GUI/Events/EButtons.h"
 
 using namespace std;
 using namespace bxcf;
 using namespace bxgx;
+using namespace imgf::layers;
+using namespace imgf::mainLayer::buttons;
 
 // main interface
 void		CMainLayer::init(void)
@@ -25,14 +29,13 @@ void		CMainLayer::init(void)
 void		CMainLayer::addControls(void)
 {
 	int32
-		i, i2, x, y, w, h, w2, w3, h2, h3;
+		i, i2, x, y, y2, w, h, w2, w3, h2, h3;
 	uint32
 		uiTitleBarHeight = getWindow()->getTitleBarHeight();
+	CButtonControl
+		*pButton;
 	string
 		strStyleGroup;
-
-	// all buttons
-	CButtonControl *pButton;
 
 	// top left menu
 	x = 0;
@@ -41,35 +44,9 @@ void		CMainLayer::addControls(void)
 	h = 30;
 	strStyleGroup = "topLeftMenuButton";
 
-	pButton = addButton(x, y, w, h, "Formats", "firstItemHorizontally " + strStyleGroup);
+	pButton = addButton(x, y, w, h, "Formats", "firstItemHorizontally " + strStyleGroup, FORMATS);
 	x += w - 1;
-	pButton = addButton(x, y, w, h, "Utility", strStyleGroup);
-
-	// formats menu
-	x = 0;
-	y += h;
-	w = 139;
-	h = 40;
-	h2 = h;
-	strStyleGroup = "leftMenuButton";
-
-	pButton = addButton(x, y, w, h, "DAT", strStyleGroup);
-	y += h2;
-	pButton = addButton(x, y, w, h, "IMG", strStyleGroup);
-	y += h2;
-	pButton = addButton(x, y, w, h, "Item Definition", strStyleGroup);
-	y += h2;
-	pButton = addButton(x, y, w, h, "Item Placement", strStyleGroup);
-	y += h2;
-	pButton = addButton(x, y, w, h, "Models", strStyleGroup);
-	y += h2;
-	pButton = addButton(x, y, w, h, "Collisions", strStyleGroup);
-	y += h2;
-	pButton = addButton(x, y, w, h, "Textures", strStyleGroup);
-	y += h2;
-	pButton = addButton(x, y, w, h, "Animations", strStyleGroup);
-	y += h2;
-	pButton = addButton(x, y, w, h, "Radar", strStyleGroup);
+	pButton = addButton(x, y, w, h, "Utility", strStyleGroup, UTILITY);
 
 	// game information headers
 	x = 149;
@@ -144,7 +121,7 @@ void		CMainLayer::addControls(void)
 	h = 30;
 	strStyleGroup = "filter";
 
-	m_pSearchBox = addEdit(CPoint2D(x, y), CSize2D(w, h), "Search", false, strStyleGroup);
+	m_pSearchBox = addTextBox(CPoint2D(x, y), CSize2D(w, h), "Search", false, strStyleGroup);
 
 	// filter bar - entry type
 	x += w + w2;

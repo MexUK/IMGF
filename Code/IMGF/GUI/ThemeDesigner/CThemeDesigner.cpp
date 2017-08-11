@@ -87,7 +87,7 @@ void					CThemeDesigner::initWindowDesign(void)
 // layers
 CGUILayer*				CThemeDesigner::addLayer(string strLayerKey, bool bLayerIsEnabled)
 {
-	CGUILayer *pLayer = getWindow()->addLayer(getWindow(), bLayerIsEnabled); // todo - param same as object
+	CGUILayer *pLayer = getWindow()->createLayer(getWindow(), bLayerIsEnabled); // todo - param same as object
 	m_umapTabLayers[strLayerKey] = pLayer;
 	getTabControl()->bindTabLayer(m_umapTabControlEntries[strLayerKey], pLayer);
 	return pLayer;

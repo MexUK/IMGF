@@ -212,7 +212,6 @@ void				CIMGF::initStoredObjects(void)
 {
 	// initialize objects stored by CIMGF
 	// Excludes: CWindowManager and CSortManager
-	m_pButtonPressManager->init();
 	m_pEntryViewerManager->init();
 	m_pPopupGUIManager->init();
 	m_pLanguageManager->init();
@@ -363,6 +362,7 @@ void				CIMGF::initTempStuff(void)
 void				CIMGF::openWindow(void)
 {
 	getWindowManager()->openWindow();
+	m_pButtonPressManager->init();
 	CEventManager::get()->triggerEvent(EVENT_onToolReady);
 }
 

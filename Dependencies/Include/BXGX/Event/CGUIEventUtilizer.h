@@ -5,6 +5,7 @@
 #include "Type/Types.h"
 #include <string>
 #include <vector>
+#include <set>
 
 class CGUIEventUtilizer
 {
@@ -13,7 +14,10 @@ public:
 	void									markEventUsages(uint32 uiEventCount, ...);
 	void									markEventUsage(uint32 uiEvent);
 	void									unmarkEventUsage(uint32 uiEvent);
+	void									unmarkEventUsages(uint32 uiEventCount, ...);
+	void									unmarkAllEventUsages(void);
 	bool									isEventUsageMarked(uint32 uiEvent);
+	bool									isAnyEventUsageMarked(void);
 
 	// item
 	inline virtual uint32					getItemType(void) = 0;
@@ -58,6 +62,9 @@ public:
 	virtual bool							onDoubleMouseWheelDown(bxcf::CPoint2D& vecCursorPoint) { return false; }
 	virtual bool							onDoubleMouseWheelUp(bxcf::CPoint2D& vecCursorPoint) { return false; }
 
+	virtual bool							onMouseEnter(void) { return false; }
+	virtual bool							onMouseExit(void) { return false; }
+
 	virtual bool							onKeyDown(uint16 uiKey) { return false; }
 	virtual bool							onKeyUp(uint16 uiKey) { return false; }
 	virtual bool							onKeyHeld(uint16 uiKey) { return false; }
@@ -73,5 +80,6 @@ public:
 	std::vector<uint32>&					getStyleGroups(void) { return m_vecStyleGroups; }
 
 private:
+	std::set<uint32>						m_setItemEvents;
 	std::vector<uint32>						m_vecStyleGroups;
 };

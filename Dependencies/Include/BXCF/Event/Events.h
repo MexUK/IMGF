@@ -58,6 +58,8 @@ struct bxcf::Events
 			(object->*func)(args...);
 		}
 	}
+
+	static bool isEventCancelled(void) { return false; }
 };
 
 // bind

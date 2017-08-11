@@ -6,6 +6,12 @@
 
 using namespace bxcf;
 
+CWindowManager::CWindowManager(void) :
+	m_pMainWindow(nullptr)
+{
+}
+
+// main interface
 void					CWindowManager::init(void)
 {
 }
@@ -15,24 +21,21 @@ void					CWindowManager::uninit(void)
 }
 
 // window open/close
-CWindow*				CWindowManager::openWindow(void)
+CIMGFWindow*			CWindowManager::openWindow(void)
 {
-	CPoint2D vecWindowPosition = CPoint2D((int32)150, 150);
-	CSize2D vecWindowSize = CSize2D(1100, 652);
-
-	CIMGFWindow *pWindow = bxgx::CGUIManager::get()->addTemplatedWindow<CIMGFWindow>(vecWindowPosition, vecWindowSize);
-	if (!pWindow)
+	m_pMainWindow = bxgx::get()->addWindow<CIMGFWindow>(-1, -1, 1100, 652);
+	if (!m_pMainWindow)
 	{
 		return nullptr;
 	}
 	
-	pWindow->init();
+	m_pMainWindow->init();
 
-	return pWindow;
+	return m_pMainWindow;
 }
 
 // window processing
 void					CWindowManager::processWindows(void)
 {
-	bxgx::CGUIManager::get()->processWindows();
+	bxgx::get()->processWindows();
 }

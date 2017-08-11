@@ -64,10 +64,10 @@ public:
 
 	void									onWindowLoseFocus(void);
 
-	bool									onMouseMove(bxcf::CPoint2D& vecCursorPoint);
 	bool									onLeftMouseDown(bxcf::CPoint2D& vecCursorPoint);
 	bool									onLeftMouseUp(bxcf::CPoint2D& vecCursorPoint);
 	bool									onDoubleLeftMouseUp(bxcf::CPoint2D& vecCursorPoint);
+	bool									onMouseMove(bxcf::CPoint2D& vecCursorPoint);
 
 	void									onRender(void);
 
@@ -130,8 +130,13 @@ private:
 	void									renderTitleBarCloseIcon(void);
 
 public:
-	CGUILayer*								addLayer(bool bEnabled = true);
-	CGUILayer*								addLayer(CWindow *pWindow, bool bEnabled = true);
+	CGUILayer*								createLayer(uint32 uiLayerId = -1, bool bEnabled = true);
+	CGUILayer*								createLayer(CWindow *pWindow, uint32 uiLayerId = -1, bool bEnabled = true);
+	CGUILayer*								addLayer(uint32 uiLayerId = -1, bool bEnabled = true);
+	template <class LayerClass>
+	LayerClass*								addLayer(uint32 uiLayerId = -1, bool bEnabled = true);
+	CGUILayer*								getLayerById(uint32 uiLayerId);
+	void									swapLayersEnabled(uint32 uiLayerId1, uint32 uiLayerId2);
 
 	bool									doesActiveItemExist(void) { return m_pActiveItem != nullptr; }
 	void									setActiveItem(CGUIItem *pItem);
@@ -243,5 +248,16 @@ void									CWindow::bindEvent(uint32 uiEvent, void(*function)(Args&... args))
 
 }
 */
+
+template <class LayerClass>
+LayerClass*								CWindow::addLayer(uint32 uiLayerId, bool bEnabled)
+{
+	LayerClass *pLayer = new LayerClass;
+	pLayer->setWindow(this);
+	pLayer->setId(uiLayerId);
+	pLayer->setEnabledWithoutEvents(bEnabled);
+	addEntry(pLayer);
+	return pLayer;
+}
 
 #endif

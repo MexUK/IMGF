@@ -4,7 +4,7 @@
 
 class CIMGFWindow;
 class CProgressControl;
-class CEditControl;
+class CTextBoxControl;
 class CDropControl;
 
 class CMainLayer : public CGUILayer
@@ -24,7 +24,7 @@ private:
 private:
 	CIMGFWindow*				m_pIMGFWindow;
 	CProgressControl*			m_pProgressBar;
-	CEditControl*				m_pSearchBox;
+	CTextBoxControl*			m_pSearchBox;
 	CDropControl*				m_pEntryTypeFilter;
 	CDropControl*				m_pEntryVersionFilter;
 };
