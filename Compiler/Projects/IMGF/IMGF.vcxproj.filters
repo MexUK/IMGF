@@ -1259,9 +1259,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDragDrop.h">
       <Filter>Header Files\DragDrop</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\imgf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1292,6 +1289,9 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Windows\CMainWindow.h">
       <Filter>Header Files\GUI\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IMGF.rc">
@@ -1299,7 +1299,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\Resources\AppIcon1.ico">
+    <Image Include="..\..\..\Resources\Icon.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

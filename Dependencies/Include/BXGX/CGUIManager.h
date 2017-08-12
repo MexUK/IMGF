@@ -14,6 +14,7 @@
 #include <unordered_map>
 #include <vector>
 #include <tuple>
+#include <string>
 
 #include "Debug/CDebug.h"
 
@@ -37,12 +38,12 @@ public:
 	void						unserialize(void);
 	void						serialize(void);
 
-	CWindow*					addWindow(bxcf::Vec2i& vecWindowPosition = bxcf::Vec2i((uint32)-1, (uint32)-1), bxcf::Vec2u& vecWindowSize = bxcf::Vec2u((uint32)800, (uint32)600));
-	CWindow*					addWindow(uint32 x = -1, uint32 y = -1, uint32 w = 800, uint32 h = 600);
+	CWindow*					addWindow(bxcf::Vec2i& vecWindowPosition = bxcf::Vec2i((uint32)-1, (uint32)-1), bxcf::Vec2u& vecWindowSize = bxcf::Vec2u((uint32)800, (uint32)600), uint32 uiIcon = -1);
+	CWindow*					addWindow(uint32 x = -1, uint32 y = -1, uint32 w = 800, uint32 h = 600, uint32 uiIcon = -1);
 	template <class WindowClass>
-	WindowClass*				addWindow(bxcf::Vec2i& vecWindowPosition = bxcf::Vec2i(-1, -1), bxcf::Vec2u& vecWindowSize = bxcf::Vec2u(800, 600));
+	WindowClass*				addWindow(bxcf::Vec2i& vecWindowPosition = bxcf::Vec2i(-1, -1), bxcf::Vec2u& vecWindowSize = bxcf::Vec2u(800, 600), uint32 uiIcon = -1);
 	template <class WindowClass>
-	WindowClass*				addWindow(uint32 x = -1, uint32 y = -1, uint32 w = 800, uint32 h = 600);
+	WindowClass*				addWindow(uint32 x = -1, uint32 y = -1, uint32 w = 800, uint32 h = 600, uint32 uiIcon = -1);
 
 	void						processWindows(void);
 
@@ -76,7 +77,7 @@ public:
 	bxcf::Vec2i&				getCursorPosition(void) { return m_vecCursorPosition; }
 
 private:
-	bool						createWindow(CWindow *pWindow);
+	bool						createWindow(CWindow *pWindow, uint32 uiIcon = -1);
 
 private:
 	CGraphicsLibrary*								m_pGraphicsLibrary;
@@ -89,13 +90,13 @@ public:
 };
 
 template <class WindowClass>
-WindowClass*					bxgx::CGUIManager::addWindow(uint32 x, uint32 y, uint32 w, uint32 h)
+WindowClass*					bxgx::CGUIManager::addWindow(uint32 x, uint32 y, uint32 w, uint32 h, uint32 uiIcon)
 {
-	return addWindow<WindowClass>(Vec2i(x, y), Vec2u(w, h));
+	return addWindow<WindowClass>(Vec2i(x, y), Vec2u(w, h), uiIcon);
 }
 
 template <class WindowClass>
-WindowClass*					bxgx::CGUIManager::addWindow(bxcf::Vec2i& vecWindowPosition, bxcf::Vec2u& vecWindowSize)
+WindowClass*					bxgx::CGUIManager::addWindow(bxcf::Vec2i& vecWindowPosition, bxcf::Vec2u& vecWindowSize, uint32 uiIcon)
 {
 	WindowClass *pWindow = new WindowClass;
 
@@ -113,7 +114,7 @@ WindowClass*					bxgx::CGUIManager::addWindow(bxcf::Vec2i& vecWindowPosition, bx
 	pWindow->setSize(vecWindowSize);
 	addEntry(pWindow);
 
-	if (!createWindow(pWindow))
+	if (!createWindow(pWindow, uiIcon))
 	{
 		return nullptr;
 	}

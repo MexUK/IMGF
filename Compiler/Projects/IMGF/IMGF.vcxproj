@@ -47,12 +47,14 @@
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
     <IncludePath>..\..\..\Code\IMGF\;..\..\..\Code\IMGF\FileFormat\;..\..\..\Dependencies\ThirdParty\HappyHTTP;..\..\..\Dependencies\ThirdParty\GLEW;..\..\..\Dependencies\ThirdParty\Freetype\include;..\..\..\Dependencies\ThirdParty\GLFW;..\..\..\Dependencies\ThirdParty\GLFW\include\;..\..\..\Dependencies\ThirdParty\freetype-gl;..\..\..\Dependencies\ThirdParty\INI;..\..\..\Dependencies\ThirdParty\Bitmap;..\..\..\Dependencies\ThirdParty\;../../../Dependencies/Include/BXCF/;../../../Dependencies/Include/BXGX/;$(IncludePath)</IncludePath>
     <LibraryPath>../../../Dependencies/Lib/$(Configuration)/;../../../Dependencies/Lib/ThirdParty/$(Configuration)/;$(LibraryPath)</LibraryPath>
+    <TargetName>IMG Factory</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
-    <IncludePath>..\..\..\ThirdParty\HappyHTTP;..\..\..\ThirdParty\GLEW;..\..\..\ThirdParty\Freetype\include;..\..\..\ThirdParty\GLFW;..\..\..\ThirdParty\GLFW\include\;..\..\..\ThirdParty\freetype-gl;..\..\..\ThirdParty\INI;..\..\..\ThirdParty\Bitmap;..\..\..\ThirdParty\;..\..\..\Include\GUI\;..\..\..\Include\BXCF\;..\..\..\Code\;..\..\..\Code\FileFormat\;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\..\Lib\$(Configuration)\;..\..\..\Lib\ThirdParty\;..\..\..\Lib\ThirdParty\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\..\Code\IMGF\;..\..\..\Code\IMGF\FileFormat\;..\..\..\Dependencies\ThirdParty\HappyHTTP;..\..\..\Dependencies\ThirdParty\GLEW;..\..\..\Dependencies\ThirdParty\Freetype\include;..\..\..\Dependencies\ThirdParty\GLFW;..\..\..\Dependencies\ThirdParty\GLFW\include\;..\..\..\Dependencies\ThirdParty\freetype-gl;..\..\..\Dependencies\ThirdParty\INI;..\..\..\Dependencies\ThirdParty\Bitmap;..\..\..\Dependencies\ThirdParty\;../../../Dependencies/Include/BXCF/;../../../Dependencies/Include/BXGX/;$(IncludePath)</IncludePath>
+    <LibraryPath>../../../Dependencies/Lib/$(Configuration)/;../../../Dependencies/Lib/ThirdParty/$(Configuration)/;$(LibraryPath)</LibraryPath>
+    <TargetName>IMG Factory</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -87,18 +89,18 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ShowIncludes>false</ShowIncludes>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PreprocessorDefinitions>_WINSOCK_DEPRECATED_NO_WARNINGS;_GLFW_USE_OPENGL;_GLFW_WIN32;_GLFW_WGL;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;BXCF.lib;GUI.lib;freetype261-$(Configuration).lib;freeglut.lib;opengl32.lib;Uafxcw.lib;Libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;freetype261-$(Configuration).lib;BXCF.lib;BXGX.lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>Uafxcw.lib;Libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>"..\..\..\BuildEvents\BuildNumber\$(Configuration)\BuildNumber.exe"</Command>
+      <Command>"..\..\Events\BuildNumber\$(Configuration)\BuildNumber.exe"</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>Build Number</Message>
@@ -446,7 +448,7 @@
     <ResourceCompile Include="IMGF.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\Resources\AppIcon1.ico" />
+    <Image Include="..\..\..\Resources\Icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

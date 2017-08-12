@@ -169,7 +169,7 @@ public:
 	void									setPosition(bxcf::Vec2i& vecPosition);
 	bxcf::Vec2i&							getPosition(void) { return m_vecPosition; }
 
-	void									setSize(bxcf::Vec2u& vecSize);
+	void									setSize(bxcf::Vec2u vecSize);
 	bxcf::Vec2u&							getSize(void) { return m_vecSize; }
 
 	void									setMovingWindow(bool bMovingMainWindow) { m_bMovingWindow = bMovingMainWindow; }

@@ -216,7 +216,7 @@ void		CMainLayer::addControls(void)
 	w = 0;
 	h = 0;
 
-	addImage(x, y, "imgf-logo.png", w, h);
+	addImage(x, y, "Internal/Images/Logo.png", w, h);
 }
 
 void		CMainLayer::initControls(void)

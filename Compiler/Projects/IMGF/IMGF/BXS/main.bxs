@@ -1,7 +1,8 @@
 // window
 
 .window
-fill 0 140 200
+fill 255 255 255
+line 230 6 6
 
 .titleBar
 fill 50 50 50
@@ -42,10 +43,10 @@ line top false
 line top 0 0 0
 
 .main_lineLeft
-line left 135 135 135
+line left 100 100 100
 
 .main_lineTop
-line top 135 135 135
+line top 100 100 100
 
 .main_text
 text left center
@@ -58,29 +59,44 @@ spacing x 8
 // main layer
 
 .topLeftMenuButton .main_lineLeft .main_text .main_spacing
-fill 219 239 255
+fill 175 175 175
 
 .leftMenuButton .main_lineTop .main_text .main_spacing
-fill 122 195 255
+fill 201 201 201
 
 .gameInfoText
-text 255 255 255
+text 0 0 0
 
 .topMenuButton .main_lineLeft .main_text .main_spacing
-fill 255 209 209
+fill 201 201 201
 
 .filter .main_lineLeft .main_text .main_spacing
-fill 255 149 149
+fill 220 220 220
+text 0 0 0
+
+.filter:arrow
+fill 0 0 0
+
+.filter:list
+fill 220 220 220
+
+.filter:listRow .main_text .main_spacing
+text 0 0 0
+
+.filter:caret
+line 0 0 0
+
+.fileTabBarBlank
 text 0 0 0
 
 .fileTabBar:tab .main_lineLeft .main_text .main_spacing
-fill 220 220 220
+fill 255 255 255
 
 .secondLeftMenu .main_lineTop .main_text .main_spacing
-fill 255 209 209
+fill 220 220 220
 
 .progressBar
-fill 255 255 255
+fill 72 72 72
 
 
 
@@ -90,8 +106,7 @@ fill 255 255 255
 fill 255 255 255
 
 .imgEditor_grid:headerRow
-fill 144 144 144
-text 255 255 255
+fill 201 201 201
 
 .imgEditor_grid:headerCell .main_text
 text 0 0 0

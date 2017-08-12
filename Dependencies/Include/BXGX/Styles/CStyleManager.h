@@ -97,6 +97,8 @@ public:
 	inline T*										getNativeStyle(uint32 uiStyleComponent, uint32 uiStyleProperty);
 	template <typename T>
 	T*												getNativeStyle(CGUIEventUtilizer *pGUIEventUtilizer, uint32 uiStyleComponent, uint32 uiStyleProperty);
+	template <typename T>
+	T*												getNativeStyleFast(uint32 uiStyleComponent, uint32 uiStyleProperty);
 
 	void											setItemStyle(CGUIEventUtilizer *pGUIEventUtilizer, uint32 uiStyleComponent, uint32 uiStyleProperty, void *pStyleValue);
 	void											removeItemStyle(CGUIEventUtilizer *pGUIEventUtilizer, uint32 uiStyleComponent, uint32 uiStyleProperty);
@@ -260,6 +262,23 @@ T													CStyleManager::getStyleWithFragment(uint32 uiStyleComponent, uint3
 		}
 	}
 	return T();
+}
+
+template <typename T>
+T*													CStyleManager::getNativeStyleFast(uint32 uiStyleComponent, uint32 uiStyleProperty)
+{
+	if (m_umapItemsStyles[m_pRenderingEventUtilizer][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment].count(uiStyleProperty))
+	{
+		return (T*)m_umapItemsStyles[m_pRenderingEventUtilizer][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment][uiStyleProperty];
+	}
+	for (uint32 uiRenderingStyleGroup : m_vecRenderingStyleGroups)
+	{
+		if (m_umapCustomStyleGroups[uiRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment].count(uiStyleProperty))
+		{
+			return (T*)m_umapCustomStyleGroups[uiRenderingStyleGroup][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment][uiStyleProperty];
+		}
+	}
+	return nullptr;
 }
 
 template <typename T>
