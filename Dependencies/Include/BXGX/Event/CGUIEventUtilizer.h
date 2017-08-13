@@ -62,8 +62,8 @@ public:
 	virtual bool							onDoubleMouseWheelDown(bxcf::Vec2i& vecCursorPoint) { return false; }
 	virtual bool							onDoubleMouseWheelUp(bxcf::Vec2i& vecCursorPoint) { return false; }
 
-	virtual bool							onMouseEnter(void) { return false; }
-	virtual bool							onMouseExit(void) { return false; }
+	virtual bool							onMouseEnter(bxcf::Vec2i& vecCursorPoint) { return false; }
+	virtual bool							onMouseExit(bxcf::Vec2i& vecCursorPoint) { return false; }
 
 	virtual bool							onKeyDown(uint16 uiKey) { return false; }
 	virtual bool							onKeyUp(uint16 uiKey) { return false; }

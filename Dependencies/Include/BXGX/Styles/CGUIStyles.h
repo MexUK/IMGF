@@ -10,6 +10,7 @@
 #include <vector>
 #include <unordered_map>
 
+/*
 class CGUIStyles;
 
 namespace bxgx
@@ -17,10 +18,11 @@ namespace bxgx
 	namespace styles
 	{
 		// functions
-		template <typename ...T>
-		CGUIStyles*		make(T...); // in CGUIStyles.h
+		//template <typename ...T>
+		//CGUIStyles*		make(T...); // in CGUIStyles.h
 	};
 };
+*/
 
 class CGUIStyles : public bxcf::CMultipleTypeValuesUMapContainer<std::string>
 {
@@ -209,10 +211,11 @@ ValueType				CGUIStyles::getStyleDefaultValue(std::string strStyleName)
 	}
 }
 
+/*
 template <typename ...T>
 CGUIStyles*		bxgx::styles::make(T... ppStyles)
 {
-	std::vector<const char * /*, sizeof...(T)*/> vecStyles = { ppStyles ... };
+	std::vector<const char *> vecStyles = { ppStyles ... };
 	CGUIStyles * pStyles = new CGUIStyles;
 	for (const char * szStyle : vecStyles)
 	{
@@ -252,5 +255,6 @@ CGUIStyles*		bxgx::styles::make(T... ppStyles)
 	}
 	return pStyles;
 }
+*/
 
 #endif

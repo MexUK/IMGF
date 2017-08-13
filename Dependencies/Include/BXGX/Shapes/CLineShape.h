@@ -13,11 +13,11 @@ public:
 
 	void							bindEvents(void);
 
-	void							onRender(void);
+	void							onRenderAfter(void);
 
 	bool							isPointInItem(bxcf::Vec2i& vecPoint);
-	bxcf::Vec2i					getBoundingRectanglePosition(void);
-	bxcf::Vec2u					getBoundingRectangleSize(void);
+	bxcf::Vec2i						getBoundingRectanglePosition(void);
+	bxcf::Vec2u						getBoundingRectangleSize(void);
 };
 
 #endif

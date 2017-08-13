@@ -76,13 +76,21 @@ public:
 	void						setCursorPosition(bxcf::Vec2i vecCursorPosition) { m_vecCursorPosition = vecCursorPosition; }
 	bxcf::Vec2i&				getCursorPosition(void) { return m_vecCursorPosition; }
 
+	void						setItemMouseIsOver(CGUIItem* pItemMouseIsOver) { m_pItemMouseIsOver = pItemMouseIsOver; }
+	CGUIItem*					getItemMouseIsOver(void) { return m_pItemMouseIsOver; }
+	bool						isMouseOverItem(void) { return m_pItemMouseIsOver != nullptr; }
+	void						clearItemMouseIsOver(void) { m_pItemMouseIsOver = nullptr; }
+
+	CGUIItem*					getControlOrShapeFromPoint(bxcf::Vec2i& vecPoint);
+	bool						applyCursorIcon(void);
+
 private:
 	bool						createWindow(CWindow *pWindow, uint32 uiIcon = -1);
 
 private:
 	CGraphicsLibrary*								m_pGraphicsLibrary;
 	CWindow*										m_pActiveWindow;
-	bxcf::Vec2i									m_vecCursorPosition;
+	bxcf::Vec2i										m_vecCursorPosition;
 	CGUIItem*										m_pItemMouseIsOver;
 
 public:
@@ -144,20 +152,44 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::Vec2i& vecCursor
 		bIsKeyEvent = isKeyEvent(uiEvent),
 		bIsRenderEvent = isRenderEvent(uiEvent),
 		bIsWindowEvent = isWindowEvent(uiEvent),
-		bTriggerEventForControl,
+		bTriggerEventForEventUtilizer,
 		bTriggerEvents = true;
 	CStyleManager
 		*pStyleManager = CStyleManager::get();
+	CGUIItem
+		*pPreviousItemMouseWasOver = m_pItemMouseIsOver;
 
 	auto umapEventControls = m_umapEventControls;
 
+	// store item mouse is over when mouse moves, and check to trigger mouse exit event
+	CGUIItem *pItemHover = nullptr;
+	if (uiEvent == MOUSE_MOVE)
+	{
+		m_pItemMouseIsOver = getControlOrShapeFromPoint(vecCursorPoint);
+
+		if (pPreviousItemMouseWasOver && pPreviousItemMouseWasOver != m_pItemMouseIsOver && (pPreviousItemMouseWasOver->getItemType() == bxgx::item::CONTROL || pPreviousItemMouseWasOver->getItemType() == bxgx::item::SHAPE))
+		{
+			triggerItemEvent(MOUSE_EXIT, pPreviousItemMouseWasOver, vecCursorPoint);
+			bxcf::Events::trigger(bxgx::control::events::MOUSE_EXIT_ITEM, pPreviousItemMouseWasOver);
+		}
+	}
+
 	for (CGUIEventUtilizer *pGUIEventUtilizer : umapEventControls[uiEvent])
 	{
+		pStyleManager->m_pRenderingEventUtilizer = pGUIEventUtilizer;
+		pStyleManager->m_vecRenderingStyleGroups = pGUIEventUtilizer->getStyleGroups();
+		pStyleManager->m_uiRenderingItemType = pGUIEventUtilizer->getItemType();
+		pStyleManager->m_uiRenderingItemSubType = pGUIEventUtilizer->getItemSubType();
+		pStyleManager->m_uiRenderingControlComponent = bxgx::controls::components::DEFAULT_CONTROL_COMPONENT;
+		pStyleManager->m_uiRenderingStyleStatus = bxgx::styles::statuses::DEFAULT_STATUS;
+		pStyleManager->m_uiRenderingStyleFragment = bxgx::styles::fragments::ALL_STYLE_FRAGMENTS;
+
 		if (bIsMouseEvent)
 		{
-			bTriggerEventForControl = pGUIEventUtilizer->isPointInItem(vecCursorPoint);
-			if (bTriggerEventForControl)
+			if (pGUIEventUtilizer == m_pItemMouseIsOver)
 			{
+				bTriggerEventForEventUtilizer = true;
+
 				if (uiEvent == MOUSE_LEFT_UP)
 				{
 					if (pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL)
@@ -174,45 +206,39 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::Vec2i& vecCursor
 				}
 				else if (uiEvent == MOUSE_MOVE)
 				{
-					if (pGUIEventUtilizer != m_pItemMouseIsOver)
+					if (m_pItemMouseIsOver != pPreviousItemMouseWasOver)
 					{
-						if (m_pItemMouseIsOver)
+						if (pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL || pGUIEventUtilizer->getItemType() == bxgx::item::SHAPE)
 						{
-							triggerItemEvent(MOUSE_EXIT, m_pItemMouseIsOver);
-							bxcf::Events::trigger(bxgx::control::events::MOUSE_EXIT_ITEM, m_pItemMouseIsOver);
-						}
-
-						CGUIItem *pGUIItem = (CGUIItem*)pGUIEventUtilizer;
-						m_pItemMouseIsOver = pGUIItem;
-
-						if (pGUIItem->getItemType() == bxgx::item::CONTROL || pGUIItem->getItemType() == bxgx::item::SHAPE)
-						{
-							triggerItemEvent(MOUSE_ENTER, pGUIItem);
-							bxcf::Events::trigger(bxgx::control::events::MOUSE_ENTER_ITEM, pGUIItem);
+							triggerItemEvent(MOUSE_ENTER, pGUIEventUtilizer, vecCursorPoint);
+							bxcf::Events::trigger(bxgx::control::events::MOUSE_ENTER_ITEM, pGUIEventUtilizer);
 						}
 					}
+				}
+			}
+			else
+			{
+				if (pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL || pGUIEventUtilizer->getItemType() == bxgx::item::SHAPE)
+				{
+					bTriggerEventForEventUtilizer = false;
+				}
+				else
+				{
+					bTriggerEventForEventUtilizer = true;
 				}
 			}
 		}
 		else if (bIsKeyEvent)
 		{
-			bTriggerEventForControl = pGUIEventUtilizer->doesItemHaveFocus();
+			bTriggerEventForEventUtilizer = pGUIEventUtilizer->doesItemHaveFocus();
 		}
 		else
 		{
-			bTriggerEventForControl = true;
+			bTriggerEventForEventUtilizer = true;
 		}
 
-		if (bTriggerEvents && bTriggerEventForControl)
+		if (bTriggerEvents && bTriggerEventForEventUtilizer)
 		{
-			pStyleManager->m_pRenderingEventUtilizer = pGUIEventUtilizer;
-			pStyleManager->m_vecRenderingStyleGroups = pGUIEventUtilizer->getStyleGroups();
-			pStyleManager->m_uiRenderingItemType = pGUIEventUtilizer->getItemType();
-			pStyleManager->m_uiRenderingItemSubType = pGUIEventUtilizer->getItemSubType();
-			pStyleManager->m_uiRenderingControlComponent = bxgx::controls::components::DEFAULT_CONTROL_COMPONENT;
-			pStyleManager->m_uiRenderingStyleStatus = bxgx::styles::statuses::DEFAULT_STATUS;
-			pStyleManager->m_uiRenderingStyleFragment = bxgx::styles::fragments::ALL_STYLE_FRAGMENTS;
-
 			if (bIsRenderEvent)
 			{
 				triggerItemEvent(uiEvent, pGUIEventUtilizer, args...);
@@ -243,23 +269,23 @@ bool						bxgx::CGUIManager::triggerItemEvent(uint32 uiEvent, CGUIEventUtilizer 
 	case MOUSE_MOVE:				bResult = pItem->onMouseMove(va_arg(list, bxcf::Vec2i));				break;
 	
 	case MOUSE_LEFT_DOWN:			bResult = pItem->onLeftMouseDown(va_arg(list, bxcf::Vec2i));			break;
-	case MOUSE_LEFT_UP:				bResult = pItem->onLeftMouseUp(va_arg(list, bxcf::Vec2i));			break;
-	case MOUSE_DOUBLE_LEFT_DOWN:	bResult = pItem->onDoubleLeftMouseDown(va_arg(list, bxcf::Vec2i));	break;
+	case MOUSE_LEFT_UP:				bResult = pItem->onLeftMouseUp(va_arg(list, bxcf::Vec2i));				break;
+	case MOUSE_DOUBLE_LEFT_DOWN:	bResult = pItem->onDoubleLeftMouseDown(va_arg(list, bxcf::Vec2i));		break;
 	case MOUSE_DOUBLE_LEFT_UP:		bResult = pItem->onDoubleLeftMouseUp(va_arg(list, bxcf::Vec2i));		break;
 	
-	case MOUSE_RIGHT_DOWN:			bResult = pItem->onRightMouseDown(va_arg(list, bxcf::Vec2i));		break;
-	case MOUSE_RIGHT_UP:			bResult = pItem->onRightMouseUp(va_arg(list, bxcf::Vec2i));			break;
-	case MOUSE_DOUBLE_RIGHT_DOWN:	bResult = pItem->onDoubleRightMouseDown(va_arg(list, bxcf::Vec2i));	break;
-	case MOUSE_DOUBLE_RIGHT_UP:		bResult = pItem->onDoubleRightMouseUp(va_arg(list, bxcf::Vec2i));	break;
+	case MOUSE_RIGHT_DOWN:			bResult = pItem->onRightMouseDown(va_arg(list, bxcf::Vec2i));			break;
+	case MOUSE_RIGHT_UP:			bResult = pItem->onRightMouseUp(va_arg(list, bxcf::Vec2i));				break;
+	case MOUSE_DOUBLE_RIGHT_DOWN:	bResult = pItem->onDoubleRightMouseDown(va_arg(list, bxcf::Vec2i));		break;
+	case MOUSE_DOUBLE_RIGHT_UP:		bResult = pItem->onDoubleRightMouseUp(va_arg(list, bxcf::Vec2i));		break;
 
-	case MOUSE_WHEEL_MOVE:			bResult = pItem->onMouseWheelMove(va_arg(list, bxcf::Vec2i));		break;
-	case MOUSE_WHEEL_DOWN:			bResult = pItem->onMouseWheelDown(va_arg(list, bxcf::Vec2i));		break;
-	case MOUSE_WHEEL_UP:			bResult = pItem->onMouseWheelUp(va_arg(list, bxcf::Vec2i));			break;
-	case MOUSE_DOUBLE_WHEEL_DOWN:	bResult = pItem->onDoubleMouseWheelDown(va_arg(list, bxcf::Vec2i));	break;
-	case MOUSE_DOUBLE_WHEEL_UP:		bResult = pItem->onDoubleMouseWheelUp(va_arg(list, bxcf::Vec2i));	break;
+	case MOUSE_WHEEL_MOVE:			bResult = pItem->onMouseWheelMove(va_arg(list, bxcf::Vec2i));			break;
+	case MOUSE_WHEEL_DOWN:			bResult = pItem->onMouseWheelDown(va_arg(list, bxcf::Vec2i));			break;
+	case MOUSE_WHEEL_UP:			bResult = pItem->onMouseWheelUp(va_arg(list, bxcf::Vec2i));				break;
+	case MOUSE_DOUBLE_WHEEL_DOWN:	bResult = pItem->onDoubleMouseWheelDown(va_arg(list, bxcf::Vec2i));		break;
+	case MOUSE_DOUBLE_WHEEL_UP:		bResult = pItem->onDoubleMouseWheelUp(va_arg(list, bxcf::Vec2i));		break;
 
-	case MOUSE_ENTER:				bResult = pItem->onMouseEnter();										break;
-	case MOUSE_EXIT:				bResult = pItem->onMouseExit();											break;
+	case MOUSE_ENTER:				bResult = pItem->onMouseEnter(va_arg(list, bxcf::Vec2i));				break;
+	case MOUSE_EXIT:				bResult = pItem->onMouseExit(va_arg(list, bxcf::Vec2i));				break;
 
 		// key
 	case KEY_DOWN:					bResult = pItem->onKeyDown(va_arg(list, uint16));						break;

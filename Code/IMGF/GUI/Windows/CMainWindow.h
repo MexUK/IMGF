@@ -27,6 +27,7 @@ private:
 
 	void					initMainLayer(void);
 	void					initMainMenuLayers(void);
+	void					initSettingsMenuLayer(void);
 	void					initEditors(void);
 
 public:

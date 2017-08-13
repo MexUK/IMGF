@@ -23,18 +23,22 @@ public:
 	bool									onLeftMouseDown(bxcf::Vec2i& vecCursorPosition);
 	bool									onLeftMouseUp(bxcf::Vec2i& vecCursorPosition);
 	bool									onMouseMove(bxcf::Vec2i& vecCursorPosition);
+	bool									onMouseEnter(bxcf::Vec2i& vecCursorPosition);
+	bool									onMouseExit(bxcf::Vec2i& vecCursorPosition);
 	void									onRender(void);
+
+	bool									applyCursorHoverIcon(void);
 
 	CDropControlEntry*						addItem(std::string strItemText, bool bIsActiveItem = false, bool bIsSelectable = true);
 	void									removeItem(CDropControlEntry *pDropEntry);
 	
-	bxcf::Vec2u							getBoundingRectangleSize(void);
+	bxcf::Vec2u								getBoundingRectangleSize(void);
 	bool									isPointInSelectionList(bxcf::Vec2i& vecPoint);
 
-	bxcf::Vec2i							getSelectionListPosition(void);
-	bxcf::Vec2u							getSelectionListSize(void);
-	bxcf::Vec2i							getSelectionListEntryPosition(uint32 uiEntryIndex);
-	bxcf::Vec2u							getSelectionListEntrySize(void);
+	bxcf::Vec2i								getSelectionListPosition(void);
+	bxcf::Vec2u								getSelectionListSize(void);
+	bxcf::Vec2i								getSelectionListEntryPosition(uint32 uiEntryIndex);
+	bxcf::Vec2u								getSelectionListEntrySize(void);
 	uint32									getSelectionListEntryFromPoint(bxcf::Vec2i& vecCursorPosition);
 
 	void									setSize(bxcf::Vec2u& vecSize);
@@ -54,7 +58,7 @@ public:
 	bool									isSelectionListOpen(void) { return m_bSelectionListOpen; }
 
 private:
-	bxcf::Vec2i							getDropTrianglePosition(void);
+	bxcf::Vec2i								getDropTrianglePosition(void);
 	float32									getDropTriangleSideLength(void);
 	float32									getDropTriangleSideHeight(void);
 

@@ -22,8 +22,8 @@ public:
 	virtual void							unserialize(bool bSkipItemId = false)	= 0;
 	virtual void							serialize(void)							= 0;
 	
-	virtual bxcf::Vec2i					getBoundingRectanglePosition(void)						= 0;
-	virtual bxcf::Vec2u					getBoundingRectangleSize(void)							= 0;
+	virtual bxcf::Vec2i						getBoundingRectanglePosition(void)						= 0;
+	virtual bxcf::Vec2u						getBoundingRectangleSize(void)							= 0;
 	virtual void							moveItem(bxcf::Vec2i& vecItemPositionChange)			= 0;
 	virtual void							resizeItemViaOffsets(bxcf::Vec2i& vecItemSizeChange)	= 0;
 
@@ -35,6 +35,13 @@ public:
 	CWindow*								getWindow(void);
 	void									markToRedraw(void);
 
+	void									applyHoverEffects(void);
+	void									unapplyHoverEffects(void);
+
+	virtual bool							applyCursorHoverIcon(void);
+
+	bool									doesItemHaveFocus(void);
+
 	bool									isPointInBoundingRectangle(bxcf::Vec2i& vecPoint, uint32 uiOuterSpacing);
 
 	void									setLayer(CGUILayer* pLayer) { m_pLayer = pLayer; }
@@ -42,8 +49,6 @@ public:
 
 	void									setId(uint32 uiId) { m_uiId = uiId; }
 	uint32									getId(void) { return m_uiId; }
-
-	bool									doesItemHaveFocus(void);
 
 private:
 	CGUILayer*								m_pLayer;

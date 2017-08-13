@@ -49,6 +49,8 @@ private:
 	void					sort(void);
 	void					lst(void);
 
+	void					settings(void);
+
 private:
 	CMainWindow*			m_pMainWindow;
 	CTaskDispatchManager*	m_pTaskDispatchManager;

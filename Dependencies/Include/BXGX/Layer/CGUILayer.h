@@ -47,8 +47,6 @@ public:
 	void					bindEvents(void);
 	void					unbindEvents(void);
 
-	void					triggerEvent(bxcf::eEvent eEventId, void *pTriggerArgument);
-
 	void					unserialize(void);
 	void					serialize(void);
 
@@ -59,7 +57,6 @@ public:
 	bool					doesItemHaveFocus(void) { return true; }
 
 	bool					onLeftMouseUp(bxcf::Vec2i& vecCursorPoint);
-	bool					onMouseMove(bxcf::Vec2i& vecCursorPoint);
 
 	void					setWindow(CWindow *pWindow) { m_pWindow = pWindow; }
 	CWindow*				getWindow(void) { return m_pWindow; }
@@ -136,10 +133,6 @@ public:
 	CGUIControl*				getControlById(uint32 uiControlId);
 	CGUIShape*					getShapeById(uint32 uiShapeId);
 
-	void						setItemCursorHover(CGUIItem *pItem) { m_pItemCursorHover = pItem; }
-	CGUIItem*					getItemCursorHover(void) { return m_pItemCursorHover; }
-	void						clearItemCursorHover(void) { m_pItemCursorHover = nullptr; }
-
 	void						setDropWithListOpen(CDropControl *pDrop) { m_pDropWithListOpen = pDrop; }
 	CDropControl*				getDropWithListOpen(void) { return m_pDropWithListOpen; }
 	void						clearDropWithListOpen(void) { m_pDropWithListOpen = nullptr; }
@@ -157,7 +150,6 @@ protected:
 
 private:
 	bool								m_bEnabled;
-	CGUIItem*							m_pItemCursorHover;
 	CDropControl*						m_pDropWithListOpen;
 	uint32								m_uiId;
 	bxcf::CVectorPool<CGUIShape*>*		m_pShapes;

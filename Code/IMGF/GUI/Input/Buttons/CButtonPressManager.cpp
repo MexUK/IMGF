@@ -5,12 +5,14 @@
 #include "CIMGF.h"
 #include "GUI/Window/CWindowManager.h"
 #include "GUI/Windows/CMainWindow.h"
+#include "GUI/Layer/ELayers.h"
 #include "GUI/Layer/EMainMenuType.h"
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
 
-using namespace imgf::mainLayer::buttons;
 using namespace bxgx::control::events;
+using namespace imgf::layers;
+using namespace imgf::mainLayer::buttons;
 using namespace imgf::mainLayer::mainMenuType;
 
 // main interface
@@ -62,6 +64,8 @@ void					CButtonPressManager::onPressButton(CButtonControl *pButton)
 	case SELECT:			return select();
 	case SORT:				return sort();
 	case LST:				return lst();
+
+	case SETTINGS:			return settings();
 	}
 }
 
@@ -174,4 +178,11 @@ void					CButtonPressManager::sort(void)
 
 void					CButtonPressManager::lst(void)
 {
+}
+
+// settings
+void					CButtonPressManager::settings(void)
+{
+	CGUILayer *pLayer = m_pMainWindow->getLayerById(SETTINGS_MENU);
+	pLayer->setEnabled(!pLayer->isEnabled());
 }

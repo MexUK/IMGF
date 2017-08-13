@@ -42,8 +42,8 @@ public:
 
 	virtual bool							isPointInItem(bxcf::Vec2i& vecPoint);
 
-	virtual bxcf::Vec2i					getBoundingRectanglePosition(void) { return m_vecPosition; }
-	virtual bxcf::Vec2u					getBoundingRectangleSize(void) { return m_vecSize; }
+	virtual bxcf::Vec2i						getBoundingRectanglePosition(void) { return m_vecPosition; }
+	virtual bxcf::Vec2u						getBoundingRectangleSize(void) { return m_vecSize; }
 	void									moveItem(bxcf::Vec2i& vecPositionChange) { m_vecPosition += vecPositionChange; }
 	void									resizeItemViaOffsets(bxcf::Vec2i& vecItemSizeChange) { m_vecSize += bxcf::Vec2u(vecItemSizeChange.x, vecItemSizeChange.y); }
 
@@ -56,20 +56,22 @@ public:
 	uint32									getControlId(void) { return m_uiControlId; }
 	
 	void									setPosition(bxcf::Vec2i& vecPosition) { m_vecPosition = vecPosition; }
-	bxcf::Vec2i&								getPosition(void) { return m_vecPosition; }
+	bxcf::Vec2i&							getPosition(void) { return m_vecPosition; }
 	
 	void									setSize(bxcf::Vec2u& vecSize) { m_vecSize = vecSize; }
-	bxcf::Vec2u&								getSize(void) { return m_vecSize; }
+	bxcf::Vec2u&							getSize(void) { return m_vecSize; }
 	
 	void									setPointMarkedAsInControl(bool bPointMarkedAsInControl) { m_bPointMarkedAsInControl = bPointMarkedAsInControl; }
 	bool									isPointMarkedAsInControl(void) { return m_bPointMarkedAsInControl; }
 
 	CGUIScrollPool*							getScrolls(void) { return m_pScrolls; }
 
+	bool									doesHaveHoverIcon(void);
+
 private:
 	eGUIControl								m_eControlType;
 	bxcf::Vec2i								m_vecPosition;
-	bxcf::Vec2u									m_vecSize;
+	bxcf::Vec2u								m_vecSize;
 	uint32									m_uiControlId;
 	uint8									m_bPointMarkedAsInControl		: 1;
 	CGUIScrollPool*							m_pScrolls;

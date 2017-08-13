@@ -7,6 +7,7 @@
 #include "Controls/CButtonControl.h"
 #include "Controls/CProgressControl.h"
 #include "Controls/CTextBoxControl.h"
+#include "Shapes/CLineShape.h"
 #include "GUI/Windows/CMainWindow.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "GUI/Layer/ELayers.h"
@@ -120,11 +121,22 @@ void		CMainLayer::addControls(void)
 	// filter bar - search box
 	w2 = 0;
 	x += w2;
-	w = m_pWindow->getSize().x - x;
+	w = (m_pWindow->getSize().x - x) - (uiButtonHeight + 1);
 	h = uiButtonHeight;
 	strStyleGroup = "filter";
 
 	m_pSearchBox = addTextBox(x, y, w, h, "Search", false, strStyleGroup);
+
+	// settings icon
+	x += w;
+	w = uiButtonHeight + 1;
+	h = uiButtonHeight;
+	strStyleGroup = "settingsMenu";
+
+	m_pSettingsButton = addButton(x, y, w, h, "", strStyleGroup, SETTINGS);
+	m_pSettingsButtonLine1 = addLine(x + 10, y + 10, x + 27, y + 10, "settingsMenuLine");
+	m_pSettingsButtonLine2 = addLine(x + 10, y + 19, x + 27, y + 19, "settingsMenuLine");
+	m_pSettingsButtonLine3 = addLine(x + 10, y + 28, x + 27, y + 28, "settingsMenuLine");
 
 	// filter bar - entry type
 	w = 140;
@@ -132,6 +144,7 @@ void		CMainLayer::addControls(void)
 	x = (m_pWindow->getSize().x - w) - w2;
 	y = uiButtonHeight + 75;
 	h = 32;
+	strStyleGroup = "filter";
 
 	m_pEntryTypeFilter = addDrop(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally");
 	m_pEntryTypeFilter->addItem("No file is open", false, false);
@@ -233,7 +246,8 @@ void		CMainLayer::repositionAndResizeControls(void)
 
 	Vec2i point;
 	Vec2u size;
-	int32 iNewX, iNewY, iNewWidth, iNewHeight;
+	int32 x, y, iNewX, iNewY, iNewWidth, iNewHeight;
+	uint32 uiButtonHeight = 37;
 
 	// progress bar
 	point = m_pProgressBar->getPosition();
@@ -242,8 +256,22 @@ void		CMainLayer::repositionAndResizeControls(void)
 
 	// filter bar - search box
 	size = m_pSearchBox->getSize();
-	iNewWidth = pWindow->getSize().x - m_pSearchBox->getPosition().x;
+	iNewWidth = (pWindow->getSize().x - m_pSearchBox->getPosition().x) - (uiButtonHeight + 1);
 	m_pSearchBox->setSize(Vec2u(iNewWidth, size.y));
+
+	// settings icon
+	point = m_pSettingsButton->getPosition();
+	iNewX = pWindow->getSize().x - (uiButtonHeight + 1);
+	m_pSettingsButton->setPosition(Vec2i(iNewX, point.y));
+
+	x = m_pSearchBox->getPosition().x + m_pSearchBox->getSize().x;
+	y = m_pSearchBox->getPosition().y;
+	m_pSettingsButtonLine1->setPoint1(Vec2i(x + 10, y + 10));
+	m_pSettingsButtonLine1->setPoint2(Vec2i(x + 27, y + 10));
+	m_pSettingsButtonLine2->setPoint1(Vec2i(x + 10, y + 19));
+	m_pSettingsButtonLine2->setPoint2(Vec2i(x + 27, y + 19));
+	m_pSettingsButtonLine3->setPoint1(Vec2i(x + 10, y + 28));
+	m_pSettingsButtonLine3->setPoint2(Vec2i(x + 27, y + 28));
 
 	// filter bar - entry type
 	point = m_pEntryTypeFilter->getPosition();

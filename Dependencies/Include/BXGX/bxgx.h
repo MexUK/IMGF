@@ -1,11 +1,6 @@
 #pragma once
 
 #include "Type/Types.h"
-#include "Type/String/CString2.h"
-#include "Styles/CGUIStyles.h"
-#include <string>
-
-class CGUIStyles;
 
 namespace bxgx
 {
@@ -150,8 +145,8 @@ namespace bxgx
 		};
 
 		// functions
-		template <typename ...T>
-		CGUIStyles*		make(T...); // in CGUIStyles.h
+		//template <typename ...T>
+		//CGUIStyles*		make(T...); // in CGUIStyles.h
 	};
 
 	namespace item

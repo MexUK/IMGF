@@ -51,6 +51,7 @@ void					CMainWindow::initLayers(void)
 {
 	initMainLayer();
 	initMainMenuLayers();
+	initSettingsMenuLayer();
 	initEditors();
 }
 
@@ -115,6 +116,34 @@ void					CMainWindow::initMainMenuLayers(void)
 	pButton = pUtilityLayer->addButton(x, y, w, h, "Export Game", strStyleGroup);
 	y += h2;
 	pButton = pUtilityLayer->addButton(x, y, w, h, "Mod Includer", strStyleGroup);
+	y += h2;
+}
+
+void					CMainWindow::initSettingsMenuLayer(void)
+{
+	int32
+		x, y, w, h, h2;
+	uint32
+		uiButtonHeight = 37;
+	string
+		strStyleGroup;
+
+	CGUILayer *pSettingsMenuLayer = addLayer(SETTINGS_MENU, false);
+
+	y = getTitleBarHeight() + uiButtonHeight;
+	w = 139;
+	h = uiButtonHeight;
+	x = getSize().x - w;
+	h2 = h;
+	strStyleGroup = "settingsMenuButton";
+
+	pSettingsMenuLayer->addButton(x, y, w, h, "Settings", strStyleGroup + " firstItemVertically");
+	y += h2;
+	pSettingsMenuLayer->addButton(x, y, w, h, "Websites", strStyleGroup);
+	y += h2;
+	pSettingsMenuLayer->addButton(x, y, w, h, "Formats", strStyleGroup);
+	y += h2;
+	pSettingsMenuLayer->addButton(x, y, w, h, "About", strStyleGroup);
 	y += h2;
 }
 

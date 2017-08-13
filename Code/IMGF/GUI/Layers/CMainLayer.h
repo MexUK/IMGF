@@ -7,6 +7,8 @@ class CTabBarControl;
 class CProgressControl;
 class CTextBoxControl;
 class CDropControl;
+class CButtonControl;
+class CLineShape;
 
 class CMainLayer : public CGUILayer
 {
@@ -31,4 +33,8 @@ private:
 	CTextBoxControl*			m_pSearchBox;
 	CDropControl*				m_pEntryTypeFilter;
 	CDropControl*				m_pEntryVersionFilter;
+	CButtonControl*				m_pSettingsButton;
+	CLineShape*					m_pSettingsButtonLine1;
+	CLineShape*					m_pSettingsButtonLine2;
+	CLineShape*					m_pSettingsButtonLine3;
 };

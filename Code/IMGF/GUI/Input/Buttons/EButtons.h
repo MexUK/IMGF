@@ -33,5 +33,7 @@ enum imgf::mainLayer::buttons::EButtons
 	CONVERT,
 	SELECT,
 	SORT,
-	LST
+	LST,
+
+	SETTINGS
 };
