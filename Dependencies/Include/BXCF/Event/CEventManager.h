@@ -21,6 +21,16 @@ public:
 		m_bDefaultActionPrevented(false),
 		m_bEventHogged(false)
 	{
+		m_vecLatestCursorPosition.x = -1;
+		m_vecLatestCursorPosition.y = -1;
+		m_vecLatestScreenCursorPosition.x = -1;
+		m_vecLatestScreenCursorPosition.y = -1;
+		m_vecPreviousCursorPosition.x = -1;
+		m_vecPreviousCursorPosition.y = -1;
+		m_vecPreviousScreenCursorPosition.x = -1;
+		m_vecPreviousScreenCursorPosition.y = -1;
+		m_vecScreenCursorMoveDifference.x = -1;
+		m_vecScreenCursorMoveDifference.y = -1;
 	}
 
 	// EVENT_TYPE_GENERAL, 0

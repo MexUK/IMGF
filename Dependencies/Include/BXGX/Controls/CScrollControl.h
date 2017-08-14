@@ -20,9 +20,14 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
+	bxcf::Vec2i								getBoundingRectanglePosition(void);
+	bxcf::Vec2u								getBoundingRectangleSize(void);
+
 	bool									onLeftMouseDown(bxcf::Vec2i& vecCursorPosition);
 	bool									onLeftMouseUp(bxcf::Vec2i& vecCursorPosition);
 	bool									onMouseMove(bxcf::Vec2i& vecCursorPosition);
+	bool									onMouseEnter(bxcf::Vec2i& vecCursorPosition);
+	bool									onMouseExit(bxcf::Vec2i& vecCursorPosition);
 	void									onRender(void);
 
 	bool									isPointInSeekBar(bxcf::Vec2i& vecPoint);
@@ -30,7 +35,7 @@ public:
 
 	float32									getProgressFor1px(void);						// returns 0.0 to 1.0
 	void									increaseProgress(float32 fProgressIncrease);	// parameter 0.0 to 1.0
-	float32									getProgressIncreaseForLength(uint32 uiLength);	// parameter in pixels, return 0.0 to 1.0
+	float32									getProgressIncreaseForLength(int32 uiLength);	// parameter in pixels, return 0.0 to 1.0
 
 	uint32									getAvailableScrollLength(void);					// returns in pixels
 

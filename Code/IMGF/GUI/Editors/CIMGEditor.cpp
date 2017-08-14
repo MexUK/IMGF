@@ -23,6 +23,7 @@
 #include "Controls/CTabBarControl.h"
 #include "Controls/CProgressControl.h"
 #include "Input/CInputManager.h"
+#include "Control/CGUIScrollPool.h"
 
 // for menu start - todo
 #include "Format/RenderWare/Helper/BinaryStream/CRWManager.h"
@@ -293,7 +294,7 @@ void					CIMGEditor::readdColumnsToMainListView(eIMGVersion eIMGVersionValue)
 }
 void					CIMGEditor::addColumnsToMainListView(eIMGVersion eIMGVersionValue)
 {
-	m_pEntryGrid->addHeader("ID" /* todo CLocalizationManager::get()->getTranslatedText("Window_Main_ListView_ColumnTitle_ID")*/, 45);
+	m_pEntryGrid->addHeader("Index" /* todo CLocalizationManager::get()->getTranslatedText("Window_Main_ListView_ColumnTitle_ID")*/, 45);
 	m_pEntryGrid->addHeader("Type" /* CLocalizationManager::get()->getTranslatedText("Window_Main_ListView_ColumnTitle_Type")*/, 40);
 	m_pEntryGrid->addHeader("Name" /* CLocalizationManager::get()->getTranslatedText("Window_Main_ListView_ColumnTitle_Name")*/, 150);
 	m_pEntryGrid->addHeader("Offset" /* CLocalizationManager::get()->getTranslatedText("Offset")*/, 85);
@@ -1005,6 +1006,10 @@ void		CIMGEditor::addControls(void)
 	strStyleGroup = "imgEditor_grid";
 
 	m_pEntryGrid = addGrid(x, y, w, h, strStyleGroup, IMG_GRID);
+
+	w -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(_2D_MIRRORED_ORIENTATION_VERTICAL)->getBackgroundBarSize().x;
+	h -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(_2D_MIRRORED_ORIENTATION_HORIZONTAL)->getBackgroundBarSize().y;
+	m_pEntryGrid->setSize(Vec2u(w, h));
 }
 
 void		CIMGEditor::initControls(void)
@@ -1020,14 +1025,17 @@ void		CIMGEditor::initControls(void)
 void		CIMGEditor::repositionAndResizeControls(void)
 {
 	Vec2i point;
-	Vec2u size;
+	Vec2u size, newSize;
 	int32 iNewX, iNewY, iNewWidth, iNewHeight;
 
 	// grid
 	size = m_pEntryGrid->getSize();
 	iNewWidth = m_pWindow->getSize().x - m_pEntryGrid->getPosition().x;
 	iNewHeight = m_pWindow->getSize().y - m_pEntryGrid->getPosition().y;
-	m_pEntryGrid->setSize(Vec2u(iNewWidth, iNewHeight));
+	newSize = Vec2u(iNewWidth, iNewHeight);
+	newSize.x -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(_2D_MIRRORED_ORIENTATION_VERTICAL)->getBackgroundBarSize().x;
+	newSize.y -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(_2D_MIRRORED_ORIENTATION_HORIZONTAL)->getBackgroundBarSize().y;
+	m_pEntryGrid->setSize(newSize);
 }
 
 // render

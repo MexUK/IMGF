@@ -18,10 +18,14 @@ public:
 	void									setGrid(CGridControl *pGrid) { m_pGrid = pGrid; }
 	CGridControl*							getGrid(void) { return m_pGrid; }
 	
+	void									setSelected(bool bSelected) { m_bSelected = bSelected; }
+	bool									isSelected(void) { return m_bSelected; }
+
 	std::vector<std::vector<std::string>>&	getText(void) { return m_vecText; }
 	
 private:
 	CGridControl*							m_pGrid;
+	uint8									m_bSelected;
 	std::vector<std::vector<std::string>>	m_vecText;
 };
 

@@ -10,6 +10,7 @@
 #include "Object/CSingleton.h"
 #include "Styles/CStyleManager.h"
 #include "Event/EInputEvents.h"
+#include "Controls/CScrollControl.h"
 #include <Commctrl.h>
 #include <unordered_map>
 #include <vector>
@@ -239,7 +240,12 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::Vec2i& vecCursor
 			}
 			else
 			{
-				if (pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL || pGUIEventUtilizer->getItemType() == bxgx::item::SHAPE)
+				if (pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL && pGUIEventUtilizer->getItemSubType() == GUI_CONTROL_SCROLL && ((CScrollControl*)pGUIEventUtilizer)->isSeekBarMoving())
+				{
+					triggerItemEvent(uiEvent, pGUIEventUtilizer, args...);
+					return;
+				}
+				else if (pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL || pGUIEventUtilizer->getItemType() == bxgx::item::SHAPE)
 				{
 					bTriggerEventForEventUtilizer = false;
 				}

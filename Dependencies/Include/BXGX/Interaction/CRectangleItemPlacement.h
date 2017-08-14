@@ -75,20 +75,20 @@ CRectangleItemPlacement<Item>::CRectangleItemPlacement(void) :
 template <class Item>
 void					CRectangleItemPlacement<Item>::bindEvents(void)
 {
-	bindEvents_WhenNotPlacing();
+	//bindEvents_WhenNotPlacing();
 }
 
 template <class Item>
 void					CRectangleItemPlacement<Item>::bindEvents_WhenNotPlacing(void)
 {
-	storeEventBoundFunction(getWindow()->bindEvent(bxcf::EVENT_onLeftMouseDown, this, nullptr, -10));
+	//storeEventBoundFunction(getWindow()->bindEvent(bxcf::EVENT_onLeftMouseDown, this, nullptr, -10));
 }
 
 template <class Item>
 void					CRectangleItemPlacement<Item>::bindEvents_WhenPlacing(void)
 {
-	storeEventBoundFunction(getWindow()->bindEvent(bxcf::EVENT_onLeftMouseUp, this));
-	storeEventBoundFunction(getWindow()->bindEvent(bxcf::EVENT_onMouseMove, this));
+	//storeEventBoundFunction(getWindow()->bindEvent(bxcf::EVENT_onLeftMouseUp, this));
+	//storeEventBoundFunction(getWindow()->bindEvent(bxcf::EVENT_onMouseMove, this));
 }
 
 template <class Item>

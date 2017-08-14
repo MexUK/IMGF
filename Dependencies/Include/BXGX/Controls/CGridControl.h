@@ -16,6 +16,8 @@ class CGridControl : public CGUIControl, public bxcf::CVectorPool<CGridControlEn
 public:
 	CGridControl(void);
 
+	void										addScrollBars(void);
+
 	void										bindEvents(void);
 
 	void										unserialize(bool bSkipControlId = false);
