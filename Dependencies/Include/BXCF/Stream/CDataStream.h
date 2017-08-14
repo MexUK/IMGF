@@ -25,6 +25,7 @@ class bxcf::CDataStream
 public:
 	// data stream types: memory & file
 	CDataStream(void);
+	CDataStream(std::string& strFilePath);
 
 	virtual void			reset(void);
 	
@@ -44,10 +45,10 @@ public:
 	void					setFilePath(std::string& strFilePath) { m_strFilePath = strFilePath; }
 	std::string&			getFilePath(void) { return m_strFilePath; }
 	
-	void					open(bool bBinaryMode);
+	bool					open(bool bBinaryMode);
 	void					close(void);
 	
-	virtual void			openFile(std::string& strFilePath, uint32 uiFlags) = 0;
+	virtual bool			openFile(std::string& strFilePath, uint32 uiFlags) = 0;
 	virtual bool			isFileOpen(void) = 0;
 	virtual void			resetFile(void) = 0;
 
@@ -60,6 +61,10 @@ protected:
 	void					setSeek_Memory(uint64 uiSeek) { m_uiSeek_Memory = uiSeek; }
 	uint64					getSeek_Memory(void) { return m_uiSeek_Memory; }
 
+public:
+	// data stream type: file
+	std::string				m_strFilePath;
+
 protected:
 	// data stream type: memory & file
 	eDataStreamType			m_eDataStreamType;
@@ -69,9 +74,6 @@ protected:
 	// data stream type: memory
 	uint64					m_uiSeek_Memory;
 	std::string				m_strData_Memory;
-	
-	// data stream type: file
-	std::string				m_strFilePath;
 };
 
 #endif

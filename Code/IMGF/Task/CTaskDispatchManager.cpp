@@ -198,17 +198,14 @@ void		CTaskDispatchManager::openFile(string& strFilePath)
 	}
 	*/
 
-	if (strExtensionUpper == "DIR")
-	{
-		strExtensionUpper == "IMG";
-		strFilePath = CPathManager::replaceFileExtension(strFilePath, "IMG");
-	}
-
-	if (strExtensionUpper == "IMG")
+	if (strExtensionUpper == "IMG" || strExtensionUpper == "DIR")
 	{
 		// IMG or DIR
-		CDataReader reader;
-		CIMGFormat *img = new CIMGFormat(reader, strFilePath);
+		/*
+		CDataReader reader(strFilePath);
+		CIMGFormat *img = new CIMGFormat(reader);
+		*/
+		CIMGFormat *img = new CIMGFormat(strFilePath);
 
 		/*
 		if (bUseExistingFileHandle)
@@ -233,7 +230,7 @@ void		CTaskDispatchManager::openFile(string& strFilePath)
 			return m_pTaskManager->onTaskEndEarly();
 		}
 
-		if (!CIMGEditor::validateFile(img))
+		if (!m_pMainWindow->getIMGEditor()->validateFile(img))
 		{
 			delete img;
 			return m_pTaskManager->onTaskEndEarly();

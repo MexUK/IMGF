@@ -36,7 +36,7 @@ public:
 	void					resetData(void);
 
 	// file processing
-	void					openFile(std::string& strFilePath, uint32 uiFlags);
+	bool					openFile(std::string& strFilePath, uint32 uiFlags);
 	bool					isFileOpen(void);
 	void					resetFile(void);
 

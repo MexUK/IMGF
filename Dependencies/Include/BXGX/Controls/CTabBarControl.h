@@ -19,7 +19,10 @@ public:
 	void									unserialize(bool bSkipControlId = false);
 	void									serialize(void);
 
-	bool									onLeftMouseDown(bxcf::Vec2i& vecCursorPosition);
+	bool									onLeftMouseUp(bxcf::Vec2i& vecCursorPosition);
+	bool									onMouseMove(bxcf::Vec2i& vecCursorPosition);
+	bool									onMouseEnter(bxcf::Vec2i& vecCursorPosition);
+	bool									onMouseExit(bxcf::Vec2i& vecCursorPosition);
 	void									onRender(void);
 
 	uint32									getActiveIndex(void);
@@ -37,6 +40,10 @@ public:
 	void									setActiveTab(CTabBarControlEntry* pActiveTab) { m_pActiveTab = pActiveTab; }
 	CTabBarControlEntry*					getActiveTab(void) { return m_pActiveTab; }
 
+	void									setMouseHoverTab(CTabBarControlEntry *pTab) { m_pMouseHoverTab = pTab; }
+	CTabBarControlEntry*					getMouseHoverTab(void) { return m_pMouseHoverTab; }
+	void									clearMouseHoverTab(void) { m_pMouseHoverTab = nullptr; }
+
 	void									setActiveTabHeightDifference(uint32 uiActiveTabHeightDifference) { m_uiActiveTabHeightDifference = uiActiveTabHeightDifference; }
 	uint32									getActiveTabHeightDifference(void) { return m_uiActiveTabHeightDifference; }
 
@@ -45,6 +52,7 @@ public:
 
 private:
 	CTabBarControlEntry*									m_pActiveTab;
+	CTabBarControlEntry*									m_pMouseHoverTab;
 	uint32													m_uiActiveTabHeightDifference;
 	std::string												m_strDefaultText;
 	std::unordered_map<CTabBarControlEntry*, CGUILayer*>	m_umapTabLayers;

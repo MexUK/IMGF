@@ -22,7 +22,8 @@ class bxcf::CIMGFormat : public bxcf::CFormat, public bxcf::CVectorPool<bxcf::CI
 {
 public:
 	CIMGFormat(void);
-	CIMGFormat(bxcf::CDataReader& reader, std::string& strFilePath);
+	CIMGFormat(std::string& strFilePath);
+	CIMGFormat(bxcf::CDataReader& reader);
 
 	void											unload(void) {}
 

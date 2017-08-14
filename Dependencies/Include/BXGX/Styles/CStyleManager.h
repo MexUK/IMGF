@@ -101,7 +101,9 @@ public:
 	T*												getNativeStyleFast(uint32 uiStyleComponent, uint32 uiStyleProperty);
 
 	void											setItemStyle(CGUIEventUtilizer *pGUIEventUtilizer, uint32 uiStyleComponent, uint32 uiStyleProperty, void *pStyleValue);
+	void											setItemStyle(CGUIEventUtilizer *pGUIEventUtilizer, uint32 uiStyleComponent, uint32 uiStyleProperty, uint32 uiStyleFragment, void *pStyleValue);
 	void											removeItemStyle(CGUIEventUtilizer *pGUIEventUtilizer, uint32 uiStyleComponent, uint32 uiStyleProperty);
+	void											removeItemStyle(CGUIEventUtilizer *pGUIEventUtilizer, uint32 uiStyleComponent, uint32 uiStyleProperty, uint32 uiStyleFragment);
 
 	bool											doesHaveLeftLine(void);
 	bool											doesHaveRightLine(void);

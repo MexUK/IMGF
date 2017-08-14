@@ -24,6 +24,7 @@ class bxcf::CDataReader : public bxcf::CDataStream, public bxcf::CIndexedInstanc
 {
 public:
 	CDataReader(void);
+	CDataReader(std::string& strFilePath);
 	
 	// reset
 	void					close(void) { reset(); }
@@ -31,9 +32,10 @@ public:
 	void					resetLines(void);		// text mode only
 
 	// file processing
-	void					openFile(std::string& strFilePath, uint32 uiFlags);
+	bool					openFile(std::string& strFilePath, uint32 uiFlags);
 	bool					isFileOpen(void);
 	void					resetFile(void);
+	void					resetFileSeek(void);
 
 	// read string (binary mode)
 	std::string				readAll(void);

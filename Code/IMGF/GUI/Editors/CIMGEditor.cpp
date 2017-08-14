@@ -57,6 +57,7 @@ CIMGEditor::CIMGEditor(void) :
 // editor initialization
 void				CIMGEditor::init(void)
 {
+	CEditor::init();
 	addControls();
 	initControls();
 }
@@ -81,13 +82,6 @@ bool				CIMGEditor::validateFile(CIMGFormat *img)
 		}
 	}
 
-	// check for unserialize error [includes file open/close errors]
-	if (img->doesHaveError())
-	{
-		CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_23"), CLocalizationManager::get()->getTranslatedText("UnableToOpenIMG"), MB_OK);
-		return false;
-	}
-
 	// no errors occurred
 	return true;
 }
@@ -95,7 +89,7 @@ bool				CIMGEditor::validateFile(CIMGFormat *img)
 // add tab
 CIMGEditorTab*		CIMGEditor::addFile(CIMGFormat *img)
 {
-	CIMGEditorTab *imgTab = addTab(img);
+	CIMGEditorTab *imgTab = addTabObjectAndTabControl(img);
 
 	string strFileName = CPathManager::getFileName(img->getFilePath());
 	imgTab->logf("Opened %s", strFileName);
@@ -109,7 +103,7 @@ CIMGEditorTab*		CIMGEditor::addBlankFile(string strIMGPath, eIMGVersion eIMGVers
 	img->setFilePath(strIMGPath);
 	img->setVersion(eIMGVersionValue);
 
-	CIMGEditorTab *imgTab = addTab(img);
+	CIMGEditorTab *imgTab = addTabObjectAndTabControl(img);
 
 	string strFileName = CPathManager::getFileName(img->getFilePath());
 	imgTab->logf("Created %s", strFileName);
@@ -117,7 +111,7 @@ CIMGEditorTab*		CIMGEditor::addBlankFile(string strIMGPath, eIMGVersion eIMGVers
 	return imgTab;
 }
 
-CIMGEditorTab*		CIMGEditor::addTab(CIMGFormat *img)
+CIMGEditorTab*		CIMGEditor::addTabObjectAndTabControl(CIMGFormat *img)
 {
 	CIMGEditorTab *imgTab = new CIMGEditorTab;
 	imgTab->setIMGEditor(this);

@@ -12,7 +12,8 @@ class bxcf::CFormat
 {
 public:
 	CFormat(bool bEntityUsesBinaryFile, bxcf::eEndian eBinaryDataByteEndian = bxcf::LITTLE_ENDIAN);
-	CFormat(bxcf::CDataReader& reader, std::string& strFilePath, bool bEntityUsesBinaryFile, bxcf::eEndian eBinaryDataByteEndian = bxcf::LITTLE_ENDIAN);
+	CFormat(std::string& strFilePath, bool bEntityUsesBinaryFile, bxcf::eEndian eBinaryDataByteEndian = bxcf::LITTLE_ENDIAN);
+	CFormat(bxcf::CDataReader& reader, bool bEntityUsesBinaryFile, bxcf::eEndian eBinaryDataByteEndian = bxcf::LITTLE_ENDIAN);
 	~CFormat(void);
 
 	bool						open(void);
@@ -22,6 +23,11 @@ public:
 	void						checkMetaDataIsLoaded(void);
 
 	virtual void				readMetaData(void) {} // todo - make pure
+
+	void						unserialize2(void);
+
+
+
 
 	void						unserializeViaMemory(std::string& strData);
 	void						unserializeViaFile(std::string& strFilePath);
@@ -57,15 +63,17 @@ private:
 	virtual void				unserialize(void) = 0;				// overridden by derived CFormat
 	virtual void				serialize(void) = 0;				// overridden by derived CFormat
 	
-protected:
+public:
 	uint32						m_uiEntryCount;
+
+protected:
 	std::string					m_strFilePath;						// only used for data stream type: file
 	bxcf::CDataReader&			m_reader;
+	uint8						m_bFormatUsesBinaryData : 1;
 
 private:
 	uint8						m_ucErrorCode;
 	bxcf::eEndian				m_eEndian;							// only used for byte interpretation type: binary
-	uint8						m_bFormatUsesBinaryData	: 1;
 	uint8						m_bMetaDataIsLoaded		: 1;
 };
 

@@ -35,7 +35,7 @@ public:
 	CWindow*								getWindow(void);
 	void									markToRedraw(void);
 
-	void									applyHoverEffects(void);
+	void									applyHoverEffects(uint32 uiFragment = bxgx::styles::fragments::ALL_STYLE_FRAGMENTS);
 	void									unapplyHoverEffects(void);
 
 	virtual bool							applyCursorHoverIcon(void);

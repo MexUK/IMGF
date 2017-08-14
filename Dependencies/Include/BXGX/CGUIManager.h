@@ -156,26 +156,56 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::Vec2i& vecCursor
 		bTriggerEvents = true;
 	CStyleManager
 		*pStyleManager = CStyleManager::get();
-	CGUIItem
-		*pPreviousItemMouseWasOver = m_pItemMouseIsOver;
 
 	auto umapEventControls = m_umapEventControls;
 
-	// store item mouse is over when mouse moves, and check to trigger mouse exit event
-	CGUIItem *pItemHover = nullptr;
 	if (uiEvent == MOUSE_MOVE)
 	{
+		// store item mouse is over when mouse moves
+		CGUIItem *pPreviousItemMouseWasOver = m_pItemMouseIsOver;
 		m_pItemMouseIsOver = getControlOrShapeFromPoint(vecCursorPoint);
 
-		if (pPreviousItemMouseWasOver && pPreviousItemMouseWasOver != m_pItemMouseIsOver && (pPreviousItemMouseWasOver->getItemType() == bxgx::item::CONTROL || pPreviousItemMouseWasOver->getItemType() == bxgx::item::SHAPE))
+		if (pPreviousItemMouseWasOver != m_pItemMouseIsOver)
 		{
-			triggerItemEvent(MOUSE_EXIT, pPreviousItemMouseWasOver, vecCursorPoint);
-			bxcf::Events::trigger(bxgx::control::events::MOUSE_EXIT_ITEM, pPreviousItemMouseWasOver);
+			if (pPreviousItemMouseWasOver && pPreviousItemMouseWasOver->isEventUsageMarked(MOUSE_EXIT))
+			{
+				// trigger mouse exit event
+				pStyleManager->m_pRenderingEventUtilizer = pPreviousItemMouseWasOver;
+				pStyleManager->m_vecRenderingStyleGroups = pPreviousItemMouseWasOver->getStyleGroups();
+				pStyleManager->m_uiRenderingItemType = pPreviousItemMouseWasOver->getItemType();
+				pStyleManager->m_uiRenderingItemSubType = pPreviousItemMouseWasOver->getItemSubType();
+				pStyleManager->m_uiRenderingControlComponent = bxgx::controls::components::DEFAULT_CONTROL_COMPONENT;
+				pStyleManager->m_uiRenderingStyleStatus = bxgx::styles::statuses::DEFAULT_STATUS;
+				pStyleManager->m_uiRenderingStyleFragment = bxgx::styles::fragments::ALL_STYLE_FRAGMENTS;
+
+				triggerItemEvent(MOUSE_EXIT, pPreviousItemMouseWasOver, vecCursorPoint);
+				bxcf::Events::trigger(bxgx::control::events::MOUSE_EXIT_ITEM, pPreviousItemMouseWasOver);
+			}
+
+			if (m_pItemMouseIsOver && m_pItemMouseIsOver->isEventUsageMarked(MOUSE_ENTER))
+			{
+				// trigger mouse enter event
+				pStyleManager->m_pRenderingEventUtilizer = m_pItemMouseIsOver;
+				pStyleManager->m_vecRenderingStyleGroups = m_pItemMouseIsOver->getStyleGroups();
+				pStyleManager->m_uiRenderingItemType = m_pItemMouseIsOver->getItemType();
+				pStyleManager->m_uiRenderingItemSubType = m_pItemMouseIsOver->getItemSubType();
+				pStyleManager->m_uiRenderingControlComponent = bxgx::controls::components::DEFAULT_CONTROL_COMPONENT;
+				pStyleManager->m_uiRenderingStyleStatus = bxgx::styles::statuses::DEFAULT_STATUS;
+				pStyleManager->m_uiRenderingStyleFragment = bxgx::styles::fragments::ALL_STYLE_FRAGMENTS;
+
+				triggerItemEvent(MOUSE_ENTER, m_pItemMouseIsOver, vecCursorPoint);
+				bxcf::Events::trigger(bxgx::control::events::MOUSE_ENTER_ITEM, m_pItemMouseIsOver);
+			}
 		}
 	}
 
 	for (CGUIEventUtilizer *pGUIEventUtilizer : umapEventControls[uiEvent])
 	{
+		if (!pGUIEventUtilizer->isEventUsageMarked(uiEvent))
+		{
+			continue;
+		}
+
 		pStyleManager->m_pRenderingEventUtilizer = pGUIEventUtilizer;
 		pStyleManager->m_vecRenderingStyleGroups = pGUIEventUtilizer->getStyleGroups();
 		pStyleManager->m_uiRenderingItemType = pGUIEventUtilizer->getItemType();
@@ -194,24 +224,15 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::Vec2i& vecCursor
 				{
 					if (pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL)
 					{
+						// set active item
 						CGUIControl *pControl = (CGUIControl*)pGUIEventUtilizer;
 						pControl->setActiveItem();
 						pControl->markToRedraw();
 
+						// trigger button press event
 						if (pControl->getControlType() == GUI_CONTROL_BUTTON)
 						{
 							bxcf::Events::trigger(bxgx::control::events::PRESS_BUTTON, (CButtonControl*)pControl);
-						}
-					}
-				}
-				else if (uiEvent == MOUSE_MOVE)
-				{
-					if (m_pItemMouseIsOver != pPreviousItemMouseWasOver)
-					{
-						if (pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL || pGUIEventUtilizer->getItemType() == bxgx::item::SHAPE)
-						{
-							triggerItemEvent(MOUSE_ENTER, pGUIEventUtilizer, vecCursorPoint);
-							bxcf::Events::trigger(bxgx::control::events::MOUSE_ENTER_ITEM, pGUIEventUtilizer);
 						}
 					}
 				}

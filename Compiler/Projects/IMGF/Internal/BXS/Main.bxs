@@ -99,7 +99,7 @@ fill 220 220 220
 text 0 0 0
 
 .fileTabBar:tab .main_lineLeft .main_text .main_spacing
-fill 255 255 255
+fill 220 220 220
 
 .secondLeftMenu .main_lineTop .main_text .main_spacing
 fill 220 220 220

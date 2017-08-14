@@ -159,13 +159,13 @@ void		CMainLayer::addControls(void)
 	m_pEntryVersionFilter->addItem("No file is open", false, false);
 
 	// files tab bar
-	x = 139;
+	x = 139 + 139;
 	y = 162;
-	w = 500;
+	w = 1000;
 	h = 30;
 	strStyleGroup = "fileTabBar";
 
-	m_pTabBar = addTabBar(x, y, (getWindow()->getSize().x - 10) - 249, h, strStyleGroup);
+	m_pTabBar = addTabBar(x, y, w, h, strStyleGroup);
 	m_pTabBar->setDefaultText("No tabs to display");
 
 	/*

@@ -157,7 +157,7 @@ void				CIMGF::_init(void)
 	initStaticData();
 	initEventBinding();
 	initSettings();
-	initLocalization();
+	//initLocalization();
 	initSorting();
 	initOldVersionMigration();
 	initTempStuff();
