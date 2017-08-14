@@ -27,7 +27,9 @@ using namespace imgf::mainLayer::mainMenuType;
 using namespace imgf::layers;
 
 CMainWindow::CMainWindow(void) :
-	m_uiMainMenuType(FORMATS)
+	m_uiMainMenuType(FORMATS),
+	m_pMainLayer(nullptr),
+	m_pIMGEditor(nullptr)
 {
 }
 
@@ -37,6 +39,17 @@ void					CMainWindow::init(void)
 	initWindow();
 	initLayers();
 	CWindow::bindEvents();
+}
+
+// item fetching
+CProgressControl*		CMainWindow::getProgressBar(void)
+{
+	return m_pMainLayer->getProgressBar();
+}
+
+CTabBarControl*			CMainWindow::getTabBar(void)
+{
+	return m_pMainLayer->getTabBar();
 }
 
 // window initialization

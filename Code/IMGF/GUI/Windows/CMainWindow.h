@@ -7,6 +7,8 @@
 
 class CMainLayer;
 class CIMGEditor;
+class CProgressControl;
+class CTabBarControl;
 
 class CMainWindow : public CWindow
 {
@@ -18,8 +20,10 @@ public:
 	void					setMainMenuType(imgf::mainLayer::mainMenuType::EMainMenuType uiMainMenuType);
 
 	CMainLayer*				getMainLayer(void) { return m_pMainLayer; }
-
 	CIMGEditor*				getIMGEditor(void) { return m_pIMGEditor; }
+
+	CProgressControl*		getProgressBar(void);
+	CTabBarControl*			getTabBar(void);
 
 private:
 	void					initWindow(void);

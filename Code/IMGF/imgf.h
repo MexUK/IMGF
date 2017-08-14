@@ -27,4 +27,9 @@ namespace imgf
 			enum EMainMenuType;
 		};
 	};
+
+	namespace task
+	{
+		enum ETask;
+	};
 };

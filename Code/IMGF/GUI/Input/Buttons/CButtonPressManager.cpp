@@ -120,7 +120,7 @@ void					CButtonPressManager::radar(void)
 // button press - file menu
 void					CButtonPressManager::open(void)
 {
-	m_pTaskDispatchManager->onRequestOpen();
+	m_pTaskDispatchManager->chooseFilesToOpen();
 }
 
 void					CButtonPressManager::close(void)

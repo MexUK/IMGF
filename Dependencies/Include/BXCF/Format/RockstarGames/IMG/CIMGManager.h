@@ -19,9 +19,9 @@ public:
 	void								init(void);
 	void								uninit(void);
 
-	static std::string					getIMGVersionName(bxcf::eIMGVersion eVersion, bool bIsEncrypted = false);
-	static std::string					getIMGVersionGames(bxcf::eIMGVersion eVersion);
-	static std::string					getIMGVersionNameWithGames(bxcf::eIMGVersion eVersion, bool bIsEncrypted = false);
+	static std::string					getVersionName(bxcf::eIMGVersion eVersion, bool bIsEncrypted = false);
+	static std::string					getVersionGames(bxcf::eIMGVersion eVersion);
+	static std::string					getVersionNameWithGames(bxcf::eIMGVersion eVersion, bool bIsEncrypted = false);
 	static uint32						getIMGEntryCount(std::string& strIMGFilePath, bxcf::eIMGVersion eIMGVersion = IMG_UNKNOWN);
 
 	static bxcf::eIMGVersion			detectIMGVersion(std::string& strIMGFilePath, std::string& strHeader16B = bxcf::g_strBlankString, bool& bIsEncryptedOut = g_bDefaultBool);

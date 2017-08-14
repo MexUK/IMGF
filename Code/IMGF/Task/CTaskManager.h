@@ -20,7 +20,9 @@ public:
 	CTaskDispatchManager*						getDispatch(void) { return m_pTaskDispatchManager; }
 
 	void										onTaskBegin(std::string strFeatureName);
-	void										onTaskEnd(std::string strFeatureName, bool bFeatureAborted = false);
+	void										onTaskEnd(bool bFeatureAborted = false);
+	void										onTaskEnd(std::string s, bool bFeatureAborted = false) {} // temp
+	void										onTaskEndEarly(void);
 	void										onTaskPause(void);
 	void										onTaskUnpause(void);
 	void										onTaskProgressTick(void);

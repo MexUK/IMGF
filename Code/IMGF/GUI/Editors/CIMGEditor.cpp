@@ -21,6 +21,8 @@
 #include "GUI/Windows/CMainWindow.h"
 #include "GUI/Layers/CMainLayer.h"
 #include "Controls/CTabBarControl.h"
+#include "Controls/CProgressControl.h"
+#include "Input/CInputManager.h"
 
 // for menu start - todo
 #include "Format/RenderWare/Helper/BinaryStream/CRWManager.h"
@@ -59,75 +61,73 @@ void				CIMGEditor::init(void)
 	initControls();
 }
 
+// format validation
+bool				CIMGEditor::validateFile(CIMGFormat *img)
+{
+	if (img->getVersion() == IMG_FASTMAN92)
+	{
+		// check if IMG is fastman92 format and is encrypted
+		if (img->isEncrypted())
+		{
+			CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_21"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_21"), MB_OK);
+			return false;
+		}
+
+		// check if IMG is fastman92 format and has an unsupported game type
+		if (img->getGameType() != 0)
+		{
+			CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_68", img->getGameType()), CLocalizationManager::get()->getTranslatedText("UnableToOpenIMG"), MB_OK);
+			return false;
+		}
+	}
+
+	// check for unserialize error [includes file open/close errors]
+	if (img->doesHaveError())
+	{
+		CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_23"), CLocalizationManager::get()->getTranslatedText("UnableToOpenIMG"), MB_OK);
+		return false;
+	}
+
+	// no errors occurred
+	return true;
+}
+
 // add tab
-CIMGEditorTab*		CIMGEditor::addBlankTab(string strIMGPath, eIMGVersion eIMGVersionValue)
+CIMGEditorTab*		CIMGEditor::addFile(CIMGFormat *img)
 {
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(1);
+	CIMGEditorTab *imgTab = addTab(img);
 
-	CIMGFormat *pIMGFormat = new CIMGFormat;
-	pIMGFormat->setFilePath(strIMGPath);
-	pIMGFormat->setIMGVersion(eIMGVersionValue);
+	string strFileName = CPathManager::getFileName(img->getFilePath());
+	imgTab->logf("Opened %s", strFileName);
 
-	CIMGEditorTab *pEditorTab = _addTab(pIMGFormat);
-	if (!pEditorTab)
-	{
-		getIMGF()->getTaskManager()->onTaskProgressTick();
-		return nullptr;
-	}
-
-	pEditorTab->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_26", CPathManager::getFileName(strIMGPath).c_str()));
-	pEditorTab->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_27", CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, pIMGFormat->isEncrypted()).c_str()), true);
-	getIMGF()->getTaskManager()->onTaskProgressTick();
-
-	return pEditorTab;
+	return imgTab;
 }
 
-CIMGEditorTab*		CIMGEditor::addTab(string strIMGPath, eIMGVersion eIMGVersionValue)
+CIMGEditorTab*		CIMGEditor::addBlankFile(string strIMGPath, eIMGVersion eIMGVersionValue)
 {
-	uint32 uiMultiplier = eIMGVersionValue == IMG_3 ? 4 : 3; // x3 for: 1 for reading entry data (parsing), 1 for reading RW versions (parsing), and 1 for adding all entries to main list view. and x4 (+1) for version 3 entry names.
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(CIMGManager::getIMGEntryCount(strIMGPath, eIMGVersionValue) * uiMultiplier);
+	CIMGFormat *img = new CIMGFormat;
+	img->setFilePath(strIMGPath);
+	img->setVersion(eIMGVersionValue);
 
-	CIMGFormat *pIMGFormat = CIMGManager::get()->parseViaFile(strIMGPath/*, eIMGVersionValue - todo*/);
+	CIMGEditorTab *imgTab = addTab(img);
 
-	CIMGEditorTab *pEditorTab = _addTab(pIMGFormat);
-	if (!pEditorTab)
-	{
-		getIMGF()->getTaskManager()->onTaskProgressComplete();
-		return nullptr;
-	}
+	string strFileName = CPathManager::getFileName(img->getFilePath());
+	imgTab->logf("Created %s", strFileName);
 
-	pEditorTab->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_28", CPathManager::getFileName(strIMGPath).c_str()));
-	pEditorTab->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_27", CIMGManager::getIMGVersionNameWithGames(eIMGVersionValue, pIMGFormat->isEncrypted()).c_str()), true);
-	pEditorTab->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_29", CFileManager::getFileSize(strIMGPath)), true);
-	
-	return pEditorTab;
+	return imgTab;
 }
 
-CIMGEditorTab*		CIMGEditor::_addTab(CIMGFormat *pIMGFormat)
+CIMGEditorTab*		CIMGEditor::addTab(CIMGFormat *img)
 {
-	uint32 uiTabIndex = getTabs().getNextEntryIndex();
+	CIMGEditorTab *imgTab = new CIMGEditorTab;
+	imgTab->setIMGEditor(this);
+	imgTab->setIMGFile(img);
+	imgTab->setFile(img);
 
-	CIMGEditorTab *pIMGTab = new CIMGEditorTab; // m_pMainWindow->getMainLayer()->getTabBar()->addTab<CIMGEditorTab>();
-	pIMGTab->setEditor(this);
-	pIMGTab->setIndex(uiTabIndex);
-	pIMGTab->setIMGFile(pIMGFormat);
+	imgTab->init();
+	CEditor::addTab(imgTab);
 
-	if (pIMGTab->onTabFormatReady())
-	{
-		getTabs().addEntry(pIMGTab);
-		setActiveTab(pIMGTab);
-		return pIMGTab;
-	}
-	else
-	{
-		pIMGTab->unload();
-		delete pIMGTab;
-
-		getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(1); // todo - have like getIMGF()->getTaskManager()->setProgressComplete(void) instead of these 2 lines
-		getIMGF()->getTaskManager()->onTaskProgressTick();
-
-		return nullptr;
-	}
+	return imgTab;
 }
 
 void				CIMGEditor::removeTab(CEditorTab *pEditorTab)
@@ -266,7 +266,7 @@ void				CIMGEditor::setActiveTab(CIMGEditorTab *pEditorTab)
 		*/
 
 		// 6th column name in main list view
-		readdColumnsToMainListView(pEditorTab->getIMGFile()->getIMGVersion());
+		readdColumnsToMainListView(pEditorTab->getIMGFile()->getVersion());
 
 		/*
 		// search text

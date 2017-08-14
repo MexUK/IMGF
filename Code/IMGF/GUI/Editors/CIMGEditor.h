@@ -11,6 +11,7 @@ class CMainWindow;
 class CSearchEntry;
 class CGridControl;
 class bxcf::CIMGEntry;
+class bxcf::CIMGFormat;
 
 class CIMGEditor : public CEditor
 {
@@ -22,9 +23,13 @@ public:
 
 	void						repositionAndResizeControls(void);
 
-	CIMGEditorTab*				addTab(std::string strIMGPath, bxcf::eIMGVersion eIMGVersionValue);
-	CIMGEditorTab*				addBlankTab(std::string strIMGPath, bxcf::eIMGVersion eIMGVersionValue);
+	static bool					validateFile(bxcf::CIMGFormat *img);
+
+	CIMGEditorTab*				addFile(bxcf::CIMGFormat *img);
+	CIMGEditorTab*				addBlankFile(std::string strIMGPath, bxcf::eIMGVersion eIMGVersionValue);
 	void						removeTab(CEditorTab *pEditorTab);
+
+	CIMGEditorTab*				addTab(bxcf::CIMGFormat *img);
 
 	void						refreshActiveTab(void);
 	CIMGEditorTab*				getActiveTab(void) { return (CIMGEditorTab*) CEditor::getActiveTab(); }

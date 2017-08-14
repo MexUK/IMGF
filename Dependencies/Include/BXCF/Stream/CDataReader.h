@@ -37,6 +37,7 @@ public:
 
 	// read string (binary mode)
 	std::string				readAll(void);
+	std::string				read(uint32 uiByteCount = 0); // wraps readString()
 	std::string				readString(uint32 uiByteCount = 0);
 	std::string				readStringUntilZero(void);
 	std::string				readRemaining(void);
@@ -120,6 +121,7 @@ public:
 
 	// data length
 	uint64					getDataLength(void);
+	uint64					getSize(void); // wraps getDataLength()
 	uint64					getProcessedDataLength(void); // returns getCachedDataLength() or if 0 then getDataLength().
 	uint64					getRemainingDataLength(void);
 
@@ -158,8 +160,10 @@ private:
 	// data stream type: memory
 	void						restoreSeekForPeek(uint32 uiByteCount);
 
-private:
+public:
 	std::ifstream				m_file;
+
+private:
 	uint32						m_uiUserData;
 	uint32						m_uiCachedDataLength;
 	std::string*				m_pstrActiveLine;	// only used for byte interpretation type: text

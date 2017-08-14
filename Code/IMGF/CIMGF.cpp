@@ -190,8 +190,8 @@ void				CIMGF::initInstallationMeta(void)
 		{
 			/*
 			todo
-			//string strChosenInstallationFolder = bxcf::CInputManager::chooseFolderDialog(getDialog()->GetSafeHwnd(), CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_11"), getIMGF()->getLastUsedDirectory("INSTALLATION"));
-			string strChosenInstallationFolder = bxcf::CInputManager::chooseFolderDialog(getActiveWindow() ? getActiveWindow()->getWindowHandle() : NULL, "Choose the installation folder for IMGF. (e.g. In program files x86)", getIMGF()->getLastUsedDirectory("INSTALLATION"));
+			//string strChosenInstallationFolder = CInputManager::chooseFolderDialog(getDialog()->GetSafeHwnd(), CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_11"), getIMGF()->getLastUsedDirectory("INSTALLATION"));
+			string strChosenInstallationFolder = CInputManager::chooseFolderDialog(getActiveWindow() ? getActiveWindow()->getWindowHandle() : NULL, "Choose the installation folder for IMGF. (e.g. In program files x86)", getIMGF()->getLastUsedDirectory("INSTALLATION"));
 			if (strChosenInstallationFolder == "")
 			{
 			}
@@ -337,7 +337,7 @@ void				CIMGF::initCommandLine(void)
 		int uiPos4 = strCommandLine.find('"', uiPos3 + 1);
 		string strPath = strCommandLine.substr(uiPos3 + 1, (uiPos4 - uiPos3) - 1);
 		//MessageBox(NULL, CString2::convertStdStringToStdWString(strCommandLine).c_str(), L"S", MB_OK);
-		getTaskManager()->getDispatch()->onRequestOpen2(strPath);
+		getTaskManager()->getDispatch()->openFile(strPath);
 	}
 }
 

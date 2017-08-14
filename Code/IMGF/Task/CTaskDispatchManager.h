@@ -14,6 +14,7 @@ class bxcf::CRWVersion;
 class bxcf::CCOLVersion;
 struct CRenamedIMGEntry;
 class CMainWindow;
+class CTaskManager;
 
 class CTaskDispatchManager : public bxcf::CManager
 {
@@ -23,8 +24,8 @@ public:
 	void						init(void);
 	void						uninit(void);
 
-	void						onRequestOpen(void); // todo - remove all "onRequest" from start of function names and change first characters to lowercase.
-	void						onRequestOpen2(std::string strPath);
+	void						chooseFilesToOpen(void); // todo - remove all "onRequest" from start of function names and change first characters to lowercase.
+	void						openFile(std::string& strFilePath);
 	void						onRequestClose(void);
 	void						onRequestCloseAll(void);
 	void						onRequestExitTool(void);
@@ -150,6 +151,7 @@ public:
 
 private:
 	CMainWindow*				m_pMainWindow;
+	CTaskManager*				m_pTaskManager;
 };
 
 #endif

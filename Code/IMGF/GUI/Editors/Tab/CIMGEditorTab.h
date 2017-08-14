@@ -22,14 +22,18 @@ public:
 		m_bRestoringFilterOptions(false),
 		m_bIMGModifiedSinceRebuild(false),
 		m_uiOverwriteEntryOption(0)
-	{}
+	{
+	}
 
 	void						unload(void);
 
-	bool						onTabFormatReady(void);
+	void						init(void);
+
+	void						setIMGEditor(CIMGEditor *pEditor) { m_pEditor = pEditor; }
+	CIMGEditor*					getIMGEditor(void) { return m_pEditor; }
 
 	void						setIMGFile(bxcf::CIMGFormat *pIMGFile) { m_pIMGFile = pIMGFile; }
-	bxcf::CIMGFormat*					getIMGFile(void) { return m_pIMGFile; }
+	bxcf::CIMGFormat*			getIMGFile(void) { return m_pIMGFile; }
 
 	void						setSearchText(std::string strSearchText) { m_strSearchText = strSearchText; }
 	std::string					getSearchText(void) { return m_strSearchText; }
@@ -107,16 +111,10 @@ public:
 	void						checkToApplyCompression(bxcf::CIMGEntry *pIMGEntry);
 
 	void						checkForUnknownRWVersionEntries(void);
-	
-	void						setEditor(CIMGEditor *pEditor) { m_pEditor = pEditor; }
-	CIMGEditor*					getEditor(void) { return m_pEditor; }
 
 	CDBFormat*					m_pDBFile; // todo - make private
 
 private:
-	bool						checkForErrors(void);
-	void						initTab(void);
-
 	void						loadProtectedEntryState(bxcf::CIMGEntry *pIMGEntry);
 
 private:

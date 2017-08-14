@@ -13,24 +13,28 @@
 #include "Format/RockstarGames/COL/eCOLVersion.h"
 #include "CIMGEntry.h"
 #include "Platform/Hardware/ePlatform.h"
+#include "Stream/CDataReader.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
-
-class bxcf::CDataReader;
 
 class bxcf::CIMGFormat : public bxcf::CFormat, public bxcf::CVectorPool<bxcf::CIMGEntry*>
 {
 public:
 	CIMGFormat(void);
+	CIMGFormat(bxcf::CDataReader& reader, std::string& strFilePath);
 
 	void											unload(void) {}
 
+	void											readMetaData(void);
+
+	bool											unserialize2(void);
+
+	void											setVersion(bxcf::eIMGVersion eIMGVersion) { m_eIMGVersion = eIMGVersion; }
+	bxcf::eIMGVersion								getVersion(void);
+
 	void											unserializeRWVersions(void);
 	void											unserializeResourceTypes(void);
-
-	void											setIMGVersion(bxcf::eIMGVersion eIMGVersion) { m_eIMGVersion = eIMGVersion; }
-	bxcf::eIMGVersion										getIMGVersion(void) { return m_eIMGVersion; }
 
 	void											setEncrypted(bool bEncrypted) { m_bEncrypted = bEncrypted; }
 	bool											isEncrypted(void) { return m_bEncrypted; }

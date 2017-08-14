@@ -5,7 +5,7 @@
 #include "Pool/CVectorPool.h"
 #include "GUI/Editor/Tab/CEditorTab.h"
 
-class CMainWindow;
+class CTabBarControl;
 
 class CEditor : public CGUILayer
 {
@@ -14,14 +14,18 @@ public:
 
 	virtual void						init(void) = 0;
 
-	CMainWindow*						getWindow(void) { return (CMainWindow*) CGUILayer::getWindow(); }
+	void								addTab(CEditorTab *pEditorTab);
+
+	bxcf::CVectorPool<CEditorTab*>&		getTabs(void) { return m_vecTabs; }
 
 	void								setActiveTab(CEditorTab *pActiveTab) { m_pActiveTab = pActiveTab; }
 	CEditorTab*							getActiveTab(void) { return m_pActiveTab; }
 
-	bxcf::CVectorPool<CEditorTab*>&		getTabs(void) { return m_vecTabs; }
+	void								setTabBar(CTabBarControl *pTabBar) { m_pTabBar = pTabBar; }
+	CTabBarControl*						getTabBar(void) { return m_pTabBar; }
 
-private:
+protected:
+	CTabBarControl*						m_pTabBar;
 	CEditorTab*							m_pActiveTab;
 	bxcf::CVectorPool<CEditorTab*>		m_vecTabs;
 };

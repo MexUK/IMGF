@@ -15,10 +15,11 @@ class CMainLayer : public CGUILayer
 public:
 	void						init(void);
 
-	void						setIMGFWindow(CMainWindow* pIMGFWindow) { m_pIMGFWindow = pIMGFWindow; }
-	CMainWindow*				getIMGFWindow(void) { return m_pIMGFWindow; }
+	void						setIMGFWindow(CMainWindow* pIMGFWindow) { m_pMainWindow = pIMGFWindow; }
+	CMainWindow*				getIMGFWindow(void) { return m_pMainWindow; }
 
 	CTabBarControl*				getTabBar(void) { return m_pTabBar; }
+	CProgressControl*			getProgressBar(void) { return m_pProgressBar; }
 
 private:
 	void						addControls(void);
@@ -27,7 +28,7 @@ private:
 	void						repositionAndResizeControls(void);
 
 private:
-	CMainWindow*				m_pIMGFWindow;
+	CMainWindow*				m_pMainWindow;
 	CTabBarControl*				m_pTabBar;
 	CProgressControl*			m_pProgressBar;
 	CTextBoxControl*			m_pSearchBox;

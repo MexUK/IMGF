@@ -922,7 +922,7 @@ void		CDumpManager::process(void)
 	if (bSuccessfulResult)
 	{
 		getIMGF()->getTaskManager()->onTaskPause();
-		bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_1"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_1"));
+		CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_1"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_1"));
 		getIMGF()->getTaskManager()->onTaskUnpause();
 	}
 	else

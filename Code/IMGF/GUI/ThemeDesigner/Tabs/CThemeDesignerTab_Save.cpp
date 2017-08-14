@@ -50,7 +50,7 @@ void									CThemeDesignerTab_Save::onPressButton(CButtonControl *pButton)
 		string strInitialDir = "";
 		string strExtensionFilter = "imgf-theme";
 		string strDefaultFileName = ((CTextBoxControl*)pButton->getLayer()->getControlById(10))->getTextLines()[0] + "." + strExtensionFilter;
-		string strFilePath = bxcf::CInputManager::saveFileDialog(strInitialDir, strExtensionFilter, strDefaultFileName);
+		string strFilePath = CInputManager::saveFileDialog(strInitialDir, strExtensionFilter, strDefaultFileName);
 		if (strFilePath == "")
 		{
 			return;

@@ -442,7 +442,7 @@ void				CTextureViewer::openWindow(void)
 	if (!RegisterClassEx(&wc))
 	{
 		DWORD uiError = GetLastError();
-		bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_52", uiError), CLocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
+		CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_52", uiError), CLocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
 		return;
 	}
 
@@ -456,7 +456,7 @@ void				CTextureViewer::openWindow(void)
 		NULL, NULL, hInstance, NULL);
 	if (hwndEntryViewerWindow == NULL)
 	{
-		bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_53"), CLocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
+		CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_53"), CLocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
 		return;
 	}
 	setWindowHwnd(hwndEntryViewerWindow);
@@ -561,7 +561,7 @@ LRESULT CALLBACK WndProc_ComboBox(
 {
 	if ((HWND)lParam == hWndComboBox)
 	{
-		bxcf::CInputManager::showMessage("T", "D");
+		CInputManager::showMessage("T", "D");
 	}
 	if ((uMsg == WM_COMMAND) && (HIWORD(wParam) == BN_CLICKED))
 	{

@@ -103,9 +103,11 @@ void							CTaskManager::onTaskBegin(string strFeatureName)
 	getTaskBeginTimes()[strFeatureName] = GetTickCount();
 	m_uiTaskPauseDuration = 0;
 }
-void							CTaskManager::onTaskEnd(string strFeatureName, bool bFeatureAborted)
+void							CTaskManager::onTaskEnd(bool bFeatureAborted)
 {
 	uint32 uiTimeNow = GetTickCount();
+
+	string strFeatureName = "temp";
 
 	/*
 	todo
@@ -166,8 +168,13 @@ void							CTaskManager::onTaskEnd(string strFeatureName, bool bFeatureAborted)
 			strFeatureName != "onRequestFilter" &&
 			strFeatureName != "onRequestSearchSelection")
 		{
-			//bxcf::CInputManager::showMessage("Feature: " + strFeatureName, "Feature Causing Rebuild Bug", MB_OK);
+			//CInputManager::showMessage("Feature: " + strFeatureName, "Feature Causing Rebuild Bug", MB_OK);
 			getIMGF()->getTaskManager()->getDispatch()->onRequestRebuild();
 		}
 	}
+}
+
+void							CTaskManager::onTaskEndEarly()
+{
+	onTaskEnd(true);
 }

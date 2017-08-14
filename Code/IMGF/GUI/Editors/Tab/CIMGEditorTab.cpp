@@ -49,61 +49,11 @@ void					CIMGEditorTab::unload(void)
 	delete m_pIMGFile;
 }
 
-bool					CIMGEditorTab::onTabFormatReady(void)
+// initialization
+void					CIMGEditorTab::init(void)
 {
-	if (!checkForErrors())
-	{
-		return false;
-	}
-
-	initTab();
-	return true;
-}
-
-bool					CIMGEditorTab::checkForErrors(void)
-{
-	CIMGFormat *pIMGFormat = getIMGFile();
-
-	if (pIMGFormat->getIMGVersion() == IMG_FASTMAN92)
-	{
-		// check if IMG is fastman92 format and is encrypted
-		if (pIMGFormat->isEncrypted())
-		{
-			bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_21"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_21"), MB_OK);
-			return false;
-		}
-
-		// check if IMG is fastman92 format and has an unsupported game type
-		if (pIMGFormat->getGameType() != 0)
-		{
-			bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_68", pIMGFormat->getGameType()), CLocalizationManager::get()->getTranslatedText("UnableToOpenIMG"), MB_OK);
-			return false;
-		}
-	}
-
-	// check for unserialize error [includes file open/close errors]
-	if (pIMGFormat->doesHaveError())
-	{
-		bxcf::CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_23"), CLocalizationManager::get()->getTranslatedText("UnableToOpenIMG"), MB_OK);
-		return false;
-	}
-
-	// no errors occurred
-	return true;
-}
-
-void					CIMGEditorTab::initTab(void)
-{
-	// add visual tab
-	// todo
-	//((CTabCtrl*)getIMGF()->getDialog()->GetDlgItem(1))->InsertItem(getIndex(), CString2::convertStdStringToStdWString(CPathManager::getFileName(getIMGFile()->getFilePath())).c_str());
-	//((CTabCtrl*)getIMGF()->getDialog()->GetDlgItem(1))->SetCurSel(getIndex());
-
-	// store tab data
-	// todo setListViewHwnd(GetDlgItem(getIMGF()->getDialog()->GetSafeHwnd(), 37));
-
 	// add to recently open
-	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(getIMGFile()->getFilePath());
+	
 	getIMGF()->getRecentlyOpenManager()->loadRecentlyOpenEntries();
 
 	// update filename for open last
@@ -137,9 +87,10 @@ void					CIMGEditorTab::initTab(void)
 	checkForUnknownRWVersionEntries();
 }
 
+// error checking
 void					CIMGEditorTab::checkForUnknownRWVersionEntries(void)
 {
-	if (getIMGFile()->getIMGVersion() == IMG_3)
+	if (getIMGFile()->getVersion() == IMG_3)
 	{
 		return;
 	}
@@ -244,7 +195,7 @@ void					CIMGEditorTab::checkToApplyCompression(CIMGEntry *pIMGEntry)
 {
 	if (getIMGF()->getSettingsManager()->getSettingBool("AutoCompressionImportReplace"))
 	{
-		if (getIMGFile()->getIMGVersion() == IMG_FASTMAN92)
+		if (getIMGFile()->getVersion() == IMG_FASTMAN92)
 		{
 			//eCompressionAlgorithm eCompressionAlgorithmValue = (eCompressionAlgorithm)getIMGF()->getSettingsManager()->getSettingInt("Fastman92IMGAutoCompressionType");
 			if (getIMGFile()->getEntryCount() > 1) // > 1 instead of > 0, because the entry has already been added to the pool.
@@ -518,7 +469,7 @@ void					CIMGEditorTab::removeEntry(CIMGEntry *pIMGEntry)
 
 void					CIMGEditorTab::addColumnsToMainListView(void)
 {
-	getIMGF()->getIMGEditor()->addColumnsToMainListView(getIMGFile()->getIMGVersion());
+	getIMGF()->getIMGEditor()->addColumnsToMainListView(getIMGFile()->getVersion());
 }
 void					CIMGEditorTab::readdAllEntriesToMainListView(void)
 {
@@ -676,7 +627,7 @@ void					CIMGEditorTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 
 	uint32 uiEntryIndex = m_pEditor->getEntryGrid()->getEntryCount();
 	string strExtensionUpper = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
-	bool bFastman92IMGFormat = pIMGEntry->getIMGFile()->getIMGVersion() == IMG_FASTMAN92;
+	bool bFastman92IMGFormat = pIMGEntry->getIMGFile()->getVersion() == IMG_FASTMAN92;
 
 	vector<string> vecText;
 	vecText.resize(bFastman92IMGFormat ? 8 : 6);
@@ -705,7 +656,7 @@ void					CIMGEditorTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 	getListView()->SetItem(uiEntryIndex, 3, LVIF_TEXT, CString2::convertStdStringToStdWString(CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntryOffset()))).c_str(), 0, 0, 0, 0);
 	getListView()->SetItem(uiEntryIndex, 4, LVIF_TEXT, CString2::convertStdStringToStdWString(CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntrySize()))).c_str(), 0, 0, 0, 0);
 	getIMGF()->getIMGEditor()->applyVersionAndResourceTypeColumn(uiEntryIndex, getIMGF()->getEntryListTab()->getIMGFile(), pIMGEntry);
-	if (pIMGEntry->getIMGFile()->getIMGVersion() == IMG_FASTMAN92)
+	if (pIMGEntry->getIMGFile()->getVersion() == IMG_FASTMAN92)
 	{
 		getListView()->SetItem(uiEntryIndex, 6, LVIF_TEXT, CString2::convertStdStringToStdWString(CIMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId())).c_str(), 0, 0, 0, 0);
 		getListView()->SetItem(uiEntryIndex, 7, LVIF_TEXT, CString2::convertStdStringToStdWString(CIMGManager::getEncryptionText(pIMGEntry->isEncrypted())).c_str(), 0, 0, 0, 0);
@@ -729,7 +680,7 @@ void					CIMGEditorTab::updateEntryInMainListView(CIMGEntry *pIMGEntry)
 	getListView()->SetItem(uiEntryIndex, 3, LVIF_TEXT, CString2::convertStdStringToStdWString(CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntryOffset()))).c_str(), 0, 0, 0, 0);
 	getListView()->SetItem(uiEntryIndex, 4, LVIF_TEXT, CString2::convertStdStringToStdWString(CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntrySize()))).c_str(), 0, 0, 0, 0);
 	//getIMGF()->getIMGEditor()->applyVersionAndResourceTypeColumn(uiEntryIndex, getIMGF()->getEntryListTab()->getIMGFile(), pIMGEntry);
-	if (pIMGEntry->getIMGFile()->getIMGVersion() == IMG_FASTMAN92)
+	if (pIMGEntry->getIMGFile()->getVersion() == IMG_FASTMAN92)
 	{
 		getListView()->SetItem(uiEntryIndex, 6, LVIF_TEXT, CString2::convertStdStringToStdWString(CIMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId())).c_str(), 0, 0, 0, 0);
 		getListView()->SetItem(uiEntryIndex, 7, LVIF_TEXT, CString2::convertStdStringToStdWString(CIMGManager::getEncryptionText(pIMGEntry->isEncrypted())).c_str(), 0, 0, 0, 0);
@@ -773,7 +724,7 @@ void					CIMGEditorTab::updateIMGText(void)
 	todo
 	string strPlatformName = CPlatformManager::get()->getPlatformName(getIMGFile()->getPlatform());
 
-	if (getIMGFile()->getIMGVersion() == IMG_FASTMAN92)
+	if (getIMGFile()->getVersion() == IMG_FASTMAN92)
 	{
 		uint32 uiEntryCount = getIMGFile()->getEntryCount();
 		uint32 uiUncompressedEntryCount = getIMGFile()->getEntryCountForCompressionType(COMPRESSION_NONE);
@@ -790,11 +741,11 @@ void					CIMGEditorTab::updateIMGText(void)
 		{
 			strVersionSuffix = CLocalizationManager::get()->getTranslatedText("CompressionValue_PartiallyCompressed");
 		}
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::get()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getIMGVersionName(IMG_FASTMAN92, getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), strVersionSuffix.c_str()).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::get()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getVersionName(IMG_FASTMAN92, getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), strVersionSuffix.c_str()).c_str());
 	}
 	else
 	{
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::get()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getIMGVersionName(getIMGFile()->getIMGVersion(), getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), CIMGManager::getIMGVersionGames(getIMGFile()->getIMGVersion()).c_str()).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::get()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getVersionName(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), CIMGManager::getVersionGames(getIMGFile()->getVersion()).c_str()).c_str());
 	}
 	*/
 }

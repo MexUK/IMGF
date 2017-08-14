@@ -252,6 +252,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\Task\CLastUsedValueManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskDispatchManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskManager.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Task\ETask.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Updater\CUpdateConnection.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Updater\CUpdateConnectionManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Updater\CUpdateManager.h" />

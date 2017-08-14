@@ -10,8 +10,8 @@ public:
 	CIMGPeekData(void);
 
 public:
-	void			setIMGVersion(eIMGVersion eIMGVersionValue) { m_eIMGVersion = eIMGVersionValue; }
-	eIMGVersion		getIMGVersion(void) { return m_eIMGVersion; }
+	void			setVersion(eIMGVersion eIMGVersionValue) { m_eIMGVersion = eIMGVersionValue; }
+	eIMGVersion		getVersion(void) { return m_eIMGVersion; }
 
 	void			setEncrypted(bool bEncrypted) { m_bEncrypted = bEncrypted; }
 	bool			isEncrypted(void) { return m_bEncrypted; }
