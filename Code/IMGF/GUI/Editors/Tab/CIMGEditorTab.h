@@ -73,6 +73,9 @@ public:
 	void						addEntryToMainListView(bxcf::CIMGEntry *pIMGEntry);
 	void						updateEntryInMainListView(bxcf::CIMGEntry *pIMGEntry);
 	uint32						getMainListViewItemIndexByItemData(bxcf::CIMGEntry *pIMGEntry);
+
+	void						setFileInfoText(void);
+
 	bxcf::CIMGEntry*					getEntryByName(std::string strEntryName);
 
 	void						rebuild(std::string strIMGPath = "", bool bLog = true);

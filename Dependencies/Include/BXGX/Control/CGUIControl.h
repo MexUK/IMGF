@@ -10,6 +10,7 @@
 #include "Event/CEventType.h"
 #include "Event/CEventBinder.h"
 #include "Item/CGUIItem.h"
+#include "Control/e2DMirroredOrientation.h"
 #include <string>
 #include <vector>
 #include <Windows.h>
@@ -47,7 +48,11 @@ public:
 	void									moveItem(bxcf::Vec2i& vecPositionChange) { m_vecPosition += vecPositionChange; }
 	void									resizeItemViaOffsets(bxcf::Vec2i& vecItemSizeChange) { m_vecSize += bxcf::Vec2u(vecItemSizeChange.x, vecItemSizeChange.y); }
 
-	void									addScroll(CScrollControl *pScroll);
+	CScrollControl*							addScroll(e2DMirroredOrientation uiOrientation);
+
+	virtual uint32							getHeaderHeight(void);
+
+	bool									doesHaveHoverIcon(void);
 
 	void									setControlType(eGUIControl eControlType) { m_eControlType = eControlType; }
 	eGUIControl								getControlType(void) { return m_eControlType; }
@@ -65,8 +70,6 @@ public:
 	bool									isPointMarkedAsInControl(void) { return m_bPointMarkedAsInControl; }
 
 	CGUIScrollPool*							getScrolls(void) { return m_pScrolls; }
-
-	bool									doesHaveHoverIcon(void);
 
 private:
 	eGUIControl								m_eControlType;

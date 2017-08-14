@@ -36,6 +36,9 @@
 #include "GUI/Editors/CIMGEditor.h"
 #include "GUI/Popups/CPopupGUIManager.h"
 #include "Task/CTaskManager.h"
+#include "GUI/Windows/CMainWindow.h"
+#include "GUI/Layers/CMainLayer.h"
+#include "Controls/CTextControl.h"
 #include <algorithm>
 
 using namespace std;
@@ -85,6 +88,10 @@ void					CIMGEditorTab::init(void)
 
 	// check for unknown RW versions
 	checkForUnknownRWVersionEntries();
+	
+	
+	setFileInfoText();
+	addAllEntriesToMainListView();
 }
 
 // error checking
@@ -623,7 +630,7 @@ void					CIMGEditorTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 {
 	CGridControlEntry *pListEntry = new CGridControlEntry;
 
-	pListEntry->setList(m_pEditor->getEntryGrid());
+	pListEntry->setGrid(m_pEditor->getEntryGrid());
 
 	uint32 uiEntryIndex = m_pEditor->getEntryGrid()->getEntryCount();
 	string strExtensionUpper = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
@@ -636,7 +643,7 @@ void					CIMGEditorTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 	vecText[2] = pIMGEntry->getEntryName();
 	vecText[3] = CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntryOffset()));
 	vecText[4] = CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntrySize()));
-	vecText[5] = pIMGEntry->getVersionText();
+	vecText[5] = "a";// pIMGEntry->getVersionText();
 	if (bFastman92IMGFormat)
 	{
 		vecText[6] = CIMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId());
@@ -701,6 +708,19 @@ uint32			CIMGEditorTab::getMainListViewItemIndexByItemData(CIMGEntry *pIMGEntry)
 	*/
 	return -1;
 }
+
+void					CIMGEditorTab::setFileInfoText(void)
+{
+	CMainLayer *pMainLayer = getIMGEditor()->getMainWindow()->getMainLayer();
+
+	pMainLayer->m_pText_Game->setText(string("A"));
+	pMainLayer->m_pText_GameValidity->setText(string("-"));
+	pMainLayer->m_pText_GameLocation->setText(string("A"));
+	pMainLayer->m_pText_FileGame->setText(string("A"));
+	pMainLayer->m_pText_FileValidity->setText(string("-"));
+	pMainLayer->m_pText_FileLocation->setText(m_pIMGFile->getFilePath());
+}
+
 void					CIMGEditorTab::updateEntryCountText(void)
 {
 	/*

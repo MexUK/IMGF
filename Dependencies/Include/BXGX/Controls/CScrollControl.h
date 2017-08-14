@@ -7,6 +7,8 @@
 #include "Styles/CGUIStyles.h"
 #include "Control/e2DMirroredOrientation.h"
 
+class CGUIControl;
+
 class CScrollControl : public CGUIControl
 {
 public:
@@ -32,6 +34,9 @@ public:
 
 	uint32									getAvailableScrollLength(void);					// returns in pixels
 
+	void									setControl(CGUIControl* pControl) { m_pControl = pControl; }
+	CGUIControl*							getControl(void) { return m_pControl; }
+
 	void									setScrollOrientation(e2DMirroredOrientation eScrollOrientation) { m_eScrollOrientation = eScrollOrientation; }
 	e2DMirroredOrientation					getScrollOrientation(void) { return m_eScrollOrientation; }
 
@@ -47,10 +52,14 @@ public:
 	void									setSeekBarMoving(bool bSeekBarIsMoving) { m_bSeekBarIsMoving = bSeekBarIsMoving; }
 	bool									isSeekBarMoving(void) { return m_bSeekBarIsMoving; }
 
+	bxcf::Vec2i								getBackgroundBarPosition(void);
+	bxcf::Vec2u								getBackgroundBarSize(void);
+
 	bxcf::Vec2i								getSeekBarPosition(void);
-	bxcf::Vec2u									getSeekBarSize(void);
+	bxcf::Vec2u								getSeekBarSize(void);
 
 private:
+	CGUIControl*							m_pControl;
 	uint32									m_uiSeekBarLength;
 	uint32									m_uiSeekBarFillColour;	// RGBA
 	uint32									m_uiSeekBarLineColour;	// RGBA

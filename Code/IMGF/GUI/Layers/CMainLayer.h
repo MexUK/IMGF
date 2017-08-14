@@ -27,7 +27,7 @@ private:
 
 	void						repositionAndResizeControls(void);
 
-private:
+public:
 	CMainWindow*				m_pMainWindow;
 	CTabBarControl*				m_pTabBar;
 	CProgressControl*			m_pProgressBar;
@@ -38,4 +38,10 @@ private:
 	CLineShape*					m_pSettingsButtonLine1;
 	CLineShape*					m_pSettingsButtonLine2;
 	CLineShape*					m_pSettingsButtonLine3;
+	CTextControl*				m_pText_Game;
+	CTextControl*				m_pText_GameValidity;
+	CTextControl*				m_pText_GameLocation;
+	CTextControl*				m_pText_FileGame;
+	CTextControl*				m_pText_FileValidity;
+	CTextControl*				m_pText_FileLocation;
 };

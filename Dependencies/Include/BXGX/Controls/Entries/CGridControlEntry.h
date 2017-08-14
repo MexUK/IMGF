@@ -15,13 +15,13 @@ public:
 	
 	void									unload(void) {}
 
-	void									setList(CGridControl *pList) { m_pList = pList; }
-	CGridControl*							getList(void) { return m_pList; }
+	void									setGrid(CGridControl *pGrid) { m_pGrid = pGrid; }
+	CGridControl*							getGrid(void) { return m_pGrid; }
 	
 	std::vector<std::vector<std::string>>&	getText(void) { return m_vecText; }
 	
 private:
-	CGridControl*							m_pList;
+	CGridControl*							m_pGrid;
 	std::vector<std::vector<std::string>>	m_vecText;
 };
 

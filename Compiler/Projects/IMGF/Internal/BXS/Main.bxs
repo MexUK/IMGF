@@ -107,6 +107,12 @@ fill 220 220 220
 .progressBar
 fill 72 72 72
 
+.scrollBar
+fill 220 220 220
+
+.scrollBar:seekBar
+fill 201 201 201
+
 
 
 // img editor
@@ -117,6 +123,8 @@ fill 255 255 255
 .imgEditor_grid:headerRow
 fill 201 201 201
 
-.imgEditor_grid:headerCell .main_text
+.imgEditor_grid:headerCell .main_text .main_spacing
 text 0 0 0
-spacing x 16
+
+.imgEditor_grid:cell .main_text .main_spacing
+text 0 0 0

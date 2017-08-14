@@ -52,7 +52,8 @@ void		CMainLayer::addControls(void)
 
 	// game information headers
 	x = 149 + 139;
-	y = (uiTitleBarHeight - 1) + uiButtonHeight + 10;
+	y = (uiTitleBarHeight - 1) + uiButtonHeight + 6;
+	y2 = y;
 	w = 150;
 	h = 20;
 	h2 = 15;
@@ -72,9 +73,8 @@ void		CMainLayer::addControls(void)
 
 	// game information values
 	x += 149;
-	y = (uiTitleBarHeight - 1) + uiButtonHeight + 10;
+	y = y2;
 	w = 350;
-	h = 20;
 
 	/*
 	addText(x, y, w, h, "GTA Vice City (PC, 1.0)", strStyleGroup);
@@ -89,17 +89,17 @@ void		CMainLayer::addControls(void)
 	y += h2;
 	addText(x, y, w, h, "C:/Program Files (x86)/Rockstar Games/Grand Theft Auto Vice City/DATA/maps/a.txd", strStyleGroup);
 	*/
-	addText(x, y, w, h, "No file is open", strStyleGroup);
+	m_pText_Game = addText(x, y, w, h, "No file is open", strStyleGroup);
 	y += h2;
-	addText(x, y, w, h, "-", strStyleGroup);
+	m_pText_GameValidity = addText(x, y, w, h, "-", strStyleGroup);
 	y += h2;
-	addText(x, y, w, h, "-", strStyleGroup);
+	m_pText_GameLocation = addText(x, y, w, h, "-", strStyleGroup);
 	y += h2;
-	addText(x, y, w, h, "-", strStyleGroup);
+	m_pText_FileGame = addText(x, y, w, h, "-", strStyleGroup);
 	y += h2;
-	addText(x, y, w, h, "-", strStyleGroup);
+	m_pText_FileValidity = addText(x, y, w, h, "-", strStyleGroup);
 	y += h2;
-	addText(x, y, w, h, "-", strStyleGroup);
+	m_pText_FileLocation = addText(x, y, w, h, "-", strStyleGroup);
 
 	// top menu - buttons
 	x = 139 + 139;
@@ -140,9 +140,9 @@ void		CMainLayer::addControls(void)
 
 	// filter bar - entry type
 	w = 140;
-	w2 = 140;
+	w2 = w;
 	x = (m_pWindow->getSize().x - w) - w2;
-	y = uiButtonHeight + 75;
+	y = uiButtonHeight + 72;
 	h = 32;
 	strStyleGroup = "filter";
 
@@ -152,8 +152,6 @@ void		CMainLayer::addControls(void)
 	// filter bar - entry version
 	w = w2;
 	x = m_pWindow->getSize().x - w;
-	y = uiButtonHeight + 75;
-	h = 32;
 
 	m_pEntryVersionFilter = addDrop(x, y, w, h, "Entry Version", strStyleGroup);
 	m_pEntryVersionFilter->addItem("No file is open", false, false);

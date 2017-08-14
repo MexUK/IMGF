@@ -26,6 +26,10 @@ public:
 
 	CGridControlHeader*							addHeader(std::string strHeaderText, uint32 uiColumnWidth);
 
+	uint32										getHeaderHeight(void);
+
+	int32										getColumnStartPositionX(uint32 uiColumnIndex);
+
 	bxcf::Vec2i									getRowPosition(uint32 uiRowIndex);	// in pixels
 	bxcf::Vec2u									getRowSize(void);					// in pixels
 

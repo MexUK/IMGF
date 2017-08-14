@@ -118,8 +118,9 @@ CIMGEditorTab*		CIMGEditor::addTabObjectAndTabControl(CIMGFormat *img)
 	imgTab->setIMGFile(img);
 	imgTab->setFile(img);
 
-	imgTab->init();
 	CEditor::addTab(imgTab);
+
+	imgTab->init();
 
 	return imgTab;
 }
@@ -169,7 +170,7 @@ void				CIMGEditor::setActiveTab(CIMGEditorTab *pEditorTab)
 {
 	CEditor::setActiveTab(pEditorTab);
 	
-	pEditorTab->readdAllEntriesToMainListView();
+	//pEditorTab->readdAllEntriesToMainListView();
 	
 	// todo
 	return;
