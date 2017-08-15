@@ -30,6 +30,8 @@ public:
 	bool									onMouseExit(bxcf::Vec2i& vecCursorPosition);
 	void									onRender(void);
 
+	bool									applyCursorHoverIcon(void);
+
 	bool									isPointInSeekBar(bxcf::Vec2i& vecPoint);
 	uint32									getSeekBarPositionOffset(void);
 
@@ -51,8 +53,8 @@ public:
 	uint32									getSeekBarFillColour(void) { return getStyles()->getStyle<uint32>("fill-colour"); }	// RGBA
 	uint32									getSeekBarLineColour(void) { return getStyles()->getStyle<uint32>("border-colour"); }		// RGBA
 	
-	void									setProgress(float32 fProgress) { m_fProgress = fProgress; }		// 0.0 to 1.0
-	float32									getProgress(void) { return m_fProgress; }						// 0.0 to 1.0
+	void									setProgress(float32 fProgress);					// 0.0 to 1.0
+	float32									getProgress(void) { return m_fProgress; }		// 0.0 to 1.0
 
 	void									setSeekBarMoving(bool bSeekBarIsMoving) { m_bSeekBarIsMoving = bSeekBarIsMoving; }
 	bool									isSeekBarMoving(void) { return m_bSeekBarIsMoving; }

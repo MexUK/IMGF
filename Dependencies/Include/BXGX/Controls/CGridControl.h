@@ -24,6 +24,7 @@ public:
 	void										serialize(void);
 
 	bool										onLeftMouseDown(bxcf::Vec2i& vecCursorPosition);
+	bool										onKeyDown(uint16 uiKeyCode);
 	void										onRender(void);
 
 	CGridControlHeader*							addHeader(std::string strHeaderText, uint32 uiColumnWidth);
@@ -37,6 +38,14 @@ public:
 
 	bxcf::Vec2i									getCellTextPosition(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);	// in pixels
 	bxcf::Vec2u									getCellTextSize(uint32 uiRowIndex, uint32 uiTextRowIndex, uint32 uiColumnIndex);		// in pixels
+
+	void										selectAllRows(void);
+	void										unselectAllRows(void);
+	bool										isAnyRowSelected(void);
+	bool										areAllRowsSelected(void);
+
+	void										checkToScroll(void);
+	float32										getScrollProgressIncreaseForControlLength(int32 iLength);
 
 	void										setRowHeight(uint32 uiRowHeight) { m_uiRowHeight = uiRowHeight; }	// in pixels
 	uint32										getRowHeight(void) { return m_uiRowHeight; }						// in pixels
@@ -59,6 +68,8 @@ private:
 	uint32										m_uiRowHeight;				// in pixels
 	uint32										m_uiColumnWidth;			// in pixels
 	uint32										m_uiRowTextHeight;			// in pixels
+	uint32										m_uiPreviousSelectedRowIndex;
+	uint32										m_uiFirstSelectedRowIndex;
 	uint8										m_bHasVerticalScrollBar		: 1;
 	bxcf::CVectorPool<CGridControlHeader*>		m_vecHeaders;
 };

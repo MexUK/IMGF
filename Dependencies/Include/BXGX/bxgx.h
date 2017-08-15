@@ -90,6 +90,9 @@ namespace bxgx
 			const uint32		HOVER2						= 2;
 			const uint32		CHECKED						= 3;
 			const uint32		UNCHECKED					= 4;
+			const uint32		N1							= 5;
+			const uint32		N2							= 6;
+			const uint32		SELECTED					= 7;
 		};
 
 		namespace components

@@ -126,5 +126,14 @@ fill 201 201 201
 .imgEditor_grid:headerCell .main_text .main_spacing
 text 0 0 0
 
+.imgEditor_grid:row:n1
+fill 220 220 220
+
+.imgEditor_grid:row:n2
+fill 201 201 201
+
+.imgEditor_grid:row:selected
+fill 170 170 170
+
 .imgEditor_grid:cell .main_text .main_spacing
 text 0 0 0

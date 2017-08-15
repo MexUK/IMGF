@@ -221,7 +221,17 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::Vec2i& vecCursor
 			{
 				bTriggerEventForEventUtilizer = true;
 
-				if (uiEvent == MOUSE_LEFT_UP)
+				if (uiEvent == MOUSE_LEFT_DOWN)
+				{
+					if (pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL)
+					{
+						// set active item
+						CGUIControl *pControl = (CGUIControl*)pGUIEventUtilizer;
+						pControl->setActiveItem();
+						pControl->markToRedraw();
+					}
+				}
+				else if (uiEvent == MOUSE_LEFT_UP)
 				{
 					if (pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL)
 					{

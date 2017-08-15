@@ -82,6 +82,10 @@ public:
 	static std::vector<bxcf::Vec2i>	getIsoscelesTrianglePoints(bxcf::Vec2i& vecBottomLeftPoint, float32 fBaseLength, float32 fTipAngle, float32 fBaseAngle);
 	static float32				getEquilateralTriangleHeightFromSideLength(float32 fTriangleSideLength);
 	static float32				getEquilateralTriangleSideLengthFromHeight(float32 fTriangleHeight);
+
+	static uint32				getMaxEntryCount(uint32 uiAreaLengthPx, uint32 uiStepLengthPx);
+	static uint32				getEntryStartIndex(uint32 uiTotalEntryCount, uint32 uiMaxEntryCount, float32 fProgress);
+	static uint32				getEntryEndIndexExclusive(uint32 uiTotalEntryCount, uint32 uiEntryStartIndex, uint32 uiMaxEntryCount);
 };
 
 uint32				bxcf::CMath::convertSectorsToBytes(uint32 uiSectorCount)
