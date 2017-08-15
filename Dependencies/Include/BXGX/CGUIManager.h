@@ -199,6 +199,14 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::Vec2i& vecCursor
 			}
 		}
 	}
+	else if (uiEvent == MOUSE_WHEEL_MOVE)
+	{
+		if (m_pItemMouseIsOver->getItemType() == bxgx::item::CONTROL && m_pItemMouseIsOver->getItemSubType() == GUI_CONTROL_SCROLL)
+		{
+			triggerItemEvent(uiEvent, ((CScrollControl*)m_pItemMouseIsOver)->getControl(), args...);
+			return;
+		}
+	}
 
 	for (CGUIEventUtilizer *pGUIEventUtilizer : umapEventControls[uiEvent])
 	{
@@ -227,8 +235,11 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::Vec2i& vecCursor
 					{
 						// set active item
 						CGUIControl *pControl = (CGUIControl*)pGUIEventUtilizer;
-						pControl->setActiveItem();
-						pControl->markToRedraw();
+						if (pControl->getControlType() != GUI_CONTROL_SCROLL)
+						{
+							pControl->setActiveItem();
+							pControl->markToRedraw();
+						}
 					}
 				}
 				else if (uiEvent == MOUSE_LEFT_UP)
@@ -237,23 +248,29 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::Vec2i& vecCursor
 					{
 						// set active item
 						CGUIControl *pControl = (CGUIControl*)pGUIEventUtilizer;
-						pControl->setActiveItem();
-						pControl->markToRedraw();
-
-						// trigger button press event
-						if (pControl->getControlType() == GUI_CONTROL_BUTTON)
+						if (pControl->getControlType() != GUI_CONTROL_SCROLL)
 						{
-							bxcf::Events::trigger(bxgx::control::events::PRESS_BUTTON, (CButtonControl*)pControl);
+							pControl->setActiveItem();
+							pControl->markToRedraw();
+
+							// trigger button press event
+							if (pControl->getControlType() == GUI_CONTROL_BUTTON)
+							{
+								bxcf::Events::trigger(bxgx::control::events::PRESS_BUTTON, (CButtonControl*)pControl);
+							}
 						}
 					}
 				}
 			}
 			else
 			{
-				if (pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL && pGUIEventUtilizer->getItemSubType() == GUI_CONTROL_SCROLL && ((CScrollControl*)pGUIEventUtilizer)->isSeekBarMoving())
+				if (pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL && pGUIEventUtilizer->getItemSubType() == GUI_CONTROL_SCROLL)
 				{
-					triggerItemEvent(uiEvent, pGUIEventUtilizer, args...);
-					return;
+					if (((CScrollControl*)pGUIEventUtilizer)->isSeekBarMoving())
+					{
+						triggerItemEvent(uiEvent, pGUIEventUtilizer, args...);
+						return;
+					}
 				}
 				else if (pGUIEventUtilizer->getItemType() == bxgx::item::CONTROL || pGUIEventUtilizer->getItemType() == bxgx::item::SHAPE)
 				{
@@ -315,7 +332,7 @@ bool						bxgx::CGUIManager::triggerItemEvent(uint32 uiEvent, CGUIEventUtilizer 
 	case MOUSE_DOUBLE_RIGHT_DOWN:	bResult = pItem->onDoubleRightMouseDown(va_arg(list, bxcf::Vec2i));		break;
 	case MOUSE_DOUBLE_RIGHT_UP:		bResult = pItem->onDoubleRightMouseUp(va_arg(list, bxcf::Vec2i));		break;
 
-	case MOUSE_WHEEL_MOVE:			bResult = pItem->onMouseWheelMove(va_arg(list, bxcf::Vec2i));			break;
+	case MOUSE_WHEEL_MOVE:			bResult = pItem->onMouseWheelMove(va_arg(list, int16));					break;
 	case MOUSE_WHEEL_DOWN:			bResult = pItem->onMouseWheelDown(va_arg(list, bxcf::Vec2i));			break;
 	case MOUSE_WHEEL_UP:			bResult = pItem->onMouseWheelUp(va_arg(list, bxcf::Vec2i));				break;
 	case MOUSE_DOUBLE_WHEEL_DOWN:	bResult = pItem->onDoubleMouseWheelDown(va_arg(list, bxcf::Vec2i));		break;

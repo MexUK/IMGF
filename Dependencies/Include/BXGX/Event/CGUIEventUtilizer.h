@@ -56,7 +56,7 @@ public:
 	virtual bool							onDoubleRightMouseDown(bxcf::Vec2i& vecCursorPoint) { return false; }
 	virtual bool							onDoubleRightMouseUp(bxcf::Vec2i& vecCursorPoint) { return false; }
 
-	virtual bool							onMouseWheelMove(bxcf::Vec2i& vecCursorPoint) { return false; }
+	virtual bool							onMouseWheelMove(int16 iRotationDistance) { return false; }
 	virtual bool							onMouseWheelDown(bxcf::Vec2i& vecCursorPoint) { return false; }
 	virtual bool							onMouseWheelUp(bxcf::Vec2i& vecCursorPoint) { return false; }
 	virtual bool							onDoubleMouseWheelDown(bxcf::Vec2i& vecCursorPoint) { return false; }

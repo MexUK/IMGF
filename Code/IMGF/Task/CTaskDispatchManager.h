@@ -26,7 +26,12 @@ public:
 
 	void						chooseFilesToOpen(void); // todo - remove all "onRequest" from start of function names and change first characters to lowercase.
 	void						openFile(std::string& strFilePath);
-	void						onRequestClose(void);
+	void						closeActiveFile(void);
+	bool						saveAllOpenFiles(bool bCloseAll);
+
+
+
+
 	void						onRequestCloseAll(void);
 	void						onRequestExitTool(void);
 	void						onRequestImportViaFiles(void);
@@ -86,7 +91,6 @@ public:
 	void						onRequestReopen(void);
 	void						onRequestConvertDFFToRWVersion(bxcf::CRWVersion *pRWVersion);
 	void						onRequestMissingTextures(void);
-	bool						onRequestClose2(bool bCloseAll);
 	void						onRequestReplaceAllFromFolder(void);
 	void						onRequestExportAllEntriesFromAllTabs(void);
 	void						onRequestExportEntriesViaIDEFileFromAllTabs(void);

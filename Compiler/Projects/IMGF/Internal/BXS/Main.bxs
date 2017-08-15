@@ -133,7 +133,10 @@ fill 220 220 220
 fill 201 201 201
 
 .imgEditor_grid:row:selected
-fill 170 170 170
+fill 165 165 165
+
+.imgEditor_grid:row:mainSelected
+fill 135 135 135
 
 .imgEditor_grid:cell .main_text .main_spacing
 text 0 0 0

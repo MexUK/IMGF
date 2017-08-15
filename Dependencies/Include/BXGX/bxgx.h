@@ -93,6 +93,7 @@ namespace bxgx
 			const uint32		N1							= 5;
 			const uint32		N2							= 6;
 			const uint32		SELECTED					= 7;
+			const uint32		MAIN_SELECTED				= 8;
 		};
 
 		namespace components

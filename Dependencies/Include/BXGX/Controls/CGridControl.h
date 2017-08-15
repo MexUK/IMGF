@@ -25,6 +25,7 @@ public:
 
 	bool										onLeftMouseDown(bxcf::Vec2i& vecCursorPosition);
 	bool										onKeyDown(uint16 uiKeyCode);
+	bool										onMouseWheelMove(int16 iRotationDistance);
 	void										onRender(void);
 
 	CGridControlHeader*							addHeader(std::string strHeaderText, uint32 uiColumnWidth);
@@ -45,6 +46,8 @@ public:
 	bool										areAllRowsSelected(void);
 
 	void										checkToScroll(void);
+	void										scrollByRows(int32 iRowCount);
+	void										scrollTo(float32 fProgress);
 	float32										getScrollProgressIncreaseForControlLength(int32 iLength);
 
 	void										setRowHeight(uint32 uiRowHeight) { m_uiRowHeight = uiRowHeight; }	// in pixels

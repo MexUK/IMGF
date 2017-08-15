@@ -27,9 +27,15 @@ public:
 
 	CIMGEditorTab*				addFile(bxcf::CIMGFormat *img);
 	CIMGEditorTab*				addBlankFile(std::string strIMGPath, bxcf::eIMGVersion eIMGVersionValue);
-	void						removeTab(CEditorTab *pEditorTab);
+	void						closeFile(CIMGEditorTab *pEditorTab);
 
 	CIMGEditorTab*				addTabObjectAndTabControl(bxcf::CIMGFormat *img);
+
+	CIMGEditorTab*				getActiveFile(void) { return (CIMGEditorTab*)CEditor::getActiveTab(); }
+
+
+
+
 
 	void						refreshActiveTab(void);
 	CIMGEditorTab*				getActiveTab(void) { return (CIMGEditorTab*) CEditor::getActiveTab(); }

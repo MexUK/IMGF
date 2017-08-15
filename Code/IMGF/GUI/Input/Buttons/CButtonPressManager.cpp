@@ -125,6 +125,7 @@ void					CButtonPressManager::open(void)
 
 void					CButtonPressManager::close(void)
 {
+	m_pTaskDispatchManager->closeActiveFile();
 }
 
 void					CButtonPressManager::save(void)

@@ -126,7 +126,7 @@ CIMGEditorTab*		CIMGEditor::addTabObjectAndTabControl(CIMGFormat *img)
 	return imgTab;
 }
 
-void				CIMGEditor::removeTab(CEditorTab *pEditorTab)
+void				CIMGEditor::closeFile(CIMGEditorTab *pEditorTab)
 {
 	// fetch current tab index
 	uint32 uiTabIndex = pEditorTab->getIndex();

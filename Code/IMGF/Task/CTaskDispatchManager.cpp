@@ -267,39 +267,104 @@ void		CTaskDispatchManager::openFile(string& strFilePath)
 		}
 		m_pTaskManager->onTaskEndEarly();
 	}
+	m_pTaskManager->onTaskEnd();
 }
-void		CTaskDispatchManager::onRequestClose(void)
+
+void		CTaskDispatchManager::closeActiveFile(void)
 {
-	getIMGF()->getTaskManager()->onTaskBegin("onRequestClose");
-	CIMGEditorTab *pEditorTab = getIMGF()->getEntryListTab();
-	if (!pEditorTab)
-	{
-		return;
-	}
+	m_pTaskManager->onTaskBegin("closeFile");
 
 	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose"))
 	{
-		getIMGF()->getTaskManager()->onTaskPause();
-		if (onRequestClose2(false) == true)
+		if (CInputManager::showMessage("Save file before closing?", "Auto Save?") == 1)
 		{
-			getIMGF()->getTaskManager()->onTaskUnpause();
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestClose", true);
-			return;
+			saveAllOpenFiles(false);
 		}
-		getIMGF()->getTaskManager()->onTaskUnpause();
+	}
+	m_pMainWindow->getIMGEditor()->closeFile(m_pMainWindow->getIMGEditor()->getActiveFile());
+	m_pTaskManager->onTaskEnd();
+}
+
+
+
+
+
+
+
+bool		CTaskDispatchManager::saveAllOpenFiles(bool bCloseAll)
+{
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Close2_CloseAll(bCloseAll);
+	getIMGF()->getTaskManager()->onTaskBegin("saveAllOpenFiles");
+	string strText = "";
+	if (bCloseAll)
+	{
+		uint32 uiModifiedSinceRebuildCount = 0;
+		for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
+		{
+			if (((CIMGEditorTab*)pEditorTab)->getIMGModifiedSinceRebuild())
+			{
+				uiModifiedSinceRebuildCount++;
+			}
+		}
+		if (uiModifiedSinceRebuildCount > 0)
+		{
+			strText = CLocalizationManager::get()->getTranslatedFormattedText("Window_Confirm_3_Message", uiModifiedSinceRebuildCount);
+		}
+	}
+	else
+	{
+		if (getIMGF()->getEntryListTab()->getIMGModifiedSinceRebuild())
+		{
+			strText = CLocalizationManager::get()->getTranslatedFormattedText("Window_Confirm_4_Message", CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str());
+		}
 	}
 
-	getIMGF()->getIMGEditor()->removeTab(pEditorTab);
+	if (strText == "")
+	{
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestClose2", true);
+		return false;
+	}
 
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestClose");
+	bool bDidCancel = false;
+	getIMGF()->getTaskManager()->onTaskPause();
+	bool bResult = getIMGF()->getPopupGUIManager()->showConfirmDialog(strText, CLocalizationManager::get()->getTranslatedText("Window_Confirm_3_Title"), bDidCancel);
+	getIMGF()->getTaskManager()->onTaskUnpause();
+	if (bDidCancel)
+	{
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestClose2", true);
+		return true;
+	}
+	if (!bResult)
+	{
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestClose2", true);
+		return false;
+	}
+
+	if (bCloseAll)
+	{
+		for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
+		{
+			if (((CIMGEditorTab*)pEditorTab)->getIMGModifiedSinceRebuild())
+			{
+				((CIMGEditorTab*)pEditorTab)->rebuild();
+			}
+		}
+	}
+	else
+	{
+		getIMGF()->getEntryListTab()->rebuild();
+	}
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestClose2");
+	return true;
 }
+
 void		CTaskDispatchManager::onRequestCloseAll(void)
 {
 	getIMGF()->getTaskManager()->onTaskBegin("onRequestCloseAll");
 	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose"))
 	{
 		getIMGF()->getTaskManager()->onTaskPause();
-		if (onRequestClose2(true) == true)
+		if (saveAllOpenFiles(true) == true)
 		{
 			getIMGF()->getTaskManager()->onTaskUnpause();
 			getIMGF()->getTaskManager()->onTaskEnd("onRequestCloseAll", true);
@@ -316,12 +381,14 @@ void		CTaskDispatchManager::onRequestCloseAll(void)
 	getIMGF()->getIMGEditor()->setActiveTab(nullptr);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestCloseAll");
 }
+
 void		CTaskDispatchManager::onRequestExitTool(void)
 {
 	getIMGF()->getTaskManager()->onTaskBegin("onRequestExitTool");
 	DestroyWindow(getIMGF()->getActiveWindow()->getWindowHandle());
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExitTool");
 }
+
 void		CTaskDispatchManager::onRequestImportViaFiles(void)
 {
 	getIMGF()->getTaskManager()->onTaskBegin("onRequestImportViaFiles");
@@ -3580,7 +3647,7 @@ void		CTaskDispatchManager::onRequestReopen(void)
 	}
 
 	string strIMGPath = getIMGF()->getEntryListTab()->getIMGFile()->getFilePath();
-	if (onRequestClose2(false) == true)
+	if (saveAllOpenFiles(false) == true)
 	{
 		// cancelled
 		getIMGF()->getTaskManager()->onTaskEnd("onRequestReopen", true);
@@ -4206,72 +4273,7 @@ void		CTaskDispatchManager::onRequestMissingTextures(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestMissingTextures");
 	*/
 }
-bool		CTaskDispatchManager::onRequestClose2(bool bCloseAll)
-{
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Close2_CloseAll(bCloseAll);
-	getIMGF()->getTaskManager()->onTaskBegin("onRequestClose2");
-	string strText = "";
-	if (bCloseAll)
-	{
-		uint32 uiModifiedSinceRebuildCount = 0;
-		for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
-		{
-			if (((CIMGEditorTab*)pEditorTab)->getIMGModifiedSinceRebuild())
-			{
-				uiModifiedSinceRebuildCount++;
-			}
-		}
-		if (uiModifiedSinceRebuildCount > 0)
-		{
-			strText = CLocalizationManager::get()->getTranslatedFormattedText("Window_Confirm_3_Message", uiModifiedSinceRebuildCount);
-		}
-	}
-	else
-	{
-		if (getIMGF()->getEntryListTab()->getIMGModifiedSinceRebuild())
-		{
-			strText = CLocalizationManager::get()->getTranslatedFormattedText("Window_Confirm_4_Message", CPathManager::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str());
-		}
-	}
 
-	if (strText == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestClose2", true);
-		return false;
-	}
-
-	bool bDidCancel = false;
-	getIMGF()->getTaskManager()->onTaskPause();
-	bool bResult = getIMGF()->getPopupGUIManager()->showConfirmDialog(strText, CLocalizationManager::get()->getTranslatedText("Window_Confirm_3_Title"), bDidCancel);
-	getIMGF()->getTaskManager()->onTaskUnpause();
-	if (bDidCancel)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestClose2", true);
-		return true;
-	}
-	if (!bResult)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestClose2", true);
-		return false;
-	}
-
-	if (bCloseAll)
-	{
-		for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
-		{
-			if (((CIMGEditorTab*)pEditorTab)->getIMGModifiedSinceRebuild())
-			{
-				((CIMGEditorTab*)pEditorTab)->rebuild();
-			}
-		}
-	}
-	else
-	{
-		getIMGF()->getEntryListTab()->rebuild();
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestClose2");
-	return true;
-}
 void		CTaskDispatchManager::onRequestReplaceAllFromFolder(void)
 {
 	getIMGF()->getTaskManager()->onTaskBegin("onRequestReplaceAllFromFolder");
@@ -7075,9 +7077,9 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 	{
 		onRequestMissingTextures();
 	}
-	else if (strFeatureName == "onRequestClose2")
+	else if (strFeatureName == "saveAllOpenFiles")
 	{
-		onRequestClose2(getIMGF()->getLastUsedValueManager()->getLastUsedValue_Close2_CloseAll());
+		saveAllOpenFiles(getIMGF()->getLastUsedValueManager()->getLastUsedValue_Close2_CloseAll());
 	}
 	else if (strFeatureName == "onRequestReplaceAllFromFolder")
 	{
