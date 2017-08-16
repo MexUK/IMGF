@@ -24,6 +24,7 @@ public:
 	bool									onMouseMove(bxcf::Vec2i& vecCursorPosition);
 	bool									onMouseEnter(bxcf::Vec2i& vecCursorPosition);
 	bool									onMouseExit(bxcf::Vec2i& vecCursorPosition);
+	bool									onMouseWheelUp(bxcf::Vec2i& vecCursorPosition);
 	void									onRender(void);
 
 	uint32									getActiveIndex(void);

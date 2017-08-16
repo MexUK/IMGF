@@ -9,6 +9,7 @@ class CMainLayer;
 class CIMGEditor;
 class CProgressControl;
 class CTabBarControl;
+class CButtonControl;
 
 class CMainWindow : public CWindow
 {
@@ -25,6 +26,8 @@ public:
 	CProgressControl*		getProgressBar(void);
 	CTabBarControl*			getTabBar(void);
 
+	void					repositionAndResizeControls(void);
+
 private:
 	void					initWindow(void);
 	void					initLayers(void);
@@ -37,6 +40,7 @@ private:
 public:
 	CMainLayer*				m_pMainLayer;
 	CIMGEditor*				m_pIMGEditor;
+	std::vector<CButtonControl*>	m_vecSettingsMenuButtons;
 
 private:
 	imgf::mainLayer::mainMenuType::EMainMenuType		m_uiMainMenuType;

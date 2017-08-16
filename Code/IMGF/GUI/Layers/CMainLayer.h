@@ -10,6 +10,7 @@ class CTextBoxControl;
 class CDropControl;
 class CButtonControl;
 class CLineShape;
+class CTabBarControlEntry;
 
 class CMainLayer : public CGUILayer, public bxcf::EventBindable
 {
@@ -23,6 +24,7 @@ public:
 	CProgressControl*			getProgressBar(void) { return m_pProgressBar; }
 
 	void						onChangeTab(CTabBarControl *pTabBar);
+	void						onRemoveTab(CTabBarControlEntry *pTab);
 
 private:
 	void						addControls(void);

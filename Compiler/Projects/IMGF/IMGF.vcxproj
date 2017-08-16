@@ -132,10 +132,6 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Input\Buttons\CButtonPressManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layers\CMainLayer.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Popups\CPopupGUIManager.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\CThemeDesigner.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tab\CThemeDesignerTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Windows\CMainWindow.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\CWindowManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Language\CLanguageManager.cpp" />
@@ -219,10 +215,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\EMainMenuType.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\CPopupGUIManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\WindowControlIds.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\CThemeDesigner.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_AddItem.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tabs\CThemeDesignerTab_Save.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\ThemeDesigner\Tab\CThemeDesignerTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Windows\CMainWindow.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\CWindowManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\imgf.h" />

@@ -22,6 +22,7 @@
 #include "GUI/Layers/CMainLayer.h"
 #include "Controls/CTabBarControl.h"
 #include "Controls/CProgressControl.h"
+#include "Controls/CTextBoxControl.h"
 #include "Input/CInputManager.h"
 #include "Control/CGUIScrollPool.h"
 #include "GUI/Layers/CMainLayer.h"
@@ -51,10 +52,11 @@ using namespace imgf::editor::items;
 
 CIMGEditor::CIMGEditor(void) :
 	m_pMainWindow(nullptr),
+	m_pEntryGrid(nullptr),
+	m_pLog(nullptr),
 	m_uiSelectedEntryCount(0),
 	m_uiSearchHitCount(0), // todo - rename to SearchHitEntryCount
-	m_uiSearchFileCount(0), // todo - rename to SearchHitFileCount
-	m_pEntryGrid(nullptr)
+	m_uiSearchFileCount(0) // todo - rename to SearchHitFileCount
 {
 }
 
@@ -1040,6 +1042,15 @@ void		CIMGEditor::addControls(void)
 	w -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(_2D_MIRRORED_ORIENTATION_VERTICAL)->getBackgroundBarSize().x;
 	h -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(_2D_MIRRORED_ORIENTATION_HORIZONTAL)->getBackgroundBarSize().y;
 	m_pEntryGrid->setSize(Vec2u(w, h));
+
+	// log
+	x = 0;
+	y = 510;
+	w = 139 + 139;
+	h = 120;
+
+	m_pLog = addTextBox(x, y, w, h, "", true, "log");
+	m_pLog->setReadOnly(true);
 }
 
 void		CIMGEditor::initControls(void)

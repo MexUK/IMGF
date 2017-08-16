@@ -15,7 +15,6 @@
 #include "File/CFileManager.h"
 #include "Path/CPathManager.h"
 #include "Type/String/CString2.h"
-#include "GUI/ThemeDesigner/CThemeDesigner.h"
 #include "Type/Colour/CColour.h"
 #include "GUI/Layers/CMainLayer.h"
 #include "GUI/Layer/EMainMenuType.h"
@@ -66,6 +65,11 @@ void					CMainWindow::initLayers(void)
 	initMainMenuLayers();
 	initSettingsMenuLayer();
 	initEditors();
+
+	CEventManager::get()->bindEvent(EVENT_onResizeWindow, [](void* pArg1, void* pArg2) {
+		((CMainWindow*)pArg1)->repositionAndResizeControls();
+	}, this);
+	repositionAndResizeControls();
 }
 
 // layer initialization
@@ -100,7 +104,7 @@ void					CMainWindow::initMainMenuLayers(void)
 
 	pButton = pFormatsLayer->addButton(x, y, w, h, "DAT", strStyleGroup);
 	y += h2;
-	pButton = pFormatsLayer->addButton(x, y, w, h, "IMG", strStyleGroup);
+	pButton = pFormatsLayer->addButton(x, y, w, h, "IMG", "activeLeftMenuButton " + strStyleGroup);
 	y += h2;
 	pButton = pFormatsLayer->addButton(x, y, w, h, "Item Definition", strStyleGroup);
 	y += h2;
@@ -150,13 +154,15 @@ void					CMainWindow::initSettingsMenuLayer(void)
 	h2 = h;
 	strStyleGroup = "settingsMenuButton";
 
-	pSettingsMenuLayer->addButton(x, y, w, h, "Settings", strStyleGroup + " firstItemVertically");
+	m_vecSettingsMenuButtons.resize(4);
+
+	m_vecSettingsMenuButtons[0] = pSettingsMenuLayer->addButton(x, y, w, h, "Settings", strStyleGroup + " firstItemVertically");
 	y += h2;
-	pSettingsMenuLayer->addButton(x, y, w, h, "Websites", strStyleGroup);
+	m_vecSettingsMenuButtons[1] = pSettingsMenuLayer->addButton(x, y, w, h, "Websites", strStyleGroup);
 	y += h2;
-	pSettingsMenuLayer->addButton(x, y, w, h, "Formats", strStyleGroup);
+	m_vecSettingsMenuButtons[2] = pSettingsMenuLayer->addButton(x, y, w, h, "Formats", strStyleGroup);
 	y += h2;
-	pSettingsMenuLayer->addButton(x, y, w, h, "About", strStyleGroup);
+	m_vecSettingsMenuButtons[3] = pSettingsMenuLayer->addButton(x, y, w, h, "About", strStyleGroup);
 	y += h2;
 }
 
@@ -170,6 +176,27 @@ void					CMainWindow::initEditors(void)
 
 	//m_pDATEditor->init();
 	m_pIMGEditor->init();
+}
+
+// layer repositioning and resizing
+void					CMainWindow::repositionAndResizeControls(void)
+{
+	int32
+		x, y, w, h;
+	uint32
+		uiButtonHeight = 37;
+
+	// settings menu buttons
+	y = getTitleBarHeight() + uiButtonHeight;
+	w = 139;
+	h = uiButtonHeight;
+	x = getSize().x - w;
+
+	for (CButtonControl *pButton : m_vecSettingsMenuButtons)
+	{
+		pButton->setPosition(Vec2i(x, y));
+		y += h;
+	}
 }
 
 // main menu type

@@ -72,7 +72,6 @@
 #include "Timing/CTiming.h"
 #include "Task/CLastUsedValueManager.h"
 #include "GUI/Windows/CMainWindow.h"
-#include "GUI/ThemeDesigner/CThemeDesigner.h"
 #include "Styles/CStyleManager.h"
 #include "GUI/Input/Buttons/CButtonPressManager.h"
 
@@ -95,7 +94,6 @@ CIMGF::CIMGF(void)
 	m_pUpdateManager		= new CUpdateManager;
 	m_pWindowManager		= new CWindowManager;
 	m_pLastUsedValueManager	= new CLastUsedValueManager;
-	m_pThemeDesigner		= new CThemeDesigner;
 }
 CIMGF::~CIMGF(void)
 {
@@ -113,7 +111,6 @@ CIMGF::~CIMGF(void)
 	delete m_pUpdateManager;
 	delete m_pWindowManager;
 	delete m_pLastUsedValueManager;
-	delete m_pThemeDesigner;
 }
 
 // init/uninit (ocurs in original thread)
@@ -122,7 +119,6 @@ void				CIMGF::init(void)
 	bxgx::CGUIManager::get()->init();
 	CStyleManager::get()->init();
 	m_pWindowManager->init();
-	m_pThemeDesigner->init();
 	_init();
 	//initInitializationThread();
 }

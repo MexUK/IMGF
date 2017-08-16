@@ -43,10 +43,10 @@ line top false
 line top 0 0 0
 
 .main_lineLeft
-line left 100 100 100
+line left 180 180 180
 
 .main_lineTop
-line top 100 100 100
+line top 180 180 180
 
 .main_text
 text left center
@@ -63,6 +63,9 @@ fill 175 175 175
 
 .leftMenuButton .main_lineTop .main_text .main_spacing
 fill 201 201 201
+
+.activeLeftMenuButton
+fill 175 175 175
 
 .gameInfoText
 text 0 0 0
@@ -83,7 +86,7 @@ fill 220 220 220
 .filter:listRow .main_text .main_spacing
 text 0 0 0
 
-.filter:caret
+.filter:caret .main_text .main_spacing
 line 0 0 0
 
 .settingsMenu
@@ -104,7 +107,7 @@ fill 220 220 220
 .fileTabBar:tab:active
 fill 201 201 201
 
-.secondLeftMenu .main_lineTop .main_text .main_spacing
+.secondLeftMenuButton .main_lineTop .main_text .main_spacing
 fill 220 220 220
 
 .progressBar
@@ -143,3 +146,6 @@ fill 135 135 135
 
 .imgEditor_grid:cell .main_text .main_spacing
 text 0 0 0
+
+.log
+fill 220 220 220

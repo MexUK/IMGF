@@ -125,6 +125,7 @@ private:
 	CIMGEditor*					m_pEditor;
 
 	CGridControl*				m_pEntryGrid;
+	CTextBoxControl*			m_pLog;
 
 	bxcf::CIMGFormat*			m_pIMGFile;
 	std::vector<std::string>	m_vecLogLinesGUI;

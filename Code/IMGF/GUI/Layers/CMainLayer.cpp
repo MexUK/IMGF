@@ -27,7 +27,7 @@ void		CMainLayer::init(void)
 	initControls();
 }
 
-// change tab
+// tab control
 void		CMainLayer::onChangeTab(CTabBarControl *pTabBar)
 {
 	//m_pActiveEditor->onChangeTab(pTabBar);
@@ -39,6 +39,11 @@ void		CMainLayer::onChangeTab(CTabBarControl *pTabBar)
 	{
 		m_pMainWindow->getIMGEditor()->setActiveFile(m_pMainWindow->getIMGEditor()->getTabs().getEntryByIndex(pTabBar->getActiveIndex()));
 	}
+}
+
+void		CMainLayer::onRemoveTab(CTabBarControlEntry *pTab)
+{
+	m_pMainWindow->getIMGEditor()->removeFile((CIMGEditorTab*)m_pMainWindow->getIMGEditor()->getTabs().getEntryByIndex(pTab->getIndex()));
 }
 
 // controls
@@ -195,7 +200,7 @@ void		CMainLayer::addControls(void)
 	h = uiButtonHeight;
 	h2 = h;
 	h3 = h2 + 0;
-	strStyleGroup = "secondLeftMenu";
+	strStyleGroup = "secondLeftMenuButton";
 
 	addButton(x, y, w, h, "Import", strStyleGroup + " firstItemVertically");
 	y += h2;
@@ -248,6 +253,7 @@ void		CMainLayer::addControls(void)
 void		CMainLayer::initControls(void)
 {
 	bindEvent(CHANGE_TAB, &CMainLayer::onChangeTab);
+	bindEvent(REMOVE_TAB, &CMainLayer::onRemoveTab);
 
 	CEventManager::get()->bindEvent(EVENT_onResizeWindow, [](void* pArg1, void* pArg2) {
 		((CMainLayer*)pArg1)->repositionAndResizeControls();

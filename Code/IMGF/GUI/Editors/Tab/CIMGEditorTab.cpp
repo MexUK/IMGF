@@ -40,6 +40,7 @@
 #include "GUI/Layers/CMainLayer.h"
 #include "Controls/CTextControl.h"
 #include "Controls/CTabBarControl.h"
+#include "Controls/CTextBoxControl.h"
 #include <algorithm>
 
 using namespace std;
@@ -48,6 +49,7 @@ using namespace bxcf;
 CIMGEditorTab::CIMGEditorTab(void) :
 	m_pEditor(nullptr),
 	m_pEntryGrid(nullptr),
+	m_pLog(nullptr),
 	m_bRestoringFilterOptions(false),
 	m_bIMGModifiedSinceRebuild(false),
 	m_uiOverwriteEntryOption(0)
@@ -68,6 +70,8 @@ void					CIMGEditorTab::init(void)
 {
 	//setFileInfoText();
 	addAllEntriesToMainListView();
+
+	m_pEntryGrid->setActiveItem();
 
 
 
@@ -115,9 +119,10 @@ void					CIMGEditorTab::addControls(void)
 	m_pEntryGrid->getLayer()->addControl();
 	*/
 
-	CGridControl *pBlankGrid = m_pEditor->getEntryGrid();
-
 	int32 x, y, w, h;
+
+	// grid
+	CGridControl *pBlankGrid = m_pEditor->getEntryGrid();
 
 	x = 139 + 139;
 	y = 162 + 30;
@@ -130,6 +135,17 @@ void					CIMGEditorTab::addControls(void)
 	{
 		m_pEntryGrid->addHeader(pHeader->getText(), pHeader->getColumnWidth());
 	}
+
+	// log
+	CTextBoxControl *pBlankLog = m_pEditor->m_pLog;
+
+	x = pBlankLog->getPosition().x;
+	y = pBlankLog->getPosition().y;
+	w = pBlankLog->getSize().x;
+	h = pBlankLog->getSize().y;
+
+	m_pLog = addTextBox(x, y, w, h, "", true, "log");
+	m_pLog->setReadOnly(true);
 }
 
 void					CIMGEditorTab::initControls(void)

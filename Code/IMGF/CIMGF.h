@@ -70,7 +70,6 @@ public:
 	CSortManager*				getSortManager(void) { return m_pSortManager; }
 	CUpdateManager*				getUpdateManager(void) { return m_pUpdateManager; }
 	CLastUsedValueManager*		getLastUsedValueManager(void) { return m_pLastUsedValueManager; }
-	CThemeDesigner*				getThemeDesigner(void) { return m_pThemeDesigner; }
 
 	void						setLastUsedDirectory(std::string strHandleName, std::string strDirectory);
 	std::string					getLastUsedDirectory(std::string strHandleName);
@@ -112,7 +111,6 @@ private:
 	CSortManager*				m_pSortManager;
 	CUpdateManager*				m_pUpdateManager;
 	CLastUsedValueManager*		m_pLastUsedValueManager;
-	CThemeDesigner*				m_pThemeDesigner;
 };
 
 #endif

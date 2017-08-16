@@ -15,5 +15,6 @@ enum bxgx::control::events::EInputEvents
 	CHECK_RADIO_BUTTON,
 	UNCHECK_RADIO_BUTTON,
 
-	CHANGE_TAB
+	CHANGE_TAB,
+	REMOVE_TAB
 };
