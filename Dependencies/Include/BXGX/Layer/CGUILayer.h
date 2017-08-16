@@ -72,6 +72,7 @@ public:
 
 	// controls
 	CGUIControl*			addControl(eGUIControl eControlId, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	void					removeControl(CGUIControl *pControl);
 
 	CButtonControl*			addButton(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strButtonText, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CCheckControl*			addCheck(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strCheckText, std::string strStyleGroups = "", uint32 uiItemId = -1);
@@ -104,6 +105,7 @@ public:
 
 	// shapes
 	CGUIShape*				addShape(eGUIShape eShapeId, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	void					removeShape(CGUIShape *pShape);
 
 	CLineShape*				addLine(bxcf::Vec2i& vecPoint1, bxcf::Vec2i& vecPoint2, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CSquareShape*			addSquare(bxcf::Vec2i& vecPosition, uint32 uiSideLength, std::string strStyleGroups = "", uint32 uiItemId = -1);

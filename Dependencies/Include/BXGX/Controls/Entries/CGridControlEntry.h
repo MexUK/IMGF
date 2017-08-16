@@ -15,7 +15,7 @@ public:
 	
 	void									unload(void) {}
 
-	void									setGrid(CGridControl *pGrid) { m_pGrid = pGrid; }
+	void									setGrid(CGridControl *pGrid);
 	CGridControl*							getGrid(void) { return m_pGrid; }
 	
 	void									setSelected(bool bSelected);

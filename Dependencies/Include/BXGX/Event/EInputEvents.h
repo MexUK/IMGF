@@ -13,5 +13,7 @@ enum bxgx::control::events::EInputEvents
 	UNMARK_CHECKBOX,
 
 	CHECK_RADIO_BUTTON,
-	UNCHECK_RADIO_BUTTON
+	UNCHECK_RADIO_BUTTON,
+
+	CHANGE_TAB
 };

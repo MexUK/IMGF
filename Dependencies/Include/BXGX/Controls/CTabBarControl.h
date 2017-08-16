@@ -4,12 +4,13 @@
 #include "Type/Types.h"
 #include "Control/CGUIControl.h"
 #include "Controls/Entries/CTabBarControlEntry.h"
+#include "Event/Events.h"
 #include <string>
 #include <unordered_map>
 
 class CGUILayer;
 
-class CTabBarControl : public CGUIControl, public bxcf::CVectorPool<CTabBarControlEntry*>
+class CTabBarControl : public CGUIControl, public bxcf::CVectorPool<CTabBarControlEntry*>, public bxcf::EventTriggerable
 {
 public:
 	CTabBarControl(void);
@@ -35,6 +36,8 @@ public:
 	CTabBarControlEntry*					getTabFromPosition(bxcf::Vec2i& vecPosition);
 
 	void									bindTabLayer(CTabBarControlEntry *pTab, CGUILayer *pLayer);
+	void									unbindTabLayer(CTabBarControlEntry *pTab);
+	bool									isTabLayerBound(CTabBarControlEntry *pTab);
 	void									applyTabLayer(CTabBarControlEntry *pTab, CTabBarControlEntry *pPreviousTab);
 
 	void									setActiveTab(CTabBarControlEntry* pActiveTab) { m_pActiveTab = pActiveTab; }

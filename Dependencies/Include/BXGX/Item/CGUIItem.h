@@ -21,7 +21,7 @@ public:
 
 	virtual void							unserialize(bool bSkipItemId = false)	= 0;
 	virtual void							serialize(void)							= 0;
-	
+
 	virtual bxcf::Vec2i						getBoundingRectanglePosition(void)						= 0;
 	virtual bxcf::Vec2u						getBoundingRectangleSize(void)							= 0;
 	virtual void							moveItem(bxcf::Vec2i& vecItemPositionChange)			= 0;

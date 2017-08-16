@@ -29,9 +29,9 @@ namespace bxcf
 
 	template <typename ...Args> struct EventFunction;
 	struct Events;
-	template <class TStruct> struct EventBindable;
+	/*template <class TStruct> */ struct EventBindable;
 	struct EventTriggerable;
-	template <typename ...Args> std::unordered_map<int, std::vector< bxcf::EventFunction<Args...> >> g_eventBoundFunctions;
+	template <typename ...Args> std::unordered_map<int, std::vector< bxcf::EventFunction<Args...>* >> g_eventBoundFunctions;
 
 	enum eExceptionCode;
 

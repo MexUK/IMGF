@@ -18,12 +18,27 @@ using namespace bxcf;
 using namespace bxgx;
 using namespace imgf::layers;
 using namespace imgf::mainLayer::buttons;
+using namespace bxgx::control::events;
 
 // main interface
 void		CMainLayer::init(void)
 {
 	addControls();
 	initControls();
+}
+
+// change tab
+void		CMainLayer::onChangeTab(CTabBarControl *pTabBar)
+{
+	//m_pActiveEditor->onChangeTab(pTabBar);
+	if (pTabBar->getEntryCount() == 0)
+	{
+		m_pMainWindow->getIMGEditor()->setActiveFile(nullptr);
+	}
+	else
+	{
+		m_pMainWindow->getIMGEditor()->setActiveFile(m_pMainWindow->getIMGEditor()->getTabs().getEntryByIndex(pTabBar->getActiveIndex()));
+	}
 }
 
 // controls
@@ -232,6 +247,8 @@ void		CMainLayer::addControls(void)
 
 void		CMainLayer::initControls(void)
 {
+	bindEvent(CHANGE_TAB, &CMainLayer::onChangeTab);
+
 	CEventManager::get()->bindEvent(EVENT_onResizeWindow, [](void* pArg1, void* pArg2) {
 		((CMainLayer*)pArg1)->repositionAndResizeControls();
 	}, this);

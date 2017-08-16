@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-class CGridControl : public CGUIControl, public bxcf::CVectorPool<CGridControlEntry*>
+class CGridControl : public CGUIControl, public bxcf::CVectorPool<CGridControlEntry*>//, public bxcf::Clonable<CGridControl>
 {
 public:
 	CGridControl(void);
@@ -22,6 +22,8 @@ public:
 
 	void										unserialize(bool bSkipControlId = false);
 	void										serialize(void);
+
+	CGridControl*								clone(void);
 
 	bool										onLeftMouseDown(bxcf::Vec2i& vecCursorPosition);
 	bool										onKeyDown(uint16 uiKeyCode);

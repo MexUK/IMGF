@@ -18,6 +18,9 @@ public:
 	
 	void									unload(void) {}
 
+	void									setTabBar(CTabBarControl *pTabControl);
+	CTabBarControl*							getTabBar(void) { return m_pTabBar; }
+
 	uint32									getItemType(void) { return bxgx::item::CONTROL; } // todo - CONTROL_COMPONENT
 	uint32									getItemSubType(void) { return 0; } // todo - CONTROL_COMPONENT_TAB
 	bool									isPointInItem(bxcf::Vec2i& vecPoint) { return false; } // todo
@@ -34,9 +37,6 @@ public:
 	void									setActiveTab(void);
 	bool									isActiveTab(void);
 
-	void									setTabControl(CTabBarControl *pTabControl) { m_pTabControl = pTabControl; }
-	CTabBarControl*							getTabControl(void) { return m_pTabControl; }
-
 	void									setStyleGroups(std::vector<std::string>& vecStyleGroups);
 	void									setStyleGroups(std::vector<uint32>& vecStyleGroups) { m_vecStyleGroups = vecStyleGroups; }
 	std::vector<uint32>&					getStyleGroups(void) { return m_vecStyleGroups; }
@@ -44,7 +44,7 @@ public:
 	uint32									getIndex(void);
 
 private:
-	CTabBarControl*							m_pTabControl;
+	CTabBarControl*							m_pTabBar;
 	std::vector<uint32>						m_vecStyleGroups;
 };
 

@@ -3,12 +3,14 @@
 
 #include "Type/Types.h"
 #include "bxcf.h"
+#include "Layer/CGUILayer.h"
 #include <string>
 
 class CEditor;
 class bxcf::CFormat;
+class CTabBarControlEntry;
 
-class CEditorTab
+class CEditorTab : public CGUILayer
 {
 public:
 	CEditorTab(void);
@@ -18,19 +20,24 @@ public:
 	void						setEditor(CEditor* pEditor) { m_pEditor = pEditor; }
 	CEditor*					getEditor(void) { return m_pEditor; }
 
-	void						setIndex(uint32 uiIndex) { m_uiIndex = uiIndex; }
-	uint32						getIndex(void) { return m_uiIndex; }
+	void						setTab(CTabBarControlEntry *pTab) { m_pTab = pTab; }
+	CTabBarControlEntry*		getTab(void) { return m_pTab; }
 
-	void						setFile(bxcf::CFormat *pFormat) { m_pFormat = pFormat; }
-	bxcf::CFormat*				getFile(void) { return m_pFormat; }
+	uint32						getTabIndex(void);
+
+	void						setFile(bxcf::CFormat *pFile) { m_pFile = pFile; }
+	bxcf::CFormat*				getFile(void) { return m_pFile; }
+
+	virtual void				addControls(void) = 0;
+	virtual void				initControls(void) = 0;
 
 	void						log(std::string strText);
 	void						logf(std::string strFormatText, ...);
 
 private:
 	CEditor*					m_pEditor;
-	uint32						m_uiIndex;
-	bxcf::CFormat*				m_pFormat;
+	CTabBarControlEntry*		m_pTab;
+	bxcf::CFormat*				m_pFile;
 };
 
 #endif

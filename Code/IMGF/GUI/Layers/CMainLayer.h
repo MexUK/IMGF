@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Layer/CGUILayer.h"
+#include "Event/Events.h"
 
 class CMainWindow;
 class CTabBarControl;
@@ -10,7 +11,7 @@ class CDropControl;
 class CButtonControl;
 class CLineShape;
 
-class CMainLayer : public CGUILayer
+class CMainLayer : public CGUILayer, public bxcf::EventBindable
 {
 public:
 	void						init(void);
@@ -21,6 +22,8 @@ public:
 	CTabBarControl*				getTabBar(void) { return m_pTabBar; }
 	CProgressControl*			getProgressBar(void) { return m_pProgressBar; }
 
+	void						onChangeTab(CTabBarControl *pTabBar);
+
 private:
 	void						addControls(void);
 	void						initControls(void);
@@ -29,15 +32,18 @@ private:
 
 public:
 	CMainWindow*				m_pMainWindow;
+
 	CTabBarControl*				m_pTabBar;
 	CProgressControl*			m_pProgressBar;
 	CTextBoxControl*			m_pSearchBox;
 	CDropControl*				m_pEntryTypeFilter;
 	CDropControl*				m_pEntryVersionFilter;
+
 	CButtonControl*				m_pSettingsButton;
 	CLineShape*					m_pSettingsButtonLine1;
 	CLineShape*					m_pSettingsButtonLine2;
 	CLineShape*					m_pSettingsButtonLine3;
+
 	CTextControl*				m_pText_Game;
 	CTextControl*				m_pText_GameValidity;
 	CTextControl*				m_pText_GameLocation;

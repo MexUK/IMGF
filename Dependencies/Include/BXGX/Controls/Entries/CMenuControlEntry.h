@@ -6,6 +6,7 @@
 #include "Control/e2DMirroredOrientation.h"
 #include "Pool/CVectorPool.h"
 
+class CMenuControl;
 class CMenuControlEntry;
 
 class CMenuControlEntry : public CGUIControlComponent_Text, public bxcf::CVectorPool<CMenuControlEntry*>
@@ -14,6 +15,9 @@ public:
 	CMenuControlEntry(void);
 	
 	void									unload(void) {}
+
+	void									setMenu(CMenuControl *pMenu);
+	CMenuControl*							getMenu(void) { return m_pMenu; }
 
 	void									setWindowControlOrientation(e2DMirroredOrientation eOrientation) { m_eOrientation = eOrientation; }
 	e2DMirroredOrientation					getWindowControlOrientation(void) { return m_eOrientation; }
@@ -24,6 +28,7 @@ public:
 private:
 	e2DMirroredOrientation					m_eOrientation;
 	uint32									m_uiItemId;
+	CMenuControl*							m_pMenu;
 };
 
 #endif

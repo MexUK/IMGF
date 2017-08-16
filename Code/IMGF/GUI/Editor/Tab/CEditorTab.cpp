@@ -1,5 +1,6 @@
 #include "bxcf.h"
 #include "CEditorTab.h"
+#include "Controls/Entries/CTabBarControlEntry.h"
 #include <stdarg.h>
 
 using namespace std;
@@ -7,9 +8,15 @@ using namespace bxcf;
 
 CEditorTab::CEditorTab(void) :
 	m_pEditor(nullptr),
-	m_uiIndex(0),
-	m_pFormat(nullptr)
+	m_pTab(nullptr),
+	m_pFile(nullptr)
 {
+}
+
+// tab index
+uint32						CEditorTab::getTabIndex(void)
+{
+	return m_pTab->getIndex();
 }
 
 // log

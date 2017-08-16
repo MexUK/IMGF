@@ -5,6 +5,7 @@
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
 #include "GUI/Editor/CEditor.h"
 #include "Format/RockstarGames/IMG/eIMGVersion.h"
+#include "Event/Events.h"
 #include <string>
 
 class CMainWindow;
@@ -27,18 +28,21 @@ public:
 
 	CIMGEditorTab*				addFile(bxcf::CIMGFormat *img);
 	CIMGEditorTab*				addBlankFile(std::string strIMGPath, bxcf::eIMGVersion eIMGVersionValue);
-	void						closeFile(CIMGEditorTab *pEditorTab);
-
 	CIMGEditorTab*				addTabObjectAndTabControl(bxcf::CIMGFormat *img);
+	void						removeFile(CIMGEditorTab *pIMGEditorFile);
+	void						removeActiveFile(void);
 
-	CIMGEditorTab*				getActiveFile(void) { return (CIMGEditorTab*)CEditor::getActiveTab(); }
+	void						setFileInfoText(CEditorTab *pEditorFile);
+	void						clearFileInfoText(void);
 
 
 
 
+
+	void						removeTab(CIMGEditorTab *pEditorTab) {}
 
 	void						refreshActiveTab(void);
-	CIMGEditorTab*				getActiveTab(void) { return (CIMGEditorTab*) CEditor::getActiveTab(); }
+	CIMGEditorTab*				getActiveTab(void) { return (CIMGEditorTab*) CEditor::getActiveFile(); }
 	void						setActiveTab(CIMGEditorTab *pActiveTab);
 
 	void						readdColumnsToMainListView(bxcf::eIMGVersion eIMGVersionValue);
@@ -73,9 +77,6 @@ public:
 
 	std::vector<CSearchEntry*>&	getSearchEntries(void) { return m_vecSearchEntries; }
 
-public:
-	CGridControl*				m_pEntryGrid;
-
 private:
 	void						addControls(void);
 	void						initControls(void);
@@ -84,6 +85,9 @@ private:
 	void						loadRightClickMenu(int xPos, int yPos);
 	
 	CIMGEditorTab*				_addTab(bxcf::CIMGFormat *pIMGFormat);
+
+public:
+	CGridControl*				m_pEntryGrid;
 
 private:
 	CMainWindow*				m_pMainWindow;

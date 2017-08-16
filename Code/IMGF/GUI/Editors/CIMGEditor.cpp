@@ -24,6 +24,9 @@
 #include "Controls/CProgressControl.h"
 #include "Input/CInputManager.h"
 #include "Control/CGUIScrollPool.h"
+#include "GUI/Layers/CMainLayer.h"
+#include "Controls/CTextControl.h"
+#include "Event/EInputEvents.h"
 
 // for menu start - todo
 #include "Format/RenderWare/Helper/BinaryStream/CRWManager.h"
@@ -56,7 +59,7 @@ CIMGEditor::CIMGEditor(void) :
 }
 
 // editor initialization
-void				CIMGEditor::init(void)
+void						CIMGEditor::init(void)
 {
 	CEditor::init();
 	addControls();
@@ -64,7 +67,7 @@ void				CIMGEditor::init(void)
 }
 
 // format validation
-bool				CIMGEditor::validateFile(CIMGFormat *img)
+bool						CIMGEditor::validateFile(CIMGFormat *img)
 {
 	if (img->getVersion() == IMG_FASTMAN92)
 	{
@@ -87,89 +90,116 @@ bool				CIMGEditor::validateFile(CIMGFormat *img)
 	return true;
 }
 
-// add tab
-CIMGEditorTab*		CIMGEditor::addFile(CIMGFormat *img)
+// add/remove file
+CIMGEditorTab*				CIMGEditor::addFile(CIMGFormat *img)
 {
-	CIMGEditorTab *imgTab = addTabObjectAndTabControl(img);
+	CIMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img);
 
 	string strFileName = CPathManager::getFileName(img->getFilePath());
-	imgTab->logf("Opened %s", strFileName);
+	imgEditorTab->logf("Opened %s", strFileName);
 
-	return imgTab;
+	return imgEditorTab;
 }
 
-CIMGEditorTab*		CIMGEditor::addBlankFile(string strIMGPath, eIMGVersion eIMGVersionValue)
+CIMGEditorTab*				CIMGEditor::addBlankFile(string strIMGPath, eIMGVersion eIMGVersionValue)
 {
 	CIMGFormat *img = new CIMGFormat;
 	img->setFilePath(strIMGPath);
 	img->setVersion(eIMGVersionValue);
 
-	CIMGEditorTab *imgTab = addTabObjectAndTabControl(img);
+	CIMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img);
 
 	string strFileName = CPathManager::getFileName(img->getFilePath());
-	imgTab->logf("Created %s", strFileName);
+	imgEditorTab->logf("Created %s", strFileName);
 
-	return imgTab;
+	return imgEditorTab;
 }
 
-CIMGEditorTab*		CIMGEditor::addTabObjectAndTabControl(CIMGFormat *img)
+CIMGEditorTab*				CIMGEditor::addTabObjectAndTabControl(CIMGFormat *img)
 {
-	CIMGEditorTab *imgTab = new CIMGEditorTab;
-	imgTab->setIMGEditor(this);
-	imgTab->setIMGFile(img);
-	imgTab->setFile(img);
+	CIMGEditorTab *imgEditorTab = m_pWindow->addLayer<CIMGEditorTab>();
 
-	CEditor::addTab(imgTab);
-
-	imgTab->init();
-
-	return imgTab;
-}
-
-void				CIMGEditor::closeFile(CIMGEditorTab *pEditorTab)
-{
-	// fetch current tab index
-	uint32 uiTabIndex = pEditorTab->getIndex();
-
-	// remove from pool and unload
-	getTabs().removeEntry(pEditorTab);
-
-	// shift down higher indices by 1
-	//((CTabCtrl*)getIMGF()->getDialog()->GetDlgItem(1))->DeleteItem(uiTabIndex);
-	for (CEditorTab *pEditorTab2 : getTabs().getEntries())
+	imgEditorTab->setIMGEditor(this);
+	imgEditorTab->setIMGFile(img);
+	imgEditorTab->setFile(img);
+	
+	if (m_pActiveFile)
 	{
-		if (pEditorTab2->getIndex() > uiTabIndex)
-		{
-			pEditorTab2->setIndex(pEditorTab2->getIndex() - 1);
-		}
-	}
-
-	// set active tab
-	if (getTabs().getEntryCount() == 0)
-	{
-		// blank
-		setActiveTab(nullptr);
-	}
-	else if (getTabs().getEntryByIndex(uiTabIndex) != nullptr)
-	{
-		// tab to right
-		setActiveTab((CIMGEditorTab*)(getTabs().getEntryByIndex(uiTabIndex)));
-	}
-	else if (getTabs().getEntryByIndex(uiTabIndex - 1) != nullptr)
-	{
-		// tab to left
-		setActiveTab((CIMGEditorTab*)(getTabs().getEntryByIndex(uiTabIndex - 1)));
+		m_pActiveFile->setEnabled(false);
 	}
 	else
 	{
-		// first tab
-		setActiveTab((CIMGEditorTab*)(getTabs().getEntryByIndex(0)));
+		setEnabled(false);
+	}
+
+	CEditor::addFile(imgEditorTab);
+
+	imgEditorTab->init();
+
+	return imgEditorTab;
+}
+
+void						CIMGEditor::removeFile(CIMGEditorTab *pIMGEditorFile)
+{
+	CEditor::removeFile(pIMGEditorFile);
+
+	m_pWindow->removeLayer(pIMGEditorFile);
+
+	delete pIMGEditorFile;
+
+	if (getTabs().getEntryCount() == 0)
+	{
+		setEnabled(true);
+	}
+	else
+	{
+		m_pActiveFile->setEnabled(true);
 	}
 }
 
-void				CIMGEditor::setActiveTab(CIMGEditorTab *pEditorTab)
+void						CIMGEditor::removeActiveFile(void)
 {
-	CEditor::setActiveTab(pEditorTab);
+	if (getTabs().getEntryCount() == 0)
+	{
+		return;
+	}
+
+	removeFile((CIMGEditorTab*)getActiveFile());
+}
+
+// active file
+void						CIMGEditor::setFileInfoText(CEditorTab *pEditorFile)
+{
+	CMainLayer *pMainLayer = m_pMainWindow->getMainLayer();
+
+	pMainLayer->m_pText_Game->setText(string("A"));
+	pMainLayer->m_pText_GameValidity->setText(string("-"));
+	pMainLayer->m_pText_GameLocation->setText(string("A"));
+	pMainLayer->m_pText_FileGame->setText(string("A"));
+	pMainLayer->m_pText_FileValidity->setText(string("-"));
+	pMainLayer->m_pText_FileLocation->setText(pEditorFile->getFile()->getFilePath());
+}
+
+void						CIMGEditor::clearFileInfoText(void)
+{
+	CMainLayer *pMainLayer = m_pMainWindow->getMainLayer();
+
+	pMainLayer->m_pText_Game->setText(string("No file is open"));
+	pMainLayer->m_pText_GameValidity->setText(string("-"));
+	pMainLayer->m_pText_GameLocation->setText(string("-"));
+	pMainLayer->m_pText_FileGame->setText(string("-"));
+	pMainLayer->m_pText_FileValidity->setText(string("-"));
+	pMainLayer->m_pText_FileLocation->setText(string("-"));
+}
+
+
+
+
+
+
+void						CIMGEditor::setActiveTab(CIMGEditorTab *pEditorTab)
+{
+	CEditor::setActiveFile(pEditorTab);
 	
 	//pEditorTab->readdAllEntriesToMainListView();
 	
@@ -1019,6 +1049,7 @@ void		CIMGEditor::initControls(void)
 	CEventManager::get()->bindEvent(EVENT_onResizeWindow, [](void* pArg1, void* pArg2) {
 		((CIMGEditor*)pArg1)->repositionAndResizeControls();
 	}, this);
+
 	repositionAndResizeControls();
 }
 

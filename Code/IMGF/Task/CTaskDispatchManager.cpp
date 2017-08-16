@@ -281,7 +281,7 @@ void		CTaskDispatchManager::closeActiveFile(void)
 			saveAllOpenFiles(false);
 		}
 	}
-	m_pMainWindow->getIMGEditor()->closeFile(m_pMainWindow->getIMGEditor()->getActiveFile());
+	m_pMainWindow->getIMGEditor()->removeActiveFile();
 	m_pTaskManager->onTaskEnd();
 }
 
@@ -375,7 +375,7 @@ void		CTaskDispatchManager::onRequestCloseAll(void)
 
 	while (getIMGF()->getIMGEditor()->getTabs().getEntryCount() > 0) // todo - change to removeAllEntries or something assuming all stuff in removeTab() still gets ran somewhere
 	{
-		getIMGF()->getIMGEditor()->removeTab(getIMGF()->getIMGEditor()->getTabs().getEntryByIndex(0));
+		///////getIMGF()->getIMGEditor()->removeTab(getIMGF()->getIMGEditor()->getTabs().getEntryByIndex(0));
 	}
 
 	getIMGF()->getIMGEditor()->setActiveTab(nullptr);
@@ -6869,9 +6869,9 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 	{
 		openFile(getIMGF()->getLastUsedValueManager()->getLastUsedValue_Open2_IMGPath());
 	}
-	else if (strFeatureName == "onRequestClose")
+	else if (strFeatureName == "closeActiveFile")
 	{
-		onRequestClose();
+		closeActiveFile();
 	}
 	else if (strFeatureName == "onRequestCloseAll")
 	{

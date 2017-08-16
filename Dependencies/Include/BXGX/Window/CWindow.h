@@ -29,7 +29,7 @@ class CWindow;
 class bxcf::CInputEventCallbacks;
 class CGUIControl;
 
-class CWindow : /*public bxcf::EventTriggerable, */public bxcf::EventBindable<CWindow>, public bxcf::CEventType, public CGUIStyleableEntity, public bxcf::CVectorPool<CGUILayer*>, public CGUIEventUtilizer
+class CWindow : /*public bxcf::EventTriggerable, */public bxcf::EventBindable/*<CWindow>*/, public bxcf::CEventType, public CGUIStyleableEntity, public bxcf::CVectorPool<CGUILayer*>, public CGUIEventUtilizer
 {
 public:
 	CWindow(void);
@@ -146,6 +146,7 @@ public:
 	CGUILayer*								addLayer(uint32 uiLayerId = -1, bool bEnabled = true);
 	template <class LayerClass>
 	LayerClass*								addLayer(uint32 uiLayerId = -1, bool bEnabled = true);
+	void									removeLayer(CGUILayer* pLayer);
 	CGUILayer*								getLayerById(uint32 uiLayerId);
 	void									swapLayersEnabled(uint32 uiLayerId1, uint32 uiLayerId2);
 

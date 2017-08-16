@@ -10,6 +10,8 @@
 class CGUIEventUtilizer
 {
 public:
+	~CGUIEventUtilizer(void);
+
 	// event usages
 	void									markEventUsages(uint32 uiEventCount, ...);
 	void									markEventUsage(uint32 uiEvent);
@@ -76,8 +78,8 @@ public:
 	virtual void							onRenderAfter(void) {}
 
 	void									setStyleGroups(std::string& strStyleGroups);
-	void									setStyleGroups(std::vector<std::string>& vecStyleGroups);
 	void									setStyleGroups(std::vector<uint32>& vecStyleGroups) { m_vecStyleGroups = vecStyleGroups; }
+	void									setStyleGroups(std::vector<std::string>& vecStyleGroups);
 	std::vector<uint32>&					getStyleGroups(void) { return m_vecStyleGroups; }
 
 private:

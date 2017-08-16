@@ -14,19 +14,27 @@ public:
 
 	virtual void						init(void) = 0;
 
-	void								addTab(CEditorTab *pEditorTab);
+	void								addFile(CEditorTab *pEditorTab);
+	void								removeFile(CEditorTab *pEditorTab);
+	void								removeActiveFile(void);
 
 	bxcf::CVectorPool<CEditorTab*>&		getTabs(void) { return m_vecTabs; }
 
-	void								setActiveTab(CEditorTab *pActiveTab) { m_pActiveTab = pActiveTab; }
-	CEditorTab*							getActiveTab(void) { return m_pActiveTab; }
+	void								setActiveFile(CEditorTab *pEditorFile);
+	CEditorTab*							getActiveFile(void) { return m_pActiveFile; }
 
 	void								setTabBar(CTabBarControl *pTabBar) { m_pTabBar = pTabBar; }
 	CTabBarControl*						getTabBar(void) { return m_pTabBar; }
 
+	void								updateActiveFileDisplayedInfo(void);
+	void								clearActiveFileDisplayedInfo(void);
+
+	virtual void						setFileInfoText(CEditorTab *pEditorFile) = 0;
+	virtual void						clearFileInfoText(void) = 0;
+
 protected:
 	CTabBarControl*						m_pTabBar;
-	CEditorTab*							m_pActiveTab;
+	CEditorTab*							m_pActiveFile;
 	bxcf::CVectorPool<CEditorTab*>		m_vecTabs;
 };
 

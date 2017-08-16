@@ -101,6 +101,9 @@ text 0 0 0
 .fileTabBar:tab .main_lineLeft .main_text .main_spacing
 fill 220 220 220
 
+.fileTabBar:tab:active
+fill 201 201 201
+
 .secondLeftMenu .main_lineTop .main_text .main_spacing
 fill 220 220 220
 

@@ -201,7 +201,7 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::Vec2i& vecCursor
 	}
 	else if (uiEvent == MOUSE_WHEEL_MOVE)
 	{
-		if (m_pItemMouseIsOver->getItemType() == bxgx::item::CONTROL && m_pItemMouseIsOver->getItemSubType() == GUI_CONTROL_SCROLL)
+		if (m_pItemMouseIsOver && m_pItemMouseIsOver->getItemType() == bxgx::item::CONTROL && m_pItemMouseIsOver->getItemSubType() == GUI_CONTROL_SCROLL)
 		{
 			triggerItemEvent(uiEvent, ((CScrollControl*)m_pItemMouseIsOver)->getControl(), args...);
 			return;
@@ -210,6 +210,13 @@ void						bxgx::CGUIManager::triggerEvent(uint32 uiEvent, bxcf::Vec2i& vecCursor
 
 	for (CGUIEventUtilizer *pGUIEventUtilizer : umapEventControls[uiEvent])
 	{
+		// ensure event was not unbound during this loop
+		if (std::find(m_umapEventControls[uiEvent].begin(), m_umapEventControls[uiEvent].end(), pGUIEventUtilizer) == m_umapEventControls[uiEvent].end())
+		{
+			continue;
+		}
+
+		// ensure event is bound for event-utilizer object
 		if (!pGUIEventUtilizer->isEventUsageMarked(uiEvent))
 		{
 			continue;

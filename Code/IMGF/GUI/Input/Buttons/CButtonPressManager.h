@@ -7,7 +7,7 @@ class CButtonControl;
 class CMainWindow;
 class CTaskDispatchManager;
 
-class CButtonPressManager : public bxcf::EventBindable<CButtonPressManager>
+class CButtonPressManager : public bxcf::EventBindable//<CButtonPressManager>
 {
 public:
 	void					init(void);

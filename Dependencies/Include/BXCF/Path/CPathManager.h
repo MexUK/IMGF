@@ -9,7 +9,7 @@
 class bxcf::CPathManager
 {
 public:
-	static std::string			getFileName(std::string& strPath);
+	static std::string			getFileName(std::string strPath);
 	static std::string			getFolderName(std::string& strPath);
 	static std::string			getDirectory(std::string strPath);
 	static std::string			removeFileName(std::string strPath);

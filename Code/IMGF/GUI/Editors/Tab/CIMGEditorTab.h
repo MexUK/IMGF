@@ -17,23 +17,26 @@ class CListCtrl; // temp
 class CIMGEditorTab : public CEditorTab
 {
 public:
-	CIMGEditorTab(void) :
-		m_pEditor(nullptr),
-		m_bRestoringFilterOptions(false),
-		m_bIMGModifiedSinceRebuild(false),
-		m_uiOverwriteEntryOption(0)
-	{
-	}
+	CIMGEditorTab(void);
 
 	void						unload(void);
 
 	void						init(void);
+
+	void						addControls(void);
+	void						removeControls(void);
+	void						initControls(void);
 
 	void						setIMGEditor(CIMGEditor *pEditor) { m_pEditor = pEditor; }
 	CIMGEditor*					getIMGEditor(void) { return m_pEditor; }
 
 	void						setIMGFile(bxcf::CIMGFormat *pIMGFile) { m_pIMGFile = pIMGFile; }
 	bxcf::CIMGFormat*			getIMGFile(void) { return m_pIMGFile; }
+
+
+
+
+
 
 	void						setSearchText(std::string strSearchText) { m_strSearchText = strSearchText; }
 	std::string					getSearchText(void) { return m_strSearchText; }
@@ -73,8 +76,6 @@ public:
 	void						addEntryToMainListView(bxcf::CIMGEntry *pIMGEntry);
 	void						updateEntryInMainListView(bxcf::CIMGEntry *pIMGEntry);
 	uint32						getMainListViewItemIndexByItemData(bxcf::CIMGEntry *pIMGEntry);
-
-	void						setFileInfoText(void);
 
 	bxcf::CIMGEntry*					getEntryByName(std::string strEntryName);
 
@@ -122,6 +123,9 @@ private:
 
 private:
 	CIMGEditor*					m_pEditor;
+
+	CGridControl*				m_pEntryGrid;
+
 	bxcf::CIMGFormat*			m_pIMGFile;
 	std::vector<std::string>	m_vecLogLinesGUI;
 	std::vector<std::string>	m_vecLogLinesBasic;

@@ -39,11 +39,22 @@
 #include "GUI/Windows/CMainWindow.h"
 #include "GUI/Layers/CMainLayer.h"
 #include "Controls/CTextControl.h"
+#include "Controls/CTabBarControl.h"
 #include <algorithm>
 
 using namespace std;
 using namespace bxcf;
 
+CIMGEditorTab::CIMGEditorTab(void) :
+	m_pEditor(nullptr),
+	m_pEntryGrid(nullptr),
+	m_bRestoringFilterOptions(false),
+	m_bIMGModifiedSinceRebuild(false),
+	m_uiOverwriteEntryOption(0)
+{
+}
+
+// load/unload
 void					CIMGEditorTab::unload(void)
 {
 	delete m_pDBFile;
@@ -55,6 +66,12 @@ void					CIMGEditorTab::unload(void)
 // initialization
 void					CIMGEditorTab::init(void)
 {
+	//setFileInfoText();
+	addAllEntriesToMainListView();
+
+
+
+
 	// add to recently open
 	
 	getIMGF()->getRecentlyOpenManager()->loadRecentlyOpenEntries();
@@ -88,10 +105,42 @@ void					CIMGEditorTab::init(void)
 
 	// check for unknown RW versions
 	checkForUnknownRWVersionEntries();
-	
-	
-	setFileInfoText();
-	addAllEntriesToMainListView();
+}
+
+// controls
+void					CIMGEditorTab::addControls(void)
+{
+	/*
+	m_pEntryGrid = m_pEditor->getEntryGrid()->clone();
+	m_pEntryGrid->getLayer()->addControl();
+	*/
+
+	CGridControl *pBlankGrid = m_pEditor->getEntryGrid();
+
+	int32 x, y, w, h;
+
+	x = 139 + 139;
+	y = 162 + 30;
+	w = m_pWindow->getSize().x - x;
+	h = m_pWindow->getSize().y - y;
+
+	m_pEntryGrid = addGrid(x, y, w, h);
+	m_pEntryGrid->setStyleGroups(pBlankGrid->getStyleGroups());
+	for (CGridControlHeader *pHeader : pBlankGrid->getHeaders().getEntries())
+	{
+		m_pEntryGrid->addHeader(pHeader->getText(), pHeader->getColumnWidth());
+	}
+}
+
+void					CIMGEditorTab::initControls(void)
+{
+	bindEvents();
+}
+
+void					CIMGEditorTab::removeControls(void)
+{
+	removeControl(m_pEntryGrid);
+	m_pEntryGrid = nullptr;
 }
 
 // error checking
@@ -480,14 +529,14 @@ void					CIMGEditorTab::addColumnsToMainListView(void)
 }
 void					CIMGEditorTab::readdAllEntriesToMainListView(void)
 {
-	m_pEditor->getEntryGrid()->removeAllEntries();
+	m_pEntryGrid->removeAllEntries();
 	
 	m_pEditor->setSelectedEntryCount(0);
 	m_pEditor->updateSelectedEntryCountText();
 
 	addAllEntriesToMainListView();
 
-	m_pEditor->getEntryGrid()->getWindow()->markToRedraw();
+	m_pEntryGrid->getWindow()->markToRedraw();
 }
 void					CIMGEditorTab::addAllEntriesToMainListView(void)
 {
@@ -628,11 +677,11 @@ void					CIMGEditorTab::addAllEntriesToMainListView(void)
 }
 void					CIMGEditorTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 {
-	CGridControlEntry *pListEntry = new CGridControlEntry;
+	CGridControlEntry *pRow = new CGridControlEntry;
 
-	pListEntry->setGrid(m_pEditor->getEntryGrid());
+	pRow->setGrid(m_pEntryGrid);
 
-	uint32 uiEntryIndex = m_pEditor->getEntryGrid()->getEntryCount();
+	uint32 uiEntryIndex = m_pEntryGrid->getEntryCount();
 	string strExtensionUpper = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
 	bool bFastman92IMGFormat = pIMGEntry->getIMGFile()->getVersion() == IMG_FASTMAN92;
 
@@ -650,8 +699,8 @@ void					CIMGEditorTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 		vecText[7] = CIMGManager::getEncryptionText(pIMGEntry->isEncrypted());
 	}
 
-	pListEntry->getText().push_back(vecText);
-	m_pEditor->getEntryGrid()->addEntry(pListEntry);
+	pRow->getText().push_back(vecText);
+	m_pEntryGrid->addEntry(pRow);
 
 	/*
 	todo
@@ -707,18 +756,6 @@ uint32			CIMGEditorTab::getMainListViewItemIndexByItemData(CIMGEntry *pIMGEntry)
 	}
 	*/
 	return -1;
-}
-
-void					CIMGEditorTab::setFileInfoText(void)
-{
-	CMainLayer *pMainLayer = getIMGEditor()->getMainWindow()->getMainLayer();
-
-	pMainLayer->m_pText_Game->setText(string("A"));
-	pMainLayer->m_pText_GameValidity->setText(string("-"));
-	pMainLayer->m_pText_GameLocation->setText(string("A"));
-	pMainLayer->m_pText_FileGame->setText(string("A"));
-	pMainLayer->m_pText_FileValidity->setText(string("-"));
-	pMainLayer->m_pText_FileLocation->setText(m_pIMGFile->getFilePath());
 }
 
 void					CIMGEditorTab::updateEntryCountText(void)

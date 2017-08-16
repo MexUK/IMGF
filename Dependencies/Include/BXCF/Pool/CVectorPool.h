@@ -75,7 +75,7 @@ void				bxcf::CVectorPool<T>::removeEntry(T pEntry)
 	std::vector<T>::iterator it = std::find(m_vecEntries.begin(), m_vecEntries.end(), pEntry);
 	m_vecEntries.erase(it);
 	pEntry->unload();
-	delete pEntry;
+	// todo - delete objects elsewhere, delete pEntry;
 }
 
 template <class T>

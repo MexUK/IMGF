@@ -8,7 +8,7 @@
 template <typename ...Args>
 struct bxcf::EventFunction;
 struct bxcf::Events;
-template <class TStruct>
+//template <class TStruct>
 struct bxcf::EventBindable;
 struct bxcf::EventTriggerable;
 
@@ -17,12 +17,12 @@ template <typename ...Args>
 struct bxcf::EventFunction
 {
 	void* m_object;
-	void(bxcf::EventTriggerable::* __thiscall m_function)(Args...);
+	void(bxcf::EventBindable::* __thiscall m_function)(Args...);
 
 	EventFunction(void)
 	{
 	}
-	EventFunction(void* object, void(bxcf::EventTriggerable::* __thiscall func)(Args...)) :
+	EventFunction(void* object, void(bxcf::EventBindable::* __thiscall func)(Args...)) :
 		m_object(object),
 		m_function(func)
 	{
@@ -31,13 +31,13 @@ struct bxcf::EventFunction
 	void setObject(void *object) { m_object = object; }
 	void* getObject(void) { return m_object; }
 
-	void(bxcf::EventTriggerable::* __thiscall getFunction(void))(Args...) { return m_function; }
-	void setFunction(void(bxcf::EventTriggerable::* __thiscall func)(Args...)) { m_function = func; }
+	void(bxcf::EventBindable::* __thiscall getFunction(void))(Args...) { return m_function; }
+	void setFunction(void(bxcf::EventBindable::* __thiscall func)(Args...)) { m_function = func; }
 };
 
 // storage
 template <typename ...Args>
-extern std::unordered_map<int, std::vector< bxcf::EventFunction<Args...> >> bxcf::g_eventBoundFunctions;
+extern std::unordered_map<int, std::vector< bxcf::EventFunction<Args...>* >> bxcf::g_eventBoundFunctions;
 
 // trigger
 struct bxcf::Events
@@ -50,10 +50,10 @@ struct bxcf::Events
 			return;
 		}
 
-		for (auto& eventFunctionObject : bxcf::g_eventBoundFunctions<Args...>[iEvent])
+		for (bxcf::EventFunction<Args...> *pFuncObject : bxcf::g_eventBoundFunctions<Args...>[iEvent])
 		{
-			bxcf::EventTriggerable* object = (bxcf::EventTriggerable*)eventFunctionObject.m_object;
-			auto& func = eventFunctionObject.m_function;
+			bxcf::EventBindable* object = (bxcf::EventBindable*)pFuncObject->m_object;
+			auto& func = pFuncObject->m_function;
 
 			(object->*func)(args...);
 		}
@@ -63,18 +63,20 @@ struct bxcf::Events
 };
 
 // bind
-template <class TStruct>
+//template <class TStruct>
 struct bxcf::EventBindable
 {
-	template <typename ...Args>
+	template <class TStruct, typename ...Args>
 	int bindEvent(int iEvent, void(TStruct::* func)(Args... args))
 	{
-		bxcf::EventFunction<Args...> funcObject;
-		funcObject.m_object = this;
-		funcObject.m_function = (void(bxcf::EventTriggerable::* __thiscall)(Args... args))func;
+		bxcf::EventFunction<Args...> *pFuncObject = new bxcf::EventFunction<Args...>;
+		pFuncObject->m_object = (TStruct*)this;
+		//pFuncObject.m_function = (void(bxcf::EventBindable<TStruct>::* __thiscall)(Args... args))func;
+		//pFuncObject->m_function = (void(TStruct::* __thiscall)(Args... args))func;
+		pFuncObject->m_function = (void(bxcf::EventBindable::* __thiscall)(Args... args))func;
 
 		auto& vecFunctions = bxcf::g_eventBoundFunctions<Args...>[iEvent];
-		vecFunctions.insert(vecFunctions.begin() + vecFunctions.size(), funcObject);
+		vecFunctions.insert(vecFunctions.begin() + vecFunctions.size(), pFuncObject);
 
 		return vecFunctions.size() - 1;
 	}
