@@ -117,7 +117,7 @@ DWORD WINAPI		CTextureViewer::onThreadStarted(LPVOID lpParam)
 	CTextureViewer *pTextureViewer = (CTextureViewer*)lpParam;
 	pTextureViewer->reset();
 	bool bNotCorrupt = false;
-	if (pTextureViewer->getIMGEntry()->isCOLFile())
+	if (pTextureViewer->getIMGEntry()->isCollisionFile())
 	{
 		CCOLFormat *pCOLFile = CCOLManager::get()->parseViaMemory(pEntryViewerManager->getIMGEntry()->getEntryData());
 		//delete pCOLFile;
@@ -166,11 +166,11 @@ void				CTextureViewer::processWindow(void)
 void				CTextureViewer::prepareRenderData(void)
 {
 	bPremultipledAlphaApplied = false;
-	if (getIMGEntry()->isTXDFile())
+	if (getIMGEntry()->isTextureFile())
 	{
 		prepareRenderData_TXD();
 	}
-	else if (getIMGEntry()->isWTDFile())
+	else if (getIMGEntry()->isTextureFile())
 	{
 		prepareRenderData_WTD();
 	}

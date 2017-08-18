@@ -38,8 +38,6 @@ public:
 	CTabBarControl*				m_pTabBar;
 	CProgressControl*			m_pProgressBar;
 	CTextBoxControl*			m_pSearchBox;
-	CDropControl*				m_pEntryTypeFilter;
-	CDropControl*				m_pEntryVersionFilter;
 
 	CButtonControl*				m_pSettingsButton;
 	CLineShape*					m_pSettingsButtonLine1;

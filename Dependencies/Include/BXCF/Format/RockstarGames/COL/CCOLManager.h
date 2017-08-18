@@ -35,6 +35,8 @@ public:
 
 	static uint32			getEntryHeaderSizeForPacking(eCOLVersion eCOLVersionValue);
 
+	static bool				isCollisionExtension(std::string& strFileExtension);
+
 private:
 	bxcf::CCOLVersionManager*		m_pVersionManager;
 	

@@ -23,10 +23,11 @@
 #include "Controls/CTabBarControl.h"
 #include "Controls/CProgressControl.h"
 #include "Controls/CTextBoxControl.h"
+#include "Controls/CTextControl.h"
+#include "Controls/CDropControl.h"
 #include "Input/CInputManager.h"
 #include "Control/CGUIScrollPool.h"
 #include "GUI/Layers/CMainLayer.h"
-#include "Controls/CTextControl.h"
 #include "Event/EInputEvents.h"
 
 // for menu start - todo
@@ -54,6 +55,8 @@ CIMGEditor::CIMGEditor(void) :
 	m_pMainWindow(nullptr),
 	m_pEntryGrid(nullptr),
 	m_pLog(nullptr),
+	m_pEntryTypeFilter(nullptr),
+	m_pEntryVersionFilter(nullptr),
 	m_uiSelectedEntryCount(0),
 	m_uiSearchHitCount(0), // todo - rename to SearchHitEntryCount
 	m_uiSearchFileCount(0) // todo - rename to SearchHitFileCount
@@ -119,7 +122,7 @@ CIMGEditorTab*				CIMGEditor::addBlankFile(string strIMGPath, eIMGVersion eIMGVe
 
 CIMGEditorTab*				CIMGEditor::addTabObjectAndTabControl(CIMGFormat *img)
 {
-	CIMGEditorTab *imgEditorTab = m_pWindow->addLayer<CIMGEditorTab>();
+	CIMGEditorTab *imgEditorTab = m_pWindow->addLayer<CIMGEditorTab>(-1, true, -50);
 
 	imgEditorTab->setIMGEditor(this);
 	imgEditorTab->setIMGFile(img);
@@ -1024,7 +1027,14 @@ void					CIMGEditor::loadRightClickMenu(int xPos, int yPos)
 // controls
 void		CIMGEditor::addControls(void)
 {
-	int32 i, i2, x, y, w, h, w2, w3, h2, h3;
+	Vec2i
+		point;
+	Vec2u
+		size;
+	int32
+		i, i2, x, y, w, h, w2, w3, h2, h3;
+	uint32
+		uiButtonHeight = 37;
 	CColour
 		borderColour(50, 50, 50);
 	string
@@ -1042,6 +1052,24 @@ void		CIMGEditor::addControls(void)
 	w -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(_2D_MIRRORED_ORIENTATION_VERTICAL)->getBackgroundBarSize().x;
 	h -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(_2D_MIRRORED_ORIENTATION_HORIZONTAL)->getBackgroundBarSize().y;
 	m_pEntryGrid->setSize(Vec2u(w, h));
+
+	// filter - entry type
+	w = 140;
+	w2 = w;
+	x = (m_pWindow->getSize().x - w) - w2;
+	y = uiButtonHeight + 72;
+	h = 32;
+	strStyleGroup = "filter";
+
+	m_pEntryTypeFilter = addDrop(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally", -1, -50);
+	m_pEntryTypeFilter->addItem("No file is open", false, false);
+
+	// filter - entry version
+	w = w2;
+	x = m_pWindow->getSize().x - w;
+
+	m_pEntryVersionFilter = addDrop(x, y, w, h, "Entry Version", strStyleGroup, -1, -50);
+	m_pEntryVersionFilter->addItem("No file is open", false, false);
 
 	// log
 	x = 0;
@@ -1078,6 +1106,16 @@ void		CIMGEditor::repositionAndResizeControls(void)
 	newSize.x -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(_2D_MIRRORED_ORIENTATION_VERTICAL)->getBackgroundBarSize().x;
 	newSize.y -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(_2D_MIRRORED_ORIENTATION_HORIZONTAL)->getBackgroundBarSize().y;
 	m_pEntryGrid->setSize(newSize);
+
+	// filter - entry type
+	point = m_pEntryTypeFilter->getPosition();
+	iNewX = (m_pWindow->getSize().x - m_pEntryTypeFilter->getSize().x) - m_pEntryVersionFilter->getSize().x;
+	m_pEntryTypeFilter->setPosition(Vec2i(iNewX, point.y));
+
+	// filter - entry version
+	point = m_pEntryVersionFilter->getPosition();
+	iNewX = m_pWindow->getSize().x - m_pEntryVersionFilter->getSize().x;
+	m_pEntryVersionFilter->setPosition(Vec2i(iNewX, point.y));
 }
 
 // render

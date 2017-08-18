@@ -35,6 +35,12 @@ namespace bxcf
 
 	enum eExceptionCode;
 
+	class CFormatManager2;
+
+	namespace fileType
+	{
+		enum EFileType;
+	};
 
 
 	template<class T> class CFormatManager;

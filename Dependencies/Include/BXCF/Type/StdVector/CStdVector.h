@@ -1,5 +1,4 @@
-#ifndef CStdVector_H
-#define CStdVector_H
+#pragma once
 
 #include "bxcf.h"
 #include "Type/Types.h"
@@ -26,6 +25,8 @@ public:
 	static std::vector<std::string>					getUniqueEntries(std::vector<std::string>& vecVector1, std::vector<std::string>& vecVector2);
 	static bool										isIn(std::vector<std::string>& vecVector1, std::string& strLookFor);
 	static void										sortAZCaseInsensitive(std::vector<std::string>& vecVector);
+	template <typename T>
+	static std::vector<std::string>					mapSorted(std::vector<T>& vecVector, std::string(*fpCallback)(T));
 };
 
 template <class T>
@@ -45,4 +46,16 @@ static std::vector<T>								bxcf::CStdVector::combineVectors(std::vector<T>& ve
 	return vecValues;
 }
 
-#endif
+template <typename T>
+std::vector<std::string>							bxcf::CStdVector::mapSorted(std::vector<T>& vecVector, std::string(*fpCallback)(T))
+{
+	std::vector<std::string> vecOutVector;
+	vecOutVector.resize(vecVector.size());
+	uint32 i = 0;
+	for (T uiValue : vecVector)
+	{
+		vecOutVector[i++] = fpCallback(uiValue);
+	}
+	sortAZCaseInsensitive(vecOutVector);
+	return vecOutVector;
+}

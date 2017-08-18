@@ -50,6 +50,8 @@ public:
 
 	static uint32					packVersionStamp(uint32 uiRWVersionNumber, uint32 uiRWBuildNumber);
 	static uint32					unpackVersionStamp(uint32 uiRWVersionStamp);
+	static std::string				unpackVersionStampAsString(uint32 uiRWVersionPackedInt);
+	static std::string				unpackVersionStampAsStringWithBuild(uint32 uiRWVersionPackedInt);
 
 private:
 	bxcf::eRWVersion						m_eVersionId;				// e.g. 0

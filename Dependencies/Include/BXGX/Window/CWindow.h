@@ -143,12 +143,14 @@ private:
 public:
 	CGUILayer*								createLayer(uint32 uiLayerId = -1, bool bEnabled = true);
 	CGUILayer*								createLayer(CWindow *pWindow, uint32 uiLayerId = -1, bool bEnabled = true);
-	CGUILayer*								addLayer(uint32 uiLayerId = -1, bool bEnabled = true);
+	CGUILayer*								addLayer(uint32 uiLayerId = -1, bool bEnabled = true, int32 iZIndex = 0);
 	template <class LayerClass>
-	LayerClass*								addLayer(uint32 uiLayerId = -1, bool bEnabled = true);
+	LayerClass*								addLayer(uint32 uiLayerId = -1, bool bEnabled = true, int32 iZIndex = 0);
 	void									removeLayer(CGUILayer* pLayer);
 	CGUILayer*								getLayerById(uint32 uiLayerId);
 	void									swapLayersEnabled(uint32 uiLayerId1, uint32 uiLayerId2);
+
+	uint32									getLayerInsertionIndex(int32 iZIndex);
 
 	bool									doesActiveItemExist(void) { return m_pActiveItem != nullptr; }
 	void									setActiveItem(CGUIItem *pItem);
@@ -265,13 +267,14 @@ void									CWindow::bindEvent(uint32 uiEvent, void(*function)(Args&... args))
 */
 
 template <class LayerClass>
-LayerClass*								CWindow::addLayer(uint32 uiLayerId, bool bEnabled)
+LayerClass*								CWindow::addLayer(uint32 uiLayerId, bool bEnabled, int32 iZIndex)
 {
 	LayerClass *pLayer = new LayerClass;
 	pLayer->setWindow(this);
 	pLayer->setId(uiLayerId);
 	pLayer->setEnabledWithoutEvents(bEnabled);
-	addEntry(pLayer);
+	pLayer->setZIndex(iZIndex);
+	addEntryAtPosition(pLayer, getLayerInsertionIndex(iZIndex));
 	return pLayer;
 }
 

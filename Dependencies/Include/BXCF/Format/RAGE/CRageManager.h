@@ -5,6 +5,7 @@
 #include "Type/Types.h"
 #include "Object/CSingleton.h"
 #include "Object/CManager.h"
+#include <string>
 
 class bxcf::CRageResourceTypeManager;
 
@@ -17,13 +18,18 @@ public:
 	void											init(void);
 	void											uninit(void);
 
-	bxcf::CRageResourceTypeManager*						getResourceTypeManager(void) { return m_pResourceTypeManager; }
+	bxcf::CRageResourceTypeManager*					getResourceTypeManager(void) { return m_pResourceTypeManager; }
 
 	static uint32									getPackedOffset(uint32 uiOffset);
 	static uint32									getPackedDataOffset(uint32 uiOffset);
 
+	static bool										isRageFileExtension(std::string& strFileExtension);
+	static bool										isRageModelExtension(std::string& strFileExtension);
+	static bool										isRageTextureExtension(std::string& strFileExtension);
+	static bool										isRageCollisionExtension(std::string& strFileExtension);
+
 private:
-	bxcf::CRageResourceTypeManager*						m_pResourceTypeManager;
+	bxcf::CRageResourceTypeManager*					m_pResourceTypeManager;
 };
 
 #endif

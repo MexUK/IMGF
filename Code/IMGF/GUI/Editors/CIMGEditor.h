@@ -12,6 +12,7 @@ class CMainWindow;
 class CSearchEntry;
 class CGridControl;
 class CTextBoxControl;
+class CDropControl;
 class bxcf::CIMGEntry;
 class bxcf::CIMGFormat;
 
@@ -90,6 +91,8 @@ private:
 public:
 	CGridControl*				m_pEntryGrid;
 	CTextBoxControl*			m_pLog;
+	CDropControl*				m_pEntryTypeFilter;
+	CDropControl*				m_pEntryVersionFilter;
 
 private:
 	CMainWindow*				m_pMainWindow;

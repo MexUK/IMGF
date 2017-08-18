@@ -44,9 +44,13 @@ public:
 	uint8											getGameType(void) { return m_ucGameType; }
 
 	void											setPlatform(bxcf::ePlatform ePlatformValue) { m_ePlatform = ePlatformValue; }
-	bxcf::ePlatform										getPlatform(void) { return m_ePlatform; }
+	bxcf::ePlatform									getPlatform(void) { return m_ePlatform; }
 
-	std::vector<std::string>						getEntryExtensions(void);
+	std::vector<bxcf::fileType::EFileType>			getFileTypes(void);
+	std::vector<std::string>						getFileTypesAsText(void);
+
+	std::vector<std::string>						getFileVersions(void);
+
 	uint32											getEntryExtensionCount(std::string strEntryExtension);
 	std::vector<std::string>						getEntryVersions(std::vector<bxcf::eCOLVersion>& vecCOLVersions, std::vector<bxcf::eRWVersion>& vecRWVersions);
 

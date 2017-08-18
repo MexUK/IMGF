@@ -41,15 +41,22 @@
 #include "Controls/CTextControl.h"
 #include "Controls/CTabBarControl.h"
 #include "Controls/CTextBoxControl.h"
+#include "Controls/CDropControl.h"
+#include "Format/EFileType.h"
+#include "Event/EInputEvents.h"
 #include <algorithm>
 
 using namespace std;
 using namespace bxcf;
+using namespace bxcf::fileType;
+using namespace bxgx::control::events;
 
 CIMGEditorTab::CIMGEditorTab(void) :
 	m_pEditor(nullptr),
 	m_pEntryGrid(nullptr),
 	m_pLog(nullptr),
+	m_pEntryTypeFilter(nullptr),
+	m_pEntryVersionFilter(nullptr),
 	m_bRestoringFilterOptions(false),
 	m_bIMGModifiedSinceRebuild(false),
 	m_uiOverwriteEntryOption(0)
@@ -69,9 +76,12 @@ void					CIMGEditorTab::unload(void)
 void					CIMGEditorTab::init(void)
 {
 	//setFileInfoText();
-	addAllEntriesToMainListView();
+	addGridEntries();
 
 	m_pEntryGrid->setActiveItem();
+
+	loadFilter_Type();
+	loadFilter_Version();
 
 
 
@@ -104,9 +114,6 @@ void					CIMGEditorTab::init(void)
 	}
 	loadProtectedEntryStates();
 
-	// load filters - todo where is the other filter loading from?
-	//loadFilter_Type();
-
 	// check for unknown RW versions
 	checkForUnknownRWVersionEntries();
 }
@@ -114,12 +121,12 @@ void					CIMGEditorTab::init(void)
 // controls
 void					CIMGEditorTab::addControls(void)
 {
-	/*
-	m_pEntryGrid = m_pEditor->getEntryGrid()->clone();
-	m_pEntryGrid->getLayer()->addControl();
-	*/
-
-	int32 x, y, w, h;
+	int32
+		x, y, w, h, w2;
+	uint32
+		uiButtonHeight = 37;
+	string
+		strStyleGroup;
 
 	// grid
 	CGridControl *pBlankGrid = m_pEditor->getEntryGrid();
@@ -136,6 +143,24 @@ void					CIMGEditorTab::addControls(void)
 		m_pEntryGrid->addHeader(pHeader->getText(), pHeader->getColumnWidth());
 	}
 
+	// filter - entry type
+	w = 140;
+	w2 = w;
+	x = (m_pWindow->getSize().x - w) - w2;
+	y = uiButtonHeight + 72;
+	h = 32;
+	strStyleGroup = "filter";
+
+	m_pEntryTypeFilter = addDrop(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally", -1, -50);
+	m_pEntryTypeFilter->addItem("No file is open", false, false);
+
+	// filter - entry version
+	w = w2;
+	x = m_pWindow->getSize().x - w;
+
+	m_pEntryVersionFilter = addDrop(x, y, w, h, "Entry Version", strStyleGroup, -1, -50);
+	m_pEntryVersionFilter->addItem("No file is open", false, false);
+
 	// log
 	CTextBoxControl *pBlankLog = m_pEditor->m_pLog;
 
@@ -151,12 +176,51 @@ void					CIMGEditorTab::addControls(void)
 void					CIMGEditorTab::initControls(void)
 {
 	bindEvents();
+
+	CEventManager::get()->bindEvent(EVENT_onResizeWindow, [](void* pArg1, void* pArg2) {
+		((CIMGEditorTab*)pArg1)->repositionAndResizeControls();
+	}, this);
+	repositionAndResizeControls();
+
+	bindEvent(SELECT_DROP_ENTRY, &CIMGEditorTab::onSelectDropEntry);
 }
 
 void					CIMGEditorTab::removeControls(void)
 {
 	removeControl(m_pEntryGrid);
 	m_pEntryGrid = nullptr;
+}
+
+void					CIMGEditorTab::repositionAndResizeControls(void)
+{
+	Vec2i point;
+	Vec2u size, newSize;
+	int32 iNewX, iNewY, iNewWidth, iNewHeight;
+
+	// grid
+	size = m_pEntryGrid->getSize();
+	iNewWidth = m_pWindow->getSize().x - m_pEntryGrid->getPosition().x;
+	iNewHeight = m_pWindow->getSize().y - m_pEntryGrid->getPosition().y;
+	newSize = Vec2u(iNewWidth, iNewHeight);
+	newSize.x -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(_2D_MIRRORED_ORIENTATION_VERTICAL)->getBackgroundBarSize().x;
+	newSize.y -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(_2D_MIRRORED_ORIENTATION_HORIZONTAL)->getBackgroundBarSize().y;
+	m_pEntryGrid->setSize(newSize);
+
+	// filter - entry type
+	point = m_pEntryTypeFilter->getPosition();
+	iNewX = (m_pWindow->getSize().x - m_pEntryTypeFilter->getSize().x) - m_pEntryVersionFilter->getSize().x;
+	m_pEntryTypeFilter->setPosition(Vec2i(iNewX, point.y));
+
+	// filter - entry version
+	point = m_pEntryVersionFilter->getPosition();
+	iNewX = m_pWindow->getSize().x - m_pEntryVersionFilter->getSize().x;
+	m_pEntryVersionFilter->setPosition(Vec2i(iNewX, point.y));
+}
+
+// control events
+void					CIMGEditorTab::onSelectDropEntry(CDropControlEntry *pDropEntry)
+{
+	readdGridEntries();
 }
 
 // error checking
@@ -293,7 +357,7 @@ void					CIMGEditorTab::addEntryViaFile(string strEntryFilePath, string strEntry
 {
 	CIMGEntry *pIMGEntry = getIMGFile()->addEntryViaFile(strEntryFilePath, strEntryName);
 	checkToApplyCompression(pIMGEntry);
-	addEntryToMainListView(pIMGEntry);
+	addGridEntry(pIMGEntry);
 	updateEntryCountText();
 	updateIMGText();
 }
@@ -301,7 +365,7 @@ void					CIMGEditorTab::addEntryViaData(string strEntryName, string strEntryData
 {
 	CIMGEntry *pIMGEntry = getIMGFile()->addEntryViaData(strEntryName, strEntryData);
 	checkToApplyCompression(pIMGEntry);
-	addEntryToMainListView(pIMGEntry);
+	addGridEntry(pIMGEntry);
 	updateEntryCountText();
 	updateIMGText();
 }
@@ -309,14 +373,14 @@ void					CIMGEditorTab::replaceEntryViaFile(string strEntryName, string strEntry
 {
 	CIMGEntry *pIMGEntry = getIMGFile()->replaceEntryViaFile(strEntryName, strEntryFilePath, strNewEntryName);
 	checkToApplyCompression(pIMGEntry);
-	updateEntryInMainListView(pIMGEntry);
+	updateGridEntry(pIMGEntry);
 	updateIMGText();
 }
 void					CIMGEditorTab::replaceEntryViaData(string strEntryName, string& strEntryData, string strNewEntryName)
 {
 	CIMGEntry *pIMGEntry = getIMGFile()->replaceEntryViaData(strEntryName, strEntryData, strNewEntryName);
 	checkToApplyCompression(pIMGEntry);
-	updateEntryInMainListView(pIMGEntry);
+	updateGridEntry(pIMGEntry);
 	updateIMGText();
 }
 void					CIMGEditorTab::addOrReplaceEntryViaFile(string strEntryFilePath, string strEntryName)
@@ -327,12 +391,12 @@ void					CIMGEditorTab::addOrReplaceEntryViaFile(string strEntryFilePath, string
 	if (uiIMGEntryCount == getIMGFile()->getEntryCount())
 	{
 		// entry was replaced
-		updateEntryInMainListView(pIMGEntry);
+		updateGridEntry(pIMGEntry);
 	}
 	else
 	{
 		// entry was added
-		addEntryToMainListView(pIMGEntry);
+		addGridEntry(pIMGEntry);
 		updateEntryCountText();
 	}
 	updateIMGText();
@@ -345,12 +409,12 @@ void					CIMGEditorTab::addOrReplaceEntryViaData(string strEntryName, string str
 	if (uiIMGEntryCount == getIMGFile()->getEntryCount())
 	{
 		// entry was replaced
-		updateEntryInMainListView(pIMGEntry);
+		updateGridEntry(pIMGEntry);
 	}
 	else
 	{
 		// entry was added
-		addEntryToMainListView(pIMGEntry);
+		addGridEntry(pIMGEntry);
 		updateEntryCountText();
 	}
 	updateIMGText();
@@ -539,22 +603,21 @@ void					CIMGEditorTab::removeEntry(CIMGEntry *pIMGEntry)
 	updateIMGText();
 }
 
-void					CIMGEditorTab::addColumnsToMainListView(void)
+void					CIMGEditorTab::addGridHeaders(void)
 {
 	getIMGF()->getIMGEditor()->addColumnsToMainListView(getIMGFile()->getVersion());
 }
-void					CIMGEditorTab::readdAllEntriesToMainListView(void)
+void					CIMGEditorTab::readdGridEntries(void)
 {
-	m_pEntryGrid->removeAllEntries();
-	
-	m_pEditor->setSelectedEntryCount(0);
-	m_pEditor->updateSelectedEntryCountText();
+	//m_pEditor->setSelectedEntryCount(0);
+	//m_pEditor->updateSelectedEntryCountText();
 
-	addAllEntriesToMainListView();
+	m_pEntryGrid->removeAllEntries();
+	addGridEntries();
 
 	m_pEntryGrid->getWindow()->markToRedraw();
 }
-void					CIMGEditorTab::addAllEntriesToMainListView(void)
+void					CIMGEditorTab::addGridEntries(void)
 {
 	//getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(getIMGFile()->m_vecEntries.size());
 	// setProgressMaxTicks() is called in CIMGF::addMainWindowTab(). (as the bottom of this code contains a call to onProgressTick()).
@@ -575,9 +638,33 @@ void					CIMGEditorTab::addAllEntriesToMainListView(void)
 	uint32 uiFilterCombo_Version = iCurSel;
 	*/
 
+	string
+		strEntryTypeFilterText = m_pEntryTypeFilter->getActiveItem() ? m_pEntryTypeFilter->getActiveItem()->getText() : "",
+		strEntryVersionFilterText = m_pEntryVersionFilter->getActiveItem() ? m_pEntryVersionFilter->getActiveItem()->getText() : "";
+	bool
+		bAddEntry;
+
 	for (auto pIMGEntry : getIMGFile()->getEntries())
 	{
-		bool bAddEntry = true;
+		bAddEntry = true;
+
+		if (m_pEntryTypeFilter->getSelectedItemIndex() > 0)
+		{
+			//uint32 uiFileType = m_pEntryTypeFilter->getActiveItem()->getUserdata();
+			if (CFormat::getFileTypeText(pIMGEntry->getFileType()) != strEntryTypeFilterText)
+			{
+				bAddEntry = false;
+			}
+		}
+
+		if (m_pEntryVersionFilter->getSelectedItemIndex() > 0)
+		{
+			//uint32 uiRawVersion = m_pEntryTypeFilter->getActiveItem()->getUserdata();
+			if (pIMGEntry->getVersionText() != strEntryVersionFilterText)
+			{
+				bAddEntry = false;
+			}
+		}
 
 		// RW version
 		/*
@@ -681,7 +768,7 @@ void					CIMGEditorTab::addAllEntriesToMainListView(void)
 
 		if (bAddEntry)
 		{
-			addEntryToMainListView(pIMGEntry);
+			addGridEntry(pIMGEntry);
 		}
 
 		getIMGF()->getTaskManager()->onTaskProgressTick();
@@ -691,7 +778,7 @@ void					CIMGEditorTab::addAllEntriesToMainListView(void)
 	//updateEntryCountText();
 	//updateIMGText();
 }
-void					CIMGEditorTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
+void					CIMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry)
 {
 	CGridControlEntry *pRow = new CGridControlEntry;
 
@@ -708,7 +795,7 @@ void					CIMGEditorTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 	vecText[2] = pIMGEntry->getEntryName();
 	vecText[3] = CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntryOffset()));
 	vecText[4] = CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntrySize()));
-	vecText[5] = "a";// pIMGEntry->getVersionText();
+	vecText[5] = pIMGEntry->getVersionText();
 	if (bFastman92IMGFormat)
 	{
 		vecText[6] = CIMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId());
@@ -735,7 +822,7 @@ void					CIMGEditorTab::addEntryToMainListView(CIMGEntry *pIMGEntry)
 	}
 	*/
 }
-void					CIMGEditorTab::updateEntryInMainListView(CIMGEntry *pIMGEntry)
+void					CIMGEditorTab::updateGridEntry(CIMGEntry *pIMGEntry)
 {
 	/*
 	todo
@@ -1152,7 +1239,7 @@ void					CIMGEditorTab::sortEntries(void)
 	log(CString2::join(vecExtendedLogLines, "\n"), true);
 
 	// render
-	readdAllEntriesToMainListView();
+	readdGridEntries();
 
 	// post
 	setIMGModifiedSinceRebuild(true);
@@ -1184,72 +1271,15 @@ void				CIMGEditorTab::loadProtectedEntryStates(void)
 
 void				CIMGEditorTab::loadFilter_Type(void)
 {
-	/*
-	todo
-	CComboBox *pComboBox = (CComboBox*)getIMGF()->getDialog()->GetDlgItem(54);
-	unloadFilter_Type();
-	vector<string> vecExtensions = getIMGFile()->getEntryExtensions();
-	CStdVector::sortAZCaseInsensitive(vecExtensions);
-	uint32
-		i = 1,
-		uiCurSel = 0;
-	for (auto strExtension : vecExtensions)
-	{
-		pComboBox->InsertString(i, CString2::convertStdStringToStdWString(strExtension).c_str());
-		if (getActiveFilter("type") == strExtension)
-		{
-			uiCurSel = i;
-		}
-		i++;
-	}
-	pComboBox->SetCurSel(uiCurSel);
-	*/
+	m_pEntryTypeFilter->reset();
+	m_pEntryTypeFilter->addItem("All Types");
+	m_pEntryTypeFilter->addItems(m_pIMGFile->getFileTypesAsText());
 }
 void				CIMGEditorTab::loadFilter_Version(void)
 {
-	/*
-	todo
-	CComboBox *pComboBox = (CComboBox*)getIMGF()->getDialog()->GetDlgItem(5);
-	unloadFilter_Version();
-
-	todo
-	//getIMGF()->m_umapFilterMapping_COLVersion.clear();
-	//getIMGF()->m_umapFilterMapping_RWVersion.clear();
-	//getIMGF()->m_iFilterMapping_UnknownVersion = 0;
-
-	vector<eCOLVersion> vecCOLVersions;
-	vector<eRWVersion> vecRWVersions;
-	vector<string> vecVersions = getIMGFile()->getEntryVersions(vecCOLVersions, vecRWVersions);
-	uint32
-		i = 1,
-		uiCurSel = 0;
-	string strUnknownVersionText = CLocalizationManager::get()->getTranslatedText("UnknownVersion");
-	for (auto strVersionText : vecVersions)
-	{
-		pComboBox->InsertString(i, CString2::convertStdStringToStdWString(strVersionText).c_str());
-		if (getActiveFilter("version") == strVersionText)
-		{
-			uiCurSel = i;
-		}
-
-		todo
-		if(strVersionText == strUnknownVersionText)
-		{
-			getIMGF()->m_iFilterMapping_UnknownVersion = i;
-		}
-		else if (i <= vecCOLVersions.size())
-		{
-			getIMGF()->m_umapFilterMapping_COLVersion[i] = vecCOLVersions[i - 1];
-		}
-		else
-		{
-			getIMGF()->m_umapFilterMapping_RWVersion[i] = vecRWVersions[(i - 1) - vecCOLVersions.size()];
-		}
-
-		i++;
-	}
-	pComboBox->SetCurSel(uiCurSel);
-	*/
+	m_pEntryVersionFilter->reset();
+	m_pEntryVersionFilter->addItem("All Versions");
+	m_pEntryVersionFilter->addItems(m_pIMGFile->getFileVersions());
 }
 
 void				CIMGEditorTab::unloadFilter_Type(void)

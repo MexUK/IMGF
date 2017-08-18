@@ -68,6 +68,9 @@ public:
 	void					setId(uint32 uiId) { m_uiId = uiId; }
 	uint32					getId(void) { return m_uiId; }
 
+	void					setZIndex(int32 iZIndex) { m_iZIndex = iZIndex; }
+	int32					getZIndex(void) { return m_iZIndex; }
+
 	CGUIItem*				getItemByPoint(bxcf::Vec2i& vecPoint, eGUIControl eControlType = GUI_CONTROL_UNKNOWN);
 
 	// controls
@@ -76,7 +79,7 @@ public:
 
 	CButtonControl*			addButton(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strButtonText, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CCheckControl*			addCheck(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strCheckText, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CDropControl*			addDrop(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strDefaultText, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CDropControl*			addDrop(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strDefaultText, std::string strStyleGroups = "", uint32 uiItemId = -1, int32 iZIndex = 0);
 	CImageControl*			addImage(bxcf::Vec2i& vecPosition, std::string strImagePath, bxcf::Vec2u vecSize = bxcf::Vec2u(0, 0), std::string strStyleGroups = "", uint32 uiItemId = -1);
 	// todo CImageControl*			addImageMem(bxcf::Vec2i& vecPosition, std::string& strImageData, bxcf::Vec2u vecSize = bxcf::Vec2u(0, 0), std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CGridControl*			addGrid(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string strStyleGroups = "", uint32 uiItemId = -1);
@@ -90,7 +93,7 @@ public:
 
 	CButtonControl*			addButton(int32 x, int32 y, int32 w, int32 h, std::string strButtonText, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CCheckControl*			addCheck(int32 x, int32 y, int32 w, int32 h, std::string strCheckText, std::string strStyleGroups = "", uint32 uiItemId = -1);
-	CDropControl*			addDrop(int32 x, int32 y, int32 w, int32 h, std::string strDefaultText, std::string strStyleGroups = "", uint32 uiItemId = -1);
+	CDropControl*			addDrop(int32 x, int32 y, int32 w, int32 h, std::string strDefaultText, std::string strStyleGroups = "", uint32 uiItemId = -1, int32 iZIndex = 0);
 	CImageControl*			addImage(int32 x, int32 y, std::string strImagePath, int32 w = 0, int32 h = 0, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CGridControl*			addGrid(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "", uint32 uiItemId = -1);
 	CMenuControl*			addMenu(int32 x, int32 y, int32 w, int32 h, std::string strStyleGroups = "", uint32 uiItemId = -1);
@@ -140,9 +143,11 @@ public:
 	void						clearDropWithListOpen(void) { m_pDropWithListOpen = nullptr; }
 
 private:
-	void						_addControl(CGUIControl *pWindowControl, bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string& strStyleGroups, uint32 uiItemId);
-	void						_addControl(CGUIControl *pWindowControl, std::string& strStyleGroups, uint32 uiItemId);
+	void						_addControl(CGUIControl *pWindowControl, bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string& strStyleGroups, uint32 uiItemId, int32 iZIndex = 0);
+	void						_addControl(CGUIControl *pWindowControl, std::string& strStyleGroups, uint32 uiItemId, int32 iZIndex = 0);
 	void						_addShape(CGUIShape *pShape, std::string& strStyleGroups, uint32 uiItemId);
+
+	uint32						getControlInsertionIndex(int32 iZIndex);
 
 	CGUIShape*					createShapeFromId(eGUIShape eShapeId);
 	CGUIControl*				createControlFromId(eGUIControl eControlId);
@@ -154,6 +159,7 @@ private:
 	bool								m_bEnabled;
 	CDropControl*						m_pDropWithListOpen;
 	uint32								m_uiId;
+	int32								m_iZIndex;
 	bxcf::CVectorPool<CGUIShape*>*		m_pShapes;
 	bxcf::CVectorPool<CGUIControl*>*	m_pControls;
 };

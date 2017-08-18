@@ -464,7 +464,7 @@ void		CTaskDispatchManager::onRequestRemoveSelected(void)
 
 	if (pListControl->GetItemCount() == 0)
 	{
-		getIMGF()->getEntryListTab()->readdAllEntriesToMainListView();
+		getIMGF()->getEntryListTab()->readdGridEntries();
 	}
 
 	getIMGF()->getEntryListTab()->searchText();
@@ -528,7 +528,7 @@ void		CTaskDispatchManager::onRequestRenameEntry(void)
 		pIMGEntry = ((CIMGEntry*)pListControl->GetItemData(nItem));
 
 		pIMGEntry->setEntryName(strNewName);
-		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 
 		getIMGF()->getEntryListTab()->onEntryChange(pIMGEntry);
 		getIMGF()->getTaskManager()->onTaskProgressTick();
@@ -745,7 +745,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 					break;
 				}
 				pIMGEntry->setEntryData(strEntryNewData);
-				getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+				getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 			}
 		}
 	}
@@ -768,7 +768,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 					break;
 				}
 				pIMGEntry->setEntryData(strEntryNewData);
-				getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+				getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 			}
 		}
 	}
@@ -852,7 +852,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 				pDFFFile->setRWVersion(pDestRWVersion);
 
 				pIMGEntry->setEntryData(pDFFFile->storeViaMemory());
-				getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+				getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 				
 				pDFFFile->unload();
 				delete pDFFFile;
@@ -878,7 +878,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 				pTXDFile->convertToGame(eDestGame, vecMipmapsRemoved);
 
 				pIMGEntry->setEntryData(pTXDFile->serializeViaMemory());
-				getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+				getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 				
 				pTXDFile->unload();
 				delete pTXDFile;
@@ -906,7 +906,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 				}
 
 				pIMGEntry->setEntryData(pCOLFile->storeViaMemory());
-				getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+				getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 				
 				pCOLFile->unload();
 				delete pCOLFile;
@@ -1631,7 +1631,7 @@ void		CTaskDispatchManager::onRequestFilter(void)
 	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount());
 
 	getIMGF()->getEntryListTab()->storeFilterOptions();
-	getIMGF()->getEntryListTab()->readdAllEntriesToMainListView();
+	getIMGF()->getEntryListTab()->readdGridEntries();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestFilter");
 }
 void		CTaskDispatchManager::onRequestFind(bool bFindInAllOpenedFiles) // from menu
@@ -2012,7 +2012,7 @@ void		CTaskDispatchManager::onRequestRemoveViaIDEFile(void)
 
 	if (pListControl->GetItemCount() == 0)
 	{
-		getIMGF()->getEntryListTab()->readdAllEntriesToMainListView();
+		getIMGF()->getEntryListTab()->readdGridEntries();
 	}
 
 	getIMGF()->getEntryListTab()->searchText();
@@ -2087,7 +2087,7 @@ void		CTaskDispatchManager::onRequestRemoveViaTextLines(void)
 
 	if (pListControl->GetItemCount() == 0)
 	{
-		getIMGF()->getEntryListTab()->readdAllEntriesToMainListView();
+		getIMGF()->getEntryListTab()->readdGridEntries();
 	}
 
 	getIMGF()->getEntryListTab()->searchText();
@@ -2368,7 +2368,7 @@ void		CTaskDispatchManager::onRequestStats(void)
 	{
 		if (pIMGEntry->getRWVersion() != nullptr)
 		{
-			if (pIMGEntry->isCOLFile())
+			if (pIMGEntry->isCollisionFile())
 			{
 			}
 			else
@@ -2485,7 +2485,7 @@ void		CTaskDispatchManager::onRequestNameCase(uint8 ucCaseType, uint8 ucFilename
 			}
 		}
 
-		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
@@ -2622,10 +2622,10 @@ void		CTaskDispatchManager::onRequestShift(uint8 ucDirection)
 	pListControl->SetItemData(uiIMGEntry2Index, (DWORD)pIMGEntry);
 	getIMGF()->getTaskManager()->onTaskProgressTick();
 
-	getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry2);
+	getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry2);
 	getIMGF()->getTaskManager()->onTaskProgressTick();
 
-	getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+	getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 	getIMGF()->getTaskManager()->onTaskProgressTick();
 
 	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
@@ -4115,7 +4115,7 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 		
 		pIMGEntry->setEntryData(strFileData);
 
-		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
@@ -4911,7 +4911,7 @@ void		CTaskDispatchManager::onRequestConvertTXDToGame(ePlatformedGame ePlatforme
 		
 		pIMGEntry->setEntryData(strFileData);
 
-		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 		
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
@@ -4983,7 +4983,7 @@ void		CTaskDispatchManager::onRequestConvertTXDToRWVersion(CRWVersion *pRWVersio
 		
 		pIMGEntry->setEntryData(strFileData);
 		
-		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 	}
 
 	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_107", vecConvertedTXDEntryNames.size(), (pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()));
@@ -5582,7 +5582,7 @@ void		CTaskDispatchManager::onRequestSaveIMGSignature(void)
 	}
 	getIMGF()->getEntryListTab()->m_pDBFile = pDBFile;
 	getIMGF()->getEntryListTab()->loadProtectedEntryStates();
-	getIMGF()->getEntryListTab()->readdAllEntriesToMainListView();
+	getIMGF()->getEntryListTab()->readdGridEntries();
 
 	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_114", CPathManager::getFileName(strDBPath).c_str()));
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveIMGSignature");
@@ -5835,7 +5835,7 @@ void			CTaskDispatchManager::onRequestConvertTXDToTextureFormat(CRasterDataForma
 		pIMGEntry->setEntrySize(uiFileSize);
 		pIMGEntry->setEntryData(strFileData);
 
-		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 	}
 
 	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_115", vecConvertedTXDEntryNames.size(), CLocalizationManager::get()->getTranslatedText(pRasterDataFormat->getLocalizationKey()).c_str(), vecMipmapsRemoved.size()));
@@ -6065,7 +6065,7 @@ void			CTaskDispatchManager::onRequestEntryViewer(bool bDontOpenWindow)
 
 
 	/*
-	else if (pIMGEntry->isCOLFile())
+	else if (pIMGEntry->isCollisionFile())
 	{
 		CCollisionViewer *pCollisionViewer = getIMGF()->getEntryViewerManager()->getCollisionViewer();
 
@@ -6833,7 +6833,7 @@ void		CTaskDispatchManager::onRequestIMGVersionSettings(void)
 	for (auto pIMGEntry : vecIMGEntries)
 	{
 		pIMGEntry->applyCompression(pIMGVersionSettingsDialogData->m_eCompressionAlgorithm, pIMGVersionSettingsDialogData->m_uiCompressionLevel);
-		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 		vecEntryNames.push_back(pIMGEntry->getEntryName());
 
 		getIMGF()->getTaskManager()->onTaskProgressTick();
@@ -7404,7 +7404,7 @@ void		CTaskDispatchManager::onRequestConvertCOLtoCOLVersion(CCOLVersion *pCOLVer
 
 		pIMGEntry->setEntryData(strNewEntryData);
 
-		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 		uiEntryCount++;
@@ -7627,7 +7627,7 @@ void			CTaskDispatchManager::onRequestCenterCOLCollisionMeshes(void)
 
 		pIMGEntry->setEntryData(strNewEntryData);
 		
-		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 		uiEntryCount++;
@@ -7816,7 +7816,7 @@ void			CTaskDispatchManager::onRequestConvertDFFFileToWDRFile(void)
 		pIMGEntry->setEntryName(CPathManager::replaceFileExtension(pIMGEntry->getEntryName(), "wdr"));
 		pIMGEntry->setEntryData(strWDRFileData);
 		
-		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 		
 		pDFFFile->unload();
 		delete pDFFFile;
@@ -8053,7 +8053,7 @@ void			CTaskDispatchManager::onRequestConvertWTDFileToTXDFile(void)
 		int nItem = pListControl->GetNextSelectedItem(pos);
 		pIMGEntry = (CIMGEntry*)pListControl->GetItemData(nItem);
 
-		if (!pIMGEntry->isWTDFile())
+		if (!pIMGEntry->isTextureFile()) // WTD
 		{
 			getIMGF()->getTaskManager()->onTaskProgressTick();
 			continue;
@@ -8082,7 +8082,7 @@ void			CTaskDispatchManager::onRequestConvertWTDFileToTXDFile(void)
 		pIMGEntry->setEntryName(CPathManager::replaceFileExtension(pIMGEntry->getEntryName(), "txd"));
 		pIMGEntry->setEntryData(strTXDFileData);
 		
-		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 		uiEntryCount++;
@@ -8897,7 +8897,7 @@ void						CTaskDispatchManager::onRequestFindTXDMissingFromIMGFoundInIDE(void)
 	vector<string> vecTXDNamesWithoutExtensionInIMG;
 	for (CIMGEntry *pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
-		if (pIMGEntry->isTXDFile())
+		if (pIMGEntry->isTextureFile())
 		{
 			vecTXDNamesWithoutExtensionInIMG.push_back(CPathManager::removeFileExtension(pIMGEntry->getEntryName()));
 		}
@@ -9036,7 +9036,7 @@ void						CTaskDispatchManager::onRequestFindDFFMissingFromIMGFoundInIDE(void)
 	vector<string> vecDFFNamesWithoutExtensionInIMG;
 	for (CIMGEntry *pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
-		if (pIMGEntry->isDFFFile())
+		if (pIMGEntry->isModelFile())
 		{
 			vecDFFNamesWithoutExtensionInIMG.push_back(CPathManager::removeFileExtension(pIMGEntry->getEntryName()));
 		}
@@ -9147,7 +9147,7 @@ void						CTaskDispatchManager::onRequestRemoveOrphanTexturesFromModel(void)
 	uint32 uiSelectedDFFCount = 0;
 	for (CIMGEntry *pIMGEntry : getIMGF()->getEntryListTab()->getSelectedEntries())
 	{
-		if (pIMGEntry->isDFFFile())
+		if (pIMGEntry->isModelFile())
 		{
 			uiSelectedDFFCount++;
 		}
@@ -9161,7 +9161,7 @@ void						CTaskDispatchManager::onRequestRemoveOrphanTexturesFromModel(void)
 	uint32 uiProgressMaxTicksDecudctionForCorruptDFFFiles = 0;
 	for (CIMGEntry *pIMGEntry : getIMGF()->getEntryListTab()->getSelectedEntries())
 	{
-		if (pIMGEntry->isDFFFile())
+		if (pIMGEntry->isModelFile())
 		{
 			CDFFFormat *pDFFFile = CDFFManager::get()->parseViaMemory(pIMGEntry->getEntryData());
 			if (pDFFFile->doesHaveError())
@@ -9244,7 +9244,7 @@ void						CTaskDispatchManager::onRequestRemoveOrphanTexturesFromModel(void)
 
 		CIMGEntry *pIMGEntry = vecIMGEntries[i];
 		pIMGEntry->setEntryData(pDFFFile->storeViaMemory());
-		getIMGF()->getEntryListTab()->updateEntryInMainListView(pIMGEntry);
+		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 
 		if (bRemovedSection)
 		{

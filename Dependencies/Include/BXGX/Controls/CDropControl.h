@@ -26,12 +26,16 @@ public:
 	bool									onMouseEnter(bxcf::Vec2i& vecCursorPosition);
 	bool									onMouseExit(bxcf::Vec2i& vecCursorPosition);
 	void									onRender(void);
+	void									onRenderAfter(void);
 
 	bool									applyCursorHoverIcon(void);
 
 	CDropControlEntry*						addItem(std::string strItemText, bool bIsActiveItem = false, bool bIsSelectable = true);
+	void									addItems(std::vector<std::string>& vecItems);
 	void									removeItem(CDropControlEntry *pDropEntry);
-	
+	void									reset(void);
+	int32									getSelectedItemIndex(void);
+
 	bxcf::Vec2u								getBoundingRectangleSize(void);
 	bool									isPointInSelectionList(bxcf::Vec2i& vecPoint);
 
@@ -42,8 +46,6 @@ public:
 	uint32									getSelectionListEntryFromPoint(bxcf::Vec2i& vecCursorPosition);
 
 	void									setSize(bxcf::Vec2u& vecSize);
-
-	uint32									getActiveIndex(void);
 
 	void									setActiveItem(CDropControlEntry *pDropEntry) { m_pActiveItem = pDropEntry; }
 	CDropControlEntry*						getActiveItem(void) { return m_pActiveItem; }

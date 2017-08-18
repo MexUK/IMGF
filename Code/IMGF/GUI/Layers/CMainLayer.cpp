@@ -158,24 +158,6 @@ void		CMainLayer::addControls(void)
 	m_pSettingsButtonLine2 = addLine(x + 10, y + 19, x + 27, y + 19, "settingsMenuLine");
 	m_pSettingsButtonLine3 = addLine(x + 10, y + 28, x + 27, y + 28, "settingsMenuLine");
 
-	// filter bar - entry type
-	w = 140;
-	w2 = w;
-	x = (m_pWindow->getSize().x - w) - w2;
-	y = uiButtonHeight + 72;
-	h = 32;
-	strStyleGroup = "filter";
-
-	m_pEntryTypeFilter = addDrop(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally");
-	m_pEntryTypeFilter->addItem("No file is open", false, false);
-
-	// filter bar - entry version
-	w = w2;
-	x = m_pWindow->getSize().x - w;
-
-	m_pEntryVersionFilter = addDrop(x, y, w, h, "Entry Version", strStyleGroup);
-	m_pEntryVersionFilter->addItem("No file is open", false, false);
-
 	// files tab bar
 	x = 139 + 139;
 	y = 162;
@@ -293,14 +275,4 @@ void		CMainLayer::repositionAndResizeControls(void)
 	m_pSettingsButtonLine2->setPoint2(Vec2i(x + 27, y + 19));
 	m_pSettingsButtonLine3->setPoint1(Vec2i(x + 10, y + 28));
 	m_pSettingsButtonLine3->setPoint2(Vec2i(x + 27, y + 28));
-
-	// filter bar - entry type
-	point = m_pEntryTypeFilter->getPosition();
-	iNewX = (pWindow->getSize().x - m_pEntryTypeFilter->getSize().x) - m_pEntryVersionFilter->getSize().x;
-	m_pEntryTypeFilter->setPosition(Vec2i(iNewX, point.y));
-
-	// filter bar - entry version
-	point = m_pEntryVersionFilter->getPosition();
-	iNewX = pWindow->getSize().x - m_pEntryVersionFilter->getSize().x;
-	m_pEntryVersionFilter->setPosition(Vec2i(iNewX, point.y));
 }

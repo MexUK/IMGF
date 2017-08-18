@@ -26,6 +26,10 @@ public:
 
 	void						unserialize2(void);
 
+	static std::string			getFileTypeText(bxcf::fileType::EFileType uiFileType);
+	static std::string			getFileTypeName(bxcf::fileType::EFileType uiFileType);
+	static std::string			getFileTypeExtensions(bxcf::fileType::EFileType uiFileType);
+
 
 
 

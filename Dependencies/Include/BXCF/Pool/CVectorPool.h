@@ -1,5 +1,4 @@
-#ifndef CVectorPool_H
-#define CVectorPool_H
+#pragma once
 
 #include "bxcf.h"
 #include "Type/Types.h"
@@ -16,12 +15,14 @@ public:
 	T										getFirstEntry(void);
 	T										getLastEntry(void);
 	void									addEntry(T pEntry);
+	void									addEntryAtPosition(T pEntry, uint32 uiPosition);
 	virtual void							removeAllEntries(void);
 	virtual void							removeEntry(T pEntry);
 	uint32									getIndexByEntry(T pEntry);
 	void									setEntryByIndex(uint32 uiEntryIndex, T pEntry);
 	void									swapEntries(T pEntry1, T pEntry2);
 	uint32									getNextEntryIndex(void);
+	void									moveEntryToPosition(T pEntry, uint32 uiPosition);
 
 protected:
 	std::vector<T>							m_vecEntries;
@@ -67,6 +68,12 @@ template <class T>
 void				bxcf::CVectorPool<T>::addEntry(T pEntry)
 {
 	m_vecEntries.push_back(pEntry);
+}
+
+template <class T>
+void				bxcf::CVectorPool<T>::addEntryAtPosition(T pEntry, uint32 uiPosition)
+{
+	m_vecEntries.insert(m_vecEntries.begin() + uiPosition, pEntry);
 }
 
 template <class T>
@@ -124,4 +131,9 @@ void				bxcf::CVectorPool<T>::swapEntries(T pEntry1, T pEntry2)
 	setEntryByIndex(uiEntryIndex2, pEntry1);
 }
 
-#endif
+template <class T>
+void				bxcf::CVectorPool<T>::moveEntryToPosition(T pEntry, uint32 uiPosition)
+{
+	m_vecEntries.erase(m_vecEntries.begin() + getIndexByEntry(pEntry));
+	m_vecEntries.insert(m_vecEntries.begin() + uiPosition, pEntry);
+}

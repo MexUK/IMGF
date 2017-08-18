@@ -4,19 +4,25 @@
 #include "bxcf.h"
 #include "Object/CManager.h"
 #include "Format/CFormat.h"
+#include "Format/EFileType.h"
 #include <string>
 
 template<class T>
 class bxcf::CFormatManager : public bxcf::CManager
 {
 public:
-	static T*				parseViaMemory(std::string& strData);
-	static T*				parseViaFile(std::string& strFilePath);
+	static T*					parseViaMemory(std::string& strData);
+	static T*					parseViaFile(std::string& strFilePath);
 
-	static T*				parseManyViaMemory(std::vector<std::string>& vecData);
-	static T*				parseManyViaFile(std::vector<std::string>& vecFilePaths);
+	static T*					parseManyViaMemory(std::vector<std::string>& vecData);
+	static T*					parseManyViaFile(std::vector<std::string>& vecFilePaths);
 };
 
+class bxcf::CFormatManager2
+{
+public:
+	static bxcf::fileType::EFileType		getRWFileType(std::string& strFileExtension);
+};
 
 
 

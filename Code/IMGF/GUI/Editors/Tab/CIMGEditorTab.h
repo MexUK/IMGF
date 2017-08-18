@@ -5,6 +5,7 @@
 #include "GUI/Editor/Tab/CEditorTab.h"
 #include "Format/RockstarGames/IMG/CIMGFormat.h"
 #include "Tasks/Filter/CFilterOptions.h"
+#include "Event/Events.h"
 #include <string>
 #include <vector>
 
@@ -13,8 +14,9 @@ class bxcf::CIMGFormat;
 class bxcf::CIMGEntry;
 class CDBFormat;
 class CListCtrl; // temp
+class CDropControlEntry;
 
-class CIMGEditorTab : public CEditorTab
+class CIMGEditorTab : public CEditorTab, public bxcf::EventBindable
 {
 public:
 	CIMGEditorTab(void);
@@ -26,6 +28,9 @@ public:
 	void						addControls(void);
 	void						removeControls(void);
 	void						initControls(void);
+	void						repositionAndResizeControls(void);
+
+	void						onSelectDropEntry(CDropControlEntry *pDropEntry);
 
 	void						setIMGEditor(CIMGEditor *pEditor) { m_pEditor = pEditor; }
 	CIMGEditor*					getIMGEditor(void) { return m_pEditor; }
@@ -70,11 +75,11 @@ public:
 	void						addOrReplaceEntryViaDataAndSettings(std::string strEntryName, std::string strEntryData); // entry is added or replaced depending on settings.
 	void						removeEntry(bxcf::CIMGEntry *pIMGEntry);
 
-	void						addColumnsToMainListView(void);
-	void						readdAllEntriesToMainListView(void);
-	void						addAllEntriesToMainListView(void);
-	void						addEntryToMainListView(bxcf::CIMGEntry *pIMGEntry);
-	void						updateEntryInMainListView(bxcf::CIMGEntry *pIMGEntry);
+	void						addGridHeaders(void);
+	void						addGridEntries(void);
+	void						readdGridEntries(void);
+	void						addGridEntry(bxcf::CIMGEntry *pIMGEntry);
+	void						updateGridEntry(bxcf::CIMGEntry *pIMGEntry);
 	uint32						getMainListViewItemIndexByItemData(bxcf::CIMGEntry *pIMGEntry);
 
 	bxcf::CIMGEntry*					getEntryByName(std::string strEntryName);
@@ -126,6 +131,8 @@ private:
 
 	CGridControl*				m_pEntryGrid;
 	CTextBoxControl*			m_pLog;
+	CDropControl*				m_pEntryTypeFilter;
+	CDropControl*				m_pEntryVersionFilter;
 
 	bxcf::CIMGFormat*			m_pIMGFile;
 	std::vector<std::string>	m_vecLogLinesGUI;

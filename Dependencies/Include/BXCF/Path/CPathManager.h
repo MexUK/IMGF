@@ -28,9 +28,12 @@ public:
 	static std::string			removeSlashFromFront(std::string& strPath);
 	static std::string			getNextFileName(std::string& strFilePath, uint32 uiFilenameIndex, std::string strNextSuffix);
 	static std::vector<std::string>	getUniqueFilePaths(std::vector<std::string>& vecFilePaths, std::vector<std::string>& vecFileNames);
-	static bool					isModelExtension(std::string& strExtension);
-	static bool					isTextureExtension(std::string& strExtension);
-	static bool					isCollisionExtension(std::string& strExtension);
+
+	static bool					isKnownGameExtension(std::string& strFileExtension);
+	static bool					isModelExtension(std::string& strFileExtension);
+	static bool					isTextureExtension(std::string& strFileExtension);
+	static bool					isCollisionExtension(std::string& strFileExtension);
+	static bool					isAnimationExtension(std::string& strFileExtension);
 };
 
 #endif

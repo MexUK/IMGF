@@ -4,6 +4,7 @@
 #include "bxcf.h"
 #include "Compression/eCompressionAlgorithm.h"
 #include "Math/CMath.h"
+#include "Format/EFileType.h"
 #include <string>
 
 class bxcf::CIMGFormat;
@@ -88,6 +89,11 @@ public:
 	void					setFileCreationDate(uint32 uiFileCreationDate) { m_uiFileCreationDate = uiFileCreationDate; }
 	uint32					getFileCreationDate(void) { return m_uiFileCreationDate; }
 
+	void					setRawVersion(uint32 uiRawVersion) { m_uiRawVersion = uiRawVersion; }
+	uint32					getRawVersion(void) { return m_uiRawVersion; }
+
+	std::string				getVersionText(void);
+
 	void					setEntryData(std::string strEntryData, bool bIsNew = false);
 	std::string				getEntryData(void);
 	std::string				getEntrySubData(uint32 uiStart, uint32 uiLength);
@@ -102,27 +108,25 @@ public:
 	static uint32			getEntryDataPadLength(uint32 uiUnpaddedDataLength);
 	static uint32			getVersion3IMGSizeDeduction(uint32 uiDataLength);
 
+	bool					isRWFile(void);
 	bool					isModelFile(void);
 	bool					isTextureFile(void);
 	bool					isCollisionFile(void);
-	bool					isDFFFile(void);
-	bool					isTXDFile(void);
-	bool					isCOLFile(void);
-	bool					isWTDFile(void);
 
 	void					setCOLVersion(bxcf::CCOLVersion *pCOLVersion) { m_pCOLVersion = pCOLVersion; }
-	bxcf::CCOLVersion*			getCOLVersion(void) { return m_pCOLVersion; }
+	bxcf::CCOLVersion*		getCOLVersion(void) { return m_pCOLVersion; }
 	
+	void						setFileType(bxcf::fileType::EFileType uiFileType) { m_uiFileType = uiFileType; }
+	bxcf::fileType::EFileType	getFileType(void) { return m_uiFileType; }
+
 	void					applyCompression(bxcf::eCompressionAlgorithm eCompressionAlgorithmValue, uint32 uiCompressionLevel = 0);
 
 	bool					doesHaveUnknownVersion(void); // checks for RW version (DFF/TXD) or COL version. Unknown file extension counts as unknown RW version. IPL files are skipped.
 
-	bxcf::CIMGEntry*				clone(bxcf::CIMGFormat *pIMGFile);
-
-	std::string				getVersionText(void);
+	bxcf::CIMGEntry*		clone(bxcf::CIMGFormat *pIMGFile);
 
 private:
-	bxcf::CIMGFormat*				m_pIMGFile;
+	bxcf::CIMGFormat*		m_pIMGFile;
 	uint32					m_uiEntryOffset; // in bytes
 	uint32					m_uiEntrySize; // in bytes
 	std::string				m_strEntryName;
@@ -130,7 +134,7 @@ private:
 	uint32					m_uiFlags;
 	union
 	{
-		bxcf::CRWVersion*			m_pRWVersion; // version 1/2 IMG
+		bxcf::CRWVersion*		m_pRWVersion; // version 1/2 IMG
 		bxcf::CCOLVersion*		m_pCOLVersion; // version 1/2 IMG
 	};
 	union {
@@ -138,7 +142,7 @@ private:
 			bxcf::CRageResourceType*	m_pRageResourceType;
 		};
 		struct { // IMG version fastman92
-			uint32	m_uiUncompressedSize; // in bytes
+			uint32						m_uiUncompressedSize; // in bytes
 		};
 	};
 	uint8					m_bNewEntry : 1;
@@ -146,8 +150,10 @@ private:
 	uint8					m_bProtectedEntry : 1;
 	uint8					m_bIsEncrypted : 1;
 	uint32					m_uiFileCreationDate;
-	bxcf::eCompressionAlgorithm	m_eCompressionAlgorithm;
+	bxcf::eCompressionAlgorithm		m_eCompressionAlgorithm;
 	uint32					m_uiCompressionLevel;
+	uint32					m_uiRawVersion;
+	bxcf::fileType::EFileType	m_uiFileType;
 };
 
 #endif

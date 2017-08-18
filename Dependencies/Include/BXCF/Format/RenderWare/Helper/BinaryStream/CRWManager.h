@@ -18,7 +18,7 @@ public:
 	void											init(void);
 	void											uninit(void);
 
-	bxcf::CRWVersionManager*								getVersionManager(void) { return m_pVersionManager; }
+	bxcf::CRWVersionManager*						getVersionManager(void) { return m_pVersionManager; }
 
 	static std::string								getRWVersionText(CRWVersion* pRWVersion) { return getRWVersionText(pRWVersion == nullptr ? RW_VERSION_UNKNOWN : pRWVersion->getVersionId()); }
 	static std::string								getRWVersionText(bxcf::eRWVersion eRWVersionValue);
@@ -28,8 +28,12 @@ public:
 	void											setRWVersionCCForSerialization(uint32 uiRWVersionCC) { m_uiRWVersionCCForSerialization = uiRWVersionCC; }
 	uint32											getRWVersionCCForSerialization(void) { return m_uiRWVersionCCForSerialization; }
 
+	static bool										isRWFileExtension(std::string& strFileExtension);
+	static bool										isRWModelExtension(std::string& strFileExtension);
+	static bool										isRWTextureExtension(std::string& strFileExtension);
+
 private:
-	bxcf::CRWVersionManager*								m_pVersionManager;
+	bxcf::CRWVersionManager*						m_pVersionManager;
 	uint32											m_uiRWVersionCCForSerialization;
 };
 

@@ -10,11 +10,13 @@
 class CGUIEventUtilizer
 {
 public:
+	CGUIEventUtilizer(void);
 	~CGUIEventUtilizer(void);
 
 	// event usages
 	void									markEventUsages(uint32 uiEventCount, ...);
 	void									markEventUsage(uint32 uiEvent);
+	void									markEventUsageBefore(uint32 uiEvent);
 	void									unmarkEventUsage(uint32 uiEvent);
 	void									unmarkEventUsages(uint32 uiEventCount, ...);
 	void									unmarkAllEventUsages(void);
@@ -82,7 +84,11 @@ public:
 	void									setStyleGroups(std::vector<std::string>& vecStyleGroups);
 	std::vector<uint32>&					getStyleGroups(void) { return m_vecStyleGroups; }
 
+	void									setZIndex(int32 iZIndex) { m_iZIndex = iZIndex; }
+	int32									getZIndex(void) { return m_iZIndex; }
+
 private:
+	int32									m_iZIndex;
 	std::set<uint32>						m_setItemEvents;
 	std::vector<uint32>						m_vecStyleGroups;
 };
