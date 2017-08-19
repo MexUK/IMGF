@@ -2,7 +2,7 @@
 
 #include "CDragListCtrl.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
-#include "Type/String/CString2.h"
+#include "Static/CString2.h"
 #include "Globals.h"
 #include "CIMGF.h"
 #include "GUI/Editors/Tab/CIMGEditorTab.h"

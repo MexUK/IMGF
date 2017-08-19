@@ -12,10 +12,10 @@ void					CDragDrop::onDropFiles(vector<string>& vecPaths)
 		string strPath = vecPaths[i];
 
 		// folder
-		if (CFileManager::doesFolderExist(strPath))
+		if (CFile::doesFolderExist(strPath))
 		{
-			strPath = CPathManager::addSlashToEnd(strPath);
-			vector<string> vecFileNames = CFileManager::getFileNames(strPath);
+			strPath = CPath::addSlashToEnd(strPath);
+			vector<string> vecFileNames = CFile::getFileNames(strPath);
 			for (auto strFileName : vecFileNames)
 			{
 				vecPaths.push_back(strPath + strFileName);
@@ -23,7 +23,7 @@ void					CDragDrop::onDropFiles(vector<string>& vecPaths)
 			continue;
 		}
 
-		string strExtension = CString2::toUpperCase(CPathManager::getFileExtension(strPath));
+		string strExtension = CString2::toUpperCase(CPath::getFileExtension(strPath));
 		if (strExtension == "IMG" || strExtension == "DIR")
 		{
 			// open IMG

@@ -1,13 +1,13 @@
 #pragma warning(disable : 4005)
 
 #include "CPopupGUIManager.h"
-#include "Type/String/CString2.h"
+#include "Static/CString2.h"
 #include "Shlobj.h"
 #include "WindowControlIds.h"
-#include "Input/CInputManager.h"
-#include "File/CFileManager.h"
-#include "Path/CPathManager.h"
-#include "Type/StdVector/CStdVector.h"
+#include "Static/CInput.h"
+#include "Static/CFile.h"
+#include "Static/CPath.h"
+#include "Static/CStdVector.h"
 #include "CIMGF.h"
 #include "Globals.h"
 #include "Tasks/Sort/CSortManager.h"
@@ -29,7 +29,7 @@
 #include "Tasks/Sort/CSortPriorities.h"
 #include "Collection/Game/CGameManager.h"
 #include "Settings/CSettingsManager.h"
-#include "Debug/CDebug.h"
+#include "Static/CDebug.h"
 
 using namespace std;
 using namespace bxcf;
@@ -724,7 +724,7 @@ INT_PTR CALLBACK DialogProc_StatsDialog(
 	EndDialog(hwndDlg, 0);
 	break;
 	case 5:
-	strSaveFilePath = CInputManager::saveFileDialog(getIMGF()->getLastUsedDirectory("SAVE_STATS"), "TXT", CLocalizationManager::get()->getTranslatedText("SaveFilePopup_1_InitialFilename"));
+	strSaveFilePath = CInput::saveFileDialog(getIMGF()->getLastUsedDirectory("SAVE_STATS"), "TXT", CLocalizationManager::get()->getTranslatedText("SaveFilePopup_1_InitialFilename"));
 	if (strSaveFilePath != "")
 	{
 	getIMGF()->setLastUsedDirectory("SAVE_STATS", strSaveFilePath);
@@ -734,7 +734,7 @@ INT_PTR CALLBACK DialogProc_StatsDialog(
 	CString strText2 = ((CListCtrl*)pDialog->GetDlgItem(1))->GetItemText(i, 1);
 	strSaveData += CString2::convertCStringToStdString(strText1) + "\t" + CString2::convertCStringToStdString(strText2) + "\n";
 	}
-	CFileManager::storeFile(strSaveFilePath, strSaveData, false, false);
+	CFile::storeFile(strSaveFilePath, strSaveData, false, false);
 	}
 	break;
 	}
@@ -956,7 +956,7 @@ INT_PTR CALLBACK DialogProc_SettingsDialog(
 	GetModuleFileName(NULL, szModuleName, MAX_PATH);
 	string strExePath = CString2::convertStdWStringToStdString(szModuleName);
 
-	uint32 uiResult2 = CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_61"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_61"), MB_OKCANCEL);
+	uint32 uiResult2 = CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_61"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_61"), MB_OKCANCEL);
 	if (uiResult2 == IDOK)
 	{
 	ShellExecute(NULL, L"open", CString2::convertStdStringToStdWString(strExePath).c_str(), NULL, NULL, SW_SHOWNORMAL);
@@ -985,11 +985,11 @@ INT_PTR CALLBACK DialogProc_SettingsDialog(
 	break;
 	}
 	case 100: // choose (for quick export path)
-	pSettingsData->m_strQuickExportPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_1"));
+	pSettingsData->m_strQuickExportPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_1"));
 	((CEdit*)pDialog->GetDlgItem(104))->SetWindowTextW(CString2::convertStdStringToStdWString(pSettingsData->m_strQuickExportPath).c_str());
 	break;
 	case 111: // choose (for automatic logging path)
-	pSettingsData->m_strAutomaticLoggingPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_2"));
+	pSettingsData->m_strAutomaticLoggingPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_2"));
 	((CEdit*)pDialog->GetDlgItem(110))->SetWindowTextW(CString2::convertStdStringToStdWString(pSettingsData->m_strAutomaticLoggingPath).c_str());
 	break;
 	}
@@ -1176,7 +1176,7 @@ INT_PTR CALLBACK DialogProc_DumpDialog(
 
 			if (pDumpDialogData->m_strDumpDestinationFolderPath == "")
 			{
-				CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_2"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+				CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_2"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 				break;
 			}
 
@@ -1186,12 +1186,12 @@ INT_PTR CALLBACK DialogProc_DumpDialog(
 
 				if (pDumpDialogData->m_uiDATOptionIndex == 4 && pDumpDialogData->m_strDATPath == "") // 4 is Other
 				{
-					CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_3"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+					CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_3"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 					break;
 				}
 				if (pDumpDialogData->m_strGameDirectoryPath == "")
 				{
-					CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_4"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+					CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_4"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 					break;
 				}
 			}
@@ -1202,7 +1202,7 @@ INT_PTR CALLBACK DialogProc_DumpDialog(
 
 				if (pDumpDialogData->m_strGameDirectoryPath == "")
 				{
-					CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_5"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+					CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_5"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 					break;
 				}
 			}
@@ -1289,7 +1289,7 @@ INT_PTR CALLBACK DialogProc_DumpDialog(
 				  // this doesn't get called here when the user changes the selected option in the dropdown
 			break;
 		case 115: // Change button for DAT file path
-			vecFilePaths = CInputManager::openFile(pDumpDialogData->m_strLastUsedPath__DAT, "DAT", false);
+			vecFilePaths = CInput::openFile(pDumpDialogData->m_strLastUsedPath__DAT, "DAT", false);
 			if (vecFilePaths.size() == 0)
 			{
 				break;
@@ -1299,23 +1299,23 @@ INT_PTR CALLBACK DialogProc_DumpDialog(
 			break;
 		case 144: // Change button for Game folder path
 		case 148:
-			pDumpDialogData->m_strGameDirectoryPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("DUMP__GAME"));
+			pDumpDialogData->m_strGameDirectoryPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("DUMP__GAME"));
 			if (pDumpDialogData->m_strGameDirectoryPath == "")
 			{
 				break;
 			}
-			pDumpDialogData->m_strGameDirectoryPath = CPathManager::addSlashToEnd(pDumpDialogData->m_strGameDirectoryPath);
+			pDumpDialogData->m_strGameDirectoryPath = CPath::addSlashToEnd(pDumpDialogData->m_strGameDirectoryPath);
 			getIMGF()->setLastUsedDirectory("DUMP__GAME", pDumpDialogData->m_strGameDirectoryPath);
 			((CEdit*) pDialog->GetDlgItem(143))->SetWindowTextW(CString2::convertStdStringToStdWString(pDumpDialogData->m_strGameDirectoryPath).c_str());
 			((CEdit*) pDialog->GetDlgItem(149))->SetWindowTextW(CString2::convertStdStringToStdWString(pDumpDialogData->m_strGameDirectoryPath).c_str());
 			break;
 		case 110: // Change button for dump destination folder path
-			pDumpDialogData->m_strDumpDestinationFolderPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_4"), pDumpDialogData->m_strLastUsedPath__Destination);
+			pDumpDialogData->m_strDumpDestinationFolderPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_4"), pDumpDialogData->m_strLastUsedPath__Destination);
 			if (pDumpDialogData->m_strDumpDestinationFolderPath == "")
 			{
 				break;
 			}
-			pDumpDialogData->m_strDumpDestinationFolderPath = CPathManager::addSlashToEnd(pDumpDialogData->m_strDumpDestinationFolderPath);
+			pDumpDialogData->m_strDumpDestinationFolderPath = CPath::addSlashToEnd(pDumpDialogData->m_strDumpDestinationFolderPath);
 			((CEdit*) pDialog->GetDlgItem(113))->SetWindowTextW(CString2::convertStdStringToStdWString(pDumpDialogData->m_strDumpDestinationFolderPath).c_str());
 			break;
 		}
@@ -1385,7 +1385,7 @@ INT_PTR CALLBACK DialogProc_ListViewDialog(
 	EndDialog(hwndDlg, 0);
 	break;
 	case 102:
-	strSaveFilePath = CInputManager::saveFileDialog(getIMGF()->getLastUsedDirectory("LISTVIEW__" + pListViewDialogData->m_strSaveFolderPartialHandle), "TXT", pListViewDialogData->m_strSaveFileName);
+	strSaveFilePath = CInput::saveFileDialog(getIMGF()->getLastUsedDirectory("LISTVIEW__" + pListViewDialogData->m_strSaveFolderPartialHandle), "TXT", pListViewDialogData->m_strSaveFileName);
 	if (strSaveFilePath != "")
 	{
 	getIMGF()->setLastUsedDirectory("LISTVIEW__" + pListViewDialogData->m_strSaveFolderPartialHandle, strSaveFilePath);
@@ -1394,7 +1394,7 @@ INT_PTR CALLBACK DialogProc_ListViewDialog(
 	CString strText1 = ((CListCtrl*)pDialog->GetDlgItem(100))->GetItemText(i, 0);
 	strSaveData += CString2::convertCStringToStdString(strText1) + "\n";
 	}
-	CFileManager::storeFile(strSaveFilePath, strSaveData, false, false);
+	CFile::storeFile(strSaveFilePath, strSaveData, false, false);
 	}
 	break;
 	}
@@ -1467,7 +1467,7 @@ INT_PTR CALLBACK DialogProc_TextureListDialog(
 	EndDialog(hwndDlg, 0);
 	break;
 	case 102:
-	strSaveFilePath = CInputManager::saveFileDialog(getIMGF()->getLastUsedDirectory("TEXTURE_LIST"), "TXT", CLocalizationManager::get()->getTranslatedText("SaveFilePopup_2_InitialFilename"));
+	strSaveFilePath = CInput::saveFileDialog(getIMGF()->getLastUsedDirectory("TEXTURE_LIST"), "TXT", CLocalizationManager::get()->getTranslatedText("SaveFilePopup_2_InitialFilename"));
 	if (strSaveFilePath != "")
 	{
 	getIMGF()->setLastUsedDirectory("TEXTURE_LIST", strSaveFilePath);
@@ -1476,7 +1476,7 @@ INT_PTR CALLBACK DialogProc_TextureListDialog(
 	CString strText1 = ((CListCtrl*)pDialog->GetDlgItem(100))->GetItemText(i, 0);
 	strSaveData += CString2::convertCStringToStdString(strText1) + "\n";
 	}
-	CFileManager::storeFile(strSaveFilePath, strSaveData, false, false);
+	CFile::storeFile(strSaveFilePath, strSaveData, false, false);
 	}
 	break;
 	}
@@ -1549,7 +1549,7 @@ INT_PTR CALLBACK DialogProc_SessionManagerDialog(
 	vector<string> vecIMGNames;
 	for (uint32 i2 = 0; i2 < uiIMGFileCount; i2++)
 	{
-	vecIMGNames.push_back(CPathManager::getFileName(deqIMGPaths[i2]));
+	vecIMGNames.push_back(CPath::getFileName(deqIMGPaths[i2]));
 	}
 
 	uiItemIndex = ((CListCtrl*)pDialog->GetDlgItem(100))->GetItemCount();
@@ -2111,7 +2111,7 @@ INT_PTR CALLBACK DialogProc_RenamerDialog(
 	pRenamerDialogData->m_bMatchingState_IDE = true;
 	if (pRenamerDialogData->m_strMatchingPath_IDE == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_6"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_6"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 	break;
 	}
 	}
@@ -2120,7 +2120,7 @@ INT_PTR CALLBACK DialogProc_RenamerDialog(
 	pRenamerDialogData->m_bMatchingState_IPL = true;
 	if (pRenamerDialogData->m_strMatchingPath_IPL == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_7"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_7"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 	break;
 	}
 	}
@@ -2129,7 +2129,7 @@ INT_PTR CALLBACK DialogProc_RenamerDialog(
 	pRenamerDialogData->m_bMatchingState_COL = true;
 	if (pRenamerDialogData->m_strMatchingPath_COL == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_8"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_8"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 	break;
 	}
 	}
@@ -2150,7 +2150,7 @@ INT_PTR CALLBACK DialogProc_RenamerDialog(
 
 	if (strStr4 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_9"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_9"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	pRenamerDialogData->m_uiCharAddingAtPosition_Position = CString2::toNumber(strStr4);
@@ -2177,7 +2177,7 @@ INT_PTR CALLBACK DialogProc_RenamerDialog(
 
 	if (strStr5 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_10"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_10"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	pRenamerDialogData->m_uiCharReplaceConditional_Length = CString2::toNumber(strStr5);
@@ -2221,7 +2221,7 @@ INT_PTR CALLBACK DialogProc_RenamerDialog(
 
 	if (strStr9 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_11"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_11"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	pRenamerDialogData->m_uiCharRemovingAtPosition_Position = CString2::toNumber(strStr9);
@@ -2254,32 +2254,32 @@ INT_PTR CALLBACK DialogProc_RenamerDialog(
 	break;
 	}
 	case 157: // matching IDE - folder path
-	pRenamerDialogData->m_strMatchingPath_IDE = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_5"), getIMGF()->getLastUsedDirectory("RENAMER__MATCHING_IDE"));
+	pRenamerDialogData->m_strMatchingPath_IDE = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_5"), getIMGF()->getLastUsedDirectory("RENAMER__MATCHING_IDE"));
 	if (pRenamerDialogData->m_strMatchingPath_IDE == "")
 	{
 	break;
 	}
-	pRenamerDialogData->m_strMatchingPath_IDE = CPathManager::addSlashToEnd(pRenamerDialogData->m_strMatchingPath_IDE);
+	pRenamerDialogData->m_strMatchingPath_IDE = CPath::addSlashToEnd(pRenamerDialogData->m_strMatchingPath_IDE);
 	getIMGF()->setLastUsedDirectory("RENAMER__MATCHING_IDE", pRenamerDialogData->m_strMatchingPath_IDE);
 	((CEdit*)pDialog->GetDlgItem(154))->SetWindowTextW(CString2::convertStdStringToStdWString(pRenamerDialogData->m_strMatchingPath_IDE).c_str());
 	break;
 	case 158: // matching IPL - folder path
-	pRenamerDialogData->m_strMatchingPath_IPL = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_6"), getIMGF()->getLastUsedDirectory("RENAMER__MATCHING_IPL"));
+	pRenamerDialogData->m_strMatchingPath_IPL = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_6"), getIMGF()->getLastUsedDirectory("RENAMER__MATCHING_IPL"));
 	if (pRenamerDialogData->m_strMatchingPath_IPL == "")
 	{
 	break;
 	}
-	pRenamerDialogData->m_strMatchingPath_IPL = CPathManager::addSlashToEnd(pRenamerDialogData->m_strMatchingPath_IPL);
+	pRenamerDialogData->m_strMatchingPath_IPL = CPath::addSlashToEnd(pRenamerDialogData->m_strMatchingPath_IPL);
 	getIMGF()->setLastUsedDirectory("RENAMER__MATCHING_IPL", pRenamerDialogData->m_strMatchingPath_IPL);
 	((CEdit*)pDialog->GetDlgItem(155))->SetWindowTextW(CString2::convertStdStringToStdWString(pRenamerDialogData->m_strMatchingPath_IPL).c_str());
 	break;
 	case 159: // matching COL - folder path
-	pRenamerDialogData->m_strMatchingPath_COL = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_7"), getIMGF()->getLastUsedDirectory("RENAMER__MATCHING_COL"));
+	pRenamerDialogData->m_strMatchingPath_COL = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_7"), getIMGF()->getLastUsedDirectory("RENAMER__MATCHING_COL"));
 	if (pRenamerDialogData->m_strMatchingPath_COL == "")
 	{
 	break;
 	}
-	pRenamerDialogData->m_strMatchingPath_COL = CPathManager::addSlashToEnd(pRenamerDialogData->m_strMatchingPath_COL);
+	pRenamerDialogData->m_strMatchingPath_COL = CPath::addSlashToEnd(pRenamerDialogData->m_strMatchingPath_COL);
 	getIMGF()->setLastUsedDirectory("RENAMER__MATCHING_COL", pRenamerDialogData->m_strMatchingPath_COL);
 	((CEdit*)pDialog->GetDlgItem(156))->SetWindowTextW(CString2::convertStdStringToStdWString(pRenamerDialogData->m_strMatchingPath_COL).c_str());
 	break;
@@ -2386,7 +2386,7 @@ INT_PTR CALLBACK DialogProc_DFFConversionDialog(
 	{
 	if (strStr1 == "" || strStr2 == "" || strStr3 == "" || strStr4 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_12"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_12"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	}
@@ -2394,7 +2394,7 @@ INT_PTR CALLBACK DialogProc_DFFConversionDialog(
 	{
 	if (strStr1 == "" || strStr2 == "" || strStr3 == "" || strStr4 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_13"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_13"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	}
@@ -2497,12 +2497,12 @@ INT_PTR CALLBACK DialogProc_DuplicateEntriesDialog(
 
 	if (pDuplicateEntriesDialogData->m_uiDATGameIndex == 4 && pDuplicateEntriesDialogData->m_strDATPath == "") // 4 is Other
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_14"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_14"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 	break;
 	}
 	if (pDuplicateEntriesDialogData->m_strDATGameDirectoryPath == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_15"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_15"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 	break;
 	}
 	}
@@ -2510,7 +2510,7 @@ INT_PTR CALLBACK DialogProc_DuplicateEntriesDialog(
 	EndDialog(hwndDlg, 0);
 	break;
 	case 203: // Change button for DAT file path
-	vecFilePaths = CInputManager::openFile(getIMGF()->getLastUsedDirectory("DUPLICATEENTRIES__DAT"), "DAT", false);
+	vecFilePaths = CInput::openFile(getIMGF()->getLastUsedDirectory("DUPLICATEENTRIES__DAT"), "DAT", false);
 	if (vecFilePaths.size() == 0)
 	{
 	break;
@@ -2520,12 +2520,12 @@ INT_PTR CALLBACK DialogProc_DuplicateEntriesDialog(
 	((CEdit*)pDialog->GetDlgItem(202))->SetWindowTextW(CString2::convertStdStringToStdWString(pDuplicateEntriesDialogData->m_strDATPath).c_str());
 	break;
 	case 206: // Change button for Game folder path
-	pDuplicateEntriesDialogData->m_strDATGameDirectoryPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("DUPLICATEENTRIES__GAME"));
+	pDuplicateEntriesDialogData->m_strDATGameDirectoryPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("DUPLICATEENTRIES__GAME"));
 	if (pDuplicateEntriesDialogData->m_strDATGameDirectoryPath == "")
 	{
 	break;
 	}
-	pDuplicateEntriesDialogData->m_strDATGameDirectoryPath = CPathManager::addSlashToEnd(pDuplicateEntriesDialogData->m_strDATGameDirectoryPath);
+	pDuplicateEntriesDialogData->m_strDATGameDirectoryPath = CPath::addSlashToEnd(pDuplicateEntriesDialogData->m_strDATGameDirectoryPath);
 	getIMGF()->setLastUsedDirectory("DUPLICATEENTRIES__GAME", pDuplicateEntriesDialogData->m_strDATGameDirectoryPath);
 	((CEdit*)pDialog->GetDlgItem(205))->SetWindowTextW(CString2::convertStdStringToStdWString(pDuplicateEntriesDialogData->m_strDATGameDirectoryPath).c_str());
 	break;
@@ -2606,8 +2606,8 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	((CEdit*)pDialog->GetDlgItem(251))->GetWindowText(cstr1);
 	((CEdit*)pDialog->GetDlgItem(255))->GetWindowText(cstr2);
 	((CEdit*)pDialog->GetDlgItem(110))->GetWindowText(cstr3);
-	pBuildTXDDialogData->m_strTexturesFolderPath = CPathManager::addSlashToEnd(CString2::convertCStringToStdString(cstr1));
-	pBuildTXDDialogData->m_strDestinationFolderPath = CPathManager::addSlashToEnd(CString2::convertCStringToStdString(cstr2));
+	pBuildTXDDialogData->m_strTexturesFolderPath = CPath::addSlashToEnd(CString2::convertCStringToStdString(cstr1));
+	pBuildTXDDialogData->m_strDestinationFolderPath = CPath::addSlashToEnd(CString2::convertCStringToStdString(cstr2));
 	pBuildTXDDialogData->m_strIDEFilePath = CString2::convertCStringToStdString(cstr3);
 
 	if (((CButton*)pDialog->GetDlgItem(101))->GetCheck() == BST_CHECKED)
@@ -2634,19 +2634,19 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	if (pBuildTXDDialogData->m_uCDFFFormatsType == 3)
 	{
 	((CEdit*)pDialog->GetDlgItem(106))->GetWindowText(cstr4);
-	pBuildTXDDialogData->m_strDFFsFolderPath = CPathManager::addSlashToEnd(CString2::convertCStringToStdString(cstr4));
+	pBuildTXDDialogData->m_strDFFsFolderPath = CPath::addSlashToEnd(CString2::convertCStringToStdString(cstr4));
 	}
 	else if (pBuildTXDDialogData->m_uCDFFFormatsType == 4)
 	{
 	((CEdit*)pDialog->GetDlgItem(113))->GetWindowText(cstr4);
-	pBuildTXDDialogData->m_strDFFsFolderPath = CPathManager::addSlashToEnd(CString2::convertCStringToStdString(cstr4));
+	pBuildTXDDialogData->m_strDFFsFolderPath = CPath::addSlashToEnd(CString2::convertCStringToStdString(cstr4));
 	}
 
 	if (pBuildTXDDialogData->m_uCDFFFormatsType == 3) // Folder containg DFF files
 	{
 	if (pBuildTXDDialogData->m_strDFFsFolderPath == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_16"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_16"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 	break;
 	}
 	}
@@ -2654,26 +2654,26 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	{
 	if (pBuildTXDDialogData->m_strIDEFilePath == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_17"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_17"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 	break;
 	}
 
 	if (pBuildTXDDialogData->m_strDFFsFolderPath == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_18"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_18"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 	break;
 	}
 	}
 
 	if (pBuildTXDDialogData->m_strTexturesFolderPath == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_19"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_19"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 	break;
 	}
 
 	if (pBuildTXDDialogData->m_strDestinationFolderPath == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_20"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_20"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 	break;
 	}
 
@@ -2688,18 +2688,18 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	}
 	case 107: // Change button for DFFs folder path
 	case 114:
-	pBuildTXDDialogData->m_strDFFsFolderPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_8"), getIMGF()->getLastUsedDirectory("BUILDTXD__DFF"));
+	pBuildTXDDialogData->m_strDFFsFolderPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_8"), getIMGF()->getLastUsedDirectory("BUILDTXD__DFF"));
 	if (pBuildTXDDialogData->m_strDFFsFolderPath == "")
 	{
 	break;
 	}
-	pBuildTXDDialogData->m_strDFFsFolderPath = CPathManager::addSlashToEnd(pBuildTXDDialogData->m_strDFFsFolderPath);
+	pBuildTXDDialogData->m_strDFFsFolderPath = CPath::addSlashToEnd(pBuildTXDDialogData->m_strDFFsFolderPath);
 	getIMGF()->setLastUsedDirectory("BUILDTXD__DFF", pBuildTXDDialogData->m_strDFFsFolderPath);
 	((CEdit*)pDialog->GetDlgItem(106))->SetWindowTextW(CString2::convertStdStringToStdWString(pBuildTXDDialogData->m_strDFFsFolderPath).c_str());
 	((CEdit*)pDialog->GetDlgItem(113))->SetWindowTextW(CString2::convertStdStringToStdWString(pBuildTXDDialogData->m_strDFFsFolderPath).c_str());
 	break;
 	case 111: // Change button for IDE file path
-	vecFilePaths = CInputManager::openFile(getIMGF()->getLastUsedDirectory("BUILDTXD__IDE"), "IDE", false);
+	vecFilePaths = CInput::openFile(getIMGF()->getLastUsedDirectory("BUILDTXD__IDE"), "IDE", false);
 	if (vecFilePaths.size() == 0)
 	{
 	break;
@@ -2709,7 +2709,7 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	((CEdit*)pDialog->GetDlgItem(110))->SetWindowTextW(CString2::convertStdStringToStdWString(pBuildTXDDialogData->m_strIDEFilePath).c_str());
 	break;
 	case 253: // Change button for textures folder path
-	pBuildTXDDialogData->m_strTexturesFolderPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_9"), getIMGF()->getLastUsedDirectory("BUILDTXD__TEXTURES"));
+	pBuildTXDDialogData->m_strTexturesFolderPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_9"), getIMGF()->getLastUsedDirectory("BUILDTXD__TEXTURES"));
 	if (pBuildTXDDialogData->m_strTexturesFolderPath == "")
 	{
 	break;
@@ -2718,7 +2718,7 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	((CEdit*)pDialog->GetDlgItem(251))->SetWindowTextW(CString2::convertStdStringToStdWString(pBuildTXDDialogData->m_strTexturesFolderPath).c_str());
 	break;
 	case 256: // Change button for destination folder path
-	pBuildTXDDialogData->m_strDestinationFolderPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_10"), getIMGF()->getLastUsedDirectory("BUILDTXD__DESTINATION"));
+	pBuildTXDDialogData->m_strDestinationFolderPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_10"), getIMGF()->getLastUsedDirectory("BUILDTXD__DESTINATION"));
 	if (pBuildTXDDialogData->m_strDestinationFolderPath == "")
 	{
 	break;
@@ -2954,25 +2954,25 @@ INT_PTR CALLBACK DialogProc_TXDOrganizerDialog(
 
 	if (strString1 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_24"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_24"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 
 	if (pTXDOrganizerDialogData->m_strTXDNamePrefix == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_25"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_25"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 
 	if (pTXDOrganizerDialogData->m_strTextureImportFolderPath == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_26"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_26"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 	break;
 	}
 
 	if (pTXDOrganizerDialogData->m_strOutputFolderPath == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_28"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_28"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 	break;
 	}
 
@@ -2982,47 +2982,47 @@ INT_PTR CALLBACK DialogProc_TXDOrganizerDialog(
 
 	if (pTXDOrganizerDialogData->m_strIDEUpdateFolderPath == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_30"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_30"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 	break;
 	}
 	}
 
 	pTXDOrganizerDialogData->m_pRasterDataFormat = CImageManager::get()->getRasterDataFormatManager()->getEntryByIndex(((CComboBox*)pDialog->GetDlgItem(114))->GetCurSel());
 
-	pTXDOrganizerDialogData->m_strTextureImportFolderPath = CPathManager::addSlashToEnd(pTXDOrganizerDialogData->m_strTextureImportFolderPath);
-	pTXDOrganizerDialogData->m_strIDEUpdateFolderPath = CPathManager::addSlashToEnd(pTXDOrganizerDialogData->m_strIDEUpdateFolderPath);
-	pTXDOrganizerDialogData->m_strOutputFolderPath = CPathManager::addSlashToEnd(pTXDOrganizerDialogData->m_strOutputFolderPath);
+	pTXDOrganizerDialogData->m_strTextureImportFolderPath = CPath::addSlashToEnd(pTXDOrganizerDialogData->m_strTextureImportFolderPath);
+	pTXDOrganizerDialogData->m_strIDEUpdateFolderPath = CPath::addSlashToEnd(pTXDOrganizerDialogData->m_strIDEUpdateFolderPath);
+	pTXDOrganizerDialogData->m_strOutputFolderPath = CPath::addSlashToEnd(pTXDOrganizerDialogData->m_strOutputFolderPath);
 
 	EndDialog(hwndDlg, 0);
 	break;
 	}
 	case 106: // Change button for Texture Import Folder Path
-	pTXDOrganizerDialogData->m_strTextureImportFolderPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_18"), getIMGF()->getLastUsedDirectory("TXDORGANIZER_TEXTUREIMPORT"));
+	pTXDOrganizerDialogData->m_strTextureImportFolderPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_18"), getIMGF()->getLastUsedDirectory("TXDORGANIZER_TEXTUREIMPORT"));
 	if (pTXDOrganizerDialogData->m_strTextureImportFolderPath == "")
 	{
 	break;
 	}
-	pTXDOrganizerDialogData->m_strTextureImportFolderPath = CPathManager::addSlashToEnd(pTXDOrganizerDialogData->m_strTextureImportFolderPath);
+	pTXDOrganizerDialogData->m_strTextureImportFolderPath = CPath::addSlashToEnd(pTXDOrganizerDialogData->m_strTextureImportFolderPath);
 	getIMGF()->setLastUsedDirectory("TXDORGANIZER_TEXTUREIMPORT", pTXDOrganizerDialogData->m_strTextureImportFolderPath);
 	((CEdit*)pDialog->GetDlgItem(105))->SetWindowTextW(CString2::convertStdStringToStdWString(pTXDOrganizerDialogData->m_strTextureImportFolderPath).c_str());
 	break;
 	case 109: // Change button for IDE Update Folder Path
-	pTXDOrganizerDialogData->m_strIDEUpdateFolderPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_19"), getIMGF()->getLastUsedDirectory("TXDORGANIZER_IDEUPDATE"));
+	pTXDOrganizerDialogData->m_strIDEUpdateFolderPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_19"), getIMGF()->getLastUsedDirectory("TXDORGANIZER_IDEUPDATE"));
 	if (pTXDOrganizerDialogData->m_strIDEUpdateFolderPath == "")
 	{
 	break;
 	}
-	pTXDOrganizerDialogData->m_strIDEUpdateFolderPath = CPathManager::addSlashToEnd(pTXDOrganizerDialogData->m_strIDEUpdateFolderPath);
+	pTXDOrganizerDialogData->m_strIDEUpdateFolderPath = CPath::addSlashToEnd(pTXDOrganizerDialogData->m_strIDEUpdateFolderPath);
 	getIMGF()->setLastUsedDirectory("TXDORGANIZER_IDEUPDATE", pTXDOrganizerDialogData->m_strIDEUpdateFolderPath);
 	((CEdit*)pDialog->GetDlgItem(108))->SetWindowTextW(CString2::convertStdStringToStdWString(pTXDOrganizerDialogData->m_strIDEUpdateFolderPath).c_str());
 	break;
 	case 112: // Change button for Output Folder
-	pTXDOrganizerDialogData->m_strOutputFolderPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_20"), getIMGF()->getLastUsedDirectory("TXDORGANIZER_OUTPUTFOLDER"));
+	pTXDOrganizerDialogData->m_strOutputFolderPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_20"), getIMGF()->getLastUsedDirectory("TXDORGANIZER_OUTPUTFOLDER"));
 	if (pTXDOrganizerDialogData->m_strOutputFolderPath == "")
 	{
 	break;
 	}
-	pTXDOrganizerDialogData->m_strOutputFolderPath = CPathManager::addSlashToEnd(pTXDOrganizerDialogData->m_strOutputFolderPath);
+	pTXDOrganizerDialogData->m_strOutputFolderPath = CPath::addSlashToEnd(pTXDOrganizerDialogData->m_strOutputFolderPath);
 	getIMGF()->setLastUsedDirectory("TXDORGANIZER_OUTPUTFOLDER", pTXDOrganizerDialogData->m_strOutputFolderPath);
 	((CEdit*)pDialog->GetDlgItem(111))->SetWindowTextW(CString2::convertStdStringToStdWString(pTXDOrganizerDialogData->m_strOutputFolderPath).c_str());
 	break;
@@ -3134,61 +3134,61 @@ INT_PTR CALLBACK DialogProc_DATPathsMoverDialog(
 
 	if (str1 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_31", "min", "x"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_31", "min", "x"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	if (str2 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_31", "min", "y"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_31", "min", "y"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	if (str3 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_31", "max", "x"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_31", "max", "x"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	if (str4 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_31", "max", "y"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_31", "max", "y"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 
 	if (str5 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_35", "width"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_35", "width"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	if (str6 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_35", "height"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_35", "height"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 
 	if (str7 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_57", "x"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_57", "x"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	if (str8 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_57", "y"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_57", "y"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	if (str9 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_57", "z"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_57", "z"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 
 	if (pDATPathsMoverDialogData->m_strInputFolderPath == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_58"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_58"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 	break;
 	}
 
 	if (pDATPathsMoverDialogData->m_strOutputFolderPath == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_59"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_59"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_PathNotSet").c_str());
 	break;
 	}
 
@@ -3204,29 +3204,29 @@ INT_PTR CALLBACK DialogProc_DATPathsMoverDialog(
 	pDATPathsMoverDialogData->m_vecPositionOffset.y = CString2::toFloat32(CString2::convertCStringToStdString(cstr8));
 	pDATPathsMoverDialogData->m_vecPositionOffset.z = CString2::toFloat32(CString2::convertCStringToStdString(cstr9));
 
-	pDATPathsMoverDialogData->m_strInputFolderPath = CPathManager::addSlashToEnd(pDATPathsMoverDialogData->m_strInputFolderPath);
-	pDATPathsMoverDialogData->m_strOutputFolderPath = CPathManager::addSlashToEnd(pDATPathsMoverDialogData->m_strOutputFolderPath);
+	pDATPathsMoverDialogData->m_strInputFolderPath = CPath::addSlashToEnd(pDATPathsMoverDialogData->m_strInputFolderPath);
+	pDATPathsMoverDialogData->m_strOutputFolderPath = CPath::addSlashToEnd(pDATPathsMoverDialogData->m_strOutputFolderPath);
 
 	EndDialog(hwndDlg, 0);
 	break;
 	}
 	case 252: // Change button for Input Folder
-	pDATPathsMoverDialogData->m_strInputFolderPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_21"), getIMGF()->getLastUsedDirectory("DATPATHSMOVER_DATINPUT"));
+	pDATPathsMoverDialogData->m_strInputFolderPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_21"), getIMGF()->getLastUsedDirectory("DATPATHSMOVER_DATINPUT"));
 	if (pDATPathsMoverDialogData->m_strInputFolderPath == "")
 	{
 	break;
 	}
-	pDATPathsMoverDialogData->m_strInputFolderPath = CPathManager::addSlashToEnd(pDATPathsMoverDialogData->m_strInputFolderPath);
+	pDATPathsMoverDialogData->m_strInputFolderPath = CPath::addSlashToEnd(pDATPathsMoverDialogData->m_strInputFolderPath);
 	getIMGF()->setLastUsedDirectory("DATPATHSMOVER_DATINPUT", pDATPathsMoverDialogData->m_strInputFolderPath);
 	((CEdit*)pDialog->GetDlgItem(251))->SetWindowTextW(CString2::convertStdStringToStdWString(pDATPathsMoverDialogData->m_strInputFolderPath).c_str());
 	break;
 	case 302: // Change button for Output Folder
-	pDATPathsMoverDialogData->m_strOutputFolderPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_22"), getIMGF()->getLastUsedDirectory("DATPATHSMOVER_DATOUTPUT"));
+	pDATPathsMoverDialogData->m_strOutputFolderPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_22"), getIMGF()->getLastUsedDirectory("DATPATHSMOVER_DATOUTPUT"));
 	if (pDATPathsMoverDialogData->m_strOutputFolderPath == "")
 	{
 	break;
 	}
-	pDATPathsMoverDialogData->m_strOutputFolderPath = CPathManager::addSlashToEnd(pDATPathsMoverDialogData->m_strOutputFolderPath);
+	pDATPathsMoverDialogData->m_strOutputFolderPath = CPath::addSlashToEnd(pDATPathsMoverDialogData->m_strOutputFolderPath);
 	getIMGF()->setLastUsedDirectory("DATPATHSMOVER_DATOUTPUT", pDATPathsMoverDialogData->m_strOutputFolderPath);
 	((CEdit*)pDialog->GetDlgItem(301))->SetWindowTextW(CString2::convertStdStringToStdWString(pDATPathsMoverDialogData->m_strOutputFolderPath).c_str());
 	break;
@@ -3315,19 +3315,19 @@ INT_PTR CALLBACK DialogProc_MapMoverAndIDShifterDialog(
 
 	if (str1 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_62"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_62"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	if (str2 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	if (pMapMoverAndIDShifterDialogData->m_bUpdateIDEInFolder)
 	{
 	if (str3 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_64"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_64"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	}
@@ -3335,19 +3335,19 @@ INT_PTR CALLBACK DialogProc_MapMoverAndIDShifterDialog(
 	{
 	if (str4 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_65"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_65"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	}
 	if (str5 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_28"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_28"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 
-	pMapMoverAndIDShifterDialogData->m_strGameFolderPath = CPathManager::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strGameFolderPath);
-	pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath = CPathManager::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath);
-	pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath = CPathManager::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath);
+	pMapMoverAndIDShifterDialogData->m_strGameFolderPath = CPath::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strGameFolderPath);
+	pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath = CPath::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath);
+	pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath = CPath::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath);
 
 	CString cstr6, cstr7, cstr8, cstr9, cstr10, cstr11;
 	((CEdit*)pDialog->GetDlgItem(151))->GetWindowText(cstr6);
@@ -3373,7 +3373,7 @@ INT_PTR CALLBACK DialogProc_MapMoverAndIDShifterDialog(
 	{
 	if (str6 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_66"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_66"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	}
@@ -3381,23 +3381,23 @@ INT_PTR CALLBACK DialogProc_MapMoverAndIDShifterDialog(
 	{
 	if (str7 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_67", "X"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_67", "X"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	if (str8 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_67", "Y"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_67", "Y"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	if (str9 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_67", "Z"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_67", "Z"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	}
 	else
 	{
-	CInputManager::showMessage("You must choose an action (ID Shifter or Map Mover)", "Action Choice Required");
+	CInput::showMessage("You must choose an action (ID Shifter or Map Mover)", "Action Choice Required");
 	break;
 	}
 
@@ -3415,54 +3415,54 @@ INT_PTR CALLBACK DialogProc_MapMoverAndIDShifterDialog(
 	}
 	case 102: // Change button for DAT File
 	{
-	vector<string> vecFilePaths = CInputManager::openFile(getIMGF()->getLastUsedDirectory("MAPMOVERANDIDSHIFTER_DATINPUT"), "DAT", false);
+	vector<string> vecFilePaths = CInput::openFile(getIMGF()->getLastUsedDirectory("MAPMOVERANDIDSHIFTER_DATINPUT"), "DAT", false);
 	if (vecFilePaths.size() == 0)
 	{
 	break;
 	}
 	pMapMoverAndIDShifterDialogData->m_strDATFilePath = vecFilePaths[0];
-	getIMGF()->setLastUsedDirectory("MAPMOVERANDIDSHIFTER_DATINPUT", CPathManager::getDirectory(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
+	getIMGF()->setLastUsedDirectory("MAPMOVERANDIDSHIFTER_DATINPUT", CPath::getDirectory(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
 	((CEdit*)pDialog->GetDlgItem(101))->SetWindowTextW(CString2::convertStdStringToStdWString(pMapMoverAndIDShifterDialogData->m_strDATFilePath).c_str());
 	break;
 	}
 	case 105: // Change button for Game Folder
-	pMapMoverAndIDShifterDialogData->m_strGameFolderPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("MAPMOVERANDIDSHIFTER_GAMEFOLDER"));
+	pMapMoverAndIDShifterDialogData->m_strGameFolderPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("MAPMOVERANDIDSHIFTER_GAMEFOLDER"));
 	if (pMapMoverAndIDShifterDialogData->m_strGameFolderPath == "")
 	{
 	break;
 	}
-	pMapMoverAndIDShifterDialogData->m_strGameFolderPath = CPathManager::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strGameFolderPath);
+	pMapMoverAndIDShifterDialogData->m_strGameFolderPath = CPath::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strGameFolderPath);
 	getIMGF()->setLastUsedDirectory("MAPMOVERANDIDSHIFTER_GAMEFOLDER", pMapMoverAndIDShifterDialogData->m_strGameFolderPath);
 	((CEdit*)pDialog->GetDlgItem(104))->SetWindowTextW(CString2::convertStdStringToStdWString(pMapMoverAndIDShifterDialogData->m_strGameFolderPath).c_str());
 	break;
 	case 108: // Change button for IDE Folder
-	pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_5"), getIMGF()->getLastUsedDirectory("MAPMOVERANDIDSHIFTER_IDEFOLDER"));
+	pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_5"), getIMGF()->getLastUsedDirectory("MAPMOVERANDIDSHIFTER_IDEFOLDER"));
 	if (pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath == "")
 	{
 	break;
 	}
-	pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath = CPathManager::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath);
+	pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath = CPath::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath);
 	getIMGF()->setLastUsedDirectory("MAPMOVERANDIDSHIFTER_IDEFOLDER", pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath);
 	((CEdit*)pDialog->GetDlgItem(107))->SetWindowTextW(CString2::convertStdStringToStdWString(pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath).c_str());
 	break;
 	case 111: // Change button for IPL Folder
-	pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_6"), getIMGF()->getLastUsedDirectory("MAPMOVERANDIDSHIFTER_IPLFOLDER"));
+	pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_6"), getIMGF()->getLastUsedDirectory("MAPMOVERANDIDSHIFTER_IPLFOLDER"));
 	if (pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath == "")
 	{
 	break;
 	}
-	pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath = CPathManager::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath);
+	pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath = CPath::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath);
 	getIMGF()->setLastUsedDirectory("MAPMOVERANDIDSHIFTER_IPLFOLDER", pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath);
 	((CEdit*)pDialog->GetDlgItem(110))->SetWindowTextW(CString2::convertStdStringToStdWString(pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath).c_str());
 	break;
 	case 114: // Change button for Output Folder
-	pMapMoverAndIDShifterDialogData->m_strOutputFolderPath = CInputManager::chooseFolderDialog(CLocalizationManager::get()->getTranslatedText("TextPopup_28"), getIMGF()->getLastUsedDirectory("MAPMOVERANDIDSHIFTER_OUTPUTFOLDER"));
+	pMapMoverAndIDShifterDialogData->m_strOutputFolderPath = CInput::chooseFolderDialog(CLocalizationManager::get()->getTranslatedText("TextPopup_28"), getIMGF()->getLastUsedDirectory("MAPMOVERANDIDSHIFTER_OUTPUTFOLDER"));
 	if (pMapMoverAndIDShifterDialogData->m_strOutputFolderPath == "")
 	{
 	break;
 	}
-	pMapMoverAndIDShifterDialogData->m_strOutputFolderPath = CPathManager::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strOutputFolderPath);
-	getIMGF()->setLastUsedDirectory("MAPMOVERANDIDSHIFTER_OUTPUTFOLDER", CPathManager::getDirectory(pMapMoverAndIDShifterDialogData->m_strOutputFolderPath));
+	pMapMoverAndIDShifterDialogData->m_strOutputFolderPath = CPath::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strOutputFolderPath);
+	getIMGF()->setLastUsedDirectory("MAPMOVERANDIDSHIFTER_OUTPUTFOLDER", CPath::getDirectory(pMapMoverAndIDShifterDialogData->m_strOutputFolderPath));
 	((CEdit*)pDialog->GetDlgItem(113))->SetWindowTextW(CString2::convertStdStringToStdWString(pMapMoverAndIDShifterDialogData->m_strOutputFolderPath).c_str());
 	break;
 	}
@@ -3537,54 +3537,54 @@ INT_PTR CALLBACK DialogProc_DATModelListDialog(
 
 	if (str1 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_62"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_62"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	if (str2 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 	if (str3 == "")
 	{
-	CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_63"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
+	CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_63"), CLocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
 
-	pDATModelListDialogData->m_strGameFolderPath = CPathManager::addSlashToEnd(pDATModelListDialogData->m_strGameFolderPath);
+	pDATModelListDialogData->m_strGameFolderPath = CPath::addSlashToEnd(pDATModelListDialogData->m_strGameFolderPath);
 
 	EndDialog(hwndDlg, 0);
 	break;
 	}
 	case 102: // Change button for DAT File
 	{
-	vector<string> vecFilePaths = CInputManager::openFile(getIMGF()->getLastUsedDirectory("DATMODELLIST_DATINPUT"), "DAT", false);
+	vector<string> vecFilePaths = CInput::openFile(getIMGF()->getLastUsedDirectory("DATMODELLIST_DATINPUT"), "DAT", false);
 	if (vecFilePaths.size() == 0)
 	{
 	break;
 	}
 	pDATModelListDialogData->m_strDATFilePath = vecFilePaths[0];
-	getIMGF()->setLastUsedDirectory("DATMODELLIST_DATINPUT", CPathManager::getDirectory(pDATModelListDialogData->m_strDATFilePath));
+	getIMGF()->setLastUsedDirectory("DATMODELLIST_DATINPUT", CPath::getDirectory(pDATModelListDialogData->m_strDATFilePath));
 	((CEdit*)pDialog->GetDlgItem(101))->SetWindowTextW(CString2::convertStdStringToStdWString(pDATModelListDialogData->m_strDATFilePath).c_str());
 	break;
 	}
 	case 105: // Change button for Game Folder
-	pDATModelListDialogData->m_strGameFolderPath = CInputManager::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("DATMODELLIST_GAMEFOLDER"));
+	pDATModelListDialogData->m_strGameFolderPath = CInput::chooseFolderDialog(hwndDlg, CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("DATMODELLIST_GAMEFOLDER"));
 	if (pDATModelListDialogData->m_strGameFolderPath == "")
 	{
 	break;
 	}
-	pDATModelListDialogData->m_strGameFolderPath = CPathManager::addSlashToEnd(pDATModelListDialogData->m_strGameFolderPath);
+	pDATModelListDialogData->m_strGameFolderPath = CPath::addSlashToEnd(pDATModelListDialogData->m_strGameFolderPath);
 	getIMGF()->setLastUsedDirectory("DATMODELLIST_GAMEFOLDER", pDATModelListDialogData->m_strGameFolderPath);
 	((CEdit*)pDialog->GetDlgItem(104))->SetWindowTextW(CString2::convertStdStringToStdWString(pDATModelListDialogData->m_strGameFolderPath).c_str());
 	break;
 	case 108: // Change button for Output File
-	pDATModelListDialogData->m_strOutputFilePath = CInputManager::saveFileDialog(getIMGF()->getLastUsedDirectory("DATMODELLIST_TXTOUTPUT"), "TXT", "Model List.txt");
+	pDATModelListDialogData->m_strOutputFilePath = CInput::saveFileDialog(getIMGF()->getLastUsedDirectory("DATMODELLIST_TXTOUTPUT"), "TXT", "Model List.txt");
 	if (pDATModelListDialogData->m_strOutputFilePath == "")
 	{
 	break;
 	}
-	getIMGF()->setLastUsedDirectory("DATMODELLIST_TXTOUTPUT", CPathManager::getDirectory(pDATModelListDialogData->m_strOutputFilePath));
+	getIMGF()->setLastUsedDirectory("DATMODELLIST_TXTOUTPUT", CPath::getDirectory(pDATModelListDialogData->m_strOutputFilePath));
 	((CEdit*)pDialog->GetDlgItem(107))->SetWindowTextW(CString2::convertStdStringToStdWString(pDATModelListDialogData->m_strOutputFilePath).c_str());
 	break;
 	}

@@ -1,7 +1,7 @@
 #include "CInstallationMeta.h"
-#include "Type/String/CString2.h"
-#include "Path/CPathManager.h"
-#include "Registry/CRegistryManager.h"
+#include "Static/CString2.h"
+#include "Static/CPath.h"
+#include "Static/CRegistry.h"
 #include <Shlobj.h>
 #include <sstream>
 
@@ -10,7 +10,7 @@ using namespace bxcf;
 
 string				CInstallationMeta::getProgramFilesPath(void)
 {
-	return CPathManager::addSlashToEnd(CRegistryManager::getSoftwareValueString("IMGF\\InternalSettings", "InstallationPath"));
+	return CPath::addSlashToEnd(CRegistry::getSoftwareValueString("IMGF\\InternalSettings", "InstallationPath"));
 }
 
 string				CInstallationMeta::getLocalAppPath(void)
@@ -19,7 +19,7 @@ string				CInstallationMeta::getLocalAppPath(void)
 	SHGetKnownFolderPath(FOLDERID_LocalAppData, 0, NULL, &pLocalAppDataFolderPath);
 	wstringstream ss;
 	ss << pLocalAppDataFolderPath;
-	string strLocalAppFolderPath = CPathManager::addSlashToEnd(CString2::convertStdWStringToStdString(ss.str()));
+	string strLocalAppFolderPath = CPath::addSlashToEnd(CString2::convertStdWStringToStdString(ss.str()));
 	CoTaskMemFree(static_cast<void*>(pLocalAppDataFolderPath));
-	return CPathManager::addSlashToEnd(strLocalAppFolderPath) + "IMGF/";
+	return CPath::addSlashToEnd(strLocalAppFolderPath) + "IMGF/";
 }

@@ -1,12 +1,12 @@
 #include "CEditor.h"
-#include "Path/CPathManager.h"
+#include "Static/CPath.h"
 #include "GUI/Editor/Tab/CEditorTab.h"
 #include "Format/CFormat.h"
 #include "CIMGF.h"
 #include "Tasks/RecentlyOpen/CRecentlyOpenManager.h"
 #include "Controls/CTabBarControl.h"
 #include "GUI/Windows/CMainWindow.h"
-#include "Type/String/CString2.h"
+#include "Static/CString2.h"
 
 using namespace std;
 using namespace bxcf;
@@ -33,10 +33,10 @@ void								CEditor::addFile(CEditorTab *pEditorFile)
 	string& strFilePath = pEditorFile->getFile()->getFilePath();
 
 	// choose tab text
-	string strTabText = CPathManager::getFileName(strFilePath);
-	if (CString2::toUpperCase(CPathManager::getFileExtension(strTabText)) == "DIR")
+	string strTabText = CPath::getFileName(strFilePath);
+	if (CString2::toUpperCase(CPath::getFileExtension(strTabText)) == "DIR")
 	{
-		strTabText = CPathManager::replaceFileExtensionWithCase(strTabText, "IMG");
+		strTabText = CPath::replaceFileExtensionWithCase(strTabText, "IMG");
 	}
 	strTabText += " (" + CString2::toString(pEditorFile->getFile()->m_uiEntryCount) + ")";
 

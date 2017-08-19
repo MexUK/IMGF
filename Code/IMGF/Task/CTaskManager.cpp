@@ -2,10 +2,10 @@
 #include "Globals.h"
 #include "CIMGF.h"
 #include "CTaskDispatchManager.h"
-#include "Type/String/CString2.h"
-#include "Path/CPathManager.h"
-#include "File/CFileManager.h"
-#include "Type/StdVector/CStdVector.h"
+#include "Static/CString2.h"
+#include "Static/CPath.h"
+#include "Static/CFile.h"
+#include "Static/CStdVector.h"
 #include "Format/Text/INI/CINIManager.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "Settings/CSettingsManager.h"
@@ -137,9 +137,9 @@ void							CTaskManager::onTaskEnd(bool bFeatureAborted)
 	m_uiTaskPauseStartTime = 0;
 
 	string strINIPath = getIMGF()->getInstallationMeta().getLocalAppPath() + "Data\\FeatureProcessingTimes.txt";
-	if (!CFileManager::doesFolderExist(CPathManager::getDirectory(strINIPath)))
+	if (!CFile::doesFolderExist(CPath::getDirectory(strINIPath)))
 	{
-		CFileManager::createFoldersForPath(strINIPath);
+		CFile::createFoldersForPath(strINIPath);
 	}
 
 	string strItem = CINIManager::getItem(strINIPath, "FeatureProcessingTimes", strFeatureName);
@@ -175,7 +175,7 @@ void							CTaskManager::onTaskEnd(bool bFeatureAborted)
 			strFeatureName != "onRequestFilter" &&
 			strFeatureName != "onRequestSearchSelection")
 		{
-			//CInputManager::showMessage("Feature: " + strFeatureName, "Feature Causing Rebuild Bug", MB_OK);
+			//CInput::showMessage("Feature: " + strFeatureName, "Feature Causing Rebuild Bug", MB_OK);
 			getIMGF()->getTaskManager()->getDispatch()->onRequestRebuild();
 		}
 	}

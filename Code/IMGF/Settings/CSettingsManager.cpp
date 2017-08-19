@@ -5,10 +5,10 @@
 #include "CIMGF.h"
 #include "Globals.h"
 #include "GUI/Popups/CPopupGUIManager.h"
-#include "Registry/CRegistryManager.h"
+#include "Static/CRegistry.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 #include "Format/Text/INI/CINIManager.h"
-#include "Type/String/CString2.h"
+#include "Static/CString2.h"
 
 using namespace std;
 using namespace bxcf;
@@ -175,7 +175,7 @@ void			CSettingsManager::setSettingBool_PermanentStroage(string strSettingName, 
 	}
 	else
 	{
-		CRegistryManager::setSoftwareValueInt(getRegistryKey(), strSettingName, bValue ? 1 : 0);
+		CRegistry::setSoftwareValueInt(getRegistryKey(), strSettingName, bValue ? 1 : 0);
 	}
 }
 void			CSettingsManager::setSettingInt_PermanentStroage(string strSettingName, int iValue)
@@ -186,7 +186,7 @@ void			CSettingsManager::setSettingInt_PermanentStroage(string strSettingName, i
 	}
 	else
 	{
-		CRegistryManager::setSoftwareValueInt("IMGF\\Settings", strSettingName, iValue);
+		CRegistry::setSoftwareValueInt("IMGF\\Settings", strSettingName, iValue);
 	}
 }
 void			CSettingsManager::setSettingString_PermanentStroage(string strSettingName, string strValue)
@@ -197,7 +197,7 @@ void			CSettingsManager::setSettingString_PermanentStroage(string strSettingName
 	}
 	else
 	{
-		CRegistryManager::setSoftwareValueString("IMGF\\Settings", strSettingName, strValue);
+		CRegistry::setSoftwareValueString("IMGF\\Settings", strSettingName, strValue);
 	}
 }
 
@@ -209,7 +209,7 @@ bool			CSettingsManager::getSettingBool_PermanentStroage(string strSettingName)
 	}
 	else
 	{
-		return CRegistryManager::getSoftwareValueInt("IMGF\\Settings", strSettingName) == 1;
+		return CRegistry::getSoftwareValueInt("IMGF\\Settings", strSettingName) == 1;
 	}
 }
 int				CSettingsManager::getSettingInt_PermanentStroage(string strSettingName)
@@ -220,7 +220,7 @@ int				CSettingsManager::getSettingInt_PermanentStroage(string strSettingName)
 	}
 	else
 	{
-		return CRegistryManager::getSoftwareValueInt("IMGF\\Settings", strSettingName);
+		return CRegistry::getSoftwareValueInt("IMGF\\Settings", strSettingName);
 	}
 }
 string			CSettingsManager::getSettingString_PermanentStroage(string strSettingName)
@@ -231,6 +231,6 @@ string			CSettingsManager::getSettingString_PermanentStroage(string strSettingNa
 	}
 	else
 	{
-		return CRegistryManager::getSoftwareValueString("IMGF\\Settings", strSettingName);
+		return CRegistry::getSoftwareValueString("IMGF\\Settings", strSettingName);
 	}
 }

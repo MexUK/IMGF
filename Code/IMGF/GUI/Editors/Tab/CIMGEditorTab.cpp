@@ -3,10 +3,10 @@
 #include "CIMGEditorTab.h"
 #include "CIMGF.h"
 #include "Globals.h"
-#include "Type/String/CString2.h"
-#include "Type/StdVector/CStdVector.h"
-#include "Path/CPathManager.h"
-#include "File/CFileManager.h"
+#include "Static/CString2.h"
+#include "Static/CStdVector.h"
+#include "Static/CPath.h"
+#include "Static/CFile.h"
 #include "Format/RockstarGames/IMG/CIMGManager.h"
 #include "Format/RockstarGames/IMG/CIMGFormat.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
@@ -17,7 +17,7 @@
 #include "Tasks/Sort/CSortPriority.h"
 #include "Tasks/Sort/CSortType.h"
 #include "Tasks/Sort/eSortType.h"
-#include "Debug/CDebug.h"
+#include "Static/CDebug.h"
 #include "DB/CDBFormat.h"
 #include "Format/RockstarGames/COL/CCOLManager.h"
 #include "Tasks/Find/CSearchEntry.h"
@@ -28,8 +28,8 @@
 #include "Tasks/Sort/CSortPriorities.h"
 #include "Platform/Hardware/CPlatformManager.h"
 #include "Settings/CSettingsManager.h"
-#include "Input/CInputManager.h"
-#include "Input/CInputManager.h"
+#include "Static/CInput.h"
+#include "Static/CInput.h"
 #include "DB/CDBManager.h"
 #include "Tasks/RecentlyOpen/CRecentlyOpenManager.h"
 #include "Controls/CGridControl.h"
@@ -92,12 +92,12 @@ void					CIMGEditorTab::init(void)
 	getIMGF()->getRecentlyOpenManager()->loadRecentlyOpenEntries();
 
 	// update filename for open last
-	getIMGF()->getActiveWindow()->setOpenLastFilename(CPathManager::getFileName(getIMGFile()->getFilePath()));
+	getIMGF()->getActiveWindow()->setOpenLastFilename(CPath::getFileName(getIMGFile()->getFilePath()));
 
 	// load corresponding DB file & protected entry states
 	m_pDBFile = nullptr;
-	string strDBFilePath = CPathManager::replaceFileExtension(getIMGFile()->getFilePath(), "db");
-	if (CFileManager::doesFileExist(strDBFilePath))
+	string strDBFilePath = CPath::replaceFileExtension(getIMGFile()->getFilePath(), "db");
+	if (CFile::doesFileExist(strDBFilePath))
 	{
 		m_pDBFile = CDBManager::get()->parseViaFile(strDBFilePath);
 
@@ -244,11 +244,11 @@ void					CIMGEditorTab::checkForUnknownRWVersionEntries(void)
 		getIMGF()->getTaskManager()->onTaskPause();
 		getIMGF()->getPopupGUIManager()->showListViewDialog(
 			CLocalizationManager::get()->getTranslatedText("UnknownVersions"),
-			CLocalizationManager::get()->getTranslatedFormattedText("UnknownVersionsCheck", CPathManager::getFileName(getIMGFile()->getFilePath()).c_str(), vecUnknownRWVersionEntries.size()),
+			CLocalizationManager::get()->getTranslatedFormattedText("UnknownVersionsCheck", CPath::getFileName(getIMGFile()->getFilePath()).c_str(), vecUnknownRWVersionEntries.size()),
 			CLocalizationManager::get()->getTranslatedText("Window_OrphanEntries_EntryName"),
 			vecIMGEntryNames,
 			CLocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_3_InitialFilename",
-			CPathManager::replaceFileExtension(CPathManager::getFileName(getIMGFile()->getFilePath()), "TXT").c_str()),
+			CPath::replaceFileExtension(CPath::getFileName(getIMGFile()->getFilePath()), "TXT").c_str()),
 			"UNKNOWNRWVERSIONS"
 			);
 		getIMGF()->getTaskManager()->onTaskUnpause();
@@ -258,7 +258,7 @@ void					CIMGEditorTab::checkForUnknownRWVersionEntries(void)
 void					CIMGEditorTab::log(string strText, bool bExtendedModeOnly)
 {
 	//string strLogEntryWithTimestamp = "[" + CString2::getTimestampText() + "] " + strText;
-	string strLogEntryWithTimestampAndIMG = "[" + CString2::getTimestampText() + "] [" + CPathManager::getFileName(m_pIMGFile->getFilePath()) + "] " + strText;
+	string strLogEntryWithTimestampAndIMG = "[" + CString2::getTimestampText() + "] [" + CPath::getFileName(m_pIMGFile->getFilePath()) + "] " + strText;
 
 	if (bExtendedModeOnly)
 	{
@@ -270,9 +270,9 @@ void					CIMGEditorTab::log(string strText, bool bExtendedModeOnly)
 			// extended file
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
 			{
-				string strExtendedLogPath = CPathManager::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				string strExtendedLogPath = CPath::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
 				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::get()->getTranslatedText("LogFilename_Extended");
-				CFileManager::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
+				CFile::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 		}
 	}
@@ -288,17 +288,17 @@ void					CIMGEditorTab::log(string strText, bool bExtendedModeOnly)
 			// basic file
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingBasic"))
 			{
-				string strExtendedLogPath = CPathManager::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				string strExtendedLogPath = CPath::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
 				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::get()->getTranslatedText("LogFilename_Basic");
-				CFileManager::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
+				CFile::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 			
 			// extended file
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
 			{
-				string strExtendedLogPath = CPathManager::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				string strExtendedLogPath = CPath::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
 				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::get()->getTranslatedText("LogFilename_Extended");
-				CFileManager::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
+				CFile::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 		}
 	}
@@ -424,7 +424,7 @@ void					CIMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFileP
 {
 	if (strEntryName == "")
 	{
-		strEntryName = CPathManager::getFileName(strEntryFilePath);
+		strEntryName = CPath::getFileName(strEntryFilePath);
 	}
 
 	CIMGEntry *pIMGEntry = getIMGFile()->getEntryByName(strEntryName);
@@ -491,7 +491,7 @@ void					CIMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFileP
 
 	uint32
 		uiExistingEntryFileCreationDate = pIMGEntry->getFileCreationDate(),
-		uiNewEntryFileCreationDate = CFileManager::getFileCreationDate(strEntryFilePath);
+		uiNewEntryFileCreationDate = CFile::getFileCreationDate(strEntryFilePath);
 
 	if (uiExistingEntryFileCreationDate == 0 || uiNewEntryFileCreationDate == 0)
 	{
@@ -616,7 +616,7 @@ void					CIMGEditorTab::readdGridEntries(void)
 	m_pEntryGrid->removeAllEntries();
 	addGridEntries();
 
-	m_pEntryGrid->getWindow()->renderWindow();
+	//m_pEntryGrid->getWindow()->renderWindow();
 }
 void					CIMGEditorTab::addGridEntries(void)
 {
@@ -702,7 +702,7 @@ void					CIMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry, uint32 uiEntryIndex, 
 	vector<string> vecText;
 	vecText.resize(bIsFastman92IMGFormat ? 8 : 6);
 	vecText[0] = CString2::addNumberGrouping(CString2::toString(uiEntryIndex + 1));
-	vecText[1] = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
+	vecText[1] = CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()));
 	vecText[2] = pIMGEntry->getEntryName();
 	vecText[3] = CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntryOffset()));
 	vecText[4] = CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntrySize()));
@@ -726,7 +726,7 @@ void					CIMGEditorTab::updateGridEntry(CIMGEntry *pIMGEntry)
 		// IMG entry is not currently displayed, e.g. filter.
 		return;
 	}
-	string strExtensionUpper = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
+	string strExtensionUpper = CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()));
 	getListView()->SetItem(uiEntryIndex, 0, LVIF_TEXT, CString2::convertStdStringToStdWString(CString2::addNumberGrouping(CString2::toString(uiEntryIndex + 1))).c_str(), 0, 0, 0, 0);
 	getListView()->SetItem(uiEntryIndex, 1, LVIF_TEXT, CString2::convertStdStringToStdWString(strExtensionUpper).c_str(), 0, 0, 0, 0);
 	getListView()->SetItem(uiEntryIndex, 2, LVIF_TEXT, CString2::convertStdStringToStdWString(pIMGEntry->getEntryName()).c_str(), 0, 0, 0, 0);
@@ -873,7 +873,7 @@ void					CIMGEditorTab::splitSelectedEntries(string strPath, eIMGVersion eIMGVer
 		}
 	}
 
-	log(CLocalizationManager::get()->getTranslatedFormattedText("Log_128", vecIMGEntries.size(), CPathManager::getFileName(strPath).c_str()));
+	log(CLocalizationManager::get()->getTranslatedFormattedText("Log_128", vecIMGEntries.size(), CPath::getFileName(strPath).c_str()));
 	*/
 }
 void					CIMGEditorTab::replace(vector<string>& vecPaths, vector<string>& vecReplacedEntryNames)
@@ -937,7 +937,7 @@ void					CIMGEditorTab::searchText(void)
 		uint32 i = 0;
 		for (auto pIMGEntry : ((CIMGEditorTab*)pEditorTab)->getIMGFile()->getEntries())
 		{
-			string strEntryExtension = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
+			string strEntryExtension = CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()));
 			bool bMatch = false;
 			if (CString2::toUpperCase(pIMGEntry->getEntryName()).find(strSearchText) != string::npos)
 			{
@@ -960,7 +960,7 @@ void					CIMGEditorTab::searchText(void)
 						bMatch = true;
 					}
 				}
-				else if (strEntryExtension == "TXD" || CPathManager::isModelExtension(strEntryExtension))
+				else if (strEntryExtension == "TXD" || CPath::isModelExtension(strEntryExtension))
 				{
 					if (pIMGEntry->getRWVersion() == nullptr)
 					{
@@ -1016,18 +1016,18 @@ void					CIMGEditorTab::searchText(void)
 	{
 		CIMGEntry *pIMGEntry = pSearchEntry->getIMGEntry();
 		uint32 uiRowIndex = pListControl->GetItemCount();
-		string strEntryExtension = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
+		string strEntryExtension = CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()));
 		string strExtraInfo;
 		if (strEntryExtension == "COL")
 		{
 			strExtraInfo = CCOLManager::getCOLVersionText(pIMGEntry->getCOLVersion());
 		}
-		else if (strEntryExtension == "TXD" || CPathManager::isModelExtension(strEntryExtension))
+		else if (strEntryExtension == "TXD" || CPath::isModelExtension(strEntryExtension))
 		{
 			strExtraInfo = pIMGEntry->getRWVersion() == nullptr ? CLocalizationManager::get()->getTranslatedText("Window_Main_Combo_RWVersion_Unknown") : pIMGEntry->getRWVersion()->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pIMGEntry->getRWVersion()->getLocalizationKey()) + ")";
 		}
 		pListControl->InsertItem(LVIF_TEXT | LVIF_PARAM, uiRowIndex, CString2::convertStdStringToStdWString(pIMGEntry->getEntryName()).c_str(), 0, 0, 0, (DWORD)pSearchEntry);
-		pListControl->SetItem(uiRowIndex, 1, LVIF_TEXT, CString2::convertStdStringToStdWString(CPathManager::getFileName(pSearchEntry->getWindowTab()->getIMGFile()->getFilePath())).c_str(), 0, 0, 0, 0);
+		pListControl->SetItem(uiRowIndex, 1, LVIF_TEXT, CString2::convertStdStringToStdWString(CPath::getFileName(pSearchEntry->getWindowTab()->getIMGFile()->getFilePath())).c_str(), 0, 0, 0, 0);
 		pListControl->SetItem(uiRowIndex, 2, LVIF_TEXT, CString2::convertStdStringToStdWString(strExtraInfo).c_str(), 0, 0, 0, 0);
 	}
 

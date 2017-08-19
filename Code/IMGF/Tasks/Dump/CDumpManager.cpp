@@ -7,10 +7,10 @@
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
 #include "GUI/Popups/CPopupGUIManager.h"
 #include "Format/RockstarGames/IMG/CIMGFormat.h"
-#include "Input/CInputManager.h"
-#include "Path/CPathManager.h"
-#include "Type/String/CString2.h"
-#include "File/CFileManager.h"
+#include "Static/CInput.h"
+#include "Static/CPath.h"
+#include "Static/CString2.h"
+#include "Static/CFile.h"
 #include "Format/RockstarGames/IMG/CIMGManager.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 #include "Format/RockstarGames/DAT/Loader/CDATLoaderManager.h"
@@ -26,8 +26,8 @@
 #include "Format/Image/ICO/CICOManager.h"
 #include "Format/Image/ICO/CICOFormat.h"
 #include "Bitmap.h"
-#include "Debug/CDebug.h"
-#include "Type/StdVector/CStdVector.h"
+#include "Static/CDebug.h"
+#include "Static/CStdVector.h"
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
@@ -157,7 +157,7 @@ void		CDumpManager::process(void)
 		for (auto strIMGRelativePath : vecGameIMGPaths)
 		{
 			string strIMGPath = pDumpDialogData->m_strGameDirectoryPath + strIMGRelativePath;
-			if (CFileManager::doesFileExist(strIMGPath))
+			if (CFile::doesFileExist(strIMGPath))
 			{
 				CIMGFormat *pIMGFile = CIMGManager::get()->parseViaFile(strIMGPath);
 				if(!pIMGFile->doesHaveError())
@@ -193,7 +193,7 @@ void		CDumpManager::process(void)
 		for (auto strIMGRelativePath : vecGameIMGPaths)
 		{
 			string strIMGPath = pDumpDialogData->m_strGameDirectoryPath + strIMGRelativePath;
-			if (CFileManager::doesFileExist(strIMGPath))
+			if (CFile::doesFileExist(strIMGPath))
 			{
 				CIMGFormat *pIMGFile = CIMGManager::get()->parseViaFile(strIMGPath);
 				if(!pIMGFile->doesHaveError())
@@ -205,7 +205,7 @@ void		CDumpManager::process(void)
 	}
 
 	// dump folder path
-	pDumpDialogData->m_strDumpDestinationFolderPath = CPathManager::addSlashToEnd(pDumpDialogData->m_strDumpDestinationFolderPath);
+	pDumpDialogData->m_strDumpDestinationFolderPath = CPath::addSlashToEnd(pDumpDialogData->m_strDumpDestinationFolderPath);
 
 	// progress bar
 	uint32 uiProgressMaxTicks = 0;
@@ -246,7 +246,7 @@ void		CDumpManager::process(void)
 		// dump IMG entries
 		for (auto pIMGEntry : vecIMGEntries)
 		{
-			string strExtension = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
+			string strExtension = CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()));
 			if (strExtension == "COL" || strExtension == "WBN" || strExtension == "WBD")
 			{
 				if (std::find(pDumpDialogData->m_vecDumpExtensions.begin(), pDumpDialogData->m_vecDumpExtensions.end(), "COL") != pDumpDialogData->m_vecDumpExtensions.end())
@@ -321,7 +321,7 @@ void		CDumpManager::process(void)
 					//vecIMGEntries.push_back(pIMGEntry);
 					//CIMGManager::get()->exportEntries(pIMGFile, vecIMGEntries, pDumpDialogData->m_strDumpDestinationFolderPath + strExtension + "/");
 
-					string strEntryExtensionUpper = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
+					string strEntryExtensionUpper = CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()));
 					if (strEntryExtensionUpper != "TXD" && strEntryExtensionUpper != "WTD")
 					{
 						getIMGF()->getTaskManager()->onTaskProgressTick();
@@ -442,13 +442,13 @@ void		CDumpManager::process(void)
 										string strBMPFilePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strBMPFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPathManager::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".BMP";
+											strBMPFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".BMP";
 										}
 										else
 										{
 											strBMPFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".BMP";
 										}
-										strBMPFilePath = CPathManager::getNextFileName(strBMPFilePath, uiMipmapIndex, "-Mipmap");
+										strBMPFilePath = CPath::getNextFileName(strBMPFilePath, uiMipmapIndex, "-Mipmap");
 
 										pBMPFile->setBMPVersion(3);
 										pBMPFile->serializeViaFile(strBMPFilePath);
@@ -458,13 +458,13 @@ void		CDumpManager::process(void)
 										string strICOFilePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strICOFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPathManager::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".ICO";
+											strICOFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".ICO";
 										}
 										else
 										{
 											strICOFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".ICO";
 										}
-										strICOFilePath = CPathManager::getNextFileName(strICOFilePath, uiMipmapIndex, "-Mipmap");
+										strICOFilePath = CPath::getNextFileName(strICOFilePath, uiMipmapIndex, "-Mipmap");
 
 										CICOFormat *pICOFormat = CICOManager::get()->createFormatFromBMP(pBMPFile);
 										pICOFormat->serializeViaFile(strICOFilePath);
@@ -476,13 +476,13 @@ void		CDumpManager::process(void)
 										string strCURFilePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPathManager::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".CUR";
+											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".CUR";
 										}
 										else
 										{
 											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".CUR";
 										}
-										strCURFilePath = CPathManager::getNextFileName(strCURFilePath, uiMipmapIndex, "-Mipmap");
+										strCURFilePath = CPath::getNextFileName(strCURFilePath, uiMipmapIndex, "-Mipmap");
 										
 										CCURFormat *pCURFormat = CCURManager::get()->createFormatFromBMP(pBMPFile);
 										pCURFormat->serializeViaFile(strCURFilePath);
@@ -494,13 +494,13 @@ void		CDumpManager::process(void)
 										string strDDSFilePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strDDSFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPathManager::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".DDS";
+											strDDSFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".DDS";
 										}
 										else
 										{
 											strDDSFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".DDS";
 										}
-										strDDSFilePath = CPathManager::getNextFileName(strDDSFilePath, uiMipmapIndex, "-Mipmap");
+										strDDSFilePath = CPath::getNextFileName(strDDSFilePath, uiMipmapIndex, "-Mipmap");
 
 										CDDSFormat ddsFile;
 										ddsFile.m_uiWidth = pMipmap->getImageSize().x;
@@ -516,15 +516,15 @@ void		CDumpManager::process(void)
 											strImagePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPathManager::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pTexture->getDiffuseName() + ".BMP";
-											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPathManager::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + "." + strImageType;
+											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pTexture->getDiffuseName() + ".BMP";
+											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + "." + strImageType;
 										}
 										else
 										{
 											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/__TEMP_" + pTexture->getDiffuseName() + ".BMP";
 											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + "." + strImageType;
 										}
-										strImagePath = CPathManager::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
+										strImagePath = CPath::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
 
 										pBMPFile->setBMPVersion(3);
 										pBMPFile->serializeViaFile(strTempBMPPath);
@@ -534,7 +534,7 @@ void		CDumpManager::process(void)
 										pBmp->saveImage(CString2::convertStdStringToStdWString(strImagePath).c_str());
 										delete pBmp;
 
-										CFileManager::removeFile(strTempBMPPath);
+										CFile::removeFile(strTempBMPPath);
 									}
 									else
 									{
@@ -544,15 +544,15 @@ void		CDumpManager::process(void)
 											strImagePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPathManager::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pTexture->getDiffuseName() + ".BMP";
-											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPathManager::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + "." + strImageType;
+											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pTexture->getDiffuseName() + ".BMP";
+											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + "." + strImageType;
 										}
 										else
 										{
 											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/__TEMP_" + pTexture->getDiffuseName() + ".BMP";
 											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + "." + strImageType;
 										}
-										strImagePath = CPathManager::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
+										strImagePath = CPath::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
 
 										pBMPFile->setBMPVersion(3);
 										pBMPFile->serializeViaFile(strTempBMPPath);
@@ -572,7 +572,7 @@ void		CDumpManager::process(void)
 										delete image;
 										GdiplusShutdown(gdiplusToken);
 
-										CFileManager::removeFile(strTempBMPPath);
+										CFile::removeFile(strTempBMPPath);
 									}
 
 									pBMPFile->unload();
@@ -650,13 +650,13 @@ void		CDumpManager::process(void)
 										string strBMPFilePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strBMPFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPathManager::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".BMP";
+											strBMPFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".BMP";
 										}
 										else
 										{
 											strBMPFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + ".BMP";
 										}
-										strBMPFilePath = CPathManager::getNextFileName(strBMPFilePath, uiMipmapIndex, "-Mipmap");
+										strBMPFilePath = CPath::getNextFileName(strBMPFilePath, uiMipmapIndex, "-Mipmap");
 										
 										pBMPFile->setBMPVersion(3);
 										pBMPFile->serializeViaFile(strBMPFilePath);
@@ -666,13 +666,13 @@ void		CDumpManager::process(void)
 										string strICOFilePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strICOFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPathManager::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".ICO";
+											strICOFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".ICO";
 										}
 										else
 										{
 											strICOFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + ".ICO";
 										}
-										strICOFilePath = CPathManager::getNextFileName(strICOFilePath, uiMipmapIndex, "-Mipmap");
+										strICOFilePath = CPath::getNextFileName(strICOFilePath, uiMipmapIndex, "-Mipmap");
 
 										string strICOHeaderData = "";
 										strICOHeaderData += CString2::packUint16(0, false);
@@ -689,20 +689,20 @@ void		CDumpManager::process(void)
 										
 										pBMPFile->setSkipBMPFileHeaderForSerialize(true);
 										pBMPFile->setBMPVersion(3);
-										CFileManager::storeFile(strICOFilePath, strICOHeaderData + pBMPFile->serializeViaMemory(), false, true);
+										CFile::storeFile(strICOFilePath, strICOHeaderData + pBMPFile->serializeViaMemory(), false, true);
 									}
 									else if (strImageType == "CUR")
 									{
 										string strCURFilePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPathManager::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".CUR";
+											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".CUR";
 										}
 										else
 										{
 											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + ".CUR";
 										}
-										strCURFilePath = CPathManager::getNextFileName(strCURFilePath, uiMipmapIndex, "-Mipmap");
+										strCURFilePath = CPath::getNextFileName(strCURFilePath, uiMipmapIndex, "-Mipmap");
 
 										string strCURHeaderData = "";
 										strCURHeaderData += CString2::packUint16(0, false);
@@ -719,21 +719,21 @@ void		CDumpManager::process(void)
 										
 										pBMPFile->setSkipBMPFileHeaderForSerialize(true);
 										pBMPFile->setBMPVersion(3);
-										CFileManager::storeFile(strCURFilePath, strCURHeaderData + pBMPFile->serializeViaMemory(), false, true);
+										CFile::storeFile(strCURFilePath, strCURHeaderData + pBMPFile->serializeViaMemory(), false, true);
 									}
 									else if (strImageType == "DDS")
 									{
 										string strDDSFilePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strDDSFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPathManager::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".DDS";
+											strDDSFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".DDS";
 										}
 										else
 										{
 											strDDSFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + ".DDS";
 										}
 
-										strDDSFilePath = CPathManager::getNextFileName(strDDSFilePath, uiMipmapIndex, "-Mipmap");
+										strDDSFilePath = CPath::getNextFileName(strDDSFilePath, uiMipmapIndex, "-Mipmap");
 
 										CDDSFormat ddsFile;
 										ddsFile.m_uiWidth = pMipmap->getImageSize(true);
@@ -749,15 +749,15 @@ void		CDumpManager::process(void)
 											strImagePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPathManager::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
-											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPathManager::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + "." + strImageType;
+											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
+											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + "." + strImageType;
 										}
 										else
 										{
 											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
 											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + "." + strImageType;
 										}
-										strImagePath = CPathManager::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
+										strImagePath = CPath::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
 
 										pBMPFile->setBMPVersion(3);
 										pBMPFile->serializeViaFile(strTempBMPPath);
@@ -767,7 +767,7 @@ void		CDumpManager::process(void)
 										pBmp->saveImage(CString2::convertStdStringToStdWString(strImagePath).c_str());
 										delete pBmp;
 
-										CFileManager::removeFile(strTempBMPPath);
+										CFile::removeFile(strTempBMPPath);
 									}
 									else
 									{
@@ -777,15 +777,15 @@ void		CDumpManager::process(void)
 											strImagePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPathManager::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
-											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPathManager::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + "." + strImageType;
+											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
+											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + "." + strImageType;
 										}
 										else
 										{
 											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
 											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + "." + strImageType;
 										}
-										strImagePath = CPathManager::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
+										strImagePath = CPath::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
 										
 										pBMPFile->setBMPVersion(3);
 										pBMPFile->serializeViaFile(strTempBMPPath);
@@ -805,7 +805,7 @@ void		CDumpManager::process(void)
 										delete image;
 										GdiplusShutdown(gdiplusToken);
 
-										CFileManager::removeFile(strTempBMPPath);
+										CFile::removeFile(strTempBMPPath);
 									}
 
 									pBMPFile->unload();
@@ -922,7 +922,7 @@ void		CDumpManager::process(void)
 	if (bSuccessfulResult)
 	{
 		getIMGF()->getTaskManager()->onTaskPause();
-		CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_1"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_1"));
+		CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_1"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_1"));
 		getIMGF()->getTaskManager()->onTaskUnpause();
 	}
 	else
@@ -942,7 +942,7 @@ void		CDumpManager::process(void)
 		{
 			string strFilePath = getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath") + CString2::getDateTextForFolder() + " / " + CLocalizationManager::get()->getTranslatedText("LogFilename_Extended");
 
-			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended") && CFileManager::doesFileExist(strFilePath))
+			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended") && CFile::doesFileExist(strFilePath))
 			{
 				// automatic logging is enabled, simply open the txt file for the user
 				ShellExecute(NULL, NULL, CString2::convertStdStringToStdWString(strFilePath).c_str(), NULL, NULL, SW_SHOWNORMAL);

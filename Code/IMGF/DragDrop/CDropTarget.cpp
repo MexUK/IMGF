@@ -1,12 +1,12 @@
 #pragma warning(disable : 4005)
 
 #include "CDropTarget.h"
-#include "Type/String/CString2.h"
+#include "Static/CString2.h"
 #include "Globals.h"
 #include "CIMGF.h"
 #include "GUI/Editors/CIMGEditor.h"
-#include "Path/CPathManager.h"
-#include "Input/CInputManager.h"
+#include "Static/CPath.h"
+#include "Static/CInput.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 #include "Format/RockstarGames/TXD/CTXDManager.h"
 #include "Format/RockstarGames/TXD/CTXDFormat.h"
@@ -21,7 +21,7 @@
 #include "GUI/Popups/CPopupGUIManager.h"
 #include "Image/CRasterDataFormat.h"
 #include "Localization/CLocalizationManager.h"
-#include "Debug/CDebug.h"
+#include "Static/CDebug.h"
 #include <string>
 
 using namespace std;

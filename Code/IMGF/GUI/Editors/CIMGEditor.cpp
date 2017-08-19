@@ -2,9 +2,9 @@
 #include "Globals.h"
 #include "CIMGF.h"
 #include "Format/RockstarGames/IMG/CIMGManager.h"
-#include "Type/String/CString2.h"
-#include "Path/CPathManager.h"
-#include "File/CFileManager.h"
+#include "Static/CString2.h"
+#include "Static/CPath.h"
+#include "Static/CFile.h"
 #include "Localization/CLocalizationManager.h"
 #include "Settings/CSettingsManager.h"
 #include "Format/RockstarGames/COL/CCOLManager.h"
@@ -25,7 +25,7 @@
 #include "Controls/CTextBoxControl.h"
 #include "Controls/CTextControl.h"
 #include "Controls/CDropControl.h"
-#include "Input/CInputManager.h"
+#include "Static/CInput.h"
 #include "Control/CGUIScrollPool.h"
 #include "GUI/Layers/CMainLayer.h"
 #include "Event/EInputEvents.h"
@@ -86,14 +86,14 @@ bool						CIMGEditor::validateFile(CIMGFormat *img)
 		// check if IMG is fastman92 format and is encrypted
 		if (img->isEncrypted())
 		{
-			CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_21"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_21"), MB_OK);
+			CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_21"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_21"), MB_OK);
 			return false;
 		}
 
 		// check if IMG is fastman92 format and has an unsupported game type
 		if (img->getGameType() != 0)
 		{
-			CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_68", img->getGameType()), CLocalizationManager::get()->getTranslatedText("UnableToOpenIMG"), MB_OK);
+			CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_68", img->getGameType()), CLocalizationManager::get()->getTranslatedText("UnableToOpenIMG"), MB_OK);
 			return false;
 		}
 	}
@@ -107,7 +107,7 @@ CIMGEditorTab*				CIMGEditor::addFile(CIMGFormat *img)
 {
 	CIMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img);
 
-	string strFileName = CPathManager::getFileName(img->getFilePath());
+	string strFileName = CPath::getFileName(img->getFilePath());
 	imgEditorTab->logf("Opened %s", strFileName);
 
 	return imgEditorTab;
@@ -121,7 +121,7 @@ CIMGEditorTab*				CIMGEditor::addBlankFile(string strIMGPath, eIMGVersion eIMGVe
 
 	CIMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img);
 
-	string strFileName = CPathManager::getFileName(img->getFilePath());
+	string strFileName = CPath::getFileName(img->getFilePath());
 	imgEditorTab->logf("Created %s", strFileName);
 
 	return imgEditorTab;
@@ -428,9 +428,9 @@ void					CIMGEditor::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
 			// extended file
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
 			{
-				string strExtendedLogPath = CPathManager::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				string strExtendedLogPath = CPath::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
 				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::get()->getTranslatedText("LogFilename_Extended");
-				CFileManager::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
+				CFile::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 		}
 	}
@@ -446,17 +446,17 @@ void					CIMGEditor::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
 			// basic file
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingBasic"))
 			{
-				string strExtendedLogPath = CPathManager::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				string strExtendedLogPath = CPath::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
 				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::get()->getTranslatedText("LogFilename_Basic");
-				CFileManager::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
+				CFile::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 
 			// extended file
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
 			{
-				string strExtendedLogPath = CPathManager::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				string strExtendedLogPath = CPath::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
 				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::get()->getTranslatedText("LogFilename_Extended");
-				CFileManager::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
+				CFile::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 		}
 	}
@@ -586,7 +586,7 @@ void					CIMGEditor::initMenu(void) // todo - move menu stuff to like CMenuManag
 	AppendMenu(hMenu_File, MF_SEPARATOR, 1760, _T(""));
 	AppendMenu(hMenu_File, MF_STRING, 1100, CLocalizationManager::get()->getTranslatedTextW("Open").c_str());
 	AppendMenu(hMenu_File, MF_STRING | MF_POPUP, (UINT_PTR)getIMGF()->m_hSubMenu_File_OpenRecent, CLocalizationManager::get()->getTranslatedTextW("Menu_OpenRecent").c_str());
-	AppendMenu(hMenu_File, MF_STRING, 1117, CString2::convertStdStringToStdWString(CLocalizationManager::get()->getTranslatedText("Menu_OpenLast") + (getIMGF()->getRecentlyOpenManager()->getLastOpenEntry() == "" ? "" : " (" + CPathManager::getFileName(getIMGF()->getRecentlyOpenManager()->getLastOpenEntry()) + ")")).c_str());
+	AppendMenu(hMenu_File, MF_STRING, 1117, CString2::convertStdStringToStdWString(CLocalizationManager::get()->getTranslatedText("Menu_OpenLast") + (getIMGF()->getRecentlyOpenManager()->getLastOpenEntry() == "" ? "" : " (" + CPath::getFileName(getIMGF()->getRecentlyOpenManager()->getLastOpenEntry()) + ")")).c_str());
 	AppendMenu(hMenu_File, MF_STRING, 1114, CLocalizationManager::get()->getTranslatedTextW("Menu_Reopen").c_str());
 	//AppendMenu(hMenu_File, MF_STRING, 1109, _T("Associate IMG extension"));
 	AppendMenu(hMenu_File, MF_STRING | MF_POPUP, (UINT_PTR)hMenu_File_Sessions, CLocalizationManager::get()->getTranslatedTextW("Menu_Sessions").c_str());

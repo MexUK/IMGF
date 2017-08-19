@@ -17,7 +17,7 @@ public:
 
 protected:
 	virtual void					CompleteMove() {};
-	virtual BOOL					OnRenderFileData(LPFORMATETC lpFormatEtc, CFile* pFile);
+	virtual BOOL					OnRenderFileData(LPFORMATETC lpFormatEtc, ::CFile* pFile);
 
 private:
 	std::vector<CDraggableFile*>	m_vecDraggableFiles;

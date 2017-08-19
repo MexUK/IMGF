@@ -15,7 +15,7 @@
 #include "Format/RockstarGames/IMG/CIMGManager.h"
 #include "Event/CEventManager.h"
 #include "Event/eEvent.h"
-#include "Input/CInputManager.h"
+#include "Static/CInput.h"
 #include "Window/CWindow.h"
 #include "Controls/CTextControl.h"
 #include "Controls/CGridControl.h"
@@ -29,22 +29,22 @@
 #include "GUI/Window/CWindowManager.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
-#include "Type/String/CString2.h"
-#include "File/CFileManager.h"
-#include "Path/CPathManager.h"
-#include "Registry/CRegistryManager.h"
+#include "Static/CString2.h"
+#include "Static/CFile.h"
+#include "Static/CPath.h"
+#include "Static/CRegistry.h"
 #include "DragDrop/CDropTarget.h"
 #include "DB/CDBManager.h"
 #include "DB/CDBFormat.h"
-#include "Debug/CDebug.h"
+#include "Static/CDebug.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 #include "Format/RockstarGames/COL/CCOLManager.h"
 #include "Format/RockstarGames/COL/CCOLVersionManager.h"
 #include "Format/RockstarGames/COL/CCOLVersion.h"
-#include "Input/CInputManager.h"
+#include "Static/CInput.h"
 #include "Tasks/Find/CSearchEntry.h"
 #include "EntryViewer/CEntryViewerManager.h"
-#include "Type/StdVector/CStdVector.h"
+#include "Static/CStdVector.h"
 #include "Updater/CUpdateManager.h"
 #include "Program/buildnumber.h"
 #include "Compression/eCompressionAlgorithm.h"
@@ -69,7 +69,7 @@
 #include "Collection/Game/CGameManager.h"
 #include "Platform/Hardware/CPlatformManager.h"
 #include "Format/RenderWare/Helper/BinaryStream/CRWSection.h"
-#include "Timing/CTiming.h"
+#include "Static/CTiming.h"
 #include "Task/CLastUsedValueManager.h"
 #include "GUI/Windows/CMainWindow.h"
 #include "Styles/CStyleManager.h"
@@ -172,22 +172,22 @@ void				CIMGF::initBuildMeta(void)
 void				CIMGF::initInstallationMeta(void)
 {
 	// choose installation folder
-	string strInstallationPath = CRegistryManager::getSoftwareValueString("IMGF\\InternalSettings", "InstallationPath");
+	string strInstallationPath = CRegistry::getSoftwareValueString("IMGF\\InternalSettings", "InstallationPath");
 	if (strInstallationPath == "")
 	{
 		string strProgramFilesx86FolderName = "IMG Factory";
 		string strPotentialInstallationPath = "C:\\Program Files (x86)\\" + strProgramFilesx86FolderName + "\\" + getIMGF()->getBuildMeta().getCurrentVersionString() + "\\";
-		if (CFileManager::doesFolderExist(strPotentialInstallationPath))
+		if (CFile::doesFolderExist(strPotentialInstallationPath))
 		{
 			strInstallationPath = strPotentialInstallationPath;
-			CRegistryManager::setSoftwareValueString("IMGF\\InternalSettings", "InstallationPath", strPotentialInstallationPath);
+			CRegistry::setSoftwareValueString("IMGF\\InternalSettings", "InstallationPath", strPotentialInstallationPath);
 		}
 		else
 		{
 			/*
 			todo
-			//string strChosenInstallationFolder = CInputManager::chooseFolderDialog(getDialog()->GetSafeHwnd(), CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_11"), getIMGF()->getLastUsedDirectory("INSTALLATION"));
-			string strChosenInstallationFolder = CInputManager::chooseFolderDialog(getActiveWindow() ? getActiveWindow()->getWindowHandle() : NULL, "Choose the installation folder for IMGF. (e.g. In program files x86)", getIMGF()->getLastUsedDirectory("INSTALLATION"));
+			//string strChosenInstallationFolder = CInput::chooseFolderDialog(getDialog()->GetSafeHwnd(), CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_11"), getIMGF()->getLastUsedDirectory("INSTALLATION"));
+			string strChosenInstallationFolder = CInput::chooseFolderDialog(getActiveWindow() ? getActiveWindow()->getWindowHandle() : NULL, "Choose the installation folder for IMGF. (e.g. In program files x86)", getIMGF()->getLastUsedDirectory("INSTALLATION"));
 			if (strChosenInstallationFolder == "")
 			{
 			}
@@ -195,7 +195,7 @@ void				CIMGF::initInstallationMeta(void)
 			{
 				strInstallationPath = strChosenInstallationFolder;
 				getIMGF()->setLastUsedDirectory("INSTALLATION", strChosenInstallationFolder);
-				CRegistryManager::setSoftwareValueString("IMGF\\InternalSettings", "InstallationPath", strChosenInstallationFolder);
+				CRegistry::setSoftwareValueString("IMGF\\InternalSettings", "InstallationPath", strChosenInstallationFolder);
 			}
 			*/
 		}
@@ -280,7 +280,7 @@ void				CIMGF::initLocalization(void)
 	eLanguage eActiveLanguage = (eLanguage)getIMGF()->getSettingsManager()->getSettingInt("Language");
 	CLocalizationManager::get()->setActiveLanguage(eActiveLanguage);
 	CLocalizationManager::get()->setActiveLanguageName(getIMGF()->getLanguageManager()->getLanguageById(eActiveLanguage)->getLanguageName());
-	CLocalizationManager::get()->setInstallationPath(CRegistryManager::getSoftwareValueString("IMGF\\InternalSettings", "InstallationPath"));
+	CLocalizationManager::get()->setInstallationPath(CRegistry::getSoftwareValueString("IMGF\\InternalSettings", "InstallationPath"));
 	CLocalizationManager::get()->loadTranslatedText();
 }
 
@@ -292,7 +292,7 @@ void				CIMGF::initSorting(void)
 void				CIMGF::initOldVersionMigration(void)
 {
 	// delete previous version's exe file
-	string strPreviousVersionExePath = CRegistryManager::getSoftwareValueString("IMGF\\InternalSettings", "DeletePreviousVersionOnNextLaunch");
+	string strPreviousVersionExePath = CRegistry::getSoftwareValueString("IMGF\\InternalSettings", "DeletePreviousVersionOnNextLaunch");
 	if (strPreviousVersionExePath != "")
 	{
 		int iResult;
@@ -300,7 +300,7 @@ void				CIMGF::initOldVersionMigration(void)
 		uint32 uiIterationCount = 0;
 		do
 		{
-			bFileExists = CFileManager::doesFileExist(strPreviousVersionExePath);
+			bFileExists = CFile::doesFileExist(strPreviousVersionExePath);
 			if (bFileExists)
 			{
 				iResult = DeleteFile(CString2::convertStdStringToStdWString(strPreviousVersionExePath).c_str());
@@ -316,7 +316,7 @@ void				CIMGF::initOldVersionMigration(void)
 			}
 		}
 		while (bFileExists && iResult == 0);
-		CRegistryManager::removeSoftwareValue("IMGF\\InternalSettings", "DeletePreviousVersionOnNextLaunch");
+		CRegistry::removeSoftwareValue("IMGF\\InternalSettings", "DeletePreviousVersionOnNextLaunch");
 	}
 }
 
@@ -398,9 +398,9 @@ CIMGEditorTab*		CIMGF::getEntryListTab(void)
 // last used directory
 void				CIMGF::setLastUsedDirectory(string strHandleName, string strDirectory)
 {
-	CRegistryManager::setSoftwareValueString("IMGF\\LastUsedDirectories", strHandleName, strDirectory);
+	CRegistry::setSoftwareValueString("IMGF\\LastUsedDirectories", strHandleName, strDirectory);
 }
 string				CIMGF::getLastUsedDirectory(string strHandleName)
 {
-	return CRegistryManager::getSoftwareValueString("IMGF\\LastUsedDirectories", strHandleName);
+	return CRegistry::getSoftwareValueString("IMGF\\LastUsedDirectories", strHandleName);
 }

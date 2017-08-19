@@ -3,9 +3,9 @@
 #include "CLSTSection.h"
 #include "CLSTEntry.h"
 #include "Stream/CDataReader.h"
-#include "Type/String/CString2.h"
-#include "Type/StdVector/CStdVector.h"
-#include "Debug/CDebug.h"
+#include "Static/CString2.h"
+#include "Static/CStdVector.h"
+#include "Static/CDebug.h"
 
 using namespace std;
 using namespace bxcf;

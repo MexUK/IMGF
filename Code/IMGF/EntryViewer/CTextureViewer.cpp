@@ -12,8 +12,8 @@
 #include "CTextureViewerTextureData.h"
 #include "Image/CImageManager.h"
 #include "Localization/CLocalizationManager.h"
-#include "Input/CInputManager.h"
-#include "Type/String/CString2.h"
+#include "Static/CInput.h"
+#include "Static/CString2.h"
 #include <gdiplus.h>
 
 using namespace std;
@@ -442,7 +442,7 @@ void				CTextureViewer::openWindow(void)
 	if (!RegisterClassEx(&wc))
 	{
 		DWORD uiError = GetLastError();
-		CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_52", uiError), CLocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
+		CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_52", uiError), CLocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
 		return;
 	}
 
@@ -456,7 +456,7 @@ void				CTextureViewer::openWindow(void)
 		NULL, NULL, hInstance, NULL);
 	if (hwndEntryViewerWindow == NULL)
 	{
-		CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_53"), CLocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
+		CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_53"), CLocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
 		return;
 	}
 	setWindowHwnd(hwndEntryViewerWindow);
@@ -561,7 +561,7 @@ LRESULT CALLBACK WndProc_ComboBox(
 {
 	if ((HWND)lParam == hWndComboBox)
 	{
-		CInputManager::showMessage("T", "D");
+		CInput::showMessage("T", "D");
 	}
 	if ((uMsg == WM_COMMAND) && (HIWORD(wParam) == BN_CLICKED))
 	{

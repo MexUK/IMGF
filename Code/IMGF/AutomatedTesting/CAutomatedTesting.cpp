@@ -19,7 +19,7 @@ void						testFormatSerialization(string strFormatFilePath)
 	}
 	
 	// test storing
-	string strOutputFormatFilePath = "Output/" + CPathManager::getFileName(strFormatFilePath);
+	string strOutputFormatFilePath = "Output/" + CPath::getFileName(strFormatFilePath);
 	pFormat->storeViaFile(strOutputFormatFilePath);
 	if(bHasError)
 	{
@@ -29,7 +29,7 @@ void						testFormatSerialization(string strFormatFilePath)
 	}
 	
 	// test store with file that is: stored, then parsed, then stored
-	if(!CFileManager::compareFiles(strFormatFilePath, strOutputFormatFilePath))
+	if(!CFile::compareFiles(strFormatFilePath, strOutputFormatFilePath))
 	{
 		pFormat->unload();
 		delete pFormat;

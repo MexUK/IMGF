@@ -3,9 +3,9 @@
 #include "CDBEntry.h"
 #include "Format/RockstarGames/IMG/CIMGFormat.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
-#include "Type/String/CString2.h"
+#include "Static/CString2.h"
 #include "Stream/CDataReader.h"
-#include "Debug/CDebug.h"
+#include "Static/CDebug.h"
 
 using namespace std;
 using namespace bxcf;

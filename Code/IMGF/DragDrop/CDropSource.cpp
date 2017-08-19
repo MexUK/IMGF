@@ -2,11 +2,11 @@
 
 #include "CDropSource.h"
 #include "CDragListCtrl.h"
-#include "Type/String/CString2.h"
+#include "Static/CString2.h"
 #include "Globals.h"
 #include "CIMGF.h"
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
-#include "Debug/CDebug.h"
+#include "Static/CDebug.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 #include "Localization/CLocalizationManager.h"
 
@@ -65,7 +65,7 @@ void		CDropSource::StartDragging(void)
 	*/
 }
 
-BOOL CDropSource::OnRenderFileData(LPFORMATETC lpFormatEtc, CFile* pFile)
+BOOL CDropSource::OnRenderFileData(LPFORMATETC lpFormatEtc, ::CFile* pFile)
 {
 	/*
 	todo

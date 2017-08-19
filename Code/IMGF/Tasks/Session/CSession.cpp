@@ -1,6 +1,6 @@
 #include "CSession.h"
-#include "Type/String/CString2.h"
-#include "Registry/CRegistryManager.h"
+#include "Static/CString2.h"
+#include "Static/CRegistry.h"
 #include "Globals.h"
 #include "CIMGF.h"
 #include "CSessionManager.h"
@@ -18,12 +18,12 @@ void			CSession::setName(string strSessionName)
 {
 	m_strName = strSessionName;
 	uint32 uiSessionIndex = getIMGF()->getSessionManager()->getIndexByEntry(this);
-	CRegistryManager::setSoftwareValueString("IMGF\\Sessions", "Data_" + CString2::toString(uiSessionIndex), serialize());
+	CRegistry::setSoftwareValueString("IMGF\\Sessions", "Data_" + CString2::toString(uiSessionIndex), serialize());
 }
 
 void			CSession::setPaths(vector<string> vecPaths)
 {
 	m_vecPaths = vecPaths;
 	uint32 uiSessionIndex = getIMGF()->getSessionManager()->getIndexByEntry(this);
-	CRegistryManager::setSoftwareValueString("IMGF\\Sessions", "Data_" + CString2::toString(uiSessionIndex), serialize());
+	CRegistry::setSoftwareValueString("IMGF\\Sessions", "Data_" + CString2::toString(uiSessionIndex), serialize());
 }

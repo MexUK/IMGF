@@ -1,11 +1,11 @@
 #include "CRecentlyOpenManager.h"
-#include "Type/String/CString2.h"
-#include "Path/CPathManager.h"
-#include "Type/StdVector/CStdVector.h"
-#include "Registry/CRegistryManager.h"
+#include "Static/CString2.h"
+#include "Static/CPath.h"
+#include "Static/CStdVector.h"
+#include "Static/CRegistry.h"
 #include "Globals.h"
 #include "CIMGF.h"
-#include "Debug/CDebug.h"
+#include "Static/CDebug.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 #include "Localization/CLocalizationManager.h"
 #include "Window/CWindow.h"
@@ -37,10 +37,10 @@ void					CRecentlyOpenManager::loadRecentlyOpenEntries(void)
 	DeleteMenu(getIMGF()->m_hSubMenu_File_OpenRecent, 1880, 0);
 	DeleteMenu(getIMGF()->m_hSubMenu_File_OpenRecent, 1881, 0);
 
-	uint32 uiRecentlyOpenedCount = CRegistryManager::getSoftwareValueInt("IMGF\\RecentlyOpened", "Count");
+	uint32 uiRecentlyOpenedCount = CRegistry::getSoftwareValueInt("IMGF\\RecentlyOpened", "Count");
 	for (int32 i = uiRecentlyOpenedCount; i >= 1; i--)
 	{
-		string strIMGPath = CRegistryManager::getSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(i));
+		string strIMGPath = CRegistry::getSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(i));
 
 		AppendMenu(getIMGF()->m_hSubMenu_File_OpenRecent, MF_STRING, 1800 + i, CString2::convertStdStringToStdWString(CString2::toString((uiRecentlyOpenedCount - i) + 1) + ") " + strIMGPath).c_str());
 
@@ -81,21 +81,21 @@ CRecentlyOpenEntry*		CRecentlyOpenManager::addRecentlyOpenEntry(std::string strP
 	addEntry(pRecentlyOpenEntry);
 
 	uint32 uiRecentlyOpenedMaxCount = 15;
-	uint32 uiRecentlyOpenedCount = CRegistryManager::getSoftwareValueInt("IMGF\\RecentlyOpened", "Count");
+	uint32 uiRecentlyOpenedCount = CRegistry::getSoftwareValueInt("IMGF\\RecentlyOpened", "Count");
 
 	if (uiRecentlyOpenedCount == uiRecentlyOpenedMaxCount)
 	{
 		for (uint32 i = 2; i <= uiRecentlyOpenedMaxCount; i++)
 		{
-			string strIMGPath2 = CRegistryManager::getSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(i));
-			CRegistryManager::setSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(i - 1), strIMGPath2);
+			string strIMGPath2 = CRegistry::getSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(i));
+			CRegistry::setSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(i - 1), strIMGPath2);
 		}
-		CRegistryManager::setSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(uiRecentlyOpenedMaxCount), strPath);
+		CRegistry::setSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(uiRecentlyOpenedMaxCount), strPath);
 	}
 	else
 	{
-		CRegistryManager::setSoftwareValueInt("IMGF\\RecentlyOpened", "Count", uiRecentlyOpenedCount + 1);
-		CRegistryManager::setSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(uiRecentlyOpenedCount + 1), strPath);
+		CRegistry::setSoftwareValueInt("IMGF\\RecentlyOpened", "Count", uiRecentlyOpenedCount + 1);
+		CRegistry::setSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(uiRecentlyOpenedCount + 1), strPath);
 	}
 
 	return pRecentlyOpenEntry;
@@ -114,12 +114,12 @@ void					CRecentlyOpenManager::removeRecentlyOpenedEntries(void)
 	removeAllEntries();
 	getIMGF()->getActiveWindow()->clearOpenLastFilename();
 
-	uint32 uiRecentlyOpenedCount = CRegistryManager::getSoftwareValueInt("IMGF\\RecentlyOpened", "Count");
+	uint32 uiRecentlyOpenedCount = CRegistry::getSoftwareValueInt("IMGF\\RecentlyOpened", "Count");
 	for (uint32 i = 1; i <= uiRecentlyOpenedCount; i++)
 	{
-		CRegistryManager::removeSoftwareValue("IMGF\\RecentlyOpened", "Data_" + CString2::toString(i));
+		CRegistry::removeSoftwareValue("IMGF\\RecentlyOpened", "Data_" + CString2::toString(i));
 	}
-	CRegistryManager::setSoftwareValueInt("IMGF\\RecentlyOpened", "Count", 0);
+	CRegistry::setSoftwareValueInt("IMGF\\RecentlyOpened", "Count", 0);
 
 	loadRecentlyOpenEntries();
 	*/
@@ -128,25 +128,25 @@ void					CRecentlyOpenManager::removeRecentlyOpenedEntries(void)
 void					CRecentlyOpenManager::removeRecentlyOpenEntry(CRecentlyOpenEntry *pRecentlyOpenEntry)
 {
 	uint32 uiRecentlyOpenedIndex = getRecentlyOpenedFileIndex(pRecentlyOpenEntry->getPath());
-	CRegistryManager::removeSoftwareValue("IMGF\\RecentlyOpened", "Data_" + CString2::toString(uiRecentlyOpenedIndex));
+	CRegistry::removeSoftwareValue("IMGF\\RecentlyOpened", "Data_" + CString2::toString(uiRecentlyOpenedIndex));
 
-	uint32 uiRecentlyOpenedCount = CRegistryManager::getSoftwareValueInt("IMGF\\RecentlyOpened", "Count");
+	uint32 uiRecentlyOpenedCount = CRegistry::getSoftwareValueInt("IMGF\\RecentlyOpened", "Count");
 	for (uint32 i = uiRecentlyOpenedIndex; i <= uiRecentlyOpenedCount; i++)
 	{
-		string strIMGPath2 = CRegistryManager::getSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(i + 1));
-		CRegistryManager::setSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(i), strIMGPath2);
+		string strIMGPath2 = CRegistry::getSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(i + 1));
+		CRegistry::setSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(i), strIMGPath2);
 	}
-	CRegistryManager::setSoftwareValueInt("IMGF\\RecentlyOpened", "Count", uiRecentlyOpenedCount - 1);
+	CRegistry::setSoftwareValueInt("IMGF\\RecentlyOpened", "Count", uiRecentlyOpenedCount - 1);
 
 	removeEntry(pRecentlyOpenEntry);
 }
 
 uint32			CRecentlyOpenManager::getRecentlyOpenedFileIndex(string strIMGPath)
 {
-	uint32 uiRecentlyOpenedCount = CRegistryManager::getSoftwareValueInt("IMGF\\RecentlyOpened", "Count");
+	uint32 uiRecentlyOpenedCount = CRegistry::getSoftwareValueInt("IMGF\\RecentlyOpened", "Count");
 	for (uint32 i = 1; i <= uiRecentlyOpenedCount; i++)
 	{
-		string strIMGPath2 = CRegistryManager::getSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(i));
+		string strIMGPath2 = CRegistry::getSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(i));
 		if (strIMGPath2 == strIMGPath)
 		{
 			return i;
@@ -176,13 +176,13 @@ bool					CRecentlyOpenManager::doesRecentlyOpenEntryExist(std::string strPath)
 
 string					CRecentlyOpenManager::getLastOpenEntry(void)
 {
-	uint32 uiRecentlyOpenedCount = CRegistryManager::getSoftwareValueInt("IMGF\\RecentlyOpened", "Count");
+	uint32 uiRecentlyOpenedCount = CRegistry::getSoftwareValueInt("IMGF\\RecentlyOpened", "Count");
 	if (uiRecentlyOpenedCount == 0)
 	{
 		return "";
 	}
 
-	string strIMGPath = CRegistryManager::getSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(uiRecentlyOpenedCount));
+	string strIMGPath = CRegistry::getSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(uiRecentlyOpenedCount));
 	return strIMGPath;
 }
 

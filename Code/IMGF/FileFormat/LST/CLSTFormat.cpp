@@ -1,8 +1,8 @@
 #include "CLSTFormat.h"
 #include "CLSTSection.h"
 #include "CLSTEntry.h"
-#include "Type/String/CString2.h"
-#include "Type/StdVector/CStdVector.h"
+#include "Static/CString2.h"
+#include "Static/CStdVector.h"
 #include "Stream/CDataReader.h"
 
 using namespace std;

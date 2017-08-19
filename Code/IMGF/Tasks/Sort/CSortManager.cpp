@@ -7,13 +7,13 @@
 #include "Task/CTaskDispatchManager.h"
 #include "Format/RockstarGames/IMG/CIMGFormat.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
-#include "Type/String/CString2.h"
-#include "Type/StdVector/CStdVector.h"
-#include "Path/CPathManager.h"
+#include "Static/CString2.h"
+#include "Static/CStdVector.h"
+#include "Static/CPath.h"
 #include "CSortPriority.h"
 #include "CSortType.h"
 #include "eSortType.h"
-#include "Input/CInputManager.h"
+#include "Static/CInput.h"
 #include "GUI/Popups/CPopupGUIManager.h"
 #include "Format/RockstarGames/IDE/CIDEManager.h"
 #include "Format/RockstarGames/IDE/CIDEManager.h"
@@ -246,8 +246,8 @@ bool		CSortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 	}
 	else if (eSortType == SORT_IDE_FILE)
 	{
-		uint32 uiKey1 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(CPathManager::removeFileExtension(p1->getEntryName())));
-		uint32 uiKey2 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(CPathManager::removeFileExtension(p2->getEntryName())));
+		uint32 uiKey1 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(CPath::removeFileExtension(p1->getEntryName())));
+		uint32 uiKey2 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(CPath::removeFileExtension(p2->getEntryName())));
 		if (uiKey1 == -1 || uiKey2 == -1)
 		{
 			return false;
@@ -270,8 +270,8 @@ bool		CSortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 	}
 	else if (eSortType == SORT_COL_FILE)
 	{
-		uint32 uiKey1 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(CPathManager::removeFileExtension(p1->getEntryName())));
-		uint32 uiKey2 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(CPathManager::removeFileExtension(p2->getEntryName())));
+		uint32 uiKey1 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(CPath::removeFileExtension(p1->getEntryName())));
+		uint32 uiKey2 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(CPath::removeFileExtension(p2->getEntryName())));
 		if (uiKey1 == -1 || uiKey2 == -1)
 		{
 			return false;
@@ -369,14 +369,14 @@ void		CSortManager::onClickMenuItem(uint16 usMenuHandle)
 
 		if (pSortMenuItem->m_pType->getType() == SORT_IDE_FILE)
 		{
-			vector<string> vecPaths = CInputManager::openFile(getIMGF()->getLastUsedDirectory("SORT_IDE"), "IDE", false);
+			vector<string> vecPaths = CInput::openFile(getIMGF()->getLastUsedDirectory("SORT_IDE"), "IDE", false);
 			if (vecPaths.size() == 0)
 			{
 				bCancel = true;
 			}
 			else
 			{
-				getIMGF()->setLastUsedDirectory("SORT_IDE", CPathManager::getDirectory(vecPaths[0]));
+				getIMGF()->setLastUsedDirectory("SORT_IDE", CPath::getDirectory(vecPaths[0]));
 
 				CIDEFormat *pIDEFile = CIDEManager::get()->parseViaFile(vecPaths[0]);
 				if(!pIDEFile->doesHaveError())
@@ -385,9 +385,9 @@ void		CSortManager::onClickMenuItem(uint16 usMenuHandle)
 					vector<string> vecTextureNames = pIDEFile->getTXDNames();
 					vector<string> vecEntryNames = CStdVector::toUpperCase(CStdVector::combineVectors(vecModelNames, vecTextureNames));
 					pSortPriority->setData(vecEntryNames);
-					pSortPriority->setStrData(CPathManager::getFileName(pIDEFile->getFilePath()));
+					pSortPriority->setStrData(CPath::getFileName(pIDEFile->getFilePath()));
 
-					// todo pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, CLocalizationManager::get()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), CPathManager::getFileName(pIDEFile->getFilePath()).c_str()).c_str());
+					// todo pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, CLocalizationManager::get()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), CPath::getFileName(pIDEFile->getFilePath()).c_str()).c_str());
 				}
 				pIDEFile->unload();
 				delete pIDEFile;
@@ -395,23 +395,23 @@ void		CSortManager::onClickMenuItem(uint16 usMenuHandle)
 		}
 		else if (pSortMenuItem->m_pType->getType() == SORT_COL_FILE)
 		{
-			vector<string> vecPaths = CInputManager::openFile(getIMGF()->getLastUsedDirectory("SORT_COL"), "COL", false);
+			vector<string> vecPaths = CInput::openFile(getIMGF()->getLastUsedDirectory("SORT_COL"), "COL", false);
 			if (vecPaths.size() == 0)
 			{
 				bCancel = true;
 			}
 			else
 			{
-				getIMGF()->setLastUsedDirectory("SORT_COL", CPathManager::getDirectory(vecPaths[0]));
+				getIMGF()->setLastUsedDirectory("SORT_COL", CPath::getDirectory(vecPaths[0]));
 
 				CCOLFormat *pCOLFile = CCOLManager::get()->parseViaFile(vecPaths[0]);
 				if(!pCOLFile->doesHaveError())
 				{
 					vector<string> vecEntryNames = CStdVector::toUpperCase(pCOLFile->getModelNames());
 					pSortPriority->setData(vecEntryNames);
-					pSortPriority->setStrData(CPathManager::getFileName(pCOLFile->getFilePath()));
+					pSortPriority->setStrData(CPath::getFileName(pCOLFile->getFilePath()));
 
-					// todo pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, CLocalizationManager::get()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), CPathManager::getFileName(pCOLFile->getFilePath()).c_str()).c_str());
+					// todo pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, CLocalizationManager::get()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), CPath::getFileName(pCOLFile->getFilePath()).c_str()).c_str());
 				}
 				pCOLFile->unload();
 				delete pCOLFile;

@@ -6,9 +6,9 @@
 #include "LST/CLSTFormat.h"
 #include "LST/CLSTSection.h"
 #include "LST/CLSTEntry.h"
-#include "Type/String/CString2.h"
-#include "File/CFileManager.h"
-#include "Path/CPathManager.h"
+#include "Static/CString2.h"
+#include "Static/CFile.h"
+#include "Static/CPath.h"
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
 #include "GUI/Editors/CIMGEditor.h"
@@ -16,7 +16,7 @@
 #include "Format/RockstarGames/COL/CCOLManager.h"
 #include "Format/RockstarGames/COL/CCOLFormat.h"
 #include "Format/RockstarGames/COL/CCOLEntry.h"
-#include "Input/CInputManager.h"
+#include "Static/CInput.h"
 #include "Tasks/Sort/CSortManager.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 #include "Localization/CLocalizationManager.h"
@@ -43,32 +43,32 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 	}
 	if (strGTARootFolderPath == "")
 	{
-		strGTARootFolderPath = CInputManager::chooseFolderDialog(CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("LST_GAME"));
+		strGTARootFolderPath = CInput::chooseFolderDialog(CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("LST_GAME"));
 		if (strGTARootFolderPath == "")
 		{
-			CInputManager::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_60"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_60"), MB_OK);
+			CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_60"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_60"), MB_OK);
 			return;
 		}
-		strGTARootFolderPath = CPathManager::addSlashToEnd(strGTARootFolderPath);
+		strGTARootFolderPath = CPath::addSlashToEnd(strGTARootFolderPath);
 		getIMGF()->setLastUsedDirectory("LST_GAME", strGTARootFolderPath);
 	}
-	strGTARootFolderPath = CPathManager::addSlashToEnd(strGTARootFolderPath);
+	strGTARootFolderPath = CPath::addSlashToEnd(strGTARootFolderPath);
 
 	//string strWorkingPath = strGTARootFolderPath;
-	//string strWorkingPath = CPathManager::addSlashToEnd(pLSTFile->getSectionByName("Start")->getEntryByName("updatearchive")->getValue(0));
+	//string strWorkingPath = CPath::addSlashToEnd(pLSTFile->getSectionByName("Start")->getEntryByName("updatearchive")->getValue(0));
 
 	if (pLSTFile->doesEntryExistByName("cdimages"))
 	{
 		if (!pLSTFile->getEntryByName("cdimages")->doesEntryExistByName("gamepath"))
 		{
-			CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "cdimages"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+			CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "cdimages"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 			return;
 		}
 
 		string strIMGPath = strGTARootFolderPath + pLSTFile->getEntryByName("cdimages")->getEntryByName("gamepath")->getValuesLine();
-		if (!CFileManager::doesFileExist(strIMGPath))
+		if (!CFile::doesFileExist(strIMGPath))
 		{
-			CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_27", strIMGPath.c_str()), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+			CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_27", strIMGPath.c_str()), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 			return;
 		}
 		getIMGF()->getTaskManager()->getDispatch()->openFile(strIMGPath);
@@ -76,7 +76,7 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 		string strSourceFolderPath = "";
 		if (!pLSTFile->getEntryByName("cdimages")->doesEntryExistByName("source"))
 		{
-			strSourceFolderPath = CPathManager::removeSlashFromFront(CPathManager::addSlashToEnd(pLSTFile->getEntryByName("cdimages")->getEntryByName("source")->getValuesLine()));
+			strSourceFolderPath = CPath::removeSlashFromFront(CPath::addSlashToEnd(pLSTFile->getEntryByName("cdimages")->getEntryByName("source")->getValuesLine()));
 		}
 
 		for (auto pLSTFileEntry : pLSTFile->getEntryByName("cdimages")->getEntries())
@@ -86,13 +86,13 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 			{
 				if (strSourceFolderPath == "")
 				{
-					CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "cdimages"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+					CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "cdimages"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 					return;
 				}
 
-				string strEntryFileName = CPathManager::getFileName(pLSTFileEntry->getValuesLine());
+				string strEntryFileName = CPath::getFileName(pLSTFileEntry->getValuesLine());
 				string strEntryPath = strGTARootFolderPath + strSourceFolderPath + strEntryFileName;
-				if (CFileManager::doesFileExist(strEntryPath))
+				if (CFile::doesFileExist(strEntryPath))
 				{
 					getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strEntryPath);
 					getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_30", strEntryFileName.c_str()));
@@ -105,7 +105,7 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 			}
 			else if (strCommandUpper == "DEL")
 			{
-				string strEntryFileName = CPathManager::getFileName(pLSTFileEntry->getValuesLine());
+				string strEntryFileName = CPath::getFileName(pLSTFileEntry->getValuesLine());
 				CIMGEntry *pIMGEntry = getIMGF()->getEntryListTab()->getEntryByName(strEntryFileName);
 				if (pIMGEntry == nullptr)
 				{
@@ -136,14 +136,14 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 	{
 		if (!pLSTFile->getEntryByName("collisions")->doesEntryExistByName("gamepath"))
 		{
-			CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "collisions"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+			CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "collisions"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 			return;
 		}
 
 		string strCOLPath = strGTARootFolderPath + pLSTFile->getEntryByName("collisions")->getEntryByName("gamepath")->getValuesLine();
-		if (!CFileManager::doesFileExist(strCOLPath))
+		if (!CFile::doesFileExist(strCOLPath))
 		{
-			CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_29", strCOLPath.c_str()), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+			CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_29", strCOLPath.c_str()), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 			return;
 		}
 		CCOLFormat *pCOLFile = CCOLManager::get()->parseViaFile(strCOLPath);
@@ -152,7 +152,7 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 			string strSourceFolderPath = "";
 			if (!pLSTFile->getEntryByName("collisions")->doesEntryExistByName("source"))
 			{
-				strSourceFolderPath = CPathManager::removeSlashFromFront(CPathManager::addSlashToEnd(pLSTFile->getEntryByName("collisions")->getEntryByName("source")->getValuesLine()));
+				strSourceFolderPath = CPath::removeSlashFromFront(CPath::addSlashToEnd(pLSTFile->getEntryByName("collisions")->getEntryByName("source")->getValuesLine()));
 			}
 
 			for (auto pLSTFileEntry : pLSTFile->getEntryByName("collisions")->getEntries())
@@ -160,8 +160,8 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 				string strCommandUpper = CString2::toUpperCase(pLSTFileEntry->getName());
 				if (strCommandUpper == "RENAME")
 				{
-					string strCOLOldFileName = CPathManager::removeFileExtension(CPathManager::getFileName(pLSTFileEntry->getValue(0)));
-					string strCOLNewFileName = CPathManager::removeFileExtension(CPathManager::getFileName(pLSTFileEntry->getValue(1)));
+					string strCOLOldFileName = CPath::removeFileExtension(CPath::getFileName(pLSTFileEntry->getValue(0)));
+					string strCOLNewFileName = CPath::removeFileExtension(CPath::getFileName(pLSTFileEntry->getValue(1)));
 					CCOLEntry *pCOLEntry = pCOLFile->getEntryByName(strCOLOldFileName);
 					if (pCOLEntry == nullptr)
 					{
@@ -177,14 +177,14 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 				{
 					if (strSourceFolderPath == "")
 					{
-						CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "collisions"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+						CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "collisions"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 						return;
 					}
 
-					string strEntryFileName = CPathManager::getFileName(pLSTFileEntry->getValuesLine());
+					string strEntryFileName = CPath::getFileName(pLSTFileEntry->getValuesLine());
 					string strEntryPath = strGTARootFolderPath + strSourceFolderPath + strEntryFileName;
 
-					if (CFileManager::doesFileExist(strEntryPath))
+					if (CFile::doesFileExist(strEntryPath))
 					{
 						getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strEntryPath);
 						getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_39", strEntryFileName.c_str()));
@@ -197,7 +197,7 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 				}
 				else if (strCommandUpper == "DEL")
 				{
-					string strEntryFileName = CPathManager::getFileName(pLSTFileEntry->getValuesLine());
+					string strEntryFileName = CPath::getFileName(pLSTFileEntry->getValuesLine());
 					CCOLEntry *pCOLEntry = pCOLFile->getEntryByName(strEntryFileName);
 					if (pCOLEntry == nullptr)
 					{
@@ -233,45 +233,45 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 			string strCommandUpper = CString2::toUpperCase(pLSTFileEntry->getName());
 			if (strCommandUpper == "SOURCE")
 			{
-				strSourceFolderPath = CPathManager::removeSlashFromFront(CPathManager::addSlashToEnd(pLSTFileEntry->getValuesLine()));
+				strSourceFolderPath = CPath::removeSlashFromFront(CPath::addSlashToEnd(pLSTFileEntry->getValuesLine()));
 			}
 			else if (strCommandUpper == "GAMEPATH")
 			{
-				strGamePathFolderPath = CPathManager::removeSlashFromFront(CPathManager::addSlashToEnd(pLSTFileEntry->getValuesLine()));
+				strGamePathFolderPath = CPath::removeSlashFromFront(CPath::addSlashToEnd(pLSTFileEntry->getValuesLine()));
 			}
 			else if (strCommandUpper == "COPY")
 			{
 				if (strSourceFolderPath == "")
 				{
-					CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "other"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+					CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "other"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 					return;
 				}
 
 				if (strGamePathFolderPath == "")
 				{
-					CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "other"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+					CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "other"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 					return;
 				}
 
-				string strFileName = CPathManager::getFileName(CPathManager::removeSlashFromEnd(pLSTFileEntry->getValuesLine()));
+				string strFileName = CPath::getFileName(CPath::removeSlashFromEnd(pLSTFileEntry->getValuesLine()));
 				if (strFileName == "*")
 				{
-					string strCopySourceFolder = strGTARootFolderPath + strSourceFolderPath + CPathManager::removeSlashFromFront(CPathManager::getDirectory(pLSTFileEntry->getValuesLine()));
-					for (auto strFileName : CFileManager::getFileNames(strCopySourceFolder))
+					string strCopySourceFolder = strGTARootFolderPath + strSourceFolderPath + CPath::removeSlashFromFront(CPath::getDirectory(pLSTFileEntry->getValuesLine()));
+					for (auto strFileName : CFile::getFileNames(strCopySourceFolder))
 					{
 						string strCopySourcePath = strGTARootFolderPath + strSourceFolderPath + strFileName;
 						string strCopyDestinationPath = strGTARootFolderPath + strGamePathFolderPath + strFileName;
-						CFileManager::copyFile(strCopySourcePath, strCopyDestinationPath);
+						CFile::copyFile(strCopySourcePath, strCopyDestinationPath);
 					}
 					getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_LSTCopy1"));
 					getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_LSTCopy2", strCopySourceFolder.c_str(), (strGTARootFolderPath + strGamePathFolderPath).c_str()), true);
 				}
 				else
 				{
-					string strFileName = CPathManager::removeSlashFromFront(pLSTFileEntry->getValuesLine());
+					string strFileName = CPath::removeSlashFromFront(pLSTFileEntry->getValuesLine());
 					string strCopySourcePath = strGTARootFolderPath + strSourceFolderPath + strFileName;
 					string strCopyDestinationPath = strGTARootFolderPath + strGamePathFolderPath + strFileName;
-					CFileManager::copyFile(strCopySourcePath, strCopyDestinationPath);
+					CFile::copyFile(strCopySourcePath, strCopyDestinationPath);
 					getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_LSTCopy3", strFileName.c_str()));
 					getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_LSTCopy4", strFileName.c_str(), strCopySourcePath.c_str(), strCopyDestinationPath.c_str()), true);
 				}
@@ -280,33 +280,33 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 			{
 				if (strSourceFolderPath == "")
 				{
-					CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "other"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+					CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "other"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 					return;
 				}
 
 				if (strGamePathFolderPath == "")
 				{
-					CInputManager::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "other"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+					CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "other"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 					return;
 				}
 
-				string strFileName = CPathManager::getFileName(CPathManager::removeSlashFromEnd(pLSTFileEntry->getValuesLine()));
+				string strFileName = CPath::getFileName(CPath::removeSlashFromEnd(pLSTFileEntry->getValuesLine()));
 				if (strFileName == "*")
 				{
-					string strFolderPath = strGTARootFolderPath + strGamePathFolderPath + CPathManager::removeSlashFromFront(CPathManager::getDirectory(pLSTFileEntry->getValuesLine()));
-					for (auto strFileName : CFileManager::getFileNames(strFolderPath))
+					string strFolderPath = strGTARootFolderPath + strGamePathFolderPath + CPath::removeSlashFromFront(CPath::getDirectory(pLSTFileEntry->getValuesLine()));
+					for (auto strFileName : CFile::getFileNames(strFolderPath))
 					{
 						string strFilePath = strFolderPath + strFileName;
-						CFileManager::removeFile(strFilePath);
+						CFile::removeFile(strFilePath);
 					}
 					getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_LSTDelete1"));
 					getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_LSTDelete2", strFolderPath.c_str()), true);
 				}
 				else
 				{
-					string strFileName = CPathManager::removeSlashFromFront(pLSTFileEntry->getValuesLine());
+					string strFileName = CPath::removeSlashFromFront(pLSTFileEntry->getValuesLine());
 					string strFilePath = strGTARootFolderPath + strGamePathFolderPath + strFileName;
-					CFileManager::removeFile(strFilePath);
+					CFile::removeFile(strFilePath);
 
 					getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_LSTDelete3", strFileName.c_str()));
 					getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_LSTDelete4", strFilePath.c_str()), true);

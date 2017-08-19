@@ -6,11 +6,11 @@
 #include "CIMGF.h"
 #include "CEntryViewerManager.h"
 #include "Format/RockstarGames/COL/CCOLEntry.h"
-#include "Math/CMath.h"
-#include "Type/String/CString2.h"
-#include "File/CFileManager.h"
-#include "Input/CInputManager.h"
-#include "Debug/CDebug.h"
+#include "Static/CMath.h"
+#include "Static/CString2.h"
+#include "Static/CFile.h"
+#include "Static/CInput.h"
+#include "Static/CDebug.h"
 #include "Type/Vector/Vec3f.h"
 #include <vector>
 //#include <GL/freeglut.h>
@@ -305,20 +305,20 @@ void						RenderText(string text, GLfloat x, GLfloat y, GLfloat scale, vector<ui
 	}
 
 	//glUseProgram(ProgramObject);
-	//if (glGetError()) CInputManager::showMessage("glUseProgram error", "Error");
+	//if (glGetError()) CInput::showMessage("glUseProgram error", "Error");
 
 	GLint iLocation = glGetUniformLocation(ProgramObject, "textColor");
-	if (glGetError()) CInputManager::showMessage("glGetUniformLocation error", "Error");
+	if (glGetError()) CInput::showMessage("glGetUniformLocation error", "Error");
 
 	//glUniform3f(glGetUniformLocation(ProgramObject, "textColor"), color[0], color[1], color[2]);
 	glUniform3f(iLocation, 0.9, 0.1, 0.1);
-	if (glGetError()) CInputManager::showMessage("glUniform3f error", "Error");
+	if (glGetError()) CInput::showMessage("glUniform3f error", "Error");
 
 	glActiveTexture(GL_TEXTURE0);
-	if (glGetError()) CInputManager::showMessage("glActiveTexture error", "Error");
+	if (glGetError()) CInput::showMessage("glActiveTexture error", "Error");
 
 	glBindVertexArray(VAO);
-	if (glGetError()) CInputManager::showMessage("glBindVertexArray error", "Error");
+	if (glGetError()) CInput::showMessage("glBindVertexArray error", "Error");
 
 	// Iterate through all characters
 	std::string::const_iterator c;
@@ -464,7 +464,7 @@ void						CCollisionViewer::initGLEW(void)
 	GLenum err = glewInit();
 	if (err != GLEW_OK)
 	{
-		CInputManager::showMessage("Failed to load GLEW library.", "Library Load Failed", MB_OK);
+		CInput::showMessage("Failed to load GLEW library.", "Library Load Failed", MB_OK);
 	}
 }
 
@@ -659,81 +659,81 @@ void						CCollisionViewer::onThreadStarted(void)
 void						CCollisionViewer::init3DSceneShader(void)
 {
 	vertexShader2 = glCreateShader(GL_VERTEX_SHADER);
-	if (glGetError()) CInputManager::showMessage("glCreateShader v", "Error");
+	if (glGetError()) CInput::showMessage("glCreateShader v", "Error");
 	fragmentShader2 = glCreateShader(GL_FRAGMENT_SHADER);
-	if (glGetError()) CInputManager::showMessage("glCreateShader f", "Error");
+	if (glGetError()) CInput::showMessage("glCreateShader f", "Error");
 
 	string strVertexShadersFilePath = "C:\\Users\\James\\Documents\\Visual Studio 2013\\Projects\\IMG-Factory\\Debug\\vertex-shaders-2.glsl";
-	uint32 uiFileSize1 = CFileManager::getFileSize(strVertexShadersFilePath);
+	uint32 uiFileSize1 = CFile::getFileSize(strVertexShadersFilePath);
 	const GLchar *vertexShaderChars;// = new GLchar[uiFileSize1 + 1];
 	uint32 iLen1 = 0;
 	//loadshader((char*)strVertexShadersFilePath.c_str(), &vertexShaderChars, &iLen1);
-	string strData1 = CFileManager::getFileContent(strVertexShadersFilePath, false);
+	string strData1 = CFile::getFileContent(strVertexShadersFilePath, false);
 	vertexShaderChars = strData1.c_str();
 	GLchar const* files1[] = { strData1.c_str() };
 	GLint lengths1[] = { strData1.size() };
 
 	string strFragmentShadersFilePath = "C:\\Users\\James\\Documents\\Visual Studio 2013\\Projects\\IMG-Factory\\Debug\\fragment-shaders-2.glsl";
-	uint32 uiFileSize2 = CFileManager::getFileSize(strFragmentShadersFilePath);
+	uint32 uiFileSize2 = CFile::getFileSize(strFragmentShadersFilePath);
 	const GLchar *fragmentShaderChars;// = new GLchar[uiFileSize2 + 1];
 	uint32 iLen2 = 0;
 	//loadshader((char*)strFragmentShadersFilePath.c_str(), &fragmentShaderChars, &iLen2);
-	string strData2 = CFileManager::getFileContent(strFragmentShadersFilePath, false);
+	string strData2 = CFile::getFileContent(strFragmentShadersFilePath, false);
 	fragmentShaderChars = strData2.c_str();
 	GLchar const* files2[] = { strData2.c_str() };
 	GLint lengths2[] = { strData2.size() };
 
 	GLint uiLengths1 = uiFileSize2;
 	glShaderSource(vertexShader2, 1, files1, lengths1);
-	if (glGetError()) CInputManager::showMessage("glShaderSource v", "Error");
+	if (glGetError()) CInput::showMessage("glShaderSource v", "Error");
 	glShaderSource(fragmentShader2, 1, files2, lengths2);
-	if (glGetError()) CInputManager::showMessage("glShaderSource f", "Error");
+	if (glGetError()) CInput::showMessage("glShaderSource f", "Error");
 	//glShaderSourceARB
 
 	//delete[] vertexShaderChars;
 	//delete[] fragmentShaderChars;
 
 	glCompileShader(vertexShader2);
-	if (glGetError()) CInputManager::showMessage("glCompileShader v 3d", "Error");
+	if (glGetError()) CInput::showMessage("glCompileShader v 3d", "Error");
 	glCompileShader(fragmentShader2);
-	if (glGetError()) CInputManager::showMessage("glCompileShader f", "Error");
+	if (glGetError()) CInput::showMessage("glCompileShader f", "Error");
 
 	GLint compiled;
 
 	glGetShaderiv(vertexShader2, GL_COMPILE_STATUS, &compiled);
 	if (!compiled)
 	{
-		CInputManager::showMessage("glGetShaderiv compile error v", "Error");
+		CInput::showMessage("glGetShaderiv compile error v", "Error");
 	}
 
 	glGetShaderiv(fragmentShader2, GL_COMPILE_STATUS, &compiled);
 	if (!compiled)
 	{
-		CInputManager::showMessage("glGetShaderiv compile error f", "Error");
+		CInput::showMessage("glGetShaderiv compile error f", "Error");
 	}
 
 	// link shader
 	ProgramObject_3DScene = glCreateProgram();
-	if (glGetError()) CInputManager::showMessage("glCreateProgram error", "Error");
+	if (glGetError()) CInput::showMessage("glCreateProgram error", "Error");
 
 	glAttachShader(ProgramObject_3DScene, vertexShader2);
-	if (glGetError()) CInputManager::showMessage("glAttachShader v error", "Error");
+	if (glGetError()) CInput::showMessage("glAttachShader v error", "Error");
 	glAttachShader(ProgramObject_3DScene, fragmentShader2);
-	if (glGetError()) CInputManager::showMessage("glAttachShader f error", "Error");
+	if (glGetError()) CInput::showMessage("glAttachShader f error", "Error");
 
 	glLinkProgram(ProgramObject_3DScene);
-	if (glGetError()) CInputManager::showMessage("glLinkProgram error", "Error");
+	if (glGetError()) CInput::showMessage("glLinkProgram error", "Error");
 
 	GLint linked;
 	glGetProgramiv(ProgramObject_3DScene, GL_LINK_STATUS, &linked);
 	if (!linked)
 	{
-		CInputManager::showMessage("glGetProgramiv link error", "Error");
+		CInput::showMessage("glGetProgramiv link error", "Error");
 	}
 
 	// use program
 	glUseProgram(ProgramObject_3DScene);
-	if (glGetError()) CInputManager::showMessage("glUseProgram error", "Error");
+	if (glGetError()) CInput::showMessage("glUseProgram error", "Error");
 }
 void						CCollisionViewer::initTextStuff(void)
 {
@@ -773,7 +773,7 @@ void						CCollisionViewer::initTextStuff(void)
 				if (FT_Load_Char(g_face, c, FT_LOAD_RENDER))
 				{
 				//std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
-				CInputManager::showMessage("failed to load char", "Error");
+				CInput::showMessage("failed to load char", "Error");
 				continue;
 				}
 
@@ -810,81 +810,81 @@ void						CCollisionViewer::initTextStuff(void)
 
 
 				vertexShader = glCreateShader(GL_VERTEX_SHADER);
-				if (glGetError()) CInputManager::showMessage("glCreateShader v", "Error");
+				if (glGetError()) CInput::showMessage("glCreateShader v", "Error");
 				fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-				if (glGetError()) CInputManager::showMessage("glCreateShader f", "Error");
+				if (glGetError()) CInput::showMessage("glCreateShader f", "Error");
 
 				string strVertexShadersFilePath = "C:\\Users\\James\\Documents\\Visual Studio 2013\\Projects\\IMG-Factory\\Debug\\vertex-shaders.glsl";
-				uint32 uiFileSize1 = CFileManager::getFileSize(strVertexShadersFilePath);
+				uint32 uiFileSize1 = CFile::getFileSize(strVertexShadersFilePath);
 				const GLchar *vertexShaderChars;// = new GLchar[uiFileSize1 + 1];
 				uint32 iLen1 = 0;
 				//loadshader((char*)strVertexShadersFilePath.c_str(), &vertexShaderChars, &iLen1);
-				string strData1 = CFileManager::getFileContent(strVertexShadersFilePath, false);
+				string strData1 = CFile::getFileContent(strVertexShadersFilePath, false);
 				vertexShaderChars = strData1.c_str();
 				GLchar const* files1[] = { strData1.c_str() };
 				GLint lengths1[] = { strData1.size() };
 
 				string strFragmentShadersFilePath = "C:\\Users\\James\\Documents\\Visual Studio 2013\\Projects\\IMG-Factory\\Debug\\fragment-shaders.glsl";
-				uint32 uiFileSize2 = CFileManager::getFileSize(strFragmentShadersFilePath);
+				uint32 uiFileSize2 = CFile::getFileSize(strFragmentShadersFilePath);
 				const GLchar *fragmentShaderChars;// = new GLchar[uiFileSize2 + 1];
 				uint32 iLen2 = 0;
 				//loadshader((char*)strFragmentShadersFilePath.c_str(), &fragmentShaderChars, &iLen2);
-				string strData2 = CFileManager::getFileContent(strFragmentShadersFilePath, false);
+				string strData2 = CFile::getFileContent(strFragmentShadersFilePath, false);
 				fragmentShaderChars = strData2.c_str();
 				GLchar const* files2[] = { strData2.c_str() };
 				GLint lengths2[] = { strData2.size() };
 
 				GLint uiLengths1 = uiFileSize2;
 				glShaderSource(vertexShader, 1, files1, lengths1);
-				if (glGetError()) CInputManager::showMessage("glShaderSource v", "Error");
+				if (glGetError()) CInput::showMessage("glShaderSource v", "Error");
 				glShaderSource(fragmentShader, 1, files2, lengths2);
-				if (glGetError()) CInputManager::showMessage("glShaderSource f", "Error");
+				if (glGetError()) CInput::showMessage("glShaderSource f", "Error");
 				//glShaderSourceARB
 
 				//delete[] vertexShaderChars;
 				//delete[] fragmentShaderChars;
 
 				glCompileShader(vertexShader);
-				if (glGetError()) CInputManager::showMessage("glCompileShader v text", "Error");
+				if (glGetError()) CInput::showMessage("glCompileShader v text", "Error");
 				glCompileShader(fragmentShader);
-				if (glGetError()) CInputManager::showMessage("glCompileShader f", "Error");
+				if (glGetError()) CInput::showMessage("glCompileShader f", "Error");
 
 				GLint compiled;
 
 				glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &compiled);
 				if (!compiled)
 				{
-				CInputManager::showMessage("glGetShaderiv compile error v", "Error");
+				CInput::showMessage("glGetShaderiv compile error v", "Error");
 				}
 
 				glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &compiled);
 				if (!compiled)
 				{
-				CInputManager::showMessage("glGetShaderiv compile error f", "Error");
+				CInput::showMessage("glGetShaderiv compile error f", "Error");
 				}
 
 				// link shader
 				ProgramObject = glCreateProgram();
-				if (glGetError()) CInputManager::showMessage("glCreateProgram error", "Error");
+				if (glGetError()) CInput::showMessage("glCreateProgram error", "Error");
 
 				glAttachShader(ProgramObject, vertexShader);
-				if (glGetError()) CInputManager::showMessage("glAttachShader v error", "Error");
+				if (glGetError()) CInput::showMessage("glAttachShader v error", "Error");
 				glAttachShader(ProgramObject, fragmentShader);
-				if (glGetError()) CInputManager::showMessage("glAttachShader f error", "Error");
+				if (glGetError()) CInput::showMessage("glAttachShader f error", "Error");
 
 				glLinkProgram(ProgramObject);
-				if (glGetError()) CInputManager::showMessage("glLinkProgram error", "Error");
+				if (glGetError()) CInput::showMessage("glLinkProgram error", "Error");
 
 				GLint linked;
 				glGetProgramiv(ProgramObject, GL_LINK_STATUS, &linked);
 				if (!linked)
 				{
-				CInputManager::showMessage("glGetProgramiv link error", "Error");
+				CInput::showMessage("glGetProgramiv link error", "Error");
 				}
 
 				// use program
 				glUseProgram(ProgramObject);
-				if (glGetError()) CInputManager::showMessage("glUseProgram error", "Error");
+				if (glGetError()) CInput::showMessage("glUseProgram error", "Error");
 
 
 
@@ -894,31 +894,31 @@ void						CCollisionViewer::initTextStuff(void)
 
 				// should this go here or in render() function?
 				glGenVertexArrays(1, &VAO);
-				if (glGetError()) CInputManager::showMessage("glGenVertexArrays error", "Error");
+				if (glGetError()) CInput::showMessage("glGenVertexArrays error", "Error");
 
 				glGenBuffers(1, &VBO);
-				if (glGetError()) CInputManager::showMessage("glGenBuffers", "Error");
+				if (glGetError()) CInput::showMessage("glGenBuffers", "Error");
 
 				glBindVertexArray(VAO);
-				if (glGetError()) CInputManager::showMessage("glBindVertexArray", "Error");
+				if (glGetError()) CInput::showMessage("glBindVertexArray", "Error");
 
 				glBindBuffer(GL_ARRAY_BUFFER, VBO);
-				if (glGetError()) CInputManager::showMessage("glBindBuffer", "Error");
+				if (glGetError()) CInput::showMessage("glBindBuffer", "Error");
 
 				glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
-				if (glGetError()) CInputManager::showMessage("glBufferData", "Error");
+				if (glGetError()) CInput::showMessage("glBufferData", "Error");
 
 				glEnableVertexAttribArray(0);
-				if (glGetError()) CInputManager::showMessage("glEnableVertexAttribArray", "Error");
+				if (glGetError()) CInput::showMessage("glEnableVertexAttribArray", "Error");
 
 				glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
-				if (glGetError()) CInputManager::showMessage("glVertexAttribPointer error", "Error");
+				if (glGetError()) CInput::showMessage("glVertexAttribPointer error", "Error");
 
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
-				if (glGetError()) CInputManager::showMessage("glBindBuffer error", "Error");
+				if (glGetError()) CInput::showMessage("glBindBuffer error", "Error");
 
 				glBindVertexArray(0);
-				if (glGetError()) CInputManager::showMessage("glBindVertexArray error", "Error");
+				if (glGetError()) CInput::showMessage("glBindVertexArray error", "Error");
 				//*/
 
 				g_bText2DStuffLoaded = true;
@@ -1105,16 +1105,16 @@ void						CCollisionViewer::render(void)
 	return;
 	*/
 
-	//if (glGetError()) CInputManager::showMessage("test1 error", "Error");
+	//if (glGetError()) CInput::showMessage("test1 error", "Error");
 
 	//glScissor(0, 0, 100, 100);
 	//glEnable(GL_SCISSOR_TEST);
 
 	prepare2DRender();
-	if (glGetError()) CInputManager::showMessage("test1.5 error", "Error"); 
+	if (glGetError()) CInput::showMessage("test1.5 error", "Error"); 
 	renderBackground();
 
-	if (glGetError()) CInputManager::showMessage("test2 error", "Error");
+	if (glGetError()) CInput::showMessage("test2 error", "Error");
 
 	prepare3DRender();
 	renderCamera();
@@ -1123,13 +1123,13 @@ void						CCollisionViewer::render(void)
 	renderBoundingCuboid();
 	renderCollisionObjects();
 
-	if (glGetError()) CInputManager::showMessage("test3 error", "Error");
+	if (glGetError()) CInput::showMessage("test3 error", "Error");
 
 	prepare2DRender();
-	if (glGetError()) CInputManager::showMessage("test3.5 error", "Error");
+	if (glGetError()) CInput::showMessage("test3.5 error", "Error");
 	render2DObjects();
 
-	if (glGetError()) CInputManager::showMessage("test4 error", "Error");
+	if (glGetError()) CInput::showMessage("test4 error", "Error");
 
 	//glDisable(GL_SCISSOR_TEST);
 }
@@ -1137,7 +1137,7 @@ void						CCollisionViewer::render(void)
 void						CCollisionViewer::prepare2DRender(void)
 {
 	//glUseProgram(ProgramObject);
-	//if (glGetError()) CInputManager::showMessage("glUseProgram error", "Error");
+	//if (glGetError()) CInput::showMessage("glUseProgram error", "Error");
 
 	int w, h;
 	glfwGetWindowSize(getWindow(), &w, &h);
@@ -1145,38 +1145,38 @@ void						CCollisionViewer::prepare2DRender(void)
 	glScissor(200, 200, 100, 100);
 
 	glMatrixMode(GL_PROJECTION);
-	if (glGetError()) CInputManager::showMessage("prepare2DRender glMatrixMode 1 error", "Error");
+	if (glGetError()) CInput::showMessage("prepare2DRender glMatrixMode 1 error", "Error");
 
 	//glPushMatrix();
 	//int yaz = glGetError();
-	//if (yaz) CInputManager::showMessage("prepare2DRender glPushMatrix error", "Error");
+	//if (yaz) CInput::showMessage("prepare2DRender glPushMatrix error", "Error");
 
 	glLoadIdentity();
-	if (glGetError()) CInputManager::showMessage("prepare2DRender glLoadIdentity 1 error", "Error");
+	if (glGetError()) CInput::showMessage("prepare2DRender glLoadIdentity 1 error", "Error");
 
 	//glOrtho(-vecBackgroundBox.x / 2, vecBackgroundBox.x / 2, vecBackgroundBox.y / 2, -vecBackgroundBox.y / 2, -1.0, 10.0);
 	//glOrtho(0.0, w, h, 0.0, -1.0, 10.0);
 	glOrtho(-w / 2, w / 2, h / 2, -h / 2, -1.0, 1.0);
-	if (glGetError()) CInputManager::showMessage("prepare2DRender glOrtho error", "Error");
+	if (glGetError()) CInput::showMessage("prepare2DRender glOrtho error", "Error");
 
 	glMatrixMode(GL_MODELVIEW);
-	if (glGetError()) CInputManager::showMessage("prepare2DRender glMatrixMode 2 error", "Error");
+	if (glGetError()) CInput::showMessage("prepare2DRender glMatrixMode 2 error", "Error");
 
 	//glPushMatrix();
 	glLoadIdentity();
-	if (glGetError()) CInputManager::showMessage("prepare2DRender glLoadIdentity 2 error", "Error");
+	if (glGetError()) CInput::showMessage("prepare2DRender glLoadIdentity 2 error", "Error");
 
 	glDisable(GL_CULL_FACE);
-	if (glGetError()) CInputManager::showMessage("prepare2DRender glDisable(GL_CULL_FACE) error", "Error");
+	if (glGetError()) CInput::showMessage("prepare2DRender glDisable(GL_CULL_FACE) error", "Error");
 
 	//glClear(GL_DEPTH_BUFFER_BIT);
 	glClear(GL_DEPTH_BUFFER_BIT);
-	if (glGetError()) CInputManager::showMessage("prepare2DRender glClear(GL_DEPTH_BUFFER_BIT)", "Error");
+	if (glGetError()) CInput::showMessage("prepare2DRender glClear(GL_DEPTH_BUFFER_BIT)", "Error");
 }
 void						CCollisionViewer::prepare3DRender(void)
 {
 	//glUseProgram(ProgramObject_3DScene);
-	//if (glGetError()) CInputManager::showMessage("glUseProgram error", "Error");
+	//if (glGetError()) CInput::showMessage("glUseProgram error", "Error");
 
 	int w, h;
 	glfwGetWindowSize(getWindow(), &w, &h);
@@ -1203,9 +1203,9 @@ void						CCollisionViewer::prepare3DRender(void)
 void						CCollisionViewer::renderBackground(void)
 {
 	glDepthMask(GL_FALSE);  // disable writes to Z-Buffer
-	if (glGetError()) CInputManager::showMessage("BG glDepthMask error", "Error");
+	if (glGetError()) CInput::showMessage("BG glDepthMask error", "Error");
 	glDisable(GL_DEPTH_TEST);  // disable depth-testing
-	if (glGetError()) CInputManager::showMessage("BG glDisable error", "Error");
+	if (glGetError()) CInput::showMessage("BG glDisable error", "Error");
 
 	int w, h;
 	glfwGetWindowSize(getWindow(), &w, &h);
@@ -1213,7 +1213,7 @@ void						CCollisionViewer::renderBackground(void)
 	// background gradient
 	glShadeModel(GL_SMOOTH);
 	glBegin(GL_QUADS);
-	//if (glGetError()) CInputManager::showMessage("BG glBegin error", "Error");
+	//if (glGetError()) CInput::showMessage("BG glBegin error", "Error");
 	Vec2f vecBackgroundArea((int32) w, h);
 	vector<Vec2f> vecBackgroundPoints = {
 		{ -vecBackgroundArea.x / 2, -vecBackgroundArea.y / 2 },
@@ -1221,31 +1221,31 @@ void						CCollisionViewer::renderBackground(void)
 		{ vecBackgroundArea.x / 2, vecBackgroundArea.y / 2 },
 		{ -vecBackgroundArea.x / 2, vecBackgroundArea.y / 2 }
 	};
-	//if (glGetError()) CInputManager::showMessage("BG glShadeModel error", "Error");
+	//if (glGetError()) CInput::showMessage("BG glShadeModel error", "Error");
 	uint32 i = 0;
 	glColor3ub(120, 120, 120);
-	//if (glGetError()) CInputManager::showMessage("BG glColor3ub 1 error", "Error");
+	//if (glGetError()) CInput::showMessage("BG glColor3ub 1 error", "Error");
 	for (auto vecVertex : vecBackgroundPoints)
 	{
 		if (i == 2)
 		{
 			glColor3ub(73, 73, 73);
-			//if (glGetError()) CInputManager::showMessage("BG glColor3ub 2 error", "Error");
+			//if (glGetError()) CInput::showMessage("BG glColor3ub 2 error", "Error");
 		}
 
 		glVertex2f(vecVertex.x, vecVertex.y);
-		//if (glGetError()) CInputManager::showMessage("BG glVertex2f error", "Error");
+		//if (glGetError()) CInput::showMessage("BG glVertex2f error", "Error");
 
 		i++;
 	}
 	glEnd();
 	//int a = glGetError();
-	//if (a) CInputManager::showMessage("BG glEnd error", "Error");
+	//if (a) CInput::showMessage("BG glEnd error", "Error");
 
 	glEnable(GL_DEPTH_TEST);
-	if (glGetError()) CInputManager::showMessage("BG glEnable error", "Error");
+	if (glGetError()) CInput::showMessage("BG glEnable error", "Error");
 	glDepthMask(GL_TRUE);  // enable writes to Z-Buffer
-	if (glGetError()) CInputManager::showMessage("BG glDepthMask error", "Error");
+	if (glGetError()) CInput::showMessage("BG glDepthMask error", "Error");
 }
 
 void						CCollisionViewer::renderCamera(void)
@@ -1441,57 +1441,57 @@ void						CCollisionViewer::render2DObjects(void)
 	int aa = glGetError();
 	if (aa)
 	{
-		CInputManager::showMessage("glDepthMask error", "Error");
+		CInput::showMessage("glDepthMask error", "Error");
 		int h;
 		h = 0;
 	}
 	glDisable(GL_DEPTH_TEST);  // disable depth-testing
-	if (glGetError()) CInputManager::showMessage("glDisable error", "Error");
+	if (glGetError()) CInput::showMessage("glDisable error", "Error");
 	f++;
 
 	renderLeftPanelBackground();
-	if (glGetError()) CInputManager::showMessage("AAA error", "Error");
+	if (glGetError()) CInput::showMessage("AAA error", "Error");
 	renderBottomPanelBackground();
-	if (glGetError()) CInputManager::showMessage("AAB error", "Error");
+	if (glGetError()) CInput::showMessage("AAB error", "Error");
 	renderPanelLineSeparators();
-	if (glGetError()) CInputManager::showMessage("AAC error", "Error");
+	if (glGetError()) CInput::showMessage("AAC error", "Error");
 
 
 
 	//g_FontTest1
-	if (glGetError()) CInputManager::showMessage("AA error", "Error");
+	if (glGetError()) CInput::showMessage("AA error", "Error");
 	glEnable(GL_BLEND);
-	if (glGetError()) CInputManager::showMessage("glEnable error", "Error");
+	if (glGetError()) CInput::showMessage("glEnable error", "Error");
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	if (glGetError()) CInputManager::showMessage("glBlendFunc error", "Error");
+	if (glGetError()) CInput::showMessage("glBlendFunc error", "Error");
 	
 
 
 	/*
 	GLfloat fProjectionMatrix[16];
 	glGetFloatv(GL_PROJECTION_MATRIX, fProjectionMatrix);
-	if (glGetError()) CInputManager::showMessage("glGetFloatv 1 error", "Error");
+	if (glGetError()) CInput::showMessage("glGetFloatv 1 error", "Error");
 
 	GLfloat fModelViewMatrix[16];
 	glGetFloatv(GL_MODELVIEW_MATRIX, fModelViewMatrix);
-	if (glGetError()) CInputManager::showMessage("glGetFloatv 2 error", "Error");
+	if (glGetError()) CInput::showMessage("glGetFloatv 2 error", "Error");
 
 	GLint iLocation1 = glGetUniformLocation(ProgramObject, "projection");
-	if (glGetError()) CInputManager::showMessage("glGetUniformLocation 1 error", "Error");
+	if (glGetError()) CInput::showMessage("glGetUniformLocation 1 error", "Error");
 
 	GLint iLocation2 = glGetUniformLocation(ProgramObject, "modelview");
-	if (glGetError()) CInputManager::showMessage("glGetUniformLocation 2 error", "Error");
+	if (glGetError()) CInput::showMessage("glGetUniformLocation 2 error", "Error");
 
 	glUniformMatrix3fv(iLocation1, 1, GL_FALSE, fProjectionMatrix);
-	if (glGetError()) CInputManager::showMessage("glUniformMatrix3fv 1 error", "Error");
+	if (glGetError()) CInput::showMessage("glUniformMatrix3fv 1 error", "Error");
 
 	glUniformMatrix3fv(iLocation2, 1, GL_FALSE, fModelViewMatrix);
-	if (glGetError()) CInputManager::showMessage("glUniformMatrix3fv 2 error", "Error");
+	if (glGetError()) CInput::showMessage("glUniformMatrix3fv 2 error", "Error");
 	*/
 
 	//glUniform(glGetUniformLocation(ProgramObject, "textColor"), color[0], color[1], color[2]);
 	//glUniform3f(glGetUniformLocation(ProgramObject, "textColor"), 0.0, 1.0, 0.0);
-	//if (glGetError()) CInputManager::showMessage("glUniform3f error", "Error");
+	//if (glGetError()) CInput::showMessage("glUniform3f error", "Error");
 
 	static uint32 iRed = 0;
 	iRed++;
@@ -1522,7 +1522,7 @@ void						CCollisionViewer::render2DObjects(void)
 	stbtt_bakedchar cdata[96];
 	memset(&cdata, 'z', 95);
 	memcpy((&cdata) + 95, 0, 1);
-	string strFontData = CFileManager::getFileContent("arial.ttf");
+	string strFontData = CFile::getFileContent("arial.ttf");
 	uint8 *pPixelsOut = nullptr;
 	stbtt_BakeFontBitmap((const uint8*)strFontData.c_str(), stbtt_GetFontOffsetForIndex((const uint8*)strFontData.c_str(), 0), 32, pPixelsOut, 512, 512, 32, 96, cdata);
 	*/
@@ -1571,7 +1571,7 @@ void						CCollisionViewer::render2DText(void)
 
 	if (hdc == NULL)
 	{
-		CInputManager::showMessage("GetDC() failed", "Error", MB_OK);
+		CInput::showMessage("GetDC() failed", "Error", MB_OK);
 	}
 
 	HFONT hFont = CreateFont(16, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,

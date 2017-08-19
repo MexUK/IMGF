@@ -1,6 +1,6 @@
 #include "CDBFormat.h"
 #include "CDBEntry.h"
-#include "Type/String/CString2.h"
+#include "Static/CString2.h"
 #include "Format/RockstarGames/IMG/CIMGFormat.h"
 #include "Format/RockstarGames/IMG/CIMGEntry.h"
 #include "Stream/CDataReader.h"

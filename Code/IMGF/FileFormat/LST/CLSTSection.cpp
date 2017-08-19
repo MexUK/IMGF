@@ -1,6 +1,6 @@
 #include "CLSTSection.h"
 #include "CLSTEntry.h"
-#include "Type/String/CString2.h"
+#include "Static/CString2.h"
 
 using namespace std;
 using namespace bxcf;
