@@ -22,6 +22,12 @@ public:
 	virtual void							unserialize(bool bSkipItemId = false)	= 0;
 	virtual void							serialize(void)							= 0;
 
+	void									setLayer(CGUILayer* pLayer) { m_pLayer = pLayer; }
+	CGUILayer*								getLayer(void) { return m_pLayer; }
+
+	void									setId(uint32 uiId) { m_uiId = uiId; }
+	uint32									getId(void) { return m_uiId; }
+
 	virtual bxcf::Vec2i						getBoundingRectanglePosition(void)						= 0;
 	virtual bxcf::Vec2u						getBoundingRectangleSize(void)							= 0;
 	virtual void							moveItem(bxcf::Vec2i& vecItemPositionChange)			= 0;
@@ -29,6 +35,8 @@ public:
 
 	void									onMoveItem(bxcf::Vec2i& vecItemPositionChange);
 	void									onResizeItem(bxcf::Vec2i& vecItemPositionChange, bxcf::Vec2i& vecItemSizeChange);
+
+	void									renderItemNow(void);
 
 	void									setActiveItem(void);
 
@@ -44,14 +52,10 @@ public:
 
 	bool									isPointInBoundingRectangle(bxcf::Vec2i& vecPoint, uint32 uiOuterSpacing);
 
-	void									setLayer(CGUILayer* pLayer) { m_pLayer = pLayer; }
-	CGUILayer*								getLayer(void) { return m_pLayer; }
-
-	void									setId(uint32 uiId) { m_uiId = uiId; }
-	uint32									getId(void) { return m_uiId; }
+protected:
+	CGUILayer*								m_pLayer;
 
 private:
-	CGUILayer*								m_pLayer;
 	uint32									m_uiId;
 };
 

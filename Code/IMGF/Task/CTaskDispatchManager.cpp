@@ -130,6 +130,7 @@
 #include "CLastUsedValueManager.h"
 #include "Task/ETask.h"
 #include "Stream/CDataReader.h"
+#include "Controls/CProgressControl.h"
 #include <gdiplus.h>
 #include <stdio.h>
 #include <algorithm>
@@ -237,11 +238,20 @@ void		CTaskDispatchManager::openFile(string& strFilePath)
 		}
 
 		/*
-		uint32
-		uiProgressBarMaxMultiplier = img->getVersion() == IMG_3 ? 4 : 3, // x3 for: 1 for reading entry data (parsing), 1 for reading RW versions (parsing), and 1 for adding all entries to main list view. and x4 (+1) for version 3 entry names.
-		uiProgressBarMax = img->getEntryCount() * uiProgressBarMaxMultiplier;
-		m_pMainWindow->getProgressBar()->setMax(uiProgressBarMax);
+		progress bar: 3 or 4 stages
+
+		x3 for:
+		- reading entry header (parsing)
+		- reading RW versions (parsing)
+		- adding all entries to grid
+		
+		x4 for:
+		- reading IMG version 3 entry names
 		*/
+		uint32
+			uiProgressBarMaxMultiplier = img->getVersion() == IMG_3 ? 4 : 3,
+			uiProgressBarMax = img->m_uiEntryCount * uiProgressBarMaxMultiplier;
+		m_pMainWindow->getProgressBar()->setMax(uiProgressBarMax);
 
 		if (!img->unserialize2())
 		{

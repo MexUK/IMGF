@@ -7,7 +7,7 @@
 class bxcf::CDebug
 {
 public:
-	static void			log(std::string strData);
+	static void			log(std::string strData, std::string strPath = "");
 };
 
 #endif

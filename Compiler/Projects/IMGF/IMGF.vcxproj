@@ -45,8 +45,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
-    <IncludePath>..\..\..\Code\IMGF\;..\..\..\Code\IMGF\FileFormat\;..\..\..\Dependencies\ThirdParty\HappyHTTP;..\..\..\Dependencies\ThirdParty\GLEW;..\..\..\Dependencies\ThirdParty\Freetype\include;..\..\..\Dependencies\ThirdParty\GLFW;..\..\..\Dependencies\ThirdParty\GLFW\include\;..\..\..\Dependencies\ThirdParty\freetype-gl;..\..\..\Dependencies\ThirdParty\INI;..\..\..\Dependencies\ThirdParty\Bitmap;..\..\..\Dependencies\ThirdParty\;../../../Dependencies/Include/BXCF/;../../../Dependencies/Include/BXGX/;$(IncludePath)</IncludePath>
-    <LibraryPath>../../../Dependencies/Lib/$(Configuration)/;../../../Dependencies/Lib/ThirdParty/$(Configuration)/;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\..\Code\IMGF\;..\..\..\Code\IMGF\FileFormat\;..\..\..\Dependencies\ThirdParty\HappyHTTP;..\..\..\Dependencies\ThirdParty\GLEW;..\..\..\Dependencies\ThirdParty\Freetype\include;..\..\..\Dependencies\ThirdParty\GLFW;..\..\..\Dependencies\ThirdParty\GLFW\include\;..\..\..\Dependencies\ThirdParty\freetype-gl;..\..\..\Dependencies\ThirdParty\INI;..\..\..\Dependencies\ThirdParty\Bitmap;..\..\..\Dependencies\ThirdParty\;../../../../BXCF/Code/BXCF/;../../../../BXGX/Code/BXGX/;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\BXCF\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\ThirdParty\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXGX\BXGX\Debug;$(LibraryPath)</LibraryPath>
     <TargetName>IMG Factory</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -78,7 +78,8 @@
       <Message>Build Number</Message>
     </PreBuildEvent>
     <ProjectReference>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

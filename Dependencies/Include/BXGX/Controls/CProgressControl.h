@@ -26,7 +26,11 @@ public:
 	void									setProgress(float32 fProgress) { m_fProgress = fProgress; }
 	float32									getProgress(void) { return m_fProgress; }
 
-	void									setMax(uint32 uiMax) { m_uiMax = uiMax; }
+	void									setCurrent(uint32 uiCurrent);
+	uint32									getCurrent(void) { return m_uiCurrent; }
+	void									increaseCurrent(void);
+
+	void									setMax(uint32 uiMax);
 	uint32									getMax(void) { return m_uiMax; }
 
 	void									setCompletionPercentageShown(bool bCompletionPercentageShown) { m_bCompletionPercentageShown = bCompletionPercentageShown; }
@@ -37,7 +41,11 @@ public:
 	void									reset(void);
 
 private:
+	void									updateProgress(void);
+
+private:
 	float32									m_fProgress;
+	uint32									m_uiCurrent;
 	uint32									m_uiMax;
 	uint8									m_bCompletionPercentageShown	: 1;
 };

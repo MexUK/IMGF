@@ -9,6 +9,10 @@
 #include "Format/Text/INI/CINIManager.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "Settings/CSettingsManager.h"
+#include "GUI/Window/CWindowManager.h"
+#include "GUI/Windows/CMainWindow.h"
+#include "GUI/Layers/CMainLayer.h"
+#include "Controls/CProgressControl.h"
 
 using namespace std;
 using namespace bxcf;
@@ -77,6 +81,8 @@ void							CTaskManager::setTaskMaxProgressTickCount(uint32 uiProgressMaxTicks, 
 void							CTaskManager::onTaskProgressTick(void)
 {
 	setTaskProgressTickCount(getTaskProgressTickCount() + 1);
+
+	getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pProgressBar->increaseCurrent();
 
 	/*
 	todo

@@ -20,11 +20,20 @@
 #include "Debug/CDebug.h"
 
 LRESULT CALLBACK				WndProc_Window(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT							WndProc_Window2(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, bool bCalledFromBXGXThread);
 
 class CGraphicsLibrary;
 class CGUIStyles;
 class CGUIEventUtilizer;
 class CGUIItem;
+
+struct CWndProcData
+{
+	HWND hwnd;
+	UINT msg;
+	WPARAM wParam;
+	LPARAM lParam;
+};
 
 class bxgx::CGUIManager : public bxcf::CManager, public bxcf::CSingleton<bxgx::CGUIManager>, public bxcf::CVectorPool<CWindow*>, public bxcf::CEventBinder
 {
@@ -38,6 +47,23 @@ public:
 
 	void						unserialize(void);
 	void						serialize(void);
+
+	static DWORD WINAPI			processBXGX(LPVOID lpParameter);
+
+	void						setThread1Locked(bool bThread1Locked) { m_bThread1Locked = bThread1Locked; }
+	bool						isThread1Locked(void) { return m_bThread1Locked; }
+
+	void						setThread2Locked(bool bThread2Locked) { m_bThread2Locked = bThread2Locked; }
+	bool						isThread2Locked(void) { return m_bThread2Locked; }
+
+	std::vector<CWndProcData*>&	getWndProcDataIntermediate(void) { return m_vecWndProcDataIntermediate; }
+	void						addWndProcDataIntermediate(CWndProcData* pWndProcData);
+	void						clearWndProcDataIntermediate(void);
+
+	void						setWndProcData(std::vector<CWndProcData*>& vecWndProcData) { m_vecWndProcData = vecWndProcData; }
+	std::vector<CWndProcData*>&	getWndProcData(void) { return m_vecWndProcData; }
+	void						addWndProcData(CWndProcData* pWndProcData);
+	void						clearWndProcData(void);
 
 	CWindow*					addWindow(bxcf::Vec2i& vecWindowPosition = bxcf::Vec2i((uint32)-1, (uint32)-1), bxcf::Vec2u& vecWindowSize = bxcf::Vec2u((uint32)800, (uint32)600), uint32 uiIcon = -1);
 	CWindow*					addWindow(uint32 x = -1, uint32 y = -1, uint32 w = 800, uint32 h = 600, uint32 uiIcon = -1);
@@ -88,6 +114,15 @@ public:
 private:
 	bool						createWindow(CWindow *pWindow, uint32 uiIcon = -1);
 
+private:
+public:
+	HANDLE											m_tMainThread;
+private:
+	bool											m_bThread1Locked;
+	bool											m_bThread2Locked;
+public:
+	std::vector<CWndProcData*>						m_vecWndProcDataIntermediate;
+	std::vector<CWndProcData*>						m_vecWndProcData;
 private:
 	CGraphicsLibrary*								m_pGraphicsLibrary;
 	CWindow*										m_pActiveWindow;

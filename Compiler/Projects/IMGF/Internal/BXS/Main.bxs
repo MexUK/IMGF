@@ -111,7 +111,12 @@ fill 201 201 201
 fill 220 220 220
 
 .progressBar
-fill 72 72 72
+//fill 72 72 72
+fill 0 0 255
+
+.progressBar:innerBar
+//fill 144 144 144
+fill 255 0 0
 
 .scrollBar
 fill 220 220 220

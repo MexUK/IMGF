@@ -64,11 +64,18 @@ CIMGEditor::CIMGEditor(void) :
 }
 
 // editor initialization
+auto fpOnTaskProgress = [](void *pData)
+{
+	getIMGF()->getTaskManager()->onTaskProgressTick();
+};
+
 void						CIMGEditor::init(void)
 {
 	CEditor::init();
 	addControls();
 	initControls();
+
+	CEventManager::get()->bindEvent(EVENT_onParseIMGEntry, fpOnTaskProgress);
 }
 
 // format validation

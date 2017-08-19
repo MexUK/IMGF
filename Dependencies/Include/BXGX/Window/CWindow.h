@@ -76,7 +76,9 @@ public:
 	virtual void							render(void);
 	void									renderNow(void);
 	void									checkToRender(void);
-	void									onRenderFromWMPaint(void);
+
+	void									onRenderWindow(void);
+	void									onRenderItem(CGUIItem *pItem);
 
 	bool									checkToApplyWindowResizeCursor(void);
 	bool									checkToApplyWindowRegularCursor(void);
@@ -169,6 +171,11 @@ public:
 	void									markToRedraw(void) { m_bMarkedToRedraw = true; }
 	bool									isMarkedToRedraw(void) { return m_bMarkedToRedraw; }
 
+	void									markItemToRedraw(CGUIItem *pItem);
+	bool									areItemsMarkedToRedraw(void);
+	void									clearItemsToRedraw(void);
+	std::vector<CGUIItem*>&					getItemsToRedraw(void) { return m_vecItemsToRedraw; }
+
 	void									setPosition(bxcf::Vec2i& vecPosition);
 	bxcf::Vec2i&							getPosition(void) { return m_vecPosition; }
 
@@ -232,6 +239,7 @@ private:
 	// todo CRectangleItemPlacement<CWindow>	m_placeableWindow;		// gui windows
 	CRectangleItemPlacement<CGUIItem>		m_placeableItem;		// gui items - e.g. shapes and controls
 	std::unordered_map<uint32, bool>		m_umapEventUsages;
+	std::vector<CGUIItem*>					m_vecItemsToRedraw;
 
 	/*
 	todo
