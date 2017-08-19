@@ -1,13 +1,14 @@
 #include "CDBFormat.h"
 #include "CDBEntry.h"
 #include "Static/CString2.h"
-#include "Format/RockstarGames/IMG/CIMGFormat.h"
-#include "Format/RockstarGames/IMG/CIMGEntry.h"
+#include "Format/IMG/Regular/CIMGFormat.h"
+#include "Format/IMG/Regular/CIMGEntry.h"
 #include "Stream/CDataReader.h"
 #include "Stream/CDataWriter.h"
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgi;
 
 void								CDBFormat::unload(void)
 {

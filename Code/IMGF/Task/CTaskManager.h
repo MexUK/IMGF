@@ -1,6 +1,7 @@
 #ifndef CTaskManager_H
 #define CTaskManager_H
 
+#include "bxcf.h"
 #include "Type/Types.h"
 #include "Object/CManager.h"
 #include <string>

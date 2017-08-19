@@ -4,7 +4,7 @@
 #include "Type/Types.h"
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
 #include "GUI/Editor/CEditor.h"
-#include "Format/RockstarGames/IMG/eIMGVersion.h"
+#include "Format/IMG/Regular/eIMGVersion.h"
 #include "Event/Events.h"
 #include <string>
 
@@ -13,8 +13,8 @@ class CSearchEntry;
 class CGridControl;
 class CTextBoxControl;
 class CDropControl;
-class bxcf::CIMGEntry;
-class bxcf::CIMGFormat;
+class bxgi::CIMGEntry;
+class bxgi::CIMGFormat;
 
 class CIMGEditor : public CEditor
 {
@@ -26,11 +26,11 @@ public:
 
 	void						repositionAndResizeControls(void);
 
-	static bool					validateFile(bxcf::CIMGFormat *img);
+	static bool					validateFile(bxgi::CIMGFormat *img);
 
-	CIMGEditorTab*				addFile(bxcf::CIMGFormat *img);
-	CIMGEditorTab*				addBlankFile(std::string strIMGPath, bxcf::eIMGVersion eIMGVersionValue);
-	CIMGEditorTab*				addTabObjectAndTabControl(bxcf::CIMGFormat *img);
+	CIMGEditorTab*				addFile(bxgi::CIMGFormat *img);
+	CIMGEditorTab*				addBlankFile(std::string strIMGPath, bxgi::eIMGVersion eIMGVersionValue);
+	CIMGEditorTab*				addTabObjectAndTabControl(bxgi::CIMGFormat *img);
 	void						removeFile(CIMGEditorTab *pIMGEditorFile);
 	void						removeActiveFile(void);
 
@@ -47,10 +47,10 @@ public:
 	CIMGEditorTab*				getActiveTab(void) { return (CIMGEditorTab*) CEditor::getActiveFile(); }
 	void						setActiveTab(CIMGEditorTab *pActiveTab);
 
-	void						readdColumnsToMainListView(bxcf::eIMGVersion eIMGVersionValue);
-	void						addColumnsToMainListView(bxcf::eIMGVersion eIMGVersionValue);
+	void						readdColumnsToMainListView(bxgi::eIMGVersion eIMGVersionValue);
+	void						addColumnsToMainListView(bxgi::eIMGVersion eIMGVersionValue);
 	void						removeColumnsFromMainListView(void);
-	int							getMainListControlItemByEntry(bxcf::CIMGEntry *pIMGEntry); // todo - naming -- list control vs list view
+	int							getMainListControlItemByEntry(bxgi::CIMGEntry *pIMGEntry); // todo - naming -- list control vs list view
 
 	void						onSelectIMGEntry(bool bEntryIsSelected);
 
@@ -60,7 +60,7 @@ public:
 	uint32						getEntryCountForAllTabs(void);
 	void						updateSelectedEntryCountText(void);
 
-	std::vector<bxcf::CIMGFormat*>	getAllMainWindowTabsIMGFiles(void);
+	std::vector<bxgi::CIMGFormat*>	getAllMainWindowTabsIMGFiles(void);
 
 	void						setMainWindow(CMainWindow *pMainWindow) { m_pMainWindow = pMainWindow; }
 	CMainWindow*				getMainWindow(void) { return m_pMainWindow; }
@@ -86,7 +86,7 @@ private:
 	void						initMenu(void);
 	void						loadRightClickMenu(int xPos, int yPos);
 	
-	CIMGEditorTab*				_addTab(bxcf::CIMGFormat *pIMGFormat);
+	CIMGEditorTab*				_addTab(bxgi::CIMGFormat *pIMGFormat);
 
 public:
 	CGridControl*				m_pEntryGrid;

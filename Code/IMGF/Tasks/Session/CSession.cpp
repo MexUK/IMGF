@@ -4,7 +4,7 @@
 #include "Globals.h"
 #include "CIMGF.h"
 #include "CSessionManager.h"
-#include "Format/RockstarGames/IMG/CIMGEntry.h"
+#include "Format/IMG/Regular/CIMGEntry.h"
 
 using namespace std;
 using namespace bxcf;

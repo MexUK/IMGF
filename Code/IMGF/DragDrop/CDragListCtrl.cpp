@@ -1,12 +1,12 @@
 #pragma warning(disable : 4005)
 
 #include "CDragListCtrl.h"
-#include "Format/RockstarGames/IMG/CIMGEntry.h"
+#include "Format/IMG/Regular/CIMGEntry.h"
 #include "Static/CString2.h"
 #include "Globals.h"
 #include "CIMGF.h"
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
-#include "Format/RockstarGames/IMG/CIMGFormat.h"
+#include "Format/IMG/Regular/CIMGFormat.h"
 #include <string>
 
 using namespace std;

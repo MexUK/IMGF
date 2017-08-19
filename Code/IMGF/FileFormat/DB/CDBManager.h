@@ -1,12 +1,13 @@
 #ifndef CDBManager_H
 #define CDBManager_H
 
+#include "bxgi.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 #include <string>
 
 class CDBFormat;
-class bxcf::CIMGFormat;
+class bxgi::CIMGFormat;
 
 class CDBManager : public bxcf::CFormatManager<CDBFormat>, public bxcf::CSingleton<CDBManager>
 {
@@ -16,7 +17,7 @@ public:
 	void						init(void);
 	void						uninit(void);
 
-	CDBFormat*					createDBFileFromIMGFile(bxcf::CIMGFormat *pIMGFile);
+	CDBFormat*					createDBFileFromIMGFile(bxgi::CIMGFormat *pIMGFile);
 	CDBFormat*					createBlankDBFile(void);
 	
 	bool						compareDBFiles(CDBFormat *pDBFile1, CDBFormat *pDBFile2);

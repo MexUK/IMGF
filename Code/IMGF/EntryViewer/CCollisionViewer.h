@@ -2,7 +2,7 @@
 #define CCollisionViewer_H
 
 #include "CEntryViewer.h"
-#include "Format/RockstarGames/COL/CCOLFormat.h"
+#include "Format/COL/CCOLFormat.h"
 #include <string>
 #include <vector>
 #include <ft2build.h>
@@ -36,11 +36,11 @@ public:
 	void						initGLFW(void);
 	void						initGLEW(void);
 
-	void						setCOLFile(bxcf::CCOLFormat *pCOLFile) { m_pCOLFile = pCOLFile; }
-	bxcf::CCOLFormat*					getCOLFile(void) { return m_pCOLFile; }
+	void						setCOLFile(bxgi::CCOLFormat *pCOLFile) { m_pCOLFile = pCOLFile; }
+	bxgi::CCOLFormat*					getCOLFile(void) { return m_pCOLFile; }
 
-	void						setActiveCOLEntry(bxcf::CCOLEntry *pCOLEntry) { m_pActiveCOLEntry = pCOLEntry; }
-	bxcf::CCOLEntry*					getActiveCOLEntry(void) { return m_pActiveCOLEntry; }
+	void						setActiveCOLEntry(bxgi::CCOLEntry *pCOLEntry) { m_pActiveCOLEntry = pCOLEntry; }
+	bxgi::CCOLEntry*					getActiveCOLEntry(void) { return m_pActiveCOLEntry; }
 
 	void						setCOLFileName(std::string strCOLFileName) { m_strCOLFileName = strCOLFileName; }
 	std::string					getCOLFileName(void) { return m_strCOLFileName; }
@@ -93,8 +93,8 @@ private:
 	void						renderPanelLineSeparators(void);
 
 private:
-	bxcf::CCOLFormat*					m_pCOLFile;
-	bxcf::CCOLEntry*					m_pActiveCOLEntry;
+	bxgi::CCOLFormat*					m_pCOLFile;
+	bxgi::CCOLEntry*					m_pActiveCOLEntry;
 	std::string					m_strCOLFileName;
 	GLFWwindow*					m_pWindow;
 	FT_Library*					m_pFTLibrary;

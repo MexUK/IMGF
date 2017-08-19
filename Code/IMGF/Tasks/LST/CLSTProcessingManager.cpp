@@ -13,16 +13,17 @@
 #include "Task/CTaskDispatchManager.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
-#include "Format/RockstarGames/COL/CCOLManager.h"
-#include "Format/RockstarGames/COL/CCOLFormat.h"
-#include "Format/RockstarGames/COL/CCOLEntry.h"
+#include "Format/COL/CCOLManager.h"
+#include "Format/COL/CCOLFormat.h"
+#include "Format/COL/CCOLEntry.h"
 #include "Static/CInput.h"
 #include "Tasks/Sort/CSortManager.h"
-#include "Format/RockstarGames/IMG/CIMGEntry.h"
+#include "Format/IMG/Regular/CIMGEntry.h"
 #include "Localization/CLocalizationManager.h"
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgi;
 
 void		CLSTProcessingManager::init(void)
 {

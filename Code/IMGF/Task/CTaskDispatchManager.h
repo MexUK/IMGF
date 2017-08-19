@@ -5,13 +5,14 @@
 #include "Object/CManager.h"
 #include <string>
 #include <vector>
-#include "Format/RockstarGames/IMG/CIMGFormat.h"
+#include "bxcf.h"
+#include "Format/IMG/Regular/CIMGFormat.h"
+#include "Format/IMG/Regular/eIMGEntryProperty.h"
 #include "Collection/Games/ePlatformedGame.h"
-#include "Format/RockstarGames/IMG/eIMGEntryProperty.h"
 
 class bxcf::CRasterDataFormat;
-class bxcf::CRWVersion;
-class bxcf::CCOLVersion;
+class bxgi::CRWVersion;
+class bxgi::CCOLVersion;
 struct CRenamedIMGEntry;
 class CMainWindow;
 class CTaskManager;
@@ -42,7 +43,7 @@ public:
 	void						onRequestRebuild(void);
 	void						onRequestRebuildAs(void);
 	void						onRequestRebuildAll(void);
-	void						onRequestConvertIMGVersion(bxcf::eIMGVersion eIMGVersion);
+	void						onRequestConvertIMGVersion(bxgi::eIMGVersion eIMGVersion);
 	void						onRequestConvertIMGVersionViaButton(void);
 	void						onRequestMerge(void);
 	void						onRequestSplitViaButton(void);
@@ -66,14 +67,14 @@ public:
 	void						onRequestImportViaButton(void);
 	void						onRequestImportViaIDEFile(void);
 	void						onRequestImportViaTextLines(void);
-	void						onRequestNew(bxcf::eIMGVersion eIMGVersion);
+	void						onRequestNew(bxgi::eIMGVersion eIMGVersion);
 	void						onRequestStats(void);
 	void						onRequestNameCase(uint8 ucCaseType, uint8 ucFilenameType);
-	void						onRequestCopyEntryData(bxcf::eIMGEntryProperty eIMGEntryProperty);
+	void						onRequestCopyEntryData(bxgi::eIMGEntryProperty eIMGEntryProperty);
 	void						onRequestShift(uint8 ucDirection);
 	void						onRequestQuickExport(void);
 	void						onRequestSelectViaFileExtension(void);
-	void						onRequestSelectViaRWVersion(bxcf::CRWVersion *pRWVersion);
+	void						onRequestSelectViaRWVersion(bxgi::CRWVersion *pRWVersion);
 	void						onRequestVersion(void);
 	void						onRequestTextureList(void);
 	void						onRequestAssociateIMGExtension(void);
@@ -89,7 +90,7 @@ public:
 	void						onRequestOrphanIDEEntriesNotInIMG(void);
 	void						onRequestSettings(void);
 	void						onRequestReopen(void);
-	void						onRequestConvertDFFToRWVersion(bxcf::CRWVersion *pRWVersion);
+	void						onRequestConvertDFFToRWVersion(bxgi::CRWVersion *pRWVersion);
 	void						onRequestMissingTextures(void);
 	void						onRequestReplaceAllFromFolder(void);
 	void						onRequestExportAllEntriesFromAllTabs(void);
@@ -100,7 +101,7 @@ public:
 	void						onRequestExportAllEntriesFromAllTabsIntoMultipleFolders(void);
 	void						onRequestOpenLast(void);
 	void						onRequestConvertTXDToGame(bxcf::ePlatformedGame ePlatformedGame);
-	void						onRequestConvertTXDToRWVersion(bxcf::CRWVersion *pRWVersion);
+	void						onRequestConvertTXDToRWVersion(bxgi::CRWVersion *pRWVersion);
 	void						onRequestDump(void);
 	void						onRequestSessionManager(void);
 	void						onRequestWebsite(void);
@@ -128,7 +129,7 @@ public:
 	void						onRequestIMGVersionSettings(void);
 	void						onRequestFeatureByName(std::string strFeatureName);
 	void						onRequestLastFeatureUsed(void);
-	void						onRequestConvertCOLtoCOLVersion(bxcf::CCOLVersion *pCOLVersion);
+	void						onRequestConvertCOLtoCOLVersion(bxgi::CCOLVersion *pCOLVersion);
 	void						onRequestReportIssueOrIdea(void);
 	static int CALLBACK			sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 	void						onRequestSortViaColumn(uint32 uiColumnIndex);

@@ -7,7 +7,7 @@
 #include "CIMGF.h"
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
 #include "Static/CDebug.h"
-#include "Format/RockstarGames/IMG/CIMGEntry.h"
+#include "Format/IMG/Regular/CIMGEntry.h"
 #include "Localization/CLocalizationManager.h"
 
 using namespace std;

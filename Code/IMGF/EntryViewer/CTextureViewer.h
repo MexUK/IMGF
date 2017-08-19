@@ -2,12 +2,13 @@
 #define CTextureViewer_H
 
 #include <Windows.h>
+#include "bxgi.h"
 #include "CEntryViewer.h"
 #include "Pool/CVectorPool.h"
 #include "eEntryViewerDisplayType.h"
 #include "CTextureViewerTextureData.h"
 
-class bxcf::CIMGEntry;
+class bxgi::CIMGEntry;
 
 LRESULT CALLBACK				WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -22,8 +23,8 @@ public:
 	void						openWindow(void);
 	void						closeWindow(void);
 
-	void						setIMGEntry(bxcf::CIMGEntry *pIMGEntry) { m_pIMGEntry = pIMGEntry; }
-	bxcf::CIMGEntry*					getIMGEntry(void) { return m_pIMGEntry; }
+	void						setIMGEntry(bxgi::CIMGEntry *pIMGEntry) { m_pIMGEntry = pIMGEntry; }
+	bxgi::CIMGEntry*			getIMGEntry(void) { return m_pIMGEntry; }
 
 	void						setWindowHwnd(HWND hwndEntryViewerWindow) { m_hwndEntryViewerWindow = hwndEntryViewerWindow; }
 	HWND						getWindowHwnd(void) { return m_hwndEntryViewerWindow; }
@@ -77,7 +78,7 @@ private:
 	void						renderDisplayType_Float(void);
 
 private:
-	bxcf::CIMGEntry*					m_pIMGEntry;
+	bxgi::CIMGEntry*					m_pIMGEntry;
 	HWND						m_hwndEntryViewerWindow;
 	CTextureViewerTextureData*	m_pActiveEntry;
 	float32						m_fZoomLevel;

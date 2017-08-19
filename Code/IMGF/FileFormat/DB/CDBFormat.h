@@ -1,6 +1,7 @@
 #ifndef CDBFormat_H
 #define CDBFormat_H
 
+#include "bxgi.h"
 #include "Type/Types.h"
 #include "Format/CFormat.h"
 #include "Pool/CVectorPool.h"
@@ -8,8 +9,8 @@
 #include <string>
 #include <vector>
 
-class bxcf::CIMGFormat;
-class bxcf::CIMGEntry;
+class bxgi::CIMGFormat;
+class bxgi::CIMGEntry;
 
 class CDBFormat : public bxcf::CFormat, public bxcf::CVectorPool<CDBEntry*>
 {
@@ -18,7 +19,7 @@ public:
 	
 	void								unload(void);
 
-	bool								isIMGEntryFound(bxcf::CIMGFormat *pIMGFile, bxcf::CIMGEntry *pIMGEntry);
+	bool								isIMGEntryFound(bxgi::CIMGFormat *pIMGFile, bxgi::CIMGEntry *pIMGEntry);
 	CDBEntry*							getEntryByNameExactCase(std::string strEntryName);
 
 	void								setDBVersion(uint32 uiDBVersion) { m_uiDBVersion = uiDBVersion; }

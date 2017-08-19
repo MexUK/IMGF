@@ -5,8 +5,8 @@
 #include "Globals.h"
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
-#include "Format/RockstarGames/IMG/CIMGFormat.h"
-#include "Format/RockstarGames/IMG/CIMGEntry.h"
+#include "Format/IMG/Regular/CIMGFormat.h"
+#include "Format/IMG/Regular/CIMGEntry.h"
 #include "Static/CString2.h"
 #include "Static/CStdVector.h"
 #include "Static/CPath.h"
@@ -15,19 +15,20 @@
 #include "eSortType.h"
 #include "Static/CInput.h"
 #include "GUI/Popups/CPopupGUIManager.h"
-#include "Format/RockstarGames/IDE/CIDEManager.h"
-#include "Format/RockstarGames/IDE/CIDEManager.h"
-#include "Format/RockstarGames/COL/CCOLManager.h"
-#include "Format/RockstarGames/COL/CCOLFormat.h"
+#include "Format/IDE/CIDEManager.h"
+#include "Format/IDE/CIDEManager.h"
+#include "Format/COL/CCOLManager.h"
+#include "Format/COL/CCOLFormat.h"
 #include "Localization/CLocalizationManager.h"
 #include "CSortTypes.h"
 #include "CSortPriorities.h"
 #include "CSortMenuItems.h"
-#include "Format/RockstarGames/IDE/CIDEFormat.h"
+#include "Format/IDE/CIDEFormat.h"
 #include <algorithm>
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgi;
 
 CSortManager::CSortManager(void)
 {

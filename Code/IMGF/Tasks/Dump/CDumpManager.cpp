@@ -6,19 +6,19 @@
 #include "GUI/Editors/CIMGEditor.h"
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
 #include "GUI/Popups/CPopupGUIManager.h"
-#include "Format/RockstarGames/IMG/CIMGFormat.h"
+#include "Format/IMG/Regular/CIMGFormat.h"
 #include "Static/CInput.h"
 #include "Static/CPath.h"
 #include "Static/CString2.h"
 #include "Static/CFile.h"
-#include "Format/RockstarGames/IMG/CIMGManager.h"
-#include "Format/RockstarGames/IMG/CIMGEntry.h"
-#include "Format/RockstarGames/DAT/Loader/CDATLoaderManager.h"
-#include "Format/RockstarGames/DAT/Loader/CDATLoaderFormat.h"
-#include "Format/RockstarGames/DAT/Loader/CDATLoaderEntry.h"
-#include "Format/RockstarGames/TXD/CTXDManager.h"
-#include "Format/RockstarGames/TXD/CTXDFormat.h"
-#include "Format/RenderWare/Helper/BinaryStream/Sections/CRWSection_TextureNative.h"
+#include "Format/IMG/Regular/CIMGManager.h"
+#include "Format/IMG/Regular/CIMGEntry.h"
+#include "Format/DAT/Loader/CDATLoaderManager.h"
+#include "Format/DAT/Loader/CDATLoaderFormat.h"
+#include "Format/DAT/Loader/CDATLoaderEntry.h"
+#include "Format/TXD/CTXDManager.h"
+#include "Format/TXD/CTXDFormat.h"
+#include "Engine/RW/Sections/CRWSection_TextureNative.h"
 #include "Format/Image/BMP/CBMPManager.h"
 #include "Format/Image/BMP/CBMPFormat.h"
 #include "Format/Image/CUR/CCURManager.h"
@@ -30,10 +30,10 @@
 #include "Static/CStdVector.h"
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
-#include "Format/RockstarGames/IMG/CIMGEntry.h"
-#include "Format/RockstarGames/WTD/CWTDManager.h"
-#include "Format/RockstarGames/WTD/CWTDFormat.h"
-#include "Format/RockstarGames/WTD/CWTDEntry.h"
+#include "Format/IMG/Regular/CIMGEntry.h"
+#include "Format/WTD/CWTDManager.h"
+#include "Format/WTD/CWTDFormat.h"
+#include "Format/WTD/CWTDEntry.h"
 #include "Image/CImageManager.h"
 #include "Format/Image/DDS/CDDSFormat.h"
 #include "Localization/CLocalizationManager.h"
@@ -42,6 +42,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgi;
 using namespace Gdiplus;
 
 INT GetEncoderClsid(const WCHAR* format, CLSID* pClsid);  // helper function

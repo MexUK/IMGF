@@ -5,7 +5,7 @@
 
 struct CRenamedIMGEntry
 {
-	bxcf::CIMGEntry*			m_pIMGEntry;
+	bxgi::CIMGEntry*			m_pIMGEntry;
 	std::string					m_strPreviousName;
 };
 

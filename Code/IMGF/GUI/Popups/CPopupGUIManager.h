@@ -2,10 +2,11 @@
 #define CPopupGUIManager_H
 
 #include <Windows.h>
+#include "bxcf.h"
 #include "Object/CManager.h"
 #include "Localization/eLanguage.h"
 #include "Collection/Games/ePlatformedGame.h"
-#include "Format/RockstarGames/IMG/eIMGVersion.h"
+#include "Format/IMG/Regular/eIMGVersion.h"
 #include "Compression/eCompressionAlgorithm.h"
 #include "Type/Vector/Vec2f.h"
 #include "Type/Vector/Vec3f.h"
@@ -206,23 +207,23 @@ struct CSplitViaDialogData
 	uint32							m_uiRadioButtonIndex;
 };
 
-class bxcf::CRWVersion;
+class bxgi::CRWVersion;
 class bxcf::CRasterDataFormat;
-class bxcf::CCOLVersion;
+class bxgi::CCOLVersion;
 struct CDragDropDialogData
 {
-	bxcf::eIMGVersion						m_eDestinationIMGVersion;
+	bxgi::eIMGVersion				m_eDestinationIMGVersion;
 	bool							m_bCancel;
 	bool							m_bCopy;
 	bool							m_bConvert;
-	bxcf::CRWVersion*						m_pDFFConversionRWVersion;
-	bxcf::CCOLVersion*					m_pNewCOLVersion;
+	bxgi::CRWVersion*				m_pDFFConversionRWVersion;
+	bxgi::CCOLVersion*				m_pNewCOLVersion;
 	uint32							m_uiTXDConversionOption;
 	union
 	{
-		bxcf::ePlatformedGame				m_eTXDConversionGame;
-		bxcf::CRWVersion*					m_pTXDConversionRWVersion;
-		bxcf::CRasterDataFormat*			m_pTXDConversionRasterDataFormat;
+		bxcf::ePlatformedGame			m_eTXDConversionGame;
+		bxgi::CRWVersion*				m_pTXDConversionRWVersion;
+		bxcf::CRasterDataFormat*		m_pTXDConversionRasterDataFormat;
 	};
 };
 
@@ -299,7 +300,7 @@ struct CBuildTXDDialogData
 	std::string						m_strTexturesFolderPath;
 	std::string						m_strDestinationFolderPath;
 	uint32							m_uiTextureCountPerTXD;
-	bxcf::CRWVersion*						m_pRWVersion;
+	bxgi::CRWVersion*						m_pRWVersion;
 };
 
 struct CIMGVersionSettingsDialogData

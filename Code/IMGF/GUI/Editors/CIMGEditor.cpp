@@ -1,15 +1,15 @@
 #include "CIMGEditor.h"
 #include "Globals.h"
 #include "CIMGF.h"
-#include "Format/RockstarGames/IMG/CIMGManager.h"
+#include "Format/IMG/Regular/CIMGManager.h"
 #include "Static/CString2.h"
 #include "Static/CPath.h"
 #include "Static/CFile.h"
 #include "Localization/CLocalizationManager.h"
 #include "Settings/CSettingsManager.h"
-#include "Format/RockstarGames/COL/CCOLManager.h"
-#include "Format/RockstarGames/IMG/CIMGEntry.h"
-#include "Format/RenderWare/Helper/BinaryStream/CRWVersion.h"
+#include "Format/COL/CCOLManager.h"
+#include "Format/IMG/Regular/CIMGEntry.h"
+#include "Engine/RW/CRWVersion.h"
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
 #include "GUI/Windows/CMainWindow.h"
@@ -31,8 +31,8 @@
 #include "Event/EInputEvents.h"
 
 // for menu start - todo
-#include "Format/RenderWare/Helper/BinaryStream/CRWManager.h"
-#include "Format/RenderWare/Helper/BinaryStream/CRWVersionManager.h"
+#include "Engine/RW/CRWManager.h"
+#include "Engine/RW/CRWVersionManager.h"
 #include "Tasks/RecentlyOpen/CRecentlyOpenManager.h"
 #include "Tasks/Sort/CSortManager.h"
 #include "Tasks/Sort/CSortType.h"
@@ -42,13 +42,14 @@
 #include "Tasks/Sort/CSortMenuItems.h"
 #include "Image/CImageManager.h"
 #include "Image/CRasterDataFormatManager.h"
-#include "Format/RockstarGames/COL/CCOLManager.h"
-#include "Format/RockstarGames/COL/CCOLVersionManager.h"
-#include "Format/RockstarGames/COL/CCOLVersion.h"
+#include "Format/COL/CCOLManager.h"
+#include "Format/COL/CCOLVersionManager.h"
+#include "Format/COL/CCOLVersion.h"
 // for menu end
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgi;
 using namespace imgf::editor::items;
 
 CIMGEditor::CIMGEditor(void) :

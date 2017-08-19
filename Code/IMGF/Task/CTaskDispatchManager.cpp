@@ -15,36 +15,36 @@
 #include "Window/CWindow.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
-#include "Format/RockstarGames/IMG/CIMGManager.h"
-#include "Format/RockstarGames/IMG/CIMGFormat.h"
-#include "Format/RockstarGames/IMG/CIMGEntry.h"
-#include "Format/RockstarGames/IDE/CIDEManager.h"
-#include "Format/RockstarGames/IPL/CIPLManager.h"
-#include "Format/RockstarGames/IDE/CIDEManager.h"
-#include "Format/RockstarGames/COL/CCOLManager.h"
-#include "Format/RockstarGames/COL/CCOLFormat.h"
+#include "Format/IMG/Regular/CIMGManager.h"
+#include "Format/IMG/Regular/CIMGFormat.h"
+#include "Format/IMG/Regular/CIMGEntry.h"
+#include "Format/IDE/CIDEManager.h"
+#include "Format/IPL/CIPLManager.h"
+#include "Format/IDE/CIDEManager.h"
+#include "Format/COL/CCOLManager.h"
+#include "Format/COL/CCOLFormat.h"
 #include "DragDrop/CDropTarget.h"
-#include "Format/RockstarGames/TXD/CTXDManager.h"
-#include "Format/RockstarGames/TXD/CTXDFormat.h"
-#include "Format/RenderWare/Helper/BinaryStream/Sections/CRWSection_TextureNative.h"
-#include "Format/RockstarGames/DFF/CDFFManager.h"
-#include "Format/RockstarGames/DFF/CDFFFormat.h"
-#include "Format/RenderWare/Helper/BinaryStream/CTextureEntry.h"
-#include "Format/RockstarGames/DAT/Loader/CDATLoaderManager.h"
-#include "Format/RockstarGames/DAT/Path/CDATPathManager.h"
-#include "Format/RockstarGames/DAT/Loader/CDATLoaderFormat.h"
-#include "Format/RockstarGames/DAT/Loader/CDATLoaderEntry.h"
+#include "Format/TXD/CTXDManager.h"
+#include "Format/TXD/CTXDFormat.h"
+#include "Engine/RW/Sections/CRWSection_TextureNative.h"
+#include "Format/DFF/CDFFManager.h"
+#include "Format/DFF/CDFFFormat.h"
+#include "Engine/RW/CTextureEntry.h"
+#include "Format/DAT/Loader/CDATLoaderManager.h"
+#include "Format/DAT/Path/CDATPathManager.h"
+#include "Format/DAT/Loader/CDATLoaderFormat.h"
+#include "Format/DAT/Loader/CDATLoaderEntry.h"
 #include "Format/Image/BMP/CBMPManager.h"
 #include "Format/Image/BMP/CBMPFormat.h"
-#include "Format/RenderWare/Helper/BinaryStream/CRWVersion.h"
+#include "Engine/RW/CRWVersion.h"
 #include "LST/CLSTManager.h"
 #include "LST/CLSTFormat.h"
 #include "LST/CLSTSection.h"
 #include "LST/CLSTEntry.h"
-#include "Format/RockstarGames/COL/CCOLEntry.h"
+#include "Format/COL/CCOLEntry.h"
 #include "Static/CDebug.h"
-#include "Format/RockstarGames/IPL/CIPLManager.h"
-#include "Format/RenderWare/Helper/BinaryStream/CRWManager.h"
+#include "Format/IPL/CIPLManager.h"
+#include "Engine/RW/CRWManager.h"
 #include "Tasks/RecentlyOpen/CRecentlyOpenManager.h"
 #include "Tasks/Session/CSessionManager.h"
 #include "GUI/Popups/CPopupGUIManager.h"
@@ -58,85 +58,87 @@
 #include "DB/CDBFormat.h"
 #include "Image/CRasterDataFormat.h"
 #include "Tasks/Find/CSearchEntry.h"
-#include "Format/RenderWare/Helper/BinaryStream/CRWVersionManager.h"
+#include "Engine/RW/CRWVersionManager.h"
 #include "EntryViewer/CEntryViewerManager.h"
-#include "Format/RockstarGames/IDE/CIDEFormat.h"
-#include "Format/RockstarGames/IDE/CIDEEntry.h"
-#include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_OBJS.h"
-#include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_TOBJ.h"
-#include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_ANIM.h"
-#include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_CARS.h"
-#include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_HAND.h"
-#include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_HIER.h"
-#include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_PATH.h"
-#include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_PEDS.h"
-#include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_TXDP.h"
-#include "Format/RockstarGames/IDE/Entry/DataEntry/CIDEEntry_WEAP.h"
-#include "Format/RockstarGames/IDE/Entry/DataEntry/2DFX/CIDEEntry_2DFX_Light.h"
-#include "Format/RockstarGames/IDE/Entry/DataEntry/2DFX/CIDEEntry_2DFX_Particle.h"
-#include "Format/RockstarGames/IDE/Entry/DataEntry/2DFX/CIDEEntry_2DFX_Ped.h"
-#include "Format/RockstarGames/IDE/Entry/DataEntry/2DFX/CIDEEntry_2DFX_SunReflection.h"
-#include "Format/RockstarGames/IDE/Entry/DataEntry/2DFX/CIDEEntry_2DFX_Unknown1.h"
-#include "Format/RockstarGames/IPL/CIPLFormat.h"
-#include "Format/RockstarGames/IPL/CIPLEntry.h"
-#include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_INST.h"
-#include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_AUZO.h"
-#include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_CARS.h"
-#include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_CULL.h"
-#include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_ENEX.h"
-#include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_GRGE.h"
-#include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_JUMP.h"
-#include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_MULT.h"
-#include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_MZON.h"
-#include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_OCCL.h"
-#include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_PATH.h"
-#include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_PICK.h"
-#include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_TCYC.h"
-#include "Format/RockstarGames/IPL/Entry/DataEntry/CIPLEntry_ZONE.h"
-#include "Format/RenderWare/Helper/BinaryStream/Entries/2dEffects/CRWEntry_2dEffect_CoverPoint.h"
-#include "Format/RenderWare/Helper/BinaryStream/Entries/2dEffects/CRWEntry_2dEffect_EnterExit.h"
-#include "Format/RenderWare/Helper/BinaryStream/Entries/2dEffects/CRWEntry_2dEffect_Escalator.h"
-#include "Format/RenderWare/Helper/BinaryStream/Entries/2dEffects/CRWEntry_2dEffect_Light.h"
-#include "Format/RenderWare/Helper/BinaryStream/Entries/2dEffects/CRWEntry_2dEffect_ParticleEffect.h"
-#include "Format/RenderWare/Helper/BinaryStream/Entries/2dEffects/CRWEntry_2dEffect_PedAttractor.h"
-#include "Format/RenderWare/Helper/BinaryStream/Entries/2dEffects/CRWEntry_2dEffect_SlotmachineWheel.h"
-#include "Format/RenderWare/Helper/BinaryStream/Entries/2dEffects/CRWEntry_2dEffect_StreetSign.h"
-#include "Format/RenderWare/Helper/BinaryStream/Entries/2dEffects/CRWEntry_2dEffect_SunGlare.h"
+#include "Format/IDE/CIDEFormat.h"
+#include "Format/IDE/CIDEEntry.h"
+#include "Format/IDE/Entry/DataEntry/CIDEEntry_OBJS.h"
+#include "Format/IDE/Entry/DataEntry/CIDEEntry_TOBJ.h"
+#include "Format/IDE/Entry/DataEntry/CIDEEntry_ANIM.h"
+#include "Format/IDE/Entry/DataEntry/CIDEEntry_CARS.h"
+#include "Format/IDE/Entry/DataEntry/CIDEEntry_HAND.h"
+#include "Format/IDE/Entry/DataEntry/CIDEEntry_HIER.h"
+#include "Format/IDE/Entry/DataEntry/CIDEEntry_PATH.h"
+#include "Format/IDE/Entry/DataEntry/CIDEEntry_PEDS.h"
+#include "Format/IDE/Entry/DataEntry/CIDEEntry_TXDP.h"
+#include "Format/IDE/Entry/DataEntry/CIDEEntry_WEAP.h"
+#include "Format/IDE/Entry/DataEntry/2DFX/CIDEEntry_2DFX_Light.h"
+#include "Format/IDE/Entry/DataEntry/2DFX/CIDEEntry_2DFX_Particle.h"
+#include "Format/IDE/Entry/DataEntry/2DFX/CIDEEntry_2DFX_Ped.h"
+#include "Format/IDE/Entry/DataEntry/2DFX/CIDEEntry_2DFX_SunReflection.h"
+#include "Format/IDE/Entry/DataEntry/2DFX/CIDEEntry_2DFX_Unknown1.h"
+#include "Format/IPL/CIPLFormat.h"
+#include "Format/IPL/CIPLEntry.h"
+#include "Format/IPL/Entry/DataEntry/CIPLEntry_INST.h"
+#include "Format/IPL/Entry/DataEntry/CIPLEntry_AUZO.h"
+#include "Format/IPL/Entry/DataEntry/CIPLEntry_CARS.h"
+#include "Format/IPL/Entry/DataEntry/CIPLEntry_CULL.h"
+#include "Format/IPL/Entry/DataEntry/CIPLEntry_ENEX.h"
+#include "Format/IPL/Entry/DataEntry/CIPLEntry_GRGE.h"
+#include "Format/IPL/Entry/DataEntry/CIPLEntry_JUMP.h"
+#include "Format/IPL/Entry/DataEntry/CIPLEntry_MULT.h"
+#include "Format/IPL/Entry/DataEntry/CIPLEntry_MZON.h"
+#include "Format/IPL/Entry/DataEntry/CIPLEntry_OCCL.h"
+#include "Format/IPL/Entry/DataEntry/CIPLEntry_PATH.h"
+#include "Format/IPL/Entry/DataEntry/CIPLEntry_PICK.h"
+#include "Format/IPL/Entry/DataEntry/CIPLEntry_TCYC.h"
+#include "Format/IPL/Entry/DataEntry/CIPLEntry_ZONE.h"
+#include "Engine/RW/Entries/2dEffects/CRWEntry_2dEffect_CoverPoint.h"
+#include "Engine/RW/Entries/2dEffects/CRWEntry_2dEffect_EnterExit.h"
+#include "Engine/RW/Entries/2dEffects/CRWEntry_2dEffect_Escalator.h"
+#include "Engine/RW/Entries/2dEffects/CRWEntry_2dEffect_Light.h"
+#include "Engine/RW/Entries/2dEffects/CRWEntry_2dEffect_ParticleEffect.h"
+#include "Engine/RW/Entries/2dEffects/CRWEntry_2dEffect_PedAttractor.h"
+#include "Engine/RW/Entries/2dEffects/CRWEntry_2dEffect_SlotmachineWheel.h"
+#include "Engine/RW/Entries/2dEffects/CRWEntry_2dEffect_StreetSign.h"
+#include "Engine/RW/Entries/2dEffects/CRWEntry_2dEffect_SunGlare.h"
 #include "Updater/CUpdateManager.h"
 #include "Updater/CUpdateConnectionManager.h"
 #include "Updater/CUpdateConnection.h"
 #include "Program/buildnumber.h"
-#include "Format/RockstarGames/COL/CCOLVersionManager.h"
-#include "Format/RockstarGames/COL/CCOLVersion.h"
+#include "Format/COL/CCOLVersionManager.h"
+#include "Format/COL/CCOLVersion.h"
 #include "Static/CMath.h"
-#include "Format/RenderWare/Helper/BinaryStream/Sections/CRWSection_Geometry.h"
-#include "Format/RenderWare/Helper/BinaryStream/Sections/CRWSection_String.h"
-#include "Format/RenderWare/Helper/BinaryStream/Sections/CRWSection_Texture.h"
-#include "Format/RenderWare/Helper/BinaryStream/Sections/CRWSection_Material.h"
-#include "Format/RenderWare/Helper/BinaryStream/Sections/CRWSection_2dEffect.h"
-#include "Format/RockstarGames/WDR/CWDRManager.h"
-#include "Format/RockstarGames/WDR/CWDRFormat.h"
-#include "Format/RockstarGames/WTD/CWTDManager.h"
-#include "Format/RockstarGames/WTD/CWTDFormat.h"
-#include "Format/Intermediate/Texture/CIntermediateTextureFormat.h"
-#include "Format/RockstarGames/DAT/Path/CDATPathFormat.h"
+#include "Engine/RW/Sections/CRWSection_Geometry.h"
+#include "Engine/RW/Sections/CRWSection_String.h"
+#include "Engine/RW/Sections/CRWSection_Texture.h"
+#include "Engine/RW/Sections/CRWSection_Material.h"
+#include "Engine/RW/Sections/CRWSection_2dEffect.h"
+#include "Format/WDR/CWDRManager.h"
+#include "Format/WDR/CWDRFormat.h"
+#include "Format/WTD/CWTDManager.h"
+#include "Format/WTD/CWTDFormat.h"
+#include "Intermediate/Texture/CIntermediateTextureFormat.h"
+#include "Format/DAT/Path/CDATPathFormat.h"
 #include "Localization/CLocalizationManager.h"
 #include "Tasks/Sort/CSortPriorities.h"
 #include "EntryViewer/CTextureViewer.h"
 #include "EntryViewer/CCollisionViewer.h"
 #include "Tasks/Renamer/CRenamedIMGEntry.h"
-#include "Format/RenderWare/Helper/BinaryStream/CTextureEntry.h"
+#include "Engine/RW/CTextureEntry.h"
 #include "Collection/Games/eGame.h"
 #include "CLastUsedValueManager.h"
 #include "Task/ETask.h"
 #include "Stream/CDataReader.h"
 #include "Controls/CProgressControl.h"
+#include "Format/CGameFormat.h"
 #include <gdiplus.h>
 #include <stdio.h>
 #include <algorithm>
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgi;
 using namespace imgf::task;
 
 CTaskDispatchManager::CTaskDispatchManager(void) :
@@ -842,7 +844,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 		for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 		{
 			string strEntryExtensionUpper = CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()));
-			if (CPath::isModelExtension(strEntryExtensionUpper))
+			if (CGameFormat::isModelExtension(strEntryExtensionUpper))
 			{
 				if (eDestGame == PLATFORMED_GAME_UNKNOWN)
 				{
@@ -5898,7 +5900,7 @@ void			CTaskDispatchManager::onRequestValidateAllDFFInActiveTab(void)
 	vector<string> vecCorruptDFFEntryLines;
 	for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
-		if (CPath::isModelExtension(CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()))))
+		if (CGameFormat::isModelExtension(CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()))))
 		{
 			CDFFFormat *pDFFFile = CDFFManager::get()->parseViaMemory(pIMGEntry->getEntryData());
 			if (pDFFFile->doesHaveError())
@@ -6627,7 +6629,7 @@ void		CTaskDispatchManager::onRequestBuildTXD(void)
 		
 		for(auto pIMGEntry : vecIMGEntries)
 		{
-			if (CPath::isModelExtension(CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()))))
+			if (CGameFormat::isModelExtension(CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()))))
 			{
 				CDFFFormat *pDFFFile = CDFFManager::get()->parseViaMemory(pIMGEntry->getEntryData());
 				umapDFFEntries[pDFFFile] = CPath::removeFileExtension(pIMGEntry->getEntryName());
@@ -6665,7 +6667,7 @@ void		CTaskDispatchManager::onRequestBuildTXD(void)
 		for (string strFileName : vecFileNames)
 		{
 			string strExtensionUpper = CString2::toUpperCase(CPath::getFileExtension(strFileName));
-			if (CPath::isModelExtension(strExtensionUpper))
+			if (CGameFormat::isModelExtension(strExtensionUpper))
 			{
 				CDFFFormat *pDFFFile = CDFFManager::get()->parseViaMemory(pBuildTXDDialogData->m_strDFFsFolderPath + strFileName);
 				umapDFFEntries[pDFFFile] = CPath::removeFileExtension(strFileName);

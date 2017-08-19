@@ -1,14 +1,15 @@
 #include "CDBManager.h"
 #include "CDBFormat.h"
 #include "CDBEntry.h"
-#include "Format/RockstarGames/IMG/CIMGFormat.h"
-#include "Format/RockstarGames/IMG/CIMGEntry.h"
+#include "Format/IMG/Regular/CIMGFormat.h"
+#include "Format/IMG/Regular/CIMGEntry.h"
 #include "Static/CString2.h"
 #include "Stream/CDataReader.h"
 #include "Static/CDebug.h"
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgi;
 
 CDBManager::CDBManager(void)
 {

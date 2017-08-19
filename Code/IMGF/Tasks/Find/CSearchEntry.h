@@ -2,7 +2,7 @@
 #define CSearchEntry_H
 
 class CIMGEditorTab;
-class bxcf::CIMGEntry;
+class bxgi::CIMGEntry;
 
 class CSearchEntry
 {
@@ -15,12 +15,12 @@ public:
 	void						setWindowTab(CIMGEditorTab* pEditorTab) { m_pEditorTab = pEditorTab; }
 	CIMGEditorTab*				getWindowTab(void) { return m_pEditorTab; }
 
-	void						setIMGEntry(bxcf::CIMGEntry* pIMGEntry) { m_pIMGEntry = pIMGEntry; }
-	bxcf::CIMGEntry*					getIMGEntry(void) { return m_pIMGEntry; }
+	void						setIMGEntry(bxgi::CIMGEntry* pIMGEntry) { m_pIMGEntry = pIMGEntry; }
+	bxgi::CIMGEntry*					getIMGEntry(void) { return m_pIMGEntry; }
 
 private:
 	CIMGEditorTab*				m_pEditorTab;
-	bxcf::CIMGEntry*					m_pIMGEntry;
+	bxgi::CIMGEntry*					m_pIMGEntry;
 };
 
 #endif

@@ -6,7 +6,7 @@
 #include "Globals.h"
 #include "GUI/Popups/CPopupGUIManager.h"
 #include "Static/CRegistry.h"
-#include "Format/RockstarGames/IMG/CIMGEntry.h"
+#include "Format/IMG/Regular/CIMGEntry.h"
 #include "Format/Text/INI/CINIManager.h"
 #include "Static/CString2.h"
 

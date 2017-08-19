@@ -1,14 +1,16 @@
 #ifndef CSortManager_H
 #define CSortManager_H
 
+#include "bxcf.h"
+#include "bxgi.h"
 #include "Object/CManager.h"
 #include "Pool/CVectorPool.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
 
-class bxcf::CIMGFormat;
-class bxcf::CIMGEntry;
+class bxgi::CIMGFormat;
+class bxgi::CIMGEntry;
 class CSortPriority;
 class CSortType;
 class CSortTypes;
@@ -25,7 +27,7 @@ public:
 	void									init(void);
 	void									uninit(void);
 
-	void									sort(bxcf::CIMGFormat *pIMGFile);
+	void									sort(bxgi::CIMGFormat *pIMGFile);
 
 	CSortTypes*								getSortTypes(void) { return m_pSortTypes; }
 	CSortPriorities*						getSortPriorities(void) { return m_pSortPriorities; }
@@ -38,7 +40,7 @@ public:
 	void									onClickMenuItem(uint16 usMenuHandle);
 
 private:
-	static bool								sortIMGEntries(bxcf::CIMGEntry *p1, bxcf::CIMGEntry *p2);
+	static bool								sortIMGEntries(bxgi::CIMGEntry *p1, bxgi::CIMGEntry *p2);
 
 	CSortTypes*								m_pSortTypes;
 	CSortPriorities*						m_pSortPriorities;

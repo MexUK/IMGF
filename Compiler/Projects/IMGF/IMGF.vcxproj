@@ -45,14 +45,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
-    <IncludePath>..\..\..\Code\IMGF\;..\..\..\Code\IMGF\FileFormat\;..\..\..\Dependencies\ThirdParty\HappyHTTP;..\..\..\Dependencies\ThirdParty\GLEW;..\..\..\Dependencies\ThirdParty\Freetype\include;..\..\..\Dependencies\ThirdParty\GLFW;..\..\..\Dependencies\ThirdParty\GLFW\include\;..\..\..\Dependencies\ThirdParty\freetype-gl;..\..\..\Dependencies\ThirdParty\INI;..\..\..\Dependencies\ThirdParty\Bitmap;..\..\..\Dependencies\ThirdParty\;../../../../BXCF/Code/BXCF/;../../../../BXGX/Code/BXGX/;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\BXCF\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\ThirdParty\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXGX\BXGX\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\..\Code\IMGF\;..\..\..\Code\IMGF\FileFormat\;..\..\..\Dependencies\ThirdParty\HappyHTTP;..\..\..\Dependencies\ThirdParty\GLEW;..\..\..\Dependencies\ThirdParty\Freetype\include;..\..\..\Dependencies\ThirdParty\GLFW;..\..\..\Dependencies\ThirdParty\GLFW\include\;..\..\..\Dependencies\ThirdParty\freetype-gl;..\..\..\Dependencies\ThirdParty\INI;..\..\..\Dependencies\ThirdParty\Bitmap;..\..\..\Dependencies\ThirdParty\;../../../../BXCF/Code/BXCF/;../../../../BXGX/Code/BXGX/;../../../../BXGI/Code/BXGI/;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\BXCF\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\ThirdParty\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXGX\BXGX\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXGI\BXGI\Debug;$(LibraryPath)</LibraryPath>
     <TargetName>IMG Factory</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
-    <IncludePath>..\..\..\Code\IMGF\;..\..\..\Code\IMGF\FileFormat\;..\..\..\Dependencies\ThirdParty\HappyHTTP;..\..\..\Dependencies\ThirdParty\GLEW;..\..\..\Dependencies\ThirdParty\Freetype\include;..\..\..\Dependencies\ThirdParty\GLFW;..\..\..\Dependencies\ThirdParty\GLFW\include\;..\..\..\Dependencies\ThirdParty\freetype-gl;..\..\..\Dependencies\ThirdParty\INI;..\..\..\Dependencies\ThirdParty\Bitmap;..\..\..\Dependencies\ThirdParty\;../../../Dependencies/Include/BXCF/;../../../Dependencies/Include/BXGX/;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\..\Code\IMGF\;..\..\..\Code\IMGF\FileFormat\;..\..\..\Dependencies\ThirdParty\HappyHTTP;..\..\..\Dependencies\ThirdParty\GLEW;..\..\..\Dependencies\ThirdParty\Freetype\include;..\..\..\Dependencies\ThirdParty\GLFW;..\..\..\Dependencies\ThirdParty\GLFW\include\;..\..\..\Dependencies\ThirdParty\freetype-gl;..\..\..\Dependencies\ThirdParty\INI;..\..\..\Dependencies\ThirdParty\Bitmap;..\..\..\Dependencies\ThirdParty\;../../../Dependencies/Include/BXCF/;../../../Dependencies/Include/BXGX/;../../../Dependencies/Include/BXGI/;$(IncludePath)</IncludePath>
     <LibraryPath>../../../Dependencies/Lib/$(Configuration)/;../../../Dependencies/Lib/ThirdParty/$(Configuration)/;$(LibraryPath)</LibraryPath>
     <TargetName>IMG Factory</TargetName>
   </PropertyGroup>
@@ -67,7 +67,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;BXCF.lib;BXGX.lib;freetype261-$(Configuration).lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;BXCF.lib;BXGX.lib;BXGI.lib;freetype261-$(Configuration).lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>
@@ -97,7 +97,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;freetype261-$(Configuration).lib;BXCF.lib;BXGX.lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;freetype261-$(Configuration).lib;BXCF.lib;BXGX.lib;BXGI.lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>Uafxcw.lib;Libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>

@@ -7,23 +7,23 @@
 #include "Static/CStdVector.h"
 #include "Static/CPath.h"
 #include "Static/CFile.h"
-#include "Format/RockstarGames/IMG/CIMGManager.h"
-#include "Format/RockstarGames/IMG/CIMGFormat.h"
-#include "Format/RockstarGames/IMG/CIMGEntry.h"
-#include "Format/RenderWare/Helper/BinaryStream/CRWManager.h"
-#include "Format/RenderWare/Helper/BinaryStream/CRWVersion.h"
-#include "Format/RAGE/CRageManager.h"
+#include "Format/IMG/Regular/CIMGManager.h"
+#include "Format/IMG/Regular/CIMGFormat.h"
+#include "Format/IMG/Regular/CIMGEntry.h"
+#include "Engine/RW/CRWManager.h"
+#include "Engine/RW/CRWVersion.h"
+#include "Engine/RAGE/CRageManager.h"
 #include "Tasks/Sort/CSortManager.h"
 #include "Tasks/Sort/CSortPriority.h"
 #include "Tasks/Sort/CSortType.h"
 #include "Tasks/Sort/eSortType.h"
 #include "Static/CDebug.h"
 #include "DB/CDBFormat.h"
-#include "Format/RockstarGames/COL/CCOLManager.h"
+#include "Format/COL/CCOLManager.h"
 #include "Tasks/Find/CSearchEntry.h"
-#include "Format/RenderWare/Helper/BinaryStream/CRWVersionManager.h"
-#include "Format/RockstarGames/COL/CCOLVersionManager.h"
-#include "Format/RAGE/CRageResourceTypeManager.h"
+#include "Engine/RW/CRWVersionManager.h"
+#include "Format/COL/CCOLVersionManager.h"
+#include "Engine/RAGE/CRageResourceTypeManager.h"
 #include "Localization/CLocalizationManager.h"
 #include "Tasks/Sort/CSortPriorities.h"
 #include "Platform/Hardware/CPlatformManager.h"
@@ -49,6 +49,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgi;
 using namespace bxcf::fileType;
 using namespace bxgx::control::events;
 

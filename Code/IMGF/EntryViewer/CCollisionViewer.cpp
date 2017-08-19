@@ -5,7 +5,7 @@
 #include "CCollisionViewer.h"
 #include "CIMGF.h"
 #include "CEntryViewerManager.h"
-#include "Format/RockstarGames/COL/CCOLEntry.h"
+#include "Format/COL/CCOLEntry.h"
 #include "Static/CMath.h"
 #include "Static/CString2.h"
 #include "Static/CFile.h"
@@ -31,12 +31,13 @@
 #include "mat4.h"
 #include "shader.h"
 #include "vertex-buffer.h"
-#include "Format/RockstarGames/COL/CCOLFormat.h"
+#include "Format/COL/CCOLFormat.h"
 #include <fstream>
 #include <unordered_map>
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgi;
 
 #define GL_CLAMP_TO_EDGE 0x812F
 

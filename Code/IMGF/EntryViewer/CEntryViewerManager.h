@@ -3,7 +3,7 @@
 
 #include <Windows.h>
 #include "Object/CManager.h"
-#include "Format/RockstarGames/TXD/eTXDRasterDataFormat.h"
+#include "Format/TXD/eTXDRasterDataFormat.h"
 #include "Image/eDXTCompressionType.h"
 #include "d3d9.h"
 #include <string>
@@ -12,7 +12,7 @@
 LRESULT CALLBACK	WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void				onPaint(HWND hwnd);
 
-class bxcf::CIMGEntry;
+class bxgi::CIMGEntry;
 class CTextureViewer;
 class CCollisionViewer;
 

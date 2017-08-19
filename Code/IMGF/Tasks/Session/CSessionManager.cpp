@@ -5,7 +5,7 @@
 #include "Static/CRegistry.h"
 #include "Globals.h"
 #include "CIMGF.h"
-#include "Format/RockstarGames/IMG/CIMGEntry.h"
+#include "Format/IMG/Regular/CIMGEntry.h"
 #include "Localization/CLocalizationManager.h"
 
 using namespace std;

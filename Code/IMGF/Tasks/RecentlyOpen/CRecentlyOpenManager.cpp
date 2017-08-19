@@ -6,7 +6,7 @@
 #include "Globals.h"
 #include "CIMGF.h"
 #include "Static/CDebug.h"
-#include "Format/RockstarGames/IMG/CIMGEntry.h"
+#include "Format/IMG/Regular/CIMGEntry.h"
 #include "Localization/CLocalizationManager.h"
 #include "Window/CWindow.h"
 

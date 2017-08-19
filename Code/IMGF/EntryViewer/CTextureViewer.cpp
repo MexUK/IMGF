@@ -1,14 +1,14 @@
 #include "CTextureViewer.h"
 #include "Globals.h"
 #include "CIMGF.h"
-#include "Format/RenderWare/Helper/BinaryStream/Sections/CRWSection_TextureNative.h"
+#include "Engine/RW/Sections/CRWSection_TextureNative.h"
 #include "CEntryViewerManager.h"
-#include "Format/RockstarGames/IMG/CIMGEntry.h"
-#include "Format/RockstarGames/TXD/CTXDManager.h"
-#include "Format/RockstarGames/TXD/CTXDFormat.h"
-#include "Format/RockstarGames/WTD/CWTDManager.h"
-#include "Format/RockstarGames/WTD/CWTDFormat.h"
-#include "Format/RockstarGames/WTD/CWTDEntry.h"
+#include "Format/IMG/Regular/CIMGEntry.h"
+#include "Format/TXD/CTXDManager.h"
+#include "Format/TXD/CTXDFormat.h"
+#include "Format/WTD/CWTDManager.h"
+#include "Format/WTD/CWTDFormat.h"
+#include "Format/WTD/CWTDEntry.h"
 #include "CTextureViewerTextureData.h"
 #include "Image/CImageManager.h"
 #include "Localization/CLocalizationManager.h"
@@ -19,6 +19,7 @@
 using namespace std;
 using namespace Gdiplus;
 using namespace bxcf;
+using namespace bxgi;
 
 static bool bPremultipledAlphaApplied = false;
 uint32 uiEntryViewerWindowWidth = 800;

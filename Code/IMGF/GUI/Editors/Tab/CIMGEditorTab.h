@@ -3,15 +3,15 @@
 
 #include <Windows.h>
 #include "GUI/Editor/Tab/CEditorTab.h"
-#include "Format/RockstarGames/IMG/CIMGFormat.h"
+#include "Format/IMG/Regular/CIMGFormat.h"
 #include "Tasks/Filter/CFilterOptions.h"
 #include "Event/Events.h"
 #include <string>
 #include <vector>
 
 class CIMGEditor;
-class bxcf::CIMGFormat;
-class bxcf::CIMGEntry;
+class bxgi::CIMGFormat;
+class bxgi::CIMGEntry;
 class CDBFormat;
 class CListCtrl; // temp
 class CDropControlEntry;
@@ -35,8 +35,8 @@ public:
 	void						setIMGEditor(CIMGEditor *pEditor) { m_pEditor = pEditor; }
 	CIMGEditor*					getIMGEditor(void) { return m_pEditor; }
 
-	void						setIMGFile(bxcf::CIMGFormat *pIMGFile) { m_pIMGFile = pIMGFile; }
-	bxcf::CIMGFormat*			getIMGFile(void) { return m_pIMGFile; }
+	void						setIMGFile(bxgi::CIMGFormat *pIMGFile) { m_pIMGFile = pIMGFile; }
+	bxgi::CIMGFormat*			getIMGFile(void) { return m_pIMGFile; }
 
 
 
@@ -73,20 +73,20 @@ public:
 	void						addOrReplaceEntryViaData(std::string strEntryName, std::string strEntryData); // if entry with name already exists, then it is replaced, otherwise it is added.
 	void						addOrReplaceEntryViaFileAndSettings(std::string strEntryFilePath, std::string strEntryName = ""); // entry is added or replaced depending on settings.
 	void						addOrReplaceEntryViaDataAndSettings(std::string strEntryName, std::string strEntryData); // entry is added or replaced depending on settings.
-	void						removeEntry(bxcf::CIMGEntry *pIMGEntry);
+	void						removeEntry(bxgi::CIMGEntry *pIMGEntry);
 
 	void						addGridHeaders(void);
 	void						addGridEntries(void);
 	void						readdGridEntries(void);
-	void						addGridEntry(bxcf::CIMGEntry *pIMGEntry, uint32 uiEntryIndex = -1, void **pRows = nullptr);
-	void						updateGridEntry(bxcf::CIMGEntry *pIMGEntry);
-	uint32						getMainListViewItemIndexByItemData(bxcf::CIMGEntry *pIMGEntry);
+	void						addGridEntry(bxgi::CIMGEntry *pIMGEntry, uint32 uiEntryIndex = -1, void **pRows = nullptr);
+	void						updateGridEntry(bxgi::CIMGEntry *pIMGEntry);
+	uint32						getMainListViewItemIndexByItemData(bxgi::CIMGEntry *pIMGEntry);
 
-	bxcf::CIMGEntry*					getEntryByName(std::string strEntryName);
+	bxgi::CIMGEntry*					getEntryByName(std::string strEntryName);
 
 	void						rebuild(std::string strIMGPath = "", bool bLog = true);
 	uint32						merge(std::string strPath, std::vector<std::string>& vecImportedEntryNames);
-	void						splitSelectedEntries(std::string strPath, bxcf::eIMGVersion eIMGVersion, bool bDeleteFromSource, std::vector<std::string>& vecSplitEntryNames);
+	void						splitSelectedEntries(std::string strPath, bxgi::eIMGVersion eIMGVersion, bool bDeleteFromSource, std::vector<std::string>& vecSplitEntryNames);
 	void						replace(std::vector<std::string>& vecPaths, std::vector<std::string>& vecReplacedEntryNames);
 	void						searchText(void);
 
@@ -102,7 +102,7 @@ public:
 	
 	void						sortEntries(void);
 	
-	void						onEntryChange(bxcf::CIMGEntry *pIMGEntry);
+	void						onEntryChange(bxgi::CIMGEntry *pIMGEntry);
 	void						loadProtectedEntryStates(void);
 
 	void						loadFilter_Type(void);
@@ -112,19 +112,19 @@ public:
 
 	void						reassignEntryIds(void);
 
-	std::vector<bxcf::CIMGEntry*>		getSelectedEntries(void);
+	std::vector<bxgi::CIMGEntry*>		getSelectedEntries(void);
 
 	void						setActiveFilter(std::string strFilterName, std::string strValue) { m_umapActiveFilterValues[strFilterName] = strValue; }
 	std::string					getActiveFilter(std::string strFilterName) { return m_umapActiveFilterValues[strFilterName]; }
 
-	void						checkToApplyCompression(bxcf::CIMGEntry *pIMGEntry);
+	void						checkToApplyCompression(bxgi::CIMGEntry *pIMGEntry);
 
 	void						checkForUnknownRWVersionEntries(void);
 
 	CDBFormat*					m_pDBFile; // todo - make private
 
 private:
-	void						loadProtectedEntryState(bxcf::CIMGEntry *pIMGEntry);
+	void						loadProtectedEntryState(bxgi::CIMGEntry *pIMGEntry);
 
 private:
 	CIMGEditor*					m_pEditor;
@@ -134,7 +134,7 @@ private:
 	CDropControl*				m_pEntryTypeFilter;
 	CDropControl*				m_pEntryVersionFilter;
 
-	bxcf::CIMGFormat*			m_pIMGFile;
+	bxgi::CIMGFormat*			m_pIMGFile;
 	std::vector<std::string>	m_vecLogLinesGUI;
 	std::vector<std::string>	m_vecLogLinesBasic;
 	std::vector<std::string>	m_vecLogLinesExtended;
