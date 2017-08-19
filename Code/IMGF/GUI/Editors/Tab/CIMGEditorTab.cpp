@@ -44,6 +44,7 @@
 #include "Controls/CDropControl.h"
 #include "Format/EFileType.h"
 #include "Event/EInputEvents.h"
+#include <map>
 #include <algorithm>
 
 using namespace std;
@@ -619,156 +620,43 @@ void					CIMGEditorTab::readdGridEntries(void)
 }
 void					CIMGEditorTab::addGridEntries(void)
 {
-	//getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(getIMGFile()->m_vecEntries.size());
-	// setProgressMaxTicks() is called in CIMGF::addMainWindowTab(). (as the bottom of this code contains a call to onProgressTick()).
-
-	/*
-	todo
-
-	int iCurSel;
-	::CString strText1;
-
-	iCurSel = ((CComboBox*)getIMGF()->getDialog()->GetDlgItem(54))->GetCurSel();
-	bool bFilterCheckBox_Extensions = iCurSel != 0;
-	uint32 uiFilterCombo_Extensions = iCurSel;
-	
-	CComboBox *pComboBox1 = ((CComboBox*)getIMGF()->getDialog()->GetDlgItem(5));
-	iCurSel = pComboBox1->GetCurSel();
-	bool bFilterCheckBox_Version = iCurSel != 0;
-	uint32 uiFilterCombo_Version = iCurSel;
-	*/
-
-	string
-		strEntryTypeFilterText = m_pEntryTypeFilter->getActiveItem() ? m_pEntryTypeFilter->getActiveItem()->getText() : "",
-		strEntryVersionFilterText = m_pEntryVersionFilter->getActiveItem() ? m_pEntryVersionFilter->getActiveItem()->getText() : "";
+	CDropControlEntry
+		*pTypeFilterItem = m_pEntryTypeFilter->getActiveItem(),
+		*pVersionFilterItem = m_pEntryVersionFilter->getActiveItem();
+	int32
+		iTypeFilterSelectedIndex = m_pEntryTypeFilter->getSelectedItemIndex(),
+		iVersionFilterSelectedIndex = m_pEntryVersionFilter->getSelectedItemIndex();
+	uint32
+		uiFileType,
+		uiSelectedFileType = pTypeFilterItem ? pTypeFilterItem->getUserdata() : -1,
+		uiSelectedFileVersion = pVersionFilterItem ? pVersionFilterItem->getUserdata() : -1,
+		uiSelectedFileVersionType = pVersionFilterItem ? pVersionFilterItem->getUserdata2() : -1;
 	bool
-		bAddEntry;
+		bAddEntry,
+		bTypeFilterIsDynamicItem = iTypeFilterSelectedIndex > 0,
+		bVersionFilterIsDynamicItem = iVersionFilterSelectedIndex > 0;
 
-	for (auto pIMGEntry : getIMGFile()->getEntries())
+	m_pEntryGrid->getEntries().resize(m_pIMGFile->getEntryCount());
+
+	uint32 uiEntryIndex = 0;
+	for (auto pIMGEntry : m_pIMGFile->getEntries())
 	{
 		bAddEntry = true;
+		uiFileType = pIMGEntry->getFileType();
 
-		if (m_pEntryTypeFilter->getSelectedItemIndex() > 0)
+		if (bTypeFilterIsDynamicItem && uiFileType != uiSelectedFileType)
 		{
-			//uint32 uiFileType = m_pEntryTypeFilter->getActiveItem()->getUserdata();
-			if (CFormat::getFileTypeText(pIMGEntry->getFileType()) != strEntryTypeFilterText)
-			{
-				bAddEntry = false;
-			}
+			bAddEntry = false;
 		}
 
-		if (m_pEntryVersionFilter->getSelectedItemIndex() > 0)
+		if (bVersionFilterIsDynamicItem && (uiFileType != uiSelectedFileVersionType || uiSelectedFileVersion != pIMGEntry->getRawVersion()))
 		{
-			//uint32 uiRawVersion = m_pEntryTypeFilter->getActiveItem()->getUserdata();
-			if (pIMGEntry->getVersionText() != strEntryVersionFilterText)
-			{
-				bAddEntry = false;
-			}
+			bAddEntry = false;
 		}
-
-		// RW version
-		/*
-		todo
-
-		string strEntryExtensionUpper = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
-		if (bFilterCheckBox_Version)
-		{
-			if (uiFilterCombo_Version == getIMGF()->m_iFilterMapping_UnknownVersion) // Unknown Version
-			{
-				if (strEntryExtensionUpper == "COL")
-				{
-					eCOLVersion eEntryVersion = pIMGEntry->getCOLVersion() == nullptr ? COL_UNKNOWN : pIMGEntry->getCOLVersion()->getVersionId();
-					if (eEntryVersion == COL_UNKNOWN)
-					{
-						// add the entry
-					}
-					else
-					{
-						// don't add the entry
-						bAddEntry = false;
-					}
-				}
-				else if (strEntryExtensionUpper == "DFF" || strEntryExtensionUpper == "TXD")
-				{
-					if (pIMGEntry->getRWVersion() == nullptr)
-					{
-						// add the entry
-					}
-					else
-					{
-						// don't add the entry
-						bAddEntry = false;
-					}
-				}
-				else if (strEntryExtensionUpper == "IPL")
-				{
-					// don't add the entry
-					bAddEntry = false;
-				}
-				else
-				{
-					// add the entry
-				}
-			}
-			else if (getIMGF()->m_umapFilterMapping_COLVersion.count(uiFilterCombo_Version) > 0)
-			{
-				eCOLVersion eStoredVersion = getIMGF()->m_umapFilterMapping_COLVersion[uiFilterCombo_Version];
-				eCOLVersion eEntryVersion = pIMGEntry->getCOLVersion() == nullptr ? COL_UNKNOWN : pIMGEntry->getCOLVersion()->getVersionId();
-
-				if (strEntryExtensionUpper != "COL" || eEntryVersion != eStoredVersion)
-				{
-					bAddEntry = false;
-				}
-			}
-			else if (getIMGF()->m_umapFilterMapping_RWVersion.count(uiFilterCombo_Version) > 0)
-			{
-				eRWVersion eVersion = getIMGF()->m_umapFilterMapping_RWVersion[uiFilterCombo_Version];
-				if (strEntryExtensionUpper == "DFF" || strEntryExtensionUpper == "TXD")
-				{
-					if (pIMGEntry->getRWVersion() == nullptr)
-					{
-						bAddEntry = false;
-					}
-					else if (pIMGEntry->getRWVersion()->getVersionId() == eVersion)
-					{
-						// add the entry
-					}
-					else
-					{
-						bAddEntry = false;
-					}
-				}
-				else
-				{
-					bAddEntry = false;
-				}
-			}
-		}
-
-		// extensions
-		if (bFilterCheckBox_Extensions)
-		{
-			vector<string> vecExtensions;
-			
-			// dropdown
-			::CString cstrExtensionText;
-			if (uiFilterCombo_Extensions != -1)
-			{
-				((CComboBox*)getIMGF()->getDialog()->GetDlgItem(54))->GetLBText(uiFilterCombo_Extensions, cstrExtensionText);
-				vecExtensions.push_back(CString2::convertCStringToStdString(cstrExtensionText));
-			}
-
-			// test for a match
-			if (std::find(vecExtensions.begin(), vecExtensions.end(), strEntryExtensionUpper) == vecExtensions.end())
-			{
-				bAddEntry = false;
-			}
-		}
-		*/
 
 		if (bAddEntry)
 		{
-			addGridEntry(pIMGEntry);
+			addGridEntry(pIMGEntry, uiEntryIndex++);
 		}
 
 		getIMGF()->getTaskManager()->onTaskProgressTick();
@@ -778,15 +666,17 @@ void					CIMGEditorTab::addGridEntries(void)
 	//updateEntryCountText();
 	//updateIMGText();
 }
-void					CIMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry)
+void					CIMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry, uint32 uiEntryIndex)
 {
 	CGridControlEntry *pRow = new CGridControlEntry;
-
 	pRow->setGrid(m_pEntryGrid);
 
-	uint32 uiEntryIndex = m_pEntryGrid->getEntryCount();
+	if (uiEntryIndex == -1)
+	{
+		uiEntryIndex = m_pEntryGrid->getEntryCount();
+	}
 	string strExtensionUpper = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
-	bool bFastman92IMGFormat = pIMGEntry->getIMGFile()->getVersion() == IMG_FASTMAN92;
+	bool bFastman92IMGFormat = m_pIMGFile->getVersion() == IMG_FASTMAN92;
 
 	vector<string> vecText;
 	vecText.resize(bFastman92IMGFormat ? 8 : 6);
@@ -803,24 +693,7 @@ void					CIMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry)
 	}
 
 	pRow->getText().push_back(vecText);
-	m_pEntryGrid->addEntry(pRow);
-
-	/*
-	todo
-	uint32 uiEntryIndex = getListView()->GetItemCount();
-	string strExtensionUpper = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
-	getListView()->InsertItem(LVIF_TEXT | LVIF_PARAM, uiEntryIndex, CString2::convertStdStringToStdWString(CString2::addNumberGrouping(CString2::toString(uiEntryIndex + 1))).c_str(), 0, 0, 0, (DWORD)pIMGEntry);
-	getListView()->SetItem(uiEntryIndex, 1, LVIF_TEXT, CString2::convertStdStringToStdWString(strExtensionUpper).c_str(), 0, 0, 0, 0);
-	getListView()->SetItem(uiEntryIndex, 2, LVIF_TEXT, CString2::convertStdStringToStdWString(pIMGEntry->getEntryName()).c_str(), 0, 0, 0, 0);
-	getListView()->SetItem(uiEntryIndex, 3, LVIF_TEXT, CString2::convertStdStringToStdWString(CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntryOffset()))).c_str(), 0, 0, 0, 0);
-	getListView()->SetItem(uiEntryIndex, 4, LVIF_TEXT, CString2::convertStdStringToStdWString(CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntrySize()))).c_str(), 0, 0, 0, 0);
-	getIMGF()->getIMGEditor()->applyVersionAndResourceTypeColumn(uiEntryIndex, getIMGF()->getEntryListTab()->getIMGFile(), pIMGEntry);
-	if (pIMGEntry->getIMGFile()->getVersion() == IMG_FASTMAN92)
-	{
-		getListView()->SetItem(uiEntryIndex, 6, LVIF_TEXT, CString2::convertStdStringToStdWString(CIMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId())).c_str(), 0, 0, 0, 0);
-		getListView()->SetItem(uiEntryIndex, 7, LVIF_TEXT, CString2::convertStdStringToStdWString(CIMGManager::getEncryptionText(pIMGEntry->isEncrypted())).c_str(), 0, 0, 0, 0);
-	}
-	*/
+	m_pEntryGrid->setEntryByIndex(uiEntryIndex, pRow);
 }
 void					CIMGEditorTab::updateGridEntry(CIMGEntry *pIMGEntry)
 {
@@ -1273,13 +1146,26 @@ void				CIMGEditorTab::loadFilter_Type(void)
 {
 	m_pEntryTypeFilter->reset();
 	m_pEntryTypeFilter->addItem("All Types");
-	m_pEntryTypeFilter->addItems(m_pIMGFile->getFileTypesAsText());
+
+	CDropControlEntry *pDropEntry;
+	for (auto it : m_pIMGFile->getFileTypesAsMap())
+	{
+		pDropEntry = m_pEntryTypeFilter->addItem(it.first); // file type text (e.g. "Animation (IFP)")
+		pDropEntry->setUserdata(it.second); // file type id
+	}
 }
 void				CIMGEditorTab::loadFilter_Version(void)
 {
 	m_pEntryVersionFilter->reset();
 	m_pEntryVersionFilter->addItem("All Versions");
-	m_pEntryVersionFilter->addItems(m_pIMGFile->getFileVersions());
+
+	CDropControlEntry *pDropEntry;
+	for (auto it : m_pIMGFile->getFileTypedVersionsAsMap())
+	{
+		pDropEntry = m_pEntryVersionFilter->addItem(it.first); // file version text
+		pDropEntry->setUserdata(it.second.first); // file version id
+		pDropEntry->setUserdata2(it.second.second); // file type id for file version
+	}
 }
 
 void				CIMGEditorTab::unloadFilter_Type(void)
