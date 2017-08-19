@@ -80,9 +80,10 @@ void							CTaskManager::setTaskMaxProgressTickCount(uint32 uiProgressMaxTicks, 
 
 void							CTaskManager::onTaskProgressTick(void)
 {
-	setTaskProgressTickCount(getTaskProgressTickCount() + 1);
+	//setTaskProgressTickCount(getTaskProgressTickCount() + 1);
 
-	getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pProgressBar->increaseCurrent();
+	static CProgressControl *pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pProgressBar;
+	pProgressBar->increaseCurrent();
 
 	/*
 	todo

@@ -78,7 +78,7 @@ public:
 	void						addGridHeaders(void);
 	void						addGridEntries(void);
 	void						readdGridEntries(void);
-	void						addGridEntry(bxcf::CIMGEntry *pIMGEntry, uint32 uiEntryIndex = -1);
+	void						addGridEntry(bxcf::CIMGEntry *pIMGEntry, uint32 uiEntryIndex = -1, void **pRows = nullptr);
 	void						updateGridEntry(bxcf::CIMGEntry *pIMGEntry);
 	uint32						getMainListViewItemIndexByItemData(bxcf::CIMGEntry *pIMGEntry);
 

@@ -1080,7 +1080,7 @@ void		CIMGEditor::addControls(void)
 
 	// log
 	x = 0;
-	y = 510;
+	y = 508;
 	w = 139 + 139;
 	h = 120;
 

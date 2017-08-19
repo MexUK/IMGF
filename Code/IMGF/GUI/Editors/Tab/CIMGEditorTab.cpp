@@ -616,7 +616,7 @@ void					CIMGEditorTab::readdGridEntries(void)
 	m_pEntryGrid->removeAllEntries();
 	addGridEntries();
 
-	m_pEntryGrid->getWindow()->markToRedraw();
+	m_pEntryGrid->getWindow()->renderWindow();
 }
 void					CIMGEditorTab::addGridEntries(void)
 {
@@ -628,6 +628,8 @@ void					CIMGEditorTab::addGridEntries(void)
 		iVersionFilterSelectedIndex = m_pEntryVersionFilter->getSelectedItemIndex();
 	uint32
 		uiFileType,
+		uiEntryIndex = 0,
+		uiEntryCount = m_pIMGFile->getEntryCount(),
 		uiSelectedFileType = pTypeFilterItem ? pTypeFilterItem->getUserdata() : -1,
 		uiSelectedFileVersion = pVersionFilterItem ? pVersionFilterItem->getUserdata() : -1,
 		uiSelectedFileVersionType = pVersionFilterItem ? pVersionFilterItem->getUserdata2() : -1;
@@ -635,10 +637,23 @@ void					CIMGEditorTab::addGridEntries(void)
 		bAddEntry,
 		bTypeFilterIsDynamicItem = iTypeFilterSelectedIndex > 0,
 		bVersionFilterIsDynamicItem = iVersionFilterSelectedIndex > 0;
+	CTaskManager
+		*pTaskManager = getIMGF()->getTaskManager();
 
 	m_pEntryGrid->getEntries().resize(m_pIMGFile->getEntryCount());
 
-	uint32 uiEntryIndex = 0;
+	void **pRows = new void*[uiEntryCount];
+	CGridControlEntry *pRow;
+	for (uint32 i = 0; i < uiEntryCount; i++)
+	{
+		pRow = new CGridControlEntry;
+		pRows[i] = pRow;
+	}
+	for (uint32 i = 0; i < uiEntryCount; i++)
+	{
+		((CGridControlEntry*)(pRows[i]))->setGrid(m_pEntryGrid);
+	}
+
 	for (auto pIMGEntry : m_pIMGFile->getEntries())
 	{
 		bAddEntry = true;
@@ -656,43 +671,49 @@ void					CIMGEditorTab::addGridEntries(void)
 
 		if (bAddEntry)
 		{
-			addGridEntry(pIMGEntry, uiEntryIndex++);
+			addGridEntry(pIMGEntry, uiEntryIndex++, pRows);
 		}
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		pTaskManager->onTaskProgressTick();
 	}
 
 	// todo
 	//updateEntryCountText();
 	//updateIMGText();
 }
-void					CIMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry, uint32 uiEntryIndex)
+void					CIMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry, uint32 uiEntryIndex, void **pRows)
 {
-	CGridControlEntry *pRow = new CGridControlEntry;
-	pRow->setGrid(m_pEntryGrid);
-
 	if (uiEntryIndex == -1)
 	{
 		uiEntryIndex = m_pEntryGrid->getEntryCount();
 	}
-	string strExtensionUpper = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
-	bool bFastman92IMGFormat = m_pIMGFile->getVersion() == IMG_FASTMAN92;
+	CGridControlEntry *pRow;
+	if (pRows == nullptr)
+	{
+		pRow = new CGridControlEntry;
+	}
+	else
+	{
+		pRow = (CGridControlEntry*)(pRows[uiEntryIndex]);
+	}
+
+	bool bIsFastman92IMGFormat = m_pIMGFile->getVersion() == IMG_FASTMAN92;
 
 	vector<string> vecText;
-	vecText.resize(bFastman92IMGFormat ? 8 : 6);
+	vecText.resize(bIsFastman92IMGFormat ? 8 : 6);
 	vecText[0] = CString2::addNumberGrouping(CString2::toString(uiEntryIndex + 1));
-	vecText[1] = strExtensionUpper;
+	vecText[1] = CString2::toUpperCase(CPathManager::getFileExtension(pIMGEntry->getEntryName()));
 	vecText[2] = pIMGEntry->getEntryName();
 	vecText[3] = CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntryOffset()));
 	vecText[4] = CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntrySize()));
 	vecText[5] = pIMGEntry->getVersionText();
-	if (bFastman92IMGFormat)
+	if (bIsFastman92IMGFormat)
 	{
 		vecText[6] = CIMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId());
 		vecText[7] = CIMGManager::getEncryptionText(pIMGEntry->isEncrypted());
 	}
 
-	pRow->getText().push_back(vecText);
+	pRow->getText().assign(1, vecText);
 	m_pEntryGrid->setEntryByIndex(uiEntryIndex, pRow);
 }
 void					CIMGEditorTab::updateGridEntry(CIMGEntry *pIMGEntry)
