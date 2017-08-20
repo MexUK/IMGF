@@ -68,7 +68,7 @@
 #include "Language/CLanguage.h"
 #include "Collection/Game/CGameManager.h"
 #include "Platform/Hardware/CPlatformManager.h"
-#include "Engine/RW/CRWSection.h"
+#include "Format/RW/CRWSection.h"
 #include "Static/CTiming.h"
 #include "Task/CLastUsedValueManager.h"
 #include "GUI/Windows/CMainWindow.h"

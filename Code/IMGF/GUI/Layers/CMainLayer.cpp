@@ -138,7 +138,7 @@ void		CMainLayer::addControls(void)
 	addButton(x, y, w, h, "Save", strStyleGroup, SAVE);
 	x += w2;
 
-	// filter bar - search box
+	// search box
 	w2 = 0;
 	x += w2;
 	w = (m_pWindow->getSize().x - x) - (uiButtonHeight + 1);
@@ -161,7 +161,7 @@ void		CMainLayer::addControls(void)
 	// files tab bar
 	x = 139 + 139;
 	y = 162;
-	w = 1000;
+	w = m_pWindow->getSize().x - x;
 	h = 30;
 	strStyleGroup = "fileTabBar";
 
@@ -257,10 +257,15 @@ void		CMainLayer::repositionAndResizeControls(void)
 	iNewX = (pWindow->getSize().x - m_pProgressBar->getSize().x) - 10;
 	m_pProgressBar->setPosition(Vec2i(iNewX, point.y));
 
-	// filter bar - search box
+	// search box
 	size = m_pSearchBox->getSize();
 	iNewWidth = (pWindow->getSize().x - m_pSearchBox->getPosition().x) - (uiButtonHeight + 1);
 	m_pSearchBox->setSize(Vec2u(iNewWidth, size.y));
+
+	// tab bar
+	size = m_pTabBar->getSize();
+	iNewWidth = pWindow->getSize().x - m_pTabBar->getPosition().x;
+	m_pTabBar->setSize(Vec2u(iNewWidth, size.y));
 
 	// settings icon
 	point = m_pSettingsButton->getPosition();

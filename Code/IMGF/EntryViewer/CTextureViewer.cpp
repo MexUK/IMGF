@@ -1,7 +1,7 @@
 #include "CTextureViewer.h"
 #include "Globals.h"
 #include "CIMGF.h"
-#include "Engine/RW/Sections/CRWSection_TextureNative.h"
+#include "Format/RW/Sections/CRWSection_TextureNative.h"
 #include "CEntryViewerManager.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
 #include "Format/TXD/CTXDManager.h"

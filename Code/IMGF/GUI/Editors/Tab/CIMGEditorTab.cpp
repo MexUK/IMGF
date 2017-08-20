@@ -616,8 +616,6 @@ void					CIMGEditorTab::readdGridEntries(void)
 
 	m_pEntryGrid->removeAllEntries();
 	addGridEntries();
-
-	//m_pEntryGrid->getWindow()->renderWindow();
 }
 void					CIMGEditorTab::addGridEntries(void)
 {
@@ -699,12 +697,13 @@ void					CIMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry, uint32 uiEntryIndex, 
 	}
 
 	bool bIsFastman92IMGFormat = m_pIMGFile->getVersion() == IMG_FASTMAN92;
+	string& strEntryName = pIMGEntry->getEntryName();
 
 	vector<string> vecText;
 	vecText.resize(bIsFastman92IMGFormat ? 8 : 6);
 	vecText[0] = CString2::addNumberGrouping(CString2::toString(uiEntryIndex + 1));
-	vecText[1] = CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()));
-	vecText[2] = pIMGEntry->getEntryName();
+	vecText[1] = CString2::toUpperCase(CPath::getFileExtension(strEntryName));
+	vecText[2] = strEntryName;
 	vecText[3] = CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntryOffset()));
 	vecText[4] = CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntrySize()));
 	vecText[5] = pIMGEntry->getVersionText();

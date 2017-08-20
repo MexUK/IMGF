@@ -18,7 +18,7 @@
 #include "Format/DAT/Loader/CDATLoaderEntry.h"
 #include "Format/TXD/CTXDManager.h"
 #include "Format/TXD/CTXDFormat.h"
-#include "Engine/RW/Sections/CRWSection_TextureNative.h"
+#include "Format/RW/Sections/CRWSection_TextureNative.h"
 #include "Format/Image/BMP/CBMPManager.h"
 #include "Format/Image/BMP/CBMPFormat.h"
 #include "Format/Image/CUR/CCURManager.h"
