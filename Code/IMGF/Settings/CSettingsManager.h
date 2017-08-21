@@ -10,12 +10,22 @@ struct CSettingsData;
 class CSettingsManager : public bxcf::CManager
 {
 public:
+	static const std::string						REGULAR_SETTINGS_STORAGE_SECTION;
+	static const std::string						INTERNAL_SETTINGS_STORAGE_SECTION;
+
+public:
 	void											init(void);
 	void											uninit(void);
 
 	void											loadSettings(void);
 	void											unloadSettings(void);
 	void											reloadSettings(void);
+
+	static void										setSetting(std::string strSettingName, std::string strValue, bool bMemoryOnly = false);
+	static std::string								getSetting(std::string strSettingName);
+
+	static void										setInternalSetting(std::string strInternalSettingName, std::string strValue, bool bMemoryOnly = false);
+	static std::string								getInternalSetting(std::string strInternalSettingName);
 
 	void											setSettingBool(std::string strSettingName, bool bValue, bool bMemoryOnly = false);
 	void											setSettingInt(std::string strSettingName, int iValue, bool bMemoryOnly = false);

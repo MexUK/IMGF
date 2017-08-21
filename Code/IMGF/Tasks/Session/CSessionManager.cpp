@@ -2,11 +2,12 @@
 #include "Static/CString2.h"
 #include "Static/CPath.h"
 #include "Static/CStdVector.h"
-#include "Static/CRegistry.h"
 #include "Globals.h"
 #include "CIMGF.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
 #include "Localization/CLocalizationManager.h"
+#include "Format/Text/INI/CINIManager.h"
+#include "Static/CAppDataPath.h"
 
 using namespace std;
 using namespace bxcf;
@@ -34,10 +35,11 @@ void		CSessionManager::loadSessions(void)
 	getIMGF()->getSessionManager()->getSessionsContainer().clear();
 	// todo DeleteMenu(getIMGF()->m_hSubMenu_File_Sessions, 1981, 0);
 
-	uint32 uiSessionCount = CRegistry::getSoftwareValueInt("IMGF\\Sessions", "Count"); // todo - use like getIMGF()->getInstallationMeta().getSessionsRegistryKey(); - same for all CRegistryUtility calls.
+	uint32 uiSessionCount = CString2::toUint32(CINIManager::getItem(CAppDataPath::getSessionsPath(), "Sessions", "Count"));
 	for (int32 i = uiSessionCount; i >= 1; i--)
 	{
-		string strIMGPaths = CRegistry::getSoftwareValueString("IMGF\\Sessions", "Data_" + CString2::toString(i));
+		string strIMGPaths = CINIManager::getItem(CAppDataPath::getSessionsPath(), "Sessions", i);
+		
 		deque<string> deqIMGPaths = CStdVector::convertVectorToDeque(CString2::split(strIMGPaths, "; "));
 		string strSessionName = deqIMGPaths[0];
 		deqIMGPaths.pop_front();
@@ -77,27 +79,34 @@ CSession*	CSessionManager::addSession(string strSessionName, vector<string>& vec
 	pSession->m_vecPaths = vecPaths;
 	addEntry(pSession);
 
-	CRegistry::setSoftwareValueInt("IMGF\\Sessions", "Count", uiSessionIndex);
-	CRegistry::setSoftwareValueString("IMGF\\Sessions", "Data_" + CString2::toString(uiSessionIndex), pSession->serialize());
-
+	CINIManager::setItem(CAppDataPath::getSessionsPath(), "Sessions", "Count", CString2::toString(uiSessionIndex));
+	CINIManager::setItem(CAppDataPath::getSessionsPath(), "Sessions", uiSessionIndex, pSession->serialize());
+	
 	return pSession;
 }
 
 void		CSessionManager::removeSession(CSession *pSession)
 {
-	removeEntry(pSession);
-	
+	// fetch session index
 	uint32 uiSessionIndex = getIndexByEntry(pSession);
-	CRegistry::removeSoftwareValue("IMGF\\Sessions", "Data_" + CString2::toString(uiSessionIndex));
-
-	uint32 uiSessionCount = CRegistry::getSoftwareValueInt("IMGF\\Sessions", "Count");
+	
+	// remove session from memory and file
+	removeEntry(pSession);
+	CINIManager::removeItem(CAppDataPath::getSessionsPath(), "Sessions", uiSessionIndex);
+	
+	// shift other sessions with a higher ID down by 1 ID in file
+	uint32 uiSessionCount = CString2::toUint32(CINIManager::getItem(CAppDataPath::getSessionsPath(), "Sessions", "Count"));
 	for (uint32 i = uiSessionIndex; i < uiSessionCount; i++)
 	{
-		string strIMGPaths2 = CRegistry::getSoftwareValueString("IMGF\\Sessions", "Data_" + CString2::toString(i + 1));
-		CRegistry::setSoftwareValueString("IMGF\\Sessions", "Data_" + CString2::toString(i), strIMGPaths2);
+		string strIMGPaths2 = CINIManager::getItem(CAppDataPath::getSessionsPath(), "Sessions", i + 1);
+		CINIManager::setItem(CAppDataPath::getSessionsPath(), "Sessions", i, strIMGPaths2);
 	}
-	CRegistry::removeSoftwareValue("IMGF\\Sessions", "Data_" + CString2::toString(uiSessionCount));
-	CRegistry::setSoftwareValueInt("IMGF\\Sessions", "Count", uiSessionCount - 1);
+	
+	// remove session with highest ID in file?
+	CINIManager::removeItem(CAppDataPath::getSessionsPath(), "Sessions", uiSessionCount);
+	
+	// update session count to file
+	CINIManager::setItem(CAppDataPath::getSessionsPath(), "Sessions", "Count", CString2::toString(uiSessionCount - 1));
 }
 
 CSession*		CSessionManager::getSessionByName(string strSessionName)

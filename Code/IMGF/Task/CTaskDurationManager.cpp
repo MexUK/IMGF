@@ -2,6 +2,7 @@
 #include "Format/Text/INI/CINIManager.h"
 #include "Static/CString2.h"
 #include "Static/CTokens.h"
+#include "Static/CAppDataPath.h"
 #include "CIMGF.h"
 
 using namespace std;
@@ -60,7 +61,7 @@ void				CTaskDurationManager::onResumeTask(void)
 void				CTaskDurationManager::addTaskDuration(string& strTaskName, uint32 uiTaskDuration)
 {
 	CINIManager::setItem(
-		getStorageFilePath(),
+		CAppDataPath::getTaskDurationsPath(),
 		STORAGE_SECTION,
 		strTaskName,
 		CTokens::addTokenRightShiftMax(getTaskDurationsString(strTaskName), CString2::toString(uiTaskDuration), VALUE_TOKEN_DELIMITER, MAX_DURATIONS_PER_TASK)
@@ -69,16 +70,5 @@ void				CTaskDurationManager::addTaskDuration(string& strTaskName, uint32 uiTask
 
 string				CTaskDurationManager::getTaskDurationsString(string& strTaskName)
 {
-	return CINIManager::getItem(getStorageFilePath(), STORAGE_SECTION, strTaskName);
-}
-
-// task duration settings
-uint32				CTaskDurationManager::getMaxDurationsPerTask(void)
-{
-	return MAX_DURATIONS_PER_TASK;
-}
-
-string			CTaskDurationManager::getStorageFilePath(void)
-{
-	return getIMGF()->getInstallationMeta().getLocalAppPath() + RELATIVE_STORAGE_FILE_PATH;
+	return CINIManager::getItem(CAppDataPath::getTaskDurationsPath(), STORAGE_SECTION, strTaskName);
 }

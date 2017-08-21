@@ -104,11 +104,12 @@ void							CTaskManager::onResumeTask(void)
 
 // active tasks
 string g_strBlankString2 = ""; // todo
-string&					CTaskManager::getPreviousTaskName(void)
+string g_strBlankString3 = "blankTaskPlaceholder"; // todo
+string&					CTaskManager::getTaskName(void)
 {
 	if (m_vecActiveTaskNames.size() == 0)
 	{
-		return g_strBlankString2;
+		return g_strBlankString3;
 	}
 	else
 	{

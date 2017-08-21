@@ -10,7 +10,7 @@ public:
 	
 	std::string						serialize(void) { return m_strPath; }
 	
-	void							setPath(std::string strPath);
+	void							setPath(std::string strPath) { m_strPath = strPath; }
 	std::string						getPath(void) { return m_strPath; }
 	
 public:

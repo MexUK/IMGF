@@ -7,10 +7,9 @@
 class CTaskDurationManager
 {
 private:
-	const uint32			MAX_DURATIONS_PER_TASK = 100;
-	const std::string		RELATIVE_STORAGE_FILE_PATH = "Data\\TaskDurations.ini";
-	const std::string		STORAGE_SECTION = "TaskDurations";
-	const std::string		VALUE_TOKEN_DELIMITER = " ";
+	const uint32			MAX_DURATIONS_PER_TASK		= 100;
+	const std::string		STORAGE_SECTION				= "TaskDurations";
+	const std::string		VALUE_TOKEN_DELIMITER		= " ";
 
 public:
 	CTaskDurationManager(void);
@@ -32,10 +31,6 @@ public:
 
 	void					setTasksPauseDuration(uint32 uiTasksPauseDuration) { m_uiTasksPauseDuration = uiTasksPauseDuration; } // in milliseconds
 	uint32					getTasksPauseDuration(void) { return m_uiTasksPauseDuration; } // in milliseconds
-
-private:
-	uint32					getMaxDurationsPerTask(void);
-	std::string				getStorageFilePath(void);
 
 private:
 	std::vector<uint32>		m_vecTaskBeginTimes; // in milliseconds, indexes are sync'd with CTaskManager::m_vecActiveTaskNames

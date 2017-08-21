@@ -6,28 +6,35 @@
 #include "Globals.h"
 #include "GUI/Popups/CPopupGUIManager.h"
 #include "Static/CRegistry.h"
+#include "Static/CPath.h"
+#include "Static/CString2.h"
+#include "Static/CAppDataPath.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
 #include "Format/Text/INI/CINIManager.h"
-#include "Static/CString2.h"
 
 using namespace std;
 using namespace bxcf;
 
+// settings for settings
+const std::string						CSettingsManager::REGULAR_SETTINGS_STORAGE_SECTION		= "RegularSettings";
+const std::string						CSettingsManager::INTERNAL_SETTINGS_STORAGE_SECTION		= "InternalSettings";
+
+// initialization
 void			CSettingsManager::init(void)
 {
 	setUsesINIStorage(true);
-	setINIFilePath(getIMGF()->getInstallationMeta().getLocalAppPath() + "Settings.ini");
+	setINIFilePath(CAppDataPath::getRegularSettingsPath());
 
-	/*
-	setUsesINIStorage(false);
-	setRegistryKey("IMGF\\Settings");
-	*/
+	//setUsesINIStorage(false);
+	//setRegistryKey("IMGF\\Settings");
 }
+
 void			CSettingsManager::uninit(void)
 {
 	//unloadSettings();
 }
 
+// load/unload settings
 void			CSettingsManager::loadSettings(void)
 {
 	vector<string>
@@ -95,18 +102,43 @@ void			CSettingsManager::loadSettings(void)
 	//getIMGF()->getDialog()->Invalidate();
 	//getIMGF()->getDialog()->UpdateWindow();
 }
+
 void			CSettingsManager::unloadSettings(void)
 {
 	m_umapSettings_Bool.clear();
 	m_umapSettings_Int.clear();
 	m_umapSettings_String.clear();
 }
+
 void			CSettingsManager::reloadSettings(void)
 {
 	unloadSettings();
 	loadSettings();
 }
 
+// regular settings
+void			CSettingsManager::setSetting(string strSettingName, string strValue, bool bMemoryOnly)
+{
+	CINIManager::setItem(CAppDataPath::getRegularSettingsPath(), REGULAR_SETTINGS_STORAGE_SECTION, strSettingName, strValue);
+}
+
+string			CSettingsManager::getSetting(string strSettingName)
+{
+	return CINIManager::getItem(CAppDataPath::getRegularSettingsPath(), REGULAR_SETTINGS_STORAGE_SECTION, strSettingName);
+}
+
+// internal settings
+void			CSettingsManager::setInternalSetting(string strInternalSettingName, string strValue, bool bMemoryOnly)
+{
+	CINIManager::setItem(CAppDataPath::getInternalSettingsPath(), INTERNAL_SETTINGS_STORAGE_SECTION, strInternalSettingName, strValue);
+}
+
+string			CSettingsManager::getInternalSetting(string strSettingName)
+{
+	return CINIManager::getItem(CAppDataPath::getInternalSettingsPath(), INTERNAL_SETTINGS_STORAGE_SECTION, strSettingName);
+}
+
+// settings - data types - old
 void			CSettingsManager::setSettingBool(string strSettingName, bool bValue, bool bMemoryOnly)
 {
 	m_umapSettings_Bool[strSettingName] = bValue;
@@ -128,7 +160,7 @@ void			CSettingsManager::setSettingString(string strSettingName, string strValue
 	m_umapSettings_String[strSettingName] = strValue;
 	if (!bMemoryOnly)
 	{
-		setSettingString_PermanentStroage(strSettingName, strValue);
+		setSettingString_PermanentStroage(strSettingName, strValue); // todo - misspelt
 	}
 }
 
@@ -166,7 +198,7 @@ string			CSettingsManager::getSettingString(string strSettingName)
 	}
 }
 
-// permanent storage
+// settings permanent storage
 void			CSettingsManager::setSettingBool_PermanentStroage(string strSettingName, bool bValue)
 {
 	if (doesUseINIStorage())
@@ -186,7 +218,7 @@ void			CSettingsManager::setSettingInt_PermanentStroage(string strSettingName, i
 	}
 	else
 	{
-		CRegistry::setSoftwareValueInt("IMGF\\Settings", strSettingName, iValue);
+		CRegistry::setSoftwareValueInt(getRegistryKey(), strSettingName, iValue);
 	}
 }
 void			CSettingsManager::setSettingString_PermanentStroage(string strSettingName, string strValue)
@@ -197,7 +229,7 @@ void			CSettingsManager::setSettingString_PermanentStroage(string strSettingName
 	}
 	else
 	{
-		CRegistry::setSoftwareValueString("IMGF\\Settings", strSettingName, strValue);
+		CRegistry::setSoftwareValueString(getRegistryKey(), strSettingName, strValue);
 	}
 }
 
@@ -209,7 +241,7 @@ bool			CSettingsManager::getSettingBool_PermanentStroage(string strSettingName)
 	}
 	else
 	{
-		return CRegistry::getSoftwareValueInt("IMGF\\Settings", strSettingName) == 1;
+		return CRegistry::getSoftwareValueInt(getRegistryKey(), strSettingName) == 1;
 	}
 }
 int				CSettingsManager::getSettingInt_PermanentStroage(string strSettingName)
@@ -220,7 +252,7 @@ int				CSettingsManager::getSettingInt_PermanentStroage(string strSettingName)
 	}
 	else
 	{
-		return CRegistry::getSoftwareValueInt("IMGF\\Settings", strSettingName);
+		return CRegistry::getSoftwareValueInt(getRegistryKey(), strSettingName);
 	}
 }
 string			CSettingsManager::getSettingString_PermanentStroage(string strSettingName)
@@ -231,6 +263,6 @@ string			CSettingsManager::getSettingString_PermanentStroage(string strSettingNa
 	}
 	else
 	{
-		return CRegistry::getSoftwareValueString("IMGF\\Settings", strSettingName);
+		return CRegistry::getSoftwareValueString(getRegistryKey(), strSettingName);
 	}
 }

@@ -40,7 +40,7 @@ public:
 	void										setTaskMaxProgressTickCount(uint32 uiTaskMaxProgressTickCount, bool bReset = true);
 	inline uint32								getTaskMaxProgressTickCount(void) { return m_uiTaskMaxProgressTickCount; }
 
-	std::string&								getPreviousTaskName(void);
+	std::string&								getTaskName(void);
 
 private:
 	CTaskDispatchManager*						m_pTaskDispatchManager;

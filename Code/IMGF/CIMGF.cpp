@@ -72,6 +72,7 @@
 #include "GUI/Windows/CMainWindow.h"
 #include "Styles/CStyleManager.h"
 #include "GUI/Input/Buttons/CButtonPressManager.h"
+#include "Static/CDataPath.h"
 
 using namespace std;
 using namespace bxcf;
@@ -80,6 +81,8 @@ using namespace bxgi;
 
 CIMGF::CIMGF(void)
 {
+	CDataPath::setAppFolderName("IMGFactory");
+
 	// construct objects stored by CIMGF
 	m_pButtonPressManager	= new CButtonPressManager;
 	m_pEntryViewerManager	= new CEntryViewerManager;
@@ -172,7 +175,7 @@ void				CIMGF::initBuildMeta(void)
 void				CIMGF::initInstallationMeta(void)
 {
 	// choose installation folder
-	string strInstallationPath = CRegistry::getSoftwareValueString("IMGF\\InternalSettings", "InstallationPath");
+	string strInstallationPath = CSettingsManager::getInternalSetting("InstallationPath");
 	if (strInstallationPath == "")
 	{
 		string strProgramFilesx86FolderName = "IMG Factory";
@@ -180,7 +183,7 @@ void				CIMGF::initInstallationMeta(void)
 		if (CFile::doesFolderExist(strPotentialInstallationPath))
 		{
 			strInstallationPath = strPotentialInstallationPath;
-			CRegistry::setSoftwareValueString("IMGF\\InternalSettings", "InstallationPath", strPotentialInstallationPath);
+			CSettingsManager::setInternalSetting("InstallationPath", strPotentialInstallationPath);
 		}
 		else
 		{
@@ -195,7 +198,7 @@ void				CIMGF::initInstallationMeta(void)
 			{
 				strInstallationPath = strChosenInstallationFolder;
 				getIMGF()->setLastUsedDirectory("INSTALLATION", strChosenInstallationFolder);
-				CRegistry::setSoftwareValueString("IMGF\\InternalSettings", "InstallationPath", strChosenInstallationFolder);
+				CSettingsManager::setInternalSetting("InstallationPath", strChosenInstallationFolder);
 			}
 			*/
 		}
@@ -280,7 +283,7 @@ void				CIMGF::initLocalization(void)
 	eLanguage eActiveLanguage = (eLanguage)getIMGF()->getSettingsManager()->getSettingInt("Language");
 	CLocalizationManager::get()->setActiveLanguage(eActiveLanguage);
 	CLocalizationManager::get()->setActiveLanguageName(getIMGF()->getLanguageManager()->getLanguageById(eActiveLanguage)->getLanguageName());
-	CLocalizationManager::get()->setInstallationPath(CRegistry::getSoftwareValueString("IMGF\\InternalSettings", "InstallationPath"));
+	CLocalizationManager::get()->setInstallationPath(CSettingsManager::getInternalSetting("InstallationPath"));
 	CLocalizationManager::get()->loadTranslatedText();
 }
 
@@ -292,8 +295,8 @@ void				CIMGF::initSorting(void)
 void				CIMGF::initOldVersionMigration(void)
 {
 	// delete previous version's exe file
-	string strPreviousVersionExePath = CRegistry::getSoftwareValueString("IMGF\\InternalSettings", "DeletePreviousVersionOnNextLaunch");
-	if (strPreviousVersionExePath != "")
+	string strPreviousVersionExePath = CSettingsManager::getInternalSetting("DeletePreviousVersionOnNextLaunch");
+	if (strPreviousVersionExePath == "1")
 	{
 		int iResult;
 		bool bFileExists;
@@ -316,7 +319,7 @@ void				CIMGF::initOldVersionMigration(void)
 			}
 		}
 		while (bFileExists && iResult == 0);
-		CRegistry::removeSoftwareValue("IMGF\\InternalSettings", "DeletePreviousVersionOnNextLaunch");
+		CSettingsManager::setInternalSetting("DeletePreviousVersionOnNextLaunch", "0");
 	}
 }
 
@@ -398,9 +401,9 @@ CIMGEditorTab*		CIMGF::getEntryListTab(void)
 // last used directory
 void				CIMGF::setLastUsedDirectory(string strHandleName, string strDirectory)
 {
-	CRegistry::setSoftwareValueString("IMGF\\LastUsedDirectories", strHandleName, strDirectory);
+	// todo - remove after CTaskDispatchManager is done
 }
 string				CIMGF::getLastUsedDirectory(string strHandleName)
 {
-	return CRegistry::getSoftwareValueString("IMGF\\LastUsedDirectories", strHandleName);
+	return ""; // todo - remove after CTaskDispatchManager is done
 }

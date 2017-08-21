@@ -132,6 +132,9 @@
 #include "Stream/CDataReader.h"
 #include "Controls/CProgressControl.h"
 #include "Format/CGameFormat.h"
+#include "Format/Text/INI/CINIManager.h"
+#include "Static/CAppDataPath.h"
+#include "Static/CDataPath.h"
 #include <gdiplus.h>
 #include <stdio.h>
 #include <algorithm>
@@ -158,12 +161,20 @@ void		CTaskDispatchManager::uninit(void)
 {
 }
 
+string&		CTaskDispatchManager::getTaskName(void)
+{
+	return g_pIMGF->getTaskManager()->getTaskName();
+}
+
 // tasks
 void		CTaskDispatchManager::chooseFilesToOpen(void)
 {
-	vector<string> vecFilePaths = CInput::openFile(OPEN, "IMG,DIR");
+	m_pTaskManager->onStartTask("chooseFilesToOpen");
+
+	vector<string> vecFilePaths = CInput::openFile(getTaskName(), "IMG,DIR");
 	if (vecFilePaths.size() == 0)
 	{
+		m_pTaskManager->onAbortTask();
 		return;
 	}
 
@@ -171,6 +182,8 @@ void		CTaskDispatchManager::chooseFilesToOpen(void)
 	{
 		openFile(strFilePath);
 	}
+
+	m_pTaskManager->onCompleteTask();
 }
 
 void		CTaskDispatchManager::openFile(string& strFilePath)
@@ -2356,7 +2369,7 @@ void		CTaskDispatchManager::onRequestNew(eIMGVersion eIMGVersion)
 	getIMGF()->setLastUsedDirectory("NEW", strFilePath);
 	*/
 
-	string strFilePath = getIMGF()->getInstallationMeta().getLocalAppPath() + "New/IMG/New.img";
+	string strFilePath = CDataPath::getDataPath() + "New/IMG/New.img";
 	strFilePath = CFile::getNextIncrementingFileName(strFilePath);
 	CFile::createFoldersForPath(strFilePath);
 	strFilePath = CString2::replace(strFilePath, "/", "\\");
@@ -4855,10 +4868,10 @@ void		CTaskDispatchManager::onRequestExportAllEntriesFromAllTabsIntoMultipleFold
 void		CTaskDispatchManager::onRequestOpenLast(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestOpenLast");
-	uint32 uiRecentlyOpenedCount = CRegistry::getSoftwareValueInt("IMGF\\RecentlyOpened", "Count");
+	uint32 uiRecentlyOpenedCount = CString2::toUint32(CINIManager::getItem(CAppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
 	if (uiRecentlyOpenedCount > 0)
 	{
-		string strIMGPath = CRegistry::getSoftwareValueString("IMGF\\RecentlyOpened", "Data_" + CString2::toString(uiRecentlyOpenedCount));
+		string strIMGPath = CINIManager::getItem(CAppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", CString2::toString(uiRecentlyOpenedCount));
 		openFile(strIMGPath);
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenLast");
@@ -5022,10 +5035,10 @@ void		CTaskDispatchManager::onRequestSessionManager(void)
 	do
 	{
 		vector<string> vecSessionsData;
-		uint32 uiSessionCount = CRegistry::getSoftwareValueInt("IMGF\\Sessions", "Count");
+		uint32 uiSessionCount = CString2::toUint32(CINIManager::getItem(CAppDataPath::getSessionsPath(), "Sessions", "Count"));
 		for (int32 i = uiSessionCount; i >= 1; i--)
 		{
-			string strIMGPaths = CRegistry::getSoftwareValueString("IMGF\\Sessions", "Data_" + CString2::toString(i));
+			string strIMGPaths = CINIManager::getItem(CAppDataPath::getSessionsPath(), "Sessions", CString2::toString(i));
 			vecSessionsData.push_back(strIMGPaths);
 		}
 
@@ -5390,7 +5403,7 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 					string strExePath = CString2::convertStdWStringToStdString(szModuleName);
 					if (strNewProgramPath != strExePath)
 					{
-						CRegistry::setSoftwareValueString("IMGF\\InternalSettings", "DeletePreviousVersionOnNextLaunch", strExePath);
+						CSettingsManager::setInternalSetting("DeletePreviousVersionOnNextLaunch", strExePath);
 					}
 				}
 
@@ -5481,7 +5494,7 @@ void		CTaskDispatchManager::onRequestUpdate(void)
 					string strExePath = CString2::convertStdWStringToStdString(szModuleName);
 					if (strNewProgramPath != strExePath)
 					{
-						CRegistry::setSoftwareValueString("IMGF\\InternalSettings", "DeletePreviousVersionOnNextLaunch", strExePath);
+						CSettingsManager::setInternalSetting("DeletePreviousVersionOnNextLaunch", strExePath);
 					}
 				}
 
@@ -5551,7 +5564,7 @@ void		CTaskDispatchManager::onRequestAutoUpdate(void)
 				TCHAR szModuleName[MAX_PATH];
 				GetModuleFileName(NULL, szModuleName, MAX_PATH);
 				string strExePath = CString2::convertStdWStringToStdString(szModuleName);
-				CRegistry::setSoftwareValueString("IMGF\\InternalSettings", "DeletePreviousVersionOnNextLaunch", strExePath);
+				CSettingsManager::setInternalSetting("DeletePreviousVersionOnNextLaunch", strExePath);
 			}
 
 			getIMGF()->getTaskManager()->onPauseTask();
@@ -7344,7 +7357,6 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 	{
 		onRequestFindDFFMissingFromIDEFoundInIPL();
 	}
-
 	else
 	{
 	}
@@ -7352,7 +7364,7 @@ void		CTaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 
 void		CTaskDispatchManager::onRequestLastFeatureUsed(void)
 {
-	string strPreviousTaskName = getIMGF()->getTaskManager()->getPreviousTaskName();
+	string strPreviousTaskName = getIMGF()->getTaskManager()->getTaskName();
 	if (strPreviousTaskName == "")
 	{
 		return;
@@ -8513,10 +8525,10 @@ void						CTaskDispatchManager::onRequestMapMoverAndIDShifter(void)
 	unordered_map<ePlatformedGame, vector<string>>
 		umapIgnoreDefaultObjectFileNamesVector;
 	string
-		strDefaultModelNamesFolder = getIMGF()->getInstallationMeta().getProgramFilesPath() + "Default Files/Model Names/",
-		strModelNamesPath_PC_GTA_III = strDefaultModelNamesFolder + "Model Names - PC GTA III.txt",
-		strModelNamesPath_PC_GTA_VC = strDefaultModelNamesFolder + "Model Names - PC GTA VC.txt",
-		strModelNamesPath_PC_GTA_SA = strDefaultModelNamesFolder + "Model Names - PC GTA SA.txt"
+		strDefaultModelNamesFolder = CDataPath::getDataPath() + "DefaultFiles/ModelNames/",
+		strModelNamesPath_PC_GTA_III = strDefaultModelNamesFolder + "ModelNames-PC-GTA-III.txt",
+		strModelNamesPath_PC_GTA_VC = strDefaultModelNamesFolder + "ModelNames-PC-GTA-VC.txt",
+		strModelNamesPath_PC_GTA_SA = strDefaultModelNamesFolder + "ModelNames-PC-GTA-SA.txt"
 	;
 	if (CFile::doesFileExist(strModelNamesPath_PC_GTA_III))
 	{

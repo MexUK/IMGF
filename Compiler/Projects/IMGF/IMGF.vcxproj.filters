@@ -274,6 +274,12 @@
     <Filter Include="Source Files\Event">
       <UniqueIdentifier>{aac00dca-4d82-42ce-b306-a3e6dd8ce5ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Static">
+      <UniqueIdentifier>{c3eb73c2-9385-4b47-bf07-26be30155925}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Static">
+      <UniqueIdentifier>{cd257009-e6d1-4491-b9e2-513417f33b65}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Dependencies\ThirdParty\Bitmap\bitmap.cpp">
@@ -453,9 +459,6 @@
     <ClCompile Include="..\..\..\Code\IMGF\Updater\CUpdateConnectionManager.cpp">
       <Filter>Source Files\Updater</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Program\CInstallationMeta.cpp">
-      <Filter>Source Files\Program</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\Task\CLastUsedValueManager.cpp">
       <Filter>Source Files\Task</Filter>
     </ClCompile>
@@ -497,6 +500,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\Task\CTaskDurationManager.cpp">
       <Filter>Source Files\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Static\CAppDataPath.cpp">
+      <Filter>Source Files\Static</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1169,9 +1175,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\Tasks\Filter\CFilterOptions.h">
       <Filter>Header Files\Tasks\Filter</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Program\CInstallationMeta.h">
-      <Filter>Header Files\Program</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Program\CBuildMeta.h">
       <Filter>Header Files\Program</Filter>
     </ClInclude>
@@ -1267,6 +1270,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskDurationManager.h">
       <Filter>Header Files\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Static\CAppDataPath.h">
+      <Filter>Header Files\Static</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

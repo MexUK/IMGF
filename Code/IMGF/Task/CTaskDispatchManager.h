@@ -22,6 +22,10 @@ class CTaskDispatchManager : public bxcf::CManager
 public:
 	CTaskDispatchManager(void);
 
+private:
+	std::string&				getTaskName(void);
+
+public:
 	void						init(void);
 	void						uninit(void);
 

@@ -10,6 +10,7 @@ public:
 	void							unload(void) {}
 
 	std::string						serialize(void);
+	void							serializeToFile(void);
 	
 	void							setName(std::string strSessionName);
 	std::string						getName(void) { return m_strName; }

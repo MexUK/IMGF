@@ -5,7 +5,6 @@
 #include "Globals.h"
 #include "Object/CManager.h"
 #include "Program/CBuildMeta.h"
-#include "Program/CInstallationMeta.h"
 
 #define WINAPI __stdcall
 uint32 WINAPI		onInitializationThreadStart(void *pThreadParameter);
@@ -50,7 +49,6 @@ public:
 	void						processWindows(void);
 	
 	CBuildMeta&					getBuildMeta(void) { return m_buildMeta; }
-	CInstallationMeta&			getInstallationMeta(void) { return m_installationMeta; }
 
 	CWindow*					getActiveWindow(void);
 	CEditorTab*					getActiveTab(void);
@@ -95,7 +93,6 @@ private:
 
 private:
 	CBuildMeta					m_buildMeta;
-	CInstallationMeta			m_installationMeta;
 
 	CButtonPressManager*		m_pButtonPressManager;
 	CDumpManager*				m_pDumpManager;
