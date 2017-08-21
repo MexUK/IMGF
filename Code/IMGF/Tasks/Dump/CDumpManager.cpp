@@ -80,9 +80,9 @@ int GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
 
 void		CDumpManager::process(void)
 {
-	getIMGF()->getTaskManager()->onTaskPause();
+	getIMGF()->getTaskManager()->onPauseTask();
 	CDumpDialogData *pDumpDialogData = getIMGF()->getPopupGUIManager()->showDumpDialog(getIMGF()->getLastUsedDirectory("DUMP__DAT"), getIMGF()->getLastUsedDirectory("DUMP__Destination"));
-	getIMGF()->getTaskManager()->onTaskUnpause();
+	getIMGF()->getTaskManager()->onResumeTask();
 	if (!pDumpDialogData->m_bResult)
 	{
 		getIMGF()->getTaskManager()->onTaskEnd("onRequestDump", true);
@@ -922,9 +922,9 @@ void		CDumpManager::process(void)
 		vecMipmapSkippedEntries.size() == 0;
 	if (bSuccessfulResult)
 	{
-		getIMGF()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onPauseTask();
 		CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_1"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_1"));
-		getIMGF()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onResumeTask();
 	}
 	else
 	{
@@ -935,9 +935,9 @@ void		CDumpManager::process(void)
 		pDumpResultsDialogData->m_uiInvalidTextureNameCount = vecInvalidTextureNames.size();
 		pDumpResultsDialogData->m_uiTXDCountExceededTextureCountLimit = vecTXDsContainingTooManyTextures.size();
 		pDumpResultsDialogData->m_uiMipmapSkippedCount = vecMipmapSkippedEntries.size();
-		getIMGF()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onPauseTask();
 		getIMGF()->getPopupGUIManager()->showDumpResultsDialog(pDumpResultsDialogData);
-		getIMGF()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onResumeTask();
 
 		if (pDumpResultsDialogData->m_bOpenAdvancedLog)
 		{
@@ -951,9 +951,9 @@ void		CDumpManager::process(void)
 			else
 			{
 				// ask user to save the extended log file, then open the txt file
-				getIMGF()->getTaskManager()->onTaskPause();
+				getIMGF()->getTaskManager()->onPauseTask();
 				string strSaveFilePath = getIMGF()->getTaskManager()->getDispatch()->onRequestSaveLog(true, false);
-				getIMGF()->getTaskManager()->onTaskUnpause();
+				getIMGF()->getTaskManager()->onResumeTask();
 				if (strSaveFilePath != "")
 				{
 					ShellExecute(NULL, NULL, CString2::convertStdStringToStdWString(strSaveFilePath).c_str(), NULL, NULL, SW_SHOWNORMAL);

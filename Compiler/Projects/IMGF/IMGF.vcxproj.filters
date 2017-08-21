@@ -495,6 +495,9 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Windows\CMainWindow.cpp">
       <Filter>Source Files\GUI\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\CTaskDurationManager.cpp">
+      <Filter>Source Files\Task</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Dependencies\ThirdParty\Bitmap\bitmap.h">
@@ -1261,6 +1264,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Event\EEvents.h">
       <Filter>Header Files\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskDurationManager.h">
+      <Filter>Header Files\Task</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

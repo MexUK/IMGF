@@ -1,37 +1,35 @@
 #include "CTaskManager.h"
-#include "Globals.h"
-#include "CIMGF.h"
-#include "CTaskDispatchManager.h"
+#include "Task/CTaskDispatchManager.h"
+#include "Task/CTaskDurationManager.h"
 #include "Static/CString2.h"
 #include "Static/CPath.h"
 #include "Static/CFile.h"
 #include "Static/CStdVector.h"
-#include "Format/Text/INI/CINIManager.h"
-#include "GUI/Editors/CIMGEditor.h"
 #include "Settings/CSettingsManager.h"
 #include "GUI/Window/CWindowManager.h"
 #include "GUI/Windows/CMainWindow.h"
 #include "GUI/Layers/CMainLayer.h"
 #include "Controls/CProgressControl.h"
+#include "CIMGF.h"
 
 using namespace std;
 using namespace bxcf;
 
-// construct
+// constructor/destructor
 CTaskManager::CTaskManager(void) :
-	m_uiTaskPauseStartTime(0),
-	m_uiTaskPauseDuration(0),
 	m_uiTaskProgressTickCount(0),
 	m_uiTaskMaxProgressTickCount(0)
 {
 	m_pTaskDispatchManager = new CTaskDispatchManager;
+	m_pTaskDurationManager = new CTaskDurationManager;
 }
+
 CTaskManager::~CTaskManager(void)
 {
 	delete m_pTaskDispatchManager;
 }
 
-// init
+// initialization
 void							CTaskManager::init(void)
 {
 	m_pTaskDispatchManager->init();
@@ -42,23 +40,102 @@ void							CTaskManager::uninit(void)
 	m_pTaskDispatchManager->uninit();
 }
 
-// task pause
-void							CTaskManager::onTaskPause(void)
+// task start/stop
+void							CTaskManager::onStartTask(string strTaskName)
 {
-	m_uiTaskPauseStartTime = GetTickCount();
+	m_vecActiveTaskNames.push_back(strTaskName);
+	m_pTaskDurationManager->onStartTask(strTaskName);
 }
 
-void							CTaskManager::onTaskUnpause(void)
+void							CTaskManager::onCompleteTask(void)
 {
-	uint32 uiTimeNow = GetTickCount();
-	m_uiTaskPauseStartTime = uiTimeNow;
-	uint32 uiFeaturePauseEndTime = uiTimeNow;
-	uint32 uiPauseDuration = uiFeaturePauseEndTime - m_uiTaskPauseStartTime;
-	m_uiTaskPauseDuration += uiPauseDuration;
-	m_uiTaskPauseStartTime = 0;
+	string& strTaskName = m_vecActiveTaskNames[m_vecActiveTaskNames.size() - 1];
+
+	// task duration
+	m_pTaskDurationManager->onCompleteTask(strTaskName);
+
+	// auto save
+	if (getIMGF()->getSettingsManager()->getSettingBool("AutoSave"))
+	{
+		if (strTaskName != "onRequestOpen" &&
+			strTaskName != "onRequestOpen2" &&
+			strTaskName != "onRequestOpenLast" &&
+			strTaskName != "onRequestClose" &&
+			strTaskName != "onRequestClose2" &&
+			strTaskName != "onRequestRebuild" &&
+			strTaskName != "onRequestRebuildAs" &&
+			strTaskName != "onRequestRebuildAll" &&
+			strTaskName != "onRequestEntryViewer" &&
+			strTaskName != "onRequestSearchText" &&
+			strTaskName != "onRequestFind" &&
+			strTaskName != "onRequestSettings" &&
+			strTaskName != "onRequestFilter" &&
+			strTaskName != "onRequestSearchSelection")
+		{
+			getIMGF()->getTaskManager()->getDispatch()->onRequestRebuild();
+		}
+	}
+
+	// clean up
+	m_vecActiveTaskNames.pop_back();
 }
 
-// progress ticks
+void							CTaskManager::onAbortTask(void)
+{
+	string& strTaskName = m_vecActiveTaskNames[m_vecActiveTaskNames.size() - 1];
+
+	// task duration
+	m_pTaskDurationManager->onAbortTask(strTaskName);
+
+	// clean up
+	m_vecActiveTaskNames.pop_back();
+}
+
+// task pause/resume
+void							CTaskManager::onPauseTask(void)
+{
+	m_pTaskDurationManager->onPauseTask();
+}
+
+void							CTaskManager::onResumeTask(void)
+{
+	m_pTaskDurationManager->onResumeTask();
+}
+
+// active tasks
+string g_strBlankString2 = ""; // todo
+string&					CTaskManager::getPreviousTaskName(void)
+{
+	if (m_vecActiveTaskNames.size() == 0)
+	{
+		return g_strBlankString2;
+	}
+	else
+	{
+		return m_vecActiveTaskNames[m_vecActiveTaskNames.size() - 1];
+	}
+}
+
+// task progress
+void							CTaskManager::onTaskProgressTick(void)
+{
+	//setTaskProgressTickCount(getTaskProgressTickCount() + 1);
+
+	static CProgressControl *pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pProgressBar;
+	pProgressBar->increaseCurrent();
+}
+
+void							CTaskManager::onTaskProgressComplete(void)
+{
+	setTaskProgressTickCount(getTaskProgressTickCount() + 1);
+
+	/*
+	todo
+	CProgressCtrl *pProgressCtrl = (CProgressCtrl*)getDialog()->GetDlgItem(60);
+	pProgressCtrl->SetPos(getProgressTicks());
+	*/
+}
+
 void							CTaskManager::setTaskMaxProgressTickCount(uint32 uiProgressMaxTicks, bool bReset)
 {
 	if (bReset)
@@ -76,112 +153,4 @@ void							CTaskManager::setTaskMaxProgressTickCount(uint32 uiProgressMaxTicks, 
 	pProgressCtrl->SetPos(0);
 	}
 	*/
-}
-
-void							CTaskManager::onTaskProgressTick(void)
-{
-	//setTaskProgressTickCount(getTaskProgressTickCount() + 1);
-
-	static CProgressControl *pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pProgressBar;
-	pProgressBar->increaseCurrent();
-
-	/*
-	todo
-	CProgressCtrl *pProgressCtrl = (CProgressCtrl*)getDialog()->GetDlgItem(60);
-	pProgressCtrl->SetPos(getProgressTicks());
-	*/
-}
-
-void							CTaskManager::onTaskProgressComplete(void)
-{
-	setTaskProgressTickCount(getTaskProgressTickCount() + 1);
-
-	/*
-	todo
-	CProgressCtrl *pProgressCtrl = (CProgressCtrl*)getDialog()->GetDlgItem(60);
-	pProgressCtrl->SetPos(getProgressTicks());
-	*/
-}
-
-// task state
-void							CTaskManager::onTaskBegin(string strFeatureName)
-{
-	setPreviousTaskName(strFeatureName);
-	getTaskBeginTimes()[strFeatureName] = GetTickCount();
-	m_uiTaskPauseDuration = 0;
-}
-void							CTaskManager::onTaskEnd(bool bFeatureAborted)
-{
-	uint32 uiTimeNow = GetTickCount();
-
-	string strFeatureName = "temp";
-
-	/*
-	todo
-
-	if (getIMGF()->getIMGEditor()->getEntryCount() > 0)
-	{
-		getIMGF()->getEntryListTab()->resetOverwriteEntryOption();
-	}
-	*/
-
-	if (bFeatureAborted)
-	{
-		return;
-	}
-
-	uint32 uiFeatureProcessingTime = (uiTimeNow - getTaskBeginTimes()[strFeatureName]) - m_uiTaskPauseDuration;
-	//m_uiFeatureBeginTime = 0;
-	getTaskBeginTimes().erase(getTaskBeginTimes().find(strFeatureName));
-	m_uiTaskPauseDuration = 0;
-	m_uiTaskPauseStartTime = 0;
-
-	string strINIPath = getIMGF()->getInstallationMeta().getLocalAppPath() + "Data\\FeatureProcessingTimes.txt";
-	if (!CFile::doesFolderExist(CPath::getDirectory(strINIPath)))
-	{
-		CFile::createFoldersForPath(strINIPath);
-	}
-
-	string strItem = CINIManager::getItem(strINIPath, "FeatureProcessingTimes", strFeatureName);
-	deque<string> deqTokens;
-	if (strItem != "")
-	{
-		deqTokens = CStdVector::convertVectorToDeque(CString2::split(strItem, " "));
-	}
-
-	if (deqTokens.size() == 100)
-	{
-		deqTokens.pop_front();
-	}
-	deqTokens.push_back(CString2::toString(uiFeatureProcessingTime));
-
-	CINIManager::setItem(strINIPath, "FeatureProcessingTimes", strFeatureName, CString2::join(deqTokens, " "));
-
-	// auto save
-	if (getIMGF()->getSettingsManager()->getSettingBool("AutoSave"))
-	{
-		if (strFeatureName != "onRequestOpen" &&
-			strFeatureName != "onRequestOpen2" &&
-			strFeatureName != "onRequestOpenLast" &&
-			strFeatureName != "onRequestClose" &&
-			strFeatureName != "onRequestClose2" &&
-			strFeatureName != "onRequestRebuild" &&
-			strFeatureName != "onRequestRebuildAs" &&
-			strFeatureName != "onRequestRebuildAll" &&
-			strFeatureName != "onRequestEntryViewer" &&
-			strFeatureName != "onRequestSearchText" &&
-			strFeatureName != "onRequestFind" &&
-			strFeatureName != "onRequestSettings" &&
-			strFeatureName != "onRequestFilter" &&
-			strFeatureName != "onRequestSearchSelection")
-		{
-			//CInput::showMessage("Feature: " + strFeatureName, "Feature Causing Rebuild Bug", MB_OK);
-			getIMGF()->getTaskManager()->getDispatch()->onRequestRebuild();
-		}
-	}
-}
-
-void							CTaskManager::onTaskEndEarly()
-{
-	onTaskEnd(true);
 }

@@ -5,9 +5,11 @@
 #include "Type/Types.h"
 #include "Object/CManager.h"
 #include <string>
+#include <vector>
 #include <unordered_map>
 
 class CTaskDispatchManager;
+class CTaskDurationManager;
 
 class CTaskManager : public bxcf::CManager
 {
@@ -19,44 +21,35 @@ public:
 	void										uninit(void);
 
 	CTaskDispatchManager*						getDispatch(void) { return m_pTaskDispatchManager; }
+	CTaskDurationManager*						getDurationManager(void) { return m_pTaskDurationManager; }
 
-	void										onTaskBegin(std::string strFeatureName);
-	void										onTaskEnd(bool bFeatureAborted = false);
-	void										onTaskEnd(std::string s, bool bFeatureAborted = false) {} // temp
-	void										onTaskEndEarly(void);
-	void										onTaskPause(void);
-	void										onTaskUnpause(void);
+	void										onStartTask(std::string strTaskName);
+	void										onCompleteTask(void);
+	void										onAbortTask(void);
+	void										onTaskEnd(std::string strTaskName, bool bFeatureAborted = false) {} // temp
+
+	void										onPauseTask(void);
+	void										onResumeTask(void);
+
 	void										onTaskProgressTick(void);
 	void										onTaskProgressComplete(void);
 
-	void										setTaskPauseStartTime(uint32 uiTaskPauseStartTime) { m_uiTaskPauseStartTime = uiTaskPauseStartTime; }
-	uint32										getTaskPauseStartTime(void) { return m_uiTaskPauseStartTime; }
-
-	void										setTaskPauseDuration(uint32 uiTaskPauseDuration) { m_uiTaskPauseDuration = uiTaskPauseDuration; }
-	uint32										getTaskPauseDuration(void) { return m_uiTaskPauseDuration; }
-
-	void										setTaskProgressTickCount(uint32 uiTaskProgressTickCount) { m_uiTaskProgressTickCount = uiTaskProgressTickCount; }
-	uint32										getTaskProgressTickCount(void) { return m_uiTaskProgressTickCount; }
+	inline void									setTaskProgressTickCount(uint32 uiTaskProgressTickCount) { m_uiTaskProgressTickCount = uiTaskProgressTickCount; }
+	inline uint32								getTaskProgressTickCount(void) { return m_uiTaskProgressTickCount; }
 
 	void										setTaskMaxProgressTickCount(uint32 uiTaskMaxProgressTickCount, bool bReset = true);
-	uint32										getTaskMaxProgressTickCount(void) { return m_uiTaskMaxProgressTickCount; }
+	inline uint32								getTaskMaxProgressTickCount(void) { return m_uiTaskMaxProgressTickCount; }
 
-	void										setPreviousTaskName(std::string& strPreviousTaskName) { m_strPreviousTaskName = strPreviousTaskName; }
-	std::string&								getPreviousTaskName(void) { return m_strPreviousTaskName; }
-
-	std::unordered_map<std::string, uint32>&	getTaskBeginTimes(void) { return m_umapTaskBeginTimes; }
+	std::string&								getPreviousTaskName(void);
 
 private:
 	CTaskDispatchManager*						m_pTaskDispatchManager;
-
-	uint32										m_uiTaskPauseStartTime; // todo - in ms or secs?
-	uint32										m_uiTaskPauseDuration; // todo - in ms or secs?
+	CTaskDurationManager*						m_pTaskDurationManager;
 
 	uint32										m_uiTaskProgressTickCount;
 	uint32										m_uiTaskMaxProgressTickCount;
 
-	std::string									m_strPreviousTaskName;
-	std::unordered_map<std::string, uint32>		m_umapTaskBeginTimes; // todo - in ms or secs?
+	std::vector<std::string>					m_vecActiveTaskNames;
 };
 
 #endif

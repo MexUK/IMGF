@@ -6,6 +6,7 @@
 #include "Format/IMG/Regular/CIMGFormat.h"
 #include "Tasks/Filter/CFilterOptions.h"
 #include "Event/Events.h"
+#include "Task/CTaskManager.h"
 #include <string>
 #include <vector>
 

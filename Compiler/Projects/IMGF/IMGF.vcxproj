@@ -152,6 +152,7 @@
     <ClCompile Include="..\..\..\Code\IMGF\Tasks\Sort\CSortType.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Task\CLastUsedValueManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Task\CTaskDispatchManager.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Task\CTaskDurationManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Task\CTaskManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Updater\CUpdateConnectionManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Updater\CUpdateManager.cpp" />
@@ -248,6 +249,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\eSortType.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Task\CLastUsedValueManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskDispatchManager.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskDurationManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Task\ETask.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Updater\CUpdateConnection.h" />

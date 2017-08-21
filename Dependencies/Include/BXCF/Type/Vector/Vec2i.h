@@ -19,6 +19,11 @@ public:
 	{
 	}
 
+	bool		operator==(const Vec2i& vecVector2)
+	{
+		return x == vecVector2.x && y == vecVector2.y;
+	}
+
 	Vec2i		operator+(const Vec2i& vecVector2)
 	{
 		Vec2i vecVector;

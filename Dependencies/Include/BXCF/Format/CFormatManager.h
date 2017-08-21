@@ -18,14 +18,6 @@ public:
 	static T*					parseManyViaFile(std::vector<std::string>& vecFilePaths);
 };
 
-class bxcf::CFormatManager2
-{
-public:
-	static bxcf::fileType::EFileType		getRWFileType(std::string& strFileExtension);
-};
-
-
-
 template<class T>
 T*			bxcf::CFormatManager<T>::parseViaMemory(std::string& strData)
 {

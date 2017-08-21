@@ -35,7 +35,6 @@
 #include "Controls/CGridControl.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "GUI/Popups/CPopupGUIManager.h"
-#include "Task/CTaskManager.h"
 #include "GUI/Windows/CMainWindow.h"
 #include "GUI/Layers/CMainLayer.h"
 #include "Controls/CTextControl.h"
@@ -240,7 +239,7 @@ void					CIMGEditorTab::checkForUnknownRWVersionEntries(void)
 			vecIMGEntryNames.push_back(pIMGEntry->getEntryName());
 		}
 
-		getIMGF()->getTaskManager()->onTaskPause();
+		getIMGF()->getTaskManager()->onPauseTask();
 		getIMGF()->getPopupGUIManager()->showListViewDialog(
 			CLocalizationManager::get()->getTranslatedText("UnknownVersions"),
 			CLocalizationManager::get()->getTranslatedFormattedText("UnknownVersionsCheck", CPath::getFileName(getIMGFile()->getFilePath()).c_str(), vecUnknownRWVersionEntries.size()),
@@ -250,7 +249,7 @@ void					CIMGEditorTab::checkForUnknownRWVersionEntries(void)
 			CPath::replaceFileExtension(CPath::getFileName(getIMGFile()->getFilePath()), "TXT").c_str()),
 			"UNKNOWNRWVERSIONS"
 			);
-		getIMGF()->getTaskManager()->onTaskUnpause();
+		getIMGF()->getTaskManager()->onResumeTask();
 	}
 }
 
@@ -695,13 +694,12 @@ void					CIMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry, uint32 uiEntryIndex, 
 	}
 
 	bool bIsFastman92IMGFormat = m_pIMGFile->getVersion() == IMG_FASTMAN92;
-	string& strEntryName = pIMGEntry->getEntryName();
 
 	vector<string> vecText;
 	vecText.resize(bIsFastman92IMGFormat ? 8 : 6);
 	vecText[0] = CString2::addNumberGrouping(CString2::toString(uiEntryIndex + 1));
-	vecText[1] = CString2::toUpperCase(CPath::getFileExtension(strEntryName));
-	vecText[2] = strEntryName;
+	vecText[1] = pIMGEntry->getEntryExtension();
+	vecText[2] = pIMGEntry->getEntryName();
 	vecText[3] = CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntryOffset()));
 	vecText[4] = CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntrySize()));
 	vecText[5] = pIMGEntry->getVersionText();
