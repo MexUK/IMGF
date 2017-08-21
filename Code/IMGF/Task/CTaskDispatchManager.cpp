@@ -2399,7 +2399,7 @@ void		CTaskDispatchManager::onRequestStats(void)
 			{
 				if (umapStatsRWVersions.count(pIMGEntry->getRWVersion()->getVersionCC()) == 0) // crashes when calling getVersionCC()
 				{
-					umapStatsRWVersions.insert(std::pair<uint32, uint32>(pIMGEntry->getRWVersion()->getVersionCC(), 1));
+					umapStatsRWVersions.insert(pair<uint32, uint32>(pIMGEntry->getRWVersion()->getVersionCC(), 1));
 				}
 				else
 				{
@@ -2411,7 +2411,7 @@ void		CTaskDispatchManager::onRequestStats(void)
 		string strExtension = CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()));
 		if (umapStatsExtensions.count(strExtension) == 0)
 		{
-			umapStatsExtensions.insert(std::pair<string, uint32>(strExtension, 1));
+			umapStatsExtensions.insert(pair<string, uint32>(strExtension, 1));
 		}
 		else
 		{
@@ -3773,7 +3773,7 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 				}
 				veCIDEFormats.push_back(pIDEFile);
 
-				unordered_map<uint32, std::string> umapIDEModelNamesByObjectId;
+				unordered_map<uint32, string> umapIDEModelNamesByObjectId;
 				for (auto it : pIDEFile->getSectionEntries())
 				{
 					for (CIDEEntry *pIDEEntry : it.second)

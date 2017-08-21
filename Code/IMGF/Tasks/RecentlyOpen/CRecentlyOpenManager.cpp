@@ -66,7 +66,7 @@ void					CRecentlyOpenManager::unloadRecentlyOpenEntries(void)
 	removeAllEntries();
 }
 
-CRecentlyOpenEntry*		CRecentlyOpenManager::addRecentlyOpenEntry(std::string strPath)
+CRecentlyOpenEntry*		CRecentlyOpenManager::addRecentlyOpenEntry(string strPath)
 {
 	if (doesRecentlyOpenEntryExist(strPath))
 	{
@@ -171,7 +171,7 @@ CRecentlyOpenEntry*		CRecentlyOpenManager::getRecentlyOpenEntryByPath(string str
 	return nullptr;
 }
 
-bool					CRecentlyOpenManager::doesRecentlyOpenEntryExist(std::string strPath)
+bool					CRecentlyOpenManager::doesRecentlyOpenEntryExist(string strPath)
 {
 	return getRecentlyOpenEntryByPath(strPath) != nullptr;
 }

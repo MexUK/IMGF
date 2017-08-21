@@ -16,8 +16,8 @@ using namespace std;
 using namespace bxcf;
 
 // settings for settings
-const std::string						CSettingsManager::REGULAR_SETTINGS_STORAGE_SECTION		= "RegularSettings";
-const std::string						CSettingsManager::INTERNAL_SETTINGS_STORAGE_SECTION		= "InternalSettings";
+const string						CSettingsManager::REGULAR_SETTINGS_STORAGE_SECTION		= "RegularSettings";
+const string						CSettingsManager::INTERNAL_SETTINGS_STORAGE_SECTION		= "InternalSettings";
 
 // initialization
 void			CSettingsManager::init(void)

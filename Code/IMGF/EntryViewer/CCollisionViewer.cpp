@@ -171,10 +171,10 @@ glTranslated(-eyex, -eyey, -eyez);
 class SolidSphere
 {
 protected:
-	std::vector<GLfloat> vertices;
-	std::vector<GLfloat> normals;
-	std::vector<GLfloat> texcoords;
-	std::vector<GLushort> indices;
+	vector<GLfloat> vertices;
+	vector<GLfloat> normals;
+	vector<GLfloat> texcoords;
+	vector<GLushort> indices;
 
 public:
 	SolidSphere(float32 radius, unsigned int rings, unsigned int sectors)
@@ -186,9 +186,9 @@ public:
 		vertices.resize(rings * sectors * 3);
 		normals.resize(rings * sectors * 3);
 		texcoords.resize(rings * sectors * 2);
-		std::vector<GLfloat>::iterator v = vertices.begin();
-		std::vector<GLfloat>::iterator n = normals.begin();
-		std::vector<GLfloat>::iterator t = texcoords.begin();
+		vector<GLfloat>::iterator v = vertices.begin();
+		vector<GLfloat>::iterator n = normals.begin();
+		vector<GLfloat>::iterator t = texcoords.begin();
 		for (r = 0; r < (int32)rings; r++) for (s = 0; s < (int32)sectors; s++) {
 			float32 const y = (float32)sin((float32)-M_PI_2 + (float32)M_PI * (float32)r * R);
 			float32 const x = (float32)cos(2.0f * (float32)M_PI * (float32)s * S) * sin((float32)M_PI * (float32)r * R);
@@ -207,7 +207,7 @@ public:
 		}
 
 		indices.resize(rings * sectors * 4);
-		std::vector<GLushort>::iterator i = indices.begin();
+		vector<GLushort>::iterator i = indices.begin();
 		for (r = 0; r < (int32)rings - 1; r++) for (s = 0; s < (int32)sectors - 1; s++) {
 			*i++ = r * sectors + s;
 			*i++ = r * sectors + (s + 1);
@@ -324,7 +324,7 @@ void						RenderText(string text, GLfloat x, GLfloat y, GLfloat scale, vector<ui
 	if (glGetError()) CInput::showMessage("glBindVertexArray error", "Error");
 
 	// Iterate through all characters
-	std::string::const_iterator c;
+	string::const_iterator c;
 	for (c = text.begin(); c != text.end(); c++)
 	{
 		Character ch = Characters[*c];
@@ -775,7 +775,7 @@ void						CCollisionViewer::initTextStuff(void)
 				// Load character glyph
 				if (FT_Load_Char(g_face, c, FT_LOAD_RENDER))
 				{
-				//std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
+				//cout << "ERROR::FREETYTPE: Failed to load Glyph" << endl;
 				CInput::showMessage("failed to load char", "Error");
 				continue;
 				}
@@ -807,7 +807,7 @@ void						CCollisionViewer::initTextStuff(void)
 				g_face->glyph->bitmap_left, g_face->glyph->bitmap_top,
 				(GLuint)g_face->glyph->advance.x
 				};
-				Characters.insert(std::pair<char, Character>(c, character));
+				Characters.insert(pair<char, Character>(c, character));
 				}
 
 
