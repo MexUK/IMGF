@@ -5,7 +5,7 @@
 #include "bxcf.h"
 #include "Object/CManager.h"
 #include "Localization/eLanguage.h"
-#include "Collection/Games/ePlatformedGame.h"
+#include "Games/ePlatformedGame.h"
 #include "Format/IMG/Regular/eIMGVersion.h"
 #include "Compression/eCompressionAlgorithm.h"
 #include "Type/Vector/Vec2f.h"
@@ -221,7 +221,7 @@ struct CDragDropDialogData
 	uint32							m_uiTXDConversionOption;
 	union
 	{
-		bxcf::ePlatformedGame			m_eTXDConversionGame;
+		bxgi::ePlatformedGame			m_eTXDConversionGame;
 		bxgi::CRWVersion*				m_pTXDConversionRWVersion;
 		bxcf::CRasterDataFormat*		m_pTXDConversionRasterDataFormat;
 	};
@@ -347,7 +347,7 @@ struct CMapMoverAndIDShifterDialogData
 	uint32							m_uiIDStart;
 	bxcf::Vec3f						m_vecPositionOffset;
 	bool							m_bIgnoreDefaultObjects;
-	bxcf::ePlatformedGame					m_eIgnoreDefaultObjectsGame;
+	bxgi::ePlatformedGame					m_eIgnoreDefaultObjectsGame;
 	bool							m_bIgnoreFilesShifter;
 	bool							m_bIgnoreFilesMover;
 	std::vector<std::string>		m_vecIgnoreFilesShifter;

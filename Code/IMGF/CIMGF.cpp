@@ -13,8 +13,6 @@
 #include "Settings/CSettingsManager.h"
 #include "Tasks/Sort/CSortManager.h"
 #include "Format/IMG/Regular/CIMGManager.h"
-#include "Event/CEventManager.h"
-#include "Event/eEvent.h"
 #include "Static/CInput.h"
 #include "Window/CWindow.h"
 #include "Controls/CTextControl.h"
@@ -66,7 +64,7 @@
 #include "Format/WTD/CWTDManager.h"
 #include "Localization/eLanguage.h"
 #include "Language/CLanguage.h"
-#include "Collection/Game/CGameManager.h"
+#include "Game/CGameManager.h"
 #include "Platform/Hardware/CPlatformManager.h"
 #include "Format/RW/CRWSection.h"
 #include "Static/CTiming.h"
@@ -77,6 +75,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgx;
 using namespace bxgi;
 
 CIMGF::CIMGF(void)
@@ -117,7 +116,7 @@ CIMGF::~CIMGF(void)
 // init/uninit (ocurs in original thread)
 void				CIMGF::init(void)
 {
-	bxgx::CGUIManager::get()->init();
+	BXGXManager::get()->init();
 	CStyleManager::get()->init();
 	m_pWindowManager->init();
 	_init();
@@ -263,11 +262,11 @@ void				CIMGF::initEventBinding(void)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	};
 	
-	CEventManager::get()->bindEvent(EVENT_onTaskProgress,				pOnTaskProgress);
-	CEventManager::get()->bindEvent(EVENT_onParseIMGEntry,				pOnTaskProgress);
-	CEventManager::get()->bindEvent(EVENT_onStoreIMGEntry,				pOnTaskProgress);
-	CEventManager::get()->bindEvent(EVENT_onAddIMGEntryExtension,		pOnEntriesExtensionChange);
-	CEventManager::get()->bindEvent(EVENT_onRemoveIMGEntryExtension,	pOnEntriesExtensionChange);
+	bindEvent(TASK_PROGRESS,					pOnTaskProgress);
+	bindEvent(UNSERIALIZE_IMG_ENTRY,			pOnTaskProgress);
+	bindEvent(SERIALIZE_IMG_ENTRY,				pOnTaskProgress);
+	bindEvent(ADD_IMG_ENTRY_FILE_EXTENSION,		pOnEntriesExtensionChange);
+	bindEvent(REMOVE_IMG_ENTRY_FILE_EXTENSION,	pOnEntriesExtensionChange);
 	*/
 }
 
@@ -360,7 +359,7 @@ void				CIMGF::openWindow(void)
 	m_pButtonPressManager->init();
 	m_pTaskManager->init();
 
-	CEventManager::get()->triggerEvent(EVENT_onToolReady);
+	//Events::trigger(TOOL_READY);
 }
 
 void				CIMGF::processWindows(void)
@@ -370,12 +369,12 @@ void				CIMGF::processWindows(void)
 
 CWindow*			CIMGF::getActiveWindow(void)
 {
-	return bxgx::CGUIManager::get()->getActiveWindow();
+	return BXGXManager::get()->getActiveWindow();
 }
 
 CEditorTab*			CIMGF::getActiveTab(void)
 {
-	CMainWindow *pIMGFWindow = (CMainWindow*) bxgx::CGUIManager::get()->getEntryByIndex(0);
+	CMainWindow *pIMGFWindow = (CMainWindow*) BXGXManager::get()->getEntryByIndex(0);
 	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
 	CEditorTab *pEditorTab = pIMGEditor->getActiveTab();
 	return pEditorTab;
@@ -383,14 +382,14 @@ CEditorTab*			CIMGF::getActiveTab(void)
 
 CIMGEditor*			CIMGF::getIMGEditor(void)
 {
-	CMainWindow *pIMGFWindow = (CMainWindow*) bxgx::CGUIManager::get()->getEntryByIndex(0);
+	CMainWindow *pIMGFWindow = (CMainWindow*) BXGXManager::get()->getEntryByIndex(0);
 	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
 	return pIMGEditor;
 }
 
 CIMGEditorTab*		CIMGF::getEntryListTab(void)
 {
-	CMainWindow *pIMGFWindow = (CMainWindow*) bxgx::CGUIManager::get()->getEntryByIndex(0);
+	CMainWindow *pIMGFWindow = (CMainWindow*) BXGXManager::get()->getEntryByIndex(0);
 	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
 	CIMGEditorTab *pIMGEditorTab = (CIMGEditorTab*) pIMGEditor->getTabs().getEntryByIndex(0);
 	return pIMGEditorTab;

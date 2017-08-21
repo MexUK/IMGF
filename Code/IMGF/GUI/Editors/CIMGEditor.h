@@ -16,7 +16,7 @@ class CDropControl;
 class bxgi::CIMGEntry;
 class bxgi::CIMGFormat;
 
-class CIMGEditor : public CEditor
+class CIMGEditor : public CEditor, public bxcf::EventBindable
 {
 public:
 	CIMGEditor(void);
@@ -24,7 +24,7 @@ public:
 	void						init(void);
 	void						render(void);
 
-	void						repositionAndResizeControls(void);
+	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 
 	static bool					validateFile(bxgi::CIMGFormat *img);
 
@@ -33,7 +33,9 @@ public:
 	CIMGEditorTab*				addTabObjectAndTabControl(bxgi::CIMGFormat *img);
 	void						removeFile(CIMGEditorTab *pIMGEditorFile);
 	void						removeActiveFile(void);
-
+	
+	void						onUnserializeEntry(void);
+	
 	void						setFileInfoText(CEditorTab *pEditorFile);
 	void						clearFileInfoText(void);
 

@@ -5,7 +5,7 @@
 #include "Object/CManager.h"
 #include "Format/IMG/Regular/eIMGVersion.h"
 #include "Format/IMG/Regular/eIMGEntryProperty.h"
-#include "Collection/Games/ePlatformedGame.h"
+#include "Games/ePlatformedGame.h"
 #include <string>
 
 class bxgi::CRWVersion;
@@ -20,7 +20,7 @@ public:
 		m_bLastUsedValue_ClearLogs_AllTabs(false),
 		m_bLastUsedValue_Close2_CloseAll(false),
 		m_pLastUsedValue_ConvertDFF_RWVersion(nullptr),
-		m_eLastUsedValue_ConvertTXD_Game(bxcf::PLATFORMED_GAME_UNKNOWN),
+		m_eLastUsedValue_ConvertTXD_Game(bxgi::PLATFORMED_GAME_UNKNOWN),
 		m_pLastUsedValue_ConvertTXD_RasterDataFormat(nullptr),
 		m_eLastUsedValue_Copy_IMGEntryProperty(bxgi::IMG_ENTRY_ID),
 		m_bLastUsedValue_SaveLog_ActiveTab(false),
@@ -55,8 +55,8 @@ public:
 	void								setLastUsedValue_ConvertDFF_RWVersion(bxgi::CRWVersion *pRWVersion) { m_pLastUsedValue_ConvertDFF_RWVersion = pRWVersion; }
 	bxgi::CRWVersion*							getLastUsedValue_ConvertDFF_RWVersion(void) { return m_pLastUsedValue_ConvertDFF_RWVersion; }
 
-	void								setLastUsedValue_ConvertTXD_Game(bxcf::ePlatformedGame ePlatformedGameValue) { m_eLastUsedValue_ConvertTXD_Game = ePlatformedGameValue; }
-	bxcf::ePlatformedGame						getLastUsedValue_ConvertTXD_Game(void) { return m_eLastUsedValue_ConvertTXD_Game; }
+	void								setLastUsedValue_ConvertTXD_Game(bxgi::ePlatformedGame ePlatformedGameValue) { m_eLastUsedValue_ConvertTXD_Game = ePlatformedGameValue; }
+	bxgi::ePlatformedGame						getLastUsedValue_ConvertTXD_Game(void) { return m_eLastUsedValue_ConvertTXD_Game; }
 
 	void								setLastUsedValue_ConvertTXD_TextureFormat(bxcf::CRasterDataFormat *pRasterDataFormat) { m_pLastUsedValue_ConvertTXD_RasterDataFormat = pRasterDataFormat; }
 	bxcf::CRasterDataFormat*					getLastUsedValue_ConvertTXD_TextureFormat(void) { return m_pLastUsedValue_ConvertTXD_RasterDataFormat; }
@@ -100,7 +100,7 @@ private:
 	bool								m_bLastUsedValue_ClearLogs_AllTabs;
 	bool								m_bLastUsedValue_Close2_CloseAll;
 	bxgi::CRWVersion*							m_pLastUsedValue_ConvertDFF_RWVersion;
-	bxcf::ePlatformedGame						m_eLastUsedValue_ConvertTXD_Game;
+	bxgi::ePlatformedGame						m_eLastUsedValue_ConvertTXD_Game;
 	bxcf::CRasterDataFormat*					m_pLastUsedValue_ConvertTXD_RasterDataFormat;
 	bxgi::eIMGEntryProperty					m_eLastUsedValue_Copy_IMGEntryProperty;
 	bool								m_bLastUsedValue_SaveLog_ActiveTab;

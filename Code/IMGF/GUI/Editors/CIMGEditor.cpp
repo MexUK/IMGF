@@ -15,7 +15,7 @@
 #include "GUI/Windows/CMainWindow.h"
 #include "Styles/CGUIStyles.h"
 #include "Type/Colour/CColour.h"
-#include "CGUIManager.h"
+#include "BXGXManager.h"
 #include "Controls/CGridControl.h"
 #include "GUI/Editor/EEditorItems.h"
 #include "GUI/Windows/CMainWindow.h"
@@ -28,6 +28,8 @@
 #include "Static/CInput.h"
 #include "Control/CGUIScrollPool.h"
 #include "GUI/Layers/CMainLayer.h"
+#include "Event/EInputEvents.h"
+#include "../BXGI/Event/EEvents.h"
 #include "Event/EInputEvents.h"
 
 // for menu start - todo
@@ -51,6 +53,7 @@ using namespace std;
 using namespace bxcf;
 using namespace bxgi;
 using namespace imgf::editor::items;
+using namespace bxgx::control::events;
 
 CIMGEditor::CIMGEditor(void) :
 	m_pMainWindow(nullptr),
@@ -65,18 +68,13 @@ CIMGEditor::CIMGEditor(void) :
 }
 
 // editor initialization
-auto fpOnTaskProgress = [](void *pData)
-{
-	getIMGF()->getTaskManager()->onTaskProgressTick();
-};
-
 void						CIMGEditor::init(void)
 {
 	CEditor::init();
 	addControls();
 	initControls();
 
-	CEventManager::get()->bindEvent(EVENT_onParseIMGEntry, fpOnTaskProgress);
+	bindEvent(UNSERIALIZE_IMG_ENTRY, &CIMGEditor::onUnserializeEntry);
 }
 
 // format validation
@@ -180,7 +178,12 @@ void						CIMGEditor::removeActiveFile(void)
 	removeFile((CIMGEditorTab*)getActiveFile());
 }
 
-// active file
+void						CIMGEditor::onUnserializeEntry(void)
+{
+	getIMGF()->getTaskManager()->onTaskProgressTick();
+}
+
+// file info text
 void						CIMGEditor::setFileInfoText(CEditorTab *pEditorFile)
 {
 	CMainLayer *pMainLayer = m_pMainWindow->getMainLayer();
@@ -1092,15 +1095,12 @@ void		CIMGEditor::addControls(void)
 void		CIMGEditor::initControls(void)
 {
 	addColumnsToMainListView(IMG_UNKNOWN);
-
-	CEventManager::get()->bindEvent(EVENT_onResizeWindow, [](void* pArg1, void* pArg2) {
-		((CIMGEditor*)pArg1)->repositionAndResizeControls();
-	}, this);
-
-	repositionAndResizeControls();
+	
+	bindEvent(RESIZE_WINDOW, &CIMGEditor::repositionAndResizeControls);
+	repositionAndResizeControls(Vec2i(0, 0));
 }
 
-void		CIMGEditor::repositionAndResizeControls(void)
+void		CIMGEditor::repositionAndResizeControls(Vec2i& vecSizeDifference)
 {
 	Vec2i point;
 	Vec2u size, newSize;

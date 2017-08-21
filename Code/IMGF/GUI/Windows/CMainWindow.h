@@ -26,7 +26,7 @@ public:
 	CProgressControl*		getProgressBar(void);
 	CTabBarControl*			getTabBar(void);
 
-	void					repositionAndResizeControls(void);
+	void					repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 
 private:
 	void					initWindow(void);

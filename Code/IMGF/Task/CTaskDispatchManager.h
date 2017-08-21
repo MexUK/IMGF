@@ -8,7 +8,7 @@
 #include "bxcf.h"
 #include "Format/IMG/Regular/CIMGFormat.h"
 #include "Format/IMG/Regular/eIMGEntryProperty.h"
-#include "Collection/Games/ePlatformedGame.h"
+#include "Games/ePlatformedGame.h"
 
 class bxcf::CRasterDataFormat;
 class bxgi::CRWVersion;
@@ -100,7 +100,7 @@ public:
 	void						onRequestDuplicateEntries(void);
 	void						onRequestExportAllEntriesFromAllTabsIntoMultipleFolders(void);
 	void						onRequestOpenLast(void);
-	void						onRequestConvertTXDToGame(bxcf::ePlatformedGame ePlatformedGame);
+	void						onRequestConvertTXDToGame(bxgi::ePlatformedGame ePlatformedGame);
 	void						onRequestConvertTXDToRWVersion(bxgi::CRWVersion *pRWVersion);
 	void						onRequestDump(void);
 	void						onRequestSessionManager(void);

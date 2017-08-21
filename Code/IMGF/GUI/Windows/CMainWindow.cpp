@@ -1,4 +1,5 @@
 #include "CMainWindow.h"
+#include "Event/EInputEvents.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "Controls/CButtonControl.h"
 #include "Controls/CGridControl.h"
@@ -6,8 +7,6 @@
 #include "GUI/Window/CWindowManager.h"
 #include "Static/CInput.h"
 #include "GraphicsLibrary/CGraphicsLibrary.h"
-#include "Event/CEventManager.h"
-#include "Event/eEvent.h"
 #include "Globals.h"
 #include "CIMGF.h"
 #include "Task/CTaskManager.h"
@@ -24,6 +23,7 @@ using namespace std;
 using namespace bxcf;
 using namespace imgf::mainLayer::mainMenuType;
 using namespace imgf::layers;
+using namespace bxgx::control::events;
 
 CMainWindow::CMainWindow(void) :
 	m_uiMainMenuType(FORMATS),
@@ -66,10 +66,8 @@ void					CMainWindow::initLayers(void)
 	initSettingsMenuLayer();
 	initEditors();
 
-	CEventManager::get()->bindEvent(EVENT_onResizeWindow, [](void* pArg1, void* pArg2) {
-		((CMainWindow*)pArg1)->repositionAndResizeControls();
-	}, this);
-	repositionAndResizeControls();
+	bindEvent(RESIZE_WINDOW, &CMainWindow::repositionAndResizeControls);
+	repositionAndResizeControls(Vec2i(0, 0));
 }
 
 // layer initialization
@@ -179,7 +177,7 @@ void					CMainWindow::initEditors(void)
 }
 
 // layer repositioning and resizing
-void					CMainWindow::repositionAndResizeControls(void)
+void					CMainWindow::repositionAndResizeControls(Vec2i& vecSizeDifference)
 {
 	int32
 		x, y, w, h;

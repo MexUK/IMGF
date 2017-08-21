@@ -126,7 +126,7 @@
 #include "EntryViewer/CCollisionViewer.h"
 #include "Tasks/Renamer/CRenamedIMGEntry.h"
 #include "Format/RW/CTextureEntry.h"
-#include "Collection/Games/eGame.h"
+#include "Games/eGame.h"
 #include "CLastUsedValueManager.h"
 #include "Task/ETask.h"
 #include "Stream/CDataReader.h"

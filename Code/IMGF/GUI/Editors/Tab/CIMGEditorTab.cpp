@@ -179,10 +179,8 @@ void					CIMGEditorTab::initControls(void)
 {
 	bindEvents();
 
-	CEventManager::get()->bindEvent(EVENT_onResizeWindow, [](void* pArg1, void* pArg2) {
-		((CIMGEditorTab*)pArg1)->repositionAndResizeControls();
-	}, this);
-	repositionAndResizeControls();
+	bindEvent(RESIZE_WINDOW, &CIMGEditorTab::repositionAndResizeControls);
+	repositionAndResizeControls(Vec2i(0, 0));
 
 	bindEvent(SELECT_DROP_ENTRY, &CIMGEditorTab::onSelectDropEntry);
 }
@@ -193,7 +191,7 @@ void					CIMGEditorTab::removeControls(void)
 	m_pEntryGrid = nullptr;
 }
 
-void					CIMGEditorTab::repositionAndResizeControls(void)
+void					CIMGEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 {
 	Vec2i point;
 	Vec2u size, newSize;

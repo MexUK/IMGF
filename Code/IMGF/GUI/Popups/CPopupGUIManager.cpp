@@ -27,7 +27,7 @@
 #include "Language/CLanguage.h"
 #include "Tasks/Sort/CSortTypes.h"
 #include "Tasks/Sort/CSortPriorities.h"
-#include "Collection/Game/CGameManager.h"
+#include "Game/CGameManager.h"
 #include "Settings/CSettingsManager.h"
 #include "Static/CDebug.h"
 

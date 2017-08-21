@@ -195,6 +195,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\CTextureViewer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\CTextureViewerTextureData.h" />
     <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\eEntryViewerDisplayType.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Event\EEvents.h" />
     <ClInclude Include="..\..\..\Code\IMGF\FileFormat\DB\CDBEntry.h" />
     <ClInclude Include="..\..\..\Code\IMGF\FileFormat\DB\CDBFormat.h" />
     <ClInclude Include="..\..\..\Code\IMGF\FileFormat\DB\CDBManager.h" />

@@ -1,6 +1,6 @@
 #include "CWindowManager.h"
 #include "bxgx.h"
-#include "CGUIManager.h"
+#include "BXGXManager.h"
 #include "GUI/Windows/CMainWindow.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "../../Compiler/Projects/IMGF/resource.h"

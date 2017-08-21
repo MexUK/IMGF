@@ -99,7 +99,7 @@ line 0 0 0
 
 .settingsMenuButton .main_lineTop .main_text .main_spacing .main_fill_2
 
-.fileTabBarBlank .main_textBlack
+.fileTabBar:defaultText .main_textBlack
 
 .fileTabBar:tab .main_lineLeft .main_text .main_spacing .main_fill_2
 

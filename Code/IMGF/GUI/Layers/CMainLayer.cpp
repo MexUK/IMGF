@@ -1,6 +1,6 @@
 #include "CMainLayer.h"
 #include "Window/CWindow.h"
-#include "CGUIManager.h"
+#include "BXGXManager.h"
 #include "Type/Colour/CColour.h"
 #include "Controls/CTabBarControl.h"
 #include "Controls/CDropControl.h"
@@ -237,13 +237,11 @@ void		CMainLayer::initControls(void)
 	bindEvent(CHANGE_TAB, &CMainLayer::onChangeTab);
 	bindEvent(REMOVE_TAB, &CMainLayer::onRemoveTab);
 
-	CEventManager::get()->bindEvent(EVENT_onResizeWindow, [](void* pArg1, void* pArg2) {
-		((CMainLayer*)pArg1)->repositionAndResizeControls();
-	}, this);
-	repositionAndResizeControls();
+	bindEvent(RESIZE_WINDOW, &CMainLayer::repositionAndResizeControls);
+	repositionAndResizeControls(Vec2i(0, 0));
 }
 
-void		CMainLayer::repositionAndResizeControls(void)
+void		CMainLayer::repositionAndResizeControls(Vec2i& vecSizeDifference)
 {
 	CWindow *pWindow = getWindow();
 
