@@ -5,7 +5,7 @@
 #include <string>
 #include <unordered_map>
 
-class CSettingsData;
+struct CSettingsData;
 
 class CSettingsManager : public bxcf::CManager
 {

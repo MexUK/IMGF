@@ -31,6 +31,7 @@
 #include "Event/EInputEvents.h"
 #include "../BXGI/Event/EEvents.h"
 #include "Event/EInputEvents.h"
+#include "../IMGF/Event/EEvents.h"
 
 // for menu start - todo
 #include "Engine/RW/CRWManager.h"
@@ -74,7 +75,8 @@ void						CIMGEditor::init(void)
 	addControls();
 	initControls();
 
-	bindEvent(UNSERIALIZE_IMG_ENTRY, &CIMGEditor::onUnserializeEntry);
+	bindEventVoidNoRef(TASK_PROGRESS, &CIMGEditor::onTaskProgress);
+	bindEventVoidNoRef(UNSERIALIZE_IMG_ENTRY, &CIMGEditor::onUnserializeEntry);
 }
 
 // format validation
@@ -178,7 +180,13 @@ void						CIMGEditor::removeActiveFile(void)
 	removeFile((CIMGEditorTab*)getActiveFile());
 }
 
-void						CIMGEditor::onUnserializeEntry(void)
+// progress bar
+void						CIMGEditor::onUnserializeEntry(CIMGFormat *img)
+{
+	getIMGF()->getTaskManager()->onTaskProgressTick();
+}
+
+void						CIMGEditor::onTaskProgress(void)
 {
 	getIMGF()->getTaskManager()->onTaskProgressTick();
 }
@@ -1043,7 +1051,7 @@ void		CIMGEditor::addControls(void)
 	Vec2u
 		size;
 	int32
-		i, i2, x, y, w, h, w2, w3, h2, h3;
+		x, y, w, h, w2;
 	uint32
 		uiButtonHeight = 37;
 	CColour
@@ -1104,7 +1112,7 @@ void		CIMGEditor::repositionAndResizeControls(Vec2i& vecSizeDifference)
 {
 	Vec2i point;
 	Vec2u size, newSize;
-	int32 iNewX, iNewY, iNewWidth, iNewHeight;
+	int32 iNewX, iNewWidth, iNewHeight;
 
 	// grid
 	size = m_pEntryGrid->getSize();

@@ -5,7 +5,7 @@
 #include "Object/CSingleton.h"
 #include <string>
 
-struct CLSTFormat;
+class CLSTFormat;
 
 class CLSTManager : public bxcf::CFormatManager<CLSTFormat>, public bxcf::CSingleton<CLSTManager>
 {

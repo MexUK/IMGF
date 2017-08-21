@@ -66,7 +66,7 @@ void					CMainWindow::initLayers(void)
 	initSettingsMenuLayer();
 	initEditors();
 
-	bindEvent(RESIZE_WINDOW, &CMainWindow::repositionAndResizeControls);
+	bindEventVoidRef(RESIZE_WINDOW, &CMainWindow::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));
 }
 

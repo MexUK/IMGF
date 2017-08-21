@@ -179,10 +179,10 @@ void					CIMGEditorTab::initControls(void)
 {
 	bindEvents();
 
-	bindEvent(RESIZE_WINDOW, &CIMGEditorTab::repositionAndResizeControls);
+	bindEventVoidRef(RESIZE_WINDOW, &CIMGEditorTab::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));
 
-	bindEvent(SELECT_DROP_ENTRY, &CIMGEditorTab::onSelectDropEntry);
+	bindEventVoidNoRef(SELECT_DROP_ENTRY, &CIMGEditorTab::onSelectDropEntry);
 }
 
 void					CIMGEditorTab::removeControls(void)
@@ -195,7 +195,7 @@ void					CIMGEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 {
 	Vec2i point;
 	Vec2u size, newSize;
-	int32 iNewX, iNewY, iNewWidth, iNewHeight;
+	int32 iNewX, iNewWidth, iNewHeight;
 
 	// grid
 	size = m_pEntryGrid->getSize();

@@ -299,7 +299,7 @@ void		CDumpManager::process(void)
 					uint32 uiTextureIndex = 0;
 					for (auto pTexture : pTXDFile->getTextures())
 					{
-						if (!CTXDFormat::isTextureResolutionValid(pTexture->getImageSize().x, pTexture->getImageSize().y, pTXDFile->getGames()))
+						if (!CTXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getGames()))
 						{
 							vecInvalidResolutionTXDs.push_back("[" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName() + " (" + CString2::toString(pTexture->getImageSize().x) + " x " + CString2::toString(pTexture->getImageSize().y) + ")");
 						}

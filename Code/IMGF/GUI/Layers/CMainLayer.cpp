@@ -50,7 +50,7 @@ void		CMainLayer::onRemoveTab(CTabBarControlEntry *pTab)
 void		CMainLayer::addControls(void)
 {
 	int32
-		i, i2, x, y, y2, w, h, w2, w3, h2, h3;
+		x, y, y2, w, h, w2, h2, h3;
 	uint32
 		uiTitleBarHeight = getWindow()->getTitleBarHeight(),
 		uiButtonHeight = 37;
@@ -234,10 +234,10 @@ void		CMainLayer::addControls(void)
 
 void		CMainLayer::initControls(void)
 {
-	bindEvent(CHANGE_TAB, &CMainLayer::onChangeTab);
-	bindEvent(REMOVE_TAB, &CMainLayer::onRemoveTab);
+	bindEventVoidNoRef(CHANGE_TAB, &CMainLayer::onChangeTab);
+	bindEventVoidNoRef(REMOVE_TAB, &CMainLayer::onRemoveTab);
 
-	bindEvent(RESIZE_WINDOW, &CMainLayer::repositionAndResizeControls);
+	bindEventVoidRef(RESIZE_WINDOW, &CMainLayer::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));
 }
 
@@ -247,7 +247,7 @@ void		CMainLayer::repositionAndResizeControls(Vec2i& vecSizeDifference)
 
 	Vec2i point;
 	Vec2u size;
-	int32 x, y, iNewX, iNewY, iNewWidth, iNewHeight;
+	int32 x, y, iNewX, iNewWidth;
 	uint32 uiButtonHeight = 37;
 
 	// progress bar

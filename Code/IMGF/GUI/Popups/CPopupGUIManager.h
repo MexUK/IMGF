@@ -147,7 +147,7 @@ struct CSettingsData
 	bool							m_bOverwriteProtectedFiles;
 	bool							m_bAutoSave;
 	bool							m_bRemoveOldVersionOnUpdate;
-	bxcf::eLanguage				eLanguage;
+	bxcf::eLanguage					eLanguage;
 	bool							m_bNewLanguageApplied;
 	bool							m_bAutoCompressionImportReplace;
 };

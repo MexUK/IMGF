@@ -1,8 +1,9 @@
 #ifndef CSortMenuItem_H
 #define CSortMenuItem_H
 
-struct CSortMenuItem
+class CSortMenuItem
 {
+public:
 	CSortMenuItem(uint32 uiMenuHandle, CSortPriority* pPriority, CSortType* pType) :
 		m_uiMenuHandle(uiMenuHandle),
 		m_pPriority(pPriority),
@@ -11,7 +12,7 @@ struct CSortMenuItem
 
 	void				unload(void) {}
 
-	uint32		m_uiMenuHandle;
+	uint32				m_uiMenuHandle;
 	CSortPriority*		m_pPriority;
 	CSortType*			m_pType;
 };

@@ -4,7 +4,7 @@
 #include "Object/CManager.h"
 #include <string>
 
-struct CLSTFormat;
+class CLSTFormat;
 
 class CLSTProcessingManager : public bxcf::CManager
 {

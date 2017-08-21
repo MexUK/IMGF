@@ -5964,7 +5964,7 @@ void			CTaskDispatchManager::onRequestValidateAllTXDInActiveTab(void)
 						uint32 uiTextureIndex = 0;
 						for (auto pTexture : pTXDFile->getTextures())
 						{
-							if (!CTXDFormat::isTextureResolutionValid(pTexture->getImageSize().x, pTexture->getImageSize().y, pTXDFile->getGames()))
+							if (!CTXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getGames()))
 							{
 								vecCorruptTXDEntryLines.push_back(pIMGEntry->getEntryName() + " - Invalid texture resolution: " + pTexture->getDiffuseName() + " (" + CString2::toString(pTexture->getImageSize().x) + " x " + CString2::toString(pTexture->getImageSize().y) + ")");
 								break;
@@ -8184,7 +8184,7 @@ void			CTaskDispatchManager::onRequestDATPathsMover(void)
 
 			uint32 uiFirstLinkIndex = pathNode.m_wConnectedNodesStartId;
 			uint32 uiLinkCountForNode = pathNode.m_uiFlags & 0xF;
-			pathNode.m_wConnectedNodesStartId = vecDATOutputFiles[uiNewAreaIdForPathNode]->m_vecLinks.size();
+			pathNode.m_wConnectedNodesStartId = (uint16)vecDATOutputFiles[uiNewAreaIdForPathNode]->m_vecLinks.size();
 
 			CDATEntry_Paths_General_Link link;
 			for (uint32 i = 0; i < uiLinkCountForNode; i++)
@@ -8231,8 +8231,8 @@ void			CTaskDispatchManager::onRequestDATPathsMover(void)
 			bool bFound = CDATPathManager::findPathNode(vecDATOutputFiles, targetPathNode_Input, uiAreaId_Out, uiNodeId_Out);
 			if (bFound)
 			{
-				naviNode.m_usTargetNode_AreaId = uiAreaId_Out;
-				naviNode.m_usTargetNode_NodeId = uiNodeId_Out;
+				naviNode.m_usTargetNode_AreaId = (uint16)uiAreaId_Out;
+				naviNode.m_usTargetNode_NodeId = (uint16)uiNodeId_Out;
 			}
 		}
 
@@ -8250,8 +8250,8 @@ void			CTaskDispatchManager::onRequestDATPathsMover(void)
 			bool bFound = CDATPathManager::findPathNode(vecDATOutputFiles, pathNode_Input, uiAreaId_Out, uiNodeId_Out);
 			if (bFound)
 			{
-				link.m_usAreaId = uiAreaId_Out;
-				link.m_usNodeId = uiNodeId_Out;
+				link.m_usAreaId = (uint16)uiAreaId_Out;
+				link.m_usNodeId = (uint16)uiNodeId_Out;
 			}
 
 
@@ -8269,8 +8269,8 @@ void			CTaskDispatchManager::onRequestDATPathsMover(void)
 				bool bFound2 = CDATPathManager::findNaviNode(vecDATOutputFiles, naviNode_Input2, uiAreaId_Out2, uiNodeId_Out2);
 				if (bFound2)
 				{
-					link.m_usNaviAreaId = uiAreaId_Out2;
-					link.m_usNaviNodeId = uiNodeId_Out2;
+					link.m_usNaviAreaId = (uint16)uiAreaId_Out2;
+					link.m_usNaviNodeId = (uint16)uiNodeId_Out2;
 				}
 			}
 		}

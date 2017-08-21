@@ -1,5 +1,7 @@
 #include <Windows.h>
+#ifndef GLEW_STATIC
 #define GLEW_STATIC
+#endif
 #include "GL/glew.h"
 #include "GL/wglew.h"
 #include "CCollisionViewer.h"
@@ -101,10 +103,10 @@ void add_text(vertex_buffer_t * buffer, texture_font_t * font,
 			float32 s1 = glyph->s1;
 			float32 t1 = glyph->t1;
 			GLuint indices[6] = { 0, 1, 2, 0, 2, 3 };
-			vertex_t vertices[4] = { { x0, y0, 0, s0, t0, r, g, b, a },
-			{ x0, y1, 0, s0, t1, r, g, b, a },
-			{ x1, y1, 0, s1, t1, r, g, b, a },
-			{ x1, y0, 0, s1, t0, r, g, b, a } };
+			vertex_t vertices[4] = { { (float32)x0, (float32)y0, (float32)0, s0, t0, r, g, b, a },
+			{ (float32)x0, (float32)y1, (float32)0, s0, t1, r, g, b, a },
+			{ (float32)x1, (float32)y1, (float32)0, s1, t1, r, g, b, a },
+			{ (float32)x1, (float32)y0, (float32)0, s1, t0, r, g, b, a } };
 			vertex_buffer_push_back(buffer, vertices, 4, indices, 6);
 			pen->x += glyph->advance_x;
 		}
@@ -177,8 +179,8 @@ protected:
 public:
 	SolidSphere(float32 radius, unsigned int rings, unsigned int sectors)
 	{
-		float32 const R = 1. / (float32)(rings - 1);
-		float32 const S = 1. / (float32)(sectors - 1);
+		float32 const R = 1.0f / (float32)(rings - 1);
+		float32 const S = 1.0f / (float32)(sectors - 1);
 		int r, s;
 
 		vertices.resize(rings * sectors * 3);
@@ -187,10 +189,10 @@ public:
 		std::vector<GLfloat>::iterator v = vertices.begin();
 		std::vector<GLfloat>::iterator n = normals.begin();
 		std::vector<GLfloat>::iterator t = texcoords.begin();
-		for (r = 0; r < rings; r++) for (s = 0; s < sectors; s++) {
-			float32 const y = sin(-M_PI_2 + M_PI * r * R);
-			float32 const x = cos(2 * M_PI * s * S) * sin(M_PI * r * R);
-			float32 const z = sin(2 * M_PI * s * S) * sin(M_PI * r * R);
+		for (r = 0; r < (int32)rings; r++) for (s = 0; s < (int32)sectors; s++) {
+			float32 const y = (float32)sin((float32)-M_PI_2 + (float32)M_PI * (float32)r * R);
+			float32 const x = (float32)cos(2.0f * (float32)M_PI * (float32)s * S) * sin((float32)M_PI * (float32)r * R);
+			float32 const z = (float32)sin(2.0f * (float32)M_PI * (float32)s * S) * sin((float32)M_PI * (float32)r * R);
 
 			*t++ = s*S;
 			*t++ = r*R;
@@ -206,7 +208,7 @@ public:
 
 		indices.resize(rings * sectors * 4);
 		std::vector<GLushort>::iterator i = indices.begin();
-		for (r = 0; r < rings - 1; r++) for (s = 0; s < sectors - 1; s++) {
+		for (r = 0; r < (int32)rings - 1; r++) for (s = 0; s < (int32)sectors - 1; s++) {
 			*i++ = r * sectors + s;
 			*i++ = r * sectors + (s + 1);
 			*i++ = (r + 1) * sectors + (s + 1);
@@ -247,12 +249,12 @@ uint32 getFileLength(ifstream& file)
 {
 	if (!file.good()) return 0;
 
-	uint32 pos = file.tellg();
+	streampos pos = file.tellg();
 	file.seekg(0, ios::end);
-	uint32 len = file.tellg();
+	streampos len = file.tellg();
 	file.seekg(ios::beg);
 
-	return len;
+	return (uint32)len;
 }
 
 int loadshader(char* filename, GLchar** ShaderSource, uint32* len)
@@ -312,7 +314,7 @@ void						RenderText(string text, GLfloat x, GLfloat y, GLfloat scale, vector<ui
 	if (glGetError()) CInput::showMessage("glGetUniformLocation error", "Error");
 
 	//glUniform3f(glGetUniformLocation(ProgramObject, "textColor"), color[0], color[1], color[2]);
-	glUniform3f(iLocation, 0.9, 0.1, 0.1);
+	glUniform3f(iLocation, 0.9f, 0.1f, 0.1f);
 	if (glGetError()) CInput::showMessage("glUniform3f error", "Error");
 
 	glActiveTexture(GL_TEXTURE0);
@@ -369,7 +371,7 @@ void						custom_fbsize_callback(GLFWwindow* window, int width, int height)
 	//shader.Use();
 	glUniformMatrix4fv(glGetUniformLocation(ProgramObject_3DScene, "projection"), 1, GL_FALSE, glm::value_ptr(projection2));
 
-	mat4_set_orthographic(&projection, 0, width, 0, height, -1, 1);
+	mat4_set_orthographic(&projection, 0.0f, (float32)width, 0.0f, (float32)height, -1.0f, 1.0f);
 }
 
 void						handleKeypress(GLFWwindow* window, int key, int scanCode, int action, int mods)
@@ -392,7 +394,7 @@ void						handleCursorMove(GLFWwindow* window, double xpos, double ypos)
 		return;
 	}
 
-	Vec2f vecNewPosition = Vec2f((float32)xpos, ypos);
+	Vec2f vecNewPosition = Vec2f((float32)xpos, (float32)ypos);
 	if (g_vecLastMousePosition.x != 0.0f && g_vecLastMousePosition.y != 0.0f)
 	{
 		const Vec2f vecCursorMoveMultiplier = { 0.3f, 0.3f };
@@ -423,7 +425,7 @@ void						handleScrollInput(GLFWwindow * 	window, double dXOffset, double dYOffs
 {
 	float32 fMouseWheelScrollMultiplier = 5.0f;
 	CCollisionViewer *pCollisionViewer = getIMGF()->getEntryViewerManager()->getCollisionViewer();
-	pCollisionViewer->zoomCamera(-dYOffset * fMouseWheelScrollMultiplier);
+	pCollisionViewer->zoomCamera((float32)-dYOffset * fMouseWheelScrollMultiplier);
 }
 
 CCollisionViewer::CCollisionViewer(void) :
@@ -672,7 +674,7 @@ void						CCollisionViewer::init3DSceneShader(void)
 	string strData1 = CFile::getFileContent(strVertexShadersFilePath, false);
 	vertexShaderChars = strData1.c_str();
 	GLchar const* files1[] = { strData1.c_str() };
-	GLint lengths1[] = { strData1.size() };
+	GLint lengths1[] = { (int32)strData1.size() };
 
 	string strFragmentShadersFilePath = "C:\\Users\\James\\Documents\\Visual Studio 2013\\Projects\\IMG-Factory\\Debug\\fragment-shaders-2.glsl";
 	uint32 uiFileSize2 = CFile::getFileSize(strFragmentShadersFilePath);
@@ -682,7 +684,7 @@ void						CCollisionViewer::init3DSceneShader(void)
 	string strData2 = CFile::getFileContent(strFragmentShadersFilePath, false);
 	fragmentShaderChars = strData2.c_str();
 	GLchar const* files2[] = { strData2.c_str() };
-	GLint lengths2[] = { strData2.size() };
+	GLint lengths2[] = { (int32)strData2.size() };
 
 	GLint uiLengths1 = uiFileSize2;
 	glShaderSource(vertexShader2, 1, files1, lengths1);
@@ -801,9 +803,9 @@ void						CCollisionViewer::initTextStuff(void)
 				// Now store character for later use
 				Character character = {
 				texture,
-				g_face->glyph->bitmap.width, g_face->glyph->bitmap.rows,
+				(int32)g_face->glyph->bitmap.width, (int32)g_face->glyph->bitmap.rows,
 				g_face->glyph->bitmap_left, g_face->glyph->bitmap_top,
-				g_face->glyph->advance.x
+				(GLuint)g_face->glyph->advance.x
 				};
 				Characters.insert(std::pair<char, Character>(c, character));
 				}
@@ -823,7 +825,7 @@ void						CCollisionViewer::initTextStuff(void)
 				string strData1 = CFile::getFileContent(strVertexShadersFilePath, false);
 				vertexShaderChars = strData1.c_str();
 				GLchar const* files1[] = { strData1.c_str() };
-				GLint lengths1[] = { strData1.size() };
+				GLint lengths1[] = { (int32)strData1.size() };
 
 				string strFragmentShadersFilePath = "C:\\Users\\James\\Documents\\Visual Studio 2013\\Projects\\IMG-Factory\\Debug\\fragment-shaders.glsl";
 				uint32 uiFileSize2 = CFile::getFileSize(strFragmentShadersFilePath);
@@ -833,7 +835,7 @@ void						CCollisionViewer::initTextStuff(void)
 				string strData2 = CFile::getFileContent(strFragmentShadersFilePath, false);
 				fragmentShaderChars = strData2.c_str();
 				GLchar const* files2[] = { strData2.c_str() };
-				GLint lengths2[] = { strData2.size() };
+				GLint lengths2[] = { (int32)strData2.size() };
 
 				GLint uiLengths1 = uiFileSize2;
 				glShaderSource(vertexShader, 1, files1, lengths1);
@@ -1215,7 +1217,7 @@ void						CCollisionViewer::renderBackground(void)
 	glShadeModel(GL_SMOOTH);
 	glBegin(GL_QUADS);
 	//if (glGetError()) CInput::showMessage("BG glBegin error", "Error");
-	Vec2f vecBackgroundArea((int32) w, h);
+	Vec2f vecBackgroundArea((float32)w, (float32)h);
 	vector<Vec2f> vecBackgroundPoints = {
 		{ -vecBackgroundArea.x / 2, -vecBackgroundArea.y / 2 },
 		{ vecBackgroundArea.x / 2, -vecBackgroundArea.y / 2 },
@@ -1295,7 +1297,7 @@ void						CCollisionViewer::renderBoundingSphere(void)
 	glColor3ub(255, 0, 255);
 	for (uint32 i = 0, j = 360, step = 1; i < j; i += step)
 	{
-		Vec3f vecPosition = CMath::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, CMath::convertDegreesToRadians(i), CMath::convertDegreesToRadians(0.0f));
+		Vec3f vecPosition = CMath::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, CMath::convertDegreesToRadians((float32)i), CMath::convertDegreesToRadians(0.0f));
 		vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
 		glVertex3f(vecPosition.x, vecPosition.z, vecPosition.y);
 		//CDebugger::log("m_fRadius: " + CString2::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + CString2::toString(vecPosition.x) + ", " + CString2::toString(vecPosition.y) + ", " + CString2::toString(vecPosition.z));
@@ -1306,7 +1308,7 @@ void						CCollisionViewer::renderBoundingSphere(void)
 	glColor3ub(255, 0, 255);
 	for (uint32 i = 0, j = 360, step = 1; i < j; i += step)
 	{
-		Vec3f vecPosition = CMath::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, CMath::convertDegreesToRadians(90.0f), CMath::convertDegreesToRadians(i));
+		Vec3f vecPosition = CMath::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, CMath::convertDegreesToRadians(90.0f), CMath::convertDegreesToRadians((float32)i));
 		vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
 		glVertex3f(vecPosition.x, vecPosition.z, vecPosition.y);
 		//CDebugger::log("m_fRadius: " + CString2::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + CString2::toString(vecPosition.x) + ", " + CString2::toString(vecPosition.y) + ", " + CString2::toString(vecPosition.z));
@@ -1317,7 +1319,7 @@ void						CCollisionViewer::renderBoundingSphere(void)
 	glColor3ub(255, 0, 255);
 	for (uint32 i = 0, j = 360, step = 1; i < j; i += step)
 	{
-		Vec3f vecPosition = CMath::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, CMath::convertDegreesToRadians(i), CMath::convertDegreesToRadians(90.0f));
+		Vec3f vecPosition = CMath::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, CMath::convertDegreesToRadians((float32)i), CMath::convertDegreesToRadians(90.0f));
 		vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
 		glVertex3f(vecPosition.x, vecPosition.z, vecPosition.y);
 		//CDebugger::log("m_fRadius: " + CString2::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + CString2::toString(vecPosition.x) + ", " + CString2::toString(vecPosition.y) + ", " + CString2::toString(vecPosition.z));
@@ -1597,7 +1599,7 @@ void						CCollisionViewer::renderLeftPanelBackground(void)
 
 	glShadeModel(GL_SMOOTH);
 	glBegin(GL_QUADS);
-	Vec2f vecBackgroundArea((int32) w, h);
+	Vec2f vecBackgroundArea((float32)w, (float32)h);
 	vector<Vec2f> vecBackgroundPoints = {
 		{ -vecBackgroundArea.x / 2,						-vecBackgroundArea.y / 2 },
 		{ (-vecBackgroundArea.x / 2) + 200.0f + 7.5f,	-vecBackgroundArea.y / 2 },
@@ -1626,7 +1628,7 @@ void						CCollisionViewer::renderBottomPanelBackground(void)
 
 	glShadeModel(GL_SMOOTH);
 	glBegin(GL_QUADS);
-	Vec2f vecBackgroundArea((int32) w, h);
+	Vec2f vecBackgroundArea((float32)w, (float32)h);
 	vector<Vec2f> vecBackgroundPoints = {
 		{ vecBackgroundArea.x / 2,				(vecBackgroundArea.y / 2) - 150.0f },
 		{ (-vecBackgroundArea.x / 2) + 200.0f,	(vecBackgroundArea.y / 2) - 150.0f },
@@ -1635,7 +1637,7 @@ void						CCollisionViewer::renderBottomPanelBackground(void)
 	};
 	uint32 i = 0;
 	float32 fInterpolateRatio = ((vecBackgroundArea.y - 150.0f) / vecBackgroundArea.y);
-	uint8 ucColour1 = 120 - (fInterpolateRatio * ((float32)(120 - 73)));
+	uint8 ucColour1 = (uint8)((uint8)120 - (fInterpolateRatio * ((float32)(120 - 73))));
 	glColor3ub(ucColour1, ucColour1, ucColour1);
 	for (auto vecVertex : vecBackgroundPoints)
 	{
@@ -1658,7 +1660,7 @@ void						CCollisionViewer::renderPanelLineSeparators(void)
 	// line separators
 	glBegin(GL_QUADS);
 	glColor3ub(0, 0, 0);
-	Vec2f vecBackgroundArea2((int32)w, h);
+	Vec2f vecBackgroundArea2((float32)w, (float32)h);
 	vector<Vec2f> vecLineSeparatorsPoints = {
 		// horizontal line - below add/remove buttons
 		{ -vecBackgroundArea2.x / 2,						(-vecBackgroundArea2.y / 2) + 50.0f },

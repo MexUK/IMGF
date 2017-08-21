@@ -1132,7 +1132,7 @@ LRESULT CALLBACK	WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		case VK_NEXT:
 			iNextTextureIndex = pTextureViewer->getActiveEntry()->m_uiIndex + 5;
-			if (iNextTextureIndex > uiMaxTextureIndex)
+			if (iNextTextureIndex > (int32)uiMaxTextureIndex)
 			{
 				iNextTextureIndex = uiMaxTextureIndex;
 			}
@@ -1166,7 +1166,7 @@ LRESULT CALLBACK	WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		case VK_DOWN:
 			iNextTextureIndex = pTextureViewer->getActiveEntry()->m_uiIndex + 1;
-			if (iNextTextureIndex <= uiMaxTextureIndex)
+			if (iNextTextureIndex <= (int32)uiMaxTextureIndex)
 			{
 				pTexData = pTextureViewer->getEntryByIndex(iNextTextureIndex);
 				pTextureViewer->setActiveEntry(pTexData);
@@ -1481,7 +1481,7 @@ void			CTextureViewer::renderDisplayType_Single(void)
 
 			SIZE textSize2;
 			GetTextExtentPoint32(hdc, CString2::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &textSize2);
-			if (textSize2.cx > uiCalculatedWidth)
+			if (textSize2.cx > (int32)uiCalculatedWidth)
 			{
 				uiCalculatedWidth = textSize2.cx;
 			}
@@ -1541,7 +1541,7 @@ void			CTextureViewer::renderDisplayType_Single(void)
 
 			SIZE textSize2;
 			GetTextExtentPoint32(hdc, CString2::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &textSize2);
-			if (textSize2.cx > uiCalculatedWidth)
+			if (textSize2.cx > (int32)uiCalculatedWidth)
 			{
 				uiCalculatedWidth = textSize2.cx;
 			}
@@ -1657,8 +1657,8 @@ void			CTextureViewer::renderDisplayType_Single(void)
 			{
 				old = (HBITMAP)SelectObject(memDC, pImageData->m_hBitmap);
 
-				uint32 uiImageWidthWhenHeightIs128 = ((float32)128.0f / (float32)pImageData->m_uiHeight) * pImageData->m_uiWidth;
-				uint32 uiImageHeightWhenWidthIs128 = ((float32)128.0f / (float32)pImageData->m_uiWidth) * pImageData->m_uiHeight;
+				uint32 uiImageWidthWhenHeightIs128 = (uint32)(((float32)128.0f / (float32)pImageData->m_uiHeight) * (float32)pImageData->m_uiWidth);
+				uint32 uiImageHeightWhenWidthIs128 = (uint32)(((float32)128.0f / (float32)pImageData->m_uiWidth) * (float32)pImageData->m_uiHeight);
 
 				uint32 uiDestWidth;
 				uint32 uiDestHeight;
@@ -1675,7 +1675,7 @@ void			CTextureViewer::renderDisplayType_Single(void)
 
 				//StretchBlt(hdc, uiImageX + 20, uiImageY - yCurrentScroll, uiDestWidth, uiDestHeight, memDC, 0, 0, pImageData->m_uiWidth, pImageData->m_uiHeight, SRCCOPY);
 				uint32 uiAlpha = 255;
-				BLENDFUNCTION bf = { AC_SRC_OVER, 0, uiAlpha, AC_SRC_ALPHA };
+				BLENDFUNCTION bf = { AC_SRC_OVER, (uint8)0,  (uint8)uiAlpha, AC_SRC_ALPHA };
 				AlphaBlend(hdc, uiImageX + 20, uiImageY - yCurrentScroll, uiDestWidth, uiDestHeight, memDC, 0, 0, pImageData->m_uiWidth, pImageData->m_uiHeight, bf);
 				uiImageY += 128;
 			}
@@ -1740,14 +1740,14 @@ void			CTextureViewer::renderDisplayType_Single(void)
 	//float32 fZoom = 4.0;
 	//uint32 uiDestinationWidth = ((float32)pActiveImageData->m_uiWidth) * fZoom;
 	//uint32 uiDestinationHeight = ((float32)pActiveImageData->m_uiHeight) * fZoom;
-	uint32 uiDestinationWidth = (float32)pActiveImageData->m_uiWidth * getIMGF()->getEntryViewerManager()->getTextureViewer()->getZoomLevel();
-	uint32 uiDestinationHeight = (float32)pActiveImageData->m_uiHeight * getIMGF()->getEntryViewerManager()->getTextureViewer()->getZoomLevel();
+	uint32 uiDestinationWidth = (uint32)((float32)pActiveImageData->m_uiWidth * getIMGF()->getEntryViewerManager()->getTextureViewer()->getZoomLevel());
+	uint32 uiDestinationHeight = (uint32)((float32)pActiveImageData->m_uiHeight * getIMGF()->getEntryViewerManager()->getTextureViewer()->getZoomLevel());
 
 	//BitBlt(hdc, g_uiLeftPanelWidth, 50 + 1, uiDestinationWidth, uiDestinationHeight, memDC, 0, 0, SRCCOPY);
 	//StretchBlt(hdc, g_uiLeftPanelWidth, 50 + 1, uiDestinationWidth, uiDestinationHeight, memDC, 0, 0, pActiveImageData->m_uiWidth, pActiveImageData->m_uiHeight, SRCCOPY);
 
 	uint32 uiAlpha = 255;
-	BLENDFUNCTION bf = { AC_SRC_OVER, 0, uiAlpha, AC_SRC_ALPHA };
+	BLENDFUNCTION bf = { AC_SRC_OVER, (uint8)0, (uint8)uiAlpha, AC_SRC_ALPHA };
 	AlphaBlend(hdc, g_uiLeftPanelWidth, 50 + 1, uiDestinationWidth, uiDestinationHeight, memDC, 0, 0, pActiveImageData->m_uiWidth, pActiveImageData->m_uiHeight, bf);
 
 	//TransparentBlt(hdc, g_uiLeftPanelWidth, 50 + 1, uiDestinationWidth, uiDestinationHeight, memDC, 0, 0, pActiveImageData->m_uiWidth, pActiveImageData->m_uiHeight, RGB(255,255,255));
@@ -1803,7 +1803,7 @@ void			CTextureViewer::renderDisplayType_Single(void)
 	if (false)
 	{
 		uint32 uiMaxXPosition = uiImageX + uiCalculatedWidth + uiImagePaddingRight;
-		if (clientRect.bottom > uiMaxXPosition)
+		if (clientRect.bottom > (int32)uiMaxXPosition)
 		{
 			uiMaxXPosition = clientRect.bottom;
 		}
@@ -1888,7 +1888,7 @@ void			CTextureViewer::renderDisplayType_Float(void)
 
 		SIZE textSize2;
 		GetTextExtentPoint32(hdc, CString2::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &textSize2);
-		if (textSize2.cx > uiCalculatedWidth)
+		if (textSize2.cx > (int32)uiCalculatedWidth)
 		{
 			uiCalculatedWidth = textSize2.cx;
 		}
@@ -1899,7 +1899,7 @@ void			CTextureViewer::renderDisplayType_Float(void)
 		}
 
 		// texture calculations 1
-		if ((uiImageX + uiCalculatedWidth /*+ uiImagePaddingRight*/) > clientRect.right/*uiEntryViewerWindowClientAreaWidth*/)
+		if ((int32)(uiImageX + uiCalculatedWidth /*+ uiImagePaddingRight*/) > clientRect.right/*uiEntryViewerWindowClientAreaWidth*/)
 		{
 			uiImageX = 0;
 			uiImageY += uiHighestImageInRow + 40 + uiImagePaddingBottom;
@@ -1940,7 +1940,7 @@ void			CTextureViewer::renderDisplayType_Float(void)
 
 		//BitBlt(hdc, uiImageX, uiImageY + 40 - yCurrentScroll, width, height, memDC, 0, 0, SRCCOPY);
 		uint32 uiAlpha = 255;
-		BLENDFUNCTION bf = { AC_SRC_OVER, 0, uiAlpha, AC_SRC_ALPHA };
+		BLENDFUNCTION bf = { AC_SRC_OVER, (uint8)0, (uint8)uiAlpha, AC_SRC_ALPHA };
 		AlphaBlend(hdc, uiImageX, uiImageY + 40 - yCurrentScroll, pImageData->m_uiWidth, pImageData->m_uiHeight, memDC, 0, 0, pImageData->m_uiWidth, pImageData->m_uiHeight, bf);
 
 		// texture calculations 2
@@ -1954,7 +1954,7 @@ void			CTextureViewer::renderDisplayType_Float(void)
 	}
 
 	uint32 uiMaxYPosition = uiImageY + uiHighestImageInRow + uiImagePaddingBottom;
-	if (clientRect.bottom > uiMaxYPosition)
+	if (clientRect.bottom > (int32)uiMaxYPosition)
 	{
 		uiMaxYPosition = clientRect.bottom;
 	}

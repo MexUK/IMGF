@@ -34,8 +34,9 @@ public:
 	void						removeFile(CIMGEditorTab *pIMGEditorFile);
 	void						removeActiveFile(void);
 	
-	void						onUnserializeEntry(void);
-	
+	void						onUnserializeEntry(bxgi::CIMGFormat *img);
+	void						onTaskProgress(void);
+
 	void						setFileInfoText(CEditorTab *pEditorFile);
 	void						clearFileInfoText(void);
 

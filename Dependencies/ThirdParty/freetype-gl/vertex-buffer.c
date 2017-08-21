@@ -662,7 +662,7 @@ vertex_buffer_erase( vertex_buffer_t * self,
     for( i=0; i<vector_size(self->items); ++i )
     {
         ivec4 * item = (ivec4 *) vector_get( self->items, i );
-        if( item->vstart > vstart)
+        if( item->vstart > (int)vstart)
         {
             item->vstart -= vcount;
             item->istart -= icount;
