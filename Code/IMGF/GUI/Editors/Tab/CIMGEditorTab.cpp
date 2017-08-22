@@ -43,6 +43,7 @@
 #include "Controls/CDropControl.h"
 #include "Format/EFileType.h"
 #include "Event/EInputEvents.h"
+#include "Control/CGUIScrollPool.h"
 #include <map>
 #include <algorithm>
 

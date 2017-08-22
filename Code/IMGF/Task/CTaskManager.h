@@ -6,7 +6,6 @@
 #include "Object/CManager.h"
 #include <string>
 #include <vector>
-#include <unordered_map>
 
 class CTaskDispatchManager;
 class CTaskDurationManager;

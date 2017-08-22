@@ -1,7 +1,7 @@
 #ifndef CRenamedIMGEntry_H
 #define CRenamedIMGEntry_H
 
-#include "bxcf.h"
+#include "bxgi.h"
 
 struct CRenamedIMGEntry
 {

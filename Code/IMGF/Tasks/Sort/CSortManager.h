@@ -4,10 +4,8 @@
 #include "bxcf.h"
 #include "bxgi.h"
 #include "Object/CManager.h"
-#include "Pool/CVectorPool.h"
 #include <string>
 #include <vector>
-#include <unordered_map>
 
 class bxgi::CIMGFormat;
 class bxgi::CIMGEntry;

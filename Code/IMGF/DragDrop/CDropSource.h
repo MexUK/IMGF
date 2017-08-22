@@ -2,7 +2,6 @@
 #define CDropSource_H
 
 #include <ObjIdl.h>
-#include <string>
 #include <vector>
 
 struct CDraggableFile;

@@ -5,7 +5,6 @@
 #include "Pool/CVectorPool.h"
 #include "CLSTSection.h"
 #include <string>
-#include <vector>
 
 class CLSTFormat : public bxcf::CFormat, public bxcf::CVectorPool<CLSTSection*>
 {

@@ -5,7 +5,6 @@
 #include "Pool/CVectorPool.h"
 #include "CLSTEntry.h"
 #include <string>
-#include <vector>
 
 class CLSTSection : public bxcf::CVectorPool<CLSTEntry*>
 {

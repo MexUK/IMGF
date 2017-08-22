@@ -6,8 +6,6 @@
 #include "Format/TXD/eTXDRasterDataFormat.h"
 #include "Image/eDXTCompressionType.h"
 #include "d3d9.h"
-#include <string>
-#include <vector>
 
 LRESULT CALLBACK	WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void				onPaint(HWND hwnd);

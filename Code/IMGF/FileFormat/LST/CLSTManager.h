@@ -3,7 +3,6 @@
 
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
-#include <string>
 
 class CLSTFormat;
 
