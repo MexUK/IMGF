@@ -80,6 +80,7 @@ public:
 	static std::string						getDateTextForFolder(void);
 	static std::string						escapeMenuText(std::string& strText);
 	static bool								isIn(std::string& strText, std::string strFind, bool bCaseSensitive = false, uint32 uiStartIndex = 0);
+	static uint32							getHitCount(std::string& strText, std::string strFind, bool bCaseSensitive = false, uint32 uiStartIndex = 0);
 	static std::string						readStringUntilZero(std::string& strData);
 	static std::string						readStringUntilSpace(std::string& strData);
 	static std::string						stripNumbersFromRight(std::string& strText);

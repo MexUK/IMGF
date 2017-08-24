@@ -1,5 +1,5 @@
 #include "CMainWindow.h"
-#include "Event/EInputEvents.h"
+#include "Event/EInputEvent.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "Controls/CButtonControl.h"
 #include "Controls/CGridControl.h"

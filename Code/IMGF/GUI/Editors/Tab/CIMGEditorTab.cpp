@@ -42,7 +42,7 @@
 #include "Controls/CTextBoxControl.h"
 #include "Controls/CDropControl.h"
 #include "Format/EFileType.h"
-#include "Event/EInputEvents.h"
+#include "Event/EInputEvent.h"
 #include "Control/CGUIScrollPool.h"
 #include <map>
 #include <algorithm>

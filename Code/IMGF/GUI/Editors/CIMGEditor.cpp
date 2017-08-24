@@ -28,9 +28,9 @@
 #include "Static/CInput.h"
 #include "Control/CGUIScrollPool.h"
 #include "GUI/Layers/CMainLayer.h"
-#include "Event/EInputEvents.h"
+#include "Event/EInputEvent.h"
 #include "../BXGI/Event/EEvents.h"
-#include "Event/EInputEvents.h"
+#include "Event/EInputEvent.h"
 #include "../IMGF/Event/EEvents.h"
 
 // for menu start - todo
