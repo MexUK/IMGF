@@ -1,11 +1,7 @@
 #ifndef CColour_H
 #define CColour_H
 
-#define _USE_MATH_DEFINES
-
 #include "bxcf.h"
-#include "Type/Vector/Vec4u8.h"
-#include <math.h>
 
 class bxcf::CColour
 {

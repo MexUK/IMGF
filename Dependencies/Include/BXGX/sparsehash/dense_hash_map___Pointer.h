@@ -106,17 +106,17 @@
 
 
 
-#include "Event/CGUIEventUtilizer.h"
+#include "Renderable/CRenderable.h"
 
-class CGUIEventUtilizerBlank : public CGUIEventUtilizer
+class CRenderableBlank : public CRenderable
 {
-	uint32 getItemType(void) { return -1; }
+	bxgx::item::ERenderable getItemType(void) { return (bxgx::item::ERenderable)0; }
 	uint32 getItemSubType(void) { return -1; }
 	bool isPointInItem(bxcf::Vec2i& vec) { return false; }
 	bool doesItemHaveFocus(void) { return false; }
 };
 
-static CGUIEventUtilizerBlank * g_pBlankGUIEventUtilizer = new CGUIEventUtilizerBlank;
+static CRenderableBlank * g_pBlankGUIEventUtilizer = new CRenderableBlank;
 
 
 

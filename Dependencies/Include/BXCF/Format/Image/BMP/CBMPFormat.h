@@ -5,7 +5,6 @@
 #include "Type/Types.h"
 #include "Format/CFormat.h"
 #include <string>
-#include <vector>
 
 class bxcf::CBMPFormat : public bxcf::CFormat
 {

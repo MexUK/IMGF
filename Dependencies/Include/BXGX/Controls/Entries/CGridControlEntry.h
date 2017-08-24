@@ -23,6 +23,10 @@ public:
 
 	std::vector<std::vector<std::string>>&	getText(void) { return m_vecText; }
 	
+	uint32									getRowIndex(void);
+
+	bool									isRowDisplayedWithinScrollRange(void);
+
 private:
 	CGridControl*							m_pGrid;
 	uint8									m_bSelected;

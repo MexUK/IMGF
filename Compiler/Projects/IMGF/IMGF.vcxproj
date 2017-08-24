@@ -45,14 +45,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
-    <IncludePath>..\..\..\Code\IMGF\;..\..\..\Code\IMGF\FileFormat\;..\..\..\Dependencies\ThirdParty\HappyHTTP;..\..\..\Dependencies\ThirdParty\GLEW;..\..\..\Dependencies\ThirdParty\Freetype\include;..\..\..\Dependencies\ThirdParty\GLFW;..\..\..\Dependencies\ThirdParty\GLFW\include\;..\..\..\Dependencies\ThirdParty\freetype-gl;..\..\..\Dependencies\ThirdParty\INI;..\..\..\Dependencies\ThirdParty\Bitmap;..\..\..\Dependencies\ThirdParty\;../../../../BXCF/Code/BXCF/;../../../../BXGX/Code/BXGX/;../../../../BXGI/Code/BXGI/;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\..\Code\IMGF\;..\..\..\Code\IMGF\Format\;..\..\..\Dependencies\ThirdParty\HappyHTTP;..\..\..\Dependencies\ThirdParty\GLEW;..\..\..\Dependencies\ThirdParty\Freetype\include;..\..\..\Dependencies\ThirdParty\GLFW;..\..\..\Dependencies\ThirdParty\GLFW\include\;..\..\..\Dependencies\ThirdParty\freetype-gl;..\..\..\Dependencies\ThirdParty\INI;..\..\..\Dependencies\ThirdParty\Bitmap;..\..\..\Dependencies\ThirdParty\;../../../../BXCF/Code/BXCF/;../../../../BXGX/Code/BXGX/;../../../../BXGI/Code/BXGI/;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\BXCF\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\ThirdParty\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXGX\BXGX\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXGI\BXGI\Debug;$(LibraryPath)</LibraryPath>
     <TargetName>IMG Factory</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
-    <IncludePath>..\..\..\Code\IMGF\;..\..\..\Code\IMGF\FileFormat\;..\..\..\Dependencies\ThirdParty\HappyHTTP;..\..\..\Dependencies\ThirdParty\GLEW;..\..\..\Dependencies\ThirdParty\Freetype\include;..\..\..\Dependencies\ThirdParty\GLFW;..\..\..\Dependencies\ThirdParty\GLFW\include\;..\..\..\Dependencies\ThirdParty\freetype-gl;..\..\..\Dependencies\ThirdParty\INI;..\..\..\Dependencies\ThirdParty\Bitmap;..\..\..\Dependencies\ThirdParty\;../../../Dependencies/Include/BXCF/;../../../Dependencies/Include/BXGX/;../../../Dependencies/Include/BXGI/;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\..\Code\IMGF\;..\..\..\Code\IMGF\Format\;..\..\..\Dependencies\ThirdParty\HappyHTTP;..\..\..\Dependencies\ThirdParty\GLEW;..\..\..\Dependencies\ThirdParty\Freetype\include;..\..\..\Dependencies\ThirdParty\GLFW;..\..\..\Dependencies\ThirdParty\GLFW\include\;..\..\..\Dependencies\ThirdParty\freetype-gl;..\..\..\Dependencies\ThirdParty\INI;..\..\..\Dependencies\ThirdParty\Bitmap;..\..\..\Dependencies\ThirdParty\;../../../Dependencies/Include/BXCF/;../../../Dependencies/Include/BXGX/;../../../Dependencies/Include/BXGI/;$(IncludePath)</IncludePath>
     <LibraryPath>../../../Dependencies/Lib/$(Configuration)/;../../../Dependencies/Lib/ThirdParty/$(Configuration)/;$(LibraryPath)</LibraryPath>
     <TargetName>IMG Factory</TargetName>
   </PropertyGroup>
@@ -64,8 +64,8 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PreprocessorDefinitions>_GLFW_USE_OPENGL;_GLFW_WIN32;_GLFW_WGL;GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowIncludes>false</ShowIncludes>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MinimalRebuild>false</MinimalRebuild>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MinimalRebuild>true</MinimalRebuild>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -109,6 +109,10 @@
     <PreBuildEvent>
       <Message>Build Number</Message>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.cpp" />
@@ -121,13 +125,13 @@
     <ClCompile Include="..\..\..\Code\IMGF\EntryViewer\CEntryViewer.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\EntryViewer\CEntryViewerManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\EntryViewer\CTextureViewer.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\DB\CDBEntry.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\DB\CDBFormat.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\DB\CDBManager.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTEntry.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTFormat.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTSection.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTManager.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Format\DB\CDBEntry.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Format\DB\CDBFormat.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Format\DB\CDBManager.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Format\LST\CLSTEntry.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Format\LST\CLSTFormat.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Format\LST\CLSTSection.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Format\LST\CLSTManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Globals.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editors\CIMGEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editors\Tab\CIMGEditorTab.cpp" />
@@ -200,13 +204,13 @@
     <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\CTextureViewerTextureData.h" />
     <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\eEntryViewerDisplayType.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Event\EEvents.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\DB\CDBEntry.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\DB\CDBFormat.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\DB\CDBManager.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTEntry.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTFormat.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTSection.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTManager.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Format\DB\CDBEntry.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Format\DB\CDBFormat.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Format\DB\CDBManager.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Format\LST\CLSTEntry.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Format\LST\CLSTFormat.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Format\LST\CLSTSection.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Format\LST\CLSTManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Globals.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\CIMGEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\CTextureEditor.h" />

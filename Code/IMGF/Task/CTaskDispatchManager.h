@@ -25,12 +25,21 @@ public:
 private:
 	std::string&				getTaskName(void);
 
+	std::vector<std::string>	openFile(std::string strExtensionFilters = "", bool bAllowMultiSelect = true, std::string strDefaultFileName = "");
+	std::string					saveFile(std::string strExtensionFilters = "", std::string strDefaultFileName = "");
+	std::string					openFolder(std::string strTitle, std::string strInitialDir = "");
+	std::string					saveFolder(std::string strTitle, std::string strInitialDir = "");
+
+	void						onStartTask(std::string strTaskName);
+	void						onCompleteTask(void);
+	void						onAbortTask(void);
+
 public:
 	void						init(void);
 	void						uninit(void);
 
 	void						chooseFilesToOpen(void); // todo - remove all "onRequest" from start of function names and change first characters to lowercase.
-	void						openFile(std::string& strFilePath);
+	void						_openFile(std::string& strFilePath);
 	void						closeActiveFile(void);
 	bool						saveAllOpenFiles(bool bCloseAll);
 

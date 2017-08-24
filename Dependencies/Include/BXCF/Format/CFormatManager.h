@@ -3,8 +3,6 @@
 
 #include "bxcf.h"
 #include "Object/CManager.h"
-#include "Format/CFormat.h"
-#include "Format/EFileType.h"
 #include <string>
 
 template<class T>

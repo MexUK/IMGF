@@ -4,8 +4,6 @@
 #include "Type/Types.h"
 #include "Control/CGUIControl.h"
 #include "Controls/Components/CGUIControlComponent_Text.h"
-#include <string>
-#include <vector>
 
 class CButtonControl : public CGUIControl, public CGUIControlComponent_Text
 {
@@ -25,7 +23,7 @@ public:
 	bool									onMouseExit(bxcf::Vec2i& vecCursorPosition);
 	void									onRender(void);
 
-	bool									applyCursorHoverIcon(void);
+	bool									doesControlUsePosition(bxcf::Vec2i& vecPoint) { return true; }
 
 	void									setCursorHoverActive(bool bCursorHoverIsActive) { m_bCursorHoverIsActive = bCursorHoverIsActive; }
 	bool									isCursorHoverActive(void) { return m_bCursorHoverIsActive; }

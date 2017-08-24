@@ -109,7 +109,7 @@ CIMGEditorTab*				CIMGEditor::addFile(CIMGFormat *img)
 	CIMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img);
 
 	string strFileName = CPath::getFileName(img->getFilePath());
-	imgEditorTab->logf("Opened %s", strFileName);
+	imgEditorTab->logf("Opened %s", strFileName.c_str());
 
 	return imgEditorTab;
 }
@@ -123,7 +123,7 @@ CIMGEditorTab*				CIMGEditor::addBlankFile(string strIMGPath, eIMGVersion eIMGVe
 	CIMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img);
 
 	string strFileName = CPath::getFileName(img->getFilePath());
-	imgEditorTab->logf("Created %s", strFileName);
+	imgEditorTab->logf("Created %s", strFileName.c_str());
 
 	return imgEditorTab;
 }
@@ -196,12 +196,16 @@ void						CIMGEditor::setFileInfoText(CEditorTab *pEditorFile)
 {
 	CMainLayer *pMainLayer = m_pMainWindow->getMainLayer();
 
+	//CDebug::log("setFileInfoText start");
+
 	pMainLayer->m_pText_Game->setText(string("A"));
 	pMainLayer->m_pText_GameValidity->setText(string("-"));
 	pMainLayer->m_pText_GameLocation->setText(string("A"));
 	pMainLayer->m_pText_FileGame->setText(string("A"));
 	pMainLayer->m_pText_FileValidity->setText(string("-"));
-	pMainLayer->m_pText_FileLocation->setText(pEditorFile->getFile()->getFilePath());
+	pMainLayer->m_pText_FileLocation->setText(getResolvedFilePath(pEditorFile->getFile()->getFilePath()));
+
+	//CDebug::log("setFileInfoText end");
 }
 
 void						CIMGEditor::clearFileInfoText(void)
@@ -1041,6 +1045,12 @@ void					CIMGEditor::loadRightClickMenu(int xPos, int yPos)
 	// clean up
 	//DestroyMenu(hMenu);
 	*/
+}
+
+// resolved file name
+string					CIMGEditor::getResolvedFilePath(string& strFilePath)
+{
+	return CPath::replaceFileExtensionWithCase(strFilePath, "img");
 }
 
 // controls

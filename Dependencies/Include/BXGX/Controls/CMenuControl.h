@@ -5,7 +5,6 @@
 #include "Control/CGUIControl.h"
 #include "Controls/Entries/CMenuControlEntry.h"
 #include "Pool/CVectorPool.h"
-#include <string>
 
 class CMenuControl : public CGUIControl, public bxcf::CVectorPool<CMenuControlEntry*>
 {

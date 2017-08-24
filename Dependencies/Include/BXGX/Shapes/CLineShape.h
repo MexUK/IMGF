@@ -3,7 +3,6 @@
 
 #include "Type/Vector/Vec2i.h"
 #include "Type/Vector/Vec2u.h"
-#include "Shape/eGUIShape.h"
 #include "Shapes/Geometries/CGUIShapeGeometry_2xPoints.h"
 
 class CLineShape : public CGUIShapeGeometry_2xPoints

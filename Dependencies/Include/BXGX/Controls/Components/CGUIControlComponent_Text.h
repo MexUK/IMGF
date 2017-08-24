@@ -2,12 +2,10 @@
 #define CGUIControlComponent_Text_H
 
 #include "Type/Types.h"
-#include "CGUIManager.h"
+#include "BXGXManager.h"
 #include "GraphicsLibrary/CGraphicsLibrary.h"
 #include "String/CGUIString.h"
 #include <string>
-#include <Windows.h>
-#include <Gdiplus.h>
 
 class CGUIControl;
 

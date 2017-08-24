@@ -258,8 +258,8 @@ class dense_hash_map___Int {
 
   void initHashMap(void)
   {
-	  set_empty_key(-1);
-	  set_deleted_key(-2);
+	  set_empty_key((Key)-1);
+	  set_deleted_key((Key)-2);
 	  m_bMapIsInitialized = true;
   }
   

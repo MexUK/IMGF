@@ -9,8 +9,7 @@ using namespace std;
 using namespace bxcf;
 
 CTaskDurationManager::CTaskDurationManager(void) :
-	m_uiTaskPauseStartTime(0),
-	m_uiTasksPauseDuration(0)
+	m_uiTaskPauseStartTime(0)
 {
 }
 
@@ -19,26 +18,28 @@ void				CTaskDurationManager::onStartTask(string& strTaskName)
 {
 	uint32 uiTaskBeginTime = GetTickCount();
 	m_vecTaskBeginTimes.push_back(uiTaskBeginTime);
+	m_vecTaskPauseDurations.push_back(0);
 }
 
 void				CTaskDurationManager::onCompleteTask(string& strTaskName)
 {
 	uint32
 		uiTimeNow = GetTickCount(),
-		uiFeatureProcessingTime = (uiTimeNow - m_vecTaskBeginTimes[m_vecTaskBeginTimes.size() - 1]) - m_uiTasksPauseDuration;
+		uiTaskIndex = m_vecTaskBeginTimes.size() - 1,
+		uiTaskProcessingTime = (uiTimeNow - m_vecTaskBeginTimes[uiTaskIndex]) - m_vecTaskPauseDurations[uiTaskIndex];
 
 	m_vecTaskBeginTimes.pop_back();
+	m_vecTaskPauseDurations.pop_back();
 	m_uiTaskPauseStartTime = 0;
-	m_uiTasksPauseDuration = 0;
 
-	addTaskDuration(strTaskName, uiFeatureProcessingTime);
+	addTaskDuration(strTaskName, uiTaskProcessingTime);
 }
 
 void				CTaskDurationManager::onAbortTask(string& strTaskName)
 {
 	m_vecTaskBeginTimes.pop_back();
+	m_vecTaskPauseDurations.pop_back();
 	m_uiTaskPauseStartTime = 0;
-	m_uiTasksPauseDuration = 0;
 }
 
 // task pause/resume
@@ -54,7 +55,10 @@ void				CTaskDurationManager::onResumeTask(void)
 		uiTaskPausedDuration = uiResumeTaskTime - m_uiTaskPauseStartTime;
 
 	m_uiTaskPauseStartTime = 0;
-	m_uiTasksPauseDuration += uiTaskPausedDuration;
+	for (uint32 uiTaskIndex2 : m_vecTaskPauseDurations)
+	{
+		m_vecTaskPauseDurations[uiTaskIndex2] += uiTaskPausedDuration;
+	}
 }
 
 // task durations

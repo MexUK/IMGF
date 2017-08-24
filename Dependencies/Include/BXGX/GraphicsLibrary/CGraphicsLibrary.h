@@ -7,8 +7,8 @@
 #include "String/CGUIString.h"
 #include <string>
 #include <vector>
-#include <Windows.h>
-#include <gdiplus.h>
+#include <Windows.h> // for Gdiplus
+#include <gdiplus.h> // for Gdiplus::Image
 
 class CGUIStyles;
 
@@ -52,7 +52,7 @@ public:
 
 	virtual void					drawText(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, CGUIString& gstrString) = 0;
 	virtual void					drawText(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string& strText, bxcf::Vec2u vecTextSize = bxcf::Vec2u(0, 0)) = 0;
-	virtual bxcf::Vec2u			getTextSize(std::string& strText) = 0;
+	virtual bxcf::Vec2u				getTextSize(std::string& strText) = 0;
 
 	virtual void					drawImage(bxcf::Vec2i& vecPosition, std::string& strImagePath, bxcf::Vec2u vecSize = bxcf::Vec2u(0, 0)) = 0; // size defaults to image size
 	virtual void					drawImage(bxcf::Vec2i& vecPosition, Gdiplus::Image *pImage, bxcf::Vec2u vecSize = bxcf::Vec2u(0, 0)) = 0; // size defaults to image size

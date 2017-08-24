@@ -5,12 +5,8 @@
 #include "Type/Types.h"
 #include "eDataStreamType.h"
 #include "Unit/Byte/eEndian.h"
-#include "Type/Vector/Vec2f.h"
-#include "Type/Vector/Vec3f.h"
-#include "Type/Vector/Vec4f.h"
 #include <string>
 #include <vector>
-#include <fstream>
 
 /*
 Modes:

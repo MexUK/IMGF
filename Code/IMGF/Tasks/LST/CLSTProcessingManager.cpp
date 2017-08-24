@@ -72,7 +72,7 @@ void		CLSTProcessingManager::process(CLSTFormat *pLSTFile)
 			CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_27", strIMGPath.c_str()), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 			return;
 		}
-		getIMGF()->getTaskManager()->getDispatch()->openFile(strIMGPath);
+		getIMGF()->getTaskManager()->getDispatch()->_openFile(strIMGPath);
 
 		string strSourceFolderPath = "";
 		if (!pLSTFile->getEntryByName("cdimages")->doesEntryExistByName("source"))

@@ -5,5 +5,4 @@
 class CControlStyleGroup : public CStyleGroup
 {
 public:
-
 };

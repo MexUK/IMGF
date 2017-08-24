@@ -651,7 +651,7 @@ void					CIMGEditorTab::addGridEntries(void)
 		((CGridControlEntry*)(pRows[i]))->setGrid(m_pEntryGrid);
 	}
 
-	for (auto pIMGEntry : m_pIMGFile->getEntries())
+	for (CIMGEntry *pIMGEntry : m_pIMGFile->getEntries())
 	{
 		bAddEntry = true;
 		uiFileType = pIMGEntry->getFileType();
@@ -673,6 +673,8 @@ void					CIMGEditorTab::addGridEntries(void)
 
 		pTaskManager->onTaskProgressTick();
 	}
+
+	m_pEntryGrid->render();
 
 	// todo
 	//updateEntryCountText();
@@ -712,6 +714,13 @@ void					CIMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry, uint32 uiEntryIndex, 
 
 	pRow->getText().assign(1, vecText);
 	m_pEntryGrid->setEntryByIndex(uiEntryIndex, pRow);
+	
+	/*
+	if (pRow->isRowDisplayedWithinScrollRange())
+	{
+		m_pEntryGrid->renderItem();
+	}
+	*/
 }
 void					CIMGEditorTab::updateGridEntry(CIMGEntry *pIMGEntry)
 {

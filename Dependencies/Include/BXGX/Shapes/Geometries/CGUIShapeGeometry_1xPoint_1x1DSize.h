@@ -18,10 +18,10 @@ public:
 	bxcf::Vec2i						getCenterPosition(void);
 
 	void							moveItem(bxcf::Vec2i& vecPositionChange) { m_vecPosition += vecPositionChange; }
-	void							resizeItemViaOffsets(bxcf::Vec2i& vecItemSizeChange) { m_fSize += (((vecItemSizeChange.x + vecItemSizeChange.y) < 0) ? -1 : 1) * sqrt(vecItemSizeChange.x + vecItemSizeChange.y); } // todo - methodify
+	void							resizeItemViaOffsets(bxcf::Vec2i& vecItemSizeChange) { m_fSize += (float32)((((vecItemSizeChange.x + vecItemSizeChange.y) < 0) ? -1 : 1)) * (float32)sqrt(vecItemSizeChange.x + vecItemSizeChange.y); } // todo - methodify
 
 	void							setPosition(bxcf::Vec2i& vecPosition) { m_vecPosition = vecPosition; }
-	bxcf::Vec2i&						getPosition(void) { return m_vecPosition; }
+	bxcf::Vec2i&					getPosition(void) { return m_vecPosition; }
 
 	void							setSize(float32 fSize) { m_fSize = fSize; }
 	float32							getSize(void) { return m_fSize; }

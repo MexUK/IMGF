@@ -5,7 +5,6 @@
 #include "Type/Types.h"
 #include "Type/Vector/Vec2i.h"
 #include "Pool/CMultipleTypeValuesUMapContainer.h"
-#include "Styles/CCoordinates.h"
 #include <string>
 #include <vector>
 #include <unordered_map>

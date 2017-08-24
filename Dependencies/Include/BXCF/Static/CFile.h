@@ -16,6 +16,7 @@ public:
 	static std::vector<std::string>		getFileLines(std::string& strPath);
 	static uint32						getFileSize(std::string& strPath);
 	static void							storeFile(std::string& strPath, std::string& strData, bool bAppend = true, bool bBinaryMode = true);
+	static void							storeFileWithWait(std::string& strPath, std::string& strData, bool bAppend = true, bool bBinaryMode = true);
 	static void							storeFileByStringPointer(std::string& strPath, std::string* pData, bool bAppend = true, bool bBinaryMode = true);
 	static void							renameFile(std::string& strPath, std::string& strNewPath);
 	static void							renameFolder(std::string& strPath, std::string& strNewPath);

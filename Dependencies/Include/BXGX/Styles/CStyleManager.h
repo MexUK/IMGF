@@ -3,7 +3,9 @@
 #include "Type/Types.h"
 #include "Object/CSingleton.h"
 #include "Type/Colour/CColour.h"
-#include "Event/CGUIEventUtilizer.h"
+#include "Renderable/CRenderable.h"
+#include "Styles/StyleEnums.h"
+#include "Control/eGUIControl.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -16,53 +18,58 @@ class CGUIStyles;
 class CStyleManager_MapUtility_Uint32
 {
 public:
-	inline size_t operator()(const uint32 &uiValue) const
-	{
-		return uiValue;
-	}
-	inline constexpr bool operator()(const uint32 &lhs, const uint32 &rhs) const
-	{
-		return lhs == rhs;
-	}
+	inline size_t operator()(const uint32 &uiValue) const { return uiValue; }
+	inline size_t operator()(const bxgx::styles::statuses::EStyleStatus &uiValue) const { return uiValue; }
+	inline size_t operator()(const bxgx::controls::components::EControlComponent &uiValue) const { return uiValue; }
+	inline size_t operator()(const bxgx::styles::components::EStyleComponent &uiValue) const { return uiValue; }
+	inline size_t operator()(const bxgx::styles::fragments::EStyleFragment &uiValue) const { return uiValue; }
+	inline size_t operator()(const bxgx::styles::properties::EStyleProperty &uiValue) const { return uiValue; }
+
+	inline constexpr bool operator()(const uint32 &lhs, const uint32 &rhs) const { return lhs == rhs; }
+	inline constexpr bool operator()(const bxgx::styles::statuses::EStyleStatus &lhs, const bxgx::styles::statuses::EStyleStatus &rhs) const { return lhs == rhs; }
+	inline constexpr bool operator()(const bxgx::controls::components::EControlComponent &lhs, const bxgx::controls::components::EControlComponent &rhs) const { return lhs == rhs; }
+	inline constexpr bool operator()(const bxgx::styles::components::EStyleComponent &lhs, const bxgx::styles::components::EStyleComponent &rhs) const { return lhs == rhs; }
+	inline constexpr bool operator()(const bxgx::styles::fragments::EStyleFragment &lhs, const bxgx::styles::fragments::EStyleFragment &rhs) const { return lhs == rhs; }
+	inline constexpr bool operator()(const bxgx::styles::properties::EStyleProperty &lhs, const bxgx::styles::properties::EStyleProperty &rhs) const { return lhs == rhs; }
 };
 
-class CStyleManager_MapUtility_CGUIEventUtilizerPointer
+class CStyleManager_MapUtility_CRenderablePointer
 {
 public:
-	inline size_t operator()(const CGUIEventUtilizer *val) const // https://stackoverflow.com/questions/20953390/what-is-the-fastest-hash-function-for-pointers
+	inline size_t operator()(const CRenderable *val) const // https://stackoverflow.com/questions/20953390/what-is-the-fastest-hash-function-for-pointers
 	{
-        static const size_t shift = (size_t)log2(1 + sizeof(CGUIEventUtilizer));
+        static const size_t shift = (size_t)log2(1 + sizeof(CRenderable));
         return (size_t)(val) >> shift;
     }
-	inline constexpr bool operator()(const CGUIEventUtilizer *lhs, const CGUIEventUtilizer *rhs) const
+	inline constexpr bool operator()(const CRenderable *lhs, const CRenderable *rhs) const
 	{
 		return ((uint32)lhs) == (uint32)rhs;
 	}
 };
 
 typedef google::dense_hash_map___Int<uint32,
-			google::dense_hash_map___Int<uint32,
-				google::dense_hash_map___Int<uint32,
-					google::dense_hash_map___Int<uint32,
-						google::dense_hash_map___Int<uint32,
-							google::dense_hash_map___Int<uint32, void*, CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
+			google::dense_hash_map___Int<bxgx::styles::statuses::EStyleStatus,
+				google::dense_hash_map___Int<bxgx::controls::components::EControlComponent,
+					google::dense_hash_map___Int<bxgx::styles::components::EStyleComponent,
+						google::dense_hash_map___Int<bxgx::styles::fragments::EStyleFragment,
+							google::dense_hash_map___Int<bxgx::styles::properties::EStyleProperty, void*, CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
 						CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
 					CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
 				CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
 			CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
 		CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32> container6d_1;
 
-typedef google::dense_hash_map___Pointer<CGUIEventUtilizer*,
-			google::dense_hash_map___Int<uint32,
-				google::dense_hash_map___Int<uint32,
-					google::dense_hash_map___Int<uint32,
-						google::dense_hash_map___Int<uint32,
-							google::dense_hash_map___Int<uint32, void*, CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
+typedef google::dense_hash_map___Pointer<CRenderable*,
+			google::dense_hash_map___Int<bxgx::styles::statuses::EStyleStatus,
+				google::dense_hash_map___Int<bxgx::controls::components::EControlComponent,
+					google::dense_hash_map___Int<bxgx::styles::components::EStyleComponent,
+						google::dense_hash_map___Int<bxgx::styles::fragments::EStyleFragment,
+							google::dense_hash_map___Int<bxgx::styles::properties::EStyleProperty, void*, CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
 						CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
 					CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
 				CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
 			CStyleManager_MapUtility_Uint32, CStyleManager_MapUtility_Uint32>,
-		CStyleManager_MapUtility_CGUIEventUtilizerPointer, CStyleManager_MapUtility_CGUIEventUtilizerPointer> container6d_2;
+		CStyleManager_MapUtility_CRenderablePointer, CStyleManager_MapUtility_CRenderablePointer> container6d_2;
 
 class CStyleManager : public bxcf::CSingleton<CStyleManager>
 {
@@ -74,36 +81,36 @@ public:
 	void											initStyles(void);
 	void											initReversedKeywords(void);
 
-	bool											doesHaveStyleComponent(uint32 uiStyleComponent);
-	bool											doesHaveStyleFragment(uint32 uiStyleComponent, uint32 uiStyleFragment);
-	bool											doesHaveStyleProperty(uint32 uiStyleComponent, uint32 uiStyleProperty);
-	bool											doesStyleExist(uint32 uiStyleComponent, uint32 uiStyleProperty, uint32 uiStyleFragment);
+	bool											doesHaveStyleComponent(bxgx::styles::components::EStyleComponent uiStyleComponent);
+	bool											doesHaveStyleFragment(bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::fragments::EStyleFragment uiStyleFragment);
+	bool											doesHaveStyleProperty(bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty);
+	bool											doesStyleExist(bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty, bxgx::styles::fragments::EStyleFragment uiStyleFragment);
 
 	uint32											getCustomStyleGroupId(std::string& strStyleGroupName);
 
-	uint32											getGroupStylesKey(uint32 uiStyleGroupId, uint32 uiStyleStatus, uint32 uiControlComponent, uint32 uiStyleComponent, uint32 uiStyleFragment, uint32 uiStyleProperty);
-	uint32											getStylesKey(uint32 uiStyleStatus, uint32 uiControlComponent, uint32 uiStyleComponent, uint32 uiStyleFragment, uint32 uiStyleProperty);
+	uint32											getGroupStylesKey(uint32 uiStyleGroupId, bxgx::styles::statuses::EStyleStatus uiStyleStatus, bxgx::controls::components::EControlComponent uiControlComponent, bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::fragments::EStyleFragment uiStyleFragment, bxgx::styles::properties::EStyleProperty uiStyleProperty);
+	uint32											getStylesKey(bxgx::styles::statuses::EStyleStatus uiStyleStatus, bxgx::controls::components::EControlComponent uiControlComponent, bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::fragments::EStyleFragment uiStyleFragment, bxgx::styles::properties::EStyleProperty uiStyleProperty);
 
-	bool											getStylePropertyAndValueFromMarkupStyleValues(std::vector<std::string>& vecMarkupStyleValues, uint32 uiTokenIndex, uint32 uiStyleComponent, uint32& uiStyleProperty, uint32& uiStyleFragment, void*& pStyleValue, uint32& uiTokenCountRead);
-
-	template <typename T>
-	T												getStyle(uint32 uiStyleComponent, uint32 uiStyleProperty);
-	template <typename T>
-	T												getStyleWithFragment(uint32 uiStyleComponent, uint32 uiStyleProperty, uint32 uiStyleFragment);
-	template <typename T>
-	T												getStyleFast(std::string& strRenderingStyleGroup, uint32 uiStyleComponent, uint32 uiStyleProperty);
+	bool											getStylePropertyAndValueFromMarkupStyleValues(std::vector<std::string>& vecMarkupStyleValues, uint32 uiTokenIndex, bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty& uiStyleProperty, bxgx::styles::fragments::EStyleFragment& uiStyleFragment, void*& pStyleValue, uint32& uiTokenCountRead);
 
 	template <typename T>
-	inline T*										getNativeStyle(uint32 uiStyleComponent, uint32 uiStyleProperty);
+	T												getStyle(bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty);
 	template <typename T>
-	T*												getNativeStyle(CGUIEventUtilizer *pGUIEventUtilizer, uint32 uiStyleComponent, uint32 uiStyleProperty);
+	T												getStyleWithFragment(bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty, bxgx::styles::fragments::EStyleFragment uiStyleFragment);
 	template <typename T>
-	T*												getNativeStyleFast(uint32 uiStyleComponent, uint32 uiStyleProperty);
+	T												getStyleFast(std::string& strRenderingStyleGroup, bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty);
 
-	void											setItemStyle(CGUIEventUtilizer *pGUIEventUtilizer, uint32 uiStyleComponent, uint32 uiStyleProperty, void *pStyleValue);
-	void											setItemStyle(CGUIEventUtilizer *pGUIEventUtilizer, uint32 uiStyleComponent, uint32 uiStyleProperty, uint32 uiStyleFragment, void *pStyleValue);
-	void											removeItemStyle(CGUIEventUtilizer *pGUIEventUtilizer, uint32 uiStyleComponent, uint32 uiStyleProperty);
-	void											removeItemStyle(CGUIEventUtilizer *pGUIEventUtilizer, uint32 uiStyleComponent, uint32 uiStyleProperty, uint32 uiStyleFragment);
+	template <typename T>
+	inline T*										getNativeStyle(bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty);
+	template <typename T>
+	T*												getNativeStyle(CRenderable *pGUIEventUtilizer, bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty);
+	template <typename T>
+	T*												getNativeStyleFast(bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty);
+
+	void											setItemStyle(CRenderable *pGUIEventUtilizer, bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty, void *pStyleValue);
+	void											setItemStyle(CRenderable *pGUIEventUtilizer, bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty, bxgx::styles::fragments::EStyleFragment uiStyleFragment, void *pStyleValue);
+	void											removeItemStyle(CRenderable *pGUIEventUtilizer, bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty);
+	void											removeItemStyle(CRenderable *pGUIEventUtilizer, bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty, bxgx::styles::fragments::EStyleFragment uiStyleFragment);
 
 	bool											doesHaveLeftLine(void);
 	bool											doesHaveRightLine(void);
@@ -116,22 +123,22 @@ public:
 	uint32											getSpacingY(void);
 
 public:
-	uint32											m_uiRenderingItemType;			// window, layer, shape, or control
+	bxgx::item::ERenderable								m_uiRenderingItemType;			// window, layer, shape, or control
 	uint32											m_uiRenderingItemSubType;		// type of shape, type of control, etc
-	uint32											m_uiRenderingControlComponent;	// main, headerRow, headerCell, tab, etc
-	uint32											m_uiRenderingStyleStatus;		// default, hover, etc
-	uint32											m_uiRenderingStyleFragment;		// all, left, right, etc
-	CGUIEventUtilizer*								m_pRenderingEventUtilizer;
+	bxgx::controls::components::EControlComponent	m_uiRenderingControlComponent;	// main, headerRow, headerCell, tab, etc
+	bxgx::styles::statuses::EStyleStatus			m_uiRenderingStyleStatus;		// default, hover, etc
+	bxgx::styles::fragments::EStyleFragment			m_uiRenderingStyleFragment;		// all, left, right, etc
+	CRenderable*								m_pRenderingEventUtilizer;
 	std::vector<uint32>								m_vecRenderingStyleGroups;
 
-	std::unordered_map<std::string, uint32>			m_umapControls;				// Example: ["grid"] = bxgx::controls::GRID
-	std::unordered_map<std::string, uint32>			m_umapControlComponents;	// Example: ["headers"] = bxgx::controls::components::HEADERS
-	std::unordered_map<std::string, uint32>			m_umapStyleComponents;		// Example: ["text"] = bxgx::styles::components::TEXT
-	std::unordered_map<std::string, uint32>			m_umapStyleStatuses;		// Example: ["hover"] = bxgx::styles::statuses::HOVER
-	std::unordered_map<std::string, uint32>			m_umapStyleProperties;		// Example: ["colour"] = bxgx::styles::components::COLOUR
-	std::unordered_map<std::string, uint32>			m_umapStyleFragments;		// Example: ["left"] = bxgx::styles::fragments::LEFT
+	std::unordered_map<std::string, eGUIControl>										m_umapControls;				// Example: ["grid"] = bxgx::controls::GRID
+	std::unordered_map<std::string, bxgx::controls::components::EControlComponent>		m_umapControlComponents;	// Example: ["headers"] = bxgx::controls::components::HEADERS
+	std::unordered_map<std::string, bxgx::styles::components::EStyleComponent>			m_umapStyleComponents;		// Example: ["text"] = bxgx::styles::components::TEXT
+	std::unordered_map<std::string, bxgx::styles::statuses::EStyleStatus>				m_umapStyleStatuses;		// Example: ["hover"] = bxgx::styles::statuses::HOVER
+	std::unordered_map<std::string, bxgx::styles::properties::EStyleProperty>			m_umapStyleProperties;		// Example: ["colour"] = bxgx::styles::components::COLOUR
+	std::unordered_map<std::string, bxgx::styles::fragments::EStyleFragment>			m_umapStyleFragments;		// Example: ["left"] = bxgx::styles::fragments::LEFT
 
-	std::unordered_map<std::string, std::pair<uint32, void*>>		m_umapStyleValues;			// Example: ["false"] = pair(bxgx::styles::properties::STATUS, bool* false)
+	std::unordered_map<std::string, std::pair<bxgx::styles::properties::EStyleProperty, void*>>		m_umapStyleValues;	// Example: ["false"] = pair(bxgx::styles::properties::STATUS, bool* false)
 
 	std::unordered_map<std::string, uint32>			m_umapCustomStyleGroupIds;
 
@@ -140,20 +147,20 @@ public:
 };
 
 template <typename T>
-T													CStyleManager::getStyle(uint32 uiStyleComponent, uint32 uiStyleProperty)
+T													CStyleManager::getStyle(bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty)
 {
 	T *pStyleValue = getNativeStyle<T>(m_pRenderingEventUtilizer, uiStyleComponent, uiStyleProperty);
 	return pStyleValue != nullptr ? *(T*)pStyleValue : T();
 }
 
 template <typename T>
-T*													CStyleManager::getNativeStyle(uint32 uiStyleComponent, uint32 uiStyleProperty)
+T*													CStyleManager::getNativeStyle(bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty)
 {
 	return getNativeStyle<T>(m_pRenderingEventUtilizer, uiStyleComponent, uiStyleProperty);
 }
 
 template <typename T>
-T*													CStyleManager::getNativeStyle(CGUIEventUtilizer *pGUIEventUtilizer, uint32 uiStyleComponent, uint32 uiStyleProperty)
+T*													CStyleManager::getNativeStyle(CRenderable *pGUIEventUtilizer, bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty)
 {
 	if (m_umapItemsStyles.count(pGUIEventUtilizer))
 	{
@@ -210,7 +217,7 @@ T*													CStyleManager::getNativeStyle(CGUIEventUtilizer *pGUIEventUtilize
 }
 
 template <typename T>
-T													CStyleManager::getStyleWithFragment(uint32 uiStyleComponent, uint32 uiStyleProperty, uint32 uiStyleFragment)
+T													CStyleManager::getStyleWithFragment(bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty, bxgx::styles::fragments::EStyleFragment uiStyleFragment)
 {
 	if (m_umapItemsStyles.find(m_pRenderingEventUtilizer) != m_umapItemsStyles.end())
 	{
@@ -267,7 +274,7 @@ T													CStyleManager::getStyleWithFragment(uint32 uiStyleComponent, uint3
 }
 
 template <typename T>
-T*													CStyleManager::getNativeStyleFast(uint32 uiStyleComponent, uint32 uiStyleProperty)
+T*													CStyleManager::getNativeStyleFast(bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty)
 {
 	if (m_umapItemsStyles[m_pRenderingEventUtilizer][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment].count(uiStyleProperty))
 	{
@@ -284,7 +291,7 @@ T*													CStyleManager::getNativeStyleFast(uint32 uiStyleComponent, uint32
 }
 
 template <typename T>
-T													CStyleManager::getStyleFast(std::string& strRenderingStyleGroup, uint32 uiStyleComponent, uint32 uiStyleProperty)
+T													CStyleManager::getStyleFast(std::string& strRenderingStyleGroup, bxgx::styles::components::EStyleComponent uiStyleComponent, bxgx::styles::properties::EStyleProperty uiStyleProperty)
 {
 	if (m_umapItemsStyles[m_pRenderingEventUtilizer][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment].find(uiStyleProperty) != m_umapItemsStyles[m_pRenderingEventUtilizer][m_uiRenderingStyleStatus][m_uiRenderingControlComponent][uiStyleComponent][m_uiRenderingStyleFragment].end())
 	{

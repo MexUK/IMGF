@@ -2,12 +2,23 @@
 
 #include "Type/Types.h"
 #include <string>
-#include <unordered_map>
 #include <vector>
+#include <unordered_map>
 
 namespace bxcf
 {
+	extern std::string g_strBlankString;
+	extern bool g_bDefaultBool;
+	
+	
+	
+	void init(void);
+	
+	
+	
 	enum eCompressionAlgorithm;
+
+	class CDataPath;
 
 	class CDebug;
 
@@ -145,9 +156,4 @@ namespace bxcf
 	class LinkLayer;
 	class IP;
 	class ICMP;
-
-	extern std::string g_strBlankString;
-	extern bool g_bDefaultBool;
-
-	void init(void);
 };

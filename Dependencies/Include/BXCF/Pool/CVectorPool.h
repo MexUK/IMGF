@@ -58,7 +58,7 @@ void				bxcf::CVectorPool<T>::removeAllEntries(void)
 {
 	for (auto pEntry : m_vecEntries)
 	{
-		pEntry->unload();
+		//pEntry->unload(); // todo - use destructors, not unload()
 		delete pEntry;
 	}
 	m_vecEntries.clear();
@@ -81,7 +81,7 @@ void				bxcf::CVectorPool<T>::removeEntry(T pEntry)
 {
 	std::vector<T>::iterator it = std::find(m_vecEntries.begin(), m_vecEntries.end(), pEntry);
 	m_vecEntries.erase(it);
-	pEntry->unload();
+	//pEntry->unload();
 	// todo - delete objects elsewhere, delete pEntry;
 }
 

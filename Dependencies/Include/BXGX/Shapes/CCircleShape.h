@@ -3,7 +3,6 @@
 
 #include "Type/Vector/Vec2i.h"
 #include "Type/Vector/Vec2u.h"
-#include "Shape/eGUIShape.h"
 #include "Shapes/Geometries/CGUIShapeGeometry_1xPoint_1x1DSize.h"
 
 class CCircleShape : public CGUIShapeGeometry_1xPoint_1x1DSize

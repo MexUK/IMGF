@@ -1,4 +1,5 @@
 #include "CTaskManager.h"
+#include "bxcf.h"
 #include "Task/CTaskDispatchManager.h"
 #include "Task/CTaskDurationManager.h"
 #include "Static/CString2.h"
@@ -103,13 +104,11 @@ void							CTaskManager::onResumeTask(void)
 }
 
 // active tasks
-string g_strBlankString2 = ""; // todo
-string g_strBlankString3 = "blankTaskPlaceholder"; // todo
 string&					CTaskManager::getTaskName(void)
 {
 	if (m_vecActiveTaskNames.size() == 0)
 	{
-		return g_strBlankString3;
+		return bxcf::g_strBlankString;
 	}
 	else
 	{

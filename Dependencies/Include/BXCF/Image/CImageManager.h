@@ -13,8 +13,6 @@
 class bxcf::CRasterDataFormatManager;
 class bxcf::CImageFile;
 
-static std::string						strBlankString = ""; // todo - namespace
-
 class bxcf::CImageManager : public bxcf::CManager, public bxcf::CSingleton<bxcf::CImageManager>
 {
 public:
@@ -29,7 +27,7 @@ public:
 	static CImageFile*					loadImageFromFile(std::string& strFilePath);
 	
 	static std::string					convertBGRA32ToRasterDataFormat(std::string& strRasterData, eRasterDataFormat eRasterDataFormatValue, std::string* strPaletteDataOut = nullptr, uint32 uiWidth = 0, uint32 uiHeight = 0);
-	static std::string					convertRasterDataFormatToBGRA32(std::string& strRasterData, eRasterDataFormat eRasterDataFormatValue, std::string& strPaletteDataIn = strBlankString, uint32 uiWidth = 0, uint32 uiHeight = 0);
+	static std::string					convertRasterDataFormatToBGRA32(std::string& strRasterData, eRasterDataFormat eRasterDataFormatValue, std::string& strPaletteDataIn = bxcf::g_strBlankString, uint32 uiWidth = 0, uint32 uiHeight = 0);
 
 	static std::string					convertBGRA32ToRGBA32(std::string& strRasterData);
 	static std::string					convertRGBA32ToBGRA32(std::string& strRasterData);

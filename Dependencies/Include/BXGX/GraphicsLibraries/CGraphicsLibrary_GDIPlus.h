@@ -8,7 +8,7 @@
 #include "String/CGUIString.h"
 #include <vector>
 #include <unordered_map>
-#include <Windows.h>
+#include <Windows.h> // for Gdiplus
 #include <Gdiplus.h>
 
 // Gdiplus::Pen is for lines
@@ -58,7 +58,7 @@ public:
 
 	void					drawText(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, CGUIString& gstrString);
 	void					drawText(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string& strText, bxcf::Vec2u vecTextSize = bxcf::Vec2u(0, 0));
-	bxcf::Vec2u			getTextSize(std::string& strText);
+	bxcf::Vec2u				getTextSize(std::string& strText);
 
 	void					drawImage(bxcf::Vec2i& vecPosition, std::string& strImagePath, bxcf::Vec2u vecSize = bxcf::Vec2u(0, 0));
 	void					drawImage(bxcf::Vec2i& vecPosition, Gdiplus::Image *pImage, bxcf::Vec2u vecSize = bxcf::Vec2u(0, 0));
@@ -66,7 +66,7 @@ public:
 	void					setGraphics(Gdiplus::Graphics* pGraphics) { m_pGraphics = pGraphics; }
 	Gdiplus::Graphics*		getGraphics(void) { return m_pGraphics; }
 
-	bxcf::Vec2i			getTextPositionFromStyles(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string& strText, bxcf::Vec2u& vecTextSize);
+	bxcf::Vec2i				getTextPositionFromStyles(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string& strText, bxcf::Vec2u& vecTextSize);
 	uint32					getTextCenterPositionX(std::string& strText, uint32 uiAreaStartX, uint32 uiAreaWidth);
 	uint32					getTextCenterPositionY(std::string& strText, uint32 uiAreaStartY, uint32 uiAreaHeight);
 

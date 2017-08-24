@@ -5,8 +5,6 @@
 #include "Type/Types.h"
 #include "Unit/Byte/eEndian.h"
 #include <string>
-#include <vector>
-#include <fstream>
 
 class bxcf::CFormat
 {

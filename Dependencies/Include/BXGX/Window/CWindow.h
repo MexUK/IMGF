@@ -1,35 +1,32 @@
 #ifndef CWindow_H
 #define CWindow_H
 
-#include <Windows.h>
-#include <gdiplus.h>
 #include "bxcf.h"
 #include "Type/Types.h"
 #include "Type/Vector/Vec2i.h"
 #include "Type/Vector/Vec2u.h"
 #include "Type/Colour/CColour.h"
 #include "Pool/CVectorPool.h"
-#include "Event/CEventType.h"
-#include "Event/CEventBoundFunction.h"
-#include "Event/CEventBinder.h"
 #include "Layer/CGUILayer.h"
 #include "Item/CGUIItem.h"
 #include "Control/CGUIControl.h"
 #include "Styles/CGUIStyleableEntity.h"
 #include "Interaction/CRectangleItemPlacement.h"
 #include "Event/Events.h"
-#include <functional>
+#include "Renderable/ERenderable.h"
+#include "Window/EWindowType.h"
+#include "Renderable/CRenderable.h"
 #include <unordered_map>
 #include <vector>
+#include <mutex>
 
 class CRadioControl;
 class CDropTarget;
 class CGUIStyles;
 class CWindow;
-class bxcf::CInputEventCallbacks;
 class CGUIControl;
 
-class CWindow : /*public bxcf::EventTriggerable, */public bxcf::EventBindable/*<CWindow>*/, public bxcf::CEventType, public CGUIStyleableEntity, public bxcf::CVectorPool<CGUILayer*>, public CGUIEventUtilizer
+class CWindow : public bxcf::EventBindable, public CGUIStyleableEntity, public bxcf::CVectorPool<CGUILayer*>, public CRenderable
 {
 public:
 	CWindow(void);
@@ -47,7 +44,7 @@ public:
 	void									unserialize(void);
 	void									serialize(void);
 
-	uint32									getItemType(void) { return bxgx::item::WINDOW; }
+	bxgx::item::ERenderable						getItemType(void) { return bxgx::item::WINDOW; }
 	uint32									getItemSubType(void) { return bxgx::item::window::TYPE_1; }
 
 	bool									isPointInItem(bxcf::Vec2i& vecPoint) { return true; }
@@ -55,13 +52,9 @@ public:
 
 	bool									isPointInControl(bxcf::Vec2i& vecPoint);
 	CGUIControl*							getControlFromPoint(bxcf::Vec2i& vecPoint);
-	bool									doesDropHaveListOpen(void);
+	std::vector<CGUIItem*>					getItemsInRectangle(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize);
 
-	// old - temp
-	bxcf::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
-	bxcf::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
-	bxcf::CEventBoundFunction*				bindEvent(uint32 uiEventId, bxcf::CInputEventCallbacks *pObject, void *pTriggerArgument = nullptr, int32 iZOrder = 0);
-	bool									triggerEvent(uint32 uiEventId, void *pTriggerArgument = nullptr);
+	bool									doesDropHaveListOpen(void);
 
 	void									onWindowLoseFocus(void);
 
@@ -73,13 +66,35 @@ public:
 	void									onRenderBefore(void);
 	void									onRenderAfter(void);
 
-	virtual void							render(void);
-	void									renderNow(void);
-	void									checkToRender(void);
+	// render main
+	void									onPaint(void);
 
 	void									onRenderWindow(void);
-	void									onRenderItem(CGUIItem *pItem);
+	void									onRenderRenderables(void);
+	void									onRenderRenderable(CRenderable *pRenderable);
 
+	// render marking
+	void									setRenderableMarkedForRender(CRenderable *pItem, bool bItemIsMarkedForRender);
+	bool									isRenderableMarkedForRender(CRenderable *pItem);
+	std::vector<CRenderable*>&				getRenderablesMarkedForRender(void) { return m_vecRenderablesMarkedToRender; }
+	bool									areAnyRenderablesMarkedForRender(void);
+	void									clearRenderablesMarkedForRender(void);
+
+	bool									isWindowMarkedForRender(void);
+	std::vector<CWindow*>					getWindowsMarkedForRender(void);
+
+	// render marking and triggering
+	void									render(void);
+	void									renderNow(void);
+	void									renderRectangle(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize);
+
+	// paint triggering (WM_PAINT in WndProc)
+	void									checkToTriggerPaint(void);
+	
+	void									triggerPaint(void);
+	void									triggerPaintNow(void);
+
+	// window resize
 	bool									checkToApplyWindowResizeCursor(void);
 	bool									checkToApplyWindowRegularCursor(void);
 	bool									checkToStartMovingOrResizingWindow(bool bCursorIsHoveringTitleBarIcon = false);
@@ -130,6 +145,8 @@ private:
 	bxcf::Vec2i								getTitleBarIconsHoverPosition(void);
 	bxcf::Vec2u								getTitleBarIconsHoverSize(void);
 
+	void									renderBorder(void);
+
 	void									renderTitleBar(void);
 	void									renderTitleBarBackground(void);
 	void									renderTitleBarText(void);
@@ -167,15 +184,6 @@ public:
 	void									setWindowHandle(HWND hwndWindow) { m_hwndWindow = hwndWindow; }
 	HWND									getWindowHandle(void) { return m_hwndWindow; }
 
-	void									setMarkedToRedraw(bool bMarkedToRedraw) { m_bMarkedToRedraw = bMarkedToRedraw; }
-	void									markToRedraw(void) { m_bMarkedToRedraw = true; }
-	bool									isMarkedToRedraw(void) { return m_bMarkedToRedraw; }
-
-	void									markItemToRedraw(CGUIItem *pItem);
-	bool									areItemsMarkedToRedraw(void);
-	void									clearItemsToRedraw(void);
-	std::vector<CGUIItem*>&					getItemsToRedraw(void) { return m_vecItemsToRedraw; }
-
 	void									setPosition(bxcf::Vec2i& vecPosition);
 	bxcf::Vec2i&							getPosition(void) { return m_vecPosition; }
 
@@ -206,9 +214,6 @@ public:
 	void									setPreviousSize(bxcf::Vec2u& vecPreviousSize) { m_vecPreviousSize = vecPreviousSize; }
 	bxcf::Vec2u&							getPreviousSize(void) { return m_vecPreviousSize; }
 
-	void									setEventTriggerEventTypeId(bxcf::eEventType eEventTriggerEventTypeId) { m_eEventTriggerEventTypeId = eEventTriggerEventTypeId; }
-	bxcf::eEventType						getEventTriggerEventTypeId(void) { return m_eEventTriggerEventTypeId; }
-
 private:
 	const char *							m_pClassName;
 	HWND									m_hwndWindow;
@@ -226,7 +231,6 @@ private:
 	uint32									m_uiTitleBarIconHoverIndex;
 	uint8									m_bMovingWindow					: 1;
 	uint8									m_bResizingWindow				: 1;
-	uint8									m_bMarkedToRedraw				: 1;
 	uint8									m_bMaximized					: 1;
 	uint8									m_bMinimized					: 1;
 	uint8									m_bTitleBarIconHoverStatus		: 1;
@@ -235,11 +239,10 @@ private:
 	bxcf::Vec2i								m_vecPreviousPosition;
 	bxcf::Vec2u								m_vecPreviousSize;
 	CGUIItem*								m_pActiveItem;
-	bxcf::eEventType						m_eEventTriggerEventTypeId;
 	// todo CRectangleItemPlacement<CWindow>	m_placeableWindow;		// gui windows
 	CRectangleItemPlacement<CGUIItem>		m_placeableItem;		// gui items - e.g. shapes and controls
 	std::unordered_map<uint32, bool>		m_umapEventUsages;
-	std::vector<CGUIItem*>					m_vecItemsToRedraw;
+	std::vector<CRenderable*>				m_vecRenderablesMarkedToRender;
 
 	/*
 	todo
@@ -250,8 +253,6 @@ private:
 
 	std::unordered_map<uint32, CRWVersion*>			m_umapMenuItemMapping_SelectRWVersion; // todo - move this shit to like CMenuManager
 	std::unordered_map<uint32, CRWVersion*>			m_umapMenuItemMapping_ConvertDFFtoRWVersion;
-	std::unordered_map<uint32, CRWVersion*>			m_umapMenuItemMapping_FilterRWVersion;
-	std::unordered_map<uint32, eCOLVersion>			m_umapMenuItemMapping_FilterCOLVersion;
 	std::unordered_map<uint32, CRWVersion*>			m_umapMenuItemMapping_ConvertTXDtoRWVersion;
 	std::unordered_map<uint32, CRasterDataFormat*>	m_umapMenuItemMapping_ConvertTXDtoTextureFormat;
 	std::unordered_map<uint32, CCOLVersion*>		m_umapMenuItemMapping_ConvertCOLtoCOLVersion;
@@ -265,14 +266,6 @@ private:
 	int											m_iFilterMapping_UnknownVersion;
 	*/
 };
-
-/*
-template <typename... Args>
-void									CWindow::bindEvent(uint32 uiEvent, void(*function)(Args&... args))
-{
-
-}
-*/
 
 template <class LayerClass>
 LayerClass*								CWindow::addLayer(uint32 uiLayerId, bool bEnabled, int32 iZIndex)

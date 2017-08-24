@@ -28,7 +28,7 @@ public:
 	void									onRender(void);
 	void									onRenderAfter(void);
 
-	bool									applyCursorHoverIcon(void);
+	bool									doesControlUsePosition(bxcf::Vec2i& vecPoint) { return true; }
 
 	CDropControlEntry*						addItem(std::string strItemText, bool bIsActiveItem = false, bool bIsSelectable = true);
 	void									addItems(std::vector<std::string>& vecItems);
@@ -41,6 +41,7 @@ public:
 
 	bxcf::Vec2i								getSelectionListPosition(void);
 	bxcf::Vec2u								getSelectionListSize(void);
+	bxcf::Vec2u								getSelectionListSizeWithButton(void);
 	bxcf::Vec2i								getSelectionListEntryPosition(uint32 uiEntryIndex);
 	bxcf::Vec2u								getSelectionListEntrySize(void);
 	uint32									getSelectionListEntryFromPoint(bxcf::Vec2i& vecCursorPosition);
@@ -56,7 +57,7 @@ public:
 	void									setListRowHeight(uint32 uiListRowHeight) { m_uiListRowHeight = uiListRowHeight; }	// in pixels
 	uint32									getListRowHeight(void) { return m_uiListRowHeight; }								// in pixels
 
-	void									setSelectionListOpen(bool bSelectionListOpen) { m_bSelectionListOpen = bSelectionListOpen; }
+	void									setSelectionListOpen(bool bSelectionListOpen);
 	bool									isSelectionListOpen(void) { return m_bSelectionListOpen; }
 
 private:

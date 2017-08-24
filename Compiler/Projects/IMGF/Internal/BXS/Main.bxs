@@ -76,6 +76,7 @@ fill 175 175 175
 fill 175 175 175
 
 .gameInfoText .main_textBlack
+fill 255 255 255
 
 .topMenuButton .main_lineLeft .main_text .main_spacing .main_fill_1
 
@@ -98,6 +99,9 @@ line 0 0 0
 line 0 0 0
 
 .settingsMenuButton .main_lineTop .main_text .main_spacing .main_fill_2
+
+.fileTabBar
+fill 255 255 255
 
 .fileTabBar:defaultText .main_textBlack
 

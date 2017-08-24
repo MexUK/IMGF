@@ -25,15 +25,13 @@ public:
 	std::string				getTaskDurationsString(std::string& strTaskName); // return: a string of space-delimited tokens in milliseconds
 
 	std::vector<uint32>&	getTaskBeginTimes(void) { return m_vecTaskBeginTimes; } // in milliseconds, indexes are sync'd with CTaskManager::m_vecActiveTaskNames
+	std::vector<uint32>&	getTaskPauseDurations(void) { return m_vecTaskPauseDurations; } // in milliseconds, indexes are sync'd with CTaskManager::m_vecActiveTaskNames
 
 	void					setTaskPauseStartTime(uint32 uiTaskPauseStartTime) { m_uiTaskPauseStartTime = uiTaskPauseStartTime; } // in milliseconds
 	uint32					getTaskPauseStartTime(void) { return m_uiTaskPauseStartTime; } // in milliseconds
 
-	void					setTasksPauseDuration(uint32 uiTasksPauseDuration) { m_uiTasksPauseDuration = uiTasksPauseDuration; } // in milliseconds
-	uint32					getTasksPauseDuration(void) { return m_uiTasksPauseDuration; } // in milliseconds
-
 private:
 	std::vector<uint32>		m_vecTaskBeginTimes; // in milliseconds, indexes are sync'd with CTaskManager::m_vecActiveTaskNames
 	uint32					m_uiTaskPauseStartTime; // in milliseconds
-	uint32					m_uiTasksPauseDuration; // in milliseconds
+	std::vector<uint32>		m_vecTaskPauseDurations; // in milliseconds
 };

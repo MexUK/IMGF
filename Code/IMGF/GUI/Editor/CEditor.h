@@ -4,6 +4,7 @@
 #include "Layer/CGUILayer.h"
 #include "Pool/CVectorPool.h"
 #include "GUI/Editor/Tab/CEditorTab.h"
+#include <string>
 
 class CTabBarControl;
 
@@ -31,6 +32,8 @@ public:
 
 	virtual void						setFileInfoText(CEditorTab *pEditorFile) = 0;
 	virtual void						clearFileInfoText(void) = 0;
+
+	virtual std::string					getResolvedFilePath(std::string& strFilePath) { return strFilePath; } // file name or file path
 
 protected:
 	CTabBarControl*						m_pTabBar;

@@ -4,7 +4,6 @@
 #include "Type/Types.h"
 #include "Type/Vector/Vec2u.h"
 #include "Control/CGUIControl.h"
-#include "Styles/CGUIStyles.h"
 #include "Control/e2DMirroredOrientation.h"
 
 class CGUIControl;
@@ -30,7 +29,7 @@ public:
 	bool									onMouseExit(bxcf::Vec2i& vecCursorPosition);
 	void									onRender(void);
 
-	bool									applyCursorHoverIcon(void);
+	bool									doesControlUsePosition(bxcf::Vec2i& vecPoint) { return true; }
 
 	bool									isPointInSeekBar(bxcf::Vec2i& vecPoint);
 	uint32									getSeekBarPositionOffset(void);
@@ -50,8 +49,8 @@ public:
 	void									setSeekBarLength(uint32 uiSeekBarLength) { m_uiSeekBarLength = uiSeekBarLength; }	// in pixels
 	uint32									getSeekBarLength(void) { return m_uiSeekBarLength; }								// in pixels
 
-	uint32									getSeekBarFillColour(void) { return getStyles()->getStyle<uint32>("fill-colour"); }	// RGBA
-	uint32									getSeekBarLineColour(void) { return getStyles()->getStyle<uint32>("border-colour"); }		// RGBA
+	uint32									getSeekBarFillColour(void);		// RGBA
+	uint32									getSeekBarLineColour(void);		// RGBA
 	
 	void									setProgress(float32 fProgress);					// 0.0 to 1.0
 	float32									getProgress(void) { return m_fProgress; }		// 0.0 to 1.0

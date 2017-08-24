@@ -94,7 +94,8 @@ void		CMainLayer::addControls(void)
 	// game information values
 	x += 149;
 	y = y2;
-	w = 350;
+	w = 657;
+	w2 = 350;
 
 	/*
 	addText(x, y, w, h, "GTA Vice City (PC, 1.0)", strStyleGroup);
@@ -109,15 +110,15 @@ void		CMainLayer::addControls(void)
 	y += h2;
 	addText(x, y, w, h, "C:/Program Files (x86)/Rockstar Games/Grand Theft Auto Vice City/DATA/maps/a.txd", strStyleGroup);
 	*/
-	m_pText_Game = addText(x, y, w, h, "No file is open", strStyleGroup);
+	m_pText_Game = addText(x, y, w2, h, "No file is open", strStyleGroup);
 	y += h2;
-	m_pText_GameValidity = addText(x, y, w, h, "-", strStyleGroup);
+	m_pText_GameValidity = addText(x, y, w2, h, "-", strStyleGroup);
 	y += h2;
 	m_pText_GameLocation = addText(x, y, w, h, "-", strStyleGroup);
 	y += h2;
-	m_pText_FileGame = addText(x, y, w, h, "-", strStyleGroup);
+	m_pText_FileGame = addText(x, y, w2, h, "-", strStyleGroup);
 	y += h2;
-	m_pText_FileValidity = addText(x, y, w, h, "-", strStyleGroup);
+	m_pText_FileValidity = addText(x, y, w2, h, "-", strStyleGroup);
 	y += h2;
 	m_pText_FileLocation = addText(x, y, w, h, "-", strStyleGroup);
 

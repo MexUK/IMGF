@@ -5,16 +5,9 @@
 #include "Type/Vector/Vec2i.h"
 #include "Type/Vector/Vec2u.h"
 #include "eGUIControl.h"
-#include "Pool/CVectorPool.h"
-#include "Event/CEventBoundFunction.h"
-#include "Event/CEventType.h"
-#include "Event/CEventBinder.h"
 #include "Item/CGUIItem.h"
 #include "Control/e2DMirroredOrientation.h"
-#include <string>
-#include <vector>
-#include <Windows.h>
-#include <gdiplus.h>
+#include "Renderable/ERenderable.h"
 
 class CWindow;
 class CGUIScrollPool;
@@ -22,7 +15,7 @@ class CGUILayer;
 class CGUIStyles;
 class CScrollControl;
 
-class CGUIControl : public CGUIItem, public bxcf::CEventType
+class CGUIControl : public CGUIItem
 {
 public:
 	CGUIControl(eGUIControl eControlType);
@@ -33,15 +26,11 @@ public:
 	virtual void							unserialize(bool bSkipControlId = false);
 	virtual void							serialize(void);
 
-	bxcf::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
-	bxcf::CEventBoundFunction*				bindEvent(uint32 uiEventId, void(*pFunction)(void*, void*), void *pTriggerArgument = nullptr, int32 iZOrder = 0);
-	bxcf::CEventBoundFunction*				bindEvent(uint32 uiEventId, bxcf::CInputEventCallbacks *pObject, void *pTriggerArgument = nullptr, int32 iZOrder = 0);
-	bool									triggerEvent(uint32 uiEventId, void *pTriggerArgument = nullptr);
-
-	uint32									getItemType(void) { return bxgx::item::CONTROL; }
+	bxgx::item::ERenderable						getItemType(void) { return bxgx::item::CONTROL; }
 	uint32									getItemSubType(void) { return m_eControlType; }
 
 	virtual bool							isPointInItem(bxcf::Vec2i& vecPoint);
+	virtual bool							doesControlUsePosition(bxcf::Vec2i& vecPoint) { return false; }
 
 	virtual bxcf::Vec2i						getBoundingRectanglePosition(void) { return m_vecPosition; }
 	virtual bxcf::Vec2u						getBoundingRectangleSize(void) { return m_vecSize; }

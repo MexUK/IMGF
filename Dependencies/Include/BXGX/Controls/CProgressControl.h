@@ -3,7 +3,6 @@
 
 #include "Type/Types.h"
 #include "Control/CGUIControl.h"
-#include "Styles/CGUIStyles.h"
 #include "Controls/Components/CGUIControlComponent_Text.h"
 
 class CProgressControl : public CGUIControl, public CGUIControlComponent_Text
@@ -36,7 +35,7 @@ public:
 	void									setCompletionPercentageShown(bool bCompletionPercentageShown) { m_bCompletionPercentageShown = bCompletionPercentageShown; }
 	bool									isCompletionPercentageShown(void) { return m_bCompletionPercentageShown; }
 
-	uint32									getProgressFillColour(void) { return getStyles()->getStyle<uint32>("progress-bar-fill-colour"); }	// RGBA
+	uint32									getProgressFillColour(void);	// RGBA
 
 	void									reset(void);
 

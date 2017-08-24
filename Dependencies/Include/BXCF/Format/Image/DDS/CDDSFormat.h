@@ -3,7 +3,6 @@
 
 #include "bxcf.h"
 #include "Format/CFormat.h"
-#include "Unit/Byte/eEndian.h"
 #include <string>
 
 class bxcf::CDDSFormat : public bxcf::CFormat

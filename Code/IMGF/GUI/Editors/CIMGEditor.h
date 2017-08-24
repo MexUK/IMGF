@@ -82,6 +82,8 @@ public:
 
 	std::vector<CSearchEntry*>&	getSearchEntries(void) { return m_vecSearchEntries; }
 
+	std::string					getResolvedFilePath(std::string& strFilePath);
+
 private:
 	void						addControls(void);
 	void						initControls(void);

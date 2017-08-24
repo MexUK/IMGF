@@ -3,15 +3,14 @@
 
 #include "Type/Types.h"
 #include "Controls/Components/CGUIControlComponent_Text.h"
-#include "Styles/CGUIStyleableEntity.h"
-#include "Event/CGUIEventUtilizer.h"
 #include "Item/CGUIItem.h"
+#include "Renderable/ERenderable.h"
 #include <string>
 #include <vector>
 
 class CTabBarControl;
 
-class CTabBarControlEntry : public CGUIControlComponent_Text, public CGUIStyleableEntity, public CGUIItem
+class CTabBarControlEntry : public CGUIControlComponent_Text, public CGUIItem
 {
 public:
 	CTabBarControlEntry(void);
@@ -21,7 +20,7 @@ public:
 	void									setTabBar(CTabBarControl *pTabControl);
 	CTabBarControl*							getTabBar(void) { return m_pTabBar; }
 
-	uint32									getItemType(void) { return bxgx::item::CONTROL; } // todo - CONTROL_COMPONENT
+	bxgx::item::ERenderable						getItemType(void) { return bxgx::item::CONTROL; } // todo - CONTROL_COMPONENT
 	uint32									getItemSubType(void) { return 0; } // todo - CONTROL_COMPONENT_TAB
 	bool									isPointInItem(bxcf::Vec2i& vecPoint) { return false; } // todo
 	bool									doesItemHaveFocus(void) { return false; } // todo

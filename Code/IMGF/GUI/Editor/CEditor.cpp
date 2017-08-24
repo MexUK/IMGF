@@ -30,7 +30,7 @@ void								CEditor::addFile(CEditorTab *pEditorFile)
 	m_vecTabs.addEntry(pEditorFile);
 	setActiveFile(pEditorFile);
 
-	string& strFilePath = pEditorFile->getFile()->getFilePath();
+	string strFilePath = getResolvedFilePath(pEditorFile->getFile()->getFilePath());
 
 	// choose tab text
 	string strTabText = CPath::getFileName(strFilePath);

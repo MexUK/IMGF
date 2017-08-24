@@ -336,7 +336,7 @@ void				CIMGF::initCommandLine(void)
 		int uiPos4 = strCommandLine.find('"', uiPos3 + 1);
 		string strPath = strCommandLine.substr(uiPos3 + 1, (uiPos4 - uiPos3) - 1);
 		//MessageBox(NULL, CString2::convertStdStringToStdWString(strCommandLine).c_str(), L"S", MB_OK);
-		getTaskManager()->getDispatch()->openFile(strPath);
+		getTaskManager()->getDispatch()->_openFile(strPath);
 	}
 }
 

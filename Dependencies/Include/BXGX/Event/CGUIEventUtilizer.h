@@ -3,6 +3,9 @@
 #include "bxcf.h"
 #include "bxgx.h"
 #include "Type/Types.h"
+#include "Item/EItem.h"
+#include "Event/EInternalEvent.h"
+#include "Styles/StyleEnums.h"
 #include <string>
 #include <vector>
 #include <set>
@@ -15,24 +18,24 @@ public:
 
 	// event usages
 	void									markEventUsages(uint32 uiEventCount, ...);
-	void									markEventUsage(uint32 uiEvent);
-	void									markEventUsageBefore(uint32 uiEvent);
-	void									unmarkEventUsage(uint32 uiEvent);
+	void									markEventUsage(bxgx::events::EInternalEvent uiEvent);
+	void									markEventUsageBefore(bxgx::events::EInternalEvent uiEvent);
+	void									unmarkEventUsage(bxgx::events::EInternalEvent uiEvent);
 	void									unmarkEventUsages(uint32 uiEventCount, ...);
 	void									unmarkAllEventUsages(void);
-	bool									isEventUsageMarked(uint32 uiEvent);
+	bool									isEventUsageMarked(bxgx::events::EInternalEvent uiEvent);
 	bool									isAnyEventUsageMarked(void);
 
 	// item
-	inline virtual uint32					getItemType(void) = 0;
+	inline virtual bxgx::item::EItem		getItemType(void) = 0;
 	virtual uint32							getItemSubType(void) = 0;
 
 	// rendering
-	void									setRenderingControlComponent(uint32 uiControlComponent);
+	void									setRenderingControlComponent(bxgx::controls::components::EControlComponent uiControlComponent);
 	void									resetRenderingControlComponent(void);
-	void									setRenderingStyleStatus(uint32 uiStyleStatus);
+	void									setRenderingStyleStatus(bxgx::styles::statuses::EStyleStatus uiStyleStatus);
 	void									resetRenderingStyleStatus(void);
-	void									setRenderingStyleFragment(uint32 uiStyleFragment);
+	void									setRenderingStyleFragment(bxgx::styles::fragments::EStyleFragment uiStyleFragment);
 	void									resetRenderingStyleFragment(void);
 	void									setRenderingStyleGroups(std::string strStyleGroups);
 	void									setRenderingStyleGroups(std::vector<uint32> vecStyleGroups);

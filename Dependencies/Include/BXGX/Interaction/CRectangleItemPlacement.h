@@ -3,19 +3,13 @@
 
 #include "Type/Types.h"
 #include "Type/Vector/Vec2i.h"
-#include "Type/Vector/Vec2u.h"
 #include "Pool/CVectorPool.h"
-#include "Event/eEvent.h"
-#include "Event/CEventManager.h"
-#include "Event/CEventBinder.h"
-#include "Event/CInputEventCallbacks.h"
-#include "Math/CMath.h"
-#include <vector>
+#include "Static/CMath.h"
 
 class CWindow;
 
 template <class Item>
-class CRectangleItemPlacement : public bxcf::CEventBinder, public bxcf::CInputEventCallbacks
+class CRectangleItemPlacement
 {
 public:
 	CRectangleItemPlacement(void);
@@ -81,14 +75,13 @@ void					CRectangleItemPlacement<Item>::bindEvents(void)
 template <class Item>
 void					CRectangleItemPlacement<Item>::bindEvents_WhenNotPlacing(void)
 {
-	//storeEventBoundFunction(getWindow()->bindEvent(bxcf::EVENT_onLeftMouseDown, this, nullptr, -10));
+	//markEventUsagess(1, LEFT_MOUSE_DOWN);
 }
 
 template <class Item>
 void					CRectangleItemPlacement<Item>::bindEvents_WhenPlacing(void)
 {
-	//storeEventBoundFunction(getWindow()->bindEvent(bxcf::EVENT_onLeftMouseUp, this));
-	//storeEventBoundFunction(getWindow()->bindEvent(bxcf::EVENT_onMouseMove, this));
+	//markEventUsagess(2, LEFT_MOUSE_UP, MOVE_MOUSE);
 }
 
 template <class Item>
@@ -136,14 +129,12 @@ void					CRectangleItemPlacement<Item>::checkToStartMovingOrResizingItem(bxcf::V
 			{
 				// move item
 				startMovingItem(pItem);
-				bxcf::CEventManager::get()->setEventHogged(true);
 				break;
 			}
 			else
 			{
 				// resize item
 				startResizingItem(pItem, uiRectangleEdges);
-				bxcf::CEventManager::get()->setEventHogged(true);
 				break;
 			}
 		}
@@ -178,7 +169,7 @@ void					CRectangleItemPlacement<Item>::onMouseMove(bxcf::Vec2i& vecCursorPoint)
 		bxcf::Vec2i
 			vecItemPositionChange = bxcf::CEventManager::get()->getScreenCursorMoveDifference();
 		getItemBeingMoved()->onMoveItem(vecItemPositionChange);
-		getWindow()->setMarkedToRedraw(true);
+		getWindow()->render();
 	}
 	if (isResizingItem())
 	{
@@ -188,7 +179,7 @@ void					CRectangleItemPlacement<Item>::onMouseMove(bxcf::Vec2i& vecCursorPoint)
 			vecItemSizeChange;
 		bxcf::CMath::getResizePositionAndSizeChange(vecCursorChange, getResizingItemEdges(), vecItemPositionChange, vecItemSizeChange);
 		getItemBeingResized()->onResizeItem(vecItemPositionChange, vecItemSizeChange);
-		getWindow()->setMarkedToRedraw(true);
+		getWindow()->render();
 	}
 }
 

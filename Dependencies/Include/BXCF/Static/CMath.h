@@ -39,7 +39,9 @@ public:
 	static bxcf::Vec3f			getPolygonCenter(std::vector<bxcf::Vec3f>& vecPoints);
 	static bxcf::Vec3f			getBoundingCuboidMinFromSphere(bxcf::Vec3f& vecPosition, float32 fRadius);
 	static bxcf::Vec3f			getBoundingCuboidMaxFromSphere(bxcf::Vec3f& vecPosition, float32 fRadius);
-	static float32				cap(float32 fValue, float32 fMin, float32 fMax);
+	static int32				limit(int32 iValue, int32 iMin, int32 iMax);
+	static uint32				limit(uint32 uiValue, uint32 uiMin, uint32 uiMax);
+	static float32				limit(float32 fValue, float32 fMin, float32 fMax);
 	inline static uint32		convertSectorsToBytes(uint32 uiSectorCount);
 	inline static uint32		convertBytesToSectors(uint32 uiByteCount);
 
@@ -86,6 +88,8 @@ public:
 	static uint32				getMaxEntryCount(uint32 uiAreaLengthPx, uint32 uiStepLengthPx);
 	static uint32				getEntryStartIndex(uint32 uiTotalEntryCount, uint32 uiMaxEntryCount, float32 fProgress);
 	static uint32				getEntryEndIndexExclusive(uint32 uiTotalEntryCount, uint32 uiEntryStartIndex, uint32 uiMaxEntryCount);
+
+	static bool					doRectanglesCollide(bxcf::Vec2i& vecRectangle1Position, bxcf::Vec2u& vecRectangle1Size, bxcf::Vec2i& vecRectangle2Position, bxcf::Vec2u& vecRectangle2Size);
 };
 
 uint32				bxcf::CMath::convertSectorsToBytes(uint32 uiSectorCount)

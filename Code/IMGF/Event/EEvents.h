@@ -2,5 +2,5 @@
 
 enum EEvents
 {
-	TASK_PROGRESS
+	TASK_PROGRESS = 30000
 };

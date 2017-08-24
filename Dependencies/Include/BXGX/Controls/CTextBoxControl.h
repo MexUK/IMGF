@@ -6,8 +6,6 @@
 #include "Type/Vector/Vec2u.h"
 #include "Type/Vector/Vec2i.h"
 #include "Control/CGUIControl.h"
-#include "Styles/CGUIStyles.h"
-#include "Control/CGUIScrollPool.h"
 #include "Controls/CScrollControl.h"
 #include <string>
 #include <vector>
@@ -29,8 +27,8 @@ public:
 	bool									onLeftMouseUp(bxcf::Vec2i& vecCursorPoint);
 	bool									onMouseMove(bxcf::Vec2i& vecCursorPoint);
 	void									onRender(void);
-	
-	bool									applyCursorHoverIcon(void);
+
+	bool									doesControlUsePosition(bxcf::Vec2i& vecPoint) { return true; }
 
 	bxcf::Vec2i								getCaretRenderStartPosition(void);	// in pixels
 	bxcf::Vec2i								getCaretRenderEndPosition(void);	// in pixels
@@ -98,7 +96,7 @@ public:
 	void									setReadOnly(bool bReadOnly) { m_bReadOnly = bReadOnly; }
 	bool									isReadOnly(void) { return m_bReadOnly; }
 
-	uint32									getCaretColour(void) { return getStyles()->getStyle<uint32>("caret-colour"); }	// RGBA
+	uint32									getCaretColour(void);	// RGBA
 
 	std::vector<std::string>&				getTextLines(void) { return m_vecTextLines; }
 

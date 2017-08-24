@@ -8,14 +8,12 @@
 #include "Type/Vector/Vec4f.h"
 #include "Type/Vector/Vec4u8.h"
 #include "Type/Vector/Vec4u16.h"
-#include <atlstr.h>
 #include <string>
 #include <vector>
 #include <deque>
-#include <codecvt>
-#include <stdint.h>
+#include <atlstr.h>
 
-uint64_t pack754(float80 f, unsigned bits, unsigned expbits);
+uint64_t pack754(float80 f, unsigned bits, unsigned expbits); // todo - namespace
 #define pack754_32(f) (pack754((f), 32, 8))
 #define pack754_64(f) (pack754((f), 64, 11))
 
@@ -56,7 +54,7 @@ public:
 	static bxcf::Vec3f						unpackVector3D(std::string& strData, bool bBigEndian = true);
 	static bxcf::Vec4f						unpackVector4D(std::string& strData, bool bBigEndian = true);
 	static std::string						toString(int iNumber);
-	static std::string						toString(uint32 uiNumber);
+	inline static std::string				toString(uint32 uiNumber);
 	static std::string						toString(size_t iNumber);
 	static std::string						toString(float32 fNumber);
 	static std::string						toStringExtendedFloat(float32 fNumber);
@@ -107,11 +105,6 @@ public:
 	static bool								isStringChars(std::string& strData);
 	static bool								isUintBetween(std::string& strData, uint32 uiMin, uint32 uiMax);
 
-	static std::string						convertCStringToStdString(CString str)
-	{
-		CT2CA pszConvertedAnsiString(str);
-		return std::string(pszConvertedAnsiString);
-	}
 	static std::wstring						convertStdStringToStdWString(std::string str)
 	{
 		/*
@@ -161,5 +154,12 @@ public:
 		return r;
 	}
 };
+
+std::string				bxcf::CString2::toString(uint32 uiNumber)
+{
+	char szString[21];
+	_itoa_s(uiNumber, szString, 10);
+	return std::string(szString);
+}
 
 #endif

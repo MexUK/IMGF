@@ -4,7 +4,6 @@
 
 #include "bxcf.h"
 #include "Type/Types.h"
-#include <math.h>
 
 class bxcf::Vec4f
 {

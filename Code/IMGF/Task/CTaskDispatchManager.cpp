@@ -161,17 +161,69 @@ void		CTaskDispatchManager::uninit(void)
 {
 }
 
+// task
 string&		CTaskDispatchManager::getTaskName(void)
 {
 	return g_pIMGF->getTaskManager()->getTaskName();
 }
 
+void		CTaskDispatchManager::onStartTask(string strTaskName)
+{
+	m_pTaskManager->onStartTask(strTaskName);
+}
+
+void		CTaskDispatchManager::onCompleteTask(void)
+{
+	m_pTaskManager->onCompleteTask();
+}
+
+void		CTaskDispatchManager::onAbortTask(void)
+{
+	m_pTaskManager->onAbortTask();
+}
+
+// file/folder input windows
+vector<string>	CTaskDispatchManager::openFile(string strExtensionFilters, bool bAllowMultiSelect, string strDefaultFileName)
+{
+	m_pTaskManager->onPauseTask();
+	vector<string> vecFilePaths = CInput::openFile(getTaskName(), strExtensionFilters, bAllowMultiSelect, strDefaultFileName);
+	m_pTaskManager->onResumeTask();
+	return vecFilePaths;
+}
+
+string			CTaskDispatchManager::saveFile(string strExtensionFilters, string strDefaultFileName)
+{
+	m_pTaskManager->onPauseTask();
+	//string strFilePath = CInput::saveFile(getTaskName(), strExtensionFilters, bAllowMultiSelect, strDefaultFileName);
+	m_pTaskManager->onResumeTask();
+	//return strFilePath;
+	return "";
+}
+
+string			CTaskDispatchManager::openFolder(string strTitle, string strInitialDir)
+{
+	m_pTaskManager->onPauseTask();
+	//string strFolderPath = CInput::openFolder(getTaskName(), strTitle, strInitialDir);
+	m_pTaskManager->onResumeTask();
+	//return strFolderPath;
+	return "";
+}
+
+string			CTaskDispatchManager::saveFolder(string strTitle, string strInitialDir)
+{
+	m_pTaskManager->onPauseTask();
+	//string strFolderPath = CInput::saveFolder(getTaskName(), strTitle, strInitialDir);
+	m_pTaskManager->onResumeTask();
+	//return strFolderPath;
+	return "";
+}
+
 // tasks
 void		CTaskDispatchManager::chooseFilesToOpen(void)
 {
-	m_pTaskManager->onStartTask("chooseFilesToOpen");
+	onStartTask("chooseFilesToOpen");
 
-	vector<string> vecFilePaths = CInput::openFile(getTaskName(), "IMG,DIR");
+	vector<string> vecFilePaths = openFile("img,dir");
 	if (vecFilePaths.size() == 0)
 	{
 		m_pTaskManager->onAbortTask();
@@ -180,15 +232,15 @@ void		CTaskDispatchManager::chooseFilesToOpen(void)
 
 	for (auto &strFilePath : vecFilePaths)
 	{
-		openFile(strFilePath);
+		_openFile(strFilePath);
 	}
 
-	m_pTaskManager->onCompleteTask();
+	onCompleteTask();
 }
 
-void		CTaskDispatchManager::openFile(string& strFilePath)
+void		CTaskDispatchManager::_openFile(string& strFilePath)
 {
-	m_pTaskManager->onStartTask("openFile");
+	onStartTask("openFile");
 
 	string strExtensionUpper = CString2::toUpperCase(CPath::getFileExtension(strFilePath));
 	/*
@@ -235,7 +287,7 @@ void		CTaskDispatchManager::openFile(string& strFilePath)
 			{
 				CInput::showMessage("Unable to open IMG file:\r\n\r\n" + strFilePath, "Can't Open File");
 				delete img;
-				return m_pTaskManager->onAbortTask();
+				return onAbortTask();
 			}
 		//}
 
@@ -243,13 +295,13 @@ void		CTaskDispatchManager::openFile(string& strFilePath)
 		{
 			CInput::showMessage("Version of IMG format is not supported:\r\n\r\n" + strFilePath, "IMG Version Not Supported");
 			delete img;
-			return m_pTaskManager->onAbortTask();
+			return onAbortTask();
 		}
 
 		if (!m_pMainWindow->getIMGEditor()->validateFile(img))
 		{
 			delete img;
-			return m_pTaskManager->onAbortTask();
+			return onAbortTask();
 		}
 
 		/*
@@ -272,7 +324,7 @@ void		CTaskDispatchManager::openFile(string& strFilePath)
 		{
 			CInput::showMessage("Failed to read the IMG file:\r\n\r\n" + img->getFilePath(), "Unable To Read File");
 			delete img;
-			return m_pTaskManager->onAbortTask();
+			return onAbortTask();
 		}
 
 		m_pMainWindow->getIMGEditor()->addFile(img);
@@ -289,9 +341,9 @@ void		CTaskDispatchManager::openFile(string& strFilePath)
 		{
 			CInput::showMessage(strExtensionUpper + " files are not supported.\r\n\r\n" + strFilePath, "Format Not Supported");
 		}
-		m_pTaskManager->onAbortTask();
+		return onAbortTask();
 	}
-	m_pTaskManager->onCompleteTask();
+	onCompleteTask();
 }
 
 void		CTaskDispatchManager::closeActiveFile(void)

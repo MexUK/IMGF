@@ -27,9 +27,10 @@ void						CEditorTab::log(string strText)
 void						CEditorTab::logf(string strFormatText, ...)
 {
 	char szBuffer[8192];
+	memset(szBuffer, '\0', 8192);
 	va_list va;
 	va_start(va, strFormatText);
-	vsprintf_s(szBuffer, strFormatText.c_str(), va);
+	vsprintf_s(szBuffer, 8192, strFormatText.c_str(), va);
 	va_end(va);
 	log(szBuffer);
 }

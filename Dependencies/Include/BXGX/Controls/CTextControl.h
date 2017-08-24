@@ -4,7 +4,6 @@
 #include "Type/Types.h"
 #include "Control/CGUIControl.h"
 #include "Controls/Components/CGUIControlComponent_Text.h"
-#include <string>
 
 class CTextControl : public CGUIControl, public CGUIControlComponent_Text
 {

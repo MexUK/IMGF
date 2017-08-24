@@ -10,7 +10,7 @@
 
 class CGUILayer;
 
-class CTabBarControl : public CGUIControl, public bxcf::CVectorPool<CTabBarControlEntry*>, public bxcf::EventTriggerable
+class CTabBarControl : public CGUIControl, public bxcf::CVectorPool<CTabBarControlEntry*>
 {
 public:
 	CTabBarControl(void);
@@ -27,6 +27,8 @@ public:
 	bool									onMouseWheelUp(bxcf::Vec2i& vecCursorPosition);
 	void									onRender(void);
 
+	bool									doesControlUsePosition(bxcf::Vec2i& vecPoint);
+
 	uint32									getActiveIndex(void);
 
 	CTabBarControlEntry*					addTab(std::string strTabText = "New Tab", bool bSetActiveTab = false, std::string strStyleGroups = "");
@@ -34,7 +36,8 @@ public:
 	TabClass*								addTab(std::string strTabText = "New Tab", bool bSetActiveTab = false, std::string strStyleGroups = "");
 	void									removeTab(CTabBarControlEntry *pTab);
 
-	CTabBarControlEntry*					getTabFromPosition(bxcf::Vec2i& vecPosition);
+	CTabBarControlEntry*					getTabFromPosition(bxcf::Vec2i& vecPoint);
+	bool									isPointOverTab(bxcf::Vec2i& vecPoint);
 
 	void									bindTabLayer(CTabBarControlEntry *pTab, CGUILayer *pLayer);
 	void									unbindTabLayer(CTabBarControlEntry *pTab);

@@ -2,8 +2,6 @@
 #define CGUIStyleableEntity_H
 
 #include "Type/Types.h"
-#include "Pool/CMultipleTypeValuesUMapContainer.h"
-#include <string>
 
 class CGUIStyles;
 

@@ -139,13 +139,13 @@
     <Filter Include="Header Files\EntryViewer">
       <UniqueIdentifier>{b5d46eb4-4ad1-4395-83e9-ee576e8f2bf6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\FileFormat">
+    <Filter Include="Header Files\Format">
       <UniqueIdentifier>{be344ecf-bbe9-42e8-8f93-338d1c58b864}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\FileFormat\DB">
+    <Filter Include="Header Files\Format\DB">
       <UniqueIdentifier>{dd01c5c2-63db-4ff8-b764-1ff406b80e11}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\FileFormat\LST">
+    <Filter Include="Header Files\Format\LST">
       <UniqueIdentifier>{dc991616-56e1-4a2c-b70f-dcb94205632a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\AutomatedTesting">
@@ -160,13 +160,13 @@
     <Filter Include="Source Files\EntryViewer">
       <UniqueIdentifier>{6cca3ddf-485b-4335-9f9e-28aa3f791c10}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\FileFormat">
+    <Filter Include="Source Files\Format">
       <UniqueIdentifier>{b11c09cf-842e-4f91-b33d-3249313a2f74}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\FileFormat\DB">
+    <Filter Include="Source Files\Format\DB">
       <UniqueIdentifier>{46180b95-ab84-486b-9c23-9b7fd3088776}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\FileFormat\LST">
+    <Filter Include="Source Files\Format\LST">
       <UniqueIdentifier>{4b4c91de-4010-415e-81ec-1a3171e0800e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Tasks">
@@ -393,26 +393,26 @@
     <ClCompile Include="..\..\..\Code\IMGF\EntryViewer\CTextureViewer.cpp">
       <Filter>Source Files\EntryViewer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\DB\CDBEntry.cpp">
-      <Filter>Source Files\FileFormat\DB</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Format\DB\CDBEntry.cpp">
+      <Filter>Source Files\Format\DB</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\DB\CDBFormat.cpp">
-      <Filter>Source Files\FileFormat\DB</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Format\DB\CDBFormat.cpp">
+      <Filter>Source Files\Format\DB</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\DB\CDBManager.cpp">
-      <Filter>Source Files\FileFormat\DB</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Format\DB\CDBManager.cpp">
+      <Filter>Source Files\Format\DB</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTEntry.cpp">
-      <Filter>Source Files\FileFormat\LST</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Format\LST\CLSTEntry.cpp">
+      <Filter>Source Files\Format\LST</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTFormat.cpp">
-      <Filter>Source Files\FileFormat\LST</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Format\LST\CLSTFormat.cpp">
+      <Filter>Source Files\Format\LST</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTSection.cpp">
-      <Filter>Source Files\FileFormat\LST</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Format\LST\CLSTSection.cpp">
+      <Filter>Source Files\Format\LST</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTManager.cpp">
-      <Filter>Source Files\FileFormat\LST</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Format\LST\CLSTManager.cpp">
+      <Filter>Source Files\Format\LST</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\Globals.cpp">
       <Filter>Source Files</Filter>
@@ -1097,26 +1097,26 @@
     <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\eEntryViewerDisplayType.h">
       <Filter>Header Files\EntryViewer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\DB\CDBEntry.h">
-      <Filter>Header Files\FileFormat\DB</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Format\DB\CDBEntry.h">
+      <Filter>Header Files\Format\DB</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\DB\CDBFormat.h">
-      <Filter>Header Files\FileFormat\DB</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Format\DB\CDBFormat.h">
+      <Filter>Header Files\Format\DB</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\DB\CDBManager.h">
-      <Filter>Header Files\FileFormat\DB</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Format\DB\CDBManager.h">
+      <Filter>Header Files\Format\DB</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTEntry.h">
-      <Filter>Header Files\FileFormat\LST</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Format\LST\CLSTEntry.h">
+      <Filter>Header Files\Format\LST</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTFormat.h">
-      <Filter>Header Files\FileFormat\LST</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Format\LST\CLSTFormat.h">
+      <Filter>Header Files\Format\LST</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTSection.h">
-      <Filter>Header Files\FileFormat\LST</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Format\LST\CLSTSection.h">
+      <Filter>Header Files\Format\LST</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\FileFormat\LST\CLSTManager.h">
-      <Filter>Header Files\FileFormat\LST</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Format\LST\CLSTManager.h">
+      <Filter>Header Files\Format\LST</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Globals.h">
       <Filter>Header Files</Filter>
