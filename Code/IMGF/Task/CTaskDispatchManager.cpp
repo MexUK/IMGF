@@ -126,7 +126,7 @@
 #include "EntryViewer/CCollisionViewer.h"
 #include "Tasks/Renamer/CRenamedIMGEntry.h"
 #include "Format/RW/CTextureEntry.h"
-#include "Games/eGame.h"
+#include "Game/eGame.h"
 #include "CLastUsedValueManager.h"
 #include "Task/ETask.h"
 #include "Stream/CDataReader.h"
@@ -883,16 +883,16 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 	if (bConvertEntries)
 	{
 		// choose destination version for DFF, TXD and COL files
-		ePlatformedGame eDestGame = PLATFORMED_GAME_UNKNOWN;
+		ePlatformedGame eDestGame = UNKNOWN_PLATFORMED_GAME;
 		if (eIMGVersionValue == IMG_1)
 		{
-			eDestGame = PLATFORMED_GAME_PC_GTA_VC;
+			eDestGame = PC_GTA_VC;
 		}
 		else if (eIMGVersionValue == IMG_2)
 		{
-			eDestGame = PLATFORMED_GAME_PC_GTA_SA;
+			eDestGame = PC_GTA_SA;
 		}
-		CRWVersion *pDestRWVersion = eDestGame == PLATFORMED_GAME_UNKNOWN ? nullptr : CRWManager::get()->getVersionManager()->getRWVersionFromGame(eDestGame);
+		CRWVersion *pDestRWVersion = eDestGame == UNKNOWN_PLATFORMED_GAME ? nullptr : CRWManager::get()->getVersionManager()->getRWVersionFromGame(eDestGame);
 
 		eCOLVersion eDestCOLVersion = COL_UNKNOWN;
 		if (eIMGVersionValue == IMG_1)
@@ -910,7 +910,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 			string strEntryExtensionUpper = CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()));
 			if (CGameFormat::isModelExtension(strEntryExtensionUpper))
 			{
-				if (eDestGame == PLATFORMED_GAME_UNKNOWN)
+				if (eDestGame == UNKNOWN_PLATFORMED_GAME)
 				{
 					getIMGF()->getTaskManager()->onTaskProgressTick();
 					continue;
@@ -935,7 +935,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 			}
 			else if (strEntryExtensionUpper == "TXD")
 			{
-				if (eDestGame == PLATFORMED_GAME_UNKNOWN)
+				if (eDestGame == UNKNOWN_PLATFORMED_GAME)
 				{
 					getIMGF()->getTaskManager()->onTaskProgressTick();
 					continue;
@@ -2614,7 +2614,7 @@ void		CTaskDispatchManager::onRequestCopyEntryData(eIMGEntryProperty eIMGEntryPr
 			vecCopyLines.push_back(pIMGEntry->getRageResourceType()->getResourceName());
 			break;
 		case IMG_ENTRY_RWVERSION:
-			vecCopyLines.push_back(pIMGEntry->getRWVersion()->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pIMGEntry->getRWVersion()->getLocalizationKey()) + ")");
+			vecCopyLines.push_back(pIMGEntry->getRWVersion()->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pIMGEntry->getRWVersion()->getLocalizationKey()) + ")");
 			break;
 		case IMG_ENTRY_SIZE:
 			vecCopyLines.push_back(CString2::toString(pIMGEntry->getEntrySize()));
@@ -2849,7 +2849,7 @@ void		CTaskDispatchManager::onRequestSelectViaRWVersion(CRWVersion *pRWVersion)
 	}
 
 	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_90", uiSelectedEntryCount));
-	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_91", (pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()), true);
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_91", (pRWVersion->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()), true);
 
 	pListControl->SetFocus();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaRWVersion");
@@ -3781,7 +3781,7 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 			continue;
 		}
 
-		if (pIMGEntry != nullptr && (pIMGEntry->getRWVersion()->doesGameUseVersion(PLATFORMED_GAME_PC_GTA_III) || pIMGEntry->getRWVersion()->doesGameUseVersion(PLATFORMED_GAME_PC_GTA_VC)))
+		if (pIMGEntry != nullptr && (pIMGEntry->getRWVersion()->doesUsePlatformedGame(PC_GTA_III) || pIMGEntry->getRWVersion()->doesUsePlatformedGame(PC_GTA_VC)))
 		{
 			bSelectedDFFsContainIIIOrVC = true;
 			break;
@@ -3789,7 +3789,7 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 	}
 	//////////
 
-	if (bSelectedDFFsContainIIIOrVC && pRWVersion->doesGameUseVersion(PLATFORMED_GAME_PC_GTA_SA))
+	if (bSelectedDFFsContainIIIOrVC && pRWVersion->doesUsePlatformedGame(PC_GTA_SA))
 	{
 		// The selected DFFs in the active IMG tab contains at least 1 DFF IMG entry with a RW version of III or VC, and the target RW version to convert to is SA.
 		vector<uint32> vecExtendedLogLines_MissingObjectIds;
@@ -3993,7 +3993,7 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 			}
 		}
 
-		if (bConvert2DFXFromIIIOrVCToSA && pIMGEntry->getRWVersion() != nullptr && (pIMGEntry->getRWVersion()->doesGameUseVersion(PLATFORMED_GAME_PC_GTA_III) || pIMGEntry->getRWVersion()->doesGameUseVersion(PLATFORMED_GAME_PC_GTA_VC)))
+		if (bConvert2DFXFromIIIOrVCToSA && pIMGEntry->getRWVersion() != nullptr && (pIMGEntry->getRWVersion()->doesUsePlatformedGame(PC_GTA_III) || pIMGEntry->getRWVersion()->doesUsePlatformedGame(PC_GTA_VC)))
 		{
 			// CIDEEntry_2DFX = umapIDEModelNames[modelName]->getSectionsByType(IDE_SECTION_2DFX)[0];
 
@@ -4196,7 +4196,7 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 	
-	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_95", vecConvertedDFFEntryNames.size(), (pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_95", vecConvertedDFFEntryNames.size(), (pRWVersion->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()));
 	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_96"), true);
 	getIMGF()->getEntryListTab()->log(CString2::join(vecConvertedDFFEntryNames, "\n"), true);
 
@@ -4741,20 +4741,20 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 	}
 	else if (pDuplicateEntriesDialogData->m_ucEntriesType == 3) // DAT file
 	{
-		ePlatformedGame ePlatformedGameValue = PLATFORMED_GAME_UNKNOWN;
+		ePlatformedGame ePlatformedGameValue = UNKNOWN_PLATFORMED_GAME;
 		switch (pDuplicateEntriesDialogData->m_uiDATGameIndex)
 		{
 		case 0: // GTA III
-			ePlatformedGameValue = PLATFORMED_GAME_PC_GTA_III;
+			ePlatformedGameValue = PC_GTA_III;
 			break;
 		case 1: // GTA VC
-			ePlatformedGameValue = PLATFORMED_GAME_PC_GTA_VC;
+			ePlatformedGameValue = PC_GTA_VC;
 			break;
 		case 2: // GTA SA
-			ePlatformedGameValue = PLATFORMED_GAME_PC_GTA_SA;
+			ePlatformedGameValue = PC_GTA_SA;
 			break;
 		case 3: // SOL
-			ePlatformedGameValue = PLATFORMED_GAME_PC_SOL;
+			ePlatformedGameValue = PC_SOL;
 			break;
 		case 4: // Other
 			break;
@@ -4992,7 +4992,7 @@ void		CTaskDispatchManager::onRequestConvertTXDToGame(ePlatformedGame ePlatforme
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_104", uiConvertedTXDCount, CRWManager::get()->getGameName(ePlatformedGame).c_str(), vecMipmapsRemoved.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_104", uiConvertedTXDCount, CGameManager::get()->getPlatformedGameText(ePlatformedGame).c_str(), vecMipmapsRemoved.size()));
 	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_105"), true);
 	getIMGF()->getEntryListTab()->log(CString2::join(vecConvertedTXDNames, "\n"), true);
 	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("MipmapsRemoved"), true);
@@ -5062,7 +5062,7 @@ void		CTaskDispatchManager::onRequestConvertTXDToRWVersion(CRWVersion *pRWVersio
 		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 	}
 
-	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_107", vecConvertedTXDEntryNames.size(), (pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_107", vecConvertedTXDEntryNames.size(), (pRWVersion->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()));
 	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_105"), true);
 	getIMGF()->getEntryListTab()->log(CString2::join(vecConvertedTXDEntryNames, "\n"), true);
 
@@ -6019,7 +6019,7 @@ void			CTaskDispatchManager::onRequestValidateAllTXDInActiveTab(void)
 				}
 				else
 				{
-					if (!CTXDFormat::isTextureCountValid(pTXDFile->getTextures().size(), pTXDFile->getGames()))
+					if (!CTXDFormat::isTextureCountValid(pTXDFile->getTextures().size(), pTXDFile->getPlatformedGames()))
 					{
 						vecCorruptTXDEntryLines.push_back(CLocalizationManager::get()->getTranslatedFormattedText("Log_InvalidTextureCount", pIMGEntry->getEntryName(), pTXDFile->getTextures().size()));
 					}
@@ -6028,7 +6028,7 @@ void			CTaskDispatchManager::onRequestValidateAllTXDInActiveTab(void)
 						uint32 uiTextureIndex = 0;
 						for (auto pTexture : pTXDFile->getTextures())
 						{
-							if (!CTXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getGames()))
+							if (!CTXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getPlatformedGames()))
 							{
 								vecCorruptTXDEntryLines.push_back(pIMGEntry->getEntryName() + " - Invalid texture resolution: " + pTexture->getDiffuseName() + " (" + CString2::toString(pTexture->getImageSize().x) + " x " + CString2::toString(pTexture->getImageSize().y) + ")");
 								break;
@@ -7938,7 +7938,7 @@ void				CTaskDispatchManager::onRequestTXDOrganizer(void)
 	uint32 uiTXDCount = 0;
 	CTXDFormat *pTXDFile = CTXDManager::get()->createFormat();
 	pTXDFile->setDeviceId(0);
-	pTXDFile->setRWVersion(CRWManager::get()->getVersionManager()->getEntryByVersionId(RW_VERSION_3_6_0_3));
+	pTXDFile->setRWVersion(CRWManager::get()->getVersionManager()->getEntryByVersionId(RW_3_6_0_3));
 
 	CIMGEntry *pIMGEntry = nullptr;
 	uint32
@@ -8011,7 +8011,7 @@ void				CTaskDispatchManager::onRequestTXDOrganizer(void)
 			umapTextureNamesUsedInTXD.clear();
 			pTXDFile = CTXDManager::get()->createFormat();
 			pTXDFile->setDeviceId(0);
-			pTXDFile->setRWVersion(CRWManager::get()->getVersionManager()->getEntryByVersionId(RW_VERSION_3_6_0_3));
+			pTXDFile->setRWVersion(CRWManager::get()->getVersionManager()->getEntryByVersionId(RW_3_6_0_3));
 		}
 		
 		pDFFFile->unload();
@@ -8584,15 +8584,15 @@ void						CTaskDispatchManager::onRequestMapMoverAndIDShifter(void)
 	;
 	if (CFile::doesFileExist(strModelNamesPath_PC_GTA_III))
 	{
-		umapIgnoreDefaultObjectFileNamesVector[PLATFORMED_GAME_PC_GTA_III] = CString2::split(CFile::getFileContent(strModelNamesPath_PC_GTA_III), ", ");
+		umapIgnoreDefaultObjectFileNamesVector[PC_GTA_III] = CString2::split(CFile::getFileContent(strModelNamesPath_PC_GTA_III), ", ");
 	}
 	if (CFile::doesFileExist(strModelNamesPath_PC_GTA_VC))
 	{
-		umapIgnoreDefaultObjectFileNamesVector[PLATFORMED_GAME_PC_GTA_VC] = CString2::split(CFile::getFileContent(strModelNamesPath_PC_GTA_VC), ", ");
+		umapIgnoreDefaultObjectFileNamesVector[PC_GTA_VC] = CString2::split(CFile::getFileContent(strModelNamesPath_PC_GTA_VC), ", ");
 	}
 	if (CFile::doesFileExist(strModelNamesPath_PC_GTA_SA))
 	{
-		umapIgnoreDefaultObjectFileNamesVector[PLATFORMED_GAME_PC_GTA_SA] = CString2::split(CFile::getFileContent(strModelNamesPath_PC_GTA_SA), ", ");
+		umapIgnoreDefaultObjectFileNamesVector[PC_GTA_SA] = CString2::split(CFile::getFileContent(strModelNamesPath_PC_GTA_SA), ", ");
 	}
 
 	unordered_map<string, bool> umapIgnoreDefaultObjectFileNames;

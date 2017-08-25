@@ -13,7 +13,6 @@
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
 #include "GUI/Windows/CMainWindow.h"
-#include "Styles/CGUIStyles.h"
 #include "Type/Colour/CColour.h"
 #include "BXGXManager.h"
 #include "Controls/CGridControl.h"
@@ -645,7 +644,7 @@ void					CIMGEditor::initMenu(void) // todo - move menu stuff to like CMenuManag
 	for (auto pRWVersion : CRWManager::get()->getVersionManager()->getEntries())
 	{
 		getIMGF()->m_umapMenuItemMapping_SelectRWVersion[1561 + i] = pRWVersion;
-		string strMenuText = CLocalizationManager::get()->getTranslatedText("Menu_Select_RWVersion_Prefix") + " " + CString2::escapeMenuText((pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + CString2::escapeMenuText((pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
+		string strMenuText = CLocalizationManager::get()->getTranslatedText("Menu_Select_RWVersion_Prefix") + " " + CString2::escapeMenuText((pRWVersion->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + CString2::escapeMenuText((pRWVersion->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
 		AppendMenu(hMenu_Edit_SelectViaRWVersion, MF_STRING, 1561 + i, CString2::convertStdStringToStdWString(strMenuText).c_str());
 		i++;
 	}
@@ -720,13 +719,13 @@ void					CIMGEditor::initMenu(void) // todo - move menu stuff to like CMenuManag
 	i = 0;
 	for (auto pRWVersion : CRWManager::get()->getVersionManager()->getEntries())
 	{
-		if (pRWVersion->getVersionType() != TYPE_MODEL)
+		if (pRWVersion->getFileType() != TYPE_MODEL)
 		{
 			continue;
 		}
 
 		getIMGF()->m_umapMenuItemMapping_ConvertDFFtoRWVersion[1590 + i] = pRWVersion;
-		string strMenuText = "Convert DFF to " + CString2::escapeMenuText((pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + CString2::escapeMenuText((pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
+		string strMenuText = "Convert DFF to " + CString2::escapeMenuText((pRWVersion->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + CString2::escapeMenuText((pRWVersion->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
 		AppendMenu(hMenu_Model_Convert_DFFRWVersion, MF_STRING, 1590 + i, CString2::convertStdStringToStdWString(strMenuText).c_str());
 		i++;
 	}
@@ -752,13 +751,13 @@ void					CIMGEditor::initMenu(void) // todo - move menu stuff to like CMenuManag
 	i = 0;
 	for (auto pRWVersion : CRWManager::get()->getVersionManager()->getEntries())
 	{
-		if (pRWVersion->getVersionType() != TYPE_MODEL)
+		if (pRWVersion->getFileType() != TYPE_MODEL)
 		{
 			continue;
 		}
 
 		getIMGF()->m_umapMenuItemMapping_ConvertTXDtoRWVersion[1660 + i] = pRWVersion;
-		string strString1 = CString2::escapeMenuText((pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + CString2::escapeMenuText((pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
+		string strString1 = CString2::escapeMenuText((pRWVersion->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + CString2::escapeMenuText((pRWVersion->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
 		string strMenuText = CLocalizationManager::get()->getTranslatedFormattedText("Menu_Convert_TXD_To", strString1.c_str());
 		AppendMenu(hMenu_Texture_Convert_TXDRWVersion, MF_STRING, 1660 + i, CString2::convertStdStringToStdWString(strMenuText).c_str());
 		i++;
@@ -972,12 +971,12 @@ void					CIMGEditor::loadRightClickMenu(int xPos, int yPos)
 	i = 0;
 	for (auto pRWVersion : CRWManager::get()->getVersionManager()->getEntries())
 	{
-		if (pRWVersion->getVersionType() != TYPE_MODEL)
+		if (pRWVersion->getFileType() != TYPE_MODEL)
 		{
 			continue;
 		}
 
-		string strMenuText = "Convert DFF to " + CString2::escapeMenuText((pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + CString2::escapeMenuText((pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
+		string strMenuText = "Convert DFF to " + CString2::escapeMenuText((pRWVersion->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + CString2::escapeMenuText((pRWVersion->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
 		AppendMenu(hMenu_ConvertDFF_DFFRWVersion, MF_STRING, 1590 + i, CString2::convertStdStringToStdWString(strMenuText).c_str());
 		i++;
 	}
@@ -998,12 +997,12 @@ void					CIMGEditor::loadRightClickMenu(int xPos, int yPos)
 	i = 0;
 	for (auto pRWVersion : CRWManager::get()->getVersionManager()->getEntries())
 	{
-		if (pRWVersion->getVersionType() != TYPE_MODEL)
+		if (pRWVersion->getFileType() != TYPE_MODEL)
 		{
 			continue;
 		}
 
-		string strString1 = CString2::escapeMenuText((pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + CString2::escapeMenuText((pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
+		string strString1 = CString2::escapeMenuText((pRWVersion->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + CString2::escapeMenuText((pRWVersion->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
 		string strMenuText = CLocalizationManager::get()->getTranslatedFormattedText("Menu_Convert_TXD_To", strString1.c_str());
 		AppendMenu(hMenu_ConvertTXD_TXDRWVersion, MF_STRING, 1660 + i, CString2::convertStdStringToStdWString(strMenuText).c_str());
 		i++;

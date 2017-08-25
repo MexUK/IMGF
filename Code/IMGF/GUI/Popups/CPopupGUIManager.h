@@ -5,7 +5,7 @@
 #include "bxcf.h"
 #include "Object/CManager.h"
 #include "Localization/eLanguage.h"
-#include "Games/ePlatformedGame.h"
+#include "Game/ePlatformedGame.h"
 #include "Format/IMG/Regular/eIMGVersion.h"
 #include "Compression/eCompressionAlgorithm.h"
 #include "Type/Vector/Vec2f.h"

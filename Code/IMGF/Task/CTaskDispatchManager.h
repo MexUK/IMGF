@@ -8,7 +8,7 @@
 #include "bxcf.h"
 #include "Format/IMG/Regular/CIMGFormat.h"
 #include "Format/IMG/Regular/eIMGEntryProperty.h"
-#include "Games/ePlatformedGame.h"
+#include "Game/ePlatformedGame.h"
 
 class bxcf::CRasterDataFormat;
 class bxgi::CRWVersion;

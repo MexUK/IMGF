@@ -125,20 +125,20 @@ void		CDumpManager::process(void)
 	}
 	else if (pDumpDialogData->m_uiDumpType == 2) // DAT file
 	{
-		ePlatformedGame ePlatformedGameValue = PLATFORMED_GAME_UNKNOWN;
+		ePlatformedGame ePlatformedGameValue = UNKNOWN_PLATFORMED_GAME;
 		switch (pDumpDialogData->m_uiDATOptionIndex)
 		{
 		case 0: // GTA III
-			ePlatformedGameValue = PLATFORMED_GAME_PC_GTA_III;
+			ePlatformedGameValue = PC_GTA_III;
 			break;
 		case 1: // GTA VC
-			ePlatformedGameValue = PLATFORMED_GAME_PC_GTA_VC;
+			ePlatformedGameValue = PC_GTA_VC;
 			break;
 		case 2: // GTA SA
-			ePlatformedGameValue = PLATFORMED_GAME_PC_GTA_SA;
+			ePlatformedGameValue = PC_GTA_SA;
 			break;
 		case 3: // SOL
-			ePlatformedGameValue = PLATFORMED_GAME_PC_SOL;
+			ePlatformedGameValue = PC_SOL;
 			break;
 		case 4: // Other
 			break;
@@ -170,20 +170,20 @@ void		CDumpManager::process(void)
 	}
 	else if (pDumpDialogData->m_uiDumpType == 3) // Game IMGs
 	{
-		ePlatformedGame ePlatformedGameValue2 = PLATFORMED_GAME_UNKNOWN;
+		ePlatformedGame ePlatformedGameValue2 = UNKNOWN_PLATFORMED_GAME;
 		switch (pDumpDialogData->m_uiDATOptionIndex)
 		{
 		case 0: // GTA III
-			ePlatformedGameValue2 = PLATFORMED_GAME_PC_GTA_III;
+			ePlatformedGameValue2 = PC_GTA_III;
 			break;
 		case 1: // GTA VC
-			ePlatformedGameValue2 = PLATFORMED_GAME_PC_GTA_VC;
+			ePlatformedGameValue2 = PC_GTA_VC;
 			break;
 		case 2: // GTA SA
-			ePlatformedGameValue2 = PLATFORMED_GAME_PC_GTA_SA;
+			ePlatformedGameValue2 = PC_GTA_SA;
 			break;
 		case 3: // SOL
-			ePlatformedGameValue2 = PLATFORMED_GAME_PC_SOL;
+			ePlatformedGameValue2 = PC_SOL;
 			break;
 		case 4: // Other
 			break;
@@ -291,7 +291,7 @@ void		CDumpManager::process(void)
 						vecCorruptTXDs.push_back(pIMGEntry->getEntryName());
 					}
 
-					if (!CTXDFormat::isTextureCountValid(pTXDFile->getTextures().size(), pTXDFile->getGames()))
+					if (!CTXDFormat::isTextureCountValid(pTXDFile->getTextures().size(), pTXDFile->getPlatformedGames()))
 					{
 						vecTXDsContainingTooManyTextures.push_back(CLocalizationManager::get()->getTranslatedFormattedText("Log_TextureCount", pIMGEntry->getEntryName().c_str(), pTXDFile->getTextures().size()));
 					}
@@ -299,7 +299,7 @@ void		CDumpManager::process(void)
 					uint32 uiTextureIndex = 0;
 					for (auto pTexture : pTXDFile->getTextures())
 					{
-						if (!CTXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getGames()))
+						if (!CTXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getPlatformedGames()))
 						{
 							vecInvalidResolutionTXDs.push_back("[" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName() + " (" + CString2::toString(pTexture->getImageSize().x) + " x " + CString2::toString(pTexture->getImageSize().y) + ")");
 						}
@@ -345,7 +345,7 @@ void		CDumpManager::process(void)
 							getIMGF()->getTaskManager()->onTaskProgressTick();
 							continue;
 						}
-						if (!CTXDFormat::isTextureCountValid(pTXDFile->getTextures().size(), pTXDFile->getGames()))
+						if (!CTXDFormat::isTextureCountValid(pTXDFile->getTextures().size(), pTXDFile->getPlatformedGames()))
 						{
 							vecTXDsContainingTooManyTextures.push_back(CLocalizationManager::get()->getTranslatedFormattedText("Log_TextureCount", pIMGEntry->getEntryName().c_str(), pTXDFile->getTextures().size()));
 						}
@@ -368,7 +368,7 @@ void		CDumpManager::process(void)
 								CDebugger::log("pTexture->m_ucBPP: " + CString2::toString(pTexture->getBPP()));
 								*/
 
-								if (!CTXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getGames()))
+								if (!CTXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getPlatformedGames()))
 								{
 									vecInvalidResolutionTXDs.push_back("[" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName() + " (" + CString2::toString(pTexture->getImageSize().x) + " x " + CString2::toString(pTexture->getImageSize().y) + ")");
 								}

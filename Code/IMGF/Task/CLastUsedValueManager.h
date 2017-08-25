@@ -5,7 +5,7 @@
 #include "Object/CManager.h"
 #include "Format/IMG/Regular/eIMGVersion.h"
 #include "Format/IMG/Regular/eIMGEntryProperty.h"
-#include "Games/ePlatformedGame.h"
+#include "Game/ePlatformedGame.h"
 #include <string>
 
 class bxgi::CRWVersion;
@@ -20,7 +20,7 @@ public:
 		m_bLastUsedValue_ClearLogs_AllTabs(false),
 		m_bLastUsedValue_Close2_CloseAll(false),
 		m_pLastUsedValue_ConvertDFF_RWVersion(nullptr),
-		m_eLastUsedValue_ConvertTXD_Game(bxgi::PLATFORMED_GAME_UNKNOWN),
+		m_eLastUsedValue_ConvertTXD_Game(bxgi::UNKNOWN_PLATFORMED_GAME),
 		m_pLastUsedValue_ConvertTXD_RasterDataFormat(nullptr),
 		m_eLastUsedValue_Copy_IMGEntryProperty(bxgi::IMG_ENTRY_ID),
 		m_bLastUsedValue_SaveLog_ActiveTab(false),

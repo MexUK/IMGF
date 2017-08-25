@@ -978,7 +978,7 @@ void					CIMGEditorTab::searchText(void)
 					}
 					else
 					{
-						if (CString2::toUpperCase(pIMGEntry->getRWVersion()->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pIMGEntry->getRWVersion()->getLocalizationKey()) + ")").find(strSearchText) != string::npos)
+						if (CString2::toUpperCase(pIMGEntry->getRWVersion()->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pIMGEntry->getRWVersion()->getLocalizationKey()) + ")").find(strSearchText) != string::npos)
 						{
 							bMatch = true;
 						}
@@ -1030,7 +1030,7 @@ void					CIMGEditorTab::searchText(void)
 		}
 		else if (strEntryExtension == "TXD" || CPath::isModelExtension(strEntryExtension))
 		{
-			strExtraInfo = pIMGEntry->getRWVersion() == nullptr ? CLocalizationManager::get()->getTranslatedText("Window_Main_Combo_RWVersion_Unknown") : pIMGEntry->getRWVersion()->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pIMGEntry->getRWVersion()->getLocalizationKey()) + ")";
+			strExtraInfo = pIMGEntry->getRWVersion() == nullptr ? CLocalizationManager::get()->getTranslatedText("Window_Main_Combo_RWVersion_Unknown") : pIMGEntry->getRWVersion()->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pIMGEntry->getRWVersion()->getLocalizationKey()) + ")";
 		}
 		pListControl->InsertItem(LVIF_TEXT | LVIF_PARAM, uiRowIndex, CString2::convertStdStringToStdWString(pIMGEntry->getEntryName()).c_str(), 0, 0, 0, (DWORD)pSearchEntry);
 		pListControl->SetItem(uiRowIndex, 1, LVIF_TEXT, CString2::convertStdStringToStdWString(CPath::getFileName(pSearchEntry->getWindowTab()->getIMGFile()->getFilePath())).c_str(), 0, 0, 0, 0);

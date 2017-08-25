@@ -1753,19 +1753,19 @@ INT_PTR CALLBACK DialogProc_DragDropDialog(
 	i++;
 	for (auto pRWVersion : CRWManager::get()->getVersionManager()->getEntries())
 	{
-	if (pRWVersion->getVersionType() == TYPE_MODEL)
+	if (pRWVersion->getFileType() == TYPE_MODEL)
 	{
-	((CComboBox*)pDialog->GetDlgItem(52))->AddString(CString2::convertStdStringToStdWString(pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str());
+	((CComboBox*)pDialog->GetDlgItem(52))->AddString(CString2::convertStdStringToStdWString(pRWVersion->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str());
 	// todo getIMGF()->m_umapMenuItemMapping_ConvertDFFtoRWVersion_DragDrop[i] = pRWVersion;
 	i++;
 	}
 
 	// conversion options - default for DFF
-	if (pDragDropDialogData->m_eDestinationIMGVersion == IMG_1 && pRWVersion->getVersionId() == RW_VERSION_3_4_0_3)
+	if (pDragDropDialogData->m_eDestinationIMGVersion == IMG_1 && pRWVersion->getVersionId() == RW_3_4_0_3)
 	{
 	((CComboBox*)pDialog->GetDlgItem(52))->SetCurSel(((CComboBox*)pDialog->GetDlgItem(52))->GetCount() - 1); // VC
 	}
-	else if (pDragDropDialogData->m_eDestinationIMGVersion == IMG_2 && pRWVersion->getVersionId() == RW_VERSION_3_6_0_3)
+	else if (pDragDropDialogData->m_eDestinationIMGVersion == IMG_2 && pRWVersion->getVersionId() == RW_3_6_0_3)
 	{
 	((CComboBox*)pDialog->GetDlgItem(52))->SetCurSel(((CComboBox*)pDialog->GetDlgItem(52))->GetCount() - 1); // SA
 	}
@@ -1816,9 +1816,9 @@ INT_PTR CALLBACK DialogProc_DragDropDialog(
 	((CComboBox*) pDialog->GetDlgItem(54))->AddString(CLocalizationManager::get()->getTranslatedTextW("RWVersion").c_str());
 	for (auto pRWVersion : CRWManager::get()->getVersionManager()->getEntries())
 	{
-		if (pRWVersion->getVersionType() == TYPE_MODEL)
+		if (pRWVersion->getFileType() == TYPE_MODEL)
 		{
-			((CComboBox*) pDialog->GetDlgItem(54))->AddString(CString2::convertStdStringToStdWString(pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str());
+			((CComboBox*) pDialog->GetDlgItem(54))->AddString(CString2::convertStdStringToStdWString(pRWVersion->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str());
 			// todo getIMGF()->m_umapMenuItemMapping_ConvertTXDtoRWVersion_DragDrop[i] = pRWVersion;
 			i++;
 		}
@@ -1885,7 +1885,7 @@ INT_PTR CALLBACK DialogProc_DragDropDialog(
 			if (uiTXDConversionComboOption >= 1 && uiTXDConversionComboOption <= 5)
 			{
 			pDragDropDialogData->m_uiTXDConversionOption = 1; // game
-			//pDragDropDialogData->m_eTXDConversionGame = GAME_III;
+			//pDragDropDialogData->m_eTXDConversionGame = GTA_III;
 			}
 			else if (getIMGF()->m_umapMenuItemMapping_ConvertTXDtoRWVersion_DragDrop.find(uiTXDConversionComboOption) != getIMGF()->m_umapMenuItemMapping_ConvertTXDtoRWVersion_DragDrop.end())
 			{
@@ -2581,7 +2581,7 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	uint32 uiOptionIndex = 0;
 	for (auto pRWVersion : CRWManager::get()->getVersionManager()->getEntries())
 	{
-	((CComboBox*)pDialog->GetDlgItem(203))->InsertString(uiOptionIndex, CString2::convertStdStringToStdWString(pRWVersion->getVersionName() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str());
+	((CComboBox*)pDialog->GetDlgItem(203))->InsertString(uiOptionIndex, CString2::convertStdStringToStdWString(pRWVersion->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str());
 	uiOptionIndex++;
 	}
 	((CComboBox*)pDialog->GetDlgItem(203))->SetCurSel(7);

@@ -3,7 +3,6 @@
 #include "GUI/Editors/CIMGEditor.h"
 #include "Controls/CButtonControl.h"
 #include "Controls/CGridControl.h"
-#include "Styles/CGUIStyles.h"
 #include "GUI/Window/CWindowManager.h"
 #include "Static/CInput.h"
 #include "GraphicsLibrary/CGraphicsLibrary.h"
