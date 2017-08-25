@@ -203,7 +203,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\CTextureViewer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\CTextureViewerTextureData.h" />
     <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\eEntryViewerDisplayType.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\Event\EEvents.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Event\EEvent.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Format\DB\CDBEntry.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Format\DB\CDBFormat.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Format\DB\CDBManager.h" />
@@ -216,12 +216,12 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\CTextureEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\Tab\CIMGEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\CEditor.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\EEditorItems.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\EEditorItem.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tab\CEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\Buttons\CButtonPressManager.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\Buttons\EButtons.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\Buttons\EButton.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layers\CMainLayer.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\ELayers.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\ELayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\EMainMenuType.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\CPopupGUIManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\WindowControlIds.h" />

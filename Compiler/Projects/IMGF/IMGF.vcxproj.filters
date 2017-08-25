@@ -1235,14 +1235,8 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\Tab\CIMGEditorTab.h">
       <Filter>Header Files\GUI\Editors\Tab</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\EEditorItems.h">
-      <Filter>Header Files\GUI\Editor</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\CWindowManager.h">
       <Filter>Header Files\GUI\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\ELayers.h">
-      <Filter>Header Files\GUI\Layer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layers\CMainLayer.h">
       <Filter>Header Files\GUI\Layers</Filter>
@@ -1251,9 +1245,6 @@
       <Filter>Header Files\GUI\Layer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\Buttons\CButtonPressManager.h">
-      <Filter>Header Files\GUI\Input\Buttons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\Buttons\EButtons.h">
       <Filter>Header Files\GUI\Input\Buttons</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Windows\CMainWindow.h">
@@ -1265,14 +1256,23 @@
     <ClInclude Include="..\..\..\Code\IMGF\Task\ETask.h">
       <Filter>Header Files\Task</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Event\EEvents.h">
-      <Filter>Header Files\Event</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskDurationManager.h">
       <Filter>Header Files\Task</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Static\CAppDataPath.h">
       <Filter>Header Files\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\ELayer.h">
+      <Filter>Header Files\GUI\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\EEditorItem.h">
+      <Filter>Header Files\GUI\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\Buttons\EButton.h">
+      <Filter>Header Files\GUI\Input\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Event\EEvent.h">
+      <Filter>Header Files\Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

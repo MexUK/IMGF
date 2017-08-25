@@ -2,7 +2,7 @@
 
 #include "imgf.h"
 
-enum imgf::mainLayer::buttons::EButtons
+enum imgf::mainLayer::buttons::EButton
 {
 	FORMATS,
 	UTILITY,

@@ -978,7 +978,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 
 				for (auto pCOLEntry : pCOLFile->getEntries())
 				{
-					pCOLEntry->setCOLVersion(CCOLManager::get()->getVersionManager()->getEntryByVersionId(eDestCOLVersion));
+					pCOLEntry->setCOLVersion(eDestCOLVersion);
 				}
 
 				pIMGEntry->setEntryData(pCOLFile->storeViaMemory());
@@ -2442,20 +2442,20 @@ void		CTaskDispatchManager::onRequestStats(void)
 
 	for (CIMGEntry *pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
-		if (pIMGEntry->getRWVersion() != nullptr)
+		if (pIMGEntry->getRWVersion() != 0)
 		{
 			if (pIMGEntry->isCollisionFile())
 			{
 			}
 			else
 			{
-				if (umapStatsRWVersions.count(pIMGEntry->getRWVersion()->getVersionCC()) == 0) // crashes when calling getVersionCC()
+				if (umapStatsRWVersions.count(pIMGEntry->getRWVersion()) == 0) // crashes when calling getVersionCC()
 				{
-					umapStatsRWVersions.insert(pair<uint32, uint32>(pIMGEntry->getRWVersion()->getVersionCC(), 1));
+					umapStatsRWVersions.insert(pair<uint32, uint32>(pIMGEntry->getRWVersion(), 1));
 				}
 				else
 				{
-					umapStatsRWVersions[pIMGEntry->getRWVersion()->getVersionCC()]++;
+					umapStatsRWVersions[pIMGEntry->getRWVersion()]++;
 				}
 			}
 		}
@@ -7470,7 +7470,7 @@ void		CTaskDispatchManager::onRequestConvertCOLtoCOLVersion(CCOLVersion *pCOLVer
 		}
 		for (auto pCOLEntry : pCOLFile->getEntries())
 		{
-			pCOLEntry->setCOLVersion(pCOLVersion);
+			pCOLEntry->setCOLVersion(pCOLVersion->getVersionId());
 		}
 
 		string strNewEntryData = pCOLFile->storeViaMemory();

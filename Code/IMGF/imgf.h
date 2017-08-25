@@ -4,14 +4,14 @@ namespace imgf
 {
 	namespace layers
 	{
-		enum ELayers;
+		enum ELayer;
 	};
 
 	namespace editor
 	{
 		namespace items
 		{
-			enum EEditorItems;
+			enum EEditorItem;
 		};
 	};
 
@@ -19,7 +19,7 @@ namespace imgf
 	{
 		namespace buttons
 		{
-			enum EButtons;
+			enum EButton;
 		};
 
 		namespace mainMenuType

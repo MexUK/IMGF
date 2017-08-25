@@ -1,6 +1,6 @@
 #pragma once
 
-enum ELayers
+enum ELayer
 {
 	MAIN,
 	FORMATS_MENU,

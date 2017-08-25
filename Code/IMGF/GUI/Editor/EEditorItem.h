@@ -2,7 +2,7 @@
 
 #include "imgf.h"
 
-enum imgf::editor::items::EEditorItems
+enum imgf::editor::items::EEditorItem
 {
 	IMG_GRID
 };

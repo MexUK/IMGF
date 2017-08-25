@@ -17,7 +17,7 @@
 #include "Type/Colour/CColour.h"
 #include "BXGXManager.h"
 #include "Controls/CGridControl.h"
-#include "GUI/Editor/EEditorItems.h"
+#include "GUI/Editor/EEditorItem.h"
 #include "GUI/Windows/CMainWindow.h"
 #include "GUI/Layers/CMainLayer.h"
 #include "Controls/CTabBarControl.h"
@@ -29,9 +29,9 @@
 #include "Control/CGUIScrollPool.h"
 #include "GUI/Layers/CMainLayer.h"
 #include "Event/EInputEvent.h"
-#include "../BXGI/Event/EEvents.h"
+#include "../BXGI/Event/EEvent.h"
 #include "Event/EInputEvent.h"
-#include "../IMGF/Event/EEvents.h"
+#include "../IMGF/Event/EEvent.h"
 
 // for menu start - todo
 #include "Engine/RW/CRWManager.h"

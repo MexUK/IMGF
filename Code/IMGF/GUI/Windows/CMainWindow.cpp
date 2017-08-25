@@ -17,7 +17,7 @@
 #include "Type/Colour/CColour.h"
 #include "GUI/Layers/CMainLayer.h"
 #include "GUI/Layer/EMainMenuType.h"
-#include "GUI/Layer/ELayers.h"
+#include "GUI/Layer/ELayer.h"
 
 using namespace std;
 using namespace bxcf;

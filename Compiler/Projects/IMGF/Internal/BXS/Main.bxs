@@ -86,7 +86,7 @@ text 0 0 0
 .filter:arrow
 fill 0 0 0
 
-.filter:list .main_fill_2
+.filter:list .main_fill_2 .main_spacing
 
 .filter:listRow .main_text .main_spacing .main_textBlack
 

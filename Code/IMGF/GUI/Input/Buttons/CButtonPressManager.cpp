@@ -1,11 +1,11 @@
 #include "CButtonPressManager.h"
-#include "GUI/Input/Buttons/EButtons.h"
+#include "GUI/Input/Buttons/EButton.h"
 #include "Controls/CButtonControl.h"
 #include "Globals.h"
 #include "CIMGF.h"
 #include "GUI/Window/CWindowManager.h"
 #include "GUI/Windows/CMainWindow.h"
-#include "GUI/Layer/ELayers.h"
+#include "GUI/Layer/ELayer.h"
 #include "GUI/Layer/EMainMenuType.h"
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
@@ -35,8 +35,8 @@ void					CButtonPressManager::onPressButton(CButtonControl *pButton)
 {
 	switch (pButton->getId())
 	{
-	case EButtons::FORMATS:	return formats();
-	case EButtons::UTILITY:	return utility();
+	case EButton::FORMATS:	return formats();
+	case EButton::UTILITY:	return utility();
 
 	case DAT:				return dat();
 	case IMG:				return img();

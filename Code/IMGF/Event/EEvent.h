@@ -1,6 +1,6 @@
 #pragma once
 
-enum EEvents
+enum EEvent
 {
 	TASK_PROGRESS = 30000
 };

@@ -10,8 +10,8 @@
 #include "Shapes/CLineShape.h"
 #include "GUI/Windows/CMainWindow.h"
 #include "GUI/Editors/CIMGEditor.h"
-#include "GUI/Layer/ELayers.h"
-#include "GUI/Input/Buttons/EButtons.h"
+#include "GUI/Layer/ELayer.h"
+#include "GUI/Input/Buttons/EButton.h"
 
 using namespace std;
 using namespace bxcf;
