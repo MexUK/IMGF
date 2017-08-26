@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Layer/CGUILayer.h"
+#include "Layer/CLayer.h"
 #include "Event/Events.h"
 
 class CMainWindow;
@@ -12,7 +12,7 @@ class CButtonControl;
 class CLineShape;
 class CTabBarControlEntry;
 
-class CMainLayer : public CGUILayer, public bxcf::EventBindable
+class CMainLayer : public CLayer, public bxcf::EventBindable
 {
 public:
 	void						init(void);

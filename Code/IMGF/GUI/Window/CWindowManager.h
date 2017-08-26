@@ -14,7 +14,7 @@ public:
 
 	CMainWindow*			openWindow(void);
 
-	void					processWindows(void);
+	void					process(void);
 
 	CMainWindow*			getMainWindow(void) { return m_pMainWindow; }
 

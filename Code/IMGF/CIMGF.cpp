@@ -119,7 +119,6 @@ CIMGF::~CIMGF(void)
 // init/uninit (ocurs in original thread)
 void				CIMGF::init(void)
 {
-	BXGXManager::get()->init();
 	CStyleManager::get()->init();
 	m_pWindowManager->init();
 	_init();
@@ -365,9 +364,9 @@ void				CIMGF::openWindow(void)
 	//Events::trigger(TOOL_READY);
 }
 
-void				CIMGF::processWindows(void)
+void				CIMGF::process(void)
 {
-	getWindowManager()->processWindows();
+	getWindowManager()->process();
 }
 
 CWindow*			CIMGF::getActiveWindow(void)

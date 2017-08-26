@@ -177,8 +177,6 @@ void					CIMGEditorTab::addControls(void)
 
 void					CIMGEditorTab::initControls(void)
 {
-	bindEvents();
-
 	bindEventVoidRef(RESIZE_WINDOW, &CIMGEditorTab::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));
 

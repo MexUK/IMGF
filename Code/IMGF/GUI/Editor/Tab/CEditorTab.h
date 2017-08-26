@@ -2,14 +2,14 @@
 
 #include "Type/Types.h"
 #include "bxcf.h"
-#include "Layer/CGUILayer.h"
+#include "Layer/CLayer.h"
 #include <string>
 
 class CEditor;
 class bxcf::CFormat;
 class CTabBarControlEntry;
 
-class CEditorTab : public CGUILayer
+class CEditorTab : public CLayer
 {
 public:
 	CEditorTab(void);

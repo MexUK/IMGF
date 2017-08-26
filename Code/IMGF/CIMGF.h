@@ -45,7 +45,7 @@ public:
 	void						_init(void);
 
 	void						openWindow(void);
-	void						processWindows(void);
+	void						process(void);
 	
 	CBuildMeta&					getBuildMeta(void) { return m_buildMeta; }
 

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Layer/CGUILayer.h"
+#include "Layer/CLayer.h"
 #include "Pool/CVectorPool.h"
 #include "GUI/Editor/Tab/CEditorTab.h"
 #include <string>
 
 class CTabBarControl;
 
-class CEditor : public CGUILayer
+class CEditor : public CLayer
 {
 public:
 	CEditor(void);

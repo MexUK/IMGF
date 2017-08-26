@@ -184,6 +184,6 @@ void					CButtonPressManager::lst(void)
 // settings
 void					CButtonPressManager::settings(void)
 {
-	CGUILayer *pLayer = m_pMainWindow->getLayerById(SETTINGS_MENU);
+	CLayer *pLayer = m_pMainWindow->getLayerById(SETTINGS_MENU);
 	pLayer->setEnabled(!pLayer->isEnabled());
 }

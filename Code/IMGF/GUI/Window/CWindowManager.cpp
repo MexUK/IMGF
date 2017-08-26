@@ -41,7 +41,7 @@ CMainWindow*			CWindowManager::openWindow(void)
 }
 
 // window processing
-void					CWindowManager::processWindows(void)
+void					CWindowManager::process(void)
 {
-	bxgx::get()->processWindows();
+	bxgx::get()->process();
 }

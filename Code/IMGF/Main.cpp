@@ -7,7 +7,7 @@ int WINAPI					WinMain(HINSTANCE hInstance, HINSTANCE hPreviousInstance, LPSTR p
 	g_pIMGF = new CIMGF;
 	g_pIMGF->init();
 	g_pIMGF->openWindow();
-	g_pIMGF->processWindows();
+	g_pIMGF->process();
 	g_pIMGF->uninit();
 	return 0;
 }

@@ -36,7 +36,6 @@ void					CMainWindow::init(void)
 {
 	initWindow();
 	initLayers();
-	CWindow::bindEvents();
 }
 
 // item fetching
@@ -89,7 +88,7 @@ void					CMainWindow::initMainMenuLayers(void)
 		strStyleGroup;
 
 	// formats menu
-	CGUILayer *pFormatsLayer = addLayer(FORMATS_MENU, true);
+	CLayer *pFormatsLayer = addLayer(FORMATS_MENU, true);
 
 	x = 0;
 	y = getTitleBarHeight() + uiButtonHeight;
@@ -118,7 +117,7 @@ void					CMainWindow::initMainMenuLayers(void)
 	pButton = pFormatsLayer->addButton(x, y, w, h, "Radar", strStyleGroup);
 
 	// utility menu
-	CGUILayer *pUtilityLayer = addLayer(UTILITY_MENU, false);
+	CLayer *pUtilityLayer = addLayer(UTILITY_MENU, false);
 
 	x = 0;
 	y = y2;
@@ -142,7 +141,7 @@ void					CMainWindow::initSettingsMenuLayer(void)
 	string
 		strStyleGroup;
 
-	CGUILayer *pSettingsMenuLayer = addLayer(SETTINGS_MENU, false);
+	CLayer *pSettingsMenuLayer = addLayer(SETTINGS_MENU, false);
 
 	y = getTitleBarHeight() + uiButtonHeight;
 	w = 139;
