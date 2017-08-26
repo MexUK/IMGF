@@ -1,5 +1,4 @@
-#ifndef CFilterOptions_H
-#define CFilterOptions_H
+#pragma once
 
 struct CFilterOptions
 {
@@ -21,5 +20,3 @@ struct CFilterOptions
 	uint32				m_iComboBoxes[3];
 	std::string					m_strEditBoxes[3];
 };
-
-#endif

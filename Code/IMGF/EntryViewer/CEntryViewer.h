@@ -1,5 +1,4 @@
-#ifndef CEntryViewer_H
-#define CEntryViewer_H
+#pragma once
 
 #include <Windows.h>
 #include "Type/Types.h"
@@ -40,5 +39,3 @@ private:
 	uint8								m_bRenderDataIsReady : 1;
 	std::string							m_strWindowTitle;
 };
-
-#endif

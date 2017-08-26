@@ -1,5 +1,4 @@
-#ifndef CTextureViewerTextureData_H
-#define CTextureViewerTextureData_H
+#pragma once
 
 #include <Windows.h>
 #include <string>
@@ -25,5 +24,3 @@ struct CTextureViewerTextureData
 	uint8	m_bIsCorrupt : 1;
 	uint8	m_bTextureContainsNoMipmaps : 1;
 };
-
-#endif

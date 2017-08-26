@@ -1,5 +1,4 @@
-#ifndef CDBManager_H
-#define CDBManager_H
+#pragma once
 
 #include "bxgi.h"
 #include "Format/CFormatManager.h"
@@ -21,5 +20,3 @@ public:
 	
 	bool						compareDBFiles(CDBFormat *pDBFile1, CDBFormat *pDBFile2);
 };
-
-#endif

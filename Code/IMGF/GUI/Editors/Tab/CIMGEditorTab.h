@@ -1,5 +1,4 @@
-#ifndef CIMGEditorTab_H
-#define CIMGEditorTab_H
+#pragma once
 
 #include <Windows.h>
 #include "GUI/Editor/Tab/CEditorTab.h"
@@ -147,5 +146,3 @@ private:
 	std::unordered_map<std::string, std::string>	m_umapActiveFilterValues;
 	uint32						m_uiOverwriteEntryOption;
 };
-
-#endif

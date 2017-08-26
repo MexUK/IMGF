@@ -1,5 +1,4 @@
-#ifndef CLSTManager_H
-#define CLSTManager_H
+#pragma once
 
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
@@ -14,5 +13,3 @@ public:
 	void				init(void);
 	void				uninit(void);
 };
-
-#endif

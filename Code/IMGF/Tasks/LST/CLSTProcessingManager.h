@@ -1,5 +1,4 @@
-#ifndef CLSTProcessingManager_H
-#define CLSTProcessingManager_H
+#pragma once
 
 #include "Object/CManager.h"
 #include <string>
@@ -14,5 +13,3 @@ public:
 
 	void							process(CLSTFormat *pLSTFile);
 };
-
-#endif

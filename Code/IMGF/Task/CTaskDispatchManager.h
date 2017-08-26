@@ -1,5 +1,4 @@
-#ifndef CTaskDispatchManager_H
-#define CTaskDispatchManager_H
+#pragma once
 
 #include <Windows.h>
 #include "Object/CManager.h"
@@ -171,5 +170,3 @@ private:
 	CMainWindow*				m_pMainWindow;
 	CTaskManager*				m_pTaskManager;
 };
-
-#endif

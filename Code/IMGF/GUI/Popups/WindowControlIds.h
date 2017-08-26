@@ -1,5 +1,4 @@
-#ifndef WindowControlIds_H
-#define WindowControlIds_H
+#pragma once
 
 #ifndef IDC_STATIC
 #define IDC_STATIC (-1)
@@ -44,5 +43,3 @@
 #define IDD_DATMODELLISTDIALOG			955
 #define IDD_OVERWRITEENTRYDIALOG		956
 #define IDD_3BUTTONDIALOG				957
-
-#endif

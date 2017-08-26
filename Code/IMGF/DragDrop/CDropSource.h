@@ -1,5 +1,4 @@
-#ifndef CDropSource_H
-#define CDropSource_H
+#pragma once
 
 #include <ObjIdl.h>
 #include <vector>
@@ -21,5 +20,3 @@ protected:
 private:
 	std::vector<CDraggableFile*>	m_vecDraggableFiles;
 };
-
-#endif

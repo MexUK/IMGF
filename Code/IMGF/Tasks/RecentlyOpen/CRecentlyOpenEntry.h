@@ -1,5 +1,4 @@
-#ifndef CRecentlyOpenEntry_H
-#define CRecentlyOpenEntry_H
+#pragma once
 
 #include <string>
 
@@ -16,5 +15,3 @@ public:
 public:
 	std::string						m_strPath;
 };
-
-#endif

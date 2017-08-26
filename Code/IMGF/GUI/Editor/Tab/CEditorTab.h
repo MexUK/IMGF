@@ -1,5 +1,4 @@
-#ifndef CEditorTab_H
-#define CEditorTab_H
+#pragma once
 
 #include "Type/Types.h"
 #include "bxcf.h"
@@ -39,5 +38,3 @@ private:
 	CTabBarControlEntry*		m_pTab;
 	bxcf::CFormat*				m_pFile;
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef CPopupGUIManager_H
-#define CPopupGUIManager_H
+#pragma once
 
 #include <Windows.h>
 #include "bxcf.h"
@@ -382,5 +381,3 @@ struct C3ButtonDialogData
 	std::string						m_strButton2Text;
 	std::string						m_strButton3Text;
 };
-
-#endif

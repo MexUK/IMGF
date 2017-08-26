@@ -1,5 +1,4 @@
-#ifndef CIMGF_H
-#define CIMGF_H
+#pragma once
 
 #include "Type/Types.h"
 #include "Globals.h"
@@ -109,5 +108,3 @@ private:
 	CUpdateManager*				m_pUpdateManager;
 	CLastUsedValueManager*		m_pLastUsedValueManager;
 };
-
-#endif

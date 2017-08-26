@@ -1,5 +1,4 @@
-#ifndef CRecentlyOpenManager_H
-#define CRecentlyOpenManager_H
+#pragma once
 
 #include "Object/CManager.h"
 #include "CRecentlyOpenEntry.h"
@@ -30,5 +29,3 @@ public:
 private:
 	std::unordered_map<uint32, std::string>			m_umapRecentlyOpenedFiles;
 };
-
-#endif

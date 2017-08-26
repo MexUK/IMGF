@@ -1,5 +1,4 @@
-#ifndef CBuildMeta_H
-#define CBuildMeta_H
+#pragma once
 
 #include "Type/Types.h"
 #include <string>
@@ -28,5 +27,3 @@ private:
 	uint8						m_bIsAlphaBuild		: 1;
 	std::string					m_strCurrentVersionString;
 };
-
-#endif

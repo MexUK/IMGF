@@ -1,5 +1,4 @@
-#ifndef CSortMenuItem_H
-#define CSortMenuItem_H
+#pragma once
 
 class CSortMenuItem
 {
@@ -16,5 +15,3 @@ public:
 	CSortPriority*		m_pPriority;
 	CSortType*			m_pType;
 };
-
-#endif

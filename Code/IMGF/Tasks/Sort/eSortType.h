@@ -1,5 +1,4 @@
-#ifndef eSortType_H
-#define eSortType_H
+#pragma once
 
 #include "Type/Types.h"
 
@@ -15,5 +14,3 @@ enum eSortType : uint8
 	SORT_COL_FILE,
 	SORT_FILE_EXTENSIONS
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef CSortPriority_H
-#define CSortPriority_H
+#pragma once
 
 #include "eSortType.h"
 #include <string>
@@ -39,5 +38,3 @@ private:
 	std::string					m_strData;
 	std::vector<std::string>	m_vecData;
 };
-
-#endif

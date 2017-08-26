@@ -1,5 +1,4 @@
-#ifndef CDBEntry_H
-#define CDBEntry_H
+#pragma once
 
 #include "Type/Types.h"
 #include <string>
@@ -34,5 +33,3 @@ private:
 	uint32				m_uiEntryCreationDate;
 	bool				m_bHasIssue		: 1;
 };
-
-#endif

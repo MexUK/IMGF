@@ -1,5 +1,4 @@
-#ifndef CAutomatedTesting_H
-#define CAutomatedTesting_H
+#pragma once
 
 class CAutomatedTesting
 {
@@ -39,5 +38,3 @@ private:
 	// formats
 	void						testFormatSerialization(void);
 };
-
-#endif

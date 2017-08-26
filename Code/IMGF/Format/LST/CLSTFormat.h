@@ -1,5 +1,4 @@
-#ifndef CLSTFormat_H
-#define CLSTFormat_H
+#pragma once
 
 #include "Format/CFormat.h"
 #include "Pool/CVectorPool.h"
@@ -22,5 +21,3 @@ private:
 
 	void								unserializeLine(void);
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef CIMGEditor_H
-#define CIMGEditor_H
+#pragma once
 
 #include "Type/Types.h"
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
@@ -106,5 +105,3 @@ private:
 	uint32						m_uiSearchFileCount;
 	std::vector<CSearchEntry*>	m_vecSearchEntries;
 };
-
-#endif

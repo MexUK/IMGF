@@ -1,5 +1,4 @@
-#ifndef CSettingsManager_H
-#define CSettingsManager_H
+#pragma once
 
 #include "Object/CManager.h"
 #include <string>
@@ -61,5 +60,3 @@ private:
 	std::unordered_map<std::string, int>			m_umapSettings_Int;
 	std::unordered_map<std::string, std::string>	m_umapSettings_String;
 };
-
-#endif

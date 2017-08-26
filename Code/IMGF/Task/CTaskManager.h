@@ -1,5 +1,4 @@
-#ifndef CTaskManager_H
-#define CTaskManager_H
+#pragma once
 
 #include "bxcf.h"
 #include "Type/Types.h"
@@ -50,5 +49,3 @@ private:
 
 	std::vector<std::string>					m_vecActiveTaskNames;
 };
-
-#endif

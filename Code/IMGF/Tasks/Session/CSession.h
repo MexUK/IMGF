@@ -1,5 +1,4 @@
-#ifndef CSession_H
-#define CSession_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -22,5 +21,3 @@ public:
 	std::string						m_strName;
 	std::vector<std::string>		m_vecPaths;
 };
-
-#endif

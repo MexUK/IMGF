@@ -1,5 +1,4 @@
-#ifndef CUpdateConnectionManager_H
-#define CUpdateConnectionManager_H
+#pragma once
 
 #include "Object/CManager.h"
 #include "CUpdateConnection.h"
@@ -15,5 +14,3 @@ private:
 	void							initUpdateConnections(void);
 	void							uninitUpdateConnections(void);
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef CSearchEntry_H
-#define CSearchEntry_H
+#pragma once
 
 class CIMGEditorTab;
 class bxgi::CIMGEntry;
@@ -22,5 +21,3 @@ private:
 	CIMGEditorTab*				m_pEditorTab;
 	bxgi::CIMGEntry*					m_pIMGEntry;
 };
-
-#endif

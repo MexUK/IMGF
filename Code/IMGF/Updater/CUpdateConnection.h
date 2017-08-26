@@ -1,5 +1,4 @@
-#ifndef CUpdateConnection_H
-#define CUpdateConnection_H
+#pragma once
 
 #include <string>
 
@@ -26,5 +25,3 @@ private:
 	std::string					m_strDownloadFolderURL;
 	std::string					m_strProtocol;
 };
-
-#endif

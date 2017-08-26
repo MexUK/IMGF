@@ -1,5 +1,4 @@
-#ifndef CTextureEditor_H
-#define CTextureEditor_H
+#pragma once
 
 #include "Type/Types.h"
 #include "GUI/Editor/CEditor.h"
@@ -7,5 +6,3 @@
 class CTextureEditor : public CEditor
 {
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef CEditor_H
-#define CEditor_H
+#pragma once
 
 #include "Layer/CGUILayer.h"
 #include "Pool/CVectorPool.h"
@@ -40,5 +39,3 @@ protected:
 	CEditorTab*							m_pActiveFile;
 	bxcf::CVectorPool<CEditorTab*>		m_vecTabs;
 };
-
-#endif

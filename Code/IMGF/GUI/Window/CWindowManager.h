@@ -1,5 +1,4 @@
-#ifndef CWindowManager_H
-#define CWindowManager_H
+#pragma once
 
 #include "Object/CManager.h"
 
@@ -22,5 +21,3 @@ public:
 private:
 	CMainWindow*			m_pMainWindow;
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef CLSTEntry_H
-#define CLSTEntry_H
+#pragma once
 
 #include "Type/Types.h"
 #include <string>
@@ -24,5 +23,3 @@ private:
 	std::string							m_strName;
 	std::deque<std::string>				m_deqValues;
 };
-
-#endif

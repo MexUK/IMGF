@@ -1,5 +1,4 @@
-#ifndef CLastUsedValueManager_H
-#define CLastUsedValueManager_H
+#pragma once
 
 #include "Type/Types.h"
 #include "Object/CManager.h"
@@ -114,5 +113,3 @@ private:
 	bxgi::CCOLVersion*						m_pLastUsedValue_ConvertCOL_COLVersion;
 	uint32								m_uiLastUsedValue_SortViaColumn_Column;
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef CSessionManager_H
-#define CSessionManager_H
+#pragma once
 
 #include "Object/CManager.h"
 #include "CSession.h"
@@ -26,5 +25,3 @@ public:
 private:
 	std::unordered_map<uint32, std::string>			m_umapSessions;
 };
-
-#endif

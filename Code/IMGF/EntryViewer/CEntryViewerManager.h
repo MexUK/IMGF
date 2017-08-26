@@ -1,5 +1,4 @@
-#ifndef CEntryViewerManager_H
-#define CEntryViewerManager_H
+#pragma once
 
 #include <Windows.h>
 #include "Object/CManager.h"
@@ -30,5 +29,3 @@ private:
 	CTextureViewer*							m_pTextureViewer;
 	CCollisionViewer*						m_pCollisionViewer;
 };
-
-#endif

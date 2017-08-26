@@ -1,5 +1,4 @@
-#ifndef CDumpManager_H
-#define CDumpManager_H
+#pragma once
 
 #include <string>
 
@@ -11,5 +10,3 @@ public:
 private:
 	std::string		getEncoderClassIdFromImageExtension(std::string strFileExtension);
 };
-
-#endif

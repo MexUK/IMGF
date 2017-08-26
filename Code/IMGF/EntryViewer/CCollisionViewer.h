@@ -1,5 +1,4 @@
-#ifndef CCollisionViewer_H
-#define CCollisionViewer_H
+#pragma once
 
 #include "CEntryViewer.h"
 #include "Format/COL/CCOLFormat.h"
@@ -102,5 +101,3 @@ private:
 	uint8				m_bWindowIsOpening : 1;
 	uint8				m_bEntryIsChanging : 1;
 };
-
-#endif

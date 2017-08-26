@@ -1,5 +1,4 @@
-#ifndef CTextureViewer_H
-#define CTextureViewer_H
+#pragma once
 
 #include <Windows.h>
 #include "bxgi.h"
@@ -91,5 +90,3 @@ private:
 	ULONG_PTR					m_gdiplusToken;
 	uint8						m_bTexturePreviewIsEnabled : 1;
 };
-
-#endif

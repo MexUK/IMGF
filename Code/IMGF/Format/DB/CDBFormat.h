@@ -1,5 +1,4 @@
-#ifndef CDBFormat_H
-#define CDBFormat_H
+#pragma once
 
 #include "bxgi.h"
 #include "Type/Types.h"
@@ -32,5 +31,3 @@ private:
 private:
 	uint32								m_uiDBVersion;
 };
-
-#endif

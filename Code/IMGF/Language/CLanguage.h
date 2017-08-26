@@ -1,5 +1,4 @@
-#ifndef CLanguage_H
-#define CLanguage_H
+#pragma once
 
 #include "Localization/eLanguage.h"
 #include <string>
@@ -23,5 +22,3 @@ private:
 	std::string				m_strLanguageName;
 	std::string				m_strLocalizationKey;
 };
-
-#endif

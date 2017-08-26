@@ -1,6 +1,3 @@
-#ifndef CSortPriorities_H
-#define CSortPriorities_H
+#pragma once
 
 class CSortPriorities : public bxcf::CVectorPool<CSortPriority*> {};
-
-#endif

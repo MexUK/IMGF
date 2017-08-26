@@ -1,5 +1,4 @@
-#ifndef CUpdateManager_H
-#define CUpdateManager_H
+#pragma once
 
 #include "Type/Types.h"
 #include "Object/CManager.h"
@@ -37,5 +36,3 @@ private:
 private:
 	CUpdateConnectionManager*		m_pUpdateConnectionManager;
 };
-
-#endif

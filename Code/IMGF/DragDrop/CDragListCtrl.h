@@ -1,5 +1,4 @@
-#ifndef CDragListCtrl_H
-#define CDragListCtrl_H
+#pragma once
 
 #include "CDropSource.h"
 //#include <Windows.h>
@@ -30,5 +29,3 @@ private:
 	CDropSource						m_dropSource;
 	std::vector<CDraggableFile*>	m_vecDraggableFiles;
 };
-
-#endif

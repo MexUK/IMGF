@@ -1,5 +1,4 @@
-#ifndef CSortType_H
-#define CSortType_H
+#pragma once
 
 #include "eSortType.h"
 #include <string>
@@ -20,5 +19,3 @@ private:
 	eSortType					m_eType;
 	std::string					m_strText;
 };
-
-#endif

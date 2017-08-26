@@ -1,5 +1,4 @@
-#ifndef CSortManager_H
-#define CSortManager_H
+#pragma once
 
 #include "bxcf.h"
 #include "bxgi.h"
@@ -53,5 +52,3 @@ private:
 	uint32							m_uiSortPriorityIndex;
 	std::vector<CSortMenuItem*>				m_vecSortMenuItems;
 };
-
-#endif

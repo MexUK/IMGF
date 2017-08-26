@@ -1,5 +1,4 @@
-#ifndef CLSTSection_H
-#define CLSTSection_H
+#pragma once
 
 #include "Type/Types.h"
 #include "Pool/CVectorPool.h"
@@ -20,5 +19,3 @@ public:
 private:
 	std::string							m_strName;
 };
-
-#endif

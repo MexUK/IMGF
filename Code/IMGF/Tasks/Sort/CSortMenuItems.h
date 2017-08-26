@@ -1,5 +1,4 @@
-#ifndef CSortMenuItems_H
-#define CSortMenuItems_H
+#pragma once
 
 #include "CSortMenuItem.h"
 
@@ -18,5 +17,3 @@ public:
 		return nullptr;
 	}
 };
-
-#endif

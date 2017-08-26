@@ -1,5 +1,4 @@
-#ifndef CLanguageManager_H
-#define CLanguageManager_H
+#pragma once
 
 #include "Object/CManager.h"
 #include "Localization/eLanguage.h"
@@ -19,5 +18,3 @@ private:
 	void							initLanguages(void);
 	void							uninitLanguages(void);
 };
-
-#endif

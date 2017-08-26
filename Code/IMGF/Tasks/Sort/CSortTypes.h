@@ -1,6 +1,3 @@
-#ifndef CSortTypes_H
-#define CSortTypes_H
+#pragma once
 
 class CSortTypes : public bxcf::CVectorPool<CSortType*> {};
-
-#endif

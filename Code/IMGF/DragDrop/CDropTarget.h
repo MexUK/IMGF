@@ -1,5 +1,4 @@
-#ifndef CDropTarget_H
-#define CDropTarget_H
+#pragma once
 
 //#include <afxcmn.h>
 //#include <afxole.h>
@@ -16,5 +15,3 @@ public:
 	uint32			getTabIndexFromPoint(CTabCtrl *pTabCtrl, POINT point);
 	*/
 };
-
-#endif
