@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "nsbxcf.h"
 #include "nsbxgi.h"
 #include "Object/CManager.h"
@@ -8,14 +9,14 @@
 
 class bxgi::CIMGFormat;
 class bxgi::CIMGEntry;
-class CSortPriority;
-class CSortType;
-class CSortTypes;
-class CSortPriorities;
-class CSortMenuItems;
-class CSortMenuItem;
+class imgf::CSortPriority;
+class imgf::CSortType;
+class imgf::CSortTypes;
+class imgf::CSortPriorities;
+class imgf::CSortMenuItems;
+class imgf::CSortMenuItem;
 
-class CSortManager : public bxcf::CManager
+class imgf::CSortManager : public bxcf::CManager
 {
 public:
 	CSortManager(void);

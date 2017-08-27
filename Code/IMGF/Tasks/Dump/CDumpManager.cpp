@@ -43,6 +43,7 @@
 using namespace std;
 using namespace bxcf;
 using namespace bxgi;
+using namespace imgf;
 using namespace Gdiplus;
 
 INT GetEncoderClsid(const WCHAR* format, CLSID* pClsid);  // helper function

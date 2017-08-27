@@ -1,6 +1,7 @@
 #include "CUpdateConnectionManager.h"
 
 using namespace bxcf;
+using namespace imgf;
 
 void			CUpdateConnectionManager::init(void)
 {

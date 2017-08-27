@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nsimgf.h"
 #include <Windows.h>
 #include "nsbxcf.h"
 #include "Object/CManager.h"
@@ -13,34 +14,34 @@
 #include <vector>
 #include <unordered_map>
 
-struct CTextInputDialogData;
-struct CConvertDialogData;
-struct CExportViaDialogData;
-struct CSortOptionsDialogData;
-struct CStatsDialogData;
-struct COrphanEntriesData;
-struct CSettingsData;
-struct CConfirmDialogData;
-struct CDumpDialogData;
-struct CListViewDialogData;
-struct CTextureListDialogData;
-struct CSessionManagerDialogData;
-struct CSplitViaDialogData;
-struct CDragDropDialogData;
-struct CDumpResultsDialogData;
-struct CRenamerDialogData;
-struct CDFFConversionDialogData;
-struct CDuplicateEntriesDialogData;
-struct CBuildTXDDialogData;
-struct CIMGVersionSettingsDialogData;
-struct CTXDOrganizerDialogData;
-struct CDATPathsMoverDialogData;
-struct CMapMoverAndIDShifterDialogData;
-struct CDATModelListDialogData;
-struct COverwriteEntryDialogData;
+struct imgf::CTextInputDialogData;
+struct imgf::CConvertDialogData;
+struct imgf::CExportViaDialogData;
+struct imgf::CSortOptionsDialogData;
+struct imgf::CStatsDialogData;
+struct imgf::COrphanEntriesData;
+struct imgf::CSettingsData;
+struct imgf::CConfirmDialogData;
+struct imgf::CDumpDialogData;
+struct imgf::CListViewDialogData;
+struct imgf::CTextureListDialogData;
+struct imgf::CSessionManagerDialogData;
+struct imgf::CSplitViaDialogData;
+struct imgf::CDragDropDialogData;
+struct imgf::CDumpResultsDialogData;
+struct imgf::CRenamerDialogData;
+struct imgf::CDFFConversionDialogData;
+struct imgf::CDuplicateEntriesDialogData;
+struct imgf::CBuildTXDDialogData;
+struct imgf::CIMGVersionSettingsDialogData;
+struct imgf::CTXDOrganizerDialogData;
+struct imgf::CDATPathsMoverDialogData;
+struct imgf::CMapMoverAndIDShifterDialogData;
+struct imgf::CDATModelListDialogData;
+struct imgf::COverwriteEntryDialogData;
 class CDialog;
 
-class CPopupGUIManager : public bxcf::CManager
+class imgf::CPopupGUIManager : public bxcf::CManager
 {
 public:
 	void									init(void);
@@ -87,7 +88,7 @@ private:
 	HWND									m_hParentWindowHwnd;
 };
 
-struct CTextInputDialogData
+struct imgf::CTextInputDialogData
 {
 	std::string			m_strWindowTitle;
 	std::string			m_strStaticText;
@@ -95,7 +96,7 @@ struct CTextInputDialogData
 	std::string			m_strEditText;
 };
 
-struct CConvertDialogData
+struct imgf::CConvertDialogData
 {
 	bool				m_bRadioButtonSelected;
 	uint32				m_uiRadioButtonIndex;
@@ -103,25 +104,25 @@ struct CConvertDialogData
 	std::string			m_strButtonText;
 };
 
-struct CExportViaDialogData
+struct imgf::CExportViaDialogData
 {
 	bool				m_bRadioButtonSelected;
 	uint32				m_uiRadioButtonIndex;
 };
 
-struct CSortOptionsDialogData
+struct imgf::CSortOptionsDialogData
 {
 	std::vector<int>	m_vecSortOptions;
 };
 
-struct CStatsDialogData
+struct imgf::CStatsDialogData
 {
 	std::unordered_map<uint32, uint32>				m_umapStatsRWVersions;
 	std::unordered_map<uint32, std::string>			m_umapRWVersionNames;
 	std::unordered_map<std::string, uint32>			m_umapStatsExtensions;
 };
 
-struct COrphanEntriesData
+struct imgf::COrphanEntriesData
 {
 	std::vector<std::string>		m_vecEntryNames;
 	std::string						m_strStaticText;
@@ -129,7 +130,7 @@ struct COrphanEntriesData
 	bool							m_bProcessAction;
 };
 
-struct CSettingsData
+struct imgf::CSettingsData
 {
 	bool							m_bSave;
 	std::string						m_strQuickExportPath;
@@ -151,7 +152,7 @@ struct CSettingsData
 	bool							m_bAutoCompressionImportReplace;
 };
 
-struct CConfirmDialogData
+struct imgf::CConfirmDialogData
 {
 	std::string						m_strStaticText;
 	std::string						m_strWindowTitle;
@@ -159,7 +160,7 @@ struct CConfirmDialogData
 	bool							m_bCancel;
 };
 
-struct CDumpDialogData
+struct imgf::CDumpDialogData
 {
 	bool							m_bResult;
 	uint32							m_uiDumpType;
@@ -176,7 +177,7 @@ struct CDumpDialogData
 	bool							m_bDumpAllTextureMipmaps;
 };
 
-struct CListViewDialogData
+struct imgf::CListViewDialogData
 {
 	std::string						m_strWindowTitle;
 	std::string						m_strStaticText;
@@ -186,12 +187,12 @@ struct CListViewDialogData
 	std::string						m_strSaveFolderPartialHandle;
 };
 
-struct CTextureListDialogData : public CListViewDialogData
+struct imgf::CTextureListDialogData : public CListViewDialogData
 {
 	bool							m_bSaveTexturesFormat2;
 };
 
-struct CSessionManagerDialogData
+struct imgf::CSessionManagerDialogData
 {
 	std::vector<std::string>		m_vecSessionsData;
 	std::vector<std::string>		m_vecSessionsToRemove;
@@ -200,7 +201,7 @@ struct CSessionManagerDialogData
 	std::string						m_strSessionDataToUpdate;
 };
 
-struct CSplitViaDialogData
+struct imgf::CSplitViaDialogData
 {
 	bool							m_bRadioButtonSelected;
 	uint32							m_uiRadioButtonIndex;
@@ -209,7 +210,7 @@ struct CSplitViaDialogData
 class bxgi::CRWVersion;
 class bxcf::CRasterDataFormat;
 class bxgi::CCOLVersion;
-struct CDragDropDialogData
+struct imgf::CDragDropDialogData
 {
 	bxgi::eIMGVersion				m_eDestinationIMGVersion;
 	bool							m_bCancel;
@@ -226,7 +227,7 @@ struct CDragDropDialogData
 	};
 };
 
-struct CDumpResultsDialogData
+struct imgf::CDumpResultsDialogData
 {
 	CDumpResultsDialogData(void) :
 		m_bOpenAdvancedLog(false)
@@ -241,7 +242,7 @@ struct CDumpResultsDialogData
 	bool					m_bOpenAdvancedLog;
 };
 
-struct CRenamerDialogData
+struct imgf::CRenamerDialogData
 {
 	CRenamerDialogData(void) :
 		m_bRename(false),
@@ -273,7 +274,7 @@ struct CRenamerDialogData
 	bool							m_bUpdateLODNamesToMatch;
 };
 
-struct CDFFConversionDialogData
+struct imgf::CDFFConversionDialogData
 {
 	bool					m_bConvert;
 	uint8					m_ucPrelightningOption;
@@ -281,7 +282,7 @@ struct CDFFConversionDialogData
 	int16					m_ssAdjustColourValues[4];
 };
 
-struct CDuplicateEntriesDialogData
+struct imgf::CDuplicateEntriesDialogData
 {
 	bool							m_bCheck;
 	uint8							m_ucEntriesType;
@@ -290,7 +291,7 @@ struct CDuplicateEntriesDialogData
 	std::string						m_strDATGameDirectoryPath;
 };
 
-struct CBuildTXDDialogData
+struct imgf::CBuildTXDDialogData
 {
 	bool							m_bBuild;
 	uint8							m_uCDFFFormatsType;
@@ -302,7 +303,7 @@ struct CBuildTXDDialogData
 	bxgi::CRWVersion*						m_pRWVersion;
 };
 
-struct CIMGVersionSettingsDialogData
+struct imgf::CIMGVersionSettingsDialogData
 {
 	bool							m_bSave;
 	uint8							m_ucEntriesType;
@@ -310,7 +311,7 @@ struct CIMGVersionSettingsDialogData
 	uint32							m_uiCompressionLevel;
 };
 
-struct CTXDOrganizerDialogData
+struct imgf::CTXDOrganizerDialogData
 {
 	bool							m_bOrganize;
 	uint32							m_uiEveryNDFFFiles;
@@ -322,7 +323,7 @@ struct CTXDOrganizerDialogData
 	bxcf::CRasterDataFormat*				m_pRasterDataFormat;
 };
 
-struct CDATPathsMoverDialogData
+struct imgf::CDATPathsMoverDialogData
 {
 	bool							m_bMove;
 	bxcf::Vec2f						m_vecOutputMapRangeMin;
@@ -333,7 +334,7 @@ struct CDATPathsMoverDialogData
 	std::string						m_strOutputFolderPath;
 };
 
-struct CMapMoverAndIDShifterDialogData
+struct imgf::CMapMoverAndIDShifterDialogData
 {
 	bool							m_bGo;
 	std::string						m_strDATFilePath;
@@ -357,7 +358,7 @@ struct CMapMoverAndIDShifterDialogData
 	bool							m_bShiftIds;
 };
 
-struct CDATModelListDialogData
+struct imgf::CDATModelListDialogData
 {
 	bool							m_bFetch;
 	std::string						m_strDATFilePath;
@@ -365,13 +366,13 @@ struct CDATModelListDialogData
 	std::string						m_strOutputFilePath;
 };
 
-struct COverwriteEntryDialogData
+struct imgf::COverwriteEntryDialogData
 {
 	bool							m_bCancel;
 	uint32							m_uiResultOption;
 };
 
-struct C3ButtonDialogData
+struct imgf::C3ButtonDialogData
 {
 	bool							m_bCancel;
 	uint32							m_uiResult;

@@ -2,6 +2,7 @@
 #include "CEntryViewer.h"
 
 using namespace bxcf;
+using namespace imgf;
 
 CEntryViewer::CEntryViewer(void) :
 	m_bWindowIsOpen(false),

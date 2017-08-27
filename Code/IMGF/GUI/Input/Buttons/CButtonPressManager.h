@@ -1,14 +1,15 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "nsbxcf.h"
 #include "nsbxgx.h"
 #include "Event/Events.h"
 
 class bxgx::CButtonControl;
-class CMainWindow;
-class CTaskDispatchManager;
+class imgf::CMainWindow;
+class imgf::CTaskDispatchManager;
 
-class CButtonPressManager : public bxcf::EventBindable//<CButtonPressManager>
+class imgf::CButtonPressManager : public bxcf::EventBindable//<CButtonPressManager>
 {
 public:
 	void					init(void);

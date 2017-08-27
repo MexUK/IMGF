@@ -40,6 +40,7 @@
 using namespace std;
 using namespace bxcf;
 using namespace bxgi;
+using namespace imgf;
 
 #define GL_CLAMP_TO_EDGE 0x812F
 

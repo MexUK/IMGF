@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "nsbxgx.h"
 #include "Type/Types.h"
 #include "Globals.h"
@@ -9,32 +10,31 @@
 #define WINAPI __stdcall
 uint32 WINAPI		onInitializationThreadStart(void *pThreadParameter);
 
-class CMainWindow;
+class imgf::CMainWindow;
 class bxgx::CWindow;
-class CEditorTab;
-class CIMGEditor;
-class CIMGEditorTab;
+class imgf::CEditorTab;
+class imgf::CIMGEditor;
+class imgf::CIMGEditorTab;
 
-class CButtonPressManager;
-class CSessionManager;
-class CRecentlyOpenManager;
-class CPopupGUIManager;
-class CTaskManager;
-class CLSTProcessingManager;
+class imgf::CButtonPressManager;
+class imgf::CSessionManager;
+class imgf::CRecentlyOpenManager;
+class imgf::CPopupGUIManager;
+class imgf::CTaskManager;
+class imgf::CLSTProcessingManager;
 class bxcf::CLocalizationManager;
-class CLanguageManager;
-class CDumpManager;
-class CSettingsManager;
-class CSortManager;
-class CEntryViewerManager;
-class CUpdateManager;
-class CLastUsedValueManager;
-class CWindowManager;
-class CThemeDesigner;
+class imgf::CLanguageManager;
+class imgf::CDumpManager;
+class imgf::CSettingsManager;
+class imgf::CSortManager;
+class imgf::CEntryViewerManager;
+class imgf::CUpdateManager;
+class imgf::CLastUsedValueManager;
+class imgf::CWindowManager;
 
 class CWnd; // temp
 
-class CIMGF : public bxcf::CManager
+class imgf::CIMGF : public bxcf::CManager
 {
 public:
 	CIMGF(void);

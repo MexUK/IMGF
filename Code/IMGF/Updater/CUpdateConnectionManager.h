@@ -1,10 +1,11 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Object/CManager.h"
 #include "CUpdateConnection.h"
 #include "Pool/CVectorPool.h"
 
-class CUpdateConnectionManager : public bxcf::CManager, public bxcf::CVectorPool<CUpdateConnection*>
+class imgf::CUpdateConnectionManager : public bxcf::CManager, public bxcf::CVectorPool<CUpdateConnection*>
 {
 public:
 	void							init(void);

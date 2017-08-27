@@ -1,9 +1,11 @@
 #pragma once
 
-class CIMGEditorTab;
+#include "nsimgf.h"
+
+class imgf::CIMGEditorTab;
 class bxgi::CIMGEntry;
 
-class CSearchEntry
+class imgf::CSearchEntry
 {
 public:
 	CSearchEntry(void) :

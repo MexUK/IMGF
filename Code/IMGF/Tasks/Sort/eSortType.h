@@ -1,8 +1,9 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Type/Types.h"
 
-enum eSortType : uint8
+enum imgf::eSortType : uint8
 {
 	SORT_NAME_AZ,
 	SORT_NAME_ZA,

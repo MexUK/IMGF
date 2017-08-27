@@ -1,5 +1,7 @@
 #include "DragDrop/CDragDrop.h"
 
+using namespace imgf;
+
 // drop files from explorer to imgf
 /*
 void					CDragDrop::onDropFiles(vector<string>& vecPaths)

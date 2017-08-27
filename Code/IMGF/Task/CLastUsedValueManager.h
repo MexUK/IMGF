@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Type/Types.h"
 #include "Object/CManager.h"
 #include "Format/IMG/Regular/eIMGVersion.h"
@@ -11,7 +12,7 @@ class bxgi::CRWVersion;
 class bxcf::CRasterDataFormat;
 class bxgi::CCOLVersion;
 
-class CLastUsedValueManager : public bxcf::CManager
+class imgf::CLastUsedValueManager : public bxcf::CManager
 {
 public:
 	CLastUsedValueManager(void) :

@@ -1,10 +1,11 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Type/Types.h"
 #include <string>
 #include <deque>
 
-class CLSTEntry
+class imgf::CLSTEntry
 {
 public:
 	void								unload(void) {}

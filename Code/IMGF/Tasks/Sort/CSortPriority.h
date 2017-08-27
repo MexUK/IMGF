@@ -1,10 +1,11 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "eSortType.h"
 #include <string>
 #include <vector>
 
-class CSortPriority
+class imgf::CSortPriority
 {
 public:
 	/*

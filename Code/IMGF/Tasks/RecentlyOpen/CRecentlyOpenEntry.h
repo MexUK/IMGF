@@ -1,8 +1,9 @@
 #pragma once
 
+#include "nsimgf.h"
 #include <string>
 
-class CRecentlyOpenEntry
+class imgf::CRecentlyOpenEntry
 {
 public:
 	void							unload(void) {} 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nsimgf.h"
 #include <Windows.h>
 #include "Object/CManager.h"
 #include <string>
@@ -12,11 +13,11 @@
 class bxcf::CRasterDataFormat;
 class bxgi::CRWVersion;
 class bxgi::CCOLVersion;
-struct CRenamedIMGEntry;
-class CMainWindow;
-class CTaskManager;
+struct imgf::CRenamedIMGEntry;
+class imgf::CMainWindow;
+class imgf::CTaskManager;
 
-class CTaskDispatchManager : public bxcf::CManager
+class imgf::CTaskDispatchManager : public bxcf::CManager
 {
 public:
 	CTaskDispatchManager(void);

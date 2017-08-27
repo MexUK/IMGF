@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nsimgf.h"
 #include <Windows.h>
 #include "nsbxgi.h"
 #include "CEntryViewer.h"
@@ -11,7 +12,7 @@ class bxgi::CIMGEntry;
 
 LRESULT CALLBACK				WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-class CTextureViewer : public CEntryViewer, public bxcf::CVectorPool<CTextureViewerTextureData*>
+class imgf::CTextureViewer : public CEntryViewer, public bxcf::CVectorPool<CTextureViewerTextureData*>
 {
 public:
 	CTextureViewer(void);

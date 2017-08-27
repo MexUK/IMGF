@@ -53,6 +53,7 @@ using namespace bxcf::fileType;
 using namespace bxgx;
 using namespace bxgx::control::events;
 using namespace bxgi;
+using namespace imgf;
 
 CIMGEditorTab::CIMGEditorTab(void) :
 	m_pEditor(nullptr),

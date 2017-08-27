@@ -1,7 +1,9 @@
 #pragma once
 
-class CIMGF;
+#include "nsimgf.h"
 
-extern CIMGF*	g_pIMGF;
+class imgf::CIMGF;
 
-CIMGF*			getIMGF(void);
+extern imgf::CIMGF*		g_pIMGF;
+
+imgf::CIMGF*			getIMGF(void);

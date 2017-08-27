@@ -1,10 +1,11 @@
 #pragma once
 
+#include "nsimgf.h"
 #include <Windows.h>
 #include "Type/Types.h"
 #include <string>
 
-class CEntryViewer
+class imgf::CEntryViewer
 {
 public:
 	CEntryViewer(void);

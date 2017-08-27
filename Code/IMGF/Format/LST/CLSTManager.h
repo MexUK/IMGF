@@ -1,11 +1,12 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 
-class CLSTFormat;
+class imgf::CLSTFormat;
 
-class CLSTManager : public bxcf::CFormatManager<CLSTFormat>, public bxcf::CSingleton<CLSTManager>
+class imgf::CLSTManager : public bxcf::CFormatManager<CLSTFormat>, public bxcf::CSingleton<CLSTManager>
 {
 public:
 	CLSTManager(void);

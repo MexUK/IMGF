@@ -1,3 +1,5 @@
 #pragma once
 
-class CSortPriorities : public bxcf::CVectorPool<CSortPriority*> {};
+#include "nsimgf.h"
+
+class imgf::CSortPriorities : public bxcf::CVectorPool<CSortPriority*> {};

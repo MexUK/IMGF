@@ -1,12 +1,13 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Type/Types.h"
 #include "Object/CManager.h"
 #include <string>
 
-class CUpdateConnectionManager;
+class imgf::CUpdateConnectionManager;
 
-class CExeBuild
+class imgf::CExeBuild
 {
 public:
 	std::string						getBuild(void);
@@ -17,7 +18,7 @@ private:
 	uint8							m_bIsAlpha : 1;
 };
 
-class CUpdateManager : public bxcf::CManager
+class imgf::CUpdateManager : public bxcf::CManager
 {
 public:
 	CUpdateManager(void);

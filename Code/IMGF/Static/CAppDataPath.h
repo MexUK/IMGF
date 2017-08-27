@@ -1,8 +1,9 @@
 #pragma once
 
+#include "nsimgf.h"
 #include <string>
 
-class CAppDataPath
+class imgf::CAppDataPath
 {
 public:
 	static std::string					getRegularSettingsPath(void);

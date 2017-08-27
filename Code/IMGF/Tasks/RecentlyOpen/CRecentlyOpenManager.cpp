@@ -14,6 +14,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace imgf;
 
 void					CRecentlyOpenManager::init(void)
 {

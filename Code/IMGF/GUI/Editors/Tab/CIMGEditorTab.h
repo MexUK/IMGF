@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nsimgf.h"
 #include <Windows.h>
 #include "GUI/Editor/Tab/CEditorTab.h"
 #include "Format/IMG/Regular/CIMGFormat.h"
@@ -9,14 +10,14 @@
 #include <string>
 #include <vector>
 
-class CIMGEditor;
+class imgf::CIMGEditor;
 class bxgi::CIMGFormat;
 class bxgi::CIMGEntry;
-class CDBFormat;
+class imgf::CDBFormat;
 class CListCtrl; // temp
 class bxgx::CDropControlEntry;
 
-class CIMGEditorTab : public CEditorTab, public bxcf::EventBindable
+class imgf::CIMGEditorTab : public CEditorTab, public bxcf::EventBindable
 {
 public:
 	CIMGEditorTab(void);

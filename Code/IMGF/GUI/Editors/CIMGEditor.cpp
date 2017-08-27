@@ -54,6 +54,7 @@ using namespace bxcf;
 using namespace bxgx;
 using namespace bxgx::control::events;
 using namespace bxgi;
+using namespace imgf;
 using namespace imgf::editor::items;
 
 CIMGEditor::CIMGEditor(void) :

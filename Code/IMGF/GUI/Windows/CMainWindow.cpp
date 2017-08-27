@@ -22,6 +22,7 @@ using namespace std;
 using namespace bxcf;
 using namespace bxgx;
 using namespace bxgx::control::events;
+using namespace imgf;
 using namespace imgf::mainLayer::mainMenuType;
 using namespace imgf::layers;
 

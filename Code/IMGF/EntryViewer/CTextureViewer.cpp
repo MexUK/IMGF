@@ -20,6 +20,7 @@ using namespace std;
 using namespace Gdiplus;
 using namespace bxcf;
 using namespace bxgi;
+using namespace imgf;
 
 static bool bPremultipledAlphaApplied = false;
 uint32 uiEntryViewerWindowWidth = 800;

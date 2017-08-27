@@ -1,8 +1,9 @@
 #pragma once
 
+#include "nsimgf.h"
 #include <string>
 
-class CDumpManager
+class imgf::CDumpManager
 {
 public:
 	void			process(void);

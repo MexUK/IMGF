@@ -10,6 +10,7 @@
 using namespace std;
 using namespace bxcf;
 using namespace bxgi;
+using namespace imgf;
 
 CDBManager::CDBManager(void)
 {

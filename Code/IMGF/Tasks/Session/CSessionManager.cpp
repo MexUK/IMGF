@@ -11,6 +11,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace imgf;
 
 void		CSessionManager::init(void)
 {

@@ -1,10 +1,11 @@
 #pragma once
 
+#include "nsimgf.h"
 //#include <afxcmn.h>
 //#include <afxole.h>
 #include "Type/Types.h"
 
-class CDropTarget// : public COleDropTarget
+class imgf::CDropTarget// : public COleDropTarget
 {
 public:
 	/*

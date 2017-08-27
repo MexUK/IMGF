@@ -9,6 +9,7 @@
 using namespace std;
 using namespace bxcf;
 using namespace bxgi;
+using namespace imgf;
 
 void								CDBFormat::unload(void)
 {

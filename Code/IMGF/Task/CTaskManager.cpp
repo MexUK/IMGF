@@ -17,6 +17,7 @@
 using namespace std;
 using namespace bxcf;
 using namespace bxgx;
+using namespace imgf;
 
 // constructor/destructor
 CTaskManager::CTaskManager(void) :

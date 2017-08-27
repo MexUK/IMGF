@@ -4,6 +4,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace imgf;
 
 void				CDBEntry::unserialize(void)
 {

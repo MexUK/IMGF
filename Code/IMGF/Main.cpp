@@ -2,6 +2,8 @@
 #include "Globals.h"
 #include "CIMGF.h"
 
+using namespace imgf;
+
 int WINAPI					WinMain(HINSTANCE hInstance, HINSTANCE hPreviousInstance, LPSTR pCommandLine, int iCommandShow)
 {
 	g_pIMGF = new CIMGF;

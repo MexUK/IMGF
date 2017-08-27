@@ -1,6 +1,8 @@
 #pragma once
 
-class CAutomatedTesting
+#include "nsimgf.h"
+
+class imgf::CAutomatedTesting
 {
 public:
 	void						start(void);

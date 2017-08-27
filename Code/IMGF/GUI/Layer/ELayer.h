@@ -1,6 +1,8 @@
 #pragma once
 
-enum ELayer
+#include "nsimgf.h"
+
+enum imgf::layers::ELayer
 {
 	MAIN,
 	FORMATS_MENU,

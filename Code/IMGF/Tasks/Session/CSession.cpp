@@ -9,6 +9,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace imgf;
 
 // serialize
 string			CSession::serialize(void)

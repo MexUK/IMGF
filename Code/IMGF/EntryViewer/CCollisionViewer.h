@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "CEntryViewer.h"
 #include "Format/COL/CCOLFormat.h"
 #include <string>
@@ -15,7 +16,7 @@ void							glutSpecialInputCallback(int iKey, int x, int y);
 struct GLFWwindow;
 class SolidSphere;
 
-class CCollisionViewer : public CEntryViewer
+class imgf::CCollisionViewer : public CEntryViewer
 {
 public:
 	CCollisionViewer(void);

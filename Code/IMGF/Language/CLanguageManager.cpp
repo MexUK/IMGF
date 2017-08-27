@@ -2,6 +2,7 @@
 #include "CLanguage.h"
 
 using namespace bxcf;
+using namespace imgf;
 
 void			CLanguageManager::init(void)
 {

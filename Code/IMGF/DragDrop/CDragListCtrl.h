@@ -1,10 +1,11 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "CDropSource.h"
 //#include <Windows.h>
 #include <string>
 
-struct CDraggableFile
+struct imgf::CDraggableFile
 {
 	CDraggableFile(void) :
 		m_bLogged(false) {};
@@ -14,9 +15,7 @@ struct CDraggableFile
 	bool							m_bLogged;
 };
 
-struct CDraggableFile;
-
-class CDragListCtrl // todo : public CListCtrl
+class imgf::CDragListCtrl // todo : public CListCtrl
 {
 public:
 	/*

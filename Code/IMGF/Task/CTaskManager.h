@@ -1,15 +1,16 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "nsbxcf.h"
 #include "Type/Types.h"
 #include "Object/CManager.h"
 #include <string>
 #include <vector>
 
-class CTaskDispatchManager;
-class CTaskDurationManager;
+class imgf::CTaskDispatchManager;
+class imgf::CTaskDurationManager;
 
-class CTaskManager : public bxcf::CManager
+class imgf::CTaskManager : public bxcf::CManager
 {
 public:
 	CTaskManager(void);

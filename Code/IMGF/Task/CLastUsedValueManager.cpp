@@ -1,6 +1,7 @@
 #include "CLastUsedValueManager.h"
 
 using namespace bxcf;
+using namespace imgf;
 
 void								CLastUsedValueManager::init(void)
 {

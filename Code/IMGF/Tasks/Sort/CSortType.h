@@ -1,9 +1,10 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "eSortType.h"
 #include <string>
 
-class CSortType
+class imgf::CSortType
 {
 public:
 	void						unload(void) {}

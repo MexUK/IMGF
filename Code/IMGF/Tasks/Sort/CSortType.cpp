@@ -3,6 +3,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace imgf;
 
 string					CSortType::getText(void)
 {

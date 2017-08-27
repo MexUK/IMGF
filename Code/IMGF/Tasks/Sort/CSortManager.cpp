@@ -29,6 +29,7 @@
 using namespace std;
 using namespace bxcf;
 using namespace bxgi;
+using namespace imgf;
 
 CSortManager::CSortManager(void)
 {

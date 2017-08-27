@@ -1,12 +1,13 @@
 #pragma once
 
+#include "nsimgf.h"
 #include <ObjIdl.h>
 #include <vector>
 
-struct CDraggableFile;
+struct imgf::CDraggableFile;
 class CFile;
 
-class CDropSource // todo : protected COleDataSource
+class imgf::CDropSource // todo : protected COleDataSource
 {
 public:
 	void							StartDragging(void);

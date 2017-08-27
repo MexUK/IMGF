@@ -1,12 +1,13 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Object/CManager.h"
 #include "Localization/eLanguage.h"
 #include "Pool/CVectorPool.h"
 
-class CLanguage;
+class imgf::CLanguage;
 
-class CLanguageManager : public bxcf::CManager, public bxcf::CVectorPool<CLanguage*>
+class imgf::CLanguageManager : public bxcf::CManager, public bxcf::CVectorPool<CLanguage*>
 {
 public:
 	void							init(void);

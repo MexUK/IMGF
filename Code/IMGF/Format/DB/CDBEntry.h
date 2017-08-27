@@ -1,9 +1,10 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Type/Types.h"
 #include <string>
 
-class CDBEntry
+class imgf::CDBEntry
 {
 public:
 	void				unload(void) {}

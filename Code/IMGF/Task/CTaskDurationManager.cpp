@@ -7,6 +7,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace imgf;
 
 CTaskDurationManager::CTaskDurationManager(void) :
 	m_uiTaskPauseStartTime(0)

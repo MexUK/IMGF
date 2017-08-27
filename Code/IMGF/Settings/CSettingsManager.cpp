@@ -14,6 +14,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace imgf;
 
 // settings for settings
 const string						CSettingsManager::REGULAR_SETTINGS_STORAGE_SECTION		= "RegularSettings";

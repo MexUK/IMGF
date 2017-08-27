@@ -5,6 +5,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace imgf;
 
 CEditorTab::CEditorTab(void) :
 	m_pEditor(nullptr),

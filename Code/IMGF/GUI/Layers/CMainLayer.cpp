@@ -16,9 +16,10 @@
 using namespace std;
 using namespace bxcf;
 using namespace bxgx;
+using namespace bxgx::control::events;
+using namespace imgf;
 using namespace imgf::layers;
 using namespace imgf::mainLayer::buttons;
-using namespace bxgx::control::events;
 
 // main interface
 void		CMainLayer::init(void)

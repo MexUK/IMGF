@@ -142,6 +142,7 @@
 using namespace std;
 using namespace bxcf;
 using namespace bxgi;
+using namespace imgf;
 using namespace imgf::task;
 
 CTaskDispatchManager::CTaskDispatchManager(void) :

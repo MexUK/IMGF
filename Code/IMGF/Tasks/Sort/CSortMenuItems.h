@@ -1,8 +1,9 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "CSortMenuItem.h"
 
-class CSortMenuItems : public bxcf::CVectorPool<CSortMenuItem*>
+class imgf::CSortMenuItems : public bxcf::CVectorPool<CSortMenuItem*>
 {
 public:
 	CSortMenuItem*	getEntryByMenuHandle(uint32 uiMenuHandle)

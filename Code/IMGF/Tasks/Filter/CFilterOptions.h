@@ -1,6 +1,8 @@
 #pragma once
 
-struct CFilterOptions
+#include "nsimgf.h"
+
+struct imgf::CFilterOptions
 {
 	CFilterOptions(void)
 	{

@@ -78,6 +78,7 @@ using namespace std;
 using namespace bxcf;
 using namespace bxgx;
 using namespace bxgi;
+using namespace imgf;
 
 CIMGF::CIMGF(void)
 {
@@ -98,6 +99,7 @@ CIMGF::CIMGF(void)
 	m_pWindowManager		= new CWindowManager;
 	m_pLastUsedValueManager	= new CLastUsedValueManager;
 }
+
 CIMGF::~CIMGF(void)
 {
 	// destruct objects stored by CIMGF

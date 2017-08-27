@@ -1,9 +1,10 @@
 #pragma once
 
+#include "nsimgf.h"
 #include <string>
 #include <vector>
 
-class CSession
+class imgf::CSession
 {
 public:
 	void							unload(void) {}

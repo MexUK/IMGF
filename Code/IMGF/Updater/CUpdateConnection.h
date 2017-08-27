@@ -1,8 +1,9 @@
 #pragma once
 
+#include "nsimgf.h"
 #include <string>
 
-class CUpdateConnection
+class imgf::CUpdateConnection
 {
 public:
 	void						unload(void) {}

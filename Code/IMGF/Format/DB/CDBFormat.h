@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/CFormat.h"
@@ -11,15 +12,15 @@
 class bxgi::CIMGFormat;
 class bxgi::CIMGEntry;
 
-class CDBFormat : public bxcf::CFormat, public bxcf::CVectorPool<CDBEntry*>
+class imgf::CDBFormat : public bxcf::CFormat, public bxcf::CVectorPool<imgf::CDBEntry*>
 {
 public:
-	CDBFormat(void) : CFormat(true, bxcf::LITTLE_ENDIAN) {};
+	CDBFormat(void) : bxcf::CFormat(true, bxcf::LITTLE_ENDIAN) {};
 	
 	void								unload(void);
 
 	bool								isIMGEntryFound(bxgi::CIMGFormat *pIMGFile, bxgi::CIMGEntry *pIMGEntry);
-	CDBEntry*							getEntryByNameExactCase(std::string strEntryName);
+	imgf::CDBEntry*						getEntryByNameExactCase(std::string strEntryName);
 
 	void								setDBVersion(uint32 uiDBVersion) { m_uiDBVersion = uiDBVersion; }
 	uint32								getDBVersion(void) { return m_uiDBVersion; }

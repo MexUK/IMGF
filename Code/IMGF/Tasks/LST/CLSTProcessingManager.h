@@ -1,11 +1,12 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Object/CManager.h"
 #include <string>
 
-class CLSTFormat;
+class imgf::CLSTFormat;
 
-class CLSTProcessingManager : public bxcf::CManager
+class imgf::CLSTProcessingManager : public bxcf::CManager
 {
 public:
 	void							init(void);

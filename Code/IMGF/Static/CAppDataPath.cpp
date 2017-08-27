@@ -3,6 +3,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace imgf;
 
 string					CAppDataPath::getRegularSettingsPath(void)
 {

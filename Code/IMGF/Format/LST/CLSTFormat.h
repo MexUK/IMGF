@@ -1,14 +1,15 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Format/CFormat.h"
 #include "Pool/CVectorPool.h"
 #include "CLSTSection.h"
 #include <string>
 
-class CLSTFormat : public bxcf::CFormat, public bxcf::CVectorPool<CLSTSection*>
+class imgf::CLSTFormat : public bxcf::CFormat, public bxcf::CVectorPool<CLSTSection*>
 {
 public:
-	CLSTFormat(void) : CFormat(false) {};
+	CLSTFormat(void) : bxcf::CFormat(false) {};
 
 	void								unload(void);
 

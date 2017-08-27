@@ -1,6 +1,8 @@
 #pragma once
 
-enum eEntryViewerDisplayType : uint8
+#include "nsimgf.h"
+
+enum imgf::eEntryViewerDisplayType : uint8
 {
 	DISPLAYTYPE_FLOAT,
 	DISPLAYTYPE_SINGLE

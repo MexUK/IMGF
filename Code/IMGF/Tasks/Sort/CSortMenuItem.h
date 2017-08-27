@@ -1,6 +1,8 @@
 #pragma once
 
-class CSortMenuItem
+#include "nsimgf.h"
+
+class imgf::CSortMenuItem
 {
 public:
 	CSortMenuItem(uint32 uiMenuHandle, CSortPriority* pPriority, CSortType* pType) :

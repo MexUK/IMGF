@@ -1,10 +1,11 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "nsbxgx.h"
 #include "Layer/CLayer.h"
 #include "Event/Events.h"
 
-class CMainWindow;
+class imgf::CMainWindow;
 class bxgx::CTabBarControl;
 class bxgx::CProgressControl;
 class bxgx::CTextBoxControl;
@@ -13,7 +14,7 @@ class bxgx::CButtonControl;
 class bxgx::CLineShape;
 class bxgx::CTabBarControlEntry;
 
-class CMainLayer : public bxgx::CLayer, public bxcf::EventBindable
+class imgf::CMainLayer : public bxgx::CLayer, public bxcf::EventBindable
 {
 public:
 	void						init(void);

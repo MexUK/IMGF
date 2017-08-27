@@ -8,6 +8,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace imgf;
 
 CWindowManager::CWindowManager(void) :
 	m_pMainWindow(nullptr)

@@ -1,9 +1,10 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Localization/eLanguage.h"
 #include <string>
 
-class CLanguage
+class imgf::CLanguage
 {
 public:
 	void					unload(void) {}

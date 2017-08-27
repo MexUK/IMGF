@@ -1,10 +1,11 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Type/Types.h"
 #include <string>
 #include <vector>
 
-class CTaskDurationManager
+class imgf::CTaskDurationManager
 {
 private:
 	const uint32			MAX_DURATIONS_PER_TASK		= 100;

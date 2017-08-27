@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Object/CManager.h"
 #include "CSession.h"
 #include "Pool/CVectorPool.h"
@@ -7,7 +8,7 @@
 #include <vector>
 #include <unordered_map>
 
-class CSessionManager : public bxcf::CManager, public bxcf::CVectorPool<CSession*>
+class imgf::CSessionManager : public bxcf::CManager, public bxcf::CVectorPool<CSession*>
 {
 public:
 	void			init(void);

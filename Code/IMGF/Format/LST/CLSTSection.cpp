@@ -4,6 +4,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace imgf;
 
 void					CLSTSection::unload(void)
 {

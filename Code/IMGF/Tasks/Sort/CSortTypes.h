@@ -1,3 +1,5 @@
 #pragma once
 
-class CSortTypes : public bxcf::CVectorPool<CSortType*> {};
+#include "nsimgf.h"
+
+class imgf::CSortTypes : public bxcf::CVectorPool<CSortType*> {};

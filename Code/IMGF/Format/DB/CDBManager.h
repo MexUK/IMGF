@@ -1,13 +1,14 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "nsbxgi.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 
-class CDBFormat;
+class imgf::CDBFormat;
 class bxgi::CIMGFormat;
 
-class CDBManager : public bxcf::CFormatManager<CDBFormat>, public bxcf::CSingleton<CDBManager>
+class imgf::CDBManager : public bxcf::CFormatManager<CDBFormat>, public bxcf::CSingleton<CDBManager>
 {
 public:
 	CDBManager(void);

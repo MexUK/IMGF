@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nsimgf.h"
 #include <Windows.h>
 #include "Object/CManager.h"
 #include "Format/TXD/eTXDRasterDataFormat.h"
@@ -10,10 +11,10 @@ LRESULT CALLBACK	WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 void				onPaint(HWND hwnd);
 
 class bxgi::CIMGEntry;
-class CTextureViewer;
-class CCollisionViewer;
+class imgf::CTextureViewer;
+class imgf::CCollisionViewer;
 
-class CEntryViewerManager : public bxcf::CManager
+class imgf::CEntryViewerManager : public bxcf::CManager
 {
 public:
 	CEntryViewerManager(void);

@@ -1,16 +1,17 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Type/Types.h"
 #include "nsbxcf.h"
 #include "nsbxgx.h"
 #include "Layer/CLayer.h"
 #include <string>
 
-class CEditor;
+class imgf::CEditor;
 class bxcf::CFormat;
 class bxgx::CTabBarControlEntry;
 
-class CEditorTab : public bxgx::CLayer
+class imgf::CEditorTab : public bxgx::CLayer
 {
 public:
 	CEditorTab(void);

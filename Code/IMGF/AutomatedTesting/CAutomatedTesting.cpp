@@ -4,6 +4,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace imgf;
 
 template<class Manager, class Format>
 void						testFormatSerialization(string strFormatFilePath)

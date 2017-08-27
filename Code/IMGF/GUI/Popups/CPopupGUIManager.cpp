@@ -33,6 +33,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace imgf;
 
 void									CPopupGUIManager::init(void)
 {

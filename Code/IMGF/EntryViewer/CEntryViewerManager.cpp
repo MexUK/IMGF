@@ -3,6 +3,7 @@
 #include "CCollisionViewer.h"
 
 using namespace bxcf;
+using namespace imgf;
 
 CEntryViewerManager::CEntryViewerManager(void)
 {

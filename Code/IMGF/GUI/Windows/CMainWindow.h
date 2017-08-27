@@ -6,13 +6,13 @@
 #include <string>
 #include <vector>
 
-class CMainLayer;
-class CIMGEditor;
+class imgf::CMainLayer;
+class imgf::CIMGEditor;
 class bxgx::CProgressControl;
 class bxgx::CTabBarControl;
 class bxgx::CButtonControl;
 
-class CMainWindow : public bxgx::CWindow
+class imgf::CMainWindow : public bxgx::CWindow
 {
 public:
 	CMainWindow(void);

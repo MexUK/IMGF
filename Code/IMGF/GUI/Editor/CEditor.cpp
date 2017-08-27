@@ -11,6 +11,7 @@
 using namespace std;
 using namespace bxcf;
 using namespace bxgx;
+using namespace imgf;
 
 CEditor::CEditor(void) :
 	m_pActiveFile(nullptr),

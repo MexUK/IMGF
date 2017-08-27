@@ -1,11 +1,12 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Type/Types.h"
 #include "Pool/CVectorPool.h"
 #include "CLSTEntry.h"
 #include <string>
 
-class CLSTSection : public bxcf::CVectorPool<CLSTEntry*>
+class imgf::CLSTSection : public bxcf::CVectorPool<CLSTEntry*>
 {
 public:
 	void								unload(void);

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Type/Types.h"
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
 #include "GUI/Editor/CEditor.h"
@@ -7,15 +8,15 @@
 #include "Event/Events.h"
 #include <string>
 
-class CMainWindow;
-class CSearchEntry;
+class imgf::CMainWindow;
+class imgf::CSearchEntry;
 class bxgx::CGridControl;
 class bxgx::CTextBoxControl;
 class bxgx::CDropControl;
 class bxgi::CIMGEntry;
 class bxgi::CIMGFormat;
 
-class CIMGEditor : public CEditor, public bxcf::EventBindable
+class imgf::CIMGEditor : public CEditor, public bxcf::EventBindable
 {
 public:
 	CIMGEditor(void);

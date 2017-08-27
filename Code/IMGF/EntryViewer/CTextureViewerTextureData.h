@@ -1,9 +1,10 @@
 #pragma once
 
+#include "nsimgf.h"
 #include <Windows.h>
 #include <string>
 
-struct CTextureViewerTextureData
+struct imgf::CTextureViewerTextureData
 {
 	bool			isCompletelyDisplayed(void)
 	{

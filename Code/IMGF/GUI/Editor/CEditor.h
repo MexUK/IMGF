@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nsimgf.h"
 #include "Layer/CLayer.h"
 #include "Pool/CVectorPool.h"
 #include "GUI/Editor/Tab/CEditorTab.h"
@@ -7,7 +8,7 @@
 
 class bxgx::CTabBarControl;
 
-class CEditor : public bxgx::CLayer
+class imgf::CEditor : public bxgx::CLayer
 {
 public:
 	CEditor(void);

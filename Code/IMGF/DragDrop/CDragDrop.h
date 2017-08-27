@@ -1,9 +1,10 @@
 #pragma once
 
+#include "nsimgf.h"
 #include <string>
 #include <vector>
 
-class CDragDrop
+class imgf::CDragDrop
 {
 	void					onDropFiles(std::vector<std::string>& vecPaths);
 };
