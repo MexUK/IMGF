@@ -1,7 +1,7 @@
 #pragma once
 
 #include "nsimgf.h"
-#include "Localization/eLanguage.h"
+#include "Localization/ELanguage.h"
 #include <string>
 
 class imgf::CLanguage
@@ -9,8 +9,8 @@ class imgf::CLanguage
 public:
 	void					unload(void) {}
 
-	void					setLanguageId(bxcf::eLanguage eLanguageValue) { eLanguageId = eLanguageValue; }
-	bxcf::eLanguage		getLanguageId(void) { return eLanguageId; }
+	void					setLanguageId(bxcf::ELanguage ELanguageValue) { ELanguageId = ELanguageValue; }
+	bxcf::ELanguage		getLanguageId(void) { return ELanguageId; }
 	
 	void					setLanguageName(std::string strLanguageName) { m_strLanguageName = strLanguageName; }
 	std::string				getLanguageName(void) { return m_strLanguageName; }
@@ -19,7 +19,7 @@ public:
 	std::string				getLocalizationKey(void) { return m_strLocalizationKey; }
 	
 private:
-	bxcf::eLanguage		eLanguageId;
+	bxcf::ELanguage		ELanguageId;
 	std::string				m_strLanguageName;
 	std::string				m_strLocalizationKey;
 };

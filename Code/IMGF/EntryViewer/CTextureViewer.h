@@ -5,7 +5,7 @@
 #include "nsbxgi.h"
 #include "CEntryViewer.h"
 #include "Pool/CVectorPool.h"
-#include "eEntryViewerDisplayType.h"
+#include "EEntryViewerDisplayType.h"
 #include "CTextureViewerTextureData.h"
 
 class bxgi::CIMGEntry;
@@ -32,8 +32,8 @@ public:
 	void						setActiveEntry(CTextureViewerTextureData *pActiveEntry) { m_pActiveEntry = pActiveEntry; }
 	CTextureViewerTextureData*	getActiveEntry(void) { return m_pActiveEntry; }
 
-	void						setDisplayType(eEntryViewerDisplayType eEntryViewerDisplayTypeValue);
-	eEntryViewerDisplayType		getDisplayType(void) { return m_eEntryViewerDisplayType; }
+	void						setDisplayType(EEntryViewerDisplayType EEntryViewerDisplayTypeValue);
+	EEntryViewerDisplayType		getDisplayType(void) { return m_EEntryViewerDisplayType; }
 	void						initDisplayType(void);
 	void						uninitDisplayType(void);
 
@@ -82,7 +82,7 @@ private:
 	HWND						m_hwndEntryViewerWindow;
 	CTextureViewerTextureData*	m_pActiveEntry;
 	float32						m_fZoomLevel;
-	eEntryViewerDisplayType		m_eEntryViewerDisplayType;
+	EEntryViewerDisplayType		m_EEntryViewerDisplayType;
 	HMENU						m_hViewMenu;
 	HMENU						m_hDisplayTypeMenu;
 	uint32						m_uiWindowScrollbarMaxRange;

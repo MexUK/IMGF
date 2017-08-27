@@ -869,7 +869,7 @@ INT_PTR CALLBACK DialogProc_SettingsDialog(
 	pSettingsData->m_bAutoSave = getIMGF()->getSettingsManager()->getSettingBool("AutoSave");
 	pSettingsData->m_bRemoveOldVersionOnUpdate = getIMGF()->getSettingsManager()->getSettingBool("RemoveOldVersionOnUpdate");
 	pSettingsData->m_bAutoCompressionImportReplace = getIMGF()->getSettingsManager()->getSettingBool("AutoCompressionImportReplace");
-	pSettingsData->m_eLanguage = (eLanguage)getIMGF()->getSettingsManager()->getSettingInt("Language");
+	pSettingsData->m_ELanguage = (ELanguage)getIMGF()->getSettingsManager()->getSettingInt("Language");
 
 	// quick export path
 	((CEdit*)pDialog->GetDlgItem(104))->SetWindowTextW(CString2::convertStdStringToStdWString(pSettingsData->m_strQuickExportPath).c_str());
@@ -877,22 +877,22 @@ INT_PTR CALLBACK DialogProc_SettingsDialog(
 	// language
 	uint32
 	uiLanguageOptionIndex = 0,
-	uiActiveLanguageOptionIndex = -1;
+	uiActivELanguageOptionIndex = -1;
 	umapSettingsLanguageOptions.clear();
 	for (CLanguage *pLanguage : getIMGF()->getLanguageManager()->getEntries())
 	{
 	((CComboBox*)pDialog->GetDlgItem(115))->AddString(CLocalizationManager::get()->getTranslatedTextW(pLanguage->getLocalizationKey()).c_str());
 	umapSettingsLanguageOptions[uiLanguageOptionIndex] = pLanguage;
 
-	if (pLanguage->getLanguageId() == pSettingsData->m_eLanguage)
+	if (pLanguage->getLanguageId() == pSettingsData->m_ELanguage)
 	{
-	uiActiveLanguageOptionIndex = uiLanguageOptionIndex;
+	uiActivELanguageOptionIndex = uiLanguageOptionIndex;
 	}
 	uiLanguageOptionIndex++;
 	}
-	if (uiActiveLanguageOptionIndex != -1)
+	if (uiActivELanguageOptionIndex != -1)
 	{
-	((CComboBox*)pDialog->GetDlgItem(115))->SetCurSel(uiActiveLanguageOptionIndex);
+	((CComboBox*)pDialog->GetDlgItem(115))->SetCurSel(uiActivELanguageOptionIndex);
 	}
 
 	// checkboxes
@@ -945,10 +945,10 @@ INT_PTR CALLBACK DialogProc_SettingsDialog(
 	pSettingsData->m_bAutoCompressionImportReplace = ((CButton*)pDialog->GetDlgItem(154))->GetCheck() == BST_CHECKED;
 
 	uint32 uiLanguageOptionIndex = ((CComboBox*)pDialog->GetDlgItem(115))->GetCurSel();
-	eLanguage
-	ePreviousLanguage = pSettingsData->m_eLanguage,
+	ELanguage
+	ePreviousLanguage = pSettingsData->m_ELanguage,
 	eNewLanguage = umapSettingsLanguageOptions[uiLanguageOptionIndex]->getLanguageId();
-	pSettingsData->m_eLanguage = eNewLanguage;
+	pSettingsData->m_ELanguage = eNewLanguage;
 
 	pSettingsData->m_bNewLanguageApplied = false;
 	if (ePreviousLanguage != eNewLanguage)
@@ -980,7 +980,7 @@ INT_PTR CALLBACK DialogProc_SettingsDialog(
 	getIMGF()->getSettingsManager()->setSettingBool("AutoSave", pSettingsData->m_bAutoSave);
 	getIMGF()->getSettingsManager()->setSettingBool("RemoveOldVersionOnUpdate", pSettingsData->m_bRemoveOldVersionOnUpdate);
 	getIMGF()->getSettingsManager()->setSettingBool("AutoCompressionImportReplace", pSettingsData->m_bAutoCompressionImportReplace);
-	getIMGF()->getSettingsManager()->setSettingInt("Language", pSettingsData->m_eLanguage);
+	getIMGF()->getSettingsManager()->setSettingInt("Language", pSettingsData->m_ELanguage);
 
 	EndDialog(hwndDlg, 0);
 	break;
@@ -1924,6 +1924,12 @@ CDragDropDialogData*			CPopupGUIManager::showDragDropDialog(CDragDropDialogData 
 	return pDragDropDialogData;
 }
 
+
+CDumpResultsDialogData::CDumpResultsDialogData(void) :
+	m_bOpenAdvancedLog(false)
+{
+}
+
 INT_PTR CALLBACK DialogProc_DumpResultsDialog(
 	HWND hwndDlg,
 	UINT uMsg,
@@ -2035,6 +2041,15 @@ void				CPopupGUIManager::showCreditsDialog(void)
 
 
 // renamer dialog
+
+CRenamerDialogData::CRenamerDialogData(void) :
+	m_bRename(false),
+	m_bMatchingState_IDE(false),
+	m_bMatchingState_IPL(false),
+	m_bMatchingState_COL(false),
+	m_bUpdateLODNamesToMatch(false)
+{
+}
 
 INT_PTR CALLBACK DialogProc_RenamerDialog(
 	HWND hwndDlg,
@@ -2849,13 +2864,13 @@ INT_PTR CALLBACK DialogProc_IMGVersionSettingsDialog(
 	switch (iCompressionType)
 	{
 	case 0:
-	pIMGVersionSettingsDialogData->m_eCompressionAlgorithm = COMPRESSION_NONE;
+	pIMGVersionSettingsDialogData->m_ECompressionAlgorithm = COMPRESSION_NONE;
 	break;
 	case 1:
-	pIMGVersionSettingsDialogData->m_eCompressionAlgorithm = COMPRESSION_ZLIB;
+	pIMGVersionSettingsDialogData->m_ECompressionAlgorithm = COMPRESSION_ZLIB;
 	break;
 	case 2:
-	pIMGVersionSettingsDialogData->m_eCompressionAlgorithm = COMPRESSION_LZ4;
+	pIMGVersionSettingsDialogData->m_ECompressionAlgorithm = COMPRESSION_LZ4;
 	break;
 	}
 

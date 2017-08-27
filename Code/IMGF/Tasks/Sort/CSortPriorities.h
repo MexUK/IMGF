@@ -2,4 +2,6 @@
 
 #include "nsimgf.h"
 
-class imgf::CSortPriorities : public bxcf::CVectorPool<CSortPriority*> {};
+class imgf::CSortPriorities : public bxcf::CVectorPool<CSortPriority*>
+{
+};

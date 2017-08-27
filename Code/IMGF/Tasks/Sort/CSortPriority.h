@@ -1,23 +1,14 @@
 #pragma once
 
 #include "nsimgf.h"
-#include "eSortType.h"
+#include "ESortType.h"
 #include <string>
 #include <vector>
 
 class imgf::CSortPriority
 {
 public:
-	/*
-	// todo
-	CSortPriority(eSortPriorityType eType) :
-		m_bEnabled(false),
-		m_eType(eType)
-	{};
-	*/
-	CSortPriority(void) :
-		m_bEnabled(false)
-	{};
+	CSortPriority(void);
 
 	void						unload(void) {}
 

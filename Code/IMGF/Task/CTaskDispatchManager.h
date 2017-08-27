@@ -7,8 +7,8 @@
 #include <vector>
 #include "nsbxcf.h"
 #include "Format/IMG/Regular/CIMGFormat.h"
-#include "Format/IMG/Regular/eIMGEntryProperty.h"
-#include "Game/ePlatformedGame.h"
+#include "Format/IMG/Regular/EIMGEntryProperty.h"
+#include "Game/EPlatformedGame.h"
 
 class bxcf::CRasterDataFormat;
 class bxgi::CRWVersion;
@@ -56,7 +56,7 @@ public:
 	void						onRequestRebuild(void);
 	void						onRequestRebuildAs(void);
 	void						onRequestRebuildAll(void);
-	void						onRequestConvertIMGVersion(bxgi::eIMGVersion eIMGVersion);
+	void						onRequestConvertIMGVersion(bxgi::EIMGVersion EIMGVersion);
 	void						onRequestConvertIMGVersionViaButton(void);
 	void						onRequestMerge(void);
 	void						onRequestSplitViaButton(void);
@@ -80,10 +80,10 @@ public:
 	void						onRequestImportViaButton(void);
 	void						onRequestImportViaIDEFile(void);
 	void						onRequestImportViaTextLines(void);
-	void						onRequestNew(bxgi::eIMGVersion eIMGVersion);
+	void						onRequestNew(bxgi::EIMGVersion EIMGVersion);
 	void						onRequestStats(void);
 	void						onRequestNameCase(uint8 ucCaseType, uint8 ucFilenameType);
-	void						onRequestCopyEntryData(bxgi::eIMGEntryProperty eIMGEntryProperty);
+	void						onRequestCopyEntryData(bxgi::EIMGEntryProperty EIMGEntryProperty);
 	void						onRequestShift(uint8 ucDirection);
 	void						onRequestQuickExport(void);
 	void						onRequestSelectViaFileExtension(void);
@@ -113,7 +113,7 @@ public:
 	void						onRequestDuplicateEntries(void);
 	void						onRequestExportAllEntriesFromAllTabsIntoMultipleFolders(void);
 	void						onRequestOpenLast(void);
-	void						onRequestConvertTXDToGame(bxgi::ePlatformedGame ePlatformedGame);
+	void						onRequestConvertTXDToGame(bxgi::EPlatformedGame EPlatformedGame);
 	void						onRequestConvertTXDToRWVersion(bxgi::CRWVersion *pRWVersion);
 	void						onRequestDump(void);
 	void						onRequestSessionManager(void);

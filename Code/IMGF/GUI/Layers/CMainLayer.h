@@ -49,7 +49,7 @@ public:
 	bxgx::CText*			m_pText_Game;
 	bxgx::CText*			m_pText_GameValidity;
 	bxgx::CText*			m_pText_GameLocation;
-	bxgx::CText*			m_pText_FileGame;
+	bxgx::CText*			m_pText_FilEGame;
 	bxgx::CText*			m_pText_FileValidity;
 	bxgx::CText*			m_pText_FileLocation;
 };

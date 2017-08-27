@@ -66,7 +66,7 @@ inline void PremultiplyBitmapAlpha(HDC hDC, HBITMAP hBmp)
 CTextureViewer::CTextureViewer(void) :
 	m_pActiveEntry(nullptr),
 	m_bTexturePreviewIsEnabled(false),
-	m_eEntryViewerDisplayType(DISPLAYTYPE_SINGLE)
+	m_EEntryViewerDisplayType(DISPLAYTYPE_SINGLE)
 {
 	GdiplusStartupInput gdiplusStartupInput;
 	GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);
@@ -579,10 +579,10 @@ LRESULT CALLBACK WndProc_ComboBox(
 }
 */
 
-void				CTextureViewer::setDisplayType(eEntryViewerDisplayType eEntryViewerDisplayTypeValue)
+void				CTextureViewer::setDisplayType(EEntryViewerDisplayType EEntryViewerDisplayTypeValue)
 {
 	uninitDisplayType();
-	m_eEntryViewerDisplayType = eEntryViewerDisplayTypeValue;
+	m_EEntryViewerDisplayType = EEntryViewerDisplayTypeValue;
 	initDisplayType();
 }
 void				CTextureViewer::initDisplayType(void)

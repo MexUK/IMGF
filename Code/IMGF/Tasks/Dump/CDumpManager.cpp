@@ -126,25 +126,25 @@ void		CDumpManager::process(void)
 	}
 	else if (pDumpDialogData->m_uiDumpType == 2) // DAT file
 	{
-		ePlatformedGame ePlatformedGameValue = UNKNOWN_PLATFORMED_GAME;
+		EPlatformedGame EPlatformedGameValue = UNKNOWN_PLATFORMED_GAME;
 		switch (pDumpDialogData->m_uiDATOptionIndex)
 		{
 		case 0: // GTA III
-			ePlatformedGameValue = PC_GTA_III;
+			EPlatformedGameValue = PC_GTA_III;
 			break;
 		case 1: // GTA VC
-			ePlatformedGameValue = PC_GTA_VC;
+			EPlatformedGameValue = PC_GTA_VC;
 			break;
 		case 2: // GTA SA
-			ePlatformedGameValue = PC_GTA_SA;
+			EPlatformedGameValue = PC_GTA_SA;
 			break;
 		case 3: // SOL
-			ePlatformedGameValue = PC_SOL;
+			EPlatformedGameValue = PC_SOL;
 			break;
 		case 4: // Other
 			break;
 		}
-		string strDATPath = pDumpDialogData->m_strGameDirectoryPath + CDATLoaderManager::getDefaultGameDATSubPath(ePlatformedGameValue);
+		string strDATPath = pDumpDialogData->m_strGameDirectoryPath + CDATLoaderManager::getDefaultGameDATSubPath(EPlatformedGameValue);
 
 		CDATLoaderFormat *pDATFile = CDATLoaderManager::get()->parseViaFile(strDATPath);
 		if (!pDATFile->doesHaveError())
@@ -154,7 +154,7 @@ void		CDumpManager::process(void)
 		pDATFile->unload();
 		delete pDATFile;
 
-		vector<string> vecGameIMGPaths = CIMGManager::getDefaultGameIMGSubPaths(ePlatformedGameValue);
+		vector<string> vecGameIMGPaths = CIMGManager::getDefaultGameIMGSubPaths(EPlatformedGameValue);
 
 		for (auto strIMGRelativePath : vecGameIMGPaths)
 		{
@@ -171,26 +171,26 @@ void		CDumpManager::process(void)
 	}
 	else if (pDumpDialogData->m_uiDumpType == 3) // Game IMGs
 	{
-		ePlatformedGame ePlatformedGameValue2 = UNKNOWN_PLATFORMED_GAME;
+		EPlatformedGame EPlatformedGameValue2 = UNKNOWN_PLATFORMED_GAME;
 		switch (pDumpDialogData->m_uiDATOptionIndex)
 		{
 		case 0: // GTA III
-			ePlatformedGameValue2 = PC_GTA_III;
+			EPlatformedGameValue2 = PC_GTA_III;
 			break;
 		case 1: // GTA VC
-			ePlatformedGameValue2 = PC_GTA_VC;
+			EPlatformedGameValue2 = PC_GTA_VC;
 			break;
 		case 2: // GTA SA
-			ePlatformedGameValue2 = PC_GTA_SA;
+			EPlatformedGameValue2 = PC_GTA_SA;
 			break;
 		case 3: // SOL
-			ePlatformedGameValue2 = PC_SOL;
+			EPlatformedGameValue2 = PC_SOL;
 			break;
 		case 4: // Other
 			break;
 		}
 
-		vector<string> vecGameIMGPaths = CIMGManager::getDefaultGameIMGSubPaths(ePlatformedGameValue2);
+		vector<string> vecGameIMGPaths = CIMGManager::getDefaultGameIMGSubPaths(EPlatformedGameValue2);
 
 		for (auto strIMGRelativePath : vecGameIMGPaths)
 		{

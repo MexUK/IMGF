@@ -117,7 +117,7 @@ void		CMainLayer::addControls(void)
 	y += h2;
 	m_pText_GameLocation = addText(x, y, w, h, "-", strStyleGroup);
 	y += h2;
-	m_pText_FileGame = addText(x, y, w2, h, "-", strStyleGroup);
+	m_pText_FilEGame = addText(x, y, w2, h, "-", strStyleGroup);
 	y += h2;
 	m_pText_FileValidity = addText(x, y, w2, h, "-", strStyleGroup);
 	y += h2;

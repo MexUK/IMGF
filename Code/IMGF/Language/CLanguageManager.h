@@ -2,7 +2,7 @@
 
 #include "nsimgf.h"
 #include "Object/CManager.h"
-#include "Localization/eLanguage.h"
+#include "Localization/ELanguage.h"
 #include "Pool/CVectorPool.h"
 
 class imgf::CLanguage;
@@ -13,7 +13,7 @@ public:
 	void							init(void);
 	void							uninit(void);
 
-	CLanguage*						getLanguageById(bxcf::eLanguage eLanguageValue);
+	CLanguage*						getLanguageById(bxcf::ELanguage ELanguageValue);
 
 private:
 	void							initLanguages(void);

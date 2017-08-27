@@ -87,7 +87,7 @@ public:
 
 	void						rebuild(std::string strIMGPath = "", bool bLog = true);
 	uint32						merge(std::string strPath, std::vector<std::string>& vecImportedEntryNames);
-	void						splitSelectedEntries(std::string strPath, bxgi::eIMGVersion eIMGVersion, bool bDeleteFromSource, std::vector<std::string>& vecSplitEntryNames);
+	void						splitSelectedEntries(std::string strPath, bxgi::EIMGVersion EIMGVersion, bool bDeleteFromSource, std::vector<std::string>& vecSplitEntryNames);
 	void						replace(std::vector<std::string>& vecPaths, std::vector<std::string>& vecReplacedEntryNames);
 	void						searchText(void);
 

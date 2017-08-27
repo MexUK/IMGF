@@ -4,7 +4,7 @@
 #include "Type/Types.h"
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
 #include "GUI/Editor/CEditor.h"
-#include "Format/IMG/Regular/eIMGVersion.h"
+#include "Format/IMG/Regular/EIMGVersion.h"
 #include "Event/Events.h"
 #include <string>
 
@@ -29,7 +29,7 @@ public:
 	static bool					validateFile(bxgi::CIMGFormat *img);
 
 	CIMGEditorTab*				addFile(bxgi::CIMGFormat *img);
-	CIMGEditorTab*				addBlankFile(std::string strIMGPath, bxgi::eIMGVersion eIMGVersionValue);
+	CIMGEditorTab*				addBlankFile(std::string strIMGPath, bxgi::EIMGVersion EIMGVersionValue);
 	CIMGEditorTab*				addTabObjectAndTabControl(bxgi::CIMGFormat *img);
 	void						removeFile(CIMGEditorTab *pIMGEditorFile);
 	void						removeActiveFile(void);
@@ -50,8 +50,8 @@ public:
 	CIMGEditorTab*				getActiveTab(void) { return (CIMGEditorTab*) CEditor::getActiveFile(); }
 	void						setActiveTab(CIMGEditorTab *pActiveTab);
 
-	void						readdColumnsToMainListView(bxgi::eIMGVersion eIMGVersionValue);
-	void						addColumnsToMainListView(bxgi::eIMGVersion eIMGVersionValue);
+	void						readdColumnsToMainListView(bxgi::EIMGVersion EIMGVersionValue);
+	void						addColumnsToMainListView(bxgi::EIMGVersion EIMGVersionValue);
 	void						removeColumnsFromMainListView(void);
 	int							getMainListControlItemByEntry(bxgi::CIMGEntry *pIMGEntry); // todo - naming -- list control vs list view
 

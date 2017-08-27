@@ -15,7 +15,7 @@ class bxgi::CIMGEntry;
 class imgf::CDBFormat : public bxcf::CFormat, public bxcf::CVectorPool<imgf::CDBEntry*>
 {
 public:
-	CDBFormat(void) : bxcf::CFormat(true, bxcf::LITTLE_ENDIAN) {};
+	CDBFormat(void) : bxcf::CFormat(true, bxcf::LITTLE_ENDIAN) {}
 	
 	void								unload(void);
 

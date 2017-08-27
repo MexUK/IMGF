@@ -9,7 +9,7 @@
 class imgf::CLSTFormat : public bxcf::CFormat, public bxcf::CVectorPool<CLSTSection*>
 {
 public:
-	CLSTFormat(void) : bxcf::CFormat(false) {};
+	CLSTFormat(void) : bxcf::CFormat(false) {}
 
 	void								unload(void);
 

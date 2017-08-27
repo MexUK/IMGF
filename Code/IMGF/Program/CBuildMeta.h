@@ -7,12 +7,7 @@
 class imgf::CBuildMeta
 {
 public:
-	CBuildMeta(void) :
-		m_fCurrentVersion(0.0f),
-		m_bIsAlphaBuild(false)
-	{
-		m_strCurrentVersionString = "?";
-	};
+	CBuildMeta(void);
 
 	void						setCurrentVersion(float32 fCurrentVersion) { m_fCurrentVersion = fCurrentVersion; }
 	float32						getCurrentVersion(void) { return m_fCurrentVersion; }

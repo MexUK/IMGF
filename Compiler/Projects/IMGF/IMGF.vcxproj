@@ -144,15 +144,19 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\CWindowManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Language\CLanguageManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Main.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Program\CBuildMeta.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Settings\CSettingsManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Static\CAppDataPath.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Tasks\Dump\CDumpManager.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Find\CSearchEntry.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Tasks\LST\CLSTProcessingManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Tasks\RecentlyOpen\CRecentlyOpenEntry.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Tasks\RecentlyOpen\CRecentlyOpenManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Tasks\Session\CSession.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Tasks\Session\CSessionManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Tasks\Sort\CSortManager.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Sort\CSortMenuItem.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Sort\CSortPriority.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Tasks\Sort\CSortType.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Task\CLastUsedValueManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Task\CTaskDispatchManager.cpp" />
@@ -202,7 +206,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\CEntryViewerManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\CTextureViewer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\CTextureViewerTextureData.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\eEntryViewerDisplayType.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\EEntryViewerDisplayType.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Event\EEvent.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Format\DB\CDBEntry.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Format\DB\CDBFormat.h" />
@@ -250,7 +254,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\CSortPriority.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\CSortType.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\CSortTypes.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\eSortType.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\ESortType.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Task\CLastUsedValueManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskDispatchManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Task\CTaskDurationManager.h" />

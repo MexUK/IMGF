@@ -3,8 +3,8 @@
 #include "nsimgf.h"
 #include <Windows.h>
 #include "Object/CManager.h"
-#include "Format/TXD/eTXDRasterDataFormat.h"
-#include "Image/eDXTCompressionType.h"
+#include "Format/TXD/ETXDRasterDataFormat.h"
+#include "Image/EDXTCompressionType.h"
 #include "d3d9.h"
 
 LRESULT CALLBACK	WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

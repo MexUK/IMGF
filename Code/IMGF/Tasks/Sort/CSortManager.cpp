@@ -12,7 +12,7 @@
 #include "Static/CPath.h"
 #include "CSortPriority.h"
 #include "CSortType.h"
-#include "eSortType.h"
+#include "ESortType.h"
 #include "Static/CInput.h"
 #include "GUI/Popups/CPopupGUIManager.h"
 #include "Format/IDE/CIDEManager.h"
@@ -137,8 +137,8 @@ bool		CSortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 		//CDebugger::log("not enabled: " + CString2::toString((uint16)pSortManager->m_uiSortPriorityIndex));
 		return false;
 	}
-	eSortType eSortType = pSortPriority->getType()->getType();
-	if (eSortType == SORT_NAME_AZ)
+	ESortType ESortType = pSortPriority->getType()->getType();
+	if (ESortType == SORT_NAME_AZ)
 	{
 		if (CString2::toUpperCase(p1->getEntryName()) == CString2::toUpperCase(p2->getEntryName()))
 		{
@@ -156,7 +156,7 @@ bool		CSortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 			return false;
 		}
 	}
-	else if (eSortType == SORT_NAME_ZA)
+	else if (ESortType == SORT_NAME_ZA)
 	{
 		if (CString2::toUpperCase(p1->getEntryName()) == CString2::toUpperCase(p2->getEntryName()))
 		{
@@ -174,7 +174,7 @@ bool		CSortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 			return false;
 		}
 	}
-	else if (eSortType == SORT_OFFSET_LOWHIGH)
+	else if (ESortType == SORT_OFFSET_LOWHIGH)
 	{
 		if (p1->getEntryOffsetInSectors() == p2->getEntryOffsetInSectors())
 		{
@@ -192,7 +192,7 @@ bool		CSortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 			return false;
 		}
 	}
-	else if (eSortType == SORT_OFFSET_HIGHLOW)
+	else if (ESortType == SORT_OFFSET_HIGHLOW)
 	{
 		if (p1->getEntryOffsetInSectors() == p2->getEntryOffsetInSectors())
 		{
@@ -210,7 +210,7 @@ bool		CSortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 			return false;
 		}
 	}
-	else if (eSortType == SORT_SIZE_SMALLBIG)
+	else if (ESortType == SORT_SIZE_SMALLBIG)
 	{
 		if (p1->getEntrySize() == p2->getEntrySize())
 		{
@@ -228,7 +228,7 @@ bool		CSortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 			return false;
 		}
 	}
-	else if (eSortType == SORT_SIZE_BIGSMALL)
+	else if (ESortType == SORT_SIZE_BIGSMALL)
 	{
 		if (p1->getEntrySize() == p2->getEntrySize())
 		{
@@ -246,7 +246,7 @@ bool		CSortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 			return false;
 		}
 	}
-	else if (eSortType == SORT_IDE_FILE)
+	else if (ESortType == SORT_IDE_FILE)
 	{
 		uint32 uiKey1 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(CPath::removeFileExtension(p1->getEntryName())));
 		uint32 uiKey2 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(CPath::removeFileExtension(p2->getEntryName())));
@@ -270,7 +270,7 @@ bool		CSortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 			return false;
 		}
 	}
-	else if (eSortType == SORT_COL_FILE)
+	else if (ESortType == SORT_COL_FILE)
 	{
 		uint32 uiKey1 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(CPath::removeFileExtension(p1->getEntryName())));
 		uint32 uiKey2 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(CPath::removeFileExtension(p2->getEntryName())));
@@ -294,7 +294,7 @@ bool		CSortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 			return false;
 		}
 	}
-	else if (eSortType == SORT_FILE_EXTENSIONS)
+	else if (ESortType == SORT_FILE_EXTENSIONS)
 	{
 		uint32 uiKey1 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(p1->getEntryName()));
 		uint32 uiKey2 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(p2->getEntryName()));

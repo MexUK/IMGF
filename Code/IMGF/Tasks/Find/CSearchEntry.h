@@ -1,17 +1,15 @@
 #pragma once
 
 #include "nsimgf.h"
+#include "nsbxgi.h"
 
-class imgf::CIMGEditorTab;
 class bxgi::CIMGEntry;
+class imgf::CIMGEditorTab;
 
 class imgf::CSearchEntry
 {
 public:
-	CSearchEntry(void) :
-		m_pEditorTab(nullptr),
-		m_pIMGEntry(nullptr)
-	{};
+	CSearchEntry(void);
 
 	void						setWindowTab(CIMGEditorTab* pEditorTab) { m_pEditorTab = pEditorTab; }
 	CIMGEditorTab*				getWindowTab(void) { return m_pEditorTab; }

@@ -7,8 +7,7 @@
 
 struct imgf::CDraggableFile
 {
-	CDraggableFile(void) :
-		m_bLogged(false) {};
+	CDraggableFile(void);
 
 	std::string						m_strFileName;
 	std::string						m_strFileData;

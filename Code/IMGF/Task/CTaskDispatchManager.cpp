@@ -126,7 +126,7 @@
 #include "EntryViewer/CCollisionViewer.h"
 #include "Tasks/Renamer/CRenamedIMGEntry.h"
 #include "Format/RW/CTextureEntry.h"
-#include "Game/eGame.h"
+#include "Game/EGame.h"
 #include "CLastUsedValueManager.h"
 #include "Task/ETask.h"
 #include "Stream/CDataReader.h"
@@ -765,9 +765,9 @@ void		CTaskDispatchManager::onRequestRebuildAll(void)
 	getIMGF()->getEntryListTab()->checkForUnknownRWVersionEntries();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRebuildAll");
 }
-void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionValue)
+void		CTaskDispatchManager::onRequestConvertIMGVersion(EIMGVersion EIMGVersionValue)
 {
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Convert_IMGVersion(eIMGVersionValue);
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Convert_IMGVersion(EIMGVersionValue);
 	getIMGF()->getTaskManager()->onStartTask("onRequestConvertIMGVersion");
 	if (getIMGF()->getEntryListTab() == nullptr)
 	{
@@ -782,7 +782,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 
 	// also convert entries to appropriate game version?
 	bool bConvertEntries = false;
-	if (ePreviousIMGVersion != IMG_FASTMAN92 && eIMGVersionValue != IMG_FASTMAN92)
+	if (ePreviousIMGVersion != IMG_FASTMAN92 && EIMGVersionValue != IMG_FASTMAN92)
 	{
 		bConvertEntries = getIMGF()->getPopupGUIManager()->showConfirmDialog("Also convert entries to appropriate game version?", "Convert Entries?");
 	}
@@ -828,7 +828,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 	}
 	
 	// add compression to entries body data in version Fastman92 IMG
-	if (eIMGVersionValue == IMG_FASTMAN92)
+	if (EIMGVersionValue == IMG_FASTMAN92)
 	{
 		for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 		{
@@ -852,7 +852,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 	*/
 
 	// re-apply compression type to entry data
-	if (ePreviousIMGVersion == IMG_FASTMAN92 && eIMGVersionValue != IMG_FASTMAN92)
+	if (ePreviousIMGVersion == IMG_FASTMAN92 && EIMGVersionValue != IMG_FASTMAN92)
 	{
 		for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 		{
@@ -861,9 +861,9 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 	}
 
 	// fetch RW versions or resource types
-	if (eIMGVersionValue == IMG_1 || eIMGVersionValue == IMG_2)
+	if (EIMGVersionValue == IMG_1 || EIMGVersionValue == IMG_2)
 	{
-		getIMGF()->getEntryListTab()->getIMGFile()->unserializeRWVersions(); // todo - func name inconsitent with one below - RW / Rage
+		getIMGF()->getEntryListTab()->getIMGFile()->unserializERWVersions(); // todo - func name inconsitent with one below - RW / Rage
 	}
 	else
 	{
@@ -871,7 +871,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 	}
 
 	// set new IMG version
-	getIMGF()->getEntryListTab()->getIMGFile()->setVersion(eIMGVersionValue);
+	getIMGF()->getEntryListTab()->getIMGFile()->setVersion(EIMGVersionValue);
 
 	// remove dir file?
 	if (ePreviousIMGVersion == IMG_1)
@@ -884,23 +884,23 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 	if (bConvertEntries)
 	{
 		// choose destination version for DFF, TXD and COL files
-		ePlatformedGame eDestGame = UNKNOWN_PLATFORMED_GAME;
-		if (eIMGVersionValue == IMG_1)
+		EPlatformedGame eDestGame = UNKNOWN_PLATFORMED_GAME;
+		if (EIMGVersionValue == IMG_1)
 		{
 			eDestGame = PC_GTA_VC;
 		}
-		else if (eIMGVersionValue == IMG_2)
+		else if (EIMGVersionValue == IMG_2)
 		{
 			eDestGame = PC_GTA_SA;
 		}
 		CRWVersion *pDestRWVersion = eDestGame == UNKNOWN_PLATFORMED_GAME ? nullptr : CRWManager::get()->getVersionManager()->getRWVersionFromGame(eDestGame);
 
-		eCOLVersion eDestCOLVersion = COL_UNKNOWN;
-		if (eIMGVersionValue == IMG_1)
+		ECOLVersion eDestCOLVersion = COL_UNKNOWN;
+		if (EIMGVersionValue == IMG_1)
 		{
 			eDestCOLVersion = COL_2;
 		}
-		else if (eIMGVersionValue == IMG_2)
+		else if (EIMGVersionValue == IMG_2)
 		{
 			eDestCOLVersion = COL_3;
 		}
@@ -994,7 +994,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersion(eIMGVersion eIMGVersionVa
 	}
 
 	// log
-	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_60", CIMGManager::getVersionNameWithGames((eIMGVersion)ePreviousIMGVersion, bPreviouslyEncrypted).c_str(), CIMGManager::getVersionNameWithGames(eIMGVersionValue, false).c_str()).c_str());
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_60", CIMGManager::getVersionNameWithGames((EIMGVersion)ePreviousIMGVersion, bPreviouslyEncrypted).c_str(), CIMGManager::getVersionNameWithGames(EIMGVersionValue, false).c_str()).c_str());
 
 	// rebuild
 	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildOnConvert"))
@@ -1028,7 +1028,7 @@ void		CTaskDispatchManager::onRequestConvertIMGVersionViaButton(void)
 		return;
 	}
 
-	onRequestConvertIMGVersion((eIMGVersion)uiRadioButtonIndex);
+	onRequestConvertIMGVersion((EIMGVersion)uiRadioButtonIndex);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersionViaButton");
 }
 void		CTaskDispatchManager::onRequestMerge(void)
@@ -1156,35 +1156,35 @@ void		CTaskDispatchManager::onRequestSplitSelectedEntries(void)
 	bool bDeleteFromSource = getIMGF()->getPopupGUIManager()->showConfirmDialog(CLocalizationManager::get()->getTranslatedText("Window_Confirm_1_Message"), CLocalizationManager::get()->getTranslatedText("Window_Confirm_1_Title"));
 	getIMGF()->getTaskManager()->onResumeTask();
 
-	eIMGVersion eIMGVersionValue = IMG_UNKNOWN;
+	EIMGVersion EIMGVersionValue = IMG_UNKNOWN;
 	bool bIsEncrypted = false;
 	switch (uiRadioButtonIndex)
 	{
 	case 0:
-		eIMGVersionValue = IMG_1;
+		EIMGVersionValue = IMG_1;
 		break;
 	case 1:
-		eIMGVersionValue = IMG_2;
+		EIMGVersionValue = IMG_2;
 		break;
 	case 2:
-		eIMGVersionValue = IMG_3;
+		EIMGVersionValue = IMG_3;
 		bIsEncrypted = true;
 		break;
 	case 3:
-		eIMGVersionValue = IMG_3;
+		EIMGVersionValue = IMG_3;
 		bIsEncrypted = false;
 		break;
 	}
 
 	vector<string> vecSplitEntryNames;
-	getIMGF()->getEntryListTab()->splitSelectedEntries(strPath, eIMGVersionValue, bDeleteFromSource, vecSplitEntryNames);
+	getIMGF()->getEntryListTab()->splitSelectedEntries(strPath, EIMGVersionValue, bDeleteFromSource, vecSplitEntryNames);
 	if(bDeleteFromSource)
 	{
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_66", getIMGF()->getIMGEditor()->getSelectedEntryCount(), CPath::getFileName(strPath).c_str(), CIMGManager::getVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPath::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_66", getIMGF()->getIMGEditor()->getSelectedEntryCount(), CPath::getFileName(strPath).c_str(), CIMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), CPath::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
 	else
 	{
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_65", getIMGF()->getIMGEditor()->getSelectedEntryCount(), CPath::getFileName(strPath).c_str(), CIMGManager::getVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPath::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_65", getIMGF()->getIMGEditor()->getSelectedEntryCount(), CPath::getFileName(strPath).c_str(), CIMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), CPath::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
 	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_67"), true);
 	getIMGF()->getEntryListTab()->log(CString2::join(vecSplitEntryNames, "\n"), true);
@@ -1254,36 +1254,36 @@ void		CTaskDispatchManager::onRequestSplitViaIDEFile(void)
 		}
 	}
 
-	eIMGVersion eIMGVersionValue = IMG_UNKNOWN;
+	EIMGVersion EIMGVersionValue = IMG_UNKNOWN;
 	bool bIsEncrypted = false;
 	switch (uiRadioButtonIndex)
 	{
 	case 0:
-		eIMGVersionValue = IMG_1;
+		EIMGVersionValue = IMG_1;
 		break;
 	case 1:
-		eIMGVersionValue = IMG_2;
+		EIMGVersionValue = IMG_2;
 		break;
 	case 2:
-		eIMGVersionValue = IMG_3;
+		EIMGVersionValue = IMG_3;
 		bIsEncrypted = true;
 		break;
 	case 3:
-		eIMGVersionValue = IMG_3;
+		EIMGVersionValue = IMG_3;
 		bIsEncrypted = false;
 		break;
 	}
 
 	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size() * (bDeleteFromSource ? 2 : 1));
-	getIMGF()->getEntryListTab()->getIMGFile()->split(vecIMGEntries, strPath, eIMGVersionValue);
+	getIMGF()->getEntryListTab()->getIMGFile()->split(vecIMGEntries, strPath, EIMGVersionValue);
 	
 	if(bDeleteFromSource)
 	{
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_70", vecSplitEntryNames.size(), CPath::getFileName(strPath).c_str(), CIMGManager::getVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPath::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_70", vecSplitEntryNames.size(), CPath::getFileName(strPath).c_str(), CIMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), CPath::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
 	else
 	{
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_69", vecSplitEntryNames.size(), CPath::getFileName(strPath).c_str(), CIMGManager::getVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPath::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_69", vecSplitEntryNames.size(), CPath::getFileName(strPath).c_str(), CIMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), CPath::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
 	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_67"), true);
 	getIMGF()->getEntryListTab()->log(CString2::join(vecSplitEntryNames, "\n"), true);
@@ -1370,36 +1370,36 @@ void		CTaskDispatchManager::onRequestSplitViaTextLines(void)
 		}
 	}
 
-	eIMGVersion eIMGVersionValue = IMG_UNKNOWN;
+	EIMGVersion EIMGVersionValue = IMG_UNKNOWN;
 	bool bIsEncrypted = false;
 	switch (uiRadioButtonIndex)
 	{
 	case 0:
-		eIMGVersionValue = IMG_1;
+		EIMGVersionValue = IMG_1;
 		break;
 	case 1:
-		eIMGVersionValue = IMG_2;
+		EIMGVersionValue = IMG_2;
 		break;
 	case 2:
-		eIMGVersionValue = IMG_3;
+		EIMGVersionValue = IMG_3;
 		bIsEncrypted = true;
 		break;
 	case 3:
-		eIMGVersionValue = IMG_3;
+		EIMGVersionValue = IMG_3;
 		bIsEncrypted = false;
 		break;
 	}
 
 	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size() * (bDeleteFromSource ? 2 : 1));
-	getIMGF()->getEntryListTab()->getIMGFile()->split(vecIMGEntries, strPath, eIMGVersionValue);
+	getIMGF()->getEntryListTab()->getIMGFile()->split(vecIMGEntries, strPath, EIMGVersionValue);
 
 	if(bDeleteFromSource)
 	{
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_73", vecSplitEntryNames.size(), CPath::getFileName(strPath).c_str(), CIMGManager::getVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPath::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_73", vecSplitEntryNames.size(), CPath::getFileName(strPath).c_str(), CIMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), CPath::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
 	else
 	{
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_72", vecSplitEntryNames.size(), CPath::getFileName(strPath).c_str(), CIMGManager::getVersionNameWithGames(eIMGVersionValue, bIsEncrypted).c_str(), CPath::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_72", vecSplitEntryNames.size(), CPath::getFileName(strPath).c_str(), CIMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), CPath::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
 	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_67"), true);
 	getIMGF()->getEntryListTab()->log(CString2::join(vecSplitEntryNames, "\n"), true);
@@ -2400,9 +2400,9 @@ void		CTaskDispatchManager::onRequestImportViaTextLines(void)
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaTextLines");
 }
-void		CTaskDispatchManager::onRequestNew(eIMGVersion eIMGVersion)
+void		CTaskDispatchManager::onRequestNew(EIMGVersion EIMGVersion)
 {
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_New_IMGVersion(eIMGVersion);
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_New_IMGVersion(EIMGVersion);
 	getIMGF()->getTaskManager()->onStartTask("onRequestNew");
 	//TCHAR szCurrentDirectory[MAX_PATH];
 	//GetCurrentDirectory(MAX_PATH, szCurrentDirectory);
@@ -2426,7 +2426,7 @@ void		CTaskDispatchManager::onRequestNew(eIMGVersion eIMGVersion)
 	strFilePath = CFile::getNextIncrementingFileName(strFilePath);
 	CFile::createFoldersForPath(strFilePath);
 	strFilePath = CString2::replace(strFilePath, "/", "\\");
-	getIMGF()->getIMGEditor()->addBlankFile(strFilePath, eIMGVersion);
+	getIMGF()->getIMGEditor()->addBlankFile(strFilePath, EIMGVersion);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestNew");
 }
 void		CTaskDispatchManager::onRequestStats(void)
@@ -2573,11 +2573,11 @@ void		CTaskDispatchManager::onRequestNameCase(uint8 ucCaseType, uint8 ucFilename
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestNameCase");
 	*/
 }
-void		CTaskDispatchManager::onRequestCopyEntryData(eIMGEntryProperty eIMGEntryProperty)
+void		CTaskDispatchManager::onRequestCopyEntryData(EIMGEntryProperty EIMGEntryProperty)
 {
 	/*
 	todo
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Copy_IMGEntryProperty(eIMGEntryProperty);
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Copy_IMGEntryProperty(EIMGEntryProperty);
 	getIMGF()->getTaskManager()->onStartTask("onRequestCopyEntryData");
 	if (getIMGF()->getEntryListTab() == nullptr)
 	{
@@ -2600,7 +2600,7 @@ void		CTaskDispatchManager::onRequestCopyEntryData(eIMGEntryProperty eIMGEntryPr
 		int nItem = pListControl->GetNextSelectedItem(pos);
 		pIMGEntry = (CIMGEntry*)pListControl->GetItemData(nItem);
 
-		switch (eIMGEntryProperty)
+		switch (EIMGEntryProperty)
 		{
 		case IMG_ENTRY_ID:
 			vecCopyLines.push_back(CString2::toString(getIMGF()->getEntryListTab()->getIMGFile()->getIndexByEntry(pIMGEntry) + 1));
@@ -3782,7 +3782,7 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 			continue;
 		}
 
-		if (pIMGEntry != nullptr && (pIMGEntry->getRWVersion()->doesUsePlatformedGame(PC_GTA_III) || pIMGEntry->getRWVersion()->doesUsePlatformedGame(PC_GTA_VC)))
+		if (pIMGEntry != nullptr && (pIMGEntry->getRWVersion()->doesUsEPlatformedGame(PC_GTA_III) || pIMGEntry->getRWVersion()->doesUsEPlatformedGame(PC_GTA_VC)))
 		{
 			bSelectedDFFsContainIIIOrVC = true;
 			break;
@@ -3790,7 +3790,7 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 	}
 	//////////
 
-	if (bSelectedDFFsContainIIIOrVC && pRWVersion->doesUsePlatformedGame(PC_GTA_SA))
+	if (bSelectedDFFsContainIIIOrVC && pRWVersion->doesUsEPlatformedGame(PC_GTA_SA))
 	{
 		// The selected DFFs in the active IMG tab contains at least 1 DFF IMG entry with a RW version of III or VC, and the target RW version to convert to is SA.
 		vector<uint32> vecExtendedLogLines_MissingObjectIds;
@@ -3994,7 +3994,7 @@ void		CTaskDispatchManager::onRequestConvertDFFToRWVersion(CRWVersion *pRWVersio
 			}
 		}
 
-		if (bConvert2DFXFromIIIOrVCToSA && pIMGEntry->getRWVersion() != nullptr && (pIMGEntry->getRWVersion()->doesUsePlatformedGame(PC_GTA_III) || pIMGEntry->getRWVersion()->doesUsePlatformedGame(PC_GTA_VC)))
+		if (bConvert2DFXFromIIIOrVCToSA && pIMGEntry->getRWVersion() != nullptr && (pIMGEntry->getRWVersion()->doesUsEPlatformedGame(PC_GTA_III) || pIMGEntry->getRWVersion()->doesUsEPlatformedGame(PC_GTA_VC)))
 		{
 			// CIDEEntry_2DFX = umapIDEModelNames[modelName]->getSectionsByType(IDE_SECTION_2DFX)[0];
 
@@ -4742,25 +4742,25 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 	}
 	else if (pDuplicateEntriesDialogData->m_ucEntriesType == 3) // DAT file
 	{
-		ePlatformedGame ePlatformedGameValue = UNKNOWN_PLATFORMED_GAME;
+		EPlatformedGame EPlatformedGameValue = UNKNOWN_PLATFORMED_GAME;
 		switch (pDuplicateEntriesDialogData->m_uiDATGameIndex)
 		{
 		case 0: // GTA III
-			ePlatformedGameValue = PC_GTA_III;
+			EPlatformedGameValue = PC_GTA_III;
 			break;
 		case 1: // GTA VC
-			ePlatformedGameValue = PC_GTA_VC;
+			EPlatformedGameValue = PC_GTA_VC;
 			break;
 		case 2: // GTA SA
-			ePlatformedGameValue = PC_GTA_SA;
+			EPlatformedGameValue = PC_GTA_SA;
 			break;
 		case 3: // SOL
-			ePlatformedGameValue = PC_SOL;
+			EPlatformedGameValue = PC_SOL;
 			break;
 		case 4: // Other
 			break;
 		}
-		string strDATPath = pDuplicateEntriesDialogData->m_strDATGameDirectoryPath + CDATLoaderManager::getDefaultGameDATSubPath(ePlatformedGameValue);
+		string strDATPath = pDuplicateEntriesDialogData->m_strDATGameDirectoryPath + CDATLoaderManager::getDefaultGameDATSubPath(EPlatformedGameValue);
 
 		CDATLoaderFormat *pDATFile = CDATLoaderManager::get()->parseViaFile(strDATPath);
 		if (!pDATFile->doesHaveError())
@@ -4770,7 +4770,7 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 		pDATFile->unload();
 		delete pDATFile;
 
-		vector<string> vecGameIMGPaths = CIMGManager::getDefaultGameIMGSubPaths(ePlatformedGameValue);
+		vector<string> vecGameIMGPaths = CIMGManager::getDefaultGameIMGSubPaths(EPlatformedGameValue);
 
 		for (auto strIMGRelativePath : vecGameIMGPaths)
 		{
@@ -4929,11 +4929,11 @@ void		CTaskDispatchManager::onRequestOpenLast(void)
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenLast");
 }
-void		CTaskDispatchManager::onRequestConvertTXDToGame(ePlatformedGame ePlatformedGame)
+void		CTaskDispatchManager::onRequestConvertTXDToGame(EPlatformedGame EPlatformedGame)
 {
 	/*
 	todo
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_ConvertTXD_Game(ePlatformedGame);
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_ConvertTXD_Game(EPlatformedGame);
 	getIMGF()->getTaskManager()->onStartTask("onRequestConvertTXDToGame");
 	if (getIMGF()->getEntryListTab() == nullptr)
 	{
@@ -4977,7 +4977,7 @@ void		CTaskDispatchManager::onRequestConvertTXDToGame(ePlatformedGame ePlatforme
 		uiConvertedTXDCount++;
 		vecConvertedTXDNames.push_back(pIMGEntry->getEntryName());
 
-		pTXDFile->convertToGame(ePlatformedGame, vecMipmapsRemoved);
+		pTXDFile->convertToGame(EPlatformedGame, vecMipmapsRemoved);
 		CRWVersion *pRWVersion = pTXDFile->getRWVersion();
 		string strFileData = pTXDFile->serializeViaMemory();
 		pTXDFile->unload();
@@ -4993,7 +4993,7 @@ void		CTaskDispatchManager::onRequestConvertTXDToGame(ePlatformedGame ePlatforme
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_104", uiConvertedTXDCount, CGameManager::get()->getPlatformedGameText(ePlatformedGame).c_str(), vecMipmapsRemoved.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_104", uiConvertedTXDCount, CGameManager::get()->getPlatformedGameText(EPlatformedGame).c_str(), vecMipmapsRemoved.size()));
 	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_105"), true);
 	getIMGF()->getEntryListTab()->log(CString2::join(vecConvertedTXDNames, "\n"), true);
 	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("MipmapsRemoved"), true);
@@ -5731,7 +5731,7 @@ void		CTaskDispatchManager::onRequestCompareIMG(void)
 
 	CIMGFormat *pIMGFile1 = getIMGF()->getEntryListTab()->getIMGFile();
 
-	eIMGVersion eIMGVersionValue = CIMGManager::detectIMGVersion(vecPaths[0]);
+	EIMGVersion EIMGVersionValue = CIMGManager::detectIMGVersion(vecPaths[0]);
 	/*
 	todo
 	if (uiFileResult == FILE_NOT_FOUND)
@@ -5760,7 +5760,7 @@ void		CTaskDispatchManager::onRequestCompareIMG(void)
 	}
 	*/
 	
-	CIMGFormat *pIMGFile2 = CIMGManager::get()->parseViaFile(vecPaths[0]/* todo ?? -, (eIMGVersion)uiFileResult */);
+	CIMGFormat *pIMGFile2 = CIMGManager::get()->parseViaFile(vecPaths[0]/* todo ?? -, (EIMGVersion)uiFileResult */);
 	if (pIMGFile2->doesHaveError())
 	{
 		getIMGF()->getTaskManager()->onPauseTask();
@@ -6909,7 +6909,7 @@ void		CTaskDispatchManager::onRequestIMGVersionSettings(void)
 	vector<string> vecEntryNames;
 	for (auto pIMGEntry : vecIMGEntries)
 	{
-		pIMGEntry->applyCompression(pIMGVersionSettingsDialogData->m_eCompressionAlgorithm, pIMGVersionSettingsDialogData->m_uiCompressionLevel);
+		pIMGEntry->applyCompression(pIMGVersionSettingsDialogData->m_ECompressionAlgorithm, pIMGVersionSettingsDialogData->m_uiCompressionLevel);
 		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 		vecEntryNames.push_back(pIMGEntry->getEntryName());
 
@@ -6921,7 +6921,7 @@ void		CTaskDispatchManager::onRequestIMGVersionSettings(void)
 
 	// log
 	// todo rename getCompressionTypeText to alrogrfirmtm
-	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_121", CIMGManager::getCompressionTypeText(pIMGVersionSettingsDialogData->m_eCompressionAlgorithm).c_str(), vecIMGEntries.size()));
+	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_121", CIMGManager::getCompressionTypeText(pIMGVersionSettingsDialogData->m_ECompressionAlgorithm).c_str(), vecIMGEntries.size()));
 	getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_122"), true);
 	getIMGF()->getEntryListTab()->log(CString2::join(vecEntryNames, "\n"), true);
 
@@ -8575,7 +8575,7 @@ void						CTaskDispatchManager::onRequestMapMoverAndIDShifter(void)
 		return;
 	}
 
-	unordered_map<ePlatformedGame, vector<string>>
+	unordered_map<EPlatformedGame, vector<string>>
 		umapIgnoreDefaultObjectFileNamesVector;
 	string
 		strDefaultModelNamesFolder = CDataPath::getDataPath() + "DefaultFiles/ModelNames/",

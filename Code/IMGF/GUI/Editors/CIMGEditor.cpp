@@ -115,11 +115,11 @@ CIMGEditorTab*				CIMGEditor::addFile(CIMGFormat *img)
 	return imgEditorTab;
 }
 
-CIMGEditorTab*				CIMGEditor::addBlankFile(string strIMGPath, eIMGVersion eIMGVersionValue)
+CIMGEditorTab*				CIMGEditor::addBlankFile(string strIMGPath, EIMGVersion EIMGVersionValue)
 {
 	CIMGFormat *img = new CIMGFormat;
 	img->setFilePath(strIMGPath);
-	img->setVersion(eIMGVersionValue);
+	img->setVersion(EIMGVersionValue);
 
 	CIMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img);
 
@@ -202,7 +202,7 @@ void						CIMGEditor::setFileInfoText(CEditorTab *pEditorFile)
 	pMainLayer->m_pText_Game->setText(string("A"));
 	pMainLayer->m_pText_GameValidity->setText(string("-"));
 	pMainLayer->m_pText_GameLocation->setText(string("A"));
-	pMainLayer->m_pText_FileGame->setText(string("A"));
+	pMainLayer->m_pText_FilEGame->setText(string("A"));
 	pMainLayer->m_pText_FileValidity->setText(string("-"));
 	pMainLayer->m_pText_FileLocation->setText(getResolvedFilePath(pEditorFile->getFile()->getFilePath()));
 
@@ -216,7 +216,7 @@ void						CIMGEditor::clearFileInfoText(void)
 	pMainLayer->m_pText_Game->setText(string("No file is open"));
 	pMainLayer->m_pText_GameValidity->setText(string("-"));
 	pMainLayer->m_pText_GameLocation->setText(string("-"));
-	pMainLayer->m_pText_FileGame->setText(string("-"));
+	pMainLayer->m_pText_FilEGame->setText(string("-"));
 	pMainLayer->m_pText_FileValidity->setText(string("-"));
 	pMainLayer->m_pText_FileLocation->setText(string("-"));
 }
@@ -346,12 +346,12 @@ void						CIMGEditor::setActiveTab(CIMGEditorTab *pEditorTab)
 	}
 }
 
-void					CIMGEditor::readdColumnsToMainListView(eIMGVersion eIMGVersionValue)
+void					CIMGEditor::readdColumnsToMainListView(EIMGVersion EIMGVersionValue)
 {
 	removeColumnsFromMainListView();
-	addColumnsToMainListView(eIMGVersionValue);
+	addColumnsToMainListView(EIMGVersionValue);
 }
-void					CIMGEditor::addColumnsToMainListView(eIMGVersion eIMGVersionValue)
+void					CIMGEditor::addColumnsToMainListView(EIMGVersion EIMGVersionValue)
 {
 	m_pEntryGrid->addHeader("Index" /* todo CLocalizationManager::get()->getTranslatedText("Window_Main_ListView_ColumnTitle_ID")*/, 45);
 	m_pEntryGrid->addHeader("Type" /* CLocalizationManager::get()->getTranslatedText("Window_Main_ListView_ColumnTitle_Type")*/, 40);
@@ -359,7 +359,7 @@ void					CIMGEditor::addColumnsToMainListView(eIMGVersion eIMGVersionValue)
 	m_pEntryGrid->addHeader("Offset" /* CLocalizationManager::get()->getTranslatedText("Offset")*/, 85);
 	m_pEntryGrid->addHeader("Size" /* CLocalizationManager::get()->getTranslatedText("Size")*/, 70);
 
-	switch (eIMGVersionValue)
+	switch (EIMGVersionValue)
 	{
 	case IMG_UNKNOWN:
 	case IMG_1:

@@ -16,7 +16,7 @@
 #include "Tasks/Sort/CSortManager.h"
 #include "Tasks/Sort/CSortPriority.h"
 #include "Tasks/Sort/CSortType.h"
-#include "Tasks/Sort/eSortType.h"
+#include "Tasks/Sort/ESortType.h"
 #include "Static/CDebug.h"
 #include "DB/CDBFormat.h"
 #include "Format/COL/CCOLManager.h"
@@ -333,22 +333,22 @@ void					CIMGEditorTab::checkToApplyCompression(CIMGEntry *pIMGEntry)
 	{
 		if (getIMGFile()->getVersion() == IMG_FASTMAN92)
 		{
-			//eCompressionAlgorithm eCompressionAlgorithmValue = (eCompressionAlgorithm)getIMGF()->getSettingsManager()->getSettingInt("Fastman92IMGAutoCompressionType");
+			//ECompressionAlgorithm ECompressionAlgorithmValue = (ECompressionAlgorithm)getIMGF()->getSettingsManager()->getSettingInt("Fastman92IMGAutoCompressionType");
 			if (getIMGFile()->getEntryCount() > 1) // > 1 instead of > 0, because the entry has already been added to the pool.
 			{
-				eCompressionAlgorithm eCompressionAlgorithmValue;
+				ECompressionAlgorithm ECompressionAlgorithmValue;
 
 				// check to use compression type from first entry in IMG
-				eCompressionAlgorithmValue = getIMGFile()->getEntryByIndex(0)->getCompressionAlgorithmId();
+				ECompressionAlgorithmValue = getIMGFile()->getEntryByIndex(0)->getCompressionAlgorithmId();
 				
 				// if compression type is not compressed (none) or unknown, default to ZLIB compression
-				if (eCompressionAlgorithmValue == COMPRESSION_NONE || eCompressionAlgorithmValue == COMPRESSION_UNKNOWN)
+				if (ECompressionAlgorithmValue == COMPRESSION_NONE || ECompressionAlgorithmValue == COMPRESSION_UNKNOWN)
 				{
-					eCompressionAlgorithmValue = COMPRESSION_ZLIB;
+					ECompressionAlgorithmValue = COMPRESSION_ZLIB;
 				}
 
 				// apply the compression to the IMG entry
-				pIMGEntry->applyCompression(eCompressionAlgorithmValue);
+				pIMGEntry->applyCompression(ECompressionAlgorithmValue);
 			}
 		}
 	}
@@ -835,7 +835,7 @@ uint32			CIMGEditorTab::merge(string strPath, vector<string>& vecImportedEntryNa
 {
 	return getIMGFile()->merge(strPath, vecImportedEntryNames);
 }
-void					CIMGEditorTab::splitSelectedEntries(string strPath, eIMGVersion eIMGVersion, bool bDeleteFromSource, vector<string>& vecSplitEntryNames)
+void					CIMGEditorTab::splitSelectedEntries(string strPath, EIMGVersion EIMGVersion, bool bDeleteFromSource, vector<string>& vecSplitEntryNames)
 {
 	/*
 	todo
@@ -867,7 +867,7 @@ void					CIMGEditorTab::splitSelectedEntries(string strPath, eIMGVersion eIMGVer
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGFile()->split(vecIMGEntries, strPath, eIMGVersion);
+	getIMGFile()->split(vecIMGEntries, strPath, EIMGVersion);
 
 	if (bDeleteFromSource)
 	{

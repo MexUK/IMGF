@@ -50,11 +50,11 @@ void			CLanguageManager::uninitLanguages(void)
 	removeAllEntries();
 }
 
-CLanguage*		CLanguageManager::getLanguageById(eLanguage eLanguageValue)
+CLanguage*		CLanguageManager::getLanguageById(ELanguage ELanguageValue)
 {
 	for (CLanguage *pLanguage : getEntries())
 	{
-		if (pLanguage->getLanguageId() == eLanguageValue)
+		if (pLanguage->getLanguageId() == ELanguageValue)
 		{
 			return pLanguage;
 		}

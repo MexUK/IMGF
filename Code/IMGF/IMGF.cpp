@@ -45,7 +45,7 @@
 #include "Static/CStdVector.h"
 #include "Updater/CUpdateManager.h"
 #include "Program/buildnumber.h"
-#include "Compression/eCompressionAlgorithm.h"
+#include "Compression/ECompressionAlgorithm.h"
 #include "Format/DAT/Loader/CDATLoaderManager.h"
 #include "Format/DAT/Path/CDATPathManager.h"
 #include "Localization/CLocalizationManager.h"
@@ -62,7 +62,7 @@
 #include "Format/TXD/CTXDManager.h"
 #include "Format/WDR/CWDRManager.h"
 #include "Format/WTD/CWTDManager.h"
-#include "Localization/eLanguage.h"
+#include "Localization/ELanguage.h"
 #include "Language/CLanguage.h"
 #include "Game/CGameManager.h"
 #include "Platform/Hardware/CPlatformManager.h"
@@ -280,9 +280,9 @@ void				IMGF::initSettings(void)
 
 void				IMGF::initLocalization(void)
 {
-	eLanguage eActiveLanguage = (eLanguage)getIMGF()->getSettingsManager()->getSettingInt("Language");
-	CLocalizationManager::get()->setActiveLanguage(eActiveLanguage);
-	CLocalizationManager::get()->setActiveLanguageName(getIMGF()->getLanguageManager()->getLanguageById(eActiveLanguage)->getLanguageName());
+	ELanguage eActivELanguage = (ELanguage)getIMGF()->getSettingsManager()->getSettingInt("Language");
+	CLocalizationManager::get()->setActivELanguage(eActivELanguage);
+	CLocalizationManager::get()->setActivELanguageName(getIMGF()->getLanguageManager()->getLanguageById(eActivELanguage)->getLanguageName());
 	CLocalizationManager::get()->setInstallationPath(CSettingsManager::getInternalSetting("InstallationPath"));
 	CLocalizationManager::get()->loadTranslatedText();
 }

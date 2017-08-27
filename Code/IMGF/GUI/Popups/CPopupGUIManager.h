@@ -4,10 +4,10 @@
 #include <Windows.h>
 #include "nsbxcf.h"
 #include "Object/CManager.h"
-#include "Localization/eLanguage.h"
-#include "Game/ePlatformedGame.h"
-#include "Format/IMG/Regular/eIMGVersion.h"
-#include "Compression/eCompressionAlgorithm.h"
+#include "Localization/ELanguage.h"
+#include "Game/EPlatformedGame.h"
+#include "Format/IMG/Regular/EIMGVersion.h"
+#include "Compression/ECompressionAlgorithm.h"
 #include "Type/Vector/Vec2f.h"
 #include "Type/Vector/Vec3f.h"
 #include <string>
@@ -147,7 +147,7 @@ struct imgf::CSettingsData
 	bool							m_bOverwriteProtectedFiles;
 	bool							m_bAutoSave;
 	bool							m_bRemoveOldVersionOnUpdate;
-	bxcf::eLanguage					eLanguage;
+	bxcf::ELanguage					ELanguage;
 	bool							m_bNewLanguageApplied;
 	bool							m_bAutoCompressionImportReplace;
 };
@@ -212,7 +212,7 @@ class bxcf::CRasterDataFormat;
 class bxgi::CCOLVersion;
 struct imgf::CDragDropDialogData
 {
-	bxgi::eIMGVersion				m_eDestinationIMGVersion;
+	bxgi::EIMGVersion				m_eDestinationIMGVersion;
 	bool							m_bCancel;
 	bool							m_bCopy;
 	bool							m_bConvert;
@@ -221,7 +221,7 @@ struct imgf::CDragDropDialogData
 	uint32							m_uiTXDConversionOption;
 	union
 	{
-		bxgi::ePlatformedGame			m_eTXDConversionGame;
+		bxgi::EPlatformedGame			m_eTXDConversionGame;
 		bxgi::CRWVersion*				m_pTXDConversionRWVersion;
 		bxcf::CRasterDataFormat*		m_pTXDConversionRasterDataFormat;
 	};
@@ -229,9 +229,7 @@ struct imgf::CDragDropDialogData
 
 struct imgf::CDumpResultsDialogData
 {
-	CDumpResultsDialogData(void) :
-		m_bOpenAdvancedLog(false)
-	{};
+	CDumpResultsDialogData(void);
 
 	uint32					m_uiCorruptTXDCount;
 	uint32					m_uiTooLargeTXDCount;
@@ -244,13 +242,7 @@ struct imgf::CDumpResultsDialogData
 
 struct imgf::CRenamerDialogData
 {
-	CRenamerDialogData(void) :
-		m_bRename(false),
-		m_bMatchingState_IDE(false),
-		m_bMatchingState_IPL(false),
-		m_bMatchingState_COL(false),
-		m_bUpdateLODNamesToMatch(false)
-	{};
+	CRenamerDialogData(void);
 
 	bool							m_bRename;
 	uint8							m_ucEntriesType; // 0 = all, 1 = selected
@@ -307,7 +299,7 @@ struct imgf::CIMGVersionSettingsDialogData
 {
 	bool							m_bSave;
 	uint8							m_ucEntriesType;
-	bxcf::eCompressionAlgorithm			m_eCompressionAlgorithm;
+	bxcf::ECompressionAlgorithm			m_ECompressionAlgorithm;
 	uint32							m_uiCompressionLevel;
 };
 
@@ -347,7 +339,7 @@ struct imgf::CMapMoverAndIDShifterDialogData
 	uint32							m_uiIDStart;
 	bxcf::Vec3f						m_vecPositionOffset;
 	bool							m_bIgnoreDefaultObjects;
-	bxgi::ePlatformedGame					m_eIgnoreDefaultObjectsGame;
+	bxgi::EPlatformedGame					m_eIgnoreDefaultObjectsGame;
 	bool							m_bIgnoreFilesShifter;
 	bool							m_bIgnoreFilesMover;
 	std::vector<std::string>		m_vecIgnoreFilesShifter;

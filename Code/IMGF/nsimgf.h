@@ -46,7 +46,7 @@ namespace imgf
 	class CEntryViewerManager;
 	class CTextureViewer;
 	struct CTextureViewerTextureData;
-	enum eEntryViewerDisplayType;
+	enum EEntryViewerDisplayType;
 
 	enum EEvent;
 
@@ -139,7 +139,7 @@ namespace imgf
 	class CSortPriority;
 	class CSortType;
 	class CSortTypes;
-	enum eSortType;
+	enum ESortType;
 
 	class CUpdateConnection;
 	class CUpdateConnectionManager;

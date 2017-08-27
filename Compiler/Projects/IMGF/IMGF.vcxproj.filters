@@ -280,6 +280,9 @@
     <Filter Include="Source Files\Static">
       <UniqueIdentifier>{cd257009-e6d1-4491-b9e2-513417f33b65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Tasks\Find">
+      <UniqueIdentifier>{9808bfe1-d3f1-4d59-9692-97869864f3b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Dependencies\ThirdParty\Bitmap\bitmap.cpp">
@@ -503,6 +506,18 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\IMGF.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Program\CBuildMeta.cpp">
+      <Filter>Source Files\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Find\CSearchEntry.cpp">
+      <Filter>Source Files\Tasks\Find</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Sort\CSortMenuItem.cpp">
+      <Filter>Source Files\Tasks\Sort</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Sort\CSortPriority.cpp">
+      <Filter>Source Files\Tasks\Sort</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1091,9 +1106,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\CTextureViewerTextureData.h">
       <Filter>Header Files\EntryViewer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\eEntryViewerDisplayType.h">
-      <Filter>Header Files\EntryViewer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Format\DB\CDBEntry.h">
       <Filter>Header Files\Format\DB</Filter>
     </ClInclude>
@@ -1193,9 +1205,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\CSortTypes.h">
       <Filter>Header Files\Tasks\Sort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\eSortType.h">
-      <Filter>Header Files\Tasks\Sort</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\CSortManager.h">
       <Filter>Header Files\Tasks\Sort</Filter>
     </ClInclude>
@@ -1273,6 +1282,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\IMGF.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\EEntryViewerDisplayType.h">
+      <Filter>Header Files\EntryViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\ESortType.h">
+      <Filter>Header Files\Tasks\Sort</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

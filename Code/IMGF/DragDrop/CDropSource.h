@@ -15,7 +15,7 @@ public:
 	void							clearDraggableFiles(void);
 
 protected:
-	virtual void					CompleteMove() {};
+	virtual void					CompleteMove() {}
 	virtual BOOL					OnRenderFileData(LPFORMATETC lpFormatEtc, ::CFile* pFile);
 
 private:
