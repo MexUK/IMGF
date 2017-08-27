@@ -10,9 +10,9 @@
 
 class imgf::CMainWindow;
 class imgf::CSearchEntry;
-class bxgx::CGridControl;
-class bxgx::CTextBoxControl;
-class bxgx::CDropControl;
+class bxgx::CGrid;
+class bxgx::CTextBox;
+class bxgx::CDropDown;
 class bxgi::CIMGEntry;
 class bxgi::CIMGFormat;
 
@@ -77,8 +77,8 @@ public:
 	void						setSearchFileCount(uint32 uiSearchFileCount) { m_uiSearchFileCount = uiSearchFileCount; }
 	uint32						getSearchFileCount(void) { return m_uiSearchFileCount; }
 
-	void						setEntryGrid(bxgx::CGridControl *pEntryGrid) { m_pEntryGrid = pEntryGrid; }
-	bxgx::CGridControl*			getEntryGrid(void) { return m_pEntryGrid; }
+	void						setEntryGrid(bxgx::CGrid *pEntryGrid) { m_pEntryGrid = pEntryGrid; }
+	bxgx::CGrid*			getEntryGrid(void) { return m_pEntryGrid; }
 
 	std::vector<CSearchEntry*>&	getSearchEntries(void) { return m_vecSearchEntries; }
 
@@ -94,10 +94,10 @@ private:
 	CIMGEditorTab*				_addTab(bxgi::CIMGFormat *pIMGFormat);
 
 public:
-	bxgx::CGridControl*			m_pEntryGrid;
-	bxgx::CTextBoxControl*		m_pLog;
-	bxgx::CDropControl*			m_pEntryTypeFilter;
-	bxgx::CDropControl*			m_pEntryVersionFilter;
+	bxgx::CGrid*			m_pEntryGrid;
+	bxgx::CTextBox*		m_pLog;
+	bxgx::CDropDown*			m_pEntryTypeFilter;
+	bxgx::CDropDown*			m_pEntryVersionFilter;
 
 private:
 	CMainWindow*				m_pMainWindow;

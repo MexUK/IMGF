@@ -146,5 +146,5 @@ namespace imgf
 	class CUpdateManager;
 	class CExeBuild;
 
-	class CIMGF;
+	class IMGF;
 };

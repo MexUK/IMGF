@@ -1,7 +1,7 @@
 #pragma warning(disable : 4005)
 
 #include "CIMGEditorTab.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "Globals.h"
 #include "Static/CString2.h"
 #include "Static/CStdVector.h"
@@ -32,18 +32,18 @@
 #include "Static/CInput.h"
 #include "DB/CDBManager.h"
 #include "Tasks/RecentlyOpen/CRecentlyOpenManager.h"
-#include "Controls/CGridControl.h"
+#include "Controls/CGrid.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "GUI/Popups/CPopupGUIManager.h"
 #include "GUI/Windows/CMainWindow.h"
 #include "GUI/Layers/CMainLayer.h"
-#include "Controls/CTextControl.h"
-#include "Controls/CTabBarControl.h"
-#include "Controls/CTextBoxControl.h"
-#include "Controls/CDropControl.h"
+#include "Controls/CText.h"
+#include "Controls/CTabBar.h"
+#include "Controls/CTextBox.h"
+#include "Controls/CDropDown.h"
 #include "Format/EFileType.h"
 #include "Event/EInputEvent.h"
-#include "Control/CGUIScrollPool.h"
+#include "Control/CScrollBarPool.h"
 #include <map>
 #include <algorithm>
 
@@ -133,7 +133,7 @@ void					CIMGEditorTab::addControls(void)
 		strStyleGroup;
 
 	// grid
-	CGridControl *pBlankGrid = m_pEditor->getEntryGrid();
+	CGrid *pBlankGrid = m_pEditor->getEntryGrid();
 
 	x = 139 + 139;
 	y = 162 + 30;
@@ -142,7 +142,7 @@ void					CIMGEditorTab::addControls(void)
 
 	m_pEntryGrid = addGrid(x, y, w, h);
 	m_pEntryGrid->setStyleGroups(pBlankGrid->getStyleGroups());
-	for (CGridControlHeader *pHeader : pBlankGrid->getHeaders().getEntries())
+	for (CGridHeader *pHeader : pBlankGrid->getHeaders().getEntries())
 	{
 		m_pEntryGrid->addHeader(pHeader->getText(), pHeader->getColumnWidth());
 	}
@@ -166,7 +166,7 @@ void					CIMGEditorTab::addControls(void)
 	m_pEntryVersionFilter->addItem("No file is open", false, false);
 
 	// log
-	CTextBoxControl *pBlankLog = m_pEditor->m_pLog;
+	CTextBox *pBlankLog = m_pEditor->m_pLog;
 
 	x = pBlankLog->getPosition().x;
 	y = pBlankLog->getPosition().y;
@@ -218,7 +218,7 @@ void					CIMGEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 }
 
 // control events
-void					CIMGEditorTab::onSelectDropEntry(CDropControlEntry *pDropEntry)
+void					CIMGEditorTab::onSelectDropEntry(CDropDownItem *pDropEntry)
 {
 	readdGridEntries();
 }
@@ -617,7 +617,7 @@ void					CIMGEditorTab::readdGridEntries(void)
 }
 void					CIMGEditorTab::addGridEntries(void)
 {
-	CDropControlEntry
+	CDropDownItem
 		*pTypeFilterItem = m_pEntryTypeFilter->getActiveItem(),
 		*pVersionFilterItem = m_pEntryVersionFilter->getActiveItem();
 	int32
@@ -640,15 +640,15 @@ void					CIMGEditorTab::addGridEntries(void)
 	m_pEntryGrid->getEntries().resize(m_pIMGFile->getEntryCount());
 
 	void **pRows = new void*[uiEntryCount];
-	CGridControlEntry *pRow;
+	CGridRow *pRow;
 	for (uint32 i = 0; i < uiEntryCount; i++)
 	{
-		pRow = new CGridControlEntry;
+		pRow = new CGridRow;
 		pRows[i] = pRow;
 	}
 	for (uint32 i = 0; i < uiEntryCount; i++)
 	{
-		((CGridControlEntry*)(pRows[i]))->setGrid(m_pEntryGrid);
+		((CGridRow*)(pRows[i]))->setGrid(m_pEntryGrid);
 	}
 
 	for (CIMGEntry *pIMGEntry : m_pIMGFile->getEntries())
@@ -686,14 +686,14 @@ void					CIMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry, uint32 uiEntryIndex, 
 	{
 		uiEntryIndex = m_pEntryGrid->getEntryCount();
 	}
-	CGridControlEntry *pRow;
+	CGridRow *pRow;
 	if (pRows == nullptr)
 	{
-		pRow = new CGridControlEntry;
+		pRow = new CGridRow;
 	}
 	else
 	{
-		pRow = (CGridControlEntry*)(pRows[uiEntryIndex]);
+		pRow = (CGridRow*)(pRows[uiEntryIndex]);
 	}
 
 	bool bIsFastman92IMGFormat = m_pIMGFile->getVersion() == IMG_FASTMAN92;
@@ -1174,7 +1174,7 @@ void				CIMGEditorTab::loadFilter_Type(void)
 	m_pEntryTypeFilter->reset();
 	m_pEntryTypeFilter->addItem("All Types");
 
-	CDropControlEntry *pDropEntry;
+	CDropDownItem *pDropEntry;
 	for (auto it : m_pIMGFile->getFileTypesAsMap())
 	{
 		pDropEntry = m_pEntryTypeFilter->addItem(it.first); // file type text (e.g. "Animation (IFP)")
@@ -1186,7 +1186,7 @@ void				CIMGEditorTab::loadFilter_Version(void)
 	m_pEntryVersionFilter->reset();
 	m_pEntryVersionFilter->addItem("All Versions");
 
-	CDropControlEntry *pDropEntry;
+	CDropDownItem *pDropEntry;
 	for (auto it : m_pIMGFile->getFileTypedVersionsAsMap())
 	{
 		pDropEntry = m_pEntryVersionFilter->addItem(it.first); // file version text

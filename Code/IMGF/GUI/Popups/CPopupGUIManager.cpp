@@ -8,7 +8,7 @@
 #include "Static/CFile.h"
 #include "Static/CPath.h"
 #include "Static/CStdVector.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "Globals.h"
 #include "Tasks/Sort/CSortManager.h"
 #include "Tasks/Sort/CSortType.h"

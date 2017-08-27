@@ -1,13 +1,13 @@
 #include "CMainWindow.h"
 #include "Event/EInputEvent.h"
 #include "GUI/Editors/CIMGEditor.h"
-#include "Controls/CButtonControl.h"
-#include "Controls/CGridControl.h"
+#include "Controls/CButton.h"
+#include "Controls/CGrid.h"
 #include "GUI/Window/CWindowManager.h"
 #include "Static/CInput.h"
 #include "GraphicsLibrary/CGraphicsLibrary.h"
 #include "Globals.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
 #include "Static/CFile.h"
@@ -41,12 +41,12 @@ void					CMainWindow::init(void)
 }
 
 // item fetching
-CProgressControl*		CMainWindow::getProgressBar(void)
+CProgressBar*		CMainWindow::getProgressBar(void)
 {
 	return m_pMainLayer->getProgressBar();
 }
 
-CTabBarControl*			CMainWindow::getTabBar(void)
+CTabBar*			CMainWindow::getTabBar(void)
 {
 	return m_pMainLayer->getTabBar();
 }
@@ -84,7 +84,7 @@ void					CMainWindow::initMainMenuLayers(void)
 		x, y, y2, w, h, h2;
 	uint32
 		uiButtonHeight = 37;
-	CButtonControl
+	CButton
 		*pButton;
 	string
 		strStyleGroup;
@@ -190,7 +190,7 @@ void					CMainWindow::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	h = uiButtonHeight;
 	x = getSize().x - w;
 
-	for (CButtonControl *pButton : m_vecSettingsMenuButtons)
+	for (CButton *pButton : m_vecSettingsMenuButtons)
 	{
 		pButton->setPosition(Vec2i(x, y));
 		y += h;

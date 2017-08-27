@@ -2,9 +2,9 @@
 #include "Static/CPath.h"
 #include "GUI/Editor/Tab/CEditorTab.h"
 #include "Format/CFormat.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "Tasks/RecentlyOpen/CRecentlyOpenManager.h"
-#include "Controls/CTabBarControl.h"
+#include "Controls/CTabBar.h"
 #include "GUI/Windows/CMainWindow.h"
 #include "Static/CString2.h"
 
@@ -47,7 +47,7 @@ void								CEditor::addFile(CEditorTab *pEditorFile)
 	pEditorFile->initControls();
 
 	// add tab to tab bar
-	CTabBarControlEntry *pTab = m_pTabBar->addTab(strTabText, true);
+	CTab *pTab = m_pTabBar->addTab(strTabText, true);
 	m_pTabBar->bindTabLayer(pTab, pEditorFile);
 	pEditorFile->setTab(pTab);
 

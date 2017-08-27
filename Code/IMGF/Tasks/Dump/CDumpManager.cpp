@@ -1,7 +1,7 @@
 #pragma warning(disable : 4005)
 
 #include "CDumpManager.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "Globals.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
@@ -97,7 +97,7 @@ void		CDumpManager::process(void)
 	getIMGF()->setLastUsedDirectory("DUMP__Destination", pDumpDialogData->m_strDumpDestinationFolderPath);
 
 	// choose img files
-	vector<CIMGFormat*> veCIMGFormats;
+	vector<CIMGFormat*> vecIMGFormats;
 	if (pDumpDialogData->m_uiDumpType == 0) // All entries in active tab
 	{
 		if (getIMGF()->getEntryListTab() == nullptr)
@@ -107,7 +107,7 @@ void		CDumpManager::process(void)
 			return;
 		}
 
-		veCIMGFormats.push_back(getIMGF()->getEntryListTab()->getIMGFile());
+		vecIMGFormats.push_back(getIMGF()->getEntryListTab()->getIMGFile());
 	}
 	else if (pDumpDialogData->m_uiDumpType == 4) // Selected entries in active tab
 	{
@@ -118,11 +118,11 @@ void		CDumpManager::process(void)
 			return;
 		}
 
-		veCIMGFormats.push_back(getIMGF()->getEntryListTab()->getIMGFile());
+		vecIMGFormats.push_back(getIMGF()->getEntryListTab()->getIMGFile());
 	}
 	else if (pDumpDialogData->m_uiDumpType == 1) // All entries in all tabs
 	{
-		veCIMGFormats = getIMGF()->getIMGEditor()->getAllMainWindowTabsIMGFiles();
+		vecIMGFormats = getIMGF()->getIMGEditor()->getAllMainWindowTabsIMGFiles();
 	}
 	else if (pDumpDialogData->m_uiDumpType == 2) // DAT file
 	{
@@ -149,7 +149,7 @@ void		CDumpManager::process(void)
 		CDATLoaderFormat *pDATFile = CDATLoaderManager::get()->parseViaFile(strDATPath);
 		if (!pDATFile->doesHaveError())
 		{
-			veCIMGFormats = pDATFile->parseIMGFiles(pDumpDialogData->m_strGameDirectoryPath);
+			vecIMGFormats = pDATFile->parseIMGFiles(pDumpDialogData->m_strGameDirectoryPath);
 		}
 		pDATFile->unload();
 		delete pDATFile;
@@ -164,7 +164,7 @@ void		CDumpManager::process(void)
 				CIMGFormat *pIMGFile = CIMGManager::get()->parseViaFile(strIMGPath);
 				if(!pIMGFile->doesHaveError())
 				{
-					veCIMGFormats.push_back(pIMGFile);
+					vecIMGFormats.push_back(pIMGFile);
 				}
 			}
 		}
@@ -200,7 +200,7 @@ void		CDumpManager::process(void)
 				CIMGFormat *pIMGFile = CIMGManager::get()->parseViaFile(strIMGPath);
 				if(!pIMGFile->doesHaveError())
 				{
-					veCIMGFormats.push_back(pIMGFile);
+					vecIMGFormats.push_back(pIMGFile);
 				}
 			}
 		}
@@ -211,7 +211,7 @@ void		CDumpManager::process(void)
 
 	// progress bar
 	uint32 uiProgressMaxTicks = 0;
-	for (auto pIMGFile : veCIMGFormats)
+	for (auto pIMGFile : vecIMGFormats)
 	{
 		uiProgressMaxTicks += pIMGFile->getEntryCount();
 	}
@@ -232,7 +232,7 @@ void		CDumpManager::process(void)
 		uiDumpedTextureCount = 0;
 		//uiMipmapSkippedCount = 0;
 
-	for (auto pIMGFile : veCIMGFormats)
+	for (auto pIMGFile : vecIMGFormats)
 	{
 		// choose IMG entries to dump
 		vector<CIMGEntry*> vecIMGEntries;
@@ -851,7 +851,7 @@ void		CDumpManager::process(void)
 	if (getIMGF()->getEntryListTab() != nullptr)
 	{
 		uint32 uiDumpedFileCount = vecDumpedEntryNames.size() + uiDumpedTextureCount;
-		uint32 uiIMGFileCount = veCIMGFormats.size();
+		uint32 uiIMGFileCount = vecIMGFormats.size();
 		if (pDumpDialogData->m_uiDumpType == 2)
 		{
 			getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_10", uiDumpedFileCount, uiIMGFileCount));
@@ -883,7 +883,7 @@ void		CDumpManager::process(void)
 	else
 	{
 		uint32 uiDumpedFileCount = vecDumpedEntryNames.size() + uiDumpedTextureCount;
-		uint32 uiIMGFileCount = veCIMGFormats.size();
+		uint32 uiIMGFileCount = vecIMGFormats.size();
 		if (pDumpDialogData->m_uiDumpType == 2)
 		{
 			getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::get()->getTranslatedFormattedText("Log_10", uiDumpedFileCount, uiIMGFileCount));
@@ -968,7 +968,7 @@ void		CDumpManager::process(void)
 	// clean up
 	if (pDumpDialogData->m_uiDumpType == 2 || pDumpDialogData->m_uiDumpType == 3)
 	{
-		for (auto pIMGFile : veCIMGFormats)
+		for (auto pIMGFile : vecIMGFormats)
 		{
 			pIMGFile->unload();
 			delete pIMGFile;

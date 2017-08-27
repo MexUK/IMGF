@@ -2,12 +2,12 @@
 #include "Window/CWindow.h"
 #include "BXGX.h"
 #include "Type/Colour/CColour.h"
-#include "Controls/CTabBarControl.h"
-#include "Controls/CDropControl.h"
-#include "Controls/CButtonControl.h"
-#include "Controls/CProgressControl.h"
-#include "Controls/CTextBoxControl.h"
-#include "Shapes/CLineShape.h"
+#include "Controls/CTabBar.h"
+#include "Controls/CDropDown.h"
+#include "Controls/CButton.h"
+#include "Controls/CProgressBar.h"
+#include "Controls/CTextBox.h"
+#include "Shapes/CLine.h"
 #include "GUI/Windows/CMainWindow.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "GUI/Layer/ELayer.h"
@@ -29,7 +29,7 @@ void		CMainLayer::init(void)
 }
 
 // tab control
-void		CMainLayer::onChangeTab(CTabBarControl *pTabBar)
+void		CMainLayer::onChangeTab(CTabBar *pTabBar)
 {
 	//m_pActiveEditor->onChangeTab(pTabBar);
 	if (pTabBar->getEntryCount() == 0)
@@ -42,7 +42,7 @@ void		CMainLayer::onChangeTab(CTabBarControl *pTabBar)
 	}
 }
 
-void		CMainLayer::onRemoveTab(CTabBarControlEntry *pTab)
+void		CMainLayer::onRemoveTab(CTab *pTab)
 {
 	m_pMainWindow->getIMGEditor()->removeFile((CIMGEditorTab*)m_pMainWindow->getIMGEditor()->getTabs().getEntryByIndex(pTab->getIndex()));
 }
@@ -55,7 +55,7 @@ void		CMainLayer::addControls(void)
 	uint32
 		uiTitleBarHeight = getWindow()->getTitleBarHeight(),
 		uiButtonHeight = 37;
-	CButtonControl
+	CButton
 		*pButton;
 	string
 		strStyleGroup;
@@ -175,7 +175,7 @@ void		CMainLayer::addControls(void)
 	m_pTabBar->setDefaultText("No tabs to display");
 
 	/*
-	CTabBarControlEntry * pTab;
+	CTab * pTab;
 	pTab = m_pTabBar->addTab("gta3.img (1000)", true, "firstItemHorizontally");
 	pTab = m_pTabBar->addTab("gta3 - backup.img (1200)");
 	pTab = m_pTabBar->addTab("gta3.img (1000)");

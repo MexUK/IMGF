@@ -11,8 +11,8 @@
 #include "GUI/Window/CWindowManager.h"
 #include "GUI/Windows/CMainWindow.h"
 #include "GUI/Layers/CMainLayer.h"
-#include "Controls/CProgressControl.h"
-#include "CIMGF.h"
+#include "Controls/CProgressBar.h"
+#include "IMGF.h"
 
 using namespace std;
 using namespace bxcf;
@@ -124,7 +124,7 @@ void							CTaskManager::onTaskProgressTick(void)
 {
 	//setTaskProgressTickCount(getTaskProgressTickCount() + 1);
 
-	static CProgressControl *pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pProgressBar;
+	static CProgressBar *pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pProgressBar;
 	pProgressBar->increaseCurrent();
 }
 
@@ -134,7 +134,7 @@ void							CTaskManager::onTaskProgressComplete(void)
 
 	/*
 	todo
-	CProgressCtrl *pProgressCtrl = (CProgressCtrl*)getDialog()->GetDlgItem(60);
+	CProgressBarCtrl *pProgressCtrl = (CProgressBarCtrl*)getDialog()->GetDlgItem(60);
 	pProgressCtrl->SetPos(getProgressTicks());
 	*/
 }
@@ -149,7 +149,7 @@ void							CTaskManager::setTaskMaxProgressTickCount(uint32 uiProgressMaxTicks, 
 
 	/*
 	todo
-	CProgressCtrl *pProgressCtrl = (CProgressCtrl*)getDialog()->GetDlgItem(60);
+	CProgressBarCtrl *pProgressCtrl = (CProgressBarCtrl*)getDialog()->GetDlgItem(60);
 	pProgressCtrl->SetRange(0, (short)m_uiProgressMaxTicks);
 	if (bReset)
 	{

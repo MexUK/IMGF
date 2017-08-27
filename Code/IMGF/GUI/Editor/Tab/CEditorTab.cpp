@@ -1,6 +1,6 @@
 #include "nsbxcf.h"
 #include "CEditorTab.h"
-#include "Controls/Entries/CTabBarControlEntry.h"
+#include "Controls/Entries/CTab.h"
 #include <stdarg.h>
 
 using namespace std;

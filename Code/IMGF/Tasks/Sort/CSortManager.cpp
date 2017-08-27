@@ -1,7 +1,7 @@
 #pragma warning(disable : 4005)
 
 #include "CSortManager.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "Globals.h"
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"

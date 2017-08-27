@@ -1,7 +1,7 @@
 #include "CSession.h"
 #include "Static/CString2.h"
 #include "Globals.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "CSessionManager.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
 #include "Format/Text/INI/CINIManager.h"

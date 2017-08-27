@@ -1,7 +1,7 @@
 #pragma warning(disable : 4005)
 
 #include "CLSTProcessingManager.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "Globals.h"
 #include "LST/CLSTFormat.h"
 #include "LST/CLSTSection.h"

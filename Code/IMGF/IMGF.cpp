@@ -1,6 +1,6 @@
 #pragma warning(disable : 4005)
 
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "Engine/RW/CRWManager.h"
 #include "Engine/RW/CRWVersionManager.h"
 #include "Engine/RAGE/CRageManager.h"
@@ -15,15 +15,15 @@
 #include "Format/IMG/Regular/CIMGManager.h"
 #include "Static/CInput.h"
 #include "Window/CWindow.h"
-#include "Controls/CTextControl.h"
-#include "Controls/CGridControl.h"
-#include "Controls/CButtonControl.h"
-#include "Controls/CCheckControl.h"
-#include "Controls/CDropControl.h"
-#include "Controls/CScrollControl.h"
-#include "Controls/CProgressControl.h"
-#include "Controls/CRadioControl.h"
-#include "Controls/CTextBoxControl.h"
+#include "Controls/CText.h"
+#include "Controls/CGrid.h"
+#include "Controls/CButton.h"
+#include "Controls/CCheckBox.h"
+#include "Controls/CDropDown.h"
+#include "Controls/CScrollBar.h"
+#include "Controls/CProgressBar.h"
+#include "Controls/CRadioButton.h"
+#include "Controls/CTextBox.h"
 #include "GUI/Window/CWindowManager.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "GUI/Editors/Tab/CIMGEditorTab.h"
@@ -80,11 +80,11 @@ using namespace bxgx;
 using namespace bxgi;
 using namespace imgf;
 
-CIMGF::CIMGF(void)
+IMGF::IMGF(void)
 {
 	CDataPath::setAppFolderName("IMGFactory");
 
-	// construct objects stored by CIMGF
+	// construct objects stored by IMGF
 	m_pButtonPressManager	= new CButtonPressManager;
 	m_pEntryViewerManager	= new CEntryViewerManager;
 	m_pPopupGUIManager		= new CPopupGUIManager;
@@ -100,9 +100,9 @@ CIMGF::CIMGF(void)
 	m_pLastUsedValueManager	= new CLastUsedValueManager;
 }
 
-CIMGF::~CIMGF(void)
+IMGF::~IMGF(void)
 {
-	// destruct objects stored by CIMGF
+	// destruct objects stored by IMGF
 	delete m_pButtonPressManager;
 	delete m_pEntryViewerManager;
 	delete m_pPopupGUIManager;
@@ -119,19 +119,19 @@ CIMGF::~CIMGF(void)
 }
 
 // init/uninit (ocurs in original thread)
-void				CIMGF::init(void)
+void				IMGF::init(void)
 {
 	m_pWindowManager->init();
 	_init();
 	//initInitializationThread();
 }
 
-void				CIMGF::uninit(void)
+void				IMGF::uninit(void)
 {
 }
 
 // init tasks (ocurs in original thread)
-void				CIMGF::initInitializationThread(void)
+void				IMGF::initInitializationThread(void)
 {
 	SECURITY_ATTRIBUTES sa;
 	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
@@ -143,11 +143,11 @@ void				CIMGF::initInitializationThread(void)
 // init (occurs in different thread)
 uint32 WINAPI		onInitializationThreadStart(void *pThreadParameter)
 {
-	((CIMGF*)pThreadParameter)->_init();
+	((IMGF*)pThreadParameter)->_init();
 	return 0;
 }
 
-void				CIMGF::_init(void)
+void				IMGF::_init(void)
 {
 	initBuildMeta();
 	initInstallationMeta();
@@ -165,14 +165,14 @@ void				CIMGF::_init(void)
 }
 
 // init tasks (occurs in different thread)
-void				CIMGF::initBuildMeta(void)
+void				IMGF::initBuildMeta(void)
 {
 	getBuildMeta().setCurrentVersion(1.3f);
 	getBuildMeta().setIsAlphaBuild(true);
 	getBuildMeta().setCurrentVersionString("1.3" + string(getBuildMeta().isAlphaBuild() ? " Alpha" : ""));
 }
 
-void				CIMGF::initInstallationMeta(void)
+void				IMGF::initInstallationMeta(void)
 {
 	// choose installation folder
 	string strInstallationPath = CSettingsManager::getInternalSetting("InstallationPath");
@@ -205,9 +205,9 @@ void				CIMGF::initInstallationMeta(void)
 	}
 }
 
-void				CIMGF::initStoredObjects(void)
+void				IMGF::initStoredObjects(void)
 {
-	// initialize objects stored by CIMGF
+	// initialize objects stored by IMGF
 	// Excludes: CWindowManager and CSortManager
 	m_pEntryViewerManager->init();
 	m_pPopupGUIManager->init();
@@ -219,7 +219,7 @@ void				CIMGF::initStoredObjects(void)
 	m_pUpdateManager->init();
 }
 
-void				CIMGF::initSingletonObjects(void)
+void				IMGF::initSingletonObjects(void)
 {
 	// initialize singleton objects
 	CBMPManager::get()->init();
@@ -244,12 +244,12 @@ void				CIMGF::initSingletonObjects(void)
 	CWTDManager::get()->init();
 }
 
-void				CIMGF::initStaticData(void)
+void				IMGF::initStaticData(void)
 {
 	CRWSection::initStatic();
 }
 
-void				CIMGF::initEventBinding(void)
+void				IMGF::initEventBinding(void)
 {
 	/*
 	auto pOnEntriesExtensionChange = [](void *pData)
@@ -273,12 +273,12 @@ void				CIMGF::initEventBinding(void)
 	*/
 }
 
-void				CIMGF::initSettings(void)
+void				IMGF::initSettings(void)
 {
 	getSettingsManager()->loadSettings();
 }
 
-void				CIMGF::initLocalization(void)
+void				IMGF::initLocalization(void)
 {
 	eLanguage eActiveLanguage = (eLanguage)getIMGF()->getSettingsManager()->getSettingInt("Language");
 	CLocalizationManager::get()->setActiveLanguage(eActiveLanguage);
@@ -287,12 +287,12 @@ void				CIMGF::initLocalization(void)
 	CLocalizationManager::get()->loadTranslatedText();
 }
 
-void				CIMGF::initSorting(void)
+void				IMGF::initSorting(void)
 {
 	m_pSortManager->init();
 }
 
-void				CIMGF::initOldVersionMigration(void)
+void				IMGF::initOldVersionMigration(void)
 {
 	// delete previous version's exe file
 	string strPreviousVersionExePath = CSettingsManager::getInternalSetting("DeletePreviousVersionOnNextLaunch");
@@ -323,7 +323,7 @@ void				CIMGF::initOldVersionMigration(void)
 	}
 }
 
-void				CIMGF::initCommandLine(void)
+void				IMGF::initCommandLine(void)
 {
 	// command line
 	wchar_t *pCommandLine = GetCommandLine();
@@ -340,7 +340,7 @@ void				CIMGF::initCommandLine(void)
 	}
 }
 
-void				CIMGF::initAutoUpdateCheck(void)
+void				IMGF::initAutoUpdateCheck(void)
 {
 	/*
 	todo
@@ -350,12 +350,12 @@ void				CIMGF::initAutoUpdateCheck(void)
 	*/
 }
 
-void				CIMGF::initTempStuff(void)
+void				IMGF::initTempStuff(void)
 {
 }
 
 // windows/tabs
-void				CIMGF::openWindow(void)
+void				IMGF::openWindow(void)
 {
 	getWindowManager()->openWindow();
 	
@@ -365,17 +365,17 @@ void				CIMGF::openWindow(void)
 	//Events::trigger(TOOL_READY);
 }
 
-void				CIMGF::process(void)
+void				IMGF::process(void)
 {
 	getWindowManager()->process();
 }
 
-CWindow*			CIMGF::getActiveWindow(void)
+CWindow*			IMGF::getActiveWindow(void)
 {
 	return BXGX::get()->getActiveWindow();
 }
 
-CEditorTab*			CIMGF::getActiveTab(void)
+CEditorTab*			IMGF::getActiveTab(void)
 {
 	CMainWindow *pIMGFWindow = (CMainWindow*) BXGX::get()->getEntryByIndex(0);
 	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
@@ -383,14 +383,14 @@ CEditorTab*			CIMGF::getActiveTab(void)
 	return pEditorTab;
 }
 
-CIMGEditor*			CIMGF::getIMGEditor(void)
+CIMGEditor*			IMGF::getIMGEditor(void)
 {
 	CMainWindow *pIMGFWindow = (CMainWindow*) BXGX::get()->getEntryByIndex(0);
 	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
 	return pIMGEditor;
 }
 
-CIMGEditorTab*		CIMGF::getEntryListTab(void)
+CIMGEditorTab*		IMGF::getEntryListTab(void)
 {
 	CMainWindow *pIMGFWindow = (CMainWindow*) BXGX::get()->getEntryByIndex(0);
 	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
@@ -399,11 +399,11 @@ CIMGEditorTab*		CIMGF::getEntryListTab(void)
 }
 
 // last used directory
-void				CIMGF::setLastUsedDirectory(string strHandleName, string strDirectory)
+void				IMGF::setLastUsedDirectory(string strHandleName, string strDirectory)
 {
 	// todo - remove after CTaskDispatchManager is done
 }
-string				CIMGF::getLastUsedDirectory(string strHandleName)
+string				IMGF::getLastUsedDirectory(string strHandleName)
 {
 	return ""; // todo - remove after CTaskDispatchManager is done
 }

@@ -1,6 +1,6 @@
 #include "CIMGEditor.h"
 #include "Globals.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "Format/IMG/Regular/CIMGManager.h"
 #include "Static/CString2.h"
 #include "Static/CPath.h"
@@ -15,17 +15,17 @@
 #include "GUI/Windows/CMainWindow.h"
 #include "Type/Colour/CColour.h"
 #include "BXGX.h"
-#include "Controls/CGridControl.h"
+#include "Controls/CGrid.h"
 #include "GUI/Editor/EEditorItem.h"
 #include "GUI/Windows/CMainWindow.h"
 #include "GUI/Layers/CMainLayer.h"
-#include "Controls/CTabBarControl.h"
-#include "Controls/CProgressControl.h"
-#include "Controls/CTextBoxControl.h"
-#include "Controls/CTextControl.h"
-#include "Controls/CDropControl.h"
+#include "Controls/CTabBar.h"
+#include "Controls/CProgressBar.h"
+#include "Controls/CTextBox.h"
+#include "Controls/CText.h"
+#include "Controls/CDropDown.h"
 #include "Static/CInput.h"
-#include "Control/CGUIScrollPool.h"
+#include "Control/CScrollBarPool.h"
 #include "GUI/Layers/CMainLayer.h"
 #include "Event/EInputEvent.h"
 #include "../BXGI/Event/EEvent.h"
@@ -491,12 +491,12 @@ uint32					CIMGEditor::getEntryCountForAllTabs(void)
 
 vector<CIMGFormat*>		CIMGEditor::getAllMainWindowTabsIMGFiles(void)
 {
-	vector<CIMGFormat*> veCIMGFormats;
+	vector<CIMGFormat*> vecIMGFormats;
 	for (auto pEditorTab : getTabs().getEntries())
 	{
-		veCIMGFormats.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile());
+		vecIMGFormats.push_back(((CIMGEditorTab*)pEditorTab)->getIMGFile());
 	}
-	return veCIMGFormats;
+	return vecIMGFormats;
 }
 
 void					CIMGEditor::refreshActiveTab(void)

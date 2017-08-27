@@ -2,8 +2,8 @@
 
 #include "nsimgf.h"
 
-class imgf::CIMGF;
+class imgf::IMGF;
 
-extern imgf::CIMGF*		g_pIMGF;
+extern imgf::IMGF*		g_pIMGF;
 
-imgf::CIMGF*			getIMGF(void);
+imgf::IMGF*				getIMGF(void);

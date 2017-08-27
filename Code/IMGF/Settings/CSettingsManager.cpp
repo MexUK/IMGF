@@ -2,7 +2,7 @@
 
 #include "nsbxcf.h"
 #include "CSettingsManager.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "Globals.h"
 #include "GUI/Popups/CPopupGUIManager.h"
 #include "Static/CRegistry.h"

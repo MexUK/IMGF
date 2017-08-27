@@ -2,6 +2,6 @@
 
 using namespace imgf;
 
-CIMGF*			g_pIMGF = nullptr;
+IMGF*			g_pIMGF = nullptr;
 
-CIMGF*			getIMGF(void) { return g_pIMGF; }
+IMGF*			getIMGF(void) { return g_pIMGF; }

@@ -4,7 +4,7 @@
 #include "Static/CStdVector.h"
 #include "Static/CRegistry.h"
 #include "Globals.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "Static/CDebug.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
 #include "Localization/CLocalizationManager.h"

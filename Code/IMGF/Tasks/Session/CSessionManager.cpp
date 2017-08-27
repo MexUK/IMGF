@@ -3,7 +3,7 @@
 #include "Static/CPath.h"
 #include "Static/CStdVector.h"
 #include "Globals.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
 #include "Localization/CLocalizationManager.h"
 #include "Format/Text/INI/CINIManager.h"

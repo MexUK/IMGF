@@ -5,7 +5,7 @@
 #include "GL/glew.h"
 #include "GL/wglew.h"
 #include "CCollisionViewer.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "CEntryViewerManager.h"
 #include "Format/COL/CCOLEntry.h"
 #include "Static/CMath.h"

@@ -116,7 +116,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\CIMGF.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\IMGF.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDragDrop.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDragListCtrl.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDropSource.cpp" />
@@ -192,7 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\CIMGF.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\IMGF.h" />
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDragDrop.h" />
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDragListCtrl.h" />
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDropSource.h" />

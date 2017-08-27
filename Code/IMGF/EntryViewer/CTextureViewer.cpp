@@ -1,6 +1,6 @@
 #include "CTextureViewer.h"
 #include "Globals.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "Format/RW/Sections/CRWSection_TextureNative.h"
 #include "CEntryViewerManager.h"
 #include "Format/IMG/Regular/CIMGEntry.h"

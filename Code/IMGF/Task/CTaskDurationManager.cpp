@@ -3,7 +3,7 @@
 #include "Static/CString2.h"
 #include "Static/CTokens.h"
 #include "Static/CAppDataPath.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 
 using namespace std;
 using namespace bxcf;

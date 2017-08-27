@@ -9,7 +9,7 @@
 
 class imgf::CEditor;
 class bxcf::CFormat;
-class bxgx::CTabBarControlEntry;
+class bxgx::CTab;
 
 class imgf::CEditorTab : public bxgx::CLayer
 {
@@ -21,8 +21,8 @@ public:
 	void						setEditor(CEditor* pEditor) { m_pEditor = pEditor; }
 	CEditor*					getEditor(void) { return m_pEditor; }
 
-	void						setTab(bxgx::CTabBarControlEntry *pTab) { m_pTab = pTab; }
-	bxgx::CTabBarControlEntry*	getTab(void) { return m_pTab; }
+	void						setTab(bxgx::CTab *pTab) { m_pTab = pTab; }
+	bxgx::CTab*	getTab(void) { return m_pTab; }
 
 	uint32						getTabIndex(void);
 
@@ -37,6 +37,6 @@ public:
 
 private:
 	CEditor*					m_pEditor;
-	bxgx::CTabBarControlEntry*	m_pTab;
+	bxgx::CTab*	m_pTab;
 	bxcf::CFormat*				m_pFile;
 };

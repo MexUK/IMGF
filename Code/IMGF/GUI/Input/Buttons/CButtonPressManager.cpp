@@ -1,8 +1,8 @@
 #include "CButtonPressManager.h"
 #include "GUI/Input/Buttons/EButton.h"
-#include "Controls/CButtonControl.h"
+#include "Controls/CButton.h"
 #include "Globals.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "GUI/Window/CWindowManager.h"
 #include "GUI/Windows/CMainWindow.h"
 #include "GUI/Layer/ELayer.h"
@@ -33,7 +33,7 @@ void					CButtonPressManager::bindEvents(void)
 }
 
 // forward button press
-void					CButtonPressManager::onPressButton(CButtonControl *pButton)
+void					CButtonPressManager::onPressButton(CButton *pButton)
 {
 	switch (pButton->getId())
 	{

@@ -6,13 +6,13 @@
 #include "Event/Events.h"
 
 class imgf::CMainWindow;
-class bxgx::CTabBarControl;
-class bxgx::CProgressControl;
-class bxgx::CTextBoxControl;
-class bxgx::CDropControl;
-class bxgx::CButtonControl;
-class bxgx::CLineShape;
-class bxgx::CTabBarControlEntry;
+class bxgx::CTabBar;
+class bxgx::CProgressBar;
+class bxgx::CTextBox;
+class bxgx::CDropDown;
+class bxgx::CButton;
+class bxgx::CLine;
+class bxgx::CTab;
 
 class imgf::CMainLayer : public bxgx::CLayer, public bxcf::EventBindable
 {
@@ -22,11 +22,11 @@ public:
 	void						setIMGFWindow(CMainWindow* pIMGFWindow) { m_pMainWindow = pIMGFWindow; }
 	CMainWindow*				getIMGFWindow(void) { return m_pMainWindow; }
 
-	bxgx::CTabBarControl*		getTabBar(void) { return m_pTabBar; }
-	bxgx::CProgressControl*		getProgressBar(void) { return m_pProgressBar; }
+	bxgx::CTabBar*		getTabBar(void) { return m_pTabBar; }
+	bxgx::CProgressBar*		getProgressBar(void) { return m_pProgressBar; }
 
-	void						onChangeTab(bxgx::CTabBarControl *pTabBar);
-	void						onRemoveTab(bxgx::CTabBarControlEntry *pTab);
+	void						onChangeTab(bxgx::CTabBar *pTabBar);
+	void						onRemoveTab(bxgx::CTab *pTab);
 
 private:
 	void						addControls(void);
@@ -37,19 +37,19 @@ private:
 public:
 	CMainWindow*				m_pMainWindow;
 
-	bxgx::CTabBarControl*		m_pTabBar;
-	bxgx::CProgressControl*		m_pProgressBar;
-	bxgx::CTextBoxControl*		m_pSearchBox;
+	bxgx::CTabBar*		m_pTabBar;
+	bxgx::CProgressBar*		m_pProgressBar;
+	bxgx::CTextBox*		m_pSearchBox;
 
-	bxgx::CButtonControl*		m_pSettingsButton;
-	bxgx::CLineShape*			m_pSettingsButtonLine1;
-	bxgx::CLineShape*			m_pSettingsButtonLine2;
-	bxgx::CLineShape*			m_pSettingsButtonLine3;
+	bxgx::CButton*		m_pSettingsButton;
+	bxgx::CLine*			m_pSettingsButtonLine1;
+	bxgx::CLine*			m_pSettingsButtonLine2;
+	bxgx::CLine*			m_pSettingsButtonLine3;
 
-	bxgx::CTextControl*			m_pText_Game;
-	bxgx::CTextControl*			m_pText_GameValidity;
-	bxgx::CTextControl*			m_pText_GameLocation;
-	bxgx::CTextControl*			m_pText_FileGame;
-	bxgx::CTextControl*			m_pText_FileValidity;
-	bxgx::CTextControl*			m_pText_FileLocation;
+	bxgx::CText*			m_pText_Game;
+	bxgx::CText*			m_pText_GameValidity;
+	bxgx::CText*			m_pText_GameLocation;
+	bxgx::CText*			m_pText_FileGame;
+	bxgx::CText*			m_pText_FileValidity;
+	bxgx::CText*			m_pText_FileLocation;
 };

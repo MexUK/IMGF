@@ -2,7 +2,7 @@
 
 #include "CTaskDispatchManager.h"
 #include "CTaskManager.h"
-#include "CIMGF.h"
+#include "IMGF.h"
 #include "Globals.h"
 #include "GUI/Window/CWindowManager.h"
 #include "GUI/Windows/CMainWindow.h"
@@ -130,7 +130,7 @@
 #include "CLastUsedValueManager.h"
 #include "Task/ETask.h"
 #include "Stream/CDataReader.h"
-#include "Controls/CProgressControl.h"
+#include "Controls/CProgressBar.h"
 #include "Format/CGameFormat.h"
 #include "Format/Text/INI/CINIManager.h"
 #include "Static/CAppDataPath.h"
@@ -4709,7 +4709,7 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 	}
 
 	// choose entries
-	vector<CIMGFormat*> veCIMGFormats;
+	vector<CIMGFormat*> vecIMGFormats;
 	if (pDuplicateEntriesDialogData->m_ucEntriesType == 0) // all entries in active tab
 	{
 		if (getIMGF()->getEntryListTab() == nullptr)
@@ -4718,7 +4718,7 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 			return;
 		}
 
-		veCIMGFormats.push_back(getIMGF()->getEntryListTab()->getIMGFile());
+		vecIMGFormats.push_back(getIMGF()->getEntryListTab()->getIMGFile());
 	}
 	else if (pDuplicateEntriesDialogData->m_ucEntriesType == 1) // selected entries in active tab
 	{
@@ -4728,7 +4728,7 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 			return;
 		}
 
-		veCIMGFormats.push_back(getIMGF()->getEntryListTab()->getIMGFile());
+		vecIMGFormats.push_back(getIMGF()->getEntryListTab()->getIMGFile());
 	}
 	else if (pDuplicateEntriesDialogData->m_ucEntriesType == 2) // all entries in all tabs
 	{
@@ -4738,7 +4738,7 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 			return;
 		}
 
-		veCIMGFormats = getIMGF()->getIMGEditor()->getAllMainWindowTabsIMGFiles();
+		vecIMGFormats = getIMGF()->getIMGEditor()->getAllMainWindowTabsIMGFiles();
 	}
 	else if (pDuplicateEntriesDialogData->m_ucEntriesType == 3) // DAT file
 	{
@@ -4765,7 +4765,7 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 		CDATLoaderFormat *pDATFile = CDATLoaderManager::get()->parseViaFile(strDATPath);
 		if (!pDATFile->doesHaveError())
 		{
-			veCIMGFormats = pDATFile->parseIMGFiles(pDuplicateEntriesDialogData->m_strDATGameDirectoryPath);
+			vecIMGFormats = pDATFile->parseIMGFiles(pDuplicateEntriesDialogData->m_strDATGameDirectoryPath);
 		}
 		pDATFile->unload();
 		delete pDATFile;
@@ -4780,7 +4780,7 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 				CIMGFormat *pIMGFile = CIMGManager::get()->parseViaFile(strIMGPath);
 				if(!pIMGFile->doesHaveError())
 				{
-					veCIMGFormats.push_back(pIMGFile);
+					vecIMGFormats.push_back(pIMGFile);
 				}
 			}
 		}
@@ -4788,7 +4788,7 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 
 	// max progress tick
 	uint32 uiTickCount = 0;
-	for (auto pIMGFile : veCIMGFormats)
+	for (auto pIMGFile : vecIMGFormats)
 	{
 		uiTickCount += pIMGFile->getEntryCount();
 	}
@@ -4806,7 +4806,7 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 		umapIMGEntries;
 	vector<string>
 		vecEntryDuplicateNames;
-	for (auto pIMGFile : veCIMGFormats)
+	for (auto pIMGFile : vecIMGFormats)
 	{
 		// choose IMG entries
 		vector<CIMGEntry*> vecIMGEntries;
@@ -4869,7 +4869,7 @@ void		CTaskDispatchManager::onRequestDuplicateEntries(void)
 	vecEntryDuplicateNames.clear();
 	if (pDuplicateEntriesDialogData->m_ucEntriesType == 3) // DAT file
 	{
-		for (auto pIMGFile : veCIMGFormats)
+		for (auto pIMGFile : vecIMGFormats)
 		{
 			pIMGFile->unload();
 			delete pIMGFile;

@@ -34,11 +34,11 @@ class imgf::CWindowManager;
 
 class CWnd; // temp
 
-class imgf::CIMGF : public bxcf::CManager
+class imgf::IMGF : public bxcf::CManager
 {
 public:
-	CIMGF(void);
-	~CIMGF(void);
+	IMGF(void);
+	~IMGF(void);
 
 	void						init(void);
 	void						uninit(void);

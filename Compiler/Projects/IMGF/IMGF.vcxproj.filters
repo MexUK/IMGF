@@ -369,9 +369,6 @@
     <ClCompile Include="..\..\..\Dependencies\ThirdParty\freetype-gl\platform.c">
       <Filter>Source Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\CIMGF.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDragListCtrl.cpp">
       <Filter>Source Files\DragDrop</Filter>
     </ClCompile>
@@ -503,6 +500,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\Static\CAppDataPath.cpp">
       <Filter>Source Files\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\IMGF.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1067,9 +1067,6 @@
     <ClInclude Include="..\..\..\Dependencies\ThirdParty\freetype-gl\texture-font.h">
       <Filter>Header Files\TEMP_LOCATION_ThirdParty\Freetype-GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\CIMGF.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDragListCtrl.h">
       <Filter>Header Files\DragDrop</Filter>
     </ClInclude>
@@ -1272,6 +1269,9 @@
       <Filter>Header Files\Event</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\nsimgf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\IMGF.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
