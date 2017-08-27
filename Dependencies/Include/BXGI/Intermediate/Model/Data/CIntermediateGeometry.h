@@ -1,7 +1,6 @@
-#ifndef CIntermediateGeometry_H
-#define CIntermediateGeometry_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "CIntermediateBoundingObject.h"
 #include "CIntermediateVertexData.h"
@@ -11,24 +10,7 @@
 class bxgi::CIntermediateGeometry
 {
 public:
-	CIntermediateGeometry(void) :
-		m_pBoundingObject(nullptr),
-		m_bHasVertexColours(false),
-		m_bHasUVTextureCoordinates(false),
-		m_bHasPositions(false),
-		m_bHasNormals(false)
-	{
-		bxcf::Vec3f vecCenter;
-		vecCenter.x = 0.0f;
-		vecCenter.y = 0.0f;
-		vecCenter.z = 0.0f;
-		m_pBoundingObject = new bxgi::CIntermediateBoundingObject;
-		m_pBoundingObject->setBoundingObjectType(bxgi::BOUNDING_OBJECT_TYPE_SPHERE);
-		m_pBoundingObject->setCenter(vecCenter);
-		m_pBoundingObject->setRadius(0.0f);
-		m_pBoundingObject->setHasPositions(false);
-		m_pBoundingObject->setHasNormals(false);
-	}
+	CIntermediateGeometry(void);
 
 	void									unload(void) {}
 
@@ -60,5 +42,3 @@ private:
 	std::vector<bxgi::CIntermediateVertexData>	m_vecVertices;
 	std::vector<bxgi::CIntermediateIndexData>		m_vecTriangles;
 };
-
-#endif

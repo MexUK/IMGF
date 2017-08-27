@@ -1,7 +1,6 @@
-#ifndef CDATAnimgrpFormat_H
-#define CDATAnimgrpFormat_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/CFormat.h"
 #include "CDATAnimgrpSection.h"
@@ -14,5 +13,3 @@ public:
 	void					unserialize(void);
 	void					serialize(void);
 };
-
-#endif

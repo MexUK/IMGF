@@ -1,13 +1,12 @@
-#ifndef CJSONManager_H
-#define CJSONManager_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include <vector>
 #include <unordered_map>
 
 // todo - move classes and enums to separate header files
 
-enum bxcf::eJsonTypes : unsigned char
+enum bxcf::EJsonType : unsigned char
 {
 	JSON_STRING,
 	JSON_NUMBER,
@@ -23,10 +22,10 @@ class bxcf::CJSONValue;
 class bxcf::CJSONValue
 {
 public:
-	virtual void									addValue(bxcf::CJSONString *pKey, bxcf::CJSONValue *pValue) {};
-	virtual void									removeValues(void) {};
+	virtual void									addValue(bxcf::CJSONString *pKey, bxcf::CJSONValue *pValue) {}
+	virtual void									removeValues(void) {}
 
-	bxcf::eJsonTypes										m_eType;
+	bxcf::EJsonType										m_eType;
 };
 
 class bxcf::CJSONString : public bxcf::CJSONValue
@@ -148,5 +147,3 @@ private:
 	bxcf::CJSONString*				m_pLatestKey;
 	unsigned long				m_uiSeek;
 };
-
-#endif

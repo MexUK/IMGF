@@ -1,7 +1,6 @@
-#ifndef CIPLManager_H
-#define CIPLManager_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 
@@ -15,5 +14,3 @@ public:
 	void					init(void);
 	void					uninit(void);
 };
-
-#endif

@@ -1,7 +1,6 @@
-#ifndef CIDEManager_H
-#define CIDEManager_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 #include <string>
@@ -19,5 +18,3 @@ public:
 
 	static std::vector<std::string>		getIDEEntryNamesWithoutExtension(std::vector<std::string> vecIDEPaths, bool bModelNames = true, bool bTXDNames = true);
 };
-
-#endif

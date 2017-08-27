@@ -1,7 +1,6 @@
-#ifndef CMath_H
-#define CMath_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include "Type/Vector/Vec3f.h"
 #include "Type/Vector/Vec2f.h"
@@ -101,5 +100,3 @@ uint32				bxcf::CMath::convertBytesToSectors(uint32 uiByteCount)
 {
 	return (uint32) ceil(((float32)uiByteCount) / ((float32)SECTOR_BYTE_COUNT));
 }
-
-#endif

@@ -1,10 +1,9 @@
-#ifndef CIntermediateTexture_H
-#define CIntermediateTexture_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Pool/CVectorPool.h"
-#include "Image/eRasterDataFormat.h"
+#include "Image/ERasterDataFormat.h"
 #include "Data/CIntermediateTextureMipmap.h"
 #include "Type/Vector/Vec2u16.h"
 #include <string>
@@ -13,7 +12,7 @@ class bxgi::CIntermediateTexture : public bxcf::CVectorPool<bxgi::CIntermediateT
 {
 public:
 	CIntermediateTexture(void) :
-		m_eRasterDataFormat(bxcf::RASTERDATAFORMAT_UNKNOWN)
+		m_ERasterDataFormat(bxcf::RASTERDATAFORMAT_UNKNOWN)
 	{
 		m_vecSize.x = 0;
 		m_vecSize.y = 0;
@@ -24,8 +23,8 @@ public:
 	void						setName(std::string& strName) { m_strName = strName; }
 	std::string&				getName(void) { return m_strName; }
 
-	void						setRasterDataFormat(bxcf::eRasterDataFormat eRasterDataFormatValue) { m_eRasterDataFormat = eRasterDataFormatValue; }
-	bxcf::eRasterDataFormat		getRasterDataFormat(void) { return m_eRasterDataFormat; }
+	void						setRasterDataFormat(bxcf::ERasterDataFormat ERasterDataFormatValue) { m_ERasterDataFormat = ERasterDataFormatValue; }
+	bxcf::ERasterDataFormat		getRasterDataFormat(void) { return m_ERasterDataFormat; }
 
 	void						setSize(bxcf::Vec2u16& vecSize) { m_vecSize = vecSize; }
 	bxcf::Vec2u16&				getSize(void) { return m_vecSize; }
@@ -35,9 +34,7 @@ public:
 
 private:
 	std::string					m_strName;
-	bxcf::eRasterDataFormat		m_eRasterDataFormat;
+	bxcf::ERasterDataFormat		m_ERasterDataFormat;
 	bxcf::Vec2u16				m_vecSize;
 	std::string					m_strPaletteData;
 };
-
-#endif

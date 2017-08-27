@@ -1,10 +1,9 @@
-#ifndef CIDEEntry_2DFX_H
-#define CIDEEntry_2DFX_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/IDE/Entry/CIDEEntry_Data.h"
-#include "Format/e2DFXType.h"
+#include "Format/E2DFXType.h"
 #include "Type/Vector/Vec3u.h"
 #include "Type/Vector/Vec3f.h"
 #include "Type/Vector/Vec4f.h"
@@ -13,28 +12,14 @@
 class bxgi::CIDEEntry_2DFX : public bxgi::CIDEEntry_Data
 {
 public:
-	CIDEEntry_2DFX(bxgi::CIDEFormat *pIDEFormat, bxgi::e2DFXType e2DFXTypeValue) :
-		CIDEEntry_Data(pIDEFormat, IDE_SECTION_2DFX),
-		m_e2DFXType(e2DFXTypeValue),
-		m_uiObjectId(0),
-		m_vecPosition{ 0.0f, 0.0f, 0.0f },
-		m_uiUnknown1(0),
-		m_ui2dfxType(0),
-		m_vecRotation{ 0.0f, 0.0f, 0.0f, 0.0f }
-	{
-		m_vecColour.x = 0;
-		m_vecColour.y = 0;
-		m_vecColour.z = 0;
-	}
-	~CIDEEntry_2DFX(void)
-	{
-	}
+	CIDEEntry_2DFX(bxgi::CIDEFormat *pIDEFormat, bxgi::E2DFXType E2DFXTypeValue);
+	~CIDEEntry_2DFX(void);
 
 	virtual void				unserialize(void);
 	virtual void				serialize(void);
 
-	void						set2DFXType(bxgi::e2DFXType e2DFXTypeValue) { m_e2DFXType = e2DFXTypeValue; }
-	bxgi::e2DFXType					get2DFXType(void) { return m_e2DFXType; }
+	void						set2DFXType(bxgi::E2DFXType E2DFXTypeValue) { m_E2DFXType = E2DFXTypeValue; }
+	bxgi::E2DFXType					get2DFXType(void) { return m_E2DFXType; }
 
 	void						setObjectId(uint32 uiObjectId) { m_uiObjectId = uiObjectId; }
 	uint32						getObjectId(void) { return m_uiObjectId; }
@@ -58,7 +43,7 @@ public:
 	bxcf::Vec4f&					getRotation(void) { return m_vecRotation; }
 
 private:
-	bxgi::e2DFXType					m_e2DFXType;
+	bxgi::E2DFXType					m_E2DFXType;
 	bxcf::Vec3f					m_vecPosition; // GTA III era + GTA IV
 	uint32						m_ui2dfxType; // GTA III era + GTA IV
 	union
@@ -76,5 +61,3 @@ private:
 		};
 	};
 };
-
-#endif

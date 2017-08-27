@@ -1,7 +1,6 @@
-#ifndef CIPLEntry_INST_H
-#define CIPLEntry_INST_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/IPL/Entry/CIPLEntry_Data.h"
 #include "Type/Vector/Vec3f.h"
@@ -11,16 +10,7 @@
 class bxgi::CIPLEntry_INST : public bxgi::CIPLEntry_Data
 {
 public:
-	CIPLEntry_INST(bxgi::CIPLFormat *pIPLFormat) :
-		CIPLEntry_Data(pIPLFormat, IPL_SECTION_INST),
-		m_uiObjectId(0),
-		m_uiInterior(0),
-		m_vecPosition{ 0.0f, 0.0f, 0.0f },
-		m_vecScale{ 0.0f, 0.0f, 0.0f },
-		m_vecRotation{ 0.0f, 0.0f, 0.0f, 0.0f },
-		m_iLOD(0)
-	{
-	};
+	CIPLEntry_INST(bxgi::CIPLFormat *pIPLFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -62,5 +52,3 @@ private:
 	bxcf::Vec4f					m_vecRotation;
 	int32						m_iLOD;
 };
-
-#endif

@@ -1,18 +1,16 @@
-#ifndef CIMGFormat_H
-#define CIMGFormat_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/CFormat.h"
 #include "Pool/CVectorPool.h"
-#include "eIMGVersion.h"
-#include "Engine/RW/eRWVersion.h"
-#include "CIMGPeekData.h"
-#include "Compression/eCompressionAlgorithm.h"
-#include "Format/IMG/Fastman92/eIMGVersionFastman92CompressionAlgorithm.h"
-#include "Format/COL/eCOLVersion.h"
+#include "EIMGVersion.h"
+#include "Engine/RW/ERWVersion.h"
+#include "Compression/ECompressionAlgorithm.h"
+#include "Format/IMG/Fastman92/EIMGVersionFastman92CompressionAlgorithm.h"
+#include "Format/COL/ECOLVersion.h"
 //#include "CIMGEntry.h"
-#include "Platform/Hardware/ePlatform.h"
+#include "Platform/Hardware/EPlatform.h"
 #include "Stream/CDataReader.h"
 #include <string>
 #include <vector>
@@ -42,10 +40,10 @@ public:
 
 	bool											unserialize2(void);
 
-	void											setVersion(bxgi::eIMGVersion eIMGVersion) { m_eIMGVersion = eIMGVersion; }
-	inline bxgi::eIMGVersion						getVersion(void);
+	void											setVersion(bxgi::EIMGVersion EIMGVersion) { m_EIMGVersion = EIMGVersion; }
+	inline bxgi::EIMGVersion						getVersion(void);
 
-	void											unserializeRWVersions(void);
+	void											unserializERWVersions(void);
 	void											unserializeResourceTypes(void);
 
 	void											setEncrypted(bool bEncrypted) { m_bEncrypted = bEncrypted; }
@@ -54,8 +52,8 @@ public:
 	void											setGameType(uint8 ucGameType) { m_ucGameType = ucGameType; }
 	uint8											getGameType(void) { return m_ucGameType; }
 
-	void											setPlatform(bxcf::ePlatform ePlatformValue) { m_ePlatform = ePlatformValue; }
-	bxcf::ePlatform									getPlatform(void) { return m_ePlatform; }
+	void											setPlatform(bxcf::EPlatform EPlatformValue) { m_EPlatform = EPlatformValue; }
+	bxcf::EPlatform									getPlatform(void) { return m_EPlatform; }
 
 	std::vector<bxcf::fileType::EFileType>			getFileTypes(void);
 	std::vector<std::string>						getFileTypesText(void);
@@ -65,9 +63,8 @@ public:
 	std::map<std::string, std::pair<uint32, bxcf::fileType::EFileType>, SortByStringKey>	getFileTypedVersionsAsMap(void);
 
 	uint32											getEntryExtensionCount(std::string strEntryExtension);
-	std::vector<std::string>						getEntryVersions(std::vector<bxgi::eCOLVersion>& vecCOLVersions, std::vector<bxgi::eRWVersion>& vecRWVersions);
 
-	static bxcf::eCompressionAlgorithm				getCompressionAlgorithmIdFromFastman92CompressionAlgorithmId(eIMGVersionFastman92CompressionAlgorithm eFastman92CompressionAlgorithmId);
+	static bxcf::ECompressionAlgorithm				getCompressionAlgorithmIdFromFastman92CompressionAlgorithmId(EIMGVersionFastman92CompressionAlgorithm eFastman92CompressionAlgorithmId);
 
 	bxgi::CIMGEntry*								addEntryViaFile(std::string& strEntryFilePath, std::string strEntryName = "");
 	bxgi::CIMGEntry*								addEntryViaData(std::string& strEntryName, std::string& strEntryData);
@@ -89,13 +86,13 @@ public:
 	std::vector<std::string>						getEntryNames(void);
 	bxgi::CIMGEntry*								getEntryByHighestOffset(void);
 	uint32											getEntryCountForName(std::string& strEntryName); // case-insensitive
-	uint32											getEntryCountForCompressionType(bxcf::eCompressionAlgorithm eCompressionAlgorithmValue);
+	uint32											getEntryCountForCompressionType(bxcf::ECompressionAlgorithm ECompressionAlgorithmValue);
 
 	static uint32									getEntryPaddedSize(uint32 uiDataLength);
 	void											unsetNewAndReplacedFlagForAllEntries(void);
 
 	uint32											merge(std::string& strSecondIMGPath, std::vector<std::string>& vecImportedEntryNames);
-	void											split(std::vector<bxgi::CIMGEntry*>& vecIMGEntries, std::string& strOutPath, eIMGVersion eIMGVersion);
+	void											split(std::vector<bxgi::CIMGEntry*>& vecIMGEntries, std::string& strOutPath, EIMGVersion EIMGVersion);
 	CIMGFormat*										clone(std::string& strClonedIMGPath);
 
 	void											exportSingle(bxgi::CIMGEntry *pIMGEntry, std::string& strFolderPath);
@@ -113,8 +110,6 @@ private:
 	void											unserializeBodyComponents(void);
 
 	void											serializeHeaderAndBodyComponents(void);
-
-	bxgi::CIMGPeekData								peekIMGData(void);
 	
 	void											unserializeVersion1(void);
 	void											unserializeVersion2(void);
@@ -136,11 +131,9 @@ private:
 	void											loadEntryExtensionCounts(void);
 
 private:
-	bxgi::eIMGVersion								m_eIMGVersion;
-	bxcf::ePlatform									m_ePlatform;
+	bxgi::EIMGVersion								m_EIMGVersion;
+	bxcf::EPlatform									m_EPlatform;
 	std::unordered_map<std::string, uint32>			m_umapExtensionCounts;
 	uint8											m_ucGameType;
 	uint8											m_bEncrypted : 1;
 };
-
-#endif

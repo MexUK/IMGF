@@ -1,7 +1,6 @@
-#ifndef CIPLEntry_OCCL_H
-#define CIPLEntry_OCCL_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/IPL/Entry/CIPLEntry_Data.h"
 #include "Type/Vector/Vec2f.h"
@@ -9,18 +8,7 @@
 class bxgi::CIPLEntry_OCCL : public bxgi::CIPLEntry_Data
 {
 public:
-	CIPLEntry_OCCL(bxgi::CIPLFormat *pIPLFormat) :
-		CIPLEntry_Data(pIPLFormat, IPL_SECTION_OCCL),
-		m_vecMidPosition{ 0.0f, 0.0f },
-		m_fBottomHeightZ(0.0f),
-		m_vecWidth{ 0.0f, 0.0f },
-		m_fHeight(0.0f),
-		m_fRotation(0.0f),
-		m_fUnknown1(0.0f),
-		m_fUnknown2(0.0f),
-		m_uiUnknown3(0)
-	{
-	};
+	CIPLEntry_OCCL(bxgi::CIPLFormat *pIPLFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -62,5 +50,3 @@ private:
 	float32						m_fUnknown2;
 	uint32						m_uiUnknown3;
 };
-
-#endif

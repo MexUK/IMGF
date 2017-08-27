@@ -1,21 +1,13 @@
-#ifndef CIDEEntry_2DFX_Ladder_H
-#define CIDEEntry_2DFX_Ladder_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/IDE/Entry/DataEntry/CIDEEntry_2DFX.h"
 #include "Type/Vector/Vec3f.h"
 
 class bxgi::CIDEEntry_2DFX_Ladder : public bxgi::CIDEEntry_2DFX
 {
 public:
-	CIDEEntry_2DFX_Ladder(bxgi::CIDEFormat *pIDEFormat) :
-		CIDEEntry_2DFX(pIDEFormat, bxgi::_2DFX_LADDER),
-		m_vecLadderStartPosition{ 0.0f, 0.0f, 0.0f },
-		m_vecLadderEndPosition{ 0.0f, 0.0f, 0.0f },
-		m_vecClimbDirectionPosition{ 0.0f, 0.0f, 0.0f },
-		m_uiFlags(0)
-	{
-	};
+	CIDEEntry_2DFX_Ladder(bxgi::CIDEFormat *pIDEFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -39,5 +31,3 @@ private:
 	bxcf::Vec3f					m_vecClimbDirectionPosition;
 	uint32						m_uiFlags;
 };
-
-#endif

@@ -1,7 +1,6 @@
-#ifndef CRWEntry_2dEffect_ParticleEffect_H
-#define CRWEntry_2dEffect_ParticleEffect_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/RW/Entries/C2dEffect.h"
 #include <string>
@@ -22,5 +21,3 @@ public:
 private:
 	std::string						m_strParticleEffectName;
 };
-
-#endif

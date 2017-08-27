@@ -1,7 +1,6 @@
-#ifndef CRWSection_GeometryList_H
-#define CRWSection_GeometryList_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/RW/CRWSection.h"
 
 class bxgi::CRWSection_GeometryList : public bxgi::CRWSection
@@ -18,5 +17,3 @@ public:
 private:
 	uint32							m_uiGeometryCount;
 };
-
-#endif

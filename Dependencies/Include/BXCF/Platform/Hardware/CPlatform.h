@@ -1,8 +1,7 @@
-#ifndef CPlatform_H
-#define CPlatform_H
+#pragma once
 
-#include "bxcf.h"
-#include "ePlatform.h"
+#include "nsbxcf.h"
+#include "EPlatform.h"
 #include <string>
 
 class bxcf::CPlatform
@@ -10,15 +9,13 @@ class bxcf::CPlatform
 public:
 	void					unload(void) {}
 
-	void					setPlatformId(bxcf::ePlatform ePlatformValue) { m_ePlatformId = ePlatformValue; }
-	bxcf::ePlatform				getPlatformId(void) { return m_ePlatformId; }
+	void					setPlatformId(bxcf::EPlatform EPlatformValue) { m_EPlatformId = EPlatformValue; }
+	bxcf::EPlatform				getPlatformId(void) { return m_EPlatformId; }
 
 	void					setName(std::string strName) { m_strName = strName; }
 	std::string				getName(void) { return m_strName; }
 
 private:
-	bxcf::ePlatform				m_ePlatformId;
+	bxcf::EPlatform				m_EPlatformId;
 	std::string				m_strName;
 };
-
-#endif

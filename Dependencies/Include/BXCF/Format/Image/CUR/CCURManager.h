@@ -1,7 +1,6 @@
-#ifndef CCURManager_H
-#define CCURManager_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 
@@ -18,5 +17,3 @@ public:
 
 	CCURFormat*					createFormatFromBMP(CBMPFormat *pBMPFormat);
 };
-
-#endif

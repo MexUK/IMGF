@@ -1,12 +1,12 @@
 #pragma once
 
-#include "bxgi.h"
-#include "Compression/eCompressionAlgorithm.h"
+#include "nsbxgi.h"
+#include "Compression/ECompressionAlgorithm.h"
 #include "Format/EFileType.h"
 #include "Format/IMG/Regular/Raw/CIMGEntry_Version1Or2.h"
 #include "Format/IMG/Regular/Raw/CIMGEntry_Version3.h"
 #include "Format/IMG/Fastman92/CIMGEntry_Fastman92.h"
-#include "Compression/eCompressionAlgorithm.h"
+#include "Compression/ECompressionAlgorithm.h"
 #include "Static/CMath.h"
 #include "Static/CString2.h"
 #include "Format/IMG/Regular/CIMGFormat.h"
@@ -48,10 +48,6 @@ public:
 	inline void				setEntryExtension(std::string& strEntryExtension) { m_strEntryExtension = strEntryExtension; }
 	inline std::string&		getEntryExtension(void) { return m_strEntryExtension; }
 
-	void					setRWVersionByVersionCC(uint32 uiRWVersionCC);
-	void					setRWVersion(bxgi::CRWVersion *pRWVersion) { m_pRWVersion = pRWVersion; }
-	bxgi::CRWVersion*		getRWVersion(void) { return m_pRWVersion; }
-
 	void					setRageResourceTypeByIdentifier(uint32 uiResourceType);
 	void					setRageResourceType(bxgi::CRageResourceType *pRageResourceType) { m_pRageResourceType = pRageResourceType; }
 	bxgi::CRageResourceType*	getRageResourceType(void) { return m_pRageResourceType; }
@@ -68,9 +64,9 @@ public:
 	uint8					getCompression(void) { return m_uiFlags & 0xF; } // old
 	//bool					isCompressed(void) { return getCompression() != 0; } // old
 
-	void					setCompressionAlgorithmId(bxcf::eCompressionAlgorithm eCompressionAlgorithmValue) { m_eCompressionAlgorithm = eCompressionAlgorithmValue; }
-	bxcf::eCompressionAlgorithm		getCompressionAlgorithmId(void) { return m_eCompressionAlgorithm; }
-	inline bool				isCompressed(void) { return m_eCompressionAlgorithm != bxcf::COMPRESSION_UNKNOWN && m_eCompressionAlgorithm != bxcf::COMPRESSION_NONE; }
+	void					setCompressionAlgorithmId(bxcf::ECompressionAlgorithm ECompressionAlgorithmValue) { m_ECompressionAlgorithm = ECompressionAlgorithmValue; }
+	bxcf::ECompressionAlgorithm		getCompressionAlgorithmId(void) { return m_ECompressionAlgorithm; }
+	inline bool				isCompressed(void) { return m_ECompressionAlgorithm != bxcf::COMPRESSION_UNKNOWN && m_ECompressionAlgorithm != bxcf::COMPRESSION_NONE; }
 
 	void					setCompressionLevel(uint32 uiCompressionLevel) { m_uiCompressionLevel = uiCompressionLevel; }
 	uint32					getCompressionLevel(void) { return m_uiCompressionLevel; }
@@ -95,6 +91,13 @@ public:
 
 	std::string				getVersionText(void);
 
+	void					setCOLVersion(bxgi::ECOLVersion uiCOLVersion) { m_uiRawVersion = uiCOLVersion; }
+	bxgi::ECOLVersion		getCOLVersion(void) { return (bxgi::ECOLVersion) m_uiRawVersion; }
+
+	void					setRWVersionByVersionCC(uint32 uiRWVersionCC);
+	void					setRWVersion(uint32 uiRWVersion) { m_uiRawVersion = uiRWVersion; } // todo
+	uint32					getRWVersion(void) { return m_uiRawVersion; } // todo
+
 	void					setEntryData(std::string strEntryData, bool bIsNew = false);
 	std::string				getEntryData(void);
 	std::string				getEntrySubData(uint32 uiStart, uint32 uiLength);
@@ -113,14 +116,11 @@ public:
 	bool					isModelFile(void);
 	bool					isTextureFile(void);
 	bool					isCollisionFile(void);
-
-	void					setCOLVersion(bxgi::CCOLVersion *pCOLVersion) { m_pCOLVersion = pCOLVersion; }
-	bxgi::CCOLVersion*		getCOLVersion(void) { return m_pCOLVersion; }
 	
 	inline void							setFileType(bxcf::fileType::EFileType uiFileType) { m_uiFileType = uiFileType; }
 	inline bxcf::fileType::EFileType	getFileType(void) { return m_uiFileType; }
 
-	void					applyCompression(bxcf::eCompressionAlgorithm eCompressionAlgorithmValue, uint32 uiCompressionLevel = 0);
+	void					applyCompression(bxcf::ECompressionAlgorithm ECompressionAlgorithmValue, uint32 uiCompressionLevel = 0);
 
 	bool					doesHaveUnknownVersion(void); // checks for RW version (DFF/TXD) or COL version. Unknown file extension counts as unknown RW version. IPL files are skipped.
 
@@ -133,11 +133,6 @@ private:
 	std::string				m_strEntryName;
 	std::string				m_strEntryExtension;
 	uint32					m_uiFlags;
-	union
-	{
-		bxgi::CRWVersion*		m_pRWVersion; // version 1/2 IMG
-		bxgi::CCOLVersion*		m_pCOLVersion; // version 1/2 IMG
-	};
 	union {
 		struct { // IMG version 3 (encrypted / unencrypted)
 			bxgi::CRageResourceType*	m_pRageResourceType;
@@ -151,7 +146,7 @@ private:
 	uint8					m_bProtectedEntry : 1;
 	uint8					m_bIsEncrypted : 1;
 	uint32					m_uiFileCreationDate;
-	bxcf::eCompressionAlgorithm		m_eCompressionAlgorithm;
+	bxcf::ECompressionAlgorithm		m_ECompressionAlgorithm;
 	uint32					m_uiCompressionLevel;
 	uint32					m_uiRawVersion;
 	bxcf::fileType::EFileType	m_uiFileType;
@@ -177,6 +172,6 @@ inline void					bxgi::CIMGEntry::unserializeVersionFastman92(bxgi::CIMGEntry_Fas
 	m_uiEntryOffset = bxcf::CMath::convertSectorsToBytes(pRawIMGEntry->m_uiOffsetInSectors);
 	m_uiEntrySize = bxcf::CMath::convertSectorsToBytes(pRawIMGEntry->m_uiSizeInSectors);
 	m_uiUncompressedSize = bxcf::CMath::convertSectorsToBytes(pRawIMGEntry->m_uiUncompressedSizeInSectors);
-	m_eCompressionAlgorithm = bxgi::CIMGFormat::getCompressionAlgorithmIdFromFastman92CompressionAlgorithmId((bxgi::eIMGVersionFastman92CompressionAlgorithm)pRawIMGEntry->m_uiCompressionAlgorithmId);
+	m_ECompressionAlgorithm = bxgi::CIMGFormat::getCompressionAlgorithmIdFromFastman92CompressionAlgorithmId((bxgi::EIMGVersionFastman92CompressionAlgorithm)pRawIMGEntry->m_uiCompressionAlgorithmId);
 	m_strEntryName = bxcf::CString2::rtrimFromLeft(std::string((char*)pRawIMGEntry->m_strName));
 }

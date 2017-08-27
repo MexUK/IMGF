@@ -1,10 +1,9 @@
-#ifndef CRWSection_H
-#define CRWSection_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "CRWSectionContainer.h"
-#include "Format/RW/eRWSection.h"
-#include "Engine/RW/eRWVersion.h"
+#include "Format/RW/ERWSection.h"
+#include "Engine/RW/ERWVersion.h"
 #include <vector>
 #include <unordered_map>
 
@@ -19,21 +18,21 @@ public:
 
 	void							serialize(void);
 
-	bxgi::CRWSection*				addSection(bxgi::eRWSection eRWSectionValue, bxgi::eRWVersion eRWVersionValue);
+	bxgi::CRWSection*				addSection(bxgi::ERWSection ERWSectionValue, bxgi::ERWVersion ERWVersionValue);
 	void							removeSection(void);
 	uint32							getSectionIndex(void);
 
 	void							fillPlaceholdersForSerialization(uint32 uiSectionByteCount, uint32 uiSectionStructByteCount);
 
-	static bxgi::CRWSection*		createRWSection(bxgi::eRWSection eRWSectionValue);
-	static bool						doesRWSectionContainStruct(bxgi::eRWSection eRWSectionValue);
-	static bool						doesRWSectionContainStruct_BeforeInit(bxgi::eRWSection eRWSectionValue);
+	static bxgi::CRWSection*		creatERWSection(bxgi::ERWSection ERWSectionValue);
+	static bool						doesRWSectionContainStruct(bxgi::ERWSection ERWSectionValue);
+	static bool						doesRWSectionContainStruct_BeforeInit(bxgi::ERWSection ERWSectionValue);
 
-	static std::vector<bxgi::eRWSection>				getRWSections(void);
-	static std::unordered_map<bxgi::eRWSection, bool>&	getRWSectionsContainingStruct(void) { return m_umapRWSectionsContainingStruct; }
+	static std::vector<bxgi::ERWSection>				getRWSections(void);
+	static std::unordered_map<bxgi::ERWSection, bool>&	getRWSectionsContainingStruct(void) { return m_umapRWSectionsContainingStruct; }
 
-	void							setSectionId(bxgi::eRWSection eSectionId) { m_eSectionId = eSectionId; }
-	bxgi::eRWSection				getSectionId(void) { return m_eSectionId; }
+	void							setSectionId(bxgi::ERWSection eSectionId) { m_eSectionId = eSectionId; }
+	bxgi::ERWSection				getSectionId(void) { return m_eSectionId; }
 
 	void							setSectionSize(uint32 uiSectionSize) { m_uiSectionSize = uiSectionSize; }
 	uint32							getSectionSize(void) { return m_uiSectionSize; }
@@ -50,13 +49,13 @@ public:
 	void							setUnknownSection(bool bUnknownSection) { m_bUnknownSection = bUnknownSection; }
 	bool							isUnknownSection(void) { return m_bUnknownSection; }
 
-	CRWSection*						getNextParentNodeWithSectionType(eRWSection eSection);
+	CRWSection*						getNextParentNodeWithSectionType(ERWSection eSection);
 	
 private:
 	static void						initRWSections(void);
 
 protected:
-	bxgi::eRWSection				m_eSectionId;
+	bxgi::ERWSection				m_eSectionId;
 	uint32							m_uiSectionSize;
 	uint32							m_uiSectionRWVersion;
 	uint32							m_uiStructSectionSize;
@@ -64,7 +63,5 @@ protected:
 
 private:
 	uint8													m_bSectionHeaderSkipped		: 1;
-	static std::unordered_map<bxgi::eRWSection, bool>		m_umapRWSectionsContainingStruct;
+	static std::unordered_map<bxgi::ERWSection, bool>		m_umapRWSectionsContainingStruct;
 };
-
-#endif

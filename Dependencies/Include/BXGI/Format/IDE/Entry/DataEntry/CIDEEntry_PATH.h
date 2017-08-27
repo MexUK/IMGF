@@ -1,27 +1,22 @@
-#ifndef CIDEEntry_PATH_H
-#define CIDEEntry_PATH_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/IDE/Entry/CIDEEntry_Data.h"
-#include "Format/IDE/eIDEPathType.h"
+#include "Format/IDE/EIDEPathType.h"
 
 class bxgi::CIDEEntry_PATH_Group;
 
 class bxgi::CIDEEntry_PATH : public bxgi::CIDEEntry_Data
 {
 public:
-	CIDEEntry_PATH(bxgi::CIDEFormat *pIDEFormat, bxgi::eIDEPathType eIDEPathTypeValue) :
-		CIDEEntry_Data(pIDEFormat, IDE_SECTION_PATH),
-		m_eIDEPathType(eIDEPathTypeValue)
-	{
-	};
+	CIDEEntry_PATH(bxgi::CIDEFormat *pIDEFormat, bxgi::EIDEPathType EIDEPathTypeValue);
 
 	virtual void					unserialize(void);
 	virtual void					serialize(void);
 
-	void							setIDEPathType(bxgi::eIDEPathType eIDEPathTypeValue) { m_eIDEPathType = eIDEPathTypeValue; }
-	bxgi::eIDEPathType					getIDEPathType(void) { return m_eIDEPathType; }
+	void							setIDEPathType(bxgi::EIDEPathType EIDEPathTypeValue) { m_EIDEPathType = EIDEPathTypeValue; }
+	bxgi::EIDEPathType					getIDEPathType(void) { return m_EIDEPathType; }
 
 	static void						setLatestPathGroup(bxgi::CIDEEntry_PATH_Group* pLatestPathGroup) { m_pLatestPathGroup = pLatestPathGroup; }
 	static bxgi::CIDEEntry_PATH_Group*	getLatestPathGroup(void) { return m_pLatestPathGroup; }
@@ -29,7 +24,5 @@ public:
 private:
 	static bxgi::CIDEEntry_PATH_Group*	m_pLatestPathGroup;
 
-	bxgi::eIDEPathType					m_eIDEPathType;
+	bxgi::EIDEPathType					m_EIDEPathType;
 };
-
-#endif

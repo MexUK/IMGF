@@ -1,7 +1,6 @@
-#ifndef CIDEEntry_PEDS_H
-#define CIDEEntry_PEDS_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/IDE/Entry/CIDEEntry_Data.h"
 #include "Type/Vector/Vec2u.h"
@@ -10,14 +9,7 @@
 class bxgi::CIDEEntry_PEDS : public bxgi::CIDEEntry_Data
 {
 public:
-	CIDEEntry_PEDS(bxgi::CIDEFormat *pIDEFormat) :
-		CIDEEntry_Data(pIDEFormat, IDE_SECTION_PEDS),
-		m_uiObjectId(0),
-		m_uiCarsCanDrive(0)
-	{
-		m_vecPreferredRadioStations.x = 0;
-		m_vecPreferredRadioStations.y = 0;
-	};
+	CIDEEntry_PEDS(bxgi::CIDEFormat *pIDEFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -113,5 +105,3 @@ private:
 	std::string					m_strFirstVoice;
 	std::string					m_strLastVoice;
 };
-
-#endif

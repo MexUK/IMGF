@@ -1,7 +1,6 @@
-#ifndef CRWEntry_2dEffect_CoverPoint_H
-#define CRWEntry_2dEffect_CoverPoint_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/RW/Entries/C2dEffect.h"
 #include "Type/Vector/Vec2f.h"
@@ -24,5 +23,3 @@ private:
 	bxcf::Vec2f						m_vecDirection;
 	uint32							m_uiCoverType;
 };
-
-#endif

@@ -1,9 +1,8 @@
-#ifndef eRageResourceType_H
-#define eRageResourceType_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 
-enum bxgi::eRageResourceType : uint8
+enum bxgi::ERageResourceType : uint8
 {
 	RAGE_UNKNOWN,
 	RAGE_GENERIC,
@@ -15,5 +14,3 @@ enum bxgi::eRageResourceType : uint8
 	RAGE_PLACEMENT,
 	RAGE_RBS
 };
-
-#endif

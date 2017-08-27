@@ -1,11 +1,10 @@
-#ifndef CDATLoaderManager_H
-#define CDATLoaderManager_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
-#include "eDATLoaderEntryType.h"
-#include "Games/ePlatformedGame.h"
+#include "EDATLoaderEntryType.h"
+#include "Game/EPlatformedGame.h"
 #include <string>
 
 class bxgi::CDATLoaderFormat;
@@ -18,8 +17,6 @@ public:
 	void						init(void);
 	void						uninit(void);
 
-	static eDATLoaderEntryType	getDATEntryTypeFromString(std::string strType);
-	static std::string			getDefaultGameDATSubPath(bxgi::ePlatformedGame ePlatformedGameValue);
+	static EDATLoaderEntryType	getDATEntryTypeFromString(std::string strType);
+	static std::string			getDefaultGameDATSubPath(bxgi::EPlatformedGame EPlatformedGameValue);
 };
-
-#endif

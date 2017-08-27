@@ -1,12 +1,13 @@
 #pragma once
 
+#include "nsbxgx.h"
 #include "Type/Types.h"
 #include "Styles/StyleEnums.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
 
-class CStyleGroup
+class bxgx::CStyleGroup
 {
 public:
 	CStyleGroup(void);

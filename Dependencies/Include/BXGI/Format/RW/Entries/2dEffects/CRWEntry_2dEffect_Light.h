@@ -1,7 +1,6 @@
-#ifndef CRWEntry_2dEffect_Light_H
-#define CRWEntry_2dEffect_Light_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/RW/Entries/C2dEffect.h"
 #include "Type/Vector/Vec2u8.h"
@@ -82,5 +81,3 @@ private:
 	bxcf::Vec3u8					m_vecLookDirection;
 	bxcf::Vec2u8					m_vecPadding;
 };
-
-#endif

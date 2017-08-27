@@ -1,6 +1,6 @@
 #pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 
 class bxcf::Vec2i

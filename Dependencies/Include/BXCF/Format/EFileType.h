@@ -1,6 +1,6 @@
 #pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 
 enum bxcf::fileType::EFileType
 {

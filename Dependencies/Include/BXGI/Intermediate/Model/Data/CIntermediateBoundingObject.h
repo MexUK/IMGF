@@ -1,37 +1,18 @@
-#ifndef CIntermediateBoundingObject_H
-#define CIntermediateBoundingObject_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
-#include "eIntermediateBoundingObjectType.h"
+#include "EIntermediateBoundingObjectType.h"
 #include "Type/Vector/Vec3f.h"
 #include "Type/Vector/Vec4f.h"
 
 class bxgi::CIntermediateBoundingObject
 {
 public:
-	CIntermediateBoundingObject(void) :
-		m_eBoundingObjectType(BOUNDING_OBJECT_TYPE_SPHERE),
-		m_fRadius(0.0f),
-		m_bHasPositions(false),
-		m_bHasNormals(false)
-	{
-		m_vecMin.x = 0.0f;
-		m_vecMin.y = 0.0f;
-		m_vecMin.z = 0.0f;
-		m_vecMin.w = 0.0f;
-		m_vecMax.x = 0.0f;
-		m_vecMax.y = 0.0f;
-		m_vecMax.z = 0.0f;
-		m_vecMax.w = 0.0f;
+	CIntermediateBoundingObject(void);
 
-		m_vecCenter.x = 0.0f;
-		m_vecCenter.y = 0.0f;
-		m_vecCenter.z = 0.0f;
-	}
-
-	void								setBoundingObjectType(bxgi::eIntermediateBoundingObjectType eIntermediateBoundingObjectTypeValue) { m_eBoundingObjectType = eIntermediateBoundingObjectTypeValue; }
-	bxgi::eIntermediateBoundingObjectType		getBoundingObjectType(void) { return m_eBoundingObjectType; }
+	void								setBoundingObjectType(bxgi::EIntermediateBoundingObjectType EIntermediateBoundingObjectTypeValue) { m_eBoundingObjectType = EIntermediateBoundingObjectTypeValue; }
+	bxgi::EIntermediateBoundingObjectType		getBoundingObjectType(void) { return m_eBoundingObjectType; }
 
 	void								setMin(bxcf::Vec4f vecMin) { m_vecMin = vecMin; }
 	bxcf::Vec4f							getMin(void) { return m_vecMin; }
@@ -52,7 +33,7 @@ public:
 	bool								doesHaveNormals(void) { return m_bHasNormals; }
 
 private:
-	bxgi::eIntermediateBoundingObjectType		m_eBoundingObjectType;
+	bxgi::EIntermediateBoundingObjectType		m_eBoundingObjectType;
 	union
 	{
 		struct
@@ -69,5 +50,3 @@ private:
 		};
 	};
 };
-
-#endif

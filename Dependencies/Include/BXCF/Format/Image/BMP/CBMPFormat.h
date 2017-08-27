@@ -1,7 +1,6 @@
-#ifndef CBMPFormat_H
-#define CBMPFormat_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include "Format/CFormat.h"
 #include <string>
@@ -80,5 +79,3 @@ private:
 	uint32							m_uiHeight;
 	uint16							m_usBPP;
 };
-
-#endif

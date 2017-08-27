@@ -1,12 +1,9 @@
-#ifndef CWDRBlock_IndexData_H
-#define CWDRBlock_IndexData_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 
 class bxgi::CWDRBlock_IndexData
 {
 public:
 	uint16				m_usVertexIndices[3];
 };
-
-#endif

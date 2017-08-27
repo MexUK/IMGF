@@ -1,9 +1,8 @@
-#ifndef CRageResourceType_H
-#define CRageResourceType_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
-#include "eRageResourceType.h"
+#include "ERageResourceType.h"
 #include <string>
 
 class bxgi::CRageResourceType
@@ -12,10 +11,10 @@ public:
 	void						unload(void) {}
 
 	std::string					getResourceName(void);
-	bxgi::eRageResourceType			getResourceId(void);
+	bxgi::ERageResourceType		getResourceId(void);
 
-	void						setResourceTypeId(bxgi::eRageResourceType eResourceTypeId) { m_eResourceTypeId = eResourceTypeId; }
-	bxgi::eRageResourceType			getResourceTypeId(void) { return m_eResourceTypeId; }
+	void						setResourceTypeId(bxgi::ERageResourceType eResourceTypeId) { m_eResourceTypeId = eResourceTypeId; }
+	bxgi::ERageResourceType		getResourceTypeId(void) { return m_eResourceTypeId; }
 
 	void						setIdentifier(uint32 uiIdentifier) { m_uiIdentifier = uiIdentifier; }
 	uint32						getIdentifier(void) { return m_uiIdentifier; }
@@ -27,10 +26,8 @@ public:
 	std::string					getFileExtension(void) { return m_strFileExtension; }
 
 private:
-	bxgi::eRageResourceType			m_eResourceTypeId;
+	bxgi::ERageResourceType		m_eResourceTypeId;
 	uint32						m_uiIdentifier;
 	std::string					m_strName;
 	std::string					m_strFileExtension;
 };
-
-#endif

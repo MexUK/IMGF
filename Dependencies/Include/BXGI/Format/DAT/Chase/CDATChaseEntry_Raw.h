@@ -1,7 +1,6 @@
-#ifndef CDATChaseEntry_Raw_H
-#define CDATChaseEntry_Raw_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Type/Vector/Vec3i8.h"
 #include "Type/Vector/Vec3i16.h"
@@ -20,5 +19,3 @@ struct bxgi::CDATChaseEntry_Raw
 	bxcf::Vec3f				m_vecPosition;
 };
 #pragma pack(pop)
-
-#endif

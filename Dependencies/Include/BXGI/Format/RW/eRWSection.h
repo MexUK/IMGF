@@ -1,10 +1,9 @@
-#ifndef eRWSection_H
-#define eRWSection_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 
-enum bxgi::eRWSection : uint32
+enum bxgi::ERWSection : uint32
 {
 	RW_SECTION_UNKNOWN				= 0xFFFFFFFF,
 	RW_SECTION_STRUCT				= 0x01,
@@ -28,5 +27,3 @@ enum bxgi::eRWSection : uint32
 	RW_SECTION_EXTRA_VERT_COLOUR	= 0x0253F2F9,
 	RW_SECTION_FRAME				= 0x0253F2FE
 };
-
-#endif

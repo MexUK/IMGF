@@ -1,7 +1,6 @@
-#ifndef CURL_H
-#define CURL_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include <string>
 #include <vector>
 
@@ -37,5 +36,3 @@ private:
 	std::string					m_strQuery;
 	std::string					m_strFragment;
 };
-
-#endif

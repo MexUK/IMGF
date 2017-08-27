@@ -1,7 +1,6 @@
-#ifndef CTextureEntry_H
-#define CTextureEntry_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include <string>
 
 class bxgi::CRWSection_Texture;
@@ -9,11 +8,7 @@ class bxgi::CRWSection_Texture;
 class bxgi::CTextureEntry
 {
 public:
-	CTextureEntry(void) :
-		m_bHasDiffuse(false),
-		m_bHasAlpha(false),
-		m_pRWTextureSection(nullptr)
-	{};
+	CTextureEntry(void);
 
 	void				setHasDiffuse(bool bHasDiffuse) { m_bHasDiffuse = bHasDiffuse; }
 	bool				doesHaveDiffuse(void) { return m_bHasDiffuse; }
@@ -45,5 +40,3 @@ private:
 	std::string			m_strAlphaPath;
 	bxgi::CRWSection_Texture*	m_pRWTextureSection;
 };
-
-#endif

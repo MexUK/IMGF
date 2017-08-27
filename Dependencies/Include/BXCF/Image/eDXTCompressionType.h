@@ -1,9 +1,8 @@
-#ifndef eDXTCompressionType_H
-#define eDXTCompressionType_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 
-enum bxcf::eDXTCompressionType
+enum bxcf::EDXTCompressionType
 {
 	DXT_NOT_COMPRESSED	= 0,
 	DXT_1				= 1,
@@ -12,5 +11,3 @@ enum bxcf::eDXTCompressionType
 	DXT_4				= 4,
 	DXT_5				= 5
 };
-
-#endif

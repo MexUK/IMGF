@@ -1,12 +1,9 @@
-#ifndef eEndian_H
-#define eEndian_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 
-enum bxcf::eEndian : uint8
+enum bxcf::EEndian : uint8
 {
 	LITTLE_ENDIAN	=	0,
 	BIG_ENDIAN		=	1
 };
-
-#endif

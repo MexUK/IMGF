@@ -1,7 +1,6 @@
-#ifndef CMemory_H
-#define CMemory_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include <cstdarg>
 #include <vector>
@@ -74,5 +73,3 @@ __declspec(naked) void			call(unsigned long uiFunctionAddress) // todo - namespa
 		call	uiFunctionAddress
 	}
 }
-
-#endif

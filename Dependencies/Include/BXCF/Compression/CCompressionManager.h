@@ -1,7 +1,6 @@
-#ifndef CCompressionManager_H
-#define CCompressionManager_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include <string>
 
@@ -17,5 +16,3 @@ public:
 	static std::string				compressLZ4(std::string& strData, uint32 uiCompressionLevel = 9);
 	static std::string				decompressLZ4(std::string& strData, uint32 uiUncompressedDataLength);
 };
-
-#endif

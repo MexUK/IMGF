@@ -1,7 +1,6 @@
-#ifndef CColour_H
-#define CColour_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 
 class bxcf::CColour
 {
@@ -19,5 +18,3 @@ public:
 	void					lighten(float32 fMultiplier);
 	void					darken(float32 fMultiplier);
 };
-
-#endif

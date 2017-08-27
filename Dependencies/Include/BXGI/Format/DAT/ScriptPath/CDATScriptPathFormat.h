@@ -1,7 +1,6 @@
-#ifndef CDATScriptPathFormat_H
-#define CDATScriptPathFormat_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/CFormat.h"
 #include "Pool/CVectorPool.h"
@@ -15,5 +14,3 @@ public:
 	void					unserialize(void);
 	void					serialize(void); // todo
 };
-
-#endif

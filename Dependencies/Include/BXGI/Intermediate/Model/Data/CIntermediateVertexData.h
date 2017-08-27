@@ -1,7 +1,6 @@
-#ifndef CIntermediateVertexData_H
-#define CIntermediateVertexData_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Type/Vector/Vec2f.h"
 #include "Type/Vector/Vec3f.h"
@@ -49,5 +48,3 @@ private:
 	bxcf::Vec2f							m_vecTextureCoordinates;
 	bxcf::Vec4f							m_vecNormal2;
 };
-
-#endif

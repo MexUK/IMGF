@@ -1,7 +1,6 @@
-#ifndef CDDSFormat_Header_DDS_HEADER_H
-#define CDDSFormat_Header_DDS_HEADER_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
@@ -17,5 +16,3 @@ struct bxcf::CDDSFormat_Header_DDS_HEADER
 	uint32					m_uiReserved1[11];
 };
 #pragma pack(pop)
-
-#endif

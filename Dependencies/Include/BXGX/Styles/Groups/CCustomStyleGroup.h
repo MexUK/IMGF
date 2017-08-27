@@ -1,8 +1,9 @@
 #pragma once
 
+#include "nsbxgx.h"
 #include "Styles/Group/CStyleGroup.h"
 
-class CCustomStyleGroup : public CStyleGroup
+class bxgx::CCustomStyleGroup : public CStyleGroup
 {
 public:
 };

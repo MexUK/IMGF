@@ -1,7 +1,6 @@
-#ifndef CRWEntry_2dEffect_EnterExit_H
-#define CRWEntry_2dEffect_EnterExit_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/RW/Entries/C2dEffect.h"
 #include "Type/Vector/Vec2f.h"
@@ -50,5 +49,3 @@ private:
 	std::string						m_strInteriorName; // -The name of the interior
 	int32							m_iSkyColour; // color of the sky
 };
-
-#endif

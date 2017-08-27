@@ -1,7 +1,6 @@
-#ifndef RG_CWTDFormat_Header2_H
-#define RG_CWTDFormat_Header2_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
@@ -19,5 +18,3 @@ struct bxgi::RG_CWTDFormat_Header2
 	uint16					m_usUnknown3;
 };
 #pragma pack(pop)
-
-#endif

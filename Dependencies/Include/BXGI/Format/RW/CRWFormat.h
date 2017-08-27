@@ -1,13 +1,12 @@
-#ifndef CRWFormat_H
-#define CRWFormat_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/CFormat.h"
 #include "CRWSectionContainer.h"
 #include "Engine/RW/CRWVersion.h"
-#include "Format/RW/eRWSection.h"
-#include "Games/ePlatformedGame.h"
+#include "Format/RW/ERWSection.h"
+#include "Game/EPlatformedGame.h"
 #include <vector>
 #include <unordered_map>
 
@@ -18,13 +17,10 @@ class bxgi::CTextureEntry;
 class bxgi::CRWFormat : public bxcf::CFormat, public bxgi::CRWSectionContainer
 {
 public:
-	CRWFormat(void) :
-		CFormat(true, bxcf::LITTLE_ENDIAN),
-		m_pRWVersion(nullptr)
-	{};
+	CRWFormat(void);
 
-	void												setRWVersion(CRWVersion* pRWVersion, bxgi::eRWSection eRWSectionValue = (bxgi::eRWSection)-1);	// Sets the RW version for all sections. Use -1 for eRWSectionValue to apply to all sections.
-	CRWVersion*											getRWVersion(bxgi::eRWSection eRWSectionValue = (bxgi::eRWSection)-1);							// Sets the RW version for all sections. Use -1 for eRWSectionValue to apply to all sections.
+	void												setRWVersion(CRWVersion* pRWVersion, bxgi::ERWSection ERWSectionValue = (bxgi::ERWSection)-1);	// Sets the RW version for all sections. Use -1 for ERWSectionValue to apply to all sections.
+	CRWVersion*											getRWVersion(bxgi::ERWSection ERWSectionValue = (bxgi::ERWSection)-1);							// Sets the RW version for all sections. Use -1 for ERWSectionValue to apply to all sections.
 
 	bxgi::CRWSection*											getLatestClump(void) { return nullptr; } // todo
 
@@ -39,8 +35,8 @@ public:
 	void												fixAlphaTextureStates(void);
 	bool												doesHaveTextureWithInvalidTXDRasterDataFormat(void);
 
-	void												setGames(std::vector<bxgi::ePlatformedGame> vecGames) { m_vecGames = vecGames; }
-	std::vector<bxgi::ePlatformedGame>&				getGames(void) { return m_vecGames; }
+	void												setPlatformedGames(std::vector<bxgi::EPlatformedGame> vecGames) { m_vecGames = vecGames; }
+	std::vector<bxgi::EPlatformedGame>&					getPlatformedGames(void) { return m_vecGames; }
 
 private:
 	void												unserialize(void);
@@ -51,8 +47,6 @@ private:
 private:
 	CRWVersion*											m_pRWVersion;
 	std::vector<bxgi::CTextureEntry*>							m_vecTextureEntries; // todo - inconsisteny in func name: Entry - remove word: Entry
-	std::vector<bxgi::ePlatformedGame>					m_vecGames;
+	std::vector<bxgi::EPlatformedGame>					m_vecGames;
 	std::unordered_map<std::string, bxgi::CTextureEntry*>		m_umapTexturesByNameUpper;
 };
-
-#endif

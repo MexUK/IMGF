@@ -1,7 +1,6 @@
-#ifndef CRWManager_H
-#define CRWManager_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Object/CSingleton.h"
 #include "Object/CManager.h"
 #include "CRWVersion.h"
@@ -20,13 +19,8 @@ public:
 
 	bxgi::CRWVersionManager*						getVersionManager(void) { return m_pVersionManager; }
 
-	static std::string								getRWVersionText(CRWVersion* pRWVersion) { return getRWVersionText(pRWVersion == nullptr ? RW_VERSION_UNKNOWN : pRWVersion->getVersionId()); }
-	static std::string								getRWVersionText(bxgi::eRWVersion eRWVersionValue);
-
-	std::string										getGameName(bxgi::ePlatformedGame ePlatformedGame);
-
-	void											setRWVersionCCForSerialization(uint32 uiRWVersionCC) { m_uiRWVersionCCForSerialization = uiRWVersionCC; }
-	uint32											getRWVersionCCForSerialization(void) { return m_uiRWVersionCCForSerialization; }
+	void											setSerializationRWVersion(uint32 uiSerializationRWVersion) { m_uiSerializationRWVersion = uiSerializationRWVersion; }
+	uint32											getSerializationRWVersion(void) { return m_uiSerializationRWVersion; }
 
 	static bool										isRWFileExtension(std::string& strFileExtension);
 	static bool										isRWModelExtension(std::string& strFileExtension);
@@ -34,7 +28,5 @@ public:
 
 private:
 	bxgi::CRWVersionManager*						m_pVersionManager;
-	uint32											m_uiRWVersionCCForSerialization;
+	uint32											m_uiSerializationRWVersion;
 };
-
-#endif

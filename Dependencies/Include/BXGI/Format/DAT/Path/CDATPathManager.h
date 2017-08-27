@@ -1,11 +1,10 @@
-#ifndef CDATPathManager_H
-#define CDATPathManager_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 #include "Type/Vector/Vec2f.h"
-#include "Games/ePlatformedGame.h"
+#include "Game/EPlatformedGame.h"
 #include <vector>
 
 class bxgi::CDATPathFormat;
@@ -28,5 +27,3 @@ public:
 	static bxgi::CDATEntry_Paths_General_PathNode					getLowestPathNode(std::vector<bxgi::CDATEntry_Paths_General_PathNode>& vecPathNodes);
 	static std::vector<bxgi::CDATEntry_Paths_General_PathNode>	getTargetPathNodesForNaviNode(std::vector<bxgi::CDATPathFormat*> veCDATFormats, bxgi::CDATEntry_Paths_General_NaviNode& naviNode, uint32 uiNaviNodeAreaId, uint32 uiNaviNodeNodeId, uint32& uiLinkId_Out);
 };
-
-#endif

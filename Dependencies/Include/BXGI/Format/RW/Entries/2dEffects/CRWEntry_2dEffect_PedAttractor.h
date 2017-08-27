@@ -1,7 +1,6 @@
-#ifndef CRWEntry_2dEffect_PedAttractor_H
-#define CRWEntry_2dEffect_PedAttractor_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/RW/Entries/C2dEffect.h"
 #include "Type/Vector/Vec3f.h"
@@ -49,5 +48,3 @@ private:
 	uint8							m_ucUnknown2;
 	uint8							m_ucNotUsed2;
 };
-
-#endif

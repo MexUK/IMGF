@@ -1,13 +1,12 @@
-#ifndef CIDEFormat_H
-#define CIDEFormat_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Helper/SectionLines/CSectionLinesFormat.h"
-//#include "eDataType.h" // todo - no idea why this include is needed - it makes eIDESection underlined when not here
-#include "eIDESection.h"
-#include "Format/e2DFXType.h"
-#include "eIDEPathType.h"
+//#include "eDataType.h" // todo - no idea why this include is needed - it makes EIDESection underlined when not here
+#include "EIDESection.h"
+#include "Format/E2DFXType.h"
+#include "EIDEPathType.h"
 #include "Entry/CIDEEntry_Other.h"
 #include "Entry/CIDEEntry_Section.h"
 #include "Entry/CIDEEntry_Data.h"
@@ -17,44 +16,44 @@
 class bxgi::CIDEFormat;
 class bxgi::CIDEEntry;
 
-class bxgi::CIDEFormat : public bxgi::CSectionLinesFormat<bxgi::CIDEFormat, bxgi::CIDEEntry, bxgi::eIDESection, bxgi::CIDEEntry_Other, bxgi::CIDEEntry_Section, bxgi::CIDEEntry_Data>
+class bxgi::CIDEFormat : public bxgi::CSectionLinesFormat<bxgi::CIDEFormat, bxgi::CIDEEntry, bxgi::EIDESection, bxgi::CIDEEntry_Other, bxgi::CIDEEntry_Section, bxgi::CIDEEntry_Data>
 {
 public:
 	CIDEFormat(void);
 
-	bxgi::CIDEEntry_Data*								createDataEntry(eIDESection eIDESectionValue, uint32 uiSectionSpecificType = 0);
+	bxgi::CIDEEntry_Data*								createDataEntry(EIDESection EIDESectionValue, uint32 uiSectionSpecificType = 0);
 	
 	template<class EntryClass2>
-	std::vector<EntryClass2*>					getEntriesBySection(eIDESection eIDESectionValue, bxgi::e2DFXType e2DFXTypeValue = bxgi::_2DFX_UNKNOWN);
+	std::vector<EntryClass2*>					getEntriesBySection(EIDESection EIDESectionValue, bxgi::E2DFXType E2DFXTypeValue = bxgi::_2DFX_UNKNOWN);
 
-	eIDESection									getSectionFromText(std::string strIDESectionText);
-	std::string									getSectionText(eIDESection eIDESectionValue);
+	EIDESection									getSectionFromText(std::string strIDESectionText);
+	std::string									getSectionText(EIDESection EIDESectionValue);
 
-	uint32										detectSectionSpecificType(eIDESection eIDESectionValue);
+	uint32										detectSectionSpecificType(EIDESection EIDESectionValue);
 
 private:
 	void										unserialize(void);
 	void										serialize(void);
 
-	bxgi::CIDEEntry_Data*								unserializeDataEntry(eIDESection eIDESectionValue);
+	bxgi::CIDEEntry_Data*								unserializeDataEntry(EIDESection EIDESectionValue);
 
-	std::pair<bxgi::e2DFXType, uint32>				detect2DFXTypeAndGame(void);
-	eIDEPathType								detectPATHType(void);
+	std::pair<bxgi::E2DFXType, uint32>				detect2DFXTypeAndGame(void);
+	EIDEPathType								detectPATHType(void);
 };
 
 template<class EntryClass2>
-std::vector<EntryClass2*>						bxgi::CIDEFormat::getEntriesBySection(eIDESection eIDESectionValue, bxgi::e2DFXType e2DFXTypeValue)
+std::vector<EntryClass2*>						bxgi::CIDEFormat::getEntriesBySection(EIDESection EIDESectionValue, bxgi::E2DFXType E2DFXTypeValue)
 {
-	if (eIDESectionValue != IDE_SECTION_2DFX || e2DFXTypeValue == bxgi::_2DFX_UNKNOWN)
+	if (EIDESectionValue != IDE_SECTION_2DFX || E2DFXTypeValue == bxgi::_2DFX_UNKNOWN)
 	{
-		return CSectionLinesFormat::getEntriesBySection<EntryClass2>(eIDESectionValue);
+		return CSectionLinesFormat::getEntriesBySection<EntryClass2>(EIDESectionValue);
 	}
 	else
 	{
 		std::vector<EntryClass2*> vecDerivedEntries;
-		for (EntryClass2* pIDEEntry : CSectionLinesFormat::getEntriesBySection<EntryClass2>(eIDESectionValue))
+		for (EntryClass2* pIDEEntry : CSectionLinesFormat::getEntriesBySection<EntryClass2>(EIDESectionValue))
 		{
-			if (((CIDEEntry_2DFX*)pIDEEntry)->get2DFXType() == e2DFXTypeValue)
+			if (((CIDEEntry_2DFX*)pIDEEntry)->get2DFXType() == E2DFXTypeValue)
 			{
 				vecDerivedEntries.push_back(pIDEEntry);
 			}
@@ -62,5 +61,3 @@ std::vector<EntryClass2*>						bxgi::CIDEFormat::getEntriesBySection(eIDESection
 		return vecDerivedEntries;
 	}
 }
-
-#endif

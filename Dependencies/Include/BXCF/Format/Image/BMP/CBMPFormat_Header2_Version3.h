@@ -1,7 +1,6 @@
-#ifndef CBMPFormat_Header2_Version3_H
-#define CBMPFormat_Header2_Version3_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
@@ -19,5 +18,3 @@ struct bxcf::CBMPFormat_Header2_Version3
 	uint32						m_uiColoursImportant;
 };
 #pragma pack(pop)
-
-#endif

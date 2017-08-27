@@ -1,10 +1,9 @@
-#ifndef CDataStream_H
-#define CDataStream_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
-#include "eDataStreamType.h"
-#include "Unit/Byte/eEndian.h"
+#include "EDataStreamType.h"
+#include "Unit/Byte/EEndian.h"
 #include <string>
 #include <vector>
 
@@ -25,11 +24,11 @@ public:
 
 	virtual void			reset(void);
 	
-	void					setStreamType(eDataStreamType eType) { m_eDataStreamType = eType; }
-	eDataStreamType			getStreamType(void) { return m_eDataStreamType; }
+	void					setStreamType(EDataStreamType eType) { m_EDataStreamType = eType; }
+	EDataStreamType			getStreamType(void) { return m_EDataStreamType; }
 
-	void					setEndian(eEndian eEndianValue) { m_eEndian = eEndianValue; }
-	eEndian					getEndian(void) { return m_eEndian; }
+	void					setEndian(EEndian EEndianValue) { m_EEndian = EEndianValue; }
+	EEndian					getEndian(void) { return m_EEndian; }
 	
 	virtual void			setSeek(uint64 uiByteIndex) = 0;
 	virtual uint64			getSeek(void) = 0;
@@ -63,13 +62,11 @@ public:
 
 protected:
 	// data stream type: memory & file
-	eDataStreamType			m_eDataStreamType;
-	eEndian					m_eEndian;
+	EDataStreamType			m_EDataStreamType;
+	EEndian					m_EEndian;
 	std::vector<std::string>	m_vecLineTokens;	// only used for byte range type: text
 
 	// data stream type: memory
 	uint64					m_uiSeek_Memory;
 	std::string				m_strData_Memory;
 };
-
-#endif

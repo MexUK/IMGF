@@ -2,7 +2,7 @@
 
 #define _USE_MATH_DEFINES
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include <math.h>
 

@@ -1,7 +1,6 @@
-#ifndef CIPLEntry_GRGE_H
-#define CIPLEntry_GRGE_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/IPL/Entry/CIPLEntry_Data.h"
 #include "Type/Vector/Vec2f.h"
@@ -11,15 +10,7 @@
 class bxgi::CIPLEntry_GRGE : public bxgi::CIPLEntry_Data
 {
 public:
-	CIPLEntry_GRGE(bxgi::CIPLFormat *pIPLFormat) :
-		CIPLEntry_Data(pIPLFormat, IPL_SECTION_GRGE),
-		m_vecPosition{ 0.0f, 0.0f, 0.0f },
-		m_vecLine{ 0.0f, 0.0f },
-		m_vecCubePosition{ 0.0f, 0.0f, 0.0f },
-		m_uiGarageFlags(0),
-		m_uiGarageType(0)
-	{
-	};
+	CIPLEntry_GRGE(bxgi::CIPLFormat *pIPLFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -51,5 +42,3 @@ private:
 	uint32						m_uiGarageType;
 	std::string					m_strGarageName;
 };
-
-#endif

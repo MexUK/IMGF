@@ -1,18 +1,15 @@
-#ifndef CIDEEntry_Data_H
-#define CIDEEntry_Data_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/IDE/CIDEEntry.h"
 #include "Helper/SectionLines/Entry/CSectionLinesEntry_Data.h"
 
 class bxgi::CIDEEntry_Data : public bxgi::CSectionLinesEntry_Data, public bxgi::CIDEEntry
 {
 public:
-	CIDEEntry_Data(bxgi::CIDEFormat *pIDEFormat, bxgi::eIDESection eIDESectionValue) :
+	CIDEEntry_Data(bxgi::CIDEFormat *pIDEFormat, bxgi::EIDESection EIDESectionValue) :
 		CIDEEntry(pIDEFormat)
 	{
-		setSectionType(eIDESectionValue);
+		setSectionType(EIDESectionValue);
 	};
 };
-
-#endif

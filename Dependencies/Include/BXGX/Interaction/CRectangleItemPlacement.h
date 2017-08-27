@@ -1,15 +1,15 @@
-#ifndef CRectangleItemPlacement_H
-#define CRectangleItemPlacement_H
+#pragma once
 
+#include "nsbxgx.h"
 #include "Type/Types.h"
 #include "Type/Vector/Vec2i.h"
 #include "Pool/CVectorPool.h"
 #include "Static/CMath.h"
 
-class CWindow;
+class bxgx::CWindow;
 
 template <class Item>
-class CRectangleItemPlacement
+class bxgx::CRectangleItemPlacement
 {
 public:
 	CRectangleItemPlacement(void);
@@ -57,7 +57,7 @@ private:
 };
 
 template <class Item>
-CRectangleItemPlacement<Item>::CRectangleItemPlacement(void) :
+bxgx::CRectangleItemPlacement<Item>::CRectangleItemPlacement(void) :
 	m_pItemBeingMoved(nullptr),
 	m_pItemBeingResized(nullptr),
 	m_uiItemResizeEdges(0),
@@ -67,32 +67,32 @@ CRectangleItemPlacement<Item>::CRectangleItemPlacement(void) :
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::bindEvents(void)
+void					bxgx::CRectangleItemPlacement<Item>::bindEvents(void)
 {
 	//bindEvents_WhenNotPlacing();
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::bindEvents_WhenNotPlacing(void)
+void					bxgx::CRectangleItemPlacement<Item>::bindEvents_WhenNotPlacing(void)
 {
 	//markEventUsagess(1, LEFT_MOUSE_DOWN);
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::bindEvents_WhenPlacing(void)
+void					bxgx::CRectangleItemPlacement<Item>::bindEvents_WhenPlacing(void)
 {
 	//markEventUsagess(2, LEFT_MOUSE_UP, MOVE_MOUSE);
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::startMovingItem(Item *pItem)
+void					bxgx::CRectangleItemPlacement<Item>::startMovingItem(Item *pItem)
 {
 	setItemBeingMoved(pItem);
 	bindEvents_WhenPlacing();
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::stopMovingItem(void)
+void					bxgx::CRectangleItemPlacement<Item>::stopMovingItem(void)
 {
 	unbindEvents();
 	setItemBeingMoved(nullptr);
@@ -100,7 +100,7 @@ void					CRectangleItemPlacement<Item>::stopMovingItem(void)
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::startResizingItem(Item *pItem, uint32 uiEdges)
+void					bxgx::CRectangleItemPlacement<Item>::startResizingItem(Item *pItem, uint32 uiEdges)
 {
 	setItemBeingResized(pItem);
 	setResizingItemEdges(uiEdges);
@@ -108,7 +108,7 @@ void					CRectangleItemPlacement<Item>::startResizingItem(Item *pItem, uint32 ui
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::stopResizingItem(void)
+void					bxgx::CRectangleItemPlacement<Item>::stopResizingItem(void)
 {
 	unbindEvents();
 	setItemBeingResized(nullptr);
@@ -117,7 +117,7 @@ void					CRectangleItemPlacement<Item>::stopResizingItem(void)
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::checkToStartMovingOrResizingItem(bxcf::Vec2i& vecCursorPoint, uint32 uiOuterSpacing)
+void					bxgx::CRectangleItemPlacement<Item>::checkToStartMovingOrResizingItem(bxcf::Vec2i& vecCursorPoint, uint32 uiOuterSpacing)
 {
 	uint32 uiRectangleEdges;
 	for(Item *pItem : getItems()->getEntries())
@@ -142,14 +142,14 @@ void					CRectangleItemPlacement<Item>::checkToStartMovingOrResizingItem(bxcf::V
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::onLeftMouseDown(bxcf::Vec2i& vecCursorPoint)
+void					bxgx::CRectangleItemPlacement<Item>::onLeftMouseDown(bxcf::Vec2i& vecCursorPoint)
 {
 	uint32 uiOuterSpacing = 1;
 	checkToStartMovingOrResizingItem(vecCursorPoint, uiOuterSpacing);
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::onLeftMouseUp(bxcf::Vec2i& vecCursorPoint)
+void					bxgx::CRectangleItemPlacement<Item>::onLeftMouseUp(bxcf::Vec2i& vecCursorPoint)
 {
 	if (isMovingItem())
 	{
@@ -162,7 +162,7 @@ void					CRectangleItemPlacement<Item>::onLeftMouseUp(bxcf::Vec2i& vecCursorPoin
 }
 
 template <class Item>
-void					CRectangleItemPlacement<Item>::onMouseMove(bxcf::Vec2i& vecCursorPoint)
+void					bxgx::CRectangleItemPlacement<Item>::onMouseMove(bxcf::Vec2i& vecCursorPoint)
 {
 	if (isMovingItem())
 	{
@@ -182,5 +182,3 @@ void					CRectangleItemPlacement<Item>::onMouseMove(bxcf::Vec2i& vecCursorPoint)
 		getWindow()->render();
 	}
 }
-
-#endif

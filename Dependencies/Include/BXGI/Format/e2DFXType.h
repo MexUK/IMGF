@@ -1,10 +1,9 @@
-#ifndef e2DFXType_H
-#define e2DFXType_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 
-enum bxgi::e2DFXType : uint8
+enum bxgi::E2DFXType : uint8
 {
 	_2DFX_UNKNOWN,
 
@@ -37,5 +36,3 @@ enum bxgi::e2DFXType : uint8
 	_2DFX_STREET_SIGN,
 	_2DFX_SUN_GLARE
 };
-
-#endif

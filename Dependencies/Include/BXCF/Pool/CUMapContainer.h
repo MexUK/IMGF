@@ -1,7 +1,6 @@
-#ifndef CUMapContainer_H
-#define CUMapContainer_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include <unordered_map>
 
@@ -91,5 +90,3 @@ void				bxcf::CUMapContainer<Key, Value>::swapEntries(Key key1, Key key2)
 	setEntry(key1, getEntry(key2));
 	setEntry(key2, value1);
 }
-
-#endif

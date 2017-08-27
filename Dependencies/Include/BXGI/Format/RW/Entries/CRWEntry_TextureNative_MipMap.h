@@ -1,10 +1,9 @@
-#ifndef CRWEntry_TextureNative_MipMap_H
-#define CRWEntry_TextureNative_MipMap_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Type/Vector/Vec2u.h"
-#include "Image/eRasterDataFormat.h"
+#include "Image/ERasterDataFormat.h"
 #include <string>
 
 class bxgi::CRWSection_TextureNative;
@@ -24,11 +23,11 @@ public:
 	void						unload(void) {}
 
 	bool						canRasterDataBeConverted(void);
-	bxcf::eRasterDataFormat			getRasterDataFormat(void);
+	bxcf::ERasterDataFormat			getRasterDataFormat(void);
 	std::string					getRasterDataBGRA32(void);
 	std::string					getRasterDataRGBA32(void);
 
-	void						convertToRasterDataFormat(bxcf::eRasterDataFormat eRasterDataFormatValue);
+	void						convertToRasterDataFormat(bxcf::ERasterDataFormat ERasterDataFormatValue);
 
 	void						setRasterData(std::string& strData) { m_strRasterData = strData; }
 	std::string&				getRasterData(void) { return m_strRasterData; }
@@ -48,5 +47,3 @@ private:
 	bxcf::Vec2u						m_vecSwizzledImageSize;
 	std::string					m_strRasterData;
 };
-
-#endif

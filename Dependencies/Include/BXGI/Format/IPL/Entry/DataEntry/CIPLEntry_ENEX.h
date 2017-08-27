@@ -1,7 +1,6 @@
-#ifndef CIPLEntry_ENEX_H
-#define CIPLEntry_ENEX_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Type/Vector/Vec2f.h"
 #include "Type/Vector/Vec3f.h"
@@ -11,22 +10,7 @@
 class bxgi::CIPLEntry_ENEX : public bxgi::CIPLEntry_Data
 {
 public:
-	CIPLEntry_ENEX(bxgi::CIPLFormat *pIPLFormat) :
-		CIPLEntry_Data(pIPLFormat, IPL_SECTION_ENEX),
-		m_vecEntrancePosition{ 0.0f, 0.0f, 0.0f },
-		m_fRotation(0.0f),
-		m_vecSize{ 0.0f, 0.0f },
-		m_uiConstant8(0),
-		m_vecExitPosition{ 0.0f, 0.0f, 0.0f },
-		m_fExitRotation(0.0f),
-		m_uiTargetInterior(0),
-		m_uiMarkerType(0),
-		m_uiSkyColourChanger(0),
-		m_uiUnknown1(0),
-		m_uiTimeOn(0),
-		m_uiTimeOff(0)
-	{
-	};
+	CIPLEntry_ENEX(bxgi::CIPLFormat *pIPLFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -86,5 +70,3 @@ private:
 	uint32						m_uiTimeOn;
 	uint32						m_uiTimeOff;
 };
-
-#endif

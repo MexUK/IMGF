@@ -1,7 +1,6 @@
-#ifndef CCURFormat_H
-#define CCURFormat_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include "Format/Image/BMP/CBMPFormat.h"
 
@@ -16,5 +15,3 @@ private:
 	void							unserialize(void);
 	void							serialize(void);
 };
-
-#endif

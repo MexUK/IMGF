@@ -1,9 +1,8 @@
-#ifndef CLocalizationManager_H
-#define CLocalizationManager_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Object/CManager.h"
-#include "eLanguage.h"
+#include "ELanguage.h"
 #include "Object/CSingleton.h"
 #include <string>
 #include <unordered_map>
@@ -23,26 +22,24 @@ public:
 	std::string										getTranslatedFormattedTextVA(std::string strInternalName, va_list vlArguments);
 	std::wstring									getTranslatedFormattedTextW(std::string strInternalName, ...);
 
-	void											setActiveLanguage(bxcf::eLanguage eActiveLanguage) { m_eActiveLanguage = eActiveLanguage; }
-	bxcf::eLanguage										getActiveLanguage(void) { return m_eActiveLanguage; }
+	void											setActivELanguage(bxcf::ELanguage eActivELanguage) { m_eActivELanguage = eActivELanguage; }
+	bxcf::ELanguage										getActivELanguage(void) { return m_eActivELanguage; }
 
-	void											setActiveLanguageName(std::string& strActiveLanguageName) { m_strActiveLanguageName = strActiveLanguageName; }
-	std::string&									getActiveLanguageName(void) { return m_strActiveLanguageName; }
+	void											setActivELanguageName(std::string& strActivELanguageName) { m_strActivELanguageName = strActivELanguageName; }
+	std::string&									getActivELanguageName(void) { return m_strActivELanguageName; }
 
 	void											setInstallationPath(std::string& strInstallationPath) { m_strInstallationPath = strInstallationPath; }
 	std::string&									getInstallationPath(void) { return m_strInstallationPath; }
 
-	std::unordered_map<std::string, std::string>&	getTranslatedTextEntries_ActiveLanguage(void) { return m_umapTranslatedText_ActiveLanguage; }
+	std::unordered_map<std::string, std::string>&	getTranslatedTextEntries_ActivELanguage(void) { return m_umapTranslatedText_ActivELanguage; }
 	std::unordered_map<std::string, std::string>&	getTranslatedTextEntries_English(void) { return m_umapTranslatedText_English; }
 
 	std::unordered_map<std::string, std::string>	getTranslatedTextEntries(void);
 
 private:
-	bxcf::eLanguage										m_eActiveLanguage;
-	std::string										m_strActiveLanguageName;
+	bxcf::ELanguage										m_eActivELanguage;
+	std::string										m_strActivELanguageName;
 	std::string										m_strInstallationPath;
-	std::unordered_map<std::string, std::string>	m_umapTranslatedText_ActiveLanguage;
+	std::unordered_map<std::string, std::string>	m_umapTranslatedText_ActivELanguage;
 	std::unordered_map<std::string, std::string>	m_umapTranslatedText_English;
 };
-
-#endif

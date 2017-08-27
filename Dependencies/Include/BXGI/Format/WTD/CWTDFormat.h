@@ -1,19 +1,18 @@
-#ifndef CWTDFormat_H
-#define CWTDFormat_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/CFormat.h"
 #include "Pool/CVectorPool.h"
 #include "CWTDEntry.h"
 #include "d3d9.h"
 #include <string>
 
-class CIntermediateTextureFormat;
+class bxgi::CIntermediateTextureFormat;
 
 class bxgi::CWTDFormat : public bxcf::CFormat, public bxcf::CVectorPool<bxgi::CWTDEntry*>
 {
 public:
-	CWTDFormat(void) : CFormat(true, bxcf::LITTLE_ENDIAN) {};
+	CWTDFormat(void) : CFormat(true, bxcf::LITTLE_ENDIAN) {}
 
 	void						unload(void);
 
@@ -34,5 +33,3 @@ private:
 
 	std::string					decompressWTDFormatData(uint32& uiSystemSegmentSize, uint32& uiGPUSegmentSize);
 };
-
-#endif

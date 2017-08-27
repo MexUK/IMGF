@@ -1,6 +1,6 @@
 #pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Stream/CDataWriter.h"
 
 class bxcf::IP

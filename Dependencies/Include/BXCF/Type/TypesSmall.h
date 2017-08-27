@@ -1,5 +1,4 @@
-#ifndef TypesSmall_H
-#define TypesSmall_H
+#pragma once
 
 typedef	unsigned char		u8;
 typedef	unsigned short		u16;
@@ -14,5 +13,3 @@ typedef	signed long long	i64;
 typedef float				f32;
 typedef double				f64;
 typedef long double			f80;
-
-#endif

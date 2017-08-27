@@ -1,15 +1,14 @@
-#ifndef CRWSection_TextureNative_H
-#define CRWSection_TextureNative_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/RW/CRWSection.h"
 #include "Pool/CVectorPool.h"
-#include "Image/eDXTCompressionType.h"
-#include "Games/ePlatformedGame.h"
-#include "Image/eRasterDataFormat.h"
+#include "Image/EDXTCompressionType.h"
+#include "Game/EPlatformedGame.h"
+#include "Image/ERasterDataFormat.h"
 #include "Format/RW/Entries/CRWEntry_TextureNative_MipMap.h"
 #include "Type/Vector/Vec2u.h"
-#include "Platform/Hardware/ePlatform.h"
+#include "Platform/Hardware/EPlatform.h"
 #include <string>
 #include <vector>
 
@@ -21,11 +20,11 @@ public:
 	void						unserialize(void);
 	void						serialize(void);
 	
-	void						convertToGame(bxgi::ePlatformedGame ePlatformedGame, std::vector<std::string>& vecMipmapsRemoved);
-	void						convertToRasterDataFormat(bxcf::eRasterDataFormat eRasterDataFormatValue, std::vector<std::string>& vecMipmapsRemoved);
+	void						convertToGame(bxgi::EPlatformedGame EPlatformedGame, std::vector<std::string>& vecMipmapsRemoved);
+	void						convertToRasterDataFormat(bxcf::ERasterDataFormat ERasterDataFormatValue, std::vector<std::string>& vecMipmapsRemoved);
 
 	bool						doesHaveValidTXDRasterDataFormat(void);
-	bxcf::eRasterDataFormat		detectRasterDataFormat(void);
+	bxcf::ERasterDataFormat		detectRasterDataFormat(void);
 
 	uint32						getBodyLength(void);
 	void						unswizzlePS2Format(void);
@@ -61,8 +60,8 @@ public:
 	void						setTXDRasterDataFormat(uint32 uiTXDRasterDataFormat) { m_uiTXDRasterDataFormat = uiTXDRasterDataFormat; }
 	uint32						getTXDRasterDataFormat(void) { return m_uiTXDRasterDataFormat; }
 
-	void						setRasterDataFormat(bxcf::eRasterDataFormat eRasterDataFormatValue, bool bUpdateTXDRasterDataFormat = true);
-	bxcf::eRasterDataFormat		getRasterDataFormat(void) { return m_eRasterDataFormat; }
+	void						setRasterDataFormat(bxcf::ERasterDataFormat ERasterDataFormatValue, bool bUpdatETXDRasterDataFormat = true);
+	bxcf::ERasterDataFormat		getRasterDataFormat(void) { return m_ERasterDataFormat; }
 
 	void						setAlpha(uint32 uiAlpha) { m_uiAlpha = uiAlpha; }
 	uint32						getAlpha(void) { return m_uiAlpha; }
@@ -79,8 +78,8 @@ public:
 	void						setRasterType(uint8 ucRasterType) { m_ucRasterType = ucRasterType; }
 	uint8						getRasterType(void) { return m_ucRasterType; }
 
-	void						setDXTCompressionType(bxcf::eDXTCompressionType eCompressionAlgorithm) { m_eDXTCompressionType = eCompressionAlgorithm; }
-	bxcf::eDXTCompressionType	getDXTCompressionType(void) { return m_eDXTCompressionType; }
+	void						setDXTCompressionType(bxcf::EDXTCompressionType ECompressionAlgorithm) { m_EDXTCompressionType = ECompressionAlgorithm; }
+	bxcf::EDXTCompressionType	getDXTCompressionType(void) { return m_EDXTCompressionType; }
 
 	void						setCubeTexture(bool bCubeTexture) { m_bCubeTexture = bCubeTexture; }
 	bool						getCubeTexture(void) { return m_bCubeTexture; }
@@ -124,7 +123,7 @@ private:
 	void						unclut(uint32 uiWidth, uint32 uiHeight);
 	
 private:
-	bxcf::ePlatform				m_ePlatform;
+	bxcf::EPlatform				m_EPlatform;
 
 	uint8						m_bHasDiffuse : 1;
 	uint8						m_bHasAlpha : 1;
@@ -136,12 +135,12 @@ private:
 	std::string					m_strDiffuseName;
 	std::string					m_strAlphaName;
 	uint32						m_uiTXDRasterDataFormat;
-	bxcf::eRasterDataFormat		m_eRasterDataFormat;
+	bxcf::ERasterDataFormat		m_ERasterDataFormat;
 	uint32						m_uiAlpha;
 	bxcf::Vec2u					m_vecImageSize;
 	uint8						m_ucBPP;
 	uint8						m_ucRasterType;
-	bxcf::eDXTCompressionType	m_eDXTCompressionType;
+	bxcf::EDXTCompressionType	m_EDXTCompressionType;
 	uint8						m_bCubeTexture : 1;
 	uint8						m_bAutoMipMaps : 1;
 	uint8						m_bIsNotRWCompatible : 1;
@@ -151,5 +150,3 @@ private:
 
 	bxcf::CVectorPool<bxgi::CRWEntry_TextureNative_MipMap*>	m_vecMipMaps;
 };
-
-#endif

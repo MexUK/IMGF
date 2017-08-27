@@ -1,15 +1,12 @@
-#ifndef eSectionLinesEntryType_H
-#define eSectionLinesEntryType_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 
-enum bxgi::eSectionLinesEntryType : uint8
+enum bxgi::ESectionLinesEntryType : uint8
 {
 	SECTION_LINES_ENTRY_UNKNOWN,
 	SECTION_LINES_ENTRY_SECTION,
 	SECTION_LINES_ENTRY_DATA,
 	SECTION_LINES_ENTRY_OTHER
 };
-
-#endif

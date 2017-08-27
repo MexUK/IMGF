@@ -1,7 +1,6 @@
-#ifndef CRWSection_Material_H
-#define CRWSection_Material_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/RW/CRWSection.h"
 
 class bxgi::CRWSection_Material : public bxgi::CRWSection
@@ -42,5 +41,3 @@ private:
 	float32							m_fSpecular;
 	float32							m_fDiffuse;
 };
-
-#endif

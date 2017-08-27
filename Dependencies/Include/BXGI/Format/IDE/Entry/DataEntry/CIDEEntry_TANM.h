@@ -1,20 +1,14 @@
-#ifndef CIDEEntry_TANM_H
-#define CIDEEntry_TANM_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/IDE/Entry/CIDEEntry_Data.h"
 
 class bxgi::CIDEEntry_TANM : public bxgi::CIDEEntry_Data
 {
 public:
-	CIDEEntry_TANM(bxgi::CIDEFormat *pIDEFormat) :
-		CIDEEntry_Data(pIDEFormat, IDE_SECTION_TANM)
-	{
-	};
+	CIDEEntry_TANM(bxgi::CIDEFormat *pIDEFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
 };
-
-#endif

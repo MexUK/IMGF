@@ -1,7 +1,6 @@
-#ifndef CIDEEntry_ANIM_H
-#define CIDEEntry_ANIM_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/IDE/Entry/CIDEEntry_Data.h"
 #include "Type/Vector/Vec3f.h"
@@ -10,18 +9,7 @@
 class bxgi::CIDEEntry_ANIM : public bxgi::CIDEEntry_Data
 {
 public:
-	CIDEEntry_ANIM(bxgi::CIDEFormat *pIDEFormat) :
-		CIDEEntry_Data(pIDEFormat, IDE_SECTION_ANIM),
-		m_uiObjectId(0),
-		m_fDrawDistance(0.0f),
-		m_uiFlags(0),
-		m_uiUnknown1(0),
-		m_vecBoundingBoxLowerLeftCorner{ 0.0f, 0.0f, 0.0f },
-		m_vecBoundingBoxUpperRightCorner{ 0.0f, 0.0f, 0.0f },
-		m_vecBoundingSphereCenterPosition{ 0.0f, 0.0f, 0.0f },
-		m_fBoundingSphereRadius(0.0f)
-	{
-	};
+	CIDEEntry_ANIM(bxgi::CIDEFormat *pIDEFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -81,5 +69,3 @@ private:
 	float32						m_fBoundingSphereRadius;
 	std::string					m_strLODModel;
 };
-
-#endif

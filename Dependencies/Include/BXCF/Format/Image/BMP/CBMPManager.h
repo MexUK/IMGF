@@ -1,7 +1,6 @@
-#ifndef CBMPManager_H
-#define CBMPManager_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 
@@ -15,5 +14,3 @@ public:
 	void						init(void);
 	void						uninit(void);
 };
-
-#endif

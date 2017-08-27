@@ -1,7 +1,6 @@
-#ifndef CWDRBlock_Geometry_H
-#define CWDRBlock_Geometry_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include <vector>
 
 class bxgi::CWDRBlock_VertexData;
@@ -13,5 +12,3 @@ public:
 	std::vector<CWDRBlock_VertexData*>		m_vecVertices;
 	std::vector<CWDRBlock_IndexData*>		m_vecIndices;
 };
-
-#endif

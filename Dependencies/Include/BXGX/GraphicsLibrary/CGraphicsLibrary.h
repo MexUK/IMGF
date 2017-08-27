@@ -1,18 +1,16 @@
-#ifndef CGraphicsLibrary_H
-#define CGraphicsLibrary_H
+#pragma once
 
+#include "nsbxgx.h"
 #include "Type/Types.h"
 #include "Type/Vector/Vec2i.h"
 #include "Type/Vector/Vec2u.h"
-#include "String/CGUIString.h"
+#include "String/CSizedString.h"
 #include <string>
 #include <vector>
 #include <Windows.h> // for Gdiplus
 #include <gdiplus.h> // for Gdiplus::Image
 
-class CGUIStyles;
-
-class CGraphicsLibrary
+class bxgx::CGraphicsLibrary
 {
 public:
 	virtual void					init(void);
@@ -50,7 +48,7 @@ public:
 	virtual void					drawPolygonBorder(std::vector<bxcf::Vec2i>& vecPoints) = 0;
 	virtual void					drawPolygonFill(std::vector<bxcf::Vec2i>& vecPoints) = 0;
 
-	virtual void					drawText(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, CGUIString& gstrString) = 0;
+	virtual void					drawText(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, CSizedString& gstrString) = 0;
 	virtual void					drawText(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize, std::string& strText, bxcf::Vec2u vecTextSize = bxcf::Vec2u(0, 0)) = 0;
 	virtual bxcf::Vec2u				getTextSize(std::string& strText) = 0;
 
@@ -59,10 +57,4 @@ public:
 
 	virtual uint32					getTextCenterPositionX(std::string& strText, uint32 uiAreaStartX, uint32 uiAreaWidth) = 0;
 	virtual uint32					getTextCenterPositionY(std::string& strText, uint32 uiAreaStartY, uint32 uiAreaHeight) = 0;
-
-protected:
-	int32							resolveXCoordinate(int32 x, CGUIStyles *pStyles = nullptr, uint32 uiIndexX = 0, uint32 uiTextLength = 0);
-	int32							resolveYCoordinate(int32 y, CGUIStyles *pStyles = nullptr, uint32 uiIndexY = 0, uint32 uiTextLength = 0);
 };
-
-#endif

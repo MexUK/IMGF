@@ -1,7 +1,6 @@
-#ifndef CRasterDataFormatManager_H
-#define CRasterDataFormatManager_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Object/CManager.h"
 #include "CRasterDataFormat.h"
 #include "Pool/CVectorPool.h"
@@ -15,5 +14,3 @@ public:
 private:
 	void							initRasterDataFormats(void);
 };
-
-#endif

@@ -1,7 +1,6 @@
-#ifndef CINIManager_H
-#define CINIManager_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include <string>
 #include <vector>
@@ -36,5 +35,3 @@ public:
 	static std::vector<std::string>	getSections(std::string strPath);
 	static void						clearFile(std::string strPath);
 };
-
-#endif

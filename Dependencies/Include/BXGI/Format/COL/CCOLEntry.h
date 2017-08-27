@@ -1,7 +1,6 @@
-#ifndef CCOLEntry_H
-#define CCOLEntry_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Vector/Vec3f.h"
 #include "TShapes.h"
 #include "CCOLVersion.h"
@@ -38,8 +37,8 @@ public:
 	uint32						getCollisionSpheresByteCount(void) { return m_uiCollisionSphereCount * 20; }
 	uint32						getCollisionBoxesByteCount(void) { return m_uiCollisionBoxCount * 28; }
 	uint32						getCollisionConesByteCount(void) { return m_uiCollisionConeCount * 0; }
-	uint32						getCollisionMeshVerticesByteCount(void) { return m_uiCollisionMeshVertexCount * (m_pCOLVersion == nullptr || m_pCOLVersion->getVersionId() == COL_1 ? 12 : 6); }
-	uint32						getCollisionMeshFacesByteCount(void) { return m_uiCollisionMeshFaceCount * (m_pCOLVersion == nullptr || m_pCOLVersion->getVersionId() == COL_1 ? 16 : 8); }
+	uint32						getCollisionMeshVerticesByteCount(void) { return m_uiCollisionMeshVertexCount * (m_uiCOLVersion == COL_UNKNOWN || m_uiCOLVersion == COL_1 ? 12 : 6); }
+	uint32						getCollisionMeshFacesByteCount(void) { return m_uiCollisionMeshFaceCount * (m_uiCOLVersion == COL_UNKNOWN || m_uiCOLVersion == COL_1 ? 16 : 8); }
 	uint32						getCollisionMeshFaceGroupsByteCount(void) { return m_uiCollisionMeshFaceGroupCount * 28; }
 	uint32						getShadowMeshVerticesByteCount(void) { return m_uiShadowMeshVertexCount * 6; }
 	uint32						getShadowMeshFacesByteCount(void) { return m_uiShadowMeshFaceCount * 8; }
@@ -65,8 +64,8 @@ public:
 	void				setCOLFile(CCOLFormat *pCOLFile) { m_pCOLFile = pCOLFile; }
 	CCOLFormat*			getCOLFile(void) { return m_pCOLFile; }
 
-	void				setCOLVersion(CCOLVersion *pCOLVersion) { m_pCOLVersion = pCOLVersion; }
-	CCOLVersion*		getCOLVersion(void) { return m_pCOLVersion; }
+	void				setCOLVersion(ECOLVersion uiCOLVersion) { m_uiCOLVersion = uiCOLVersion; }
+	ECOLVersion			getCOLVersion(void) { return m_uiCOLVersion; }
 
 	void				setModelName(std::string& strModelName) { m_strModelName = strModelName; }
 	std::string&		getModelName(void) { return m_strModelName; }
@@ -149,7 +148,7 @@ private:
 private:
 	CCOLFormat*				m_pCOLFile;
 
-	CCOLVersion*			m_pCOLVersion;
+	ECOLVersion				m_uiCOLVersion;
 	uint32					m_uiFileSize;
 	std::string				m_strModelName;
 	uint16					m_usModelId;
@@ -188,5 +187,3 @@ private:
 	std::vector<TFace>		m_vecShadowMeshFaces;
 	TBounds					m_boundingObjects;
 };
-
-#endif

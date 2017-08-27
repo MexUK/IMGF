@@ -1,17 +1,13 @@
-#ifndef CRWEntry_BinMeshPLG_Mesh_H
-#define CRWEntry_BinMeshPLG_Mesh_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include <vector>
 
 class bxgi::CRWEntry_BinMeshPLG_Mesh
 {
 public:
-	CRWEntry_BinMeshPLG_Mesh(void) :
-		m_uiIndexCount(0),
-		m_uiMaterialIndex(0)
-	{};
+	CRWEntry_BinMeshPLG_Mesh(void);
 
 	void							setIndexCount(uint32 uiIndexCount) { m_uiIndexCount = uiIndexCount; }
 	uint32							getIndexCount(void) { return m_uiIndexCount; }
@@ -26,5 +22,3 @@ private:
 	uint32							m_uiMaterialIndex;
 	std::vector<uint32>				m_vecVertexIndices;
 };
-
-#endif

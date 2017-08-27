@@ -106,9 +106,10 @@
 
 
 
+#include "../nsbxgx.h"
 #include "Renderable/CRenderable.h"
 
-class CRenderableBlank : public CRenderable
+class bxgx::CRenderableBlank : public CRenderable
 {
 	bxgx::item::ERenderable getItemType(void) { return (bxgx::item::ERenderable)0; }
 	uint32 getItemSubType(void) { return -1; }
@@ -116,7 +117,7 @@ class CRenderableBlank : public CRenderable
 	bool doesItemHaveFocus(void) { return false; }
 };
 
-static CRenderableBlank * g_pBlankGUIEventUtilizer = new CRenderableBlank;
+static bxgx::CRenderableBlank * g_pBlankRenderable = new bxgx::CRenderableBlank;
 
 
 
@@ -277,7 +278,7 @@ class dense_hash_map___Pointer {
   void initHashMap(void)
   {
 	  set_empty_key(nullptr);
-	  set_deleted_key(g_pBlankGUIEventUtilizer);
+	  set_deleted_key(g_pBlankRenderable);
 	  m_bMapIsInitialized = true;
   }
 

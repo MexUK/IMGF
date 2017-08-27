@@ -1,10 +1,11 @@
 #pragma once
 
+#include "nsbxgx.h"
 #include "Type/Types.h"
 #include <string>
 #include <vector>
 
-class CCoordinate
+class bxgx::CCoordinate
 {
 public:
 	union
@@ -20,14 +21,14 @@ public:
 	float32			getCoordinate(uint32 uiAxisHighestValue, uint32 uiTextLength);
 };
 
-class CCoordinateWithSign
+class bxgx::CCoordinateWithSign
 {
 public:
 	CCoordinate		m_coord;
 	uint8			m_bSignIsPositive	: 1;
 };
 
-class CCoordinateExpression
+class bxgx::CCoordinateExpression
 {
 public:
 	CCoordinate							m_firstCoord;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "bxgx.h"
+#include "nsbxgx.h"
 
 enum bxgx::item::ERenderable
 {

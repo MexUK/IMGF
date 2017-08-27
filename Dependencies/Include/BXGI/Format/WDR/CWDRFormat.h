@@ -1,7 +1,6 @@
-#ifndef CWDRFormat_H
-#define CWDRFormat_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/CFormat.h"
 #include "CWDRBoundingObject.h"
 #include <string>
@@ -14,7 +13,7 @@ class bxgi::CWDRBlock_Model;
 class bxgi::CWDRFormat : public bxcf::CFormat
 {
 public:
-	CWDRFormat(void) : CFormat(true, bxcf::LITTLE_ENDIAN) {};
+	CWDRFormat(void) : CFormat(true, bxcf::LITTLE_ENDIAN) {}
 
 	void								unload(void);
 
@@ -28,5 +27,3 @@ public: // todo - make the properties private
 	bxgi::CWDRBoundingObject					m_boundingObject;
 	std::vector<bxgi::CWDRBlock_Model*>		m_vecModels;
 };
-
-#endif

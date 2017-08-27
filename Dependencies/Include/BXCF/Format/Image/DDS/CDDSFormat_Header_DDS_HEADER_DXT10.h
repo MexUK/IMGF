@@ -1,7 +1,6 @@
-#ifndef CDDSFormat_Header_DDS_HEADER_DXT10_H
-#define CDDSFormat_Header_DDS_HEADER_DXT10_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
@@ -14,5 +13,3 @@ struct bxcf::CDDSFormat_Header_DDS_HEADER_DXT10
 	int32					m_iMiscFlag2;
 };
 #pragma pack(pop)
-
-#endif

@@ -1,16 +1,13 @@
-#ifndef eCOLVersion_H
-#define eCOLVersion_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 
-enum bxgi::eCOLVersion : uint8
+enum bxgi::ECOLVersion : uint8
 {
-	COL_UNKNOWN,
-	COL_1,
-	COL_2,
-	COL_3,
-	COL_4
+	COL_UNKNOWN		= 0,
+	COL_1			= 1,
+	COL_2			= 2,
+	COL_3			= 3,
+	COL_4			= 4
 };
-
-#endif

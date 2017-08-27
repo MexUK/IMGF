@@ -1,7 +1,6 @@
-#ifndef CRWSection_Extension_H
-#define CRWSection_Extension_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/RW/CRWSection.h"
 
 class bxgi::CRWSection_Extension : public bxgi::CRWSection
@@ -12,5 +11,3 @@ public:
 	void							unserialize(void);
 	void							serialize(void);
 };
-
-#endif

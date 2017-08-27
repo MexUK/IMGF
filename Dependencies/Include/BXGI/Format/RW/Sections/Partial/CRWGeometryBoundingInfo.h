@@ -1,19 +1,13 @@
-#ifndef CRWGeometryBoundingInfo_H
-#define CRWGeometryBoundingInfo_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Type/Vector/Vec3f.h"
 
 class bxgi::CRWGeometryBoundingInfo
 {
 public:
-	CRWGeometryBoundingInfo(void) :
-		m_vecCenter{ 0.0f, 0.0f, 0.0f },
-		m_fCenterRadius(0.0f),
-		m_bHasPosition(false),
-		m_bHasNormals(false)
-	{};
+	CRWGeometryBoundingInfo(void);
 
 	void							setCenter(bxcf::Vec3f& vecCenter) { m_vecCenter = vecCenter; }
 	bxcf::Vec3f&						getCenter(void) { return m_vecCenter; }
@@ -33,5 +27,3 @@ private:
 	bool							m_bHasPosition;
 	bool							m_bHasNormals;
 };
-
-#endif

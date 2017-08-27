@@ -1,11 +1,10 @@
-#ifndef CDataReader_H
-#define CDataReader_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "CDataStream.h"
 #include "Object/CIndexedInstance.h"
 #include "Type/Types.h"
-#include "Unit/Byte/eEndian.h"
+#include "Unit/Byte/EEndian.h"
 #include "Type/Vector/Vec2f.h"
 #include "Type/Vector/Vec2u.h"
 #include "Type/Vector/Vec3f.h"
@@ -230,5 +229,3 @@ void					bxcf::CDataReader::readSectionLineEntries(bxcf::CVectorPool<SectionClas
 		}
 	}
 }
-
-#endif

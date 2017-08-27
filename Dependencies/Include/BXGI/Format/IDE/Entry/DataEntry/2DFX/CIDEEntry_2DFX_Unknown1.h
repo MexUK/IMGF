@@ -1,20 +1,13 @@
-#ifndef CIDEEntry_2DFX_Unknown1_H
-#define CIDEEntry_2DFX_Unknown1_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/IDE/Entry/DataEntry/CIDEEntry_2DFX.h"
 #include "Type/Vector/Vec3f.h"
 
 class bxgi::CIDEEntry_2DFX_Unknown1 : public bxgi::CIDEEntry_2DFX
 {
 public:
-	CIDEEntry_2DFX_Unknown1(bxgi::CIDEFormat *pIDEFormat) :
-		CIDEEntry_2DFX(pIDEFormat, bxgi::_2DFX_UNKNOWN_1),
-		m_uiUnknown2(0),
-		m_vecUnknown3{ 0.0f, 0.0f, 0.0f },
-		m_uiUnknown4(0)
-	{
-	};
+	CIDEEntry_2DFX_Unknown1(bxgi::CIDEFormat *pIDEFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -34,5 +27,3 @@ private:
 	bxcf::Vec3f					m_vecUnknown3;
 	uint32						m_uiUnknown4;
 };
-
-#endif

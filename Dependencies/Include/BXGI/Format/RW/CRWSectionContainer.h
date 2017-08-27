@@ -1,11 +1,10 @@
-#ifndef CRWSectionContainer_H
-#define CRWSectionContainer_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Pool/CVectorPool.h"
 // #include "CRWSection.h" // todo
-#include "Format/RW/eRWSection.h"
-#include "Engine/RW/eRWVersion.h"
+#include "Format/RW/ERWSection.h"
+#include "Engine/RW/ERWVersion.h"
 #include "Type/Vector/Vec4u8.h"
 #include <vector>
 
@@ -23,12 +22,12 @@ public:
 	virtual void							unserialize(void) = 0;
 	virtual void							serialize(void) = 0;
 
-	void									serializeRWSectionContainer(CRWSectionContainer *pRWSectionContainer);
+	void									serializERWSectionContainer(CRWSectionContainer *pRWSectionContainer);
 
-	bxgi::CRWSection*								addSection(bxgi::eRWSection eRWSectionValue, bxgi::eRWVersion eRWVersionValue);
+	bxgi::CRWSection*								addSection(bxgi::ERWSection ERWSectionValue, bxgi::ERWVersion ERWVersionValue);
 	void									removeSectionByIndex(uint32 uiSectionIndex);
-	std::vector<bxgi::CRWSection*>				getSectionsByType(bxgi::eRWSection eRWSectionValue, bool bCheckRecursiveSections = true);
-	uint32									getSectionCountByType(bxgi::eRWSection eRWSectionValue, bool bCheckRecursiveSections = true);
+	std::vector<bxgi::CRWSection*>				getSectionsByType(bxgi::ERWSection ERWSectionValue, bool bCheckRecursiveSections = true);
+	uint32									getSectionCountByType(bxgi::ERWSection ERWSectionValue, bool bCheckRecursiveSections = true);
 
 	void									removePrelightning(void);
 	void									setPrelightningColour(int16 ssRed, int16 ssGreen, int16 ssBlue, int16 ssAlpha);
@@ -52,5 +51,3 @@ public:
 private:
 	bxgi::CRWSection*								m_pParentNode;
 };
-
-#endif

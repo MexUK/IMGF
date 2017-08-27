@@ -1,6 +1,6 @@
 #pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include <string>
 
 class bxcf::CDataPath

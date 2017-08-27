@@ -1,7 +1,6 @@
-#ifndef CDATAnimgrpSection_H
-#define CDATAnimgrpSection_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Pool/CVectorPool.h"
 #include "CDATAnimgrpEntry.h"
@@ -37,5 +36,3 @@ private:
 	std::string				m_strIFPFileName;
 	std::string				m_strAnimationType;
 };
-
-#endif

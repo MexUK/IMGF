@@ -1,20 +1,14 @@
-#ifndef CIPLEntry_2DFX_H
-#define CIPLEntry_2DFX_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/IPL/Entry/CIPLEntry_Data.h"
 
 class bxgi::CIPLEntry_2DFX : public bxgi::CIPLEntry_Data
 {
 public:
-	CIPLEntry_2DFX(bxgi::CIPLFormat *pIPLFormat) :
-		CIPLEntry_Data(pIPLFormat, IPL_SECTION_2DFX)
-	{
-	};
+	CIPLEntry_2DFX(bxgi::CIPLFormat *pIPLFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
 };
-
-#endif

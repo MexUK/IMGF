@@ -1,7 +1,6 @@
-#ifndef CPath_H
-#define CPath_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include <string>
 #include <vector>
@@ -29,5 +28,3 @@ public:
 	static std::string			getNextFileName(std::string& strFilePath, uint32 uiFilenameIndex, std::string strNextSuffix);
 	static std::vector<std::string>	getUniqueFilePaths(std::vector<std::string>& vecFilePaths, std::vector<std::string>& vecFileNames);
 };
-
-#endif

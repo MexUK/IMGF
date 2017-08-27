@@ -1,11 +1,10 @@
-#ifndef CExceptionCode_H
-#define CExceptionCode_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 
 using namespace bxcf;
 
-enum bxcf::eExceptionCode // Note: When adding an enum entry here, also add the string equivalent in CFormat::getErrorReason.
+enum bxcf::EExceptionCode // Note: When adding an enum entry here, also add the string equivalent in CFormat::getErrorReason.
 {
 	EXCEPTION_INVALID_DATA_SIZE_MULTIPLE,
 	EXCEPTION_UNSUPPORTED_FORMAT_VERSION,
@@ -26,5 +25,3 @@ enum bxcf::eExceptionCode // Note: When adding an enum entry here, also add the 
 	EXCEPTION_UNKNOWN_DATA_STREAM_TYPE,
 	EXCEPTION_UNKNOWN_ENTRY_TYPE
 };
-
-#endif

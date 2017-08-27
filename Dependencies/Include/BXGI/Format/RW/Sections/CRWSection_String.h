@@ -1,7 +1,6 @@
-#ifndef CRWSection_String_H
-#define CRWSection_String_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/RW/CRWSection.h"
 #include <string>
 
@@ -19,5 +18,3 @@ public:
 private:
 	std::string						m_strData;
 };
-
-#endif

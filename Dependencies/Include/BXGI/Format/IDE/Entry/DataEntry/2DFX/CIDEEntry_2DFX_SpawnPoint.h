@@ -1,5 +1,4 @@
-#ifndef CIDEEntry_2DFX_SpawnPoint_H
-#define CIDEEntry_2DFX_SpawnPoint_H
+#pragma once
 
 #include "Format/IDE/Entry/DataEntry/CIDEEntry_2DFX.h"
 #include "Type/Vector/Vec4u.h"
@@ -26,5 +25,3 @@ private:
 	// GTA IV only
 	bxcf::Vec4u				m_vecFlags;
 };
-
-#endif

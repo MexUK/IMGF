@@ -1,10 +1,10 @@
-#ifndef CCOLVersionManager_H
-#define CCOLVersionManager_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Object/CManager.h"
-#include "eCOLVersion.h"
+#include "ECOLVersion.h"
 #include "Pool/CVectorPool.h"
+#include "Game/EGame.h"
 #include <string>
 #include <unordered_map>
 
@@ -16,9 +16,11 @@ public:
 	void											init(void);
 	void											uninit(void);
 
+	CCOLVersion*									addVersion(ECOLVersion uiCOLVersion, std::string strVersionText, std::vector<EGame> vecGames = std::vector<EGame>());
+
 	std::string										getVersionText(uint32 uiRawVersion);
 
-	bxgi::CCOLVersion*								getEntryByVersionId(bxgi::eCOLVersion eCOLVersionValue);
+	bxgi::CCOLVersion*								getEntryByVersionId(bxgi::ECOLVersion ECOLVersionValue);
 
 private:
 	void											initCOLVersions(void);
@@ -27,5 +29,3 @@ private:
 private:
 	std::unordered_map<uint32, std::string>			m_umapRawVersionTexts;
 };
-
-#endif

@@ -1,7 +1,6 @@
-#ifndef CIndexedInstance_H
-#define CIndexedInstance_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include <vector>
 
 template<class Class>
@@ -28,5 +27,3 @@ Class*									bxcf::CIndexedInstance<Class>::get(uint32 uiInstanceIndex)
 	}
 	return m_vecInstances[uiInstanceIndex];
 }
-
-#endif

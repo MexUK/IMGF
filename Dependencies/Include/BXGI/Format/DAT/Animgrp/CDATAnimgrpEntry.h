@@ -1,7 +1,6 @@
-#ifndef CDATAnimgrpEntry_H
-#define CDATAnimgrpEntry_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include <string>
 
@@ -27,5 +26,3 @@ private:
 	CDATAnimgrpSection*		m_pDATAnimgrpSection;
 	std::string				m_strAnimationName;
 };
-
-#endif

@@ -1,12 +1,11 @@
-#ifndef CTXDFormat_H
-#define CTXDFormat_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/RW/CRWFormat.h"
 #include "Format/RW/CRWSection.h"
-#include "Games/ePlatformedGame.h"
-#include "Image/eRasterDataFormat.h"
-#include "Engine/RW/eRWVersion.h"
+#include "Game/EPlatformedGame.h"
+#include "Image/ERasterDataFormat.h"
+#include "Engine/RW/ERWVersion.h"
 #include <string>
 #include <vector>
 
@@ -24,25 +23,23 @@ public:
 
 	bool							doesHaveTextureWithInvalidTXDRasterDataFormat(void);
 
-	void							convertToGame(bxgi::ePlatformedGame ePlatformedGame, std::vector<std::string>& vecMipmapsRemoved);
-	void							convertToRasterDataFormat(bxcf::eRasterDataFormat eRasterDataFormatValue, std::vector<std::string>& vecMipmapsRemoved);
+	void							convertToGame(bxgi::EPlatformedGame EPlatformedGame, std::vector<std::string>& vecMipmapsRemoved);
+	void							convertToRasterDataFormat(bxcf::ERasterDataFormat ERasterDataFormatValue, std::vector<std::string>& vecMipmapsRemoved);
 	bxgi::CIntermediateTextureFormat*		convertToIntermediateFormat(void);
 
 	static bool						isTextureNameValid(std::string& strTextureName, bool bIsAlphaTexture = false);
-	static bool						isTextureResolutionValid(uint16 usWidth, uint16 usHeight, std::vector<bxgi::ePlatformedGame>& vecGames);
+	static bool						isTextureResolutionValid(uint16 usWidth, uint16 usHeight, std::vector<bxgi::EPlatformedGame>& vecGames);
 	static bool						isTXDSizeValid(uint32 uiFileSize);
-	static bool						isTextureCountValid(uint32 uiTextureCount, std::vector<bxgi::ePlatformedGame>& vecGames);
-	static uint32					getMaxTextureCountForGame(bxgi::ePlatformedGame ePlatformedGame);
+	static bool						isTextureCountValid(uint32 uiTextureCount, std::vector<bxgi::EPlatformedGame>& vecGames);
+	static uint32					getMaxTextureCountForGame(bxgi::EPlatformedGame EPlatformedGame);
 
-	void							setGames(std::vector<bxgi::ePlatformedGame>& vecGames) { m_vecGames = vecGames; }
-	std::vector<bxgi::ePlatformedGame>&	getGames(void) { return m_vecGames; }
+	void									setPlatformedGames(std::vector<bxgi::EPlatformedGame>& vecGames) { m_vecGames = vecGames; }
+	std::vector<bxgi::EPlatformedGame>&		getPlatformedGames(void) { return m_vecGames; }
 
 	void							setDeviceId(uint16 usDeviceId) { m_usDeviceId = usDeviceId; }
 	uint16							getDeviceId(void) { return m_usDeviceId; }
 
 private:
-	std::vector<bxgi::ePlatformedGame>	m_vecGames;
+	std::vector<bxgi::EPlatformedGame>	m_vecGames;
 	uint16							m_usDeviceId;
 };
-
-#endif

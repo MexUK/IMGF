@@ -1,17 +1,16 @@
-#ifndef CFormat_H
-#define CFormat_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
-#include "Unit/Byte/eEndian.h"
+#include "Unit/Byte/EEndian.h"
 #include <string>
 
 class bxcf::CFormat
 {
 public:
-	CFormat(bool bEntityUsesBinaryFile, bxcf::eEndian eBinaryDataByteEndian = bxcf::LITTLE_ENDIAN);
-	CFormat(std::string& strFilePath, bool bEntityUsesBinaryFile, bxcf::eEndian eBinaryDataByteEndian = bxcf::LITTLE_ENDIAN);
-	CFormat(bxcf::CDataReader& reader, bool bEntityUsesBinaryFile, bxcf::eEndian eBinaryDataByteEndian = bxcf::LITTLE_ENDIAN);
+	CFormat(bool bEntityUsesBinaryFile, bxcf::EEndian eBinaryDataBytEEndian = bxcf::LITTLE_ENDIAN);
+	CFormat(std::string& strFilePath, bool bEntityUsesBinaryFile, bxcf::EEndian eBinaryDataBytEEndian = bxcf::LITTLE_ENDIAN);
+	CFormat(bxcf::CDataReader& reader, bool bEntityUsesBinaryFile, bxcf::EEndian eBinaryDataBytEEndian = bxcf::LITTLE_ENDIAN);
 	~CFormat(void);
 
 	bool						open(void);
@@ -75,8 +74,6 @@ protected:
 
 private:
 	uint8						m_ucErrorCode;
-	bxcf::eEndian				m_eEndian;							// only used for byte interpretation type: binary
+	bxcf::EEndian				m_EEndian;							// only used for byte interpretation type: binary
 	uint8						m_bMetaDataIsLoaded		: 1;
 };
-
-#endif

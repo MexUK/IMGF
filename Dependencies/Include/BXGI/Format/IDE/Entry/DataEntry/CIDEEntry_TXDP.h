@@ -1,17 +1,13 @@
-#ifndef CIDEEntry_TXDP_H
-#define CIDEEntry_TXDP_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/IDE/Entry/CIDEEntry_Data.h"
 #include <string>
 
 class bxgi::CIDEEntry_TXDP : public bxgi::CIDEEntry_Data
 {
 public:
-	CIDEEntry_TXDP(bxgi::CIDEFormat *pIDEFormat) :
-		CIDEEntry_Data(pIDEFormat, IDE_SECTION_TXDP)
-	{
-	};
+	CIDEEntry_TXDP(bxgi::CIDEFormat *pIDEFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -27,5 +23,3 @@ private:
 	std::string					m_strTXDName;
 	std::string					m_strParentTXDName;
 };
-
-#endif

@@ -1,7 +1,6 @@
-#ifndef CRegistry_H
-#define CRegistry_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include <string>
 
@@ -21,5 +20,3 @@ public:
 	static int				getSoftwareValueInt(std::string strKey1, std::string strKey2);
 	static void				removeSoftwareValue(std::string strKey1, std::string strKey2);
 };
-
-#endif

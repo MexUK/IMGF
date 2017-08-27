@@ -1,16 +1,15 @@
-#ifndef CWindow_H
-#define CWindow_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxgx.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include "Type/Vector/Vec2i.h"
 #include "Type/Vector/Vec2u.h"
 #include "Type/Colour/CColour.h"
 #include "Pool/CVectorPool.h"
-#include "Layer/CGUILayer.h"
-#include "Item/CGUIItem.h"
-#include "Control/CGUIControl.h"
-#include "Styles/CGUIStyleableEntity.h"
+#include "Layer/CLayer.h"
+#include "Item/CLayerItem.h"
+#include "Control/Control.h"
 #include "Interaction/CRectangleItemPlacement.h"
 #include "Event/Events.h"
 #include "Renderable/ERenderable.h"
@@ -20,13 +19,12 @@
 #include <vector>
 #include <mutex>
 
-class CRadioControl;
+class bxgx::CRadioButton;
 class CDropTarget;
-class CGUIStyles;
-class CWindow;
-class CGUIControl;
+class bxgx::CWindow;
+class bxgx::Control;
 
-class CWindow : public bxcf::EventBindable, public CGUIStyleableEntity, public bxcf::CVectorPool<CGUILayer*>, public CRenderable
+class bxgx::CWindow : public bxcf::EventBindable, public bxcf::CVectorPool<CLayer*>, public CRenderable
 {
 public:
 	CWindow(void);
@@ -44,15 +42,15 @@ public:
 	void									unserialize(void);
 	void									serialize(void);
 
-	bxgx::item::ERenderable						getItemType(void) { return bxgx::item::WINDOW; }
+	bxgx::item::ERenderable					getItemType(void) { return bxgx::item::WINDOW; }
 	uint32									getItemSubType(void) { return bxgx::item::window::TYPE_1; }
 
 	bool									isPointInItem(bxcf::Vec2i& vecPoint) { return true; }
 	bool									doesItemHaveFocus(void) { return true; }
 
 	bool									isPointInControl(bxcf::Vec2i& vecPoint);
-	CGUIControl*							getControlFromPoint(bxcf::Vec2i& vecPoint);
-	std::vector<CGUIItem*>					getItemsInRectangle(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize);
+	bxgx::Control*							getControlFromPoint(bxcf::Vec2i& vecPoint);
+	std::vector<CLayerItem*>					getItemsInRectangle(bxcf::Vec2i& vecPosition, bxcf::Vec2u& vecSize);
 
 	bool									doesDropHaveListOpen(void);
 
@@ -137,7 +135,6 @@ private:
 	bxcf::Vec2i								getTitleBarIconPosition(uint32 uiIconIndex);
 	bxcf::Vec2u								getTitleBarIconSize(void);
 	bool									isPointInTitleBar(bxcf::Vec2i& vecPoint);
-	CGUIStyles								getTitleBarIconStyles(void);
 	void									onClickTitleBarIcon(uint32 uiIconIndex);
 
 	uint8									getTitleBarIconCursorHoverIndex(void);
@@ -160,23 +157,21 @@ private:
 	void									renderTitleBarCloseIcon(void);
 
 public:
-	CGUILayer*								createLayer(uint32 uiLayerId = -1, bool bEnabled = true);
-	CGUILayer*								createLayer(CWindow *pWindow, uint32 uiLayerId = -1, bool bEnabled = true);
-	CGUILayer*								addLayer(uint32 uiLayerId = -1, bool bEnabled = true, int32 iZIndex = 0);
+	CLayer*									addLayer(uint32 uiLayerId = -1, bool bEnabled = true, int32 iZIndex = 0);
 	template <class LayerClass>
 	LayerClass*								addLayer(uint32 uiLayerId = -1, bool bEnabled = true, int32 iZIndex = 0);
-	void									removeLayer(CGUILayer* pLayer);
-	CGUILayer*								getLayerById(uint32 uiLayerId);
+	void									removeLayer(CLayer* pLayer);
+	CLayer*									getLayerById(uint32 uiLayerId);
 	void									swapLayersEnabled(uint32 uiLayerId1, uint32 uiLayerId2);
 
 	uint32									getLayerInsertionIndex(int32 iZIndex);
 
 	bool									doesActiveItemExist(void) { return m_pActiveItem != nullptr; }
-	void									setActiveItem(CGUIItem *pItem);
-	CGUIItem*								getActiveItem(void) { return m_pActiveItem; }
+	void									setActiveItem(CLayerItem *pItem);
+	CLayerItem*								getActiveItem(void) { return m_pActiveItem; }
 	void									clearActiveItem(void);
 
-	void									unmarkRadios(CRadioControl *pRadio);
+	void									unmarkRadios(CRadioButton *pRadio);
 
 	void									setOpenLastFilename(std::string strFileName);
 	void									clearOpenLastFilename(void);
@@ -215,6 +210,9 @@ public:
 	bxcf::Vec2u&							getPreviousSize(void) { return m_vecPreviousSize; }
 
 private:
+	void									initializeLayer(CLayer *pLayer, uint32 uiLayerId, bool bEnabled, int32 iZIndex);
+
+private:
 	const char *							m_pClassName;
 	HWND									m_hwndWindow;
 	CWindow*								m_pParentWindow;
@@ -238,11 +236,15 @@ private:
 	uint8									m_bMaxSizeApplies				: 1;
 	bxcf::Vec2i								m_vecPreviousPosition;
 	bxcf::Vec2u								m_vecPreviousSize;
-	CGUIItem*								m_pActiveItem;
+	CLayerItem*								m_pActiveItem;
 	// todo CRectangleItemPlacement<CWindow>	m_placeableWindow;		// gui windows
-	CRectangleItemPlacement<CGUIItem>		m_placeableItem;		// gui items - e.g. shapes and controls
+	CRectangleItemPlacement<CLayerItem>		m_placeableItem;		// gui items - e.g. shapes and controls
 	std::unordered_map<uint32, bool>		m_umapEventUsages;
 	std::vector<CRenderable*>				m_vecRenderablesMarkedToRender;
+public:
+	bool									m_bCurrentlyPainting;
+	bool									m_bTriggerPaintAfterPaint;
+	bool									m_bTriggerPaintNow;
 
 	/*
 	todo
@@ -268,15 +270,9 @@ private:
 };
 
 template <class LayerClass>
-LayerClass*								CWindow::addLayer(uint32 uiLayerId, bool bEnabled, int32 iZIndex)
+LayerClass*								bxgx::CWindow::addLayer(uint32 uiLayerId, bool bEnabled, int32 iZIndex)
 {
 	LayerClass *pLayer = new LayerClass;
-	pLayer->setWindow(this);
-	pLayer->setId(uiLayerId);
-	pLayer->setEnabledWithoutEvents(bEnabled);
-	pLayer->setZIndex(iZIndex);
-	addEntryAtPosition(pLayer, getLayerInsertionIndex(iZIndex));
+	initializeLayer(pLayer, uiLayerId, bEnabled, iZIndex);
 	return pLayer;
 }
-
-#endif

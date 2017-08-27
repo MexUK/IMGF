@@ -1,8 +1,7 @@
-#ifndef CBXCF_CInput_H
-#define CBXCF_CInput_H
+#pragma once
 
 #include <Windows.h>
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include <string>
 #include <vector>
@@ -34,5 +33,3 @@ public:
 private:
 	static HWND								m_hParentWindowHwnd;
 };
-
-#endif

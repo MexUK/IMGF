@@ -1,8 +1,7 @@
-#ifndef CWTDMipmap_H
-#define CWTDMipmap_H
+#pragma once
 
-#include "bxgi.h"
-#include "Image/eRasterDataFormat.h"
+#include "nsbxgi.h"
+#include "Image/ERasterDataFormat.h"
 #include <string>
 
 class bxgi::CWTDEntry;
@@ -23,7 +22,7 @@ public:
 	void						setImageSize(bool bIsWidth, uint16 usImageSize) { m_usImageSize[bIsWidth ? 0 : 1] = usImageSize; }
 	uint16						getImageSize(bool bIsWidth) { return m_usImageSize[bIsWidth ? 0 : 1]; }
 
-	bxcf::eRasterDataFormat		getRasterDataFormat(void);
+	bxcf::ERasterDataFormat		getRasterDataFormat(void);
 
 	std::string					getRasterDataBGRA32(void);
 
@@ -32,5 +31,3 @@ private:
 	std::string					m_strRasterData;
 	uint16						m_usImageSize[2];
 };
-
-#endif

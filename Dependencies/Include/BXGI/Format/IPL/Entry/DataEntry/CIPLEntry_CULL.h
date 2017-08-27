@@ -1,7 +1,6 @@
-#ifndef CIPLEntry_CULL_H
-#define CIPLEntry_CULL_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Type/Vector/Vec3f.h"
 #include "Type/Vector/Vec4f.h"
@@ -10,22 +9,7 @@
 class bxgi::CIPLEntry_CULL : public bxgi::CIPLEntry_Data
 {
 public:
-	CIPLEntry_CULL(bxgi::CIPLFormat *pIPLFormat) :
-		CIPLEntry_Data(pIPLFormat, IPL_SECTION_CULL),
-		m_vecCenterPosition{ 0.0f, 0.0f, 0.0f },
-		m_vecLowerLeftPosition{ 0.0f, 0.0f, 0.0f },
-		m_vecUpperRightPosition{ 0.0f, 0.0f, 0.0f },
-		m_uiFlags(0),
-		m_uiUnknown1(0),
-		m_uiUnknown2(0),
-		m_uiUnknown3(0),
-		m_uiLength(0),
-		m_uiWidth(0),
-		m_uiTop(0),
-		m_uiBottom(0),
-		m_vecMirrorParameters{ 0.0f, 0.0f, 0.0f, 0.0f }
-	{
-	};
+	CIPLEntry_CULL(bxgi::CIPLFormat *pIPLFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -85,5 +69,3 @@ private:
 	uint32						m_uiBottom;
 	bxcf::Vec4f					m_vecMirrorParameters;
 };
-
-#endif

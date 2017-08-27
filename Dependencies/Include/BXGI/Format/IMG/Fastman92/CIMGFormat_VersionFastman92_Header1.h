@@ -1,7 +1,6 @@
-#ifndef CIMGFormat_VersionFastman92_Header1_H
-#define CIMGFormat_VersionFastman92_Header1_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
@@ -15,5 +14,3 @@ struct bxgi::CIMGFormat_VersionFastman92_Header1
 	uint8		m_strAuthorName[12];
 };
 #pragma pack(pop)
-
-#endif

@@ -1,8 +1,7 @@
-#ifndef CRasterDataFormat_H
-#define CRasterDataFormat_H
+#pragma once
 
-#include "bxcf.h"
-#include "Image/eRasterDataFormat.h"
+#include "nsbxcf.h"
+#include "Image/ERasterDataFormat.h"
 #include <string>
 
 class bxcf::CRasterDataFormat
@@ -10,8 +9,8 @@ class bxcf::CRasterDataFormat
 public:
 	void						unload(void) {}
 
-	void						setRasterDataFormatId(eRasterDataFormat eRasterDataFormatValue) { m_eRasterDataFormatId = eRasterDataFormatValue; }
-	eRasterDataFormat			getRasterDataFormatId(void) { return m_eRasterDataFormatId; }
+	void						setRasterDataFormatId(ERasterDataFormat ERasterDataFormatValue) { m_ERasterDataFormatId = ERasterDataFormatValue; }
+	ERasterDataFormat			getRasterDataFormatId(void) { return m_ERasterDataFormatId; }
 
 	void						setLocalizationKey(std::string strLocalizationKey) { m_strLocalizationKey = strLocalizationKey; }
 	std::string					getLocalizationKey(void) { return m_strLocalizationKey; }
@@ -21,9 +20,7 @@ public:
 	std::string					getTextForMenu(void);
 
 private:
-	eRasterDataFormat			m_eRasterDataFormatId;
+	ERasterDataFormat			m_ERasterDataFormatId;
 	std::string					m_strText;
 	std::string					m_strLocalizationKey;		// e.g. TextureFormat_1
 };
-
-#endif

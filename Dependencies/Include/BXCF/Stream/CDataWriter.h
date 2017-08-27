@@ -1,12 +1,11 @@
-#ifndef CDataWriter_H
-#define CDataWriter_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "CDataStream.h"
 #include "Object/CIndexedInstance.h"
 #include "Type/Types.h"
-#include "eDataStreamType.h"
-#include "Unit/Byte/eEndian.h"
+#include "EDataStreamType.h"
+#include "Unit/Byte/EEndian.h"
 #include "Type/Vector/Vec2f.h"
 #include "Type/Vector/Vec3f.h"
 #include "Type/Vector/Vec4f.h"
@@ -196,5 +195,3 @@ void						bxcf::CDataWriter::writeSectionLineEntries(bxcf::CVectorPool<SectionCl
 		pDataWriter->writeString("end\n");
 	}
 }
-
-#endif

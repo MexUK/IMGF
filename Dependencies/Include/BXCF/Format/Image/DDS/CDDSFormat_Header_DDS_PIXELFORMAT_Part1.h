@@ -1,7 +1,6 @@
-#ifndef CDDSFormat_Header_DDS_PIXELFORMAT_Part1_H
-#define CDDSFormat_Header_DDS_PIXELFORMAT_Part1_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
@@ -17,5 +16,3 @@ struct bxcf::CDDSFormat_Header_DDS_PIXELFORMAT_Part1
 	uint32					m_uiABitMask;
 };
 #pragma pack(pop)
-
-#endif

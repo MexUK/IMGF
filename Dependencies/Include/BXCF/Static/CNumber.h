@@ -1,7 +1,6 @@
-#ifndef CNumber_H
-#define CNumber_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 
 class bxcf::CNumber
 {
@@ -11,5 +10,3 @@ public:
 	static unsigned long					reverseUlong(unsigned long uiNumber);
 	static unsigned long					getRandomColour(void);
 };
-
-#endif

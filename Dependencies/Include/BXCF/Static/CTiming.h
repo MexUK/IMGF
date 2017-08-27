@@ -1,7 +1,6 @@
-#ifndef CTiming_H
-#define CTiming_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include "Object/CSingleton.h"
 #include <string>
@@ -26,5 +25,3 @@ private:
 	std::map<std::string, std::vector<uint32>>	m_umapTimings;
 	std::string									m_strTimingName;
 };
-
-#endif

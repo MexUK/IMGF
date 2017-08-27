@@ -1,7 +1,6 @@
-#ifndef CIPLEntry_TCYC_H
-#define CIPLEntry_TCYC_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Vector/Vec3f.h"
 #include "Type/Types.h"
 #include "Format/IPL/Entry/CIPLEntry_Data.h"
@@ -9,10 +8,7 @@
 class bxgi::CIPLEntry_TCYC : public bxgi::CIPLEntry_Data
 {
 public:
-	CIPLEntry_TCYC(bxgi::CIPLFormat *pIPLFormat) :
-		CIPLEntry_Data(pIPLFormat, IPL_SECTION_TCYC)
-	{
-	};
+	CIPLEntry_TCYC(bxgi::CIPLFormat *pIPLFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -48,5 +44,3 @@ private:
 	uint32						m_uiTime;
 	uint32						m_uiDrawDistance;
 };
-
-#endif

@@ -1,7 +1,6 @@
-#ifndef CProcess_H
-#define CProcess_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include <string>
 #include <Windows.h>
 
@@ -17,5 +16,3 @@ public:
 	static HANDLE						getCurrentThreadNonPseudo(void);
 	static bool							toggleThreadSuspended(HANDLE hThread, bool bSuspended);
 };
-
-#endif

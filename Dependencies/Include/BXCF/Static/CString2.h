@@ -1,7 +1,6 @@
-#ifndef CString2_H
-#define CString2_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include "Type/Vector/Vec2f.h"
 #include "Type/Vector/Vec3f.h"
@@ -162,5 +161,3 @@ std::string				bxcf::CString2::toString(uint32 uiNumber)
 	_itoa_s(uiNumber, szString, 10);
 	return std::string(szString);
 }
-
-#endif

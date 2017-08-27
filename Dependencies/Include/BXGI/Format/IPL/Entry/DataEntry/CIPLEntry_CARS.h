@@ -1,7 +1,6 @@
-#ifndef CIPLEntry_CARS_H
-#define CIPLEntry_CARS_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/IPL/Entry/CIPLEntry_Data.h"
 #include "Type/Vector/Vec3f.h"
@@ -10,20 +9,7 @@
 class bxgi::CIPLEntry_CARS : public bxgi::CIPLEntry_Data
 {
 public:
-	CIPLEntry_CARS(bxgi::CIPLFormat *pIPLFormat) :
-		CIPLEntry_Data(pIPLFormat, IPL_SECTION_CARS),
-		m_vecPosition{ 0.0f, 0.0f, 0.0f },
-		zRotation(0.0f),
-		m_iVehicleModelId(0),
-		m_uiForceSpawn(0),
-		m_uiAlarmTriggerProbability(0),
-		m_uiDoorLockProbability(0),
-		m_uiUnknown1(0),
-		m_uiUnknown2(0)
-	{
-		m_iVehicleColour.x = 0;
-		m_iVehicleColour.y = 0;
-	};
+	CIPLEntry_CARS(bxgi::CIPLFormat *pIPLFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -73,5 +59,3 @@ private:
 	uint32						m_uiUnknown1;
 	uint32						m_uiUnknown2;
 };
-
-#endif

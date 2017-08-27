@@ -1,6 +1,6 @@
 #pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 
 class bxcf::Vec4f64
@@ -11,5 +11,3 @@ public:
 	float64	z;
 	float64	w;
 };
-
-#endif

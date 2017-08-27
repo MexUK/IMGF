@@ -1,7 +1,6 @@
-#ifndef CDebug_H
-#define CDebug_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include <string>
 
 class bxcf::CDebug
@@ -9,5 +8,3 @@ class bxcf::CDebug
 public:
 	static void			log(std::string strData, std::string strPath = "");
 };
-
-#endif

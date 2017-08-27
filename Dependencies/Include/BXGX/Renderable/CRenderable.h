@@ -1,7 +1,7 @@
 #pragma once
 
-#include "bxcf.h"
-#include "bxgx.h"
+#include "nsbxgx.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include "Renderable/ERenderable.h"
 #include "Event/EInternalEvent.h"
@@ -10,7 +10,7 @@
 #include <vector>
 #include <set>
 
-class CRenderable
+class bxgx::CRenderable
 {
 public:
 	CRenderable(void);

@@ -1,7 +1,6 @@
-#ifndef CIDEEntry_HAND_H
-#define CIDEEntry_HAND_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/IDE/Entry/CIDEEntry_Data.h"
 #include <string>
@@ -9,11 +8,7 @@
 class bxgi::CIDEEntry_HAND : public bxgi::CIDEEntry_Data
 {
 public:
-	CIDEEntry_HAND(bxgi::CIDEFormat *pIDEFormat) :
-		CIDEEntry_Data(pIDEFormat, IDE_SECTION_HAND),
-		m_uiObjectId(0)
-	{
-	};
+	CIDEEntry_HAND(bxgi::CIDEFormat *pIDEFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -37,5 +32,3 @@ private:
 	std::string					m_strTXDName;
 	std::string					m_strUnknown1;
 };
-
-#endif

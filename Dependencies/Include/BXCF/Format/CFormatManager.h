@@ -1,7 +1,6 @@
-#ifndef CFormatManager_H
-#define CFormatManager_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Object/CManager.h"
 #include <string>
 
@@ -60,5 +59,3 @@ T*			bxcf::CFormatManager<T>::parseManyViaFile(std::vector<std::string>& vecFile
 	}
 	return pFormat;
 }
-
-#endif

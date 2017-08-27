@@ -1,7 +1,6 @@
-#ifndef CIPLEntry_PATH_Node_H
-#define CIPLEntry_PATH_Node_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/IPL/Entry/DataEntry/CIPLEntry_PATH.h"
 #include "Type/Vector/Vec3f.h"
@@ -9,20 +8,7 @@
 class bxgi::CIPLEntry_PATH_Node : public bxgi::CIPLEntry_PATH
 {
 public:
-	CIPLEntry_PATH_Node(CIPLFormat *pIPLFormat) :
-		CIPLEntry_PATH(pIPLFormat, IPL_PATH_NODE),
-		m_uiNodeType(0),
-		m_uiNextNode(0),
-		m_uiIsCrossRoad(0),
-		m_vecPosition{ 0.0f, 0.0f, 0.0f },
-		m_fMedian(0.0f),
-		m_uiLeftLaneCount(0),
-		m_uiRightLaneCount(0),
-		m_uiSpeedLimit(0),
-		m_uiFlags(0),
-		m_fSpawnRate(0.0f)
-	{
-	};
+	CIPLEntry_PATH_Node(CIPLFormat *pIPLFormat);
 
 	void							unserialize(void);
 	void							serialize(void);
@@ -70,5 +56,3 @@ private:
 	uint32							m_uiFlags;
 	float32							m_fSpawnRate;
 };
-
-#endif

@@ -1,7 +1,6 @@
-#ifndef CIPLEntry_PICK_H
-#define CIPLEntry_PICK_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Type/Vector/Vec3f.h"
 #include "Format/IPL/Entry/CIPLEntry_Data.h"
@@ -9,10 +8,7 @@
 class bxgi::CIPLEntry_PICK : public bxgi::CIPLEntry_Data
 {
 public:
-	CIPLEntry_PICK(bxgi::CIPLFormat *pIPLFormat) :
-		CIPLEntry_Data(pIPLFormat, IPL_SECTION_PICK)
-	{
-	};
+	CIPLEntry_PICK(bxgi::CIPLFormat *pIPLFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -28,5 +24,3 @@ private:
 	uint32						m_uiWeaponId;
 	bxcf::Vec3f					m_vecPosition;
 };
-
-#endif

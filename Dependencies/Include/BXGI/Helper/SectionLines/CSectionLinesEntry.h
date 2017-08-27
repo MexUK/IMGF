@@ -1,9 +1,8 @@
-#ifndef CSectionLinesEntry_H
-#define CSectionLinesEntry_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
-#include "eSectionLinesEntryType.h"
+#include "ESectionLinesEntryType.h"
 #include <string>
 
 template<class FormatClass, typename SectionEnum>
@@ -16,7 +15,7 @@ public:
 		m_eSectionType((SectionEnum)0),
 		m_ucFormatType(0)
 	{
-	};
+	}
 
 	virtual void				unload(void) {}
 
@@ -26,8 +25,8 @@ public:
 	void						setFormat(FormatClass* pFormat) { m_pFormat = pFormat; }
 	FormatClass*				getFormat(void) { return m_pFormat; }
 
-	void						setEntryType(bxgi::eSectionLinesEntryType eEntryType) { m_eEntryType = eEntryType; }
-	bxgi::eSectionLinesEntryType		getEntryType(void) { return m_eEntryType; }
+	void						setEntryType(bxgi::ESectionLinesEntryType eEntryType) { m_eEntryType = eEntryType; }
+	bxgi::ESectionLinesEntryType		getEntryType(void) { return m_eEntryType; }
 
 	void						setSectionType(SectionEnum eSectionValue) { m_eSectionType = eSectionValue; }
 	SectionEnum					getSectionType(void) { return m_eSectionType; }
@@ -40,10 +39,8 @@ public:
 
 private:
 	FormatClass*				m_pFormat;
-	bxgi::eSectionLinesEntryType		m_eEntryType;
+	bxgi::ESectionLinesEntryType		m_eEntryType;
 	SectionEnum					m_eSectionType;
 	std::string					m_strComment;
 	uint8						m_ucFormatType;
 };
-
-#endif

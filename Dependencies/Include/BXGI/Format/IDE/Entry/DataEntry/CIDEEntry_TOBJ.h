@@ -1,7 +1,6 @@
-#ifndef CIDEEntry_TOBJ_H
-#define CIDEEntry_TOBJ_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/IDE/Entry/CIDEEntry_Data.h"
 #include "Type/Vector/Vec3f.h"
@@ -11,22 +10,7 @@
 class bxgi::CIDEEntry_TOBJ : public bxgi::CIDEEntry_Data
 {
 public:
-	CIDEEntry_TOBJ(bxgi::CIDEFormat *pIDEFormat) :
-		CIDEEntry_Data(pIDEFormat, IDE_SECTION_TOBJ),
-		m_uiTokenCount(0),
-		m_uiObjectId(0),
-		m_uiClumpCount(0),
-		m_uiFlags(0),
-		m_uiTimeOn(0),
-		m_uiTimeOff(0),
-		m_uiUnknown2(0),
-		m_vecBoundingBoxLowerLeftCorner{ 0.0f, 0.0f, 0.0f },
-		m_vecBoundingBoxUpperRightCorner{ 0.0f, 0.0f, 0.0f },
-		m_vecBoundingSphereCenterPosition{ 0.0f, 0.0f, 0.0f },
-		m_fBoundingSphereRadius(0.0f),
-		m_uiNightFlags(0)
-	{
-	};
+	CIDEEntry_TOBJ(bxgi::CIDEFormat *pIDEFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -103,5 +87,3 @@ private:
 	std::string					m_strLODModel;
 	uint32						m_uiNightFlags;
 };
-
-#endif

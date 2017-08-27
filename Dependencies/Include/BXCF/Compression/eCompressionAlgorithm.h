@@ -1,10 +1,9 @@
-#ifndef eCompressionAlgorithm_H
-#define eCompressionAlgorithm_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 
-enum bxcf::eCompressionAlgorithm : uint8
+enum bxcf::ECompressionAlgorithm : uint8
 {
 	COMPRESSION_NONE		= 0,
 	COMPRESSION_UNKNOWN		= 255,
@@ -12,5 +11,3 @@ enum bxcf::eCompressionAlgorithm : uint8
 	COMPRESSION_ZLIB		= 1,
 	COMPRESSION_LZ4			= 2
 };
-
-#endif

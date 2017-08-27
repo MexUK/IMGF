@@ -1,7 +1,6 @@
-#ifndef CIDEEntry_HIER_H
-#define CIDEEntry_HIER_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/IDE/Entry/CIDEEntry_Data.h"
 #include <string>
@@ -9,11 +8,7 @@
 class bxgi::CIDEEntry_HIER : public bxgi::CIDEEntry_Data
 {
 public:
-	CIDEEntry_HIER(bxgi::CIDEFormat *pIDEFormat) :
-		CIDEEntry_Data(pIDEFormat, IDE_SECTION_HIER),
-		m_uiObjectId(0)
-	{
-	};
+	CIDEEntry_HIER(bxgi::CIDEFormat *pIDEFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -33,5 +28,3 @@ private:
 	std::string					m_strModelName;
 	std::string					m_strTXDName;
 };
-
-#endif

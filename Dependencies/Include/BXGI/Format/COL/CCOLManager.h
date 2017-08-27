@@ -1,12 +1,11 @@
-#ifndef CCOLManager_H
-#define CCOLManager_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
-#include "eCOLVersion.h"
+#include "ECOLVersion.h"
 #include "CCOLVersion.h"
-#include "Games/ePlatformedGame.h"
+#include "Game/EPlatformedGame.h"
 #include <string>
 #include <unordered_map>
 
@@ -26,20 +25,18 @@ public:
 
 	bxgi::CCOLVersionManager*		getVersionManager(void) { return m_pVersionManager; }
 
-	static CCOLVersion*		getCOLVersionFromFourCC(std::string strFourCC);
-	static std::string		getFourCCFromCOLVersion(eCOLVersion eCOLVersionValue);
+	static ECOLVersion		getCOLVersionFromFourCC(std::string strFourCC);
+	static std::string		getFourCCFromCOLVersion(ECOLVersion ECOLVersionValue);
 
-	static std::string		getCOLVersionText(eCOLVersion eCOLVersionValue);
+	static std::string		getCOLVersionText(ECOLVersion ECOLVersionValue);
 	static std::string		getCOLVersionText(CCOLVersion* pCOLVersion) { return getCOLVersionText(pCOLVersion->getVersionId()); }
 
-	static uint32			getEntryHeaderSizeForPacking(eCOLVersion eCOLVersionValue);
+	static uint32			getEntryHeaderSizeForPacking(ECOLVersion ECOLVersionValue);
 
 	static bool				isCollisionExtension(std::string& strFileExtension);
 
 private:
 	bxgi::CCOLVersionManager*		m_pVersionManager;
 	
-	//std::unordered_map<ePlatformedGame, std::unordered_map<std::string, uint32>> umapGameMaterialIds; // todo
+	//std::unordered_map<EPlatformedGame, std::unordered_map<std::string, uint32>> umapGameMaterialIds; // todo
 };
-
-#endif

@@ -1,7 +1,6 @@
-#ifndef CFile_H
-#define CFile_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include <string>
 #include <vector>
@@ -46,5 +45,3 @@ public:
 	static uint32						getFileCreationDate(std::string& strFilePath);
 	static void							appendToFile(char *szFilePath, char *buffer, bool bBinaryMode = false);
 };
-
-#endif

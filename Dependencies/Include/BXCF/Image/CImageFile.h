@@ -1,7 +1,6 @@
-#ifndef CImageFile_H
-#define CImageFile_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include <string>
 
@@ -13,5 +12,3 @@ public:
 	uint32					m_uiBPP;
 	std::string				m_strRasterDataBGRA32;
 };
-
-#endif

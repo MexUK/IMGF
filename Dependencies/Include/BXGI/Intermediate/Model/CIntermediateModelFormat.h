@@ -1,7 +1,6 @@
-#ifndef CIntermediateModelFormat_H
-#define CIntermediateModelFormat_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Pool/CVectorPool.h"
 #include "CIntermediateModel.h"
 
@@ -10,5 +9,3 @@ class bxgi::CIntermediateModelFormat : public bxcf::CVectorPool<bxgi::CIntermedi
 public:
 	void								unload(void);
 };
-
-#endif

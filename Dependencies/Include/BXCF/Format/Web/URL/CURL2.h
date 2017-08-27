@@ -1,5 +1,4 @@
-#ifndef CURL2_H
-#define CURL2_H
+#pragma once
 
 #include "Type/Types.h"
 #include <string>
@@ -19,5 +18,3 @@ class CURL2
 public:
 	static CURLComponents	getURLComponents(std::string strURL);
 };
-
-#endif

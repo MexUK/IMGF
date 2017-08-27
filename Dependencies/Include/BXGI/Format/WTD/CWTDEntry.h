@@ -1,10 +1,9 @@
-#ifndef CWTDEntry_H
-#define CWTDEntry_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "CWTDMipmap.h"
 #include "Pool/CVectorPool.h"
-#include "Image/eRasterDataFormat.h"
+#include "Image/ERasterDataFormat.h"
 #include "d3d9.h"
 #include <string>
 
@@ -23,8 +22,8 @@ public:
 	void						setD3DFormat(D3DFORMAT eD3DFormat) { m_eD3DFormat = eD3DFormat; }
 	D3DFORMAT					getD3DFormat(void) { return m_eD3DFormat; }
 
-	void						setRasterDataFormat(bxcf::eRasterDataFormat eRasterDataFormatValue, bool bUpdateD3DFormat = true);
-	bxcf::eRasterDataFormat		getRasterDataFormat(void) { return m_eRasterDataFormat; }
+	void						setRasterDataFormat(bxcf::ERasterDataFormat ERasterDataFormatValue, bool bUpdateD3DFormat = true);
+	bxcf::ERasterDataFormat		getRasterDataFormat(void) { return m_ERasterDataFormat; }
 
 	void						setImageSize(bool bIsWidth, uint16 usImageSize) { m_usImageSize[bIsWidth ? 0 : 1] = usImageSize; }
 	uint16						getImageSize(bool bIsWidth) { return m_usImageSize[bIsWidth ? 0 : 1]; }
@@ -43,11 +42,9 @@ public:
 private:
 	std::string					m_strEntryName;
 	D3DFORMAT					m_eD3DFormat;
-	bxcf::eRasterDataFormat		m_eRasterDataFormat;
+	bxcf::ERasterDataFormat		m_ERasterDataFormat;
 	uint32						m_uiRawDataOffset;
 	uint16						m_usImageSize[2];
 	uint8						m_ucLevels;
 	uint32						m_uiTextureHash;
 };
-
-#endif

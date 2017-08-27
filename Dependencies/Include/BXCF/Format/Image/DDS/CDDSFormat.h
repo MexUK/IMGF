@@ -1,7 +1,6 @@
-#ifndef CDDSFormat_H
-#define CDDSFormat_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Format/CFormat.h"
 #include <string>
 
@@ -20,5 +19,3 @@ public:
 	uint32								m_uiBPP;
 	std::string							m_strRasterData;
 };
-
-#endif

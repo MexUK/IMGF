@@ -1,7 +1,6 @@
-#ifndef CBMPFormat_Header1_H
-#define CBMPFormat_Header1_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 
 #pragma pack(push, 1)
@@ -14,5 +13,3 @@ struct bxcf::CBMPFormat_Header1
 	uint32						m_uiBitmpapHeaderSize;
 };
 #pragma pack(pop)
-
-#endif

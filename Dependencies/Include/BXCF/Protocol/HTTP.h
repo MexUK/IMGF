@@ -1,5 +1,4 @@
-#ifndef HTTP_H
-#define HTTP_H
+#pragma once
 
 #include "Type/Types.h"
 #include "Object/CSingleton.h"
@@ -24,5 +23,3 @@ public:
 	bool						m_bConnectionComplete;
 	std::string					m_strReceivedData;
 };
-
-#endif

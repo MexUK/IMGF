@@ -1,10 +1,9 @@
-#ifndef eRasterDataFormat_H
-#define eRasterDataFormat_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 
-enum bxcf::eRasterDataFormat : uint8
+enum bxcf::ERasterDataFormat : uint8
 {
 	RASTERDATAFORMAT_UNKNOWN,
 	RASTERDATAFORMAT_DXT1,
@@ -21,5 +20,3 @@ enum bxcf::eRasterDataFormat : uint8
 	RASTERDATAFORMAT_PAL4,
 	RASTERDATAFORMAT_PAL8
 };
-
-#endif

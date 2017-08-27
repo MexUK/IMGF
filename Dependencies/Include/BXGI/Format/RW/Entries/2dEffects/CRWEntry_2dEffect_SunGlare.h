@@ -1,7 +1,6 @@
-#ifndef CRWEntry_2dEffect_SunGlare_H
-#define CRWEntry_2dEffect_SunGlare_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/RW/Entries/C2dEffect.h"
 
@@ -13,5 +12,3 @@ public:
 	void							unserialize(void);
 	void							serialize(void);
 };
-
-#endif

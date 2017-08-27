@@ -1,7 +1,6 @@
-#ifndef CRWSection_2dEffect_H
-#define CRWSection_2dEffect_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Format/RW/CRWSection.h"
 #include "Format/RW/Pools/C2dEffectsPool.h"
 
@@ -19,5 +18,3 @@ public:
 private:
 	bxgi::C2dEffectsPool*			m_p2dEffectsPool;
 };
-
-#endif

@@ -1,7 +1,6 @@
-#ifndef CIPLEntry_MZON_H
-#define CIPLEntry_MZON_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/IPL/Entry/CIPLEntry_Data.h"
 #include "Type/Vector/Vec3f.h"
@@ -9,10 +8,7 @@
 class bxgi::CIPLEntry_MZON : public bxgi::CIPLEntry_Data
 {
 public:
-	CIPLEntry_MZON(bxgi::CIPLFormat *pIPLFormat) :
-		CIPLEntry_Data(pIPLFormat, IPL_SECTION_MZON)
-	{
-	};
+	CIPLEntry_MZON(bxgi::CIPLFormat *pIPLFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -44,5 +40,3 @@ private:
 	uint32						m_uiLevel;
 	std::string					m_strZoneText;
 };
-
-#endif

@@ -1,17 +1,12 @@
-#ifndef CRWSectionDepthData_H
-#define CRWSectionDepthData_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 
 class bxgi::CRWSectionDepthData
 {
 public:
-	CRWSectionDepthData(void) :
-		m_uiSectionId(0),
-		m_uiSectionSize(0),
-		m_uiSectionByteCountRead(0)
-	{};
+	CRWSectionDepthData(void);
 
 	void					setSectionId(uint32 uiSectionId) { m_uiSectionId = uiSectionId; }
 	uint32					getSectionId(void) { return m_uiSectionId; }
@@ -28,5 +23,3 @@ private:
 	uint32					m_uiSectionSize;
 	uint32					m_uiSectionByteCountRead;
 };
-
-#endif

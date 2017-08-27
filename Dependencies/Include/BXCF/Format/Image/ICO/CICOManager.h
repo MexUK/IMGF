@@ -1,7 +1,6 @@
-#ifndef CICOManager_H
-#define CICOManager_H
+#pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Format/CFormatManager.h"
 #include "Object/CSingleton.h"
 
@@ -18,5 +17,3 @@ public:
 
 	bxcf::CICOFormat*			createFormatFromBMP(bxcf::CBMPFormat *pBMPFormat);
 };
-
-#endif

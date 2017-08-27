@@ -1,7 +1,6 @@
-#ifndef CIDEEntry_UnknownSection_H
-#define CIDEEntry_UnknownSection_H
+#pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/IDE/Entry/CIDEEntry_Data.h"
 #include <string>
@@ -9,10 +8,7 @@
 class bxgi::CIDEEntry_UnknownSection : public bxgi::CIDEEntry_Data
 {
 public:
-	CIDEEntry_UnknownSection(bxgi::CIDEFormat *pIDEFormat) :
-		CIDEEntry_Data(pIDEFormat, IDE_SECTION_UNKNOWN)
-	{
-	};
+	CIDEEntry_UnknownSection(bxgi::CIDEFormat *pIDEFormat);
 
 	void						unserialize(void);
 	void						serialize(void);
@@ -23,5 +19,3 @@ public:
 private:
 	std::string					m_strLine;
 };
-
-#endif
