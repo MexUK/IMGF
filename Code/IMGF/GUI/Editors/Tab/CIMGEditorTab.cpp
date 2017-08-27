@@ -151,8 +151,8 @@ void					CIMGEditorTab::addControls(void)
 	w = 140;
 	w2 = w;
 	x = (m_pWindow->getSize().x - w) - w2;
-	y = uiButtonHeight + 72;
-	h = 32;
+	y = uiButtonHeight + 82;
+	h = 24;
 	strStyleGroup = "filter";
 
 	m_pEntryTypeFilter = addDrop(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally", -1, -50);
