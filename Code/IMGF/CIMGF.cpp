@@ -119,7 +119,6 @@ CIMGF::~CIMGF(void)
 // init/uninit (ocurs in original thread)
 void				CIMGF::init(void)
 {
-	CStyleManager::get()->init();
 	m_pWindowManager->init();
 	_init();
 	//initInitializationThread();
@@ -371,12 +370,12 @@ void				CIMGF::process(void)
 
 CWindow*			CIMGF::getActiveWindow(void)
 {
-	return BXGXManager::get()->getActiveWindow();
+	return BXGX::get()->getActiveWindow();
 }
 
 CEditorTab*			CIMGF::getActiveTab(void)
 {
-	CMainWindow *pIMGFWindow = (CMainWindow*) BXGXManager::get()->getEntryByIndex(0);
+	CMainWindow *pIMGFWindow = (CMainWindow*) BXGX::get()->getEntryByIndex(0);
 	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
 	CEditorTab *pEditorTab = pIMGEditor->getActiveTab();
 	return pEditorTab;
@@ -384,14 +383,14 @@ CEditorTab*			CIMGF::getActiveTab(void)
 
 CIMGEditor*			CIMGF::getIMGEditor(void)
 {
-	CMainWindow *pIMGFWindow = (CMainWindow*) BXGXManager::get()->getEntryByIndex(0);
+	CMainWindow *pIMGFWindow = (CMainWindow*) BXGX::get()->getEntryByIndex(0);
 	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
 	return pIMGEditor;
 }
 
 CIMGEditorTab*		CIMGF::getEntryListTab(void)
 {
-	CMainWindow *pIMGFWindow = (CMainWindow*) BXGXManager::get()->getEntryByIndex(0);
+	CMainWindow *pIMGFWindow = (CMainWindow*) BXGX::get()->getEntryByIndex(0);
 	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
 	CIMGEditorTab *pIMGEditorTab = (CIMGEditorTab*) pIMGEditor->getTabs().getEntryByIndex(0);
 	return pIMGEditorTab;

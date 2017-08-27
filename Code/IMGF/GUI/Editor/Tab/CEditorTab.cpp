@@ -1,4 +1,4 @@
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "CEditorTab.h"
 #include "Controls/Entries/CTabBarControlEntry.h"
 #include <stdarg.h>

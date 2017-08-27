@@ -5,9 +5,9 @@
 #include "GUI/Editor/Tab/CEditorTab.h"
 #include <string>
 
-class CTabBarControl;
+class bxgx::CTabBarControl;
 
-class CEditor : public CLayer
+class CEditor : public bxgx::CLayer
 {
 public:
 	CEditor(void);
@@ -23,8 +23,8 @@ public:
 	void								setActiveFile(CEditorTab *pEditorFile);
 	CEditorTab*							getActiveFile(void) { return m_pActiveFile; }
 
-	void								setTabBar(CTabBarControl *pTabBar) { m_pTabBar = pTabBar; }
-	CTabBarControl*						getTabBar(void) { return m_pTabBar; }
+	void								setTabBar(bxgx::CTabBarControl *pTabBar) { m_pTabBar = pTabBar; }
+	bxgx::CTabBarControl*				getTabBar(void) { return m_pTabBar; }
 
 	void								updateActiveFileDisplayedInfo(void);
 	void								clearActiveFileDisplayedInfo(void);
@@ -35,7 +35,7 @@ public:
 	virtual std::string					getResolvedFilePath(std::string& strFilePath) { return strFilePath; } // file name or file path
 
 protected:
-	CTabBarControl*						m_pTabBar;
+	bxgx::CTabBarControl*				m_pTabBar;
 	CEditorTab*							m_pActiveFile;
 	bxcf::CVectorPool<CEditorTab*>		m_vecTabs;
 };

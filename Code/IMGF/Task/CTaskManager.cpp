@@ -1,5 +1,6 @@
 #include "CTaskManager.h"
-#include "bxcf.h"
+#include "nsbxcf.h"
+#include "nsbxgx.h"
 #include "Task/CTaskDispatchManager.h"
 #include "Task/CTaskDurationManager.h"
 #include "Static/CString2.h"
@@ -15,6 +16,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgx;
 
 // constructor/destructor
 CTaskManager::CTaskManager(void) :

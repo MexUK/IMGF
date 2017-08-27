@@ -1,6 +1,6 @@
 #include "CMainLayer.h"
 #include "Window/CWindow.h"
-#include "BXGXManager.h"
+#include "BXGX.h"
 #include "Type/Colour/CColour.h"
 #include "Controls/CTabBarControl.h"
 #include "Controls/CDropControl.h"

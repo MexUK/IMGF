@@ -1,15 +1,16 @@
 #pragma once
 
 #include "Type/Types.h"
-#include "bxcf.h"
+#include "nsbxcf.h"
+#include "nsbxgx.h"
 #include "Layer/CLayer.h"
 #include <string>
 
 class CEditor;
 class bxcf::CFormat;
-class CTabBarControlEntry;
+class bxgx::CTabBarControlEntry;
 
-class CEditorTab : public CLayer
+class CEditorTab : public bxgx::CLayer
 {
 public:
 	CEditorTab(void);
@@ -19,8 +20,8 @@ public:
 	void						setEditor(CEditor* pEditor) { m_pEditor = pEditor; }
 	CEditor*					getEditor(void) { return m_pEditor; }
 
-	void						setTab(CTabBarControlEntry *pTab) { m_pTab = pTab; }
-	CTabBarControlEntry*		getTab(void) { return m_pTab; }
+	void						setTab(bxgx::CTabBarControlEntry *pTab) { m_pTab = pTab; }
+	bxgx::CTabBarControlEntry*	getTab(void) { return m_pTab; }
 
 	uint32						getTabIndex(void);
 
@@ -35,6 +36,6 @@ public:
 
 private:
 	CEditor*					m_pEditor;
-	CTabBarControlEntry*		m_pTab;
+	bxgx::CTabBarControlEntry*	m_pTab;
 	bxcf::CFormat*				m_pFile;
 };

@@ -4,7 +4,7 @@
 #include "Object/CManager.h"
 #include <string>
 #include <vector>
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Format/IMG/Regular/CIMGFormat.h"
 #include "Format/IMG/Regular/eIMGEntryProperty.h"
 #include "Game/ePlatformedGame.h"

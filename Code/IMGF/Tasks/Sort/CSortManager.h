@@ -1,7 +1,7 @@
 #pragma once
 
-#include "bxcf.h"
-#include "bxgi.h"
+#include "nsbxcf.h"
+#include "nsbxgi.h"
 #include "Object/CManager.h"
 #include <string>
 #include <vector>

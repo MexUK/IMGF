@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Windows.h>
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "CEntryViewer.h"
 #include "Pool/CVectorPool.h"
 #include "eEntryViewerDisplayType.h"

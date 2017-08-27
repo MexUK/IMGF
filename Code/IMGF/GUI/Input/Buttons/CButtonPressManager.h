@@ -1,9 +1,10 @@
 #pragma once
 
-#include "bxcf.h"
+#include "nsbxcf.h"
+#include "nsbxgx.h"
 #include "Event/Events.h"
 
-class CButtonControl;
+class bxgx::CButtonControl;
 class CMainWindow;
 class CTaskDispatchManager;
 
@@ -16,7 +17,7 @@ private:
 	void					bindEvents(void);
 
 public:
-	void					onPressButton(CButtonControl *pButton);
+	void					onPressButton(bxgx::CButtonControl *pButton);
 
 private:
 	void					formats(void);

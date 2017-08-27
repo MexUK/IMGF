@@ -1,6 +1,6 @@
 #pragma warning(disable : 4005)
 
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "CSettingsManager.h"
 #include "CIMGF.h"
 #include "Globals.h"

@@ -227,7 +227,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\WindowControlIds.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Windows\CMainWindow.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\CWindowManager.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\imgf.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\nsimgf.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Language\CLanguage.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Language\CLanguageManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Program\buildnumber.h" />

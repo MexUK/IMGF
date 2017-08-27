@@ -1,18 +1,19 @@
 #pragma once
 
+#include "nsbxgx.h"
 #include "Layer/CLayer.h"
 #include "Event/Events.h"
 
 class CMainWindow;
-class CTabBarControl;
-class CProgressControl;
-class CTextBoxControl;
-class CDropControl;
-class CButtonControl;
-class CLineShape;
-class CTabBarControlEntry;
+class bxgx::CTabBarControl;
+class bxgx::CProgressControl;
+class bxgx::CTextBoxControl;
+class bxgx::CDropControl;
+class bxgx::CButtonControl;
+class bxgx::CLineShape;
+class bxgx::CTabBarControlEntry;
 
-class CMainLayer : public CLayer, public bxcf::EventBindable
+class CMainLayer : public bxgx::CLayer, public bxcf::EventBindable
 {
 public:
 	void						init(void);
@@ -20,11 +21,11 @@ public:
 	void						setIMGFWindow(CMainWindow* pIMGFWindow) { m_pMainWindow = pIMGFWindow; }
 	CMainWindow*				getIMGFWindow(void) { return m_pMainWindow; }
 
-	CTabBarControl*				getTabBar(void) { return m_pTabBar; }
-	CProgressControl*			getProgressBar(void) { return m_pProgressBar; }
+	bxgx::CTabBarControl*		getTabBar(void) { return m_pTabBar; }
+	bxgx::CProgressControl*		getProgressBar(void) { return m_pProgressBar; }
 
-	void						onChangeTab(CTabBarControl *pTabBar);
-	void						onRemoveTab(CTabBarControlEntry *pTab);
+	void						onChangeTab(bxgx::CTabBarControl *pTabBar);
+	void						onRemoveTab(bxgx::CTabBarControlEntry *pTab);
 
 private:
 	void						addControls(void);
@@ -35,19 +36,19 @@ private:
 public:
 	CMainWindow*				m_pMainWindow;
 
-	CTabBarControl*				m_pTabBar;
-	CProgressControl*			m_pProgressBar;
-	CTextBoxControl*			m_pSearchBox;
+	bxgx::CTabBarControl*		m_pTabBar;
+	bxgx::CProgressControl*		m_pProgressBar;
+	bxgx::CTextBoxControl*		m_pSearchBox;
 
-	CButtonControl*				m_pSettingsButton;
-	CLineShape*					m_pSettingsButtonLine1;
-	CLineShape*					m_pSettingsButtonLine2;
-	CLineShape*					m_pSettingsButtonLine3;
+	bxgx::CButtonControl*		m_pSettingsButton;
+	bxgx::CLineShape*			m_pSettingsButtonLine1;
+	bxgx::CLineShape*			m_pSettingsButtonLine2;
+	bxgx::CLineShape*			m_pSettingsButtonLine3;
 
-	CTextControl*				m_pText_Game;
-	CTextControl*				m_pText_GameValidity;
-	CTextControl*				m_pText_GameLocation;
-	CTextControl*				m_pText_FileGame;
-	CTextControl*				m_pText_FileValidity;
-	CTextControl*				m_pText_FileLocation;
+	bxgx::CTextControl*			m_pText_Game;
+	bxgx::CTextControl*			m_pText_GameValidity;
+	bxgx::CTextControl*			m_pText_GameLocation;
+	bxgx::CTextControl*			m_pText_FileGame;
+	bxgx::CTextControl*			m_pText_FileValidity;
+	bxgx::CTextControl*			m_pText_FileLocation;
 };

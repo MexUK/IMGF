@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Windows.h>
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "Object/CManager.h"
 #include "Localization/eLanguage.h"
 #include "Game/ePlatformedGame.h"

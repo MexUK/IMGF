@@ -1,17 +1,18 @@
 #pragma once
 
-#include "imgf.h"
+#include "nsimgf.h"
+#include "nsbxgx.h"
 #include "Window/CWindow.h"
 #include <string>
 #include <vector>
 
 class CMainLayer;
 class CIMGEditor;
-class CProgressControl;
-class CTabBarControl;
-class CButtonControl;
+class bxgx::CProgressControl;
+class bxgx::CTabBarControl;
+class bxgx::CButtonControl;
 
-class CMainWindow : public CWindow
+class CMainWindow : public bxgx::CWindow
 {
 public:
 	CMainWindow(void);
@@ -23,8 +24,8 @@ public:
 	CMainLayer*				getMainLayer(void) { return m_pMainLayer; }
 	CIMGEditor*				getIMGEditor(void) { return m_pIMGEditor; }
 
-	CProgressControl*		getProgressBar(void);
-	CTabBarControl*			getTabBar(void);
+	bxgx::CProgressControl*	getProgressBar(void);
+	bxgx::CTabBarControl*	getTabBar(void);
 
 	void					repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 
@@ -38,10 +39,10 @@ private:
 	void					initEditors(void);
 
 public:
-	CMainLayer*				m_pMainLayer;
-	CIMGEditor*				m_pIMGEditor;
-	std::vector<CButtonControl*>	m_vecSettingsMenuButtons;
+	CMainLayer*								m_pMainLayer;
+	CIMGEditor*								m_pIMGEditor;
+	std::vector<bxgx::CButtonControl*>		m_vecSettingsMenuButtons;
 
 private:
-	imgf::mainLayer::mainMenuType::EMainMenuType		m_uiMainMenuType;
+	imgf::mainLayer::mainMenuType::EMainMenuType	m_uiMainMenuType;
 };

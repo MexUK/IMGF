@@ -49,9 +49,10 @@
 
 using namespace std;
 using namespace bxcf;
-using namespace bxgi;
 using namespace bxcf::fileType;
+using namespace bxgx;
 using namespace bxgx::control::events;
+using namespace bxgi;
 
 CIMGEditorTab::CIMGEditorTab(void) :
 	m_pEditor(nullptr),

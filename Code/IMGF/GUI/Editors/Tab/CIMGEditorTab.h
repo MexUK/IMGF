@@ -14,7 +14,7 @@ class bxgi::CIMGFormat;
 class bxgi::CIMGEntry;
 class CDBFormat;
 class CListCtrl; // temp
-class CDropControlEntry;
+class bxgx::CDropControlEntry;
 
 class CIMGEditorTab : public CEditorTab, public bxcf::EventBindable
 {
@@ -30,7 +30,7 @@ public:
 	void						initControls(void);
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 
-	void						onSelectDropEntry(CDropControlEntry *pDropEntry);
+	void						onSelectDropEntry(bxgx::CDropControlEntry *pDropEntry);
 
 	void						setIMGEditor(CIMGEditor *pEditor) { m_pEditor = pEditor; }
 	CIMGEditor*					getIMGEditor(void) { return m_pEditor; }
@@ -129,10 +129,10 @@ private:
 private:
 	CIMGEditor*					m_pEditor;
 
-	CGridControl*				m_pEntryGrid;
-	CTextBoxControl*			m_pLog;
-	CDropControl*				m_pEntryTypeFilter;
-	CDropControl*				m_pEntryVersionFilter;
+	bxgx::CGridControl*			m_pEntryGrid;
+	bxgx::CTextBoxControl*		m_pLog;
+	bxgx::CDropControl*			m_pEntryTypeFilter;
+	bxgx::CDropControl*			m_pEntryVersionFilter;
 
 	bxgi::CIMGFormat*			m_pIMGFile;
 	std::vector<std::string>	m_vecLogLinesGUI;

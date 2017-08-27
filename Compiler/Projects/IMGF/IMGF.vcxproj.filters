@@ -1229,9 +1229,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDragDrop.h">
       <Filter>Header Files\DragDrop</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\imgf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\Tab\CIMGEditorTab.h">
       <Filter>Header Files\GUI\Editors\Tab</Filter>
     </ClInclude>
@@ -1273,6 +1270,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Event\EEvent.h">
       <Filter>Header Files\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\nsimgf.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

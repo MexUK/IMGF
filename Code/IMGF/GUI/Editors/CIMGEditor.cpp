@@ -14,7 +14,7 @@
 #include "Task/CTaskDispatchManager.h"
 #include "GUI/Windows/CMainWindow.h"
 #include "Type/Colour/CColour.h"
-#include "BXGXManager.h"
+#include "BXGX.h"
 #include "Controls/CGridControl.h"
 #include "GUI/Editor/EEditorItem.h"
 #include "GUI/Windows/CMainWindow.h"
@@ -51,9 +51,10 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgx;
+using namespace bxgx::control::events;
 using namespace bxgi;
 using namespace imgf::editor::items;
-using namespace bxgx::control::events;
 
 CIMGEditor::CIMGEditor(void) :
 	m_pMainWindow(nullptr),

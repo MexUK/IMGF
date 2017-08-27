@@ -10,6 +10,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgx;
 
 CEditor::CEditor(void) :
 	m_pActiveFile(nullptr),

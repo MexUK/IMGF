@@ -1,6 +1,6 @@
 #pragma once
 
-#include "imgf.h"
+#include "nsimgf.h"
 
 enum imgf::task::ETask
 {

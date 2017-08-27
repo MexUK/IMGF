@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nsbxgx.h"
 #include "Type/Types.h"
 #include "Globals.h"
 #include "Object/CManager.h"
@@ -9,7 +10,7 @@
 uint32 WINAPI		onInitializationThreadStart(void *pThreadParameter);
 
 class CMainWindow;
-class CWindow;
+class bxgx::CWindow;
 class CEditorTab;
 class CIMGEditor;
 class CIMGEditorTab;
@@ -49,7 +50,7 @@ public:
 	
 	CBuildMeta&					getBuildMeta(void) { return m_buildMeta; }
 
-	CWindow*					getActiveWindow(void);
+	bxgx::CWindow*				getActiveWindow(void);
 	CEditorTab*					getActiveTab(void);
 	CIMGEditor*					getIMGEditor(void);
 	CIMGEditorTab*				getEntryListTab(void); // todo

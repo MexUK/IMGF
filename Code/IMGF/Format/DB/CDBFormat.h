@@ -1,6 +1,6 @@
 #pragma once
 
-#include "bxgi.h"
+#include "nsbxgi.h"
 #include "Type/Types.h"
 #include "Format/CFormat.h"
 #include "Pool/CVectorPool.h"

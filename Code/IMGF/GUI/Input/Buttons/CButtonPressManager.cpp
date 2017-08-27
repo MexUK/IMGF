@@ -10,6 +10,7 @@
 #include "Task/CTaskManager.h"
 #include "Task/CTaskDispatchManager.h"
 
+using namespace bxgx;
 using namespace bxgx::control::events;
 using namespace imgf::layers;
 using namespace imgf::mainLayer::buttons;

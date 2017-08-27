@@ -1,4 +1,4 @@
-#include "bxcf.h"
+#include "nsbxcf.h"
 #include "CEntryViewer.h"
 
 using namespace bxcf;

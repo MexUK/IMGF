@@ -1,5 +1,5 @@
 #include "CRecentlyOpenEntry.h"
-#include "bxcf.h"
+#include "nsbxcf.h"
 
 using namespace std;
 using namespace bxcf;
