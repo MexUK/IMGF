@@ -179,10 +179,10 @@ void					CIMGEditorTab::addControls(void)
 
 void					CIMGEditorTab::initControls(void)
 {
-	bindEventVoidRef(RESIZE_WINDOW, &CIMGEditorTab::repositionAndResizeControls);
+	bindEvent(RESIZE_WINDOW, &CIMGEditorTab::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));
 
-	bindEventVoidNoRef(SELECT_DROP_ENTRY, &CIMGEditorTab::onSelectDropEntry);
+	bindEvent(SELECT_DROP_ENTRY, &CIMGEditorTab::onSelectDropEntry);
 }
 
 void					CIMGEditorTab::removeControls(void)

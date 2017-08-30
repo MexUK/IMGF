@@ -54,8 +54,6 @@ CTabBar*			CMainWindow::getTabBar(void)
 // window initialization
 void					CMainWindow::initWindow(void)
 {
-	CWindow::init();
-
 	addTitleBar("IMG Factory 2.0 - Development Version");
 }
 
@@ -66,7 +64,7 @@ void					CMainWindow::initLayers(void)
 	initSettingsMenuLayer();
 	initEditors();
 
-	bindEventVoidRef(RESIZE_WINDOW, &CMainWindow::repositionAndResizeControls);
+	bindEventRef(RESIZE_WINDOW, &CMainWindow::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));
 }
 

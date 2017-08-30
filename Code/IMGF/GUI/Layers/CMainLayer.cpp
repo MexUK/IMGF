@@ -240,10 +240,10 @@ void		CMainLayer::addControls(void)
 
 void		CMainLayer::initControls(void)
 {
-	bindEventVoidNoRef(CHANGE_TAB, &CMainLayer::onChangeTab);
-	bindEventVoidNoRef(REMOVE_TAB, &CMainLayer::onRemoveTab);
+	bindEventConst<void>(CHANGE_TAB, &CMainLayer::onChangeTab);
+	bindEvent(REMOVE_TAB, &CMainLayer::onRemoveTab);
 
-	bindEventVoidRef(RESIZE_WINDOW, &CMainLayer::repositionAndResizeControls);
+	bindEvent(RESIZE_WINDOW, &CMainLayer::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));
 }
 

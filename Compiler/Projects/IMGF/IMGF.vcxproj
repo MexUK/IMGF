@@ -46,7 +46,7 @@
     <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF\$(Configuration)\</IntDir>
     <IncludePath>..\..\..\Code\IMGF\;..\..\..\Code\IMGF\Format\;..\..\..\Dependencies\ThirdParty\HappyHTTP;..\..\..\Dependencies\ThirdParty\GLEW;..\..\..\Dependencies\ThirdParty\Freetype\include;..\..\..\Dependencies\ThirdParty\GLFW;..\..\..\Dependencies\ThirdParty\GLFW\include\;..\..\..\Dependencies\ThirdParty\freetype-gl;..\..\..\Dependencies\ThirdParty\INI;..\..\..\Dependencies\ThirdParty\Bitmap;..\..\..\Dependencies\ThirdParty\;../../../../BXCF/Code/BXCF/;../../../../BXGX/Code/BXGX/;../../../../BXGI/Code/BXGI/;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\BXCF\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\ThirdParty\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXGX\BXGX\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXGI\BXGI\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\BXCF\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\ThirdParty\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXGX\BXGX\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXGI\BXGI\Debug;C:\Users\james\Desktop\GitHub Repos\BXGX\Dependencies\ThirdParty\DXSDK\Lib;$(LibraryPath)</LibraryPath>
     <TargetName>IMG Factory</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -69,7 +69,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;BXCF.lib;BXGX.lib;BXGI.lib;freetype261-$(Configuration).lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;libci.lib;BXCF.lib;BXGX.lib;BXGI.lib;freetype261-$(Configuration).lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>

@@ -76,8 +76,8 @@ void						CIMGEditor::init(void)
 	addControls();
 	initControls();
 
-	bindEventVoidNoRef(TASK_PROGRESS, &CIMGEditor::onTaskProgress);
-	bindEventVoidNoRef(UNSERIALIZE_IMG_ENTRY, &CIMGEditor::onUnserializeEntry);
+	bindEvent(TASK_PROGRESS, &CIMGEditor::onTaskProgress);
+	bindEvent(UNSERIALIZE_IMG_ENTRY, &CIMGEditor::onUnserializeEntry);
 }
 
 // format validation
@@ -1116,6 +1116,7 @@ void		CIMGEditor::initControls(void)
 	addColumnsToMainListView(IMG_UNKNOWN);
 	
 	bindEvent(RESIZE_WINDOW, &CIMGEditor::repositionAndResizeControls);
+	//bindEvent<imgf::CIMGEditor, bxcf::Vec2i&>(RESIZE_WINDOW, &CIMGEditor::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));
 }
 
