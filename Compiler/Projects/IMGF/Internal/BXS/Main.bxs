@@ -48,7 +48,7 @@ line left 180 180 180
 .main_lineTop
 line top 180 180 180
 
-.main_text
+.main_textAlign
 text left center
 
 .main_spacing
@@ -60,37 +60,39 @@ fill 201 201 201
 .main_fill_2
 fill 220 220 220
 
-.main_textBlack
+.main_textColour
 text 0 0 0
 
 
 
 // main layer
 
-.topLeftMenuButton .main_lineLeft .main_text .main_spacing
+.topLeftMenu:item .main_lineLeft .main_textAlign .main_spacing
 fill 175 175 175
 
-.leftMenuButton .main_lineTop .main_text .main_spacing .main_fill_1
+.leftMenu:item .main_lineTop .main_textAlign .main_spacing .main_fill_1
 
-.activeLeftMenuButton
+.leftMenu:item:active .main_lineTop .main_textAlign .main_spacing
 fill 175 175 175
 
-.gameInfoText .main_textBlack
+.leftMenu:item:hover .main_lineTop .main_textAlign .main_spacing
+fill 158 158 158
+
+.gameInfoText .main_textColour
 fill 255 255 255
 
-.topMenuButton .main_lineLeft .main_text .main_spacing .main_fill_1
+.topMenu:item .main_lineLeft .main_textAlign .main_spacing .main_fill_1
 
-.filter .main_lineLeft .main_text .main_spacing .main_fill_2
-text 0 0 0
+.filter .main_lineLeft .main_textAlign .main_textColour .main_spacing .main_fill_2
 
 .filter:arrow
 fill 0 0 0
 
 .filter:list .main_fill_2 .main_spacing
 
-.filter:listRow .main_text .main_spacing .main_textBlack
+.filter:listRow .main_textAlign .main_spacing .main_textColour
 
-.filter:caret .main_text .main_spacing
+.filter:caret .main_textAlign .main_spacing
 line 0 0 0
 
 .settingsMenu .main_fill_1
@@ -98,18 +100,21 @@ line 0 0 0
 .settingsMenuLine
 line 0 0 0
 
-.settingsMenuButton .main_lineTop .main_text .main_spacing .main_fill_2
+.settingsMenu:item .main_lineTop .main_textAlign .main_spacing .main_fill_2
 
 .fileTabBar
 fill 255 255 255
 
-.fileTabBar:defaultText .main_textBlack
+.fileTabBar:defaultText .main_textColour
 
-.fileTabBar:tab .main_lineLeft .main_text .main_spacing .main_fill_2
+.fileTabBar:tab .main_lineLeft .main_textAlign .main_spacing .main_fill_2
 
 .fileTabBar:tab:active .main_fill_1
 
-.secondLeftMenuButton .main_lineTop .main_text .main_spacing .main_fill_2
+.secondLeftMenu:item .main_lineTop .main_textAlign .main_spacing .main_fill_2
+
+.secondLeftMenu:item:hover .main_lineTop .main_textAlign .main_spacing
+fill 198 198 198
 
 .progressBar .main_fill_1
 
@@ -129,7 +134,7 @@ fill 255 255 255
 
 .imgEditor_grid:headerRow .main_fill_1
 
-.imgEditor_grid:headerCell .main_text .main_spacing .main_textBlack
+.imgEditor_grid:headerCell .main_textAlign .main_spacing .main_textColour
 
 .imgEditor_grid:row:n1 .main_fill_2
 
@@ -141,6 +146,6 @@ fill 165 165 165
 .imgEditor_grid:row:mainSelected
 fill 135 135 135
 
-.imgEditor_grid:cell .main_text .main_spacing .main_textBlack
+.imgEditor_grid:cell .main_textAlign .main_spacing .main_textColour
 
 .log .main_fill_2

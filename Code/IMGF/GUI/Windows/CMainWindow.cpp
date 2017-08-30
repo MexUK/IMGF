@@ -17,6 +17,8 @@
 #include "GUI/Layers/CMainLayer.h"
 #include "GUI/Layer/EMainMenuType.h"
 #include "GUI/Layer/ELayer.h"
+#include "Controls/CMenu.h"
+#include "Controls/Entries/CMenuItem.h"
 
 using namespace std;
 using namespace bxcf;
@@ -82,8 +84,8 @@ void					CMainWindow::initMainMenuLayers(void)
 		x, y, y2, w, h, h2;
 	uint32
 		uiButtonHeight = 37;
-	CButton
-		*pButton;
+	CMenu
+		*pMenu;
 	string
 		strStyleGroup;
 
@@ -96,25 +98,11 @@ void					CMainWindow::initMainMenuLayers(void)
 	w = 139;
 	h = uiButtonHeight;
 	h2 = h;
-	strStyleGroup = "leftMenuButton";
+	strStyleGroup = "leftMenu";
 
-	pButton = pFormatsLayer->addButton(x, y, w, h, "DAT", strStyleGroup);
-	y += h2;
-	pButton = pFormatsLayer->addButton(x, y, w, h, "IMG", "activeLeftMenuButton " + strStyleGroup);
-	y += h2;
-	pButton = pFormatsLayer->addButton(x, y, w, h, "Item Definition", strStyleGroup);
-	y += h2;
-	pButton = pFormatsLayer->addButton(x, y, w, h, "Item Placement", strStyleGroup);
-	y += h2;
-	pButton = pFormatsLayer->addButton(x, y, w, h, "Models", strStyleGroup);
-	y += h2;
-	pButton = pFormatsLayer->addButton(x, y, w, h, "Collisions", strStyleGroup);
-	y += h2;
-	pButton = pFormatsLayer->addButton(x, y, w, h, "Textures", strStyleGroup);
-	y += h2;
-	pButton = pFormatsLayer->addButton(x, y, w, h, "Animations", strStyleGroup);
-	y += h2;
-	pButton = pFormatsLayer->addButton(x, y, w, h, "Radar", strStyleGroup);
+	pMenu = pFormatsLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup);
+	vector<CMenuItem*> vecMenuItems = pMenu->addItems(9, "DAT", "IMG", "Item Definition", "Item Placement", "Models", "Collisions", "Textures", "Animations", "Radar");
+	vecMenuItems[1]->setActive(true);
 
 	// utility menu
 	CLayer *pUtilityLayer = addLayer(UTILITY_MENU, false);
@@ -124,12 +112,10 @@ void					CMainWindow::initMainMenuLayers(void)
 	w = 139;
 	h = uiButtonHeight;
 	h2 = h;
-	strStyleGroup = "leftMenuButton";
+	strStyleGroup = "leftMenu";
 
-	pButton = pUtilityLayer->addButton(x, y, w, h, "Export Game", strStyleGroup);
-	y += h2;
-	pButton = pUtilityLayer->addButton(x, y, w, h, "Mod Includer", strStyleGroup);
-	y += h2;
+	pMenu = pUtilityLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup);
+	pMenu->addItems(2, "Export Game", "Mod Includer");
 }
 
 void					CMainWindow::initSettingsMenuLayer(void)
@@ -148,10 +134,14 @@ void					CMainWindow::initSettingsMenuLayer(void)
 	h = uiButtonHeight;
 	x = getSize().x - w;
 	h2 = h;
-	strStyleGroup = "settingsMenuButton";
+	strStyleGroup = "settingsMenu";
 
-	m_vecSettingsMenuButtons.resize(4);
+	//m_vecSettingsMenuButtons.resize(4);
 
+	m_pSettingsMenu = pSettingsMenuLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup);
+	m_pSettingsMenu->addItems(4, "Settings", "Websites", "Formats", "About");
+
+	/*
 	m_vecSettingsMenuButtons[0] = pSettingsMenuLayer->addButton(x, y, w, h, "Settings", strStyleGroup + " firstItemVertically");
 	y += h2;
 	m_vecSettingsMenuButtons[1] = pSettingsMenuLayer->addButton(x, y, w, h, "Websites", strStyleGroup);
@@ -160,6 +150,7 @@ void					CMainWindow::initSettingsMenuLayer(void)
 	y += h2;
 	m_vecSettingsMenuButtons[3] = pSettingsMenuLayer->addButton(x, y, w, h, "About", strStyleGroup);
 	y += h2;
+	*/
 }
 
 void					CMainWindow::initEditors(void)
@@ -188,11 +179,7 @@ void					CMainWindow::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	h = uiButtonHeight;
 	x = getSize().x - w;
 
-	for (CButton *pButton : m_vecSettingsMenuButtons)
-	{
-		pButton->setPosition(Vec2i(x, y));
-		y += h;
-	}
+	m_pSettingsMenu->setPosition(Vec2i(x, y));
 }
 
 // main menu type
@@ -202,6 +189,7 @@ void					CMainWindow::setMainMenuType(EMainMenuType uiMainMenuType)
 	{
 		return;
 	}
+
 	m_uiMainMenuType = uiMainMenuType;
 	swapLayersEnabled(FORMATS_MENU, UTILITY_MENU);
 }

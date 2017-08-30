@@ -1079,8 +1079,8 @@ void		CIMGEditor::addControls(void)
 
 	m_pEntryGrid = addGrid(x, y, w, h, strStyleGroup, IMG_GRID);
 
-	w -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(_2D_MIRRORED_ORIENTATION_VERTICAL)->getBackgroundBarSize().x;
-	h -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(_2D_MIRRORED_ORIENTATION_HORIZONTAL)->getBackgroundBarSize().y;
+	w -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(VERTICAL)->getBackgroundBarSize().x;
+	h -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(HORIZONTAL)->getBackgroundBarSize().y;
 	m_pEntryGrid->setSize(Vec2u(w, h));
 
 	// filter - entry type
@@ -1131,8 +1131,8 @@ void		CIMGEditor::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	iNewWidth = m_pWindow->getSize().x - m_pEntryGrid->getPosition().x;
 	iNewHeight = m_pWindow->getSize().y - m_pEntryGrid->getPosition().y;
 	newSize = Vec2u(iNewWidth, iNewHeight);
-	newSize.x -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(_2D_MIRRORED_ORIENTATION_VERTICAL)->getBackgroundBarSize().x;
-	newSize.y -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(_2D_MIRRORED_ORIENTATION_HORIZONTAL)->getBackgroundBarSize().y;
+	newSize.x -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(VERTICAL)->getBackgroundBarSize().x;
+	newSize.y -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(HORIZONTAL)->getBackgroundBarSize().y;
 	m_pEntryGrid->setSize(newSize);
 
 	// filter - entry type

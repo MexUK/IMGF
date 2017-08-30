@@ -11,6 +11,7 @@ class imgf::CIMGEditor;
 class bxgx::CProgressBar;
 class bxgx::CTabBar;
 class bxgx::CButton;
+class bxgx::CMenu;
 
 class imgf::CMainWindow : public bxgx::CWindow
 {
@@ -24,8 +25,8 @@ public:
 	CMainLayer*				getMainLayer(void) { return m_pMainLayer; }
 	CIMGEditor*				getIMGEditor(void) { return m_pIMGEditor; }
 
-	bxgx::CProgressBar*	getProgressBar(void);
-	bxgx::CTabBar*	getTabBar(void);
+	bxgx::CProgressBar*		getProgressBar(void);
+	bxgx::CTabBar*			getTabBar(void);
 
 	void					repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 
@@ -39,9 +40,9 @@ private:
 	void					initEditors(void);
 
 public:
-	CMainLayer*								m_pMainLayer;
-	CIMGEditor*								m_pIMGEditor;
-	std::vector<bxgx::CButton*>		m_vecSettingsMenuButtons;
+	CMainLayer*				m_pMainLayer;
+	CIMGEditor*				m_pIMGEditor;
+	bxgx::CMenu*			m_pSettingsMenu;
 
 private:
 	imgf::mainLayer::mainMenuType::EMainMenuType	m_uiMainMenuType;

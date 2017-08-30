@@ -12,6 +12,8 @@
 #include "GUI/Editors/CIMGEditor.h"
 #include "GUI/Layer/ELayer.h"
 #include "GUI/Input/Buttons/EButton.h"
+#include "Controls/CMenu.h"
+#include "Controls/Entries/CMenuItem.h"
 
 using namespace std;
 using namespace bxcf;
@@ -55,8 +57,10 @@ void		CMainLayer::addControls(void)
 	uint32
 		uiTitleBarHeight = getWindow()->getTitleBarHeight(),
 		uiButtonHeight = 37;
-	CButton
-		*pButton;
+	CMenu
+		*pMenu;
+	CMenuItem
+		*pMenuItem, *pMenuItem2, *pMenuItem3;
 	string
 		strStyleGroup;
 
@@ -65,11 +69,11 @@ void		CMainLayer::addControls(void)
 	y = uiTitleBarHeight;
 	w = 70;
 	h = uiButtonHeight;
-	strStyleGroup = "topLeftMenuButton";
+	strStyleGroup = "topLeftMenu";
 
-	pButton = addButton(x, y, w, h, "Formats", "firstItemHorizontally " + strStyleGroup, FORMATS);
-	x += w - 1;
-	pButton = addButton(x, y, w, h, "Utility", strStyleGroup, UTILITY);
+	pMenu = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup);
+	pMenu->addItem("Formats", FORMATS);
+	pMenu->addItem("Utility", UTILITY);
 
 	// game information headers
 	x = 149 + 139;
@@ -129,20 +133,17 @@ void		CMainLayer::addControls(void)
 	w = 139;
 	h = uiButtonHeight;
 	w2 = w;
-	strStyleGroup = "topMenuButton";
+	strStyleGroup = "topMenu";
 
-	addButton(x, y, w, h, "New", strStyleGroup + " firstItemHorizontally", NEW);
-	x += w2;
-	addButton(x, y, w, h, "Open", strStyleGroup, OPEN);
-	x += w2;
-	addButton(x, y, w, h, "Close", strStyleGroup, CLOSE);
-	x += w2;
-	addButton(x, y, w, h, "Save", strStyleGroup, SAVE);
-	x += w2;
+	pMenu = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup);
+	pMenu->addItem("New", NEW);
+	pMenu->addItem("Open", OPEN);
+	pMenu->addItem("Close", CLOSE);
+	pMenu->addItem("Save", SAVE);
 
 	// search box
 	w2 = 0;
-	x += w2;
+	x += pMenu->getEntryCount() * w;
 	w = (m_pWindow->getSize().x - x) - (uiButtonHeight + 1);
 	h = uiButtonHeight;
 	strStyleGroup = "filter";
@@ -188,35 +189,86 @@ void		CMainLayer::addControls(void)
 	h = uiButtonHeight;
 	h2 = h;
 	h3 = h2 + 0;
-	strStyleGroup = "secondLeftMenuButton";
+	strStyleGroup = "secondLeftMenu";
 
-	addButton(x, y, w, h, "Import", strStyleGroup + " firstItemVertically");
-	y += h2;
-	addButton(x, y, w, h, "Export", strStyleGroup);
-	y += h2;
-	addButton(x, y, w, h, "Quick Export", strStyleGroup);
-	y += h3;
+	pMenu = addMenu(x, y, w, h, VERTICAL, strStyleGroup);
+	
+	pMenuItem = pMenu->addItem("Import");
+	pMenuItem->addItem("Import by File(s)");
+	pMenuItem->addItem("Import by Folder");
 
-	addButton(x, y, w, h, "Rename", "thirdItemVertically " + strStyleGroup);
-	y += h2;
-	addButton(x, y, w, h, "Replace", strStyleGroup);
-	y += h2;
-	addButton(x, y, w, h, "Remove", strStyleGroup);
-	y += h3;
+	pMenuItem = pMenu->addItem("Export");
+	pMenuItem->addItem("Export Selection");
+	pMenuItem->addItem("Export All");
+	pMenuItem2 = pMenuItem->addItem("Export by..");
+	pMenuItem2->addItem("Export by Index");
+	pMenuItem2->addItem("Export by Name (Wildcard match)");
+	pMenuItem2->addItem("Export by Offset");
+	pMenuItem2->addItem("Export by Size");
+	pMenuItem3 = pMenuItem2->addItem("Export by Type..");
+	pMenuItem3->addItem("Export by Type into Single Folder");
+	pMenuItem3->addItem("Export by Type into Grouped Folder(s)");
+	pMenuItem2->addItem("Export by Version");
 
-	addButton(x, y, w, h, "Merge", "thirdItemVertically " + strStyleGroup);
-	y += h2;
-	addButton(x, y, w, h, "Split", strStyleGroup);
-	y += h2;
-	addButton(x, y, w, h, "Convert", strStyleGroup);
-	y += h3;
+	pMenu->addItem("Quick Export");
+	pMenu->addItem("Rename");
+	pMenu->addItem("Replace");
 
-	addButton(x, y, w, h, "Select", "thirdItemVertically " + strStyleGroup);
-	y += h2;
-	addButton(x, y, w, h, "Sort", strStyleGroup);
-	y += h2;
-	addButton(x, y, w, h, "LST", strStyleGroup);
-	y += h3;
+	pMenuItem = pMenu->addItem("Remove");
+	pMenuItem->addItem("Remove Selection");
+	pMenuItem->addItem("Remove All");
+	pMenuItem2 = pMenuItem->addItem("Remove by..");
+	pMenuItem2->addItem("Remove by Index");
+	pMenuItem2->addItem("Remove by Name (Wildcard match)");
+	pMenuItem2->addItem("Remove by Offset");
+	pMenuItem2->addItem("Remove by Size");
+	pMenuItem2->addItem("Remove by Type");
+	pMenuItem2->addItem("Remove by Version");
+	
+	pMenu->addItem("Merge");
+	pMenu->addItem("Split");
+	pMenu->addItem("Convert");
+
+	pMenuItem = pMenu->addItem("Select");
+	pMenuItem->addItem("Select All");
+	pMenuItem->addItem("Unselect All");
+	pMenuItem2 = pMenuItem->addItem("Select by..");
+	pMenuItem2->addItem("Select by Index");
+	pMenuItem2->addItem("Select by Name (Wildcard match)");
+	pMenuItem2->addItem("Select by Offset");
+	pMenuItem2->addItem("Select by Size");
+	pMenuItem2->addItem("Select by Type");
+	pMenuItem2->addItem("Select by Version");
+	pMenuItem2 = pMenuItem->addItem("Unselect by..");
+	pMenuItem2->addItem("Unselect by Index");
+	pMenuItem2->addItem("Unselect by Name (Wildcard match)");
+	pMenuItem2->addItem("Unselect by Offset");
+	pMenuItem2->addItem("Unselect by Size");
+	pMenuItem2->addItem("Unselect by Type");
+	pMenuItem2->addItem("Unselect by Version");
+	
+	pMenuItem = pMenu->addItem("Sort");
+	pMenuItem2 = pMenuItem->addItem("Sort by Index..");
+	pMenuItem2->addItem("Sort by Index (Reverse)");
+	pMenuItem2 = pMenuItem->addItem("Sort by Name..");
+	pMenuItem2->addItem("Sort by Name Ascending (0-9, A-Z)");
+	pMenuItem2->addItem("Sort by Name Ascending (A-Z, 0-9)");
+	pMenuItem2->addItem("Sort by Name Descending (Z-A, 9-0)");
+	pMenuItem2->addItem("Sort by Name Descending (9-0, Z-A)");
+	pMenuItem2 = pMenuItem->addItem("Sort by Offset..");
+	pMenuItem2->addItem("Sort by Offset (Low-High)");
+	pMenuItem2->addItem("Sort by Offset (High-Low)");
+	pMenuItem2 = pMenuItem->addItem("Sort by Size..");
+	pMenuItem2->addItem("Sort by Size (Small-Big)");
+	pMenuItem2->addItem("Sort by Size (Big-Small)");
+	pMenuItem2 = pMenuItem->addItem("Sort by Type..");
+	pMenuItem2->addItem("Sort by Type (A-Z)");
+	pMenuItem2->addItem("Sort by Type (Z-A)");
+	pMenuItem2 = pMenuItem->addItem("Sort by Version..");
+	pMenuItem2->addItem("Sort by Version (Old-New)");
+	pMenuItem2->addItem("Sort by Version (New-Old)");
+
+	pMenu->addItem("LST");
 
 	// progress bar
 	w = 150;
