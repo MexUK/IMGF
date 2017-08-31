@@ -5,7 +5,7 @@
 #include "nsbxgx.h"
 #include "Event/Events.h"
 
-class bxgx::CButton;
+class bxgx::CMenuItem;
 class imgf::CMainWindow;
 class imgf::CTaskDispatchManager;
 
@@ -18,7 +18,7 @@ private:
 	void					bindEvents(void);
 
 public:
-	void					onPressButton(bxgx::CButton *pButton);
+	void					onPressMenuItem(bxgx::CMenuItem *pMenuItem);
 
 private:
 	void					formats(void);

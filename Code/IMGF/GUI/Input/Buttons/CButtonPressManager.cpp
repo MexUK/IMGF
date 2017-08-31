@@ -1,6 +1,6 @@
 #include "CButtonPressManager.h"
 #include "GUI/Input/Buttons/EButton.h"
-#include "Controls/CButton.h"
+#include "Controls/Entries/CMenuItem.h"
 #include "Globals.h"
 #include "IMGF.h"
 #include "GUI/Window/CWindowManager.h"
@@ -29,13 +29,13 @@ void					CButtonPressManager::init(void)
 // bind events
 void					CButtonPressManager::bindEvents(void)
 {
-	bindEvent(PRESS_BUTTON, &CButtonPressManager::onPressButton);
+	bindEvent(PRESS_MENU_ITEM, &CButtonPressManager::onPressMenuItem);
 }
 
 // forward button press
-void					CButtonPressManager::onPressButton(CButton *pButton)
+void					CButtonPressManager::onPressMenuItem(CMenuItem *pMenuItem)
 {
-	switch (pButton->getId())
+	switch (pMenuItem->getId())
 	{
 	case EButton::FORMATS:	return formats();
 	case EButton::UTILITY:	return utility();
