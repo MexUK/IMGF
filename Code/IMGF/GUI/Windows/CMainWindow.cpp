@@ -100,9 +100,9 @@ void					CMainWindow::initMainMenuLayers(void)
 	h2 = h;
 	strStyleGroup = "leftMenu";
 
-	pMenu = pFormatsLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup);
-	vector<CMenuItem*> vecMenuItems = pMenu->addItems(9, "DAT", "IMG", "Item Definition", "Item Placement", "Models", "Collisions", "Textures", "Animations", "Radar");
-	vecMenuItems[1]->setActive(true);
+	pMenu = pFormatsLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -100);
+	vector<CMenuItem*> vecMenuItems = pMenu->addMenuItems(9, "DAT", "IMG", "Item Definition", "Item Placement", "Models", "Collisions", "Textures", "Animations", "Radar");
+	pMenu->setActiveMenuItem(vecMenuItems[1]);
 
 	// utility menu
 	CLayer *pUtilityLayer = addLayer(UTILITY_MENU, false);
@@ -114,8 +114,8 @@ void					CMainWindow::initMainMenuLayers(void)
 	h2 = h;
 	strStyleGroup = "leftMenu";
 
-	pMenu = pUtilityLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup);
-	pMenu->addItems(2, "Export Game", "Mod Includer");
+	pMenu = pUtilityLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -100);
+	pMenu->addMenuItems(2, "Export Game", "Mod Includer");
 }
 
 void					CMainWindow::initSettingsMenuLayer(void)
@@ -138,8 +138,8 @@ void					CMainWindow::initSettingsMenuLayer(void)
 
 	//m_vecSettingsMenuButtons.resize(4);
 
-	m_pSettingsMenu = pSettingsMenuLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup);
-	m_pSettingsMenu->addItems(4, "Settings", "Websites", "Formats", "About");
+	m_pSettingsMenu = pSettingsMenuLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -100);
+	m_pSettingsMenu->addMenuItems(4, "Settings", "Websites", "Formats", "About");
 
 	/*
 	m_vecSettingsMenuButtons[0] = pSettingsMenuLayer->addButton(x, y, w, h, "Settings", strStyleGroup + " firstItemVertically");

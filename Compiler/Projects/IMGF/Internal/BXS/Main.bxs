@@ -113,6 +113,9 @@ fill 255 255 255
 
 .secondLeftMenu:item .main_lineTop .main_textAlign .main_spacing .main_fill_2
 
+.secondLeftMenu:item:active .main_lineTop .main_textAlign .main_spacing
+fill 175 175 175
+
 .secondLeftMenu:item:hover .main_lineTop .main_textAlign .main_spacing
 fill 198 198 198
 

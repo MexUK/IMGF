@@ -58,9 +58,9 @@ void		CMainLayer::addControls(void)
 		uiTitleBarHeight = getWindow()->getTitleBarHeight(),
 		uiButtonHeight = 37;
 	CMenu
-		*pMenu;
+		*pMenu1, *pMenu2, *pMenu3, *pMenu4;
 	CMenuItem
-		*pMenuItem, *pMenuItem2, *pMenuItem3;
+		*pMenuItem1, *pMenuItem2, *pMenuItem3, *pMenuItem4;
 	string
 		strStyleGroup;
 
@@ -71,9 +71,9 @@ void		CMainLayer::addControls(void)
 	h = uiButtonHeight;
 	strStyleGroup = "topLeftMenu";
 
-	pMenu = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup);
-	pMenu->addItem("Formats", FORMATS);
-	pMenu->addItem("Utility", UTILITY);
+	pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, -1, -100);
+	pMenu1->addMenuItem("Formats", FORMATS);
+	pMenu1->addMenuItem("Utility", UTILITY);
 
 	// game information headers
 	x = 149 + 139;
@@ -135,15 +135,15 @@ void		CMainLayer::addControls(void)
 	w2 = w;
 	strStyleGroup = "topMenu";
 
-	pMenu = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup);
-	pMenu->addItem("New", NEW);
-	pMenu->addItem("Open", OPEN);
-	pMenu->addItem("Close", CLOSE);
-	pMenu->addItem("Save", SAVE);
+	pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, -1, -100);
+	pMenu1->addMenuItem("New", NEW);
+	pMenu1->addMenuItem("Open", OPEN);
+	pMenu1->addMenuItem("Close", CLOSE);
+	pMenu1->addMenuItem("Save", SAVE);
 
 	// search box
 	w2 = 0;
-	x += pMenu->getEntryCount() * w;
+	x += pMenu1->getEntryCount() * w;
 	w = (m_pWindow->getSize().x - x) - (uiButtonHeight + 1);
 	h = uiButtonHeight;
 	strStyleGroup = "filter";
@@ -191,84 +191,145 @@ void		CMainLayer::addControls(void)
 	h3 = h2 + 0;
 	strStyleGroup = "secondLeftMenu";
 
-	pMenu = addMenu(x, y, w, h, VERTICAL, strStyleGroup);
+
+
+
+	pMenu1 = addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -100);
+
+	// import
+	pMenuItem1 = pMenu1->addMenuItem("Import");
+
+	pMenu2 = pMenuItem1->addMenu();
+	pMenu2->addMenuItem("Import by File(s)");
+	pMenu2->addMenuItem("Import by Folder");
+
+	// export
+	pMenuItem1 = pMenu1->addMenuItem("Export");
+
+	pMenu2 = pMenuItem1->addMenu();
+	pMenu2->addMenuItem("Export Selection");
+	pMenu2->addMenuItem("Export All");
+	pMenuItem2 = pMenu2->addMenuItem("Export by..");
+
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("Export by Index");
+	pMenu3->addMenuItem("Export by Name (Wildcard match)");
+	pMenu3->addMenuItem("Export by Offset");
+	pMenu3->addMenuItem("Export by Size");
+	pMenuItem3 = pMenu3->addMenuItem("Export by Type..");
+
+	pMenu4 = pMenuItem3->addMenu();
+	pMenu4->addMenuItem("Export by Type into Single Folder");
+	pMenu4->addMenuItem("Export by Type into Grouped Folder(s)");
+
+	pMenu3->addMenuItem("Export by Version");
+
+	// quick export
+	pMenu1->addMenuItem("Quick Export");
+
+	// rename
+	pMenu1->addMenuItem("Rename");
+
+	// replace
+	pMenu1->addMenuItem("Replace");
+
+	// remove
+	pMenuItem1 = pMenu1->addMenuItem("Remove");
+
+	pMenu2 = pMenuItem1->addMenu();
+	pMenu2->addMenuItem("Remove Selection");
+	pMenu2->addMenuItem("Remove All");
+	pMenuItem2 = pMenu2->addMenuItem("Remove by..");
+
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("Remove by Index");
+	pMenu3->addMenuItem("Remove by Name (Wildcard match)");
+	pMenu3->addMenuItem("Remove by Offset");
+	pMenu3->addMenuItem("Remove by Size");
+	pMenu3->addMenuItem("Remove by Type");
+	pMenu3->addMenuItem("Remove by Version");
 	
-	pMenuItem = pMenu->addItem("Import");
-	pMenuItem->addItem("Import by File(s)");
-	pMenuItem->addItem("Import by Folder");
+	// merge
+	pMenu1->addMenuItem("Merge");
 
-	pMenuItem = pMenu->addItem("Export");
-	pMenuItem->addItem("Export Selection");
-	pMenuItem->addItem("Export All");
-	pMenuItem2 = pMenuItem->addItem("Export by..");
-	pMenuItem2->addItem("Export by Index");
-	pMenuItem2->addItem("Export by Name (Wildcard match)");
-	pMenuItem2->addItem("Export by Offset");
-	pMenuItem2->addItem("Export by Size");
-	pMenuItem3 = pMenuItem2->addItem("Export by Type..");
-	pMenuItem3->addItem("Export by Type into Single Folder");
-	pMenuItem3->addItem("Export by Type into Grouped Folder(s)");
-	pMenuItem2->addItem("Export by Version");
+	// split
+	pMenu1->addMenuItem("Split");
 
-	pMenu->addItem("Quick Export");
-	pMenu->addItem("Rename");
-	pMenu->addItem("Replace");
+	// convert
+	pMenu1->addMenuItem("Convert");
 
-	pMenuItem = pMenu->addItem("Remove");
-	pMenuItem->addItem("Remove Selection");
-	pMenuItem->addItem("Remove All");
-	pMenuItem2 = pMenuItem->addItem("Remove by..");
-	pMenuItem2->addItem("Remove by Index");
-	pMenuItem2->addItem("Remove by Name (Wildcard match)");
-	pMenuItem2->addItem("Remove by Offset");
-	pMenuItem2->addItem("Remove by Size");
-	pMenuItem2->addItem("Remove by Type");
-	pMenuItem2->addItem("Remove by Version");
+	// select
+	pMenuItem1 = pMenu1->addMenuItem("Select");
+
+	pMenu2 = pMenuItem1->addMenu();
+	pMenu2->addMenuItem("Select All");
+	pMenu2->addMenuItem("Unselect All");
+	pMenuItem2 = pMenu2->addMenuItem("Select by..");
+
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("Select by Index");
+	pMenu3->addMenuItem("Select by Name (Wildcard match)");
+	pMenu3->addMenuItem("Select by Offset");
+	pMenu3->addMenuItem("Select by Size");
+	pMenu3->addMenuItem("Select by Type");
+	pMenu3->addMenuItem("Select by Version");
+
+	pMenuItem2 = pMenu2->addMenuItem("Unselect by..");
+
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("Unselect by Index");
+	pMenu3->addMenuItem("Unselect by Name (Wildcard match)");
+	pMenu3->addMenuItem("Unselect by Offset");
+	pMenu3->addMenuItem("Unselect by Size");
+	pMenu3->addMenuItem("Unselect by Type");
+	pMenu3->addMenuItem("Unselect by Version");
 	
-	pMenu->addItem("Merge");
-	pMenu->addItem("Split");
-	pMenu->addItem("Convert");
+	// sort
+	pMenuItem1 = pMenu1->addMenuItem("Sort");
 
-	pMenuItem = pMenu->addItem("Select");
-	pMenuItem->addItem("Select All");
-	pMenuItem->addItem("Unselect All");
-	pMenuItem2 = pMenuItem->addItem("Select by..");
-	pMenuItem2->addItem("Select by Index");
-	pMenuItem2->addItem("Select by Name (Wildcard match)");
-	pMenuItem2->addItem("Select by Offset");
-	pMenuItem2->addItem("Select by Size");
-	pMenuItem2->addItem("Select by Type");
-	pMenuItem2->addItem("Select by Version");
-	pMenuItem2 = pMenuItem->addItem("Unselect by..");
-	pMenuItem2->addItem("Unselect by Index");
-	pMenuItem2->addItem("Unselect by Name (Wildcard match)");
-	pMenuItem2->addItem("Unselect by Offset");
-	pMenuItem2->addItem("Unselect by Size");
-	pMenuItem2->addItem("Unselect by Type");
-	pMenuItem2->addItem("Unselect by Version");
-	
-	pMenuItem = pMenu->addItem("Sort");
-	pMenuItem2 = pMenuItem->addItem("Sort by Index..");
-	pMenuItem2->addItem("Sort by Index (Reverse)");
-	pMenuItem2 = pMenuItem->addItem("Sort by Name..");
-	pMenuItem2->addItem("Sort by Name Ascending (0-9, A-Z)");
-	pMenuItem2->addItem("Sort by Name Ascending (A-Z, 0-9)");
-	pMenuItem2->addItem("Sort by Name Descending (Z-A, 9-0)");
-	pMenuItem2->addItem("Sort by Name Descending (9-0, Z-A)");
-	pMenuItem2 = pMenuItem->addItem("Sort by Offset..");
-	pMenuItem2->addItem("Sort by Offset (Low-High)");
-	pMenuItem2->addItem("Sort by Offset (High-Low)");
-	pMenuItem2 = pMenuItem->addItem("Sort by Size..");
-	pMenuItem2->addItem("Sort by Size (Small-Big)");
-	pMenuItem2->addItem("Sort by Size (Big-Small)");
-	pMenuItem2 = pMenuItem->addItem("Sort by Type..");
-	pMenuItem2->addItem("Sort by Type (A-Z)");
-	pMenuItem2->addItem("Sort by Type (Z-A)");
-	pMenuItem2 = pMenuItem->addItem("Sort by Version..");
-	pMenuItem2->addItem("Sort by Version (Old-New)");
-	pMenuItem2->addItem("Sort by Version (New-Old)");
+	pMenu2 = pMenuItem1->addMenu();
+	pMenuItem2 = pMenu2->addMenuItem("Sort by Index..");
 
-	pMenu->addItem("LST");
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("Sort by Index (Reverse)");
+
+	pMenuItem2 = pMenu2->addMenuItem("Sort by Name..");
+
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("Sort by Name Ascending (0-9, A-Z)");
+	pMenu3->addMenuItem("Sort by Name Ascending (A-Z, 0-9)");
+	pMenu3->addMenuItem("Sort by Name Descending (Z-A, 9-0)");
+	pMenu3->addMenuItem("Sort by Name Descending (9-0, Z-A)");
+
+	pMenuItem2 = pMenu2->addMenuItem("Sort by Offset..");
+
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("Sort by Offset (Low-High)");
+	pMenu3->addMenuItem("Sort by Offset (High-Low)");
+
+	pMenuItem2 = pMenu2->addMenuItem("Sort by Size..");
+
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("Sort by Size (Small-Big)");
+	pMenu3->addMenuItem("Sort by Size (Big-Small)");
+
+	pMenuItem2 = pMenu2->addMenuItem("Sort by Type..");
+
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("Sort by Type (A-Z)");
+	pMenu3->addMenuItem("Sort by Type (Z-A)");
+
+	pMenuItem2 = pMenu2->addMenuItem("Sort by Version..");
+
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("Sort by Version (Old-New)");
+	pMenu3->addMenuItem("Sort by Version (New-Old)");
+
+	// LST
+	pMenu1->addMenuItem("LST");
+
+
+
 
 	// progress bar
 	w = 150;
