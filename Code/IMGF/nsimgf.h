@@ -17,9 +17,9 @@ namespace imgf
 
 	namespace mainLayer
 	{
-		namespace buttons
+		namespace input
 		{
-			enum EButton;
+			enum EInputItem;
 		};
 
 		namespace mainMenuType
@@ -66,7 +66,7 @@ namespace imgf
 	class CIMGEditor;
 	class CTextureEditor;
 
-	class CButtonPressManager;
+	class CInputManager;
 
 	class CMainLayer;
 

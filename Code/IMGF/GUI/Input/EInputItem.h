@@ -2,7 +2,7 @@
 
 #include "nsimgf.h"
 
-enum imgf::mainLayer::buttons::EButton
+enum imgf::mainLayer::input::EInputItem
 {
 	FORMATS,
 	UTILITY,

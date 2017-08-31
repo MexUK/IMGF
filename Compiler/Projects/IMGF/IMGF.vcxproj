@@ -116,6 +116,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Input\CInputManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\IMGF.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDragDrop.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\CDragListCtrl.cpp" />
@@ -137,7 +138,6 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editors\Tab\CIMGEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\CEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tab\CEditorTab.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Input\Buttons\CButtonPressManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layers\CMainLayer.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Popups\CPopupGUIManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Windows\CMainWindow.cpp" />
@@ -196,6 +196,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\IMGF\AutomatedTesting\CAutomatedTesting.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\CInputManager.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\EInputItem.h" />
     <ClInclude Include="..\..\..\Code\IMGF\IMGF.h" />
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDragDrop.h" />
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\CDragListCtrl.h" />
@@ -222,8 +224,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\CEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\EEditorItem.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tab\CEditorTab.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\Buttons\CButtonPressManager.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\Buttons\EButton.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layers\CMainLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\ELayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\EMainMenuType.h" />

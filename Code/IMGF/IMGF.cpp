@@ -71,7 +71,7 @@
 #include "Task/CLastUsedValueManager.h"
 #include "GUI/Windows/CMainWindow.h"
 #include "Styles/CStyleManager.h"
-#include "GUI/Input/Buttons/CButtonPressManager.h"
+#include "GUI/Input/CInputManager.h"
 #include "Static/CDataPath.h"
 
 using namespace std;
@@ -85,7 +85,7 @@ IMGF::IMGF(void)
 	CDataPath::setAppFolderName("IMGFactory");
 
 	// construct objects stored by IMGF
-	m_pButtonPressManager	= new CButtonPressManager;
+	m_pInputManager			= new CInputManager;
 	m_pEntryViewerManager	= new CEntryViewerManager;
 	m_pPopupGUIManager		= new CPopupGUIManager;
 	m_pLanguageManager		= new CLanguageManager;
@@ -103,7 +103,7 @@ IMGF::IMGF(void)
 IMGF::~IMGF(void)
 {
 	// destruct objects stored by IMGF
-	delete m_pButtonPressManager;
+	delete m_pInputManager;
 	delete m_pEntryViewerManager;
 	delete m_pPopupGUIManager;
 	delete m_pLanguageManager;
@@ -359,7 +359,7 @@ void				IMGF::openWindow(void)
 {
 	getWindowManager()->openWindow();
 	
-	m_pButtonPressManager->init();
+	m_pInputManager->init();
 	m_pTaskManager->init();
 
 	//Events::trigger(TOOL_READY);

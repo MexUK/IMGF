@@ -42,6 +42,15 @@ line top false
 .thirdItemVertically
 line top 0 0 0
 
+.thirdItemVertically:item
+line top 0 0 0
+
+.thirdItemVertically:item:active
+line top 0 0 0
+
+.thirdItemVertically:item:hover
+line top 0 0 0
+
 .main_lineLeft
 line left 180 180 180
 
@@ -84,6 +93,32 @@ fill 175 175 175
 .leftMenu:item:hover .main_lineTop .main_textAlign .main_spacing
 fill 158 158 158
 
+.leftMenu:itemIcon
+fill 0 0 0
+
+.leftMenu:itemIcon:active
+fill 0 0 0
+
+.leftMenu:itemIcon:hover
+fill 0 0 0
+
+.secondLeftMenu:item .main_lineTop .main_textAlign .main_spacing .main_fill_2
+
+.secondLeftMenu:item:active .main_lineTop .main_textAlign .main_spacing
+fill 175 175 175
+
+.secondLeftMenu:item:hover .main_lineTop .main_textAlign .main_spacing
+fill 198 198 198
+
+.secondLeftMenu:itemIcon
+fill 0 0 0
+
+.secondLeftMenu:itemIcon:active
+fill 0 0 0
+
+.secondLeftMenu:itemIcon:hover
+fill 0 0 0
+
 .topMenu:item .main_lineLeft .main_textAlign .main_spacing .main_fill_1
 
 .topMenu:item:active .main_lineLeft .main_textAlign .main_spacing
@@ -125,14 +160,6 @@ fill 255 255 255
 .fileTabBar:tab .main_lineLeft .main_textAlign .main_spacing .main_fill_2
 
 .fileTabBar:tab:active .main_fill_1
-
-.secondLeftMenu:item .main_lineTop .main_textAlign .main_spacing .main_fill_2
-
-.secondLeftMenu:item:active .main_lineTop .main_textAlign .main_spacing
-fill 175 175 175
-
-.secondLeftMenu:item:hover .main_lineTop .main_textAlign .main_spacing
-fill 198 198 198
 
 .progressBar .main_fill_1
 

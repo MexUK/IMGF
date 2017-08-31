@@ -1,5 +1,6 @@
-#include "CButtonPressManager.h"
-#include "GUI/Input/Buttons/EButton.h"
+#include "CInputManager.h"
+#include "GUI/Input/EInputItem.h"
+#include "Controls/CButton.h"
 #include "Controls/Entries/CMenuItem.h"
 #include "Globals.h"
 #include "IMGF.h"
@@ -14,11 +15,11 @@ using namespace bxgx;
 using namespace bxgx::control::events;
 using namespace imgf;
 using namespace imgf::layers;
-using namespace imgf::mainLayer::buttons;
+using namespace imgf::mainLayer::input;
 using namespace imgf::mainLayer::mainMenuType;
 
 // main interface
-void					CButtonPressManager::init(void)
+void					CInputManager::init(void)
 {
 	m_pMainWindow = g_pIMGF->getWindowManager()->getMainWindow();
 	m_pTaskDispatchManager = g_pIMGF->getTaskManager()->getDispatch();
@@ -27,18 +28,28 @@ void					CButtonPressManager::init(void)
 }
 
 // bind events
-void					CButtonPressManager::bindEvents(void)
+void					CInputManager::bindEvents(void)
 {
-	bindEvent(PRESS_MENU_ITEM, &CButtonPressManager::onPressMenuItem);
+	bindEvent(PRESS_BUTTON, &CInputManager::onPressButton);
+	bindEvent(PRESS_MENU_ITEM, &CInputManager::onPressMenuItem);
 }
 
 // forward button press
-void					CButtonPressManager::onPressMenuItem(CMenuItem *pMenuItem)
+void					CInputManager::onPressButton(CButton *pButton)
+{
+	switch (pButton->getId())
+	{
+	case SETTINGS:			return settings();
+	}
+}
+
+// forward button press
+void					CInputManager::onPressMenuItem(CMenuItem *pMenuItem)
 {
 	switch (pMenuItem->getId())
 	{
-	case EButton::FORMATS:	return formats();
-	case EButton::UTILITY:	return utility();
+	case EInputItem::FORMATS:	return formats();
+	case EInputItem::UTILITY:	return utility();
 
 	case DAT:				return dat();
 	case IMG:				return img();
@@ -66,125 +77,123 @@ void					CButtonPressManager::onPressMenuItem(CMenuItem *pMenuItem)
 	case SELECT:			return select();
 	case SORT:				return sort();
 	case LST:				return lst();
-
-	case SETTINGS:			return settings();
 	}
 }
 
 // button press - menu type menu
-void					CButtonPressManager::formats(void)
+void					CInputManager::formats(void)
 {
 	m_pMainWindow->setMainMenuType(EMainMenuType::FORMATS);
 }
 
-void					CButtonPressManager::utility(void)
+void					CInputManager::utility(void)
 {
 	m_pMainWindow->setMainMenuType(EMainMenuType::UTILITY);
 }
 
 // button press - format menu
-void					CButtonPressManager::dat(void)
+void					CInputManager::dat(void)
 {
 }
 
-void					CButtonPressManager::img(void)
+void					CInputManager::img(void)
 {
 }
 
-void					CButtonPressManager::itemDefinition(void)
+void					CInputManager::itemDefinition(void)
 {
 }
 
-void					CButtonPressManager::itemPlacement(void)
+void					CInputManager::itemPlacement(void)
 {
 }
 
-void					CButtonPressManager::models(void)
+void					CInputManager::models(void)
 {
 }
 
-void					CButtonPressManager::collisions(void)
+void					CInputManager::collisions(void)
 {
 }
 
-void					CButtonPressManager::textures(void)
+void					CInputManager::textures(void)
 {
 }
 
-void					CButtonPressManager::animations(void)
+void					CInputManager::animations(void)
 {
 }
 
-void					CButtonPressManager::radar(void)
+void					CInputManager::radar(void)
 {
 }
 
 // button press - file menu
-void					CButtonPressManager::open(void)
+void					CInputManager::open(void)
 {
 	m_pTaskDispatchManager->chooseFilesToOpen();
 }
 
-void					CButtonPressManager::close(void)
+void					CInputManager::close(void)
 {
 	m_pTaskDispatchManager->closeActiveFile();
 }
 
-void					CButtonPressManager::save(void)
+void					CInputManager::save(void)
 {
 }
 
 // button press - action menu
-void					CButtonPressManager::_import(void)
+void					CInputManager::_import(void)
 {
 }
 
-void					CButtonPressManager::_export(void)
+void					CInputManager::_export(void)
 {
 }
 
-void					CButtonPressManager::quickExport(void)
+void					CInputManager::quickExport(void)
 {
 }
 
-void					CButtonPressManager::rename(void)
+void					CInputManager::rename(void)
 {
 }
 
-void					CButtonPressManager::replace(void)
+void					CInputManager::replace(void)
 {
 }
 
-void					CButtonPressManager::remove(void)
+void					CInputManager::remove(void)
 {
 }
 
-void					CButtonPressManager::merge(void)
+void					CInputManager::merge(void)
 {
 }
 
-void					CButtonPressManager::split(void)
+void					CInputManager::split(void)
 {
 }
 
-void					CButtonPressManager::convert(void)
+void					CInputManager::convert(void)
 {
 }
 
-void					CButtonPressManager::select(void)
+void					CInputManager::select(void)
 {
 }
 
-void					CButtonPressManager::sort(void)
+void					CInputManager::sort(void)
 {
 }
 
-void					CButtonPressManager::lst(void)
+void					CInputManager::lst(void)
 {
 }
 
 // settings
-void					CButtonPressManager::settings(void)
+void					CInputManager::settings(void)
 {
 	CLayer *pLayer = m_pMainWindow->getLayerById(SETTINGS_MENU);
 	pLayer->setEnabled(!pLayer->isEnabled());

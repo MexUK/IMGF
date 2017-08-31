@@ -6,10 +6,11 @@
 #include "Event/Events.h"
 
 class bxgx::CMenuItem;
+class bxgx::CButton;
 class imgf::CMainWindow;
 class imgf::CTaskDispatchManager;
 
-class imgf::CButtonPressManager : public bxcf::EventBindable//<CButtonPressManager>
+class imgf::CInputManager : public bxcf::EventBindable
 {
 public:
 	void					init(void);
@@ -18,6 +19,7 @@ private:
 	void					bindEvents(void);
 
 public:
+	void					onPressButton(bxgx::CButton *pMenuItem);
 	void					onPressMenuItem(bxgx::CMenuItem *pMenuItem);
 
 private:

@@ -11,7 +11,7 @@
 #include "GUI/Windows/CMainWindow.h"
 #include "GUI/Editors/CIMGEditor.h"
 #include "GUI/Layer/ELayer.h"
-#include "GUI/Input/Buttons/EButton.h"
+#include "GUI/Input/EInputItem.h"
 #include "Controls/CMenu.h"
 #include "Controls/Entries/CMenuItem.h"
 
@@ -21,7 +21,7 @@ using namespace bxgx;
 using namespace bxgx::control::events;
 using namespace imgf;
 using namespace imgf::layers;
-using namespace imgf::mainLayer::buttons;
+using namespace imgf::mainLayer::input;
 
 // main interface
 void		CMainLayer::init(void)
@@ -228,7 +228,8 @@ void		CMainLayer::addControls(void)
 	pMenu1->addMenuItem("Quick Export");
 
 	// rename
-	pMenu1->addMenuItem("Rename");
+	pMenuItem1 = pMenu1->addMenuItem("Rename");
+	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
 	// replace
 	pMenu1->addMenuItem("Replace");
@@ -250,7 +251,8 @@ void		CMainLayer::addControls(void)
 	pMenu3->addMenuItem("Remove by Version");
 	
 	// merge
-	pMenu1->addMenuItem("Merge");
+	pMenuItem1 = pMenu1->addMenuItem("Merge");
+	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
 	// split
 	pMenu1->addMenuItem("Split");
@@ -260,6 +262,7 @@ void		CMainLayer::addControls(void)
 
 	// select
 	pMenuItem1 = pMenu1->addMenuItem("Select");
+	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Select All");

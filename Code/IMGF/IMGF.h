@@ -16,7 +16,7 @@ class imgf::CEditorTab;
 class imgf::CIMGEditor;
 class imgf::CIMGEditorTab;
 
-class imgf::CButtonPressManager;
+class imgf::CInputManager;
 class imgf::CSessionManager;
 class imgf::CRecentlyOpenManager;
 class imgf::CPopupGUIManager;
@@ -94,7 +94,7 @@ private:
 private:
 	CBuildMeta					m_buildMeta;
 
-	CButtonPressManager*		m_pButtonPressManager;
+	CInputManager*				m_pInputManager;
 	CDumpManager*				m_pDumpManager;
 	CEntryViewerManager*		m_pEntryViewerManager;
 	CPopupGUIManager*			m_pPopupGUIManager;
