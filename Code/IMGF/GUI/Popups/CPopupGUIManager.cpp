@@ -1762,11 +1762,11 @@ INT_PTR CALLBACK DialogProc_DragDropDialog(
 	}
 
 	// conversion options - default for DFF
-	if (pDragDropDialogData->m_eDestinationIMGVersion == IMG_1 && pRWVersion->getVersionId() == RW_3_4_0_3)
+	if (pDragDropDialogData->m_uiDestinationIMGVersion == IMG_1 && pRWVersion->getVersionId() == RW_3_4_0_3)
 	{
 	((CComboBox*)pDialog->GetDlgItem(52))->SetCurSel(((CComboBox*)pDialog->GetDlgItem(52))->GetCount() - 1); // VC
 	}
-	else if (pDragDropDialogData->m_eDestinationIMGVersion == IMG_2 && pRWVersion->getVersionId() == RW_3_6_0_3)
+	else if (pDragDropDialogData->m_uiDestinationIMGVersion == IMG_2 && pRWVersion->getVersionId() == RW_3_6_0_3)
 	{
 	((CComboBox*)pDialog->GetDlgItem(52))->SetCurSel(((CComboBox*)pDialog->GetDlgItem(52))->GetCount() - 1); // SA
 	}
@@ -1784,11 +1784,11 @@ INT_PTR CALLBACK DialogProc_DragDropDialog(
 	i++;
 
 	// conversion options - default for COL
-	if (pDragDropDialogData->m_eDestinationIMGVersion == IMG_1 && pCOLVersion->getVersionId() == COL_2)
+	if (pDragDropDialogData->m_uiDestinationIMGVersion == IMG_1 && pCOLVersion->getVersionId() == COL_2)
 	{
 	((CComboBox*)pDialog->GetDlgItem(56))->SetCurSel(((CComboBox*)pDialog->GetDlgItem(56))->GetCount() - 1); // VC
 	}
-	else if (pDragDropDialogData->m_eDestinationIMGVersion == IMG_2 && pCOLVersion->getVersionId() == COL_3)
+	else if (pDragDropDialogData->m_uiDestinationIMGVersion == IMG_2 && pCOLVersion->getVersionId() == COL_3)
 	{
 	((CComboBox*)pDialog->GetDlgItem(56))->SetCurSel(((CComboBox*)pDialog->GetDlgItem(56))->GetCount() - 1); // SA
 	}
@@ -1835,11 +1835,11 @@ INT_PTR CALLBACK DialogProc_DragDropDialog(
 	}
 
 	// conversion options - default for TXD
-	if (pDragDropDialogData->m_eDestinationIMGVersion == IMG_1)
+	if (pDragDropDialogData->m_uiDestinationIMGVersion == IMG_1)
 	{
 		((CComboBox*) pDialog->GetDlgItem(54))->SetCurSel(2); // VC
 	}
-	else if (pDragDropDialogData->m_eDestinationIMGVersion == IMG_2)
+	else if (pDragDropDialogData->m_uiDestinationIMGVersion == IMG_2)
 	{
 		((CComboBox*) pDialog->GetDlgItem(54))->SetCurSel(3); // SA
 	}
@@ -1886,7 +1886,7 @@ INT_PTR CALLBACK DialogProc_DragDropDialog(
 			if (uiTXDConversionComboOption >= 1 && uiTXDConversionComboOption <= 5)
 			{
 			pDragDropDialogData->m_uiTXDConversionOption = 1; // game
-			//pDragDropDialogData->m_eTXDConversionGame = GTA_III;
+			//pDragDropDialogData->m_uiTXDConversionGame = GTA_III;
 			}
 			else if (getIMGF()->m_umapMenuItemMapping_ConvertTXDtoRWVersion_DragDrop.find(uiTXDConversionComboOption) != getIMGF()->m_umapMenuItemMapping_ConvertTXDtoRWVersion_DragDrop.end())
 			{

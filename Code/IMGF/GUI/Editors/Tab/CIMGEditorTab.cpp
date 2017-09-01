@@ -607,6 +607,7 @@ void					CIMGEditorTab::addGridHeaders(void)
 {
 	getIMGF()->getIMGEditor()->addColumnsToMainListView(getIMGFile()->getVersion());
 }
+
 void					CIMGEditorTab::readdGridEntries(void)
 {
 	//m_pEditor->setSelectedEntryCount(0);
@@ -615,6 +616,7 @@ void					CIMGEditorTab::readdGridEntries(void)
 	m_pEntryGrid->removeAllEntries();
 	addGridEntries();
 }
+
 void					CIMGEditorTab::addGridEntries(void)
 {
 	CDropDownItem
@@ -674,12 +676,14 @@ void					CIMGEditorTab::addGridEntries(void)
 		pTaskManager->onTaskProgressTick();
 	}
 
+	m_pEntryGrid->recalculateProgressFor1Item();
 	m_pEntryGrid->render();
 
 	// todo
 	//updateEntryCountText();
 	//updateIMGText();
 }
+
 void					CIMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry, uint32 uiEntryIndex, void **pRows)
 {
 	if (uiEntryIndex == -1)
@@ -722,6 +726,7 @@ void					CIMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry, uint32 uiEntryIndex, 
 	}
 	*/
 }
+
 void					CIMGEditorTab::updateGridEntry(CIMGEntry *pIMGEntry)
 {
 	/*
@@ -746,6 +751,7 @@ void					CIMGEditorTab::updateGridEntry(CIMGEntry *pIMGEntry)
 	}
 	*/
 }
+
 uint32			CIMGEditorTab::getMainListViewItemIndexByItemData(CIMGEntry *pIMGEntry)
 {
 	/*

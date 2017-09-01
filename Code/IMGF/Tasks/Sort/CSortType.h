@@ -9,14 +9,14 @@ class imgf::CSortType
 public:
 	void						unload(void) {}
 
-	void						setType(ESortType eType) { m_eType = eType; }
-	ESortType					getType(void) { return m_eType; }
+	void						setType(ESortType eType) { m_uiType = eType; }
+	ESortType					getType(void) { return m_uiType; }
 	
 	void						setText(std::string strText) { m_strText = strText; }
 	std::string					getText(void);
 	std::string					getTextForMenu(void);
 
 private:
-	ESortType					m_eType;
+	ESortType					m_uiType;
 	std::string					m_strText;
 };

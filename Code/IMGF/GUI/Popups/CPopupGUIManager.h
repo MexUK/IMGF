@@ -212,7 +212,7 @@ class bxcf::CRasterDataFormat;
 class bxgi::CCOLVersion;
 struct imgf::CDragDropDialogData
 {
-	bxgi::EIMGVersion				m_eDestinationIMGVersion;
+	bxgi::EIMGVersion				m_uiDestinationIMGVersion;
 	bool							m_bCancel;
 	bool							m_bCopy;
 	bool							m_bConvert;
@@ -221,7 +221,7 @@ struct imgf::CDragDropDialogData
 	uint32							m_uiTXDConversionOption;
 	union
 	{
-		bxgi::EPlatformedGame			m_eTXDConversionGame;
+		bxgi::EPlatformedGame			m_uiTXDConversionGame;
 		bxgi::CRWVersion*				m_pTXDConversionRWVersion;
 		bxcf::CRasterDataFormat*		m_pTXDConversionRasterDataFormat;
 	};
@@ -339,7 +339,7 @@ struct imgf::CMapMoverAndIDShifterDialogData
 	uint32							m_uiIDStart;
 	bxcf::Vec3f						m_vecPositionOffset;
 	bool							m_bIgnoreDefaultObjects;
-	bxgi::EPlatformedGame					m_eIgnoreDefaultObjectsGame;
+	bxgi::EPlatformedGame			m_uiIgnoreDefaultObjectsGame;
 	bool							m_bIgnoreFilesShifter;
 	bool							m_bIgnoreFilesMover;
 	std::vector<std::string>		m_vecIgnoreFilesShifter;
