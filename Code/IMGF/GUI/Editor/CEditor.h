@@ -25,7 +25,7 @@ public:
 	CEditorTab*							getActiveFile(void) { return m_pActiveFile; }
 
 	void								setTabBar(bxgx::CTabBar *pTabBar) { m_pTabBar = pTabBar; }
-	bxgx::CTabBar*				getTabBar(void) { return m_pTabBar; }
+	bxgx::CTabBar*						getTabBar(void) { return m_pTabBar; }
 
 	void								updateActiveFileDisplayedInfo(void);
 	void								clearActiveFileDisplayedInfo(void);
@@ -36,7 +36,7 @@ public:
 	virtual std::string					getResolvedFilePath(std::string& strFilePath) { return strFilePath; } // file name or file path
 
 protected:
-	bxgx::CTabBar*				m_pTabBar;
+	bxgx::CTabBar*						m_pTabBar;
 	CEditorTab*							m_pActiveFile;
 	bxcf::CVectorPool<CEditorTab*>		m_vecTabs;
 };
