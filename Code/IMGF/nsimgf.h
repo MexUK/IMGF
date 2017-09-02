@@ -33,45 +33,45 @@ namespace imgf
 		enum ETask;
 	};
 
-	class CAutomatedTesting;
+	class AutomatedTesting;
 	
-	class CDragDrop;
+	class DragDrop;
 	struct CDraggableFile;
-	class CDragListCtrl;
-	class CDropSource;
-	class CDropTarget;
+	class DragListCtrl;
+	class DropSource;
+	class DropTarget;
 
-	class CCollisionViewer;
-	class CEntryViewer;
-	class CEntryViewerManager;
-	class CTextureViewer;
-	struct CTextureViewerTextureData;
+	class CollisionViewer;
+	class EntryViewer;
+	class EntryViewerManager;
+	class TextureViewer;
+	struct TextureViewerTextureData;
 	enum EEntryViewerDisplayType;
 
 	enum EEvent;
 
-	class CDBEntry;
-	class CDBFormat;
-	class CDBManager;
+	class DBEntry;
+	class DBFormat;
+	class DBManager;
 
-	class CLSTEntry;
-	class CLSTFormat;
-	class CLSTManager;
-	class CLSTSection;
+	class LSTEntry;
+	class LSTFormat;
+	class LSTManager;
+	class LSTSection;
 
-	class CEditorTab;
-	class CEditor;
+	class EditorTab;
+	class Editor;
 
-	class CIMGEditorTab;
-	class CIMGEditor;
-	class CTextureEditor;
+	class IMGEditorTab;
+	class IMGEditor;
+	class TextureEditor;
 
-	class CInputManager;
+	class InputManager;
 
-	class CMainLayer;
+	class MainLayer;
 
-	class CPopupGUIManager;
-	struct CTextInputDialogData;
+	class PopupGUIManager;
+	struct TextInputDialogData;
 	struct CConvertDialogData;
 	struct CExportViaDialogData;
 	struct CSortOptionsDialogData;
@@ -81,10 +81,10 @@ namespace imgf
 	struct CConfirmDialogData;
 	struct CDumpDialogData;
 	struct CListViewDialogData;
-	struct CTextureListDialogData;
-	struct CSessionManagerDialogData;
+	struct TextureListDialogData;
+	struct SessionManagerDialogData;
 	struct CSplitViaDialogData;
-	struct CDragDropDialogData;
+	struct DragDropDialogData;
 	struct CDumpResultsDialogData;
 	struct CRenamerDialogData;
 	struct CDFFConversionDialogData;
@@ -98,52 +98,52 @@ namespace imgf
 	struct COverwriteEntryDialogData;
 	struct C3ButtonDialogData;
 
-	class CWindowManager;
+	class WindowManager;
 
-	class CMainWindow;
+	class MainWindow;
 
-	class CLanguage;
-	class CLanguageManager;
+	class Language;
+	class LanguageManager;
 
-	class CBuildMeta;
+	class BuildMeta;
 
-	class CSettingsManager;
+	class SettingsManager;
 
-	class CAppDataPath;
+	class AppDataPath;
 
-	class CLastUsedValueManager;
-	class CTaskDispatchManager;
-	class CTaskDurationManager;
-	class CTaskManager;
+	class LastUsedValueManager;
+	class TaskDispatchManager;
+	class TaskDurationManager;
+	class TaskManager;
 
-	class CDumpManager;
+	class DumpManager;
 	
-	struct CFilterOptions;
+	struct FilterOptions;
 	
-	class CSearchEntry;
+	class SearchEntry;
 	
-	class CLSTProcessingManager;
+	class LSTProcessingManager;
 	
-	class CRecentlyOpenEntry;
-	class CRecentlyOpenManager;
+	class RecentlyOpenEntry;
+	class RecentlyOpenManager;
 
-	struct CRenamedIMGEntry;
+	struct RenamedIMGEntry;
 
-	class CSession;
-	class CSessionManager;
+	class Session;
+	class SessionManager;
 
-	class CSortManager;
-	class CSortMenuItem;
-	class CSortMenuItems;
-	class CSortPriorities;
-	class CSortPriority;
-	class CSortType;
-	class CSortTypes;
+	class SortManager;
+	class SortMenuItem;
+	class SortMenuItems;
+	class SortPriorities;
+	class SortPriority;
+	class SortType;
+	class SortTypes;
 	enum ESortType;
 
-	class CUpdateConnection;
-	class CUpdateConnectionManager;
-	class CUpdateManager;
+	class UpdateConnection;
+	class UpdateConnectionManager;
+	class UpdateManager;
 	class CExeBuild;
 
 	class IMGF;

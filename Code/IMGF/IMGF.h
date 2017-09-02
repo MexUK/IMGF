@@ -5,32 +5,32 @@
 #include "Type/Types.h"
 #include "Globals.h"
 #include "Object/CManager.h"
-#include "Program/CBuildMeta.h"
+#include "Program/BuildMeta.h"
 
 #define WINAPI __stdcall
 uint32 WINAPI		onInitializationThreadStart(void *pThreadParameter);
 
-class imgf::CMainWindow;
-class bxgx::CWindow;
-class imgf::CEditorTab;
-class imgf::CIMGEditor;
-class imgf::CIMGEditorTab;
+class imgf::MainWindow;
+class bxgx::Window;
+class imgf::EditorTab;
+class imgf::IMGEditor;
+class imgf::IMGEditorTab;
 
-class imgf::CInputManager;
-class imgf::CSessionManager;
-class imgf::CRecentlyOpenManager;
-class imgf::CPopupGUIManager;
-class imgf::CTaskManager;
-class imgf::CLSTProcessingManager;
+class imgf::InputManager;
+class imgf::SessionManager;
+class imgf::RecentlyOpenManager;
+class imgf::PopupGUIManager;
+class imgf::TaskManager;
+class imgf::LSTProcessingManager;
 class bxcf::CLocalizationManager;
-class imgf::CLanguageManager;
-class imgf::CDumpManager;
-class imgf::CSettingsManager;
-class imgf::CSortManager;
-class imgf::CEntryViewerManager;
-class imgf::CUpdateManager;
-class imgf::CLastUsedValueManager;
-class imgf::CWindowManager;
+class imgf::LanguageManager;
+class imgf::DumpManager;
+class imgf::SettingsManager;
+class imgf::SortManager;
+class imgf::EntryViewerManager;
+class imgf::UpdateManager;
+class imgf::LastUsedValueManager;
+class imgf::WindowManager;
 
 class CWnd; // temp
 
@@ -48,26 +48,26 @@ public:
 	void						openWindow(void);
 	void						process(void);
 	
-	CBuildMeta&					getBuildMeta(void) { return m_buildMeta; }
+	BuildMeta&					getBuildMeta(void) { return m_buildMeta; }
 
-	bxgx::CWindow*				getActiveWindow(void);
-	CEditorTab*					getActiveTab(void);
-	CIMGEditor*					getIMGEditor(void);
-	CIMGEditorTab*				getEntryListTab(void); // todo
+	bxgx::Window*				getActiveWindow(void);
+	EditorTab*					getActiveTab(void);
+	IMGEditor*					getIMGEditor(void);
+	IMGEditorTab*				getEntryListTab(void); // todo
 	
-	CDumpManager*				getDumpManager(void) { return m_pDumpManager; }
-	CEntryViewerManager*		getEntryViewerManager(void) { return m_pEntryViewerManager; }
-	CPopupGUIManager*			getPopupGUIManager(void) { return m_pPopupGUIManager; }
-	CLanguageManager*			getLanguageManager(void) { return m_pLanguageManager; }
-	CLSTProcessingManager*		getLSTProcessingManager(void) { return m_pLSTProcessingManager; }
-	CWindowManager*				getWindowManager(void) { return m_pWindowManager; }
-	CRecentlyOpenManager*		getRecentlyOpenManager(void) { return m_pRecentlyOpenManager; }
-	CTaskManager*				getTaskManager(void) { return m_pTaskManager; }
-	CSessionManager*			getSessionManager(void) { return m_pSessionManager; }
-	CSettingsManager*			getSettingsManager(void) { return m_pSettingsManager; }
-	CSortManager*				getSortManager(void) { return m_pSortManager; }
-	CUpdateManager*				getUpdateManager(void) { return m_pUpdateManager; }
-	CLastUsedValueManager*		getLastUsedValueManager(void) { return m_pLastUsedValueManager; }
+	DumpManager*				getDumpManager(void) { return m_pDumpManager; }
+	EntryViewerManager*		getEntryViewerManager(void) { return m_pEntryViewerManager; }
+	PopupGUIManager*			getPopupGUIManager(void) { return m_pPopupGUIManager; }
+	LanguageManager*			getLanguageManager(void) { return m_pLanguageManager; }
+	LSTProcessingManager*		getLSTProcessingManager(void) { return m_pLSTProcessingManager; }
+	WindowManager*				getWindowManager(void) { return m_pWindowManager; }
+	RecentlyOpenManager*		getRecentlyOpenManager(void) { return m_pRecentlyOpenManager; }
+	TaskManager*				getTaskManager(void) { return m_pTaskManager; }
+	SessionManager*			getSessionManager(void) { return m_pSessionManager; }
+	SettingsManager*			getSettingsManager(void) { return m_pSettingsManager; }
+	SortManager*				getSortManager(void) { return m_pSortManager; }
+	UpdateManager*				getUpdateManager(void) { return m_pUpdateManager; }
+	LastUsedValueManager*		getLastUsedValueManager(void) { return m_pLastUsedValueManager; }
 
 	void						setLastUsedDirectory(std::string strHandleName, std::string strDirectory);
 	std::string					getLastUsedDirectory(std::string strHandleName);
@@ -92,20 +92,20 @@ private:
 	void						initTempStuff(void);
 
 private:
-	CBuildMeta					m_buildMeta;
+	BuildMeta					m_buildMeta;
 
-	CInputManager*				m_pInputManager;
-	CDumpManager*				m_pDumpManager;
-	CEntryViewerManager*		m_pEntryViewerManager;
-	CPopupGUIManager*			m_pPopupGUIManager;
-	CLanguageManager*			m_pLanguageManager;
-	CLSTProcessingManager*		m_pLSTProcessingManager;
-	CWindowManager*				m_pWindowManager;
-	CRecentlyOpenManager*		m_pRecentlyOpenManager;
-	CTaskManager*				m_pTaskManager;
-	CSessionManager*			m_pSessionManager;
-	CSettingsManager*			m_pSettingsManager;
-	CSortManager*				m_pSortManager;
-	CUpdateManager*				m_pUpdateManager;
-	CLastUsedValueManager*		m_pLastUsedValueManager;
+	InputManager*				m_pInputManager;
+	DumpManager*				m_pDumpManager;
+	EntryViewerManager*		m_pEntryViewerManager;
+	PopupGUIManager*			m_pPopupGUIManager;
+	LanguageManager*			m_pLanguageManager;
+	LSTProcessingManager*		m_pLSTProcessingManager;
+	WindowManager*				m_pWindowManager;
+	RecentlyOpenManager*		m_pRecentlyOpenManager;
+	TaskManager*				m_pTaskManager;
+	SessionManager*			m_pSessionManager;
+	SettingsManager*			m_pSettingsManager;
+	SortManager*				m_pSortManager;
+	UpdateManager*				m_pUpdateManager;
+	LastUsedValueManager*		m_pLastUsedValueManager;
 };

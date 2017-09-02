@@ -4,74 +4,74 @@
 #include "Engine/RW/CRWManager.h"
 #include "Engine/RW/CRWVersionManager.h"
 #include "Engine/RAGE/CRageManager.h"
-#include "Tasks/RecentlyOpen/CRecentlyOpenManager.h"
-#include "Tasks/Session/CSessionManager.h"
-#include "GUI/Popups/CPopupGUIManager.h"
-#include "Tasks/LST/CLSTProcessingManager.h"
-#include "Task/CTaskManager.h"
-#include "Task/CTaskDispatchManager.h"
-#include "Settings/CSettingsManager.h"
-#include "Tasks/Sort/CSortManager.h"
+#include "Tasks/RecentlyOpen/RecentlyOpenManager.h"
+#include "Tasks/Session/SessionManager.h"
+#include "GUI/Popups/PopupGUIManager.h"
+#include "Tasks/LST/LSTProcessingManager.h"
+#include "Task/TaskManager.h"
+#include "Task/TaskDispatchManager.h"
+#include "Settings/SettingsManager.h"
+#include "Tasks/Sort/SortManager.h"
 #include "Format/IMG/Regular/CIMGManager.h"
 #include "Static/CInput.h"
-#include "Window/CWindow.h"
-#include "Controls/CText.h"
-#include "Controls/CGrid.h"
-#include "Controls/CButton.h"
-#include "Controls/CCheckBox.h"
-#include "Controls/CDropDown.h"
-#include "Controls/CScrollBar.h"
-#include "Controls/CProgressBar.h"
-#include "Controls/CRadioButton.h"
-#include "Controls/CTextBox.h"
-#include "GUI/Window/CWindowManager.h"
-#include "GUI/Editors/CIMGEditor.h"
-#include "GUI/Editors/Tab/CIMGEditorTab.h"
+#include "Window/Window.h"
+#include "Controls/Text.h"
+#include "Controls/Grid.h"
+#include "Controls/Button.h"
+#include "Controls/CheckBox.h"
+#include "Controls/DropDown.h"
+#include "Controls/ScrollBar.h"
+#include "Controls/ProgressBar.h"
+#include "Controls/RadioButton.h"
+#include "Controls/TextBox.h"
+#include "GUI/Window/WindowManager.h"
+#include "GUI/Editors/IMGEditor.h"
+#include "GUI/Editors/Tab/IMGEditorTab.h"
 #include "Static/CString2.h"
 #include "Static/CFile.h"
 #include "Static/CPath.h"
 #include "Static/CRegistry.h"
-#include "DragDrop/CDropTarget.h"
-#include "DB/CDBManager.h"
-#include "DB/CDBFormat.h"
+#include "DragDrop/DropTarget.h"
+#include "DB/DBManager.h"
+#include "DB/DBFormat.h"
 #include "Static/CDebug.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
 #include "Format/COL/CCOLManager.h"
 #include "Format/COL/CCOLVersionManager.h"
 #include "Format/COL/CCOLVersion.h"
 #include "Static/CInput.h"
-#include "Tasks/Find/CSearchEntry.h"
-#include "EntryViewer/CEntryViewerManager.h"
+#include "Tasks/Find/SearchEntry.h"
+#include "EntryViewer/EntryViewerManager.h"
 #include "Static/CStdVector.h"
-#include "Updater/CUpdateManager.h"
+#include "Updater/UpdateManager.h"
 #include "Program/buildnumber.h"
 #include "Compression/ECompressionAlgorithm.h"
 #include "Format/DAT/Loader/CDATLoaderManager.h"
 #include "Format/DAT/Path/CDATPathManager.h"
 #include "Localization/CLocalizationManager.h"
-#include "Language/CLanguageManager.h"
+#include "Language/LanguageManager.h"
 #include "Format/Image/BMP/CBMPManager.h"
 #include "Format/Image/CUR/CCURManager.h"
 #include "Format/DFF/CDFFManager.h"
-#include "DB/CDBManager.h"
+#include "DB/DBManager.h"
 #include "Format/Image/ICO/CICOManager.h"
 #include "Format/IDE/CIDEManager.h"
 #include "Image/CImageManager.h"
 #include "Format/IPL/CIPLManager.h"
-#include "LST/CLSTManager.h"
+#include "LST/LSTManager.h"
 #include "Format/TXD/CTXDManager.h"
 #include "Format/WDR/CWDRManager.h"
 #include "Format/WTD/CWTDManager.h"
 #include "Localization/ELanguage.h"
-#include "Language/CLanguage.h"
+#include "Language/Language.h"
 #include "Game/CGameManager.h"
 #include "Platform/Hardware/CPlatformManager.h"
 #include "Format/RW/CRWSection.h"
 #include "Static/CTiming.h"
-#include "Task/CLastUsedValueManager.h"
-#include "GUI/Windows/CMainWindow.h"
-#include "Styles/CStyleManager.h"
-#include "GUI/Input/CInputManager.h"
+#include "Task/LastUsedValueManager.h"
+#include "GUI/Windows/MainWindow.h"
+#include "Styles/StyleManager.h"
+#include "GUI/Input/InputManager.h"
 #include "Static/CDataPath.h"
 
 using namespace std;
@@ -85,19 +85,19 @@ IMGF::IMGF(void)
 	CDataPath::setAppFolderName("IMGFactory");
 
 	// construct objects stored by IMGF
-	m_pInputManager			= new CInputManager;
-	m_pEntryViewerManager	= new CEntryViewerManager;
-	m_pPopupGUIManager		= new CPopupGUIManager;
-	m_pLanguageManager		= new CLanguageManager;
-	m_pLSTProcessingManager	= new CLSTProcessingManager;
-	m_pRecentlyOpenManager	= new CRecentlyOpenManager;
-	m_pTaskManager			= new CTaskManager;
-	m_pSessionManager		= new CSessionManager;
-	m_pSettingsManager		= new CSettingsManager;
-	m_pSortManager			= new CSortManager;
-	m_pUpdateManager		= new CUpdateManager;
-	m_pWindowManager		= new CWindowManager;
-	m_pLastUsedValueManager	= new CLastUsedValueManager;
+	m_pInputManager			= new InputManager;
+	m_pEntryViewerManager	= new EntryViewerManager;
+	m_pPopupGUIManager		= new PopupGUIManager;
+	m_pLanguageManager		= new LanguageManager;
+	m_pLSTProcessingManager	= new LSTProcessingManager;
+	m_pRecentlyOpenManager	= new RecentlyOpenManager;
+	m_pTaskManager			= new TaskManager;
+	m_pSessionManager		= new SessionManager;
+	m_pSettingsManager		= new SettingsManager;
+	m_pSortManager			= new SortManager;
+	m_pUpdateManager		= new UpdateManager;
+	m_pWindowManager		= new WindowManager;
+	m_pLastUsedValueManager	= new LastUsedValueManager;
 }
 
 IMGF::~IMGF(void)
@@ -175,7 +175,7 @@ void				IMGF::initBuildMeta(void)
 void				IMGF::initInstallationMeta(void)
 {
 	// choose installation folder
-	string strInstallationPath = CSettingsManager::getInternalSetting("InstallationPath");
+	string strInstallationPath = SettingsManager::getInternalSetting("InstallationPath");
 	if (strInstallationPath == "")
 	{
 		string strProgramFilesx86FolderName = "IMG Factory";
@@ -183,7 +183,7 @@ void				IMGF::initInstallationMeta(void)
 		if (CFile::doesFolderExist(strPotentialInstallationPath))
 		{
 			strInstallationPath = strPotentialInstallationPath;
-			CSettingsManager::setInternalSetting("InstallationPath", strPotentialInstallationPath);
+			SettingsManager::setInternalSetting("InstallationPath", strPotentialInstallationPath);
 		}
 		else
 		{
@@ -198,7 +198,7 @@ void				IMGF::initInstallationMeta(void)
 			{
 				strInstallationPath = strChosenInstallationFolder;
 				getIMGF()->setLastUsedDirectory("INSTALLATION", strChosenInstallationFolder);
-				CSettingsManager::setInternalSetting("InstallationPath", strChosenInstallationFolder);
+				SettingsManager::setInternalSetting("InstallationPath", strChosenInstallationFolder);
 			}
 			*/
 		}
@@ -208,7 +208,7 @@ void				IMGF::initInstallationMeta(void)
 void				IMGF::initStoredObjects(void)
 {
 	// initialize objects stored by IMGF
-	// Excludes: CWindowManager and CSortManager
+	// Excludes: WindowManager and SortManager
 	m_pEntryViewerManager->init();
 	m_pPopupGUIManager->init();
 	m_pLanguageManager->init();
@@ -227,7 +227,7 @@ void				IMGF::initSingletonObjects(void)
 	CCURManager::get()->init();
 	CDATLoaderManager::get()->init();
 	CDATPathManager::get()->init();
-	CDBManager::get()->init();
+	DBManager::get()->init();
 	CDFFManager::get()->init();
 	CGameManager::get()->init();
 	CICOManager::get()->init();
@@ -235,7 +235,7 @@ void				IMGF::initSingletonObjects(void)
 	CImageManager::get()->init();
 	CIMGManager::get()->init();
 	CIPLManager::get()->init();
-	CLSTManager::get()->init();
+	LSTManager::get()->init();
 	CPlatformManager::get()->init();
 	CRageManager::get()->init();
 	CRWManager::get()->init();
@@ -283,7 +283,7 @@ void				IMGF::initLocalization(void)
 	ELanguage eActivELanguage = (ELanguage)getIMGF()->getSettingsManager()->getSettingInt("Language");
 	CLocalizationManager::get()->setActivELanguage(eActivELanguage);
 	CLocalizationManager::get()->setActivELanguageName(getIMGF()->getLanguageManager()->getLanguageById(eActivELanguage)->getLanguageName());
-	CLocalizationManager::get()->setInstallationPath(CSettingsManager::getInternalSetting("InstallationPath"));
+	CLocalizationManager::get()->setInstallationPath(SettingsManager::getInternalSetting("InstallationPath"));
 	CLocalizationManager::get()->loadTranslatedText();
 }
 
@@ -295,7 +295,7 @@ void				IMGF::initSorting(void)
 void				IMGF::initOldVersionMigration(void)
 {
 	// delete previous version's exe file
-	string strPreviousVersionExePath = CSettingsManager::getInternalSetting("DeletePreviousVersionOnNextLaunch");
+	string strPreviousVersionExePath = SettingsManager::getInternalSetting("DeletePreviousVersionOnNextLaunch");
 	if (strPreviousVersionExePath == "1")
 	{
 		int iResult;
@@ -319,7 +319,7 @@ void				IMGF::initOldVersionMigration(void)
 			}
 		}
 		while (bFileExists && iResult == 0);
-		CSettingsManager::setInternalSetting("DeletePreviousVersionOnNextLaunch", "0");
+		SettingsManager::setInternalSetting("DeletePreviousVersionOnNextLaunch", "0");
 	}
 }
 
@@ -344,7 +344,7 @@ void				IMGF::initAutoUpdateCheck(void)
 {
 	/*
 	todo
-	This currently calls a onRequestBlah which eventualls calls CTaskManager::onFeatureEnd which can crash before the CIMGEditor object has been created.
+	This currently calls a onRequestBlah which eventualls calls TaskManager::onFeatureEnd which can crash before the IMGEditor object has been created.
 	So move this to like lambda: onWindowOpen()
 	getIMGF()->getTaskManager()->getDispatch()->onRequestAutoUpdate();
 	*/
@@ -370,40 +370,40 @@ void				IMGF::process(void)
 	getWindowManager()->process();
 }
 
-CWindow*			IMGF::getActiveWindow(void)
+Window*			IMGF::getActiveWindow(void)
 {
 	return BXGX::get()->getActiveWindow();
 }
 
-CEditorTab*			IMGF::getActiveTab(void)
+EditorTab*			IMGF::getActiveTab(void)
 {
-	CMainWindow *pIMGFWindow = (CMainWindow*) BXGX::get()->getEntryByIndex(0);
-	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
-	CEditorTab *pEditorTab = pIMGEditor->getActiveTab();
+	MainWindow *pIMGFWindow = (MainWindow*) BXGX::get()->getEntryByIndex(0);
+	IMGEditor *pIMGEditor = (IMGEditor*) pIMGFWindow->getEntryByIndex(0);
+	EditorTab *pEditorTab = pIMGEditor->getActiveTab();
 	return pEditorTab;
 }
 
-CIMGEditor*			IMGF::getIMGEditor(void)
+IMGEditor*			IMGF::getIMGEditor(void)
 {
-	CMainWindow *pIMGFWindow = (CMainWindow*) BXGX::get()->getEntryByIndex(0);
-	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
+	MainWindow *pIMGFWindow = (MainWindow*) BXGX::get()->getEntryByIndex(0);
+	IMGEditor *pIMGEditor = (IMGEditor*) pIMGFWindow->getEntryByIndex(0);
 	return pIMGEditor;
 }
 
-CIMGEditorTab*		IMGF::getEntryListTab(void)
+IMGEditorTab*		IMGF::getEntryListTab(void)
 {
-	CMainWindow *pIMGFWindow = (CMainWindow*) BXGX::get()->getEntryByIndex(0);
-	CIMGEditor *pIMGEditor = (CIMGEditor*) pIMGFWindow->getEntryByIndex(0);
-	CIMGEditorTab *pIMGEditorTab = (CIMGEditorTab*) pIMGEditor->getTabs().getEntryByIndex(0);
+	MainWindow *pIMGFWindow = (MainWindow*) BXGX::get()->getEntryByIndex(0);
+	IMGEditor *pIMGEditor = (IMGEditor*) pIMGFWindow->getEntryByIndex(0);
+	IMGEditorTab *pIMGEditorTab = (IMGEditorTab*) pIMGEditor->getTabs().getEntryByIndex(0);
 	return pIMGEditorTab;
 }
 
 // last used directory
 void				IMGF::setLastUsedDirectory(string strHandleName, string strDirectory)
 {
-	// todo - remove after CTaskDispatchManager is done
+	// todo - remove after TaskDispatchManager is done
 }
 string				IMGF::getLastUsedDirectory(string strHandleName)
 {
-	return ""; // todo - remove after CTaskDispatchManager is done
+	return ""; // todo - remove after TaskDispatchManager is done
 }

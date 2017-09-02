@@ -2,8 +2,8 @@
 #include "Globals.h"
 #include "IMGF.h"
 
-#include "GUI/Window/CWindowManager.h"
-#include "GUI/Windows/CMainWindow.h"
+#include "GUI/Window/WindowManager.h"
+#include "GUI/Windows/MainWindow.h"
 
 using namespace imgf;
 
