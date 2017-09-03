@@ -8,7 +8,7 @@
 #include <string>
 
 class imgf::Editor;
-class bxcf::CFormat;
+class bxcf::Format;
 class bxgx::Tab;
 
 class imgf::EditorTab : public bxgx::Layer
@@ -26,8 +26,8 @@ public:
 
 	uint32						getTabIndex(void);
 
-	void						setFile(bxcf::CFormat *pFile) { m_pFile = pFile; }
-	bxcf::CFormat*				getFile(void) { return m_pFile; }
+	void						setFile(bxcf::Format *pFile) { m_pFile = pFile; }
+	bxcf::Format*				getFile(void) { return m_pFile; }
 
 	virtual void				addControls(void) = 0;
 	virtual void				initControls(void) = 0;
@@ -38,5 +38,5 @@ public:
 private:
 	Editor*					m_pEditor;
 	bxgx::Tab*	m_pTab;
-	bxcf::CFormat*				m_pFile;
+	bxcf::Format*				m_pFile;
 };

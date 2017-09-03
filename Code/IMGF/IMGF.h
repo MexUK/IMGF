@@ -4,7 +4,7 @@
 #include "nsbxgx.h"
 #include "Type/Types.h"
 #include "Globals.h"
-#include "Object/CManager.h"
+#include "Object/Manager.h"
 #include "Program/BuildMeta.h"
 
 #define WINAPI __stdcall
@@ -22,7 +22,7 @@ class imgf::RecentlyOpenManager;
 class imgf::PopupGUIManager;
 class imgf::TaskManager;
 class imgf::LSTProcessingManager;
-class bxcf::CLocalizationManager;
+class bxcf::LocalizationManager;
 class imgf::LanguageManager;
 class imgf::DumpManager;
 class imgf::SettingsManager;
@@ -34,7 +34,7 @@ class imgf::WindowManager;
 
 class CWnd; // temp
 
-class imgf::IMGF : public bxcf::CManager
+class imgf::IMGF : public bxcf::Manager
 {
 public:
 	IMGF(void);

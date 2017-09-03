@@ -1,7 +1,7 @@
 #include "TaskDurationManager.h"
-#include "Format/Text/INI/CINIManager.h"
-#include "Static/CString2.h"
-#include "Static/CTokens.h"
+#include "Format/Text/INI/INIManager.h"
+#include "Static/String2.h"
+#include "Static/Tokens.h"
 #include "Static/AppDataPath.h"
 #include "IMGF.h"
 
@@ -65,15 +65,15 @@ void				TaskDurationManager::onResumeTask(void)
 // task durations
 void				TaskDurationManager::addTaskDuration(string& strTaskName, uint32 uiTaskDuration)
 {
-	CINIManager::setItem(
+	INIManager::setItem(
 		AppDataPath::getTaskDurationsPath(),
 		STORAGE_SECTION,
 		strTaskName,
-		CTokens::addTokenRightShiftMax(getTaskDurationsString(strTaskName), CString2::toString(uiTaskDuration), VALUE_TOKEN_DELIMITER, MAX_DURATIONS_PER_TASK)
+		Tokens::addTokenRightShiftMax(getTaskDurationsString(strTaskName), String2::toString(uiTaskDuration), VALUE_TOKEN_DELIMITER, MAX_DURATIONS_PER_TASK)
 	);
 }
 
 string				TaskDurationManager::getTaskDurationsString(string& strTaskName)
 {
-	return CINIManager::getItem(AppDataPath::getTaskDurationsPath(), STORAGE_SECTION, strTaskName);
+	return INIManager::getItem(AppDataPath::getTaskDurationsPath(), STORAGE_SECTION, strTaskName);
 }

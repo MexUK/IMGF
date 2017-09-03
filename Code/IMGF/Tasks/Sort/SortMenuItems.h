@@ -3,7 +3,7 @@
 #include "nsimgf.h"
 #include "SortMenuItem.h"
 
-class imgf::SortMenuItems : public bxcf::CVectorPool<SortMenuItem*>
+class imgf::SortMenuItems : public bxcf::VectorPool<SortMenuItem*>
 {
 public:
 	SortMenuItem*	getEntryByMenuHandle(uint32 uiMenuHandle)

@@ -8,11 +8,11 @@
 #include "IMGF.h"
 #include "EntryViewerManager.h"
 #include "Format/COL/CCOLEntry.h"
-#include "Static/CMath.h"
-#include "Static/CString2.h"
-#include "Static/CFile.h"
-#include "Static/CInput.h"
-#include "Static/CDebug.h"
+#include "Static/Math.h"
+#include "Static/String2.h"
+#include "Static/File.h"
+#include "Static/Input.h"
+#include "Static/Debug.h"
 #include "Type/Vector/Vec3f.h"
 #include <vector>
 //#include <GL/freeglut.h>
@@ -309,20 +309,20 @@ void						RenderText(string text, GLfloat x, GLfloat y, GLfloat scale, vector<ui
 	}
 
 	//glUseProgram(ProgramObject);
-	//if (glGetError()) CInput::showMessage("glUseProgram error", "Error");
+	//if (glGetError()) Input::showMessage("glUseProgram error", "Error");
 
 	GLint iLocation = glGetUniformLocation(ProgramObject, "textColor");
-	if (glGetError()) CInput::showMessage("glGetUniformLocation error", "Error");
+	if (glGetError()) Input::showMessage("glGetUniformLocation error", "Error");
 
 	//glUniform3f(glGetUniformLocation(ProgramObject, "textColor"), color[0], color[1], color[2]);
 	glUniform3f(iLocation, 0.9f, 0.1f, 0.1f);
-	if (glGetError()) CInput::showMessage("glUniform3f error", "Error");
+	if (glGetError()) Input::showMessage("glUniform3f error", "Error");
 
 	glActiveTexture(GL_TEXTURE0);
-	if (glGetError()) CInput::showMessage("glActiveTexture error", "Error");
+	if (glGetError()) Input::showMessage("glActiveTexture error", "Error");
 
 	glBindVertexArray(VAO);
-	if (glGetError()) CInput::showMessage("glBindVertexArray error", "Error");
+	if (glGetError()) Input::showMessage("glBindVertexArray error", "Error");
 
 	// Iterate through all characters
 	string::const_iterator c;
@@ -400,8 +400,8 @@ void						handleCursorMove(GLFWwindow* window, double xpos, double ypos)
 	{
 		const Vec2f vecCursorMoveMultiplier = { 0.3f, 0.3f };
 		Vec2f vecPositionDifference = Vec2f(vecNewPosition.x - g_vecLastMousePosition.x, vecNewPosition.y - g_vecLastMousePosition.y);
-		vecCameraRotation.z += CMath::convertDegreesToRadians(vecPositionDifference.x * vecCursorMoveMultiplier.x);
-		vecCameraRotation.x += CMath::convertDegreesToRadians(vecPositionDifference.y * vecCursorMoveMultiplier.y);
+		vecCameraRotation.z += Math::convertDegreesToRadians(vecPositionDifference.x * vecCursorMoveMultiplier.x);
+		vecCameraRotation.x += Math::convertDegreesToRadians(vecPositionDifference.y * vecCursorMoveMultiplier.y);
 	}
 
 	g_vecLastMousePosition = vecNewPosition;
@@ -468,7 +468,7 @@ void						CollisionViewer::initGLEW(void)
 	GLenum err = glewInit();
 	if (err != GLEW_OK)
 	{
-		CInput::showMessage("Failed to load GLEW library.", "Library Load Failed", MB_OK);
+		Input::showMessage("Failed to load GLEW library.", "Library Load Failed", MB_OK);
 	}
 }
 
@@ -498,15 +498,15 @@ void						CollisionViewer::moveCamera(uint8 ucAxisIndex, bool bPositivePositionC
 	case 0:
 	{
 		float32 fAngleRad = vecCameraRotation.z;
-		vecCameraPosition = CMath::getPositionInFrontOfPosition(vecCameraPosition, fAngleRad, fMoveDistance);
-		//vecCameraLookAtPosition = CMath::getPositionInFrontOfPosition(vecCameraLookAtPosition, fAngleRad, fPositionChange);
+		vecCameraPosition = Math::getPositionInFrontOfPosition(vecCameraPosition, fAngleRad, fMoveDistance);
+		//vecCameraLookAtPosition = Math::getPositionInFrontOfPosition(vecCameraLookAtPosition, fAngleRad, fPositionChange);
 		break;
 	}
 	case 1:
 	{
-		float32 fAngleRad = CMath::convertDegreesToRadians(90.0f) + vecCameraRotation.z;
-		vecCameraPosition = CMath::getPositionInFrontOfPosition(vecCameraPosition, fAngleRad, fMoveDistance);
-		//vecCameraLookAtPosition = CMath::getPositionInFrontOfPosition(vecCameraLookAtPosition, fAngleRad, fPositionChange);
+		float32 fAngleRad = Math::convertDegreesToRadians(90.0f) + vecCameraRotation.z;
+		vecCameraPosition = Math::getPositionInFrontOfPosition(vecCameraPosition, fAngleRad, fMoveDistance);
+		//vecCameraLookAtPosition = Math::getPositionInFrontOfPosition(vecCameraLookAtPosition, fAngleRad, fPositionChange);
 		break;
 	}
 	case 2:
@@ -515,13 +515,13 @@ void						CollisionViewer::moveCamera(uint8 ucAxisIndex, bool bPositivePositionC
 		break;
 	}
 
-	//vecCameraRotation.z = CMath::getAngleBetweenPoints(vecCameraPosition, vecCameraLookAtPosition) + CMath::convertDegreesToRadians(90.0f);
+	//vecCameraRotation.z = Math::getAngleBetweenPoints(vecCameraPosition, vecCameraLookAtPosition) + Math::convertDegreesToRadians(90.0f);
 }
 void						CollisionViewer::zoomCamera(float32 fMoveDistance)
 {
-	float32 fXAngle = vecCameraRotation.x + CMath::convertDegreesToRadians(90.0f);
-	float32 fZAngle = vecCameraRotation.z + CMath::convertDegreesToRadians(90.0f);
-	Vec3f vecCameraPositionOffset = CMath::getCartesianFromSpherical(fMoveDistance, fXAngle, fZAngle);
+	float32 fXAngle = vecCameraRotation.x + Math::convertDegreesToRadians(90.0f);
+	float32 fZAngle = vecCameraRotation.z + Math::convertDegreesToRadians(90.0f);
+	Vec3f vecCameraPositionOffset = Math::getCartesianFromSpherical(fMoveDistance, fXAngle, fZAngle);
 	vecCameraPositionOffset.z = -vecCameraPositionOffset.z;
 	vecCameraPosition = vecCameraPosition + vecCameraPositionOffset;
 }
@@ -663,81 +663,81 @@ void						CollisionViewer::onThreadStarted(void)
 void						CollisionViewer::init3DSceneShader(void)
 {
 	vertexShader2 = glCreateShader(GL_VERTEX_SHADER);
-	if (glGetError()) CInput::showMessage("glCreateShader v", "Error");
+	if (glGetError()) Input::showMessage("glCreateShader v", "Error");
 	fragmentShader2 = glCreateShader(GL_FRAGMENT_SHADER);
-	if (glGetError()) CInput::showMessage("glCreateShader f", "Error");
+	if (glGetError()) Input::showMessage("glCreateShader f", "Error");
 
 	string strVertexShadersFilePath = "C:\\Users\\James\\Documents\\Visual Studio 2013\\Projects\\IMG-Factory\\Debug\\vertex-shaders-2.glsl";
-	uint32 uiFileSize1 = CFile::getFileSize(strVertexShadersFilePath);
+	uint32 uiFileSize1 = File::getFileSize(strVertexShadersFilePath);
 	const GLchar *vertexShaderChars;// = new GLchar[uiFileSize1 + 1];
 	uint32 iLen1 = 0;
 	//loadshader((char*)strVertexShadersFilePath.c_str(), &vertexShaderChars, &iLen1);
-	string strData1 = CFile::getFileContent(strVertexShadersFilePath, false);
+	string strData1 = File::getFileContent(strVertexShadersFilePath, false);
 	vertexShaderChars = strData1.c_str();
 	GLchar const* files1[] = { strData1.c_str() };
 	GLint lengths1[] = { (int32)strData1.size() };
 
 	string strFragmentShadersFilePath = "C:\\Users\\James\\Documents\\Visual Studio 2013\\Projects\\IMG-Factory\\Debug\\fragment-shaders-2.glsl";
-	uint32 uiFileSize2 = CFile::getFileSize(strFragmentShadersFilePath);
+	uint32 uiFileSize2 = File::getFileSize(strFragmentShadersFilePath);
 	const GLchar *fragmentShaderChars;// = new GLchar[uiFileSize2 + 1];
 	uint32 iLen2 = 0;
 	//loadshader((char*)strFragmentShadersFilePath.c_str(), &fragmentShaderChars, &iLen2);
-	string strData2 = CFile::getFileContent(strFragmentShadersFilePath, false);
+	string strData2 = File::getFileContent(strFragmentShadersFilePath, false);
 	fragmentShaderChars = strData2.c_str();
 	GLchar const* files2[] = { strData2.c_str() };
 	GLint lengths2[] = { (int32)strData2.size() };
 
 	GLint uiLengths1 = uiFileSize2;
 	glShaderSource(vertexShader2, 1, files1, lengths1);
-	if (glGetError()) CInput::showMessage("glShaderSource v", "Error");
+	if (glGetError()) Input::showMessage("glShaderSource v", "Error");
 	glShaderSource(fragmentShader2, 1, files2, lengths2);
-	if (glGetError()) CInput::showMessage("glShaderSource f", "Error");
+	if (glGetError()) Input::showMessage("glShaderSource f", "Error");
 	//glShaderSourceARB
 
 	//delete[] vertexShaderChars;
 	//delete[] fragmentShaderChars;
 
 	glCompileShader(vertexShader2);
-	if (glGetError()) CInput::showMessage("glCompileShader v 3d", "Error");
+	if (glGetError()) Input::showMessage("glCompileShader v 3d", "Error");
 	glCompileShader(fragmentShader2);
-	if (glGetError()) CInput::showMessage("glCompileShader f", "Error");
+	if (glGetError()) Input::showMessage("glCompileShader f", "Error");
 
 	GLint compiled;
 
 	glGetShaderiv(vertexShader2, GL_COMPILE_STATUS, &compiled);
 	if (!compiled)
 	{
-		CInput::showMessage("glGetShaderiv compile error v", "Error");
+		Input::showMessage("glGetShaderiv compile error v", "Error");
 	}
 
 	glGetShaderiv(fragmentShader2, GL_COMPILE_STATUS, &compiled);
 	if (!compiled)
 	{
-		CInput::showMessage("glGetShaderiv compile error f", "Error");
+		Input::showMessage("glGetShaderiv compile error f", "Error");
 	}
 
 	// link shader
 	ProgramObject_3DScene = glCreateProgram();
-	if (glGetError()) CInput::showMessage("glCreateProgram error", "Error");
+	if (glGetError()) Input::showMessage("glCreateProgram error", "Error");
 
 	glAttachShader(ProgramObject_3DScene, vertexShader2);
-	if (glGetError()) CInput::showMessage("glAttachShader v error", "Error");
+	if (glGetError()) Input::showMessage("glAttachShader v error", "Error");
 	glAttachShader(ProgramObject_3DScene, fragmentShader2);
-	if (glGetError()) CInput::showMessage("glAttachShader f error", "Error");
+	if (glGetError()) Input::showMessage("glAttachShader f error", "Error");
 
 	glLinkProgram(ProgramObject_3DScene);
-	if (glGetError()) CInput::showMessage("glLinkProgram error", "Error");
+	if (glGetError()) Input::showMessage("glLinkProgram error", "Error");
 
 	GLint linked;
 	glGetProgramiv(ProgramObject_3DScene, GL_LINK_STATUS, &linked);
 	if (!linked)
 	{
-		CInput::showMessage("glGetProgramiv link error", "Error");
+		Input::showMessage("glGetProgramiv link error", "Error");
 	}
 
 	// use program
 	glUseProgram(ProgramObject_3DScene);
-	if (glGetError()) CInput::showMessage("glUseProgram error", "Error");
+	if (glGetError()) Input::showMessage("glUseProgram error", "Error");
 }
 void						CollisionViewer::initTextStuff(void)
 {
@@ -777,7 +777,7 @@ void						CollisionViewer::initTextStuff(void)
 				if (FT_Load_Char(g_face, c, FT_LOAD_RENDER))
 				{
 				//cout << "ERROR::FREETYTPE: Failed to load Glyph" << endl;
-				CInput::showMessage("failed to load char", "Error");
+				Input::showMessage("failed to load char", "Error");
 				continue;
 				}
 
@@ -814,81 +814,81 @@ void						CollisionViewer::initTextStuff(void)
 
 
 				vertexShader = glCreateShader(GL_VERTEX_SHADER);
-				if (glGetError()) CInput::showMessage("glCreateShader v", "Error");
+				if (glGetError()) Input::showMessage("glCreateShader v", "Error");
 				fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-				if (glGetError()) CInput::showMessage("glCreateShader f", "Error");
+				if (glGetError()) Input::showMessage("glCreateShader f", "Error");
 
 				string strVertexShadersFilePath = "C:\\Users\\James\\Documents\\Visual Studio 2013\\Projects\\IMG-Factory\\Debug\\vertex-shaders.glsl";
-				uint32 uiFileSize1 = CFile::getFileSize(strVertexShadersFilePath);
+				uint32 uiFileSize1 = File::getFileSize(strVertexShadersFilePath);
 				const GLchar *vertexShaderChars;// = new GLchar[uiFileSize1 + 1];
 				uint32 iLen1 = 0;
 				//loadshader((char*)strVertexShadersFilePath.c_str(), &vertexShaderChars, &iLen1);
-				string strData1 = CFile::getFileContent(strVertexShadersFilePath, false);
+				string strData1 = File::getFileContent(strVertexShadersFilePath, false);
 				vertexShaderChars = strData1.c_str();
 				GLchar const* files1[] = { strData1.c_str() };
 				GLint lengths1[] = { (int32)strData1.size() };
 
 				string strFragmentShadersFilePath = "C:\\Users\\James\\Documents\\Visual Studio 2013\\Projects\\IMG-Factory\\Debug\\fragment-shaders.glsl";
-				uint32 uiFileSize2 = CFile::getFileSize(strFragmentShadersFilePath);
+				uint32 uiFileSize2 = File::getFileSize(strFragmentShadersFilePath);
 				const GLchar *fragmentShaderChars;// = new GLchar[uiFileSize2 + 1];
 				uint32 iLen2 = 0;
 				//loadshader((char*)strFragmentShadersFilePath.c_str(), &fragmentShaderChars, &iLen2);
-				string strData2 = CFile::getFileContent(strFragmentShadersFilePath, false);
+				string strData2 = File::getFileContent(strFragmentShadersFilePath, false);
 				fragmentShaderChars = strData2.c_str();
 				GLchar const* files2[] = { strData2.c_str() };
 				GLint lengths2[] = { (int32)strData2.size() };
 
 				GLint uiLengths1 = uiFileSize2;
 				glShaderSource(vertexShader, 1, files1, lengths1);
-				if (glGetError()) CInput::showMessage("glShaderSource v", "Error");
+				if (glGetError()) Input::showMessage("glShaderSource v", "Error");
 				glShaderSource(fragmentShader, 1, files2, lengths2);
-				if (glGetError()) CInput::showMessage("glShaderSource f", "Error");
+				if (glGetError()) Input::showMessage("glShaderSource f", "Error");
 				//glShaderSourceARB
 
 				//delete[] vertexShaderChars;
 				//delete[] fragmentShaderChars;
 
 				glCompileShader(vertexShader);
-				if (glGetError()) CInput::showMessage("glCompileShader v text", "Error");
+				if (glGetError()) Input::showMessage("glCompileShader v text", "Error");
 				glCompileShader(fragmentShader);
-				if (glGetError()) CInput::showMessage("glCompileShader f", "Error");
+				if (glGetError()) Input::showMessage("glCompileShader f", "Error");
 
 				GLint compiled;
 
 				glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &compiled);
 				if (!compiled)
 				{
-				CInput::showMessage("glGetShaderiv compile error v", "Error");
+				Input::showMessage("glGetShaderiv compile error v", "Error");
 				}
 
 				glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &compiled);
 				if (!compiled)
 				{
-				CInput::showMessage("glGetShaderiv compile error f", "Error");
+				Input::showMessage("glGetShaderiv compile error f", "Error");
 				}
 
 				// link shader
 				ProgramObject = glCreateProgram();
-				if (glGetError()) CInput::showMessage("glCreateProgram error", "Error");
+				if (glGetError()) Input::showMessage("glCreateProgram error", "Error");
 
 				glAttachShader(ProgramObject, vertexShader);
-				if (glGetError()) CInput::showMessage("glAttachShader v error", "Error");
+				if (glGetError()) Input::showMessage("glAttachShader v error", "Error");
 				glAttachShader(ProgramObject, fragmentShader);
-				if (glGetError()) CInput::showMessage("glAttachShader f error", "Error");
+				if (glGetError()) Input::showMessage("glAttachShader f error", "Error");
 
 				glLinkProgram(ProgramObject);
-				if (glGetError()) CInput::showMessage("glLinkProgram error", "Error");
+				if (glGetError()) Input::showMessage("glLinkProgram error", "Error");
 
 				GLint linked;
 				glGetProgramiv(ProgramObject, GL_LINK_STATUS, &linked);
 				if (!linked)
 				{
-				CInput::showMessage("glGetProgramiv link error", "Error");
+				Input::showMessage("glGetProgramiv link error", "Error");
 				}
 
 				// use program
 				glUseProgram(ProgramObject);
-				if (glGetError()) CInput::showMessage("glUseProgram error", "Error");
+				if (glGetError()) Input::showMessage("glUseProgram error", "Error");
 
 
 
@@ -898,31 +898,31 @@ void						CollisionViewer::initTextStuff(void)
 
 				// should this go here or in render() function?
 				glGenVertexArrays(1, &VAO);
-				if (glGetError()) CInput::showMessage("glGenVertexArrays error", "Error");
+				if (glGetError()) Input::showMessage("glGenVertexArrays error", "Error");
 
 				glGenBuffers(1, &VBO);
-				if (glGetError()) CInput::showMessage("glGenBuffers", "Error");
+				if (glGetError()) Input::showMessage("glGenBuffers", "Error");
 
 				glBindVertexArray(VAO);
-				if (glGetError()) CInput::showMessage("glBindVertexArray", "Error");
+				if (glGetError()) Input::showMessage("glBindVertexArray", "Error");
 
 				glBindBuffer(GL_ARRAY_BUFFER, VBO);
-				if (glGetError()) CInput::showMessage("glBindBuffer", "Error");
+				if (glGetError()) Input::showMessage("glBindBuffer", "Error");
 
 				glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
-				if (glGetError()) CInput::showMessage("glBufferData", "Error");
+				if (glGetError()) Input::showMessage("glBufferData", "Error");
 
 				glEnableVertexAttribArray(0);
-				if (glGetError()) CInput::showMessage("glEnableVertexAttribArray", "Error");
+				if (glGetError()) Input::showMessage("glEnableVertexAttribArray", "Error");
 
 				glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
-				if (glGetError()) CInput::showMessage("glVertexAttribPointer error", "Error");
+				if (glGetError()) Input::showMessage("glVertexAttribPointer error", "Error");
 
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
-				if (glGetError()) CInput::showMessage("glBindBuffer error", "Error");
+				if (glGetError()) Input::showMessage("glBindBuffer error", "Error");
 
 				glBindVertexArray(0);
-				if (glGetError()) CInput::showMessage("glBindVertexArray error", "Error");
+				if (glGetError()) Input::showMessage("glBindVertexArray error", "Error");
 				//*/
 
 				g_bText2DStuffLoaded = true;
@@ -996,8 +996,8 @@ void						CollisionViewer::prepareRenderData(void)
 	float32 fDistanceMultiplier = 2.0f;
 
 	vecCameraPosition = { 0.0f, 0.0f, 2.0f };
-	vecCameraPosition = CMath::getPositionInFrontOfPosition(vecCameraPosition, 45.0f, fHighestDistance * fDistanceMultiplier);
-	vecCameraRotation = { 0.0f, 0.0f, CMath::getAngleBetweenPoints(vecCameraPosition, vecCameraLookAtPosition) + CMath::convertDegreesToRadians(90.0f) };
+	vecCameraPosition = Math::getPositionInFrontOfPosition(vecCameraPosition, 45.0f, fHighestDistance * fDistanceMultiplier);
+	vecCameraRotation = { 0.0f, 0.0f, Math::getAngleBetweenPoints(vecCameraPosition, vecCameraLookAtPosition) + Math::convertDegreesToRadians(90.0f) };
 
 	//glDisableClientState(GL_VERTEX_ARRAY);
 
@@ -1109,16 +1109,16 @@ void						CollisionViewer::render(void)
 	return;
 	*/
 
-	//if (glGetError()) CInput::showMessage("test1 error", "Error");
+	//if (glGetError()) Input::showMessage("test1 error", "Error");
 
 	//glScissor(0, 0, 100, 100);
 	//glEnable(GL_SCISSOR_TEST);
 
 	prepare2DRender();
-	if (glGetError()) CInput::showMessage("test1.5 error", "Error"); 
+	if (glGetError()) Input::showMessage("test1.5 error", "Error"); 
 	renderBackground();
 
-	if (glGetError()) CInput::showMessage("test2 error", "Error");
+	if (glGetError()) Input::showMessage("test2 error", "Error");
 
 	prepare3DRender();
 	renderCamera();
@@ -1127,13 +1127,13 @@ void						CollisionViewer::render(void)
 	renderBoundingCuboid();
 	renderCollisionObjects();
 
-	if (glGetError()) CInput::showMessage("test3 error", "Error");
+	if (glGetError()) Input::showMessage("test3 error", "Error");
 
 	prepare2DRender();
-	if (glGetError()) CInput::showMessage("test3.5 error", "Error");
+	if (glGetError()) Input::showMessage("test3.5 error", "Error");
 	render2DObjects();
 
-	if (glGetError()) CInput::showMessage("test4 error", "Error");
+	if (glGetError()) Input::showMessage("test4 error", "Error");
 
 	//glDisable(GL_SCISSOR_TEST);
 }
@@ -1141,7 +1141,7 @@ void						CollisionViewer::render(void)
 void						CollisionViewer::prepare2DRender(void)
 {
 	//glUseProgram(ProgramObject);
-	//if (glGetError()) CInput::showMessage("glUseProgram error", "Error");
+	//if (glGetError()) Input::showMessage("glUseProgram error", "Error");
 
 	int w, h;
 	glfwGetWindowSize(getWindow(), &w, &h);
@@ -1149,38 +1149,38 @@ void						CollisionViewer::prepare2DRender(void)
 	glScissor(200, 200, 100, 100);
 
 	glMatrixMode(GL_PROJECTION);
-	if (glGetError()) CInput::showMessage("prepare2DRender glMatrixMode 1 error", "Error");
+	if (glGetError()) Input::showMessage("prepare2DRender glMatrixMode 1 error", "Error");
 
 	//glPushMatrix();
 	//int yaz = glGetError();
-	//if (yaz) CInput::showMessage("prepare2DRender glPushMatrix error", "Error");
+	//if (yaz) Input::showMessage("prepare2DRender glPushMatrix error", "Error");
 
 	glLoadIdentity();
-	if (glGetError()) CInput::showMessage("prepare2DRender glLoadIdentity 1 error", "Error");
+	if (glGetError()) Input::showMessage("prepare2DRender glLoadIdentity 1 error", "Error");
 
 	//glOrtho(-vecBackgroundBox.x / 2, vecBackgroundBox.x / 2, vecBackgroundBox.y / 2, -vecBackgroundBox.y / 2, -1.0, 10.0);
 	//glOrtho(0.0, w, h, 0.0, -1.0, 10.0);
 	glOrtho(-w / 2, w / 2, h / 2, -h / 2, -1.0, 1.0);
-	if (glGetError()) CInput::showMessage("prepare2DRender glOrtho error", "Error");
+	if (glGetError()) Input::showMessage("prepare2DRender glOrtho error", "Error");
 
 	glMatrixMode(GL_MODELVIEW);
-	if (glGetError()) CInput::showMessage("prepare2DRender glMatrixMode 2 error", "Error");
+	if (glGetError()) Input::showMessage("prepare2DRender glMatrixMode 2 error", "Error");
 
 	//glPushMatrix();
 	glLoadIdentity();
-	if (glGetError()) CInput::showMessage("prepare2DRender glLoadIdentity 2 error", "Error");
+	if (glGetError()) Input::showMessage("prepare2DRender glLoadIdentity 2 error", "Error");
 
 	glDisable(GL_CULL_FACE);
-	if (glGetError()) CInput::showMessage("prepare2DRender glDisable(GL_CULL_FACE) error", "Error");
+	if (glGetError()) Input::showMessage("prepare2DRender glDisable(GL_CULL_FACE) error", "Error");
 
 	//glClear(GL_DEPTH_BUFFER_BIT);
 	glClear(GL_DEPTH_BUFFER_BIT);
-	if (glGetError()) CInput::showMessage("prepare2DRender glClear(GL_DEPTH_BUFFER_BIT)", "Error");
+	if (glGetError()) Input::showMessage("prepare2DRender glClear(GL_DEPTH_BUFFER_BIT)", "Error");
 }
 void						CollisionViewer::prepare3DRender(void)
 {
 	//glUseProgram(ProgramObject_3DScene);
-	//if (glGetError()) CInput::showMessage("glUseProgram error", "Error");
+	//if (glGetError()) Input::showMessage("glUseProgram error", "Error");
 
 	int w, h;
 	glfwGetWindowSize(getWindow(), &w, &h);
@@ -1207,9 +1207,9 @@ void						CollisionViewer::prepare3DRender(void)
 void						CollisionViewer::renderBackground(void)
 {
 	glDepthMask(GL_FALSE);  // disable writes to Z-Buffer
-	if (glGetError()) CInput::showMessage("BG glDepthMask error", "Error");
+	if (glGetError()) Input::showMessage("BG glDepthMask error", "Error");
 	glDisable(GL_DEPTH_TEST);  // disable depth-testing
-	if (glGetError()) CInput::showMessage("BG glDisable error", "Error");
+	if (glGetError()) Input::showMessage("BG glDisable error", "Error");
 
 	int w, h;
 	glfwGetWindowSize(getWindow(), &w, &h);
@@ -1217,7 +1217,7 @@ void						CollisionViewer::renderBackground(void)
 	// background gradient
 	glShadeModel(GL_SMOOTH);
 	glBegin(GL_QUADS);
-	//if (glGetError()) CInput::showMessage("BG glBegin error", "Error");
+	//if (glGetError()) Input::showMessage("BG glBegin error", "Error");
 	Vec2f vecBackgroundArea((float32)w, (float32)h);
 	vector<Vec2f> vecBackgroundPoints = {
 		{ -vecBackgroundArea.x / 2, -vecBackgroundArea.y / 2 },
@@ -1225,38 +1225,38 @@ void						CollisionViewer::renderBackground(void)
 		{ vecBackgroundArea.x / 2, vecBackgroundArea.y / 2 },
 		{ -vecBackgroundArea.x / 2, vecBackgroundArea.y / 2 }
 	};
-	//if (glGetError()) CInput::showMessage("BG glShadeModel error", "Error");
+	//if (glGetError()) Input::showMessage("BG glShadeModel error", "Error");
 	uint32 i = 0;
 	glColor3ub(120, 120, 120);
-	//if (glGetError()) CInput::showMessage("BG glColor3ub 1 error", "Error");
+	//if (glGetError()) Input::showMessage("BG glColor3ub 1 error", "Error");
 	for (auto vecVertex : vecBackgroundPoints)
 	{
 		if (i == 2)
 		{
 			glColor3ub(73, 73, 73);
-			//if (glGetError()) CInput::showMessage("BG glColor3ub 2 error", "Error");
+			//if (glGetError()) Input::showMessage("BG glColor3ub 2 error", "Error");
 		}
 
 		glVertex2f(vecVertex.x, vecVertex.y);
-		//if (glGetError()) CInput::showMessage("BG glVertex2f error", "Error");
+		//if (glGetError()) Input::showMessage("BG glVertex2f error", "Error");
 
 		i++;
 	}
 	glEnd();
 	//int a = glGetError();
-	//if (a) CInput::showMessage("BG glEnd error", "Error");
+	//if (a) Input::showMessage("BG glEnd error", "Error");
 
 	glEnable(GL_DEPTH_TEST);
-	if (glGetError()) CInput::showMessage("BG glEnable error", "Error");
+	if (glGetError()) Input::showMessage("BG glEnable error", "Error");
 	glDepthMask(GL_TRUE);  // enable writes to Z-Buffer
-	if (glGetError()) CInput::showMessage("BG glDepthMask error", "Error");
+	if (glGetError()) Input::showMessage("BG glDepthMask error", "Error");
 }
 
 void						CollisionViewer::renderCamera(void)
 {
 	// camera rotation
-	glRotatef(CMath::convertRadiansToDegrees(vecCameraRotation.x), 1.0f, 0.0f, 0.0f); // Rotate our camera on the x-axis (looking up and down)
-	glRotatef(CMath::convertRadiansToDegrees(vecCameraRotation.z), 0.0f, 1.0f, 0.0f); // Rotate our camera on the y-axis (looking left and right)
+	glRotatef(Math::convertRadiansToDegrees(vecCameraRotation.x), 1.0f, 0.0f, 0.0f); // Rotate our camera on the x-axis (looking up and down)
+	glRotatef(Math::convertRadiansToDegrees(vecCameraRotation.z), 0.0f, 1.0f, 0.0f); // Rotate our camera on the y-axis (looking left and right)
 
 	// camera position
 	glTranslatef(-vecCameraPosition.x, -vecCameraPosition.z, -vecCameraPosition.y);
@@ -1298,10 +1298,10 @@ void						CollisionViewer::renderBoundingSphere(void)
 	glColor3ub(255, 0, 255);
 	for (uint32 i = 0, j = 360, step = 1; i < j; i += step)
 	{
-		Vec3f vecPosition = CMath::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, CMath::convertDegreesToRadians((float32)i), CMath::convertDegreesToRadians(0.0f));
+		Vec3f vecPosition = Math::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, Math::convertDegreesToRadians((float32)i), Math::convertDegreesToRadians(0.0f));
 		vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
 		glVertex3f(vecPosition.x, vecPosition.z, vecPosition.y);
-		//CDebugger::log("m_fRadius: " + CString2::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + CString2::toString(vecPosition.x) + ", " + CString2::toString(vecPosition.y) + ", " + CString2::toString(vecPosition.z));
+		//Debugger::log("m_fRadius: " + String2::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + String2::toString(vecPosition.x) + ", " + String2::toString(vecPosition.y) + ", " + String2::toString(vecPosition.z));
 	}
 	glEnd();
 
@@ -1309,10 +1309,10 @@ void						CollisionViewer::renderBoundingSphere(void)
 	glColor3ub(255, 0, 255);
 	for (uint32 i = 0, j = 360, step = 1; i < j; i += step)
 	{
-		Vec3f vecPosition = CMath::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, CMath::convertDegreesToRadians(90.0f), CMath::convertDegreesToRadians((float32)i));
+		Vec3f vecPosition = Math::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, Math::convertDegreesToRadians(90.0f), Math::convertDegreesToRadians((float32)i));
 		vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
 		glVertex3f(vecPosition.x, vecPosition.z, vecPosition.y);
-		//CDebugger::log("m_fRadius: " + CString2::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + CString2::toString(vecPosition.x) + ", " + CString2::toString(vecPosition.y) + ", " + CString2::toString(vecPosition.z));
+		//Debugger::log("m_fRadius: " + String2::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + String2::toString(vecPosition.x) + ", " + String2::toString(vecPosition.y) + ", " + String2::toString(vecPosition.z));
 	}
 	glEnd();
 
@@ -1320,10 +1320,10 @@ void						CollisionViewer::renderBoundingSphere(void)
 	glColor3ub(255, 0, 255);
 	for (uint32 i = 0, j = 360, step = 1; i < j; i += step)
 	{
-		Vec3f vecPosition = CMath::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, CMath::convertDegreesToRadians((float32)i), CMath::convertDegreesToRadians(90.0f));
+		Vec3f vecPosition = Math::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, Math::convertDegreesToRadians((float32)i), Math::convertDegreesToRadians(90.0f));
 		vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
 		glVertex3f(vecPosition.x, vecPosition.z, vecPosition.y);
-		//CDebugger::log("m_fRadius: " + CString2::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + CString2::toString(vecPosition.x) + ", " + CString2::toString(vecPosition.y) + ", " + CString2::toString(vecPosition.z));
+		//Debugger::log("m_fRadius: " + String2::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + String2::toString(vecPosition.x) + ", " + String2::toString(vecPosition.y) + ", " + String2::toString(vecPosition.z));
 	}
 	glEnd();
 }
@@ -1332,7 +1332,7 @@ void						CollisionViewer::renderBoundingCuboid(void)
 	CCOLEntry *pCOLEntry = getActiveCOLEntry();
 
 	glColor3ub(0, 255, 255);
-	vector<Vec3f> vecVertices = CMath::getCuboidFaceVerticesAsQuads(pCOLEntry->getBoundingObjects().m_vecMin, pCOLEntry->getBoundingObjects().m_vecMax);
+	vector<Vec3f> vecVertices = Math::getCuboidFaceVerticesAsQuads(pCOLEntry->getBoundingObjects().m_vecMin, pCOLEntry->getBoundingObjects().m_vecMax);
 	for (uint32 i = 0; i < vecVertices.size(); i += 4)
 	{
 		if ((i % 4) == 0)
@@ -1363,9 +1363,9 @@ void						CollisionViewer::renderCollisionMeshes(void)
 		TVertex& vecVector1 = pCOLEntry->getCollisionMeshVertices()[face.m_uiA];
 		TVertex& vecVector2 = pCOLEntry->getCollisionMeshVertices()[face.m_uiB];
 		TVertex& vecVector3 = pCOLEntry->getCollisionMeshVertices()[face.m_uiC];
-		//CDebugger::log("vecVector1: " + CString2::toString(vecVector1.x) + ", " + CString2::toString(vecVector1.y) + ", " + CString2::toString(vecVector1.z));
-		//CDebugger::log("vecVector2: " + CString2::toString(vecVector2.x) + ", " + CString2::toString(vecVector2.y) + ", " + CString2::toString(vecVector2.z));
-		//CDebugger::log("vecVector3: " + CString2::toString(vecVector3.x) + ", " + CString2::toString(vecVector3.y) + ", " + CString2::toString(vecVector3.z));
+		//Debugger::log("vecVector1: " + String2::toString(vecVector1.x) + ", " + String2::toString(vecVector1.y) + ", " + String2::toString(vecVector1.z));
+		//Debugger::log("vecVector2: " + String2::toString(vecVector2.x) + ", " + String2::toString(vecVector2.y) + ", " + String2::toString(vecVector2.z));
+		//Debugger::log("vecVector3: " + String2::toString(vecVector3.x) + ", " + String2::toString(vecVector3.y) + ", " + String2::toString(vecVector3.z));
 		glVertex3f(vecVector1.x, vecVector1.z, vecVector1.y);
 		glVertex3f(vecVector2.x, vecVector2.z, vecVector2.y);
 		glVertex3f(vecVector3.x, vecVector3.z, vecVector3.y);
@@ -1380,8 +1380,8 @@ void						CollisionViewer::renderCollisionCuboids(void)
 	glBegin(GL_QUADS);
 	//glColor3ub(255, 0, 0);
 
-	//CDebugger::log("collisionBox.m_min: " + CString2::toString(collisionBox.m_min.x) + ", " + CString2::toString(collisionBox.m_min.y) + ", " + CString2::toString(collisionBox.m_min.z));
-	//CDebugger::log("collisionBox.m_max: " + CString2::toString(collisionBox.m_max.x) + ", " + CString2::toString(collisionBox.m_max.y) + ", " + CString2::toString(collisionBox.m_max.z));
+	//Debugger::log("collisionBox.m_min: " + String2::toString(collisionBox.m_min.x) + ", " + String2::toString(collisionBox.m_min.y) + ", " + String2::toString(collisionBox.m_min.z));
+	//Debugger::log("collisionBox.m_max: " + String2::toString(collisionBox.m_max.x) + ", " + String2::toString(collisionBox.m_max.y) + ", " + String2::toString(collisionBox.m_max.z));
 	uint32 i = 0;
 	int i2 = 0;
 	int colors[6][3] = {
@@ -1394,12 +1394,12 @@ void						CollisionViewer::renderCollisionCuboids(void)
 	};
 	for (TBox& collisionBox : pCOLEntry->getCollisionBoxes())
 	{
-		vector<Vec3f> vecVertices = CMath::getCuboidFaceVerticesAsQuads(collisionBox.m_min, collisionBox.m_max);
+		vector<Vec3f> vecVertices = Math::getCuboidFaceVerticesAsQuads(collisionBox.m_min, collisionBox.m_max);
 		i = 0;
 		i2 = 0;
 		for (auto vecVertex : vecVertices)
 		{
-			//CDebugger::log("vecVertex: " + CString2::toString(vecVertex.x) + ", " + CString2::toString(vecVertex.y) + ", " + CString2::toString(vecVertex.z));
+			//Debugger::log("vecVertex: " + String2::toString(vecVertex.x) + ", " + String2::toString(vecVertex.y) + ", " + String2::toString(vecVertex.z));
 			if ((i % 4) == 0)
 			{
 				glColor3ub(colors[i2][0], colors[i2][1], colors[i2][2]);
@@ -1407,12 +1407,12 @@ void						CollisionViewer::renderCollisionCuboids(void)
 			}
 			if ((i % 4) == 3)
 			{
-				//CDebugger::log("--");
+				//Debugger::log("--");
 			}
 			glVertex3f(vecVertex.x, vecVertex.z, vecVertex.y);
 			i++;
 		}
-		//CDebugger::log("------------------------------");
+		//Debugger::log("------------------------------");
 	}
 	glEnd();
 }
@@ -1445,57 +1445,57 @@ void						CollisionViewer::render2DObjects(void)
 	int aa = glGetError();
 	if (aa)
 	{
-		CInput::showMessage("glDepthMask error", "Error");
+		Input::showMessage("glDepthMask error", "Error");
 		int h;
 		h = 0;
 	}
 	glDisable(GL_DEPTH_TEST);  // disable depth-testing
-	if (glGetError()) CInput::showMessage("glDisable error", "Error");
+	if (glGetError()) Input::showMessage("glDisable error", "Error");
 	f++;
 
 	renderLeftPanelBackground();
-	if (glGetError()) CInput::showMessage("AAA error", "Error");
+	if (glGetError()) Input::showMessage("AAA error", "Error");
 	renderBottomPanelBackground();
-	if (glGetError()) CInput::showMessage("AAB error", "Error");
+	if (glGetError()) Input::showMessage("AAB error", "Error");
 	renderPanelLineSeparators();
-	if (glGetError()) CInput::showMessage("AAC error", "Error");
+	if (glGetError()) Input::showMessage("AAC error", "Error");
 
 
 
 	//g_FontTest1
-	if (glGetError()) CInput::showMessage("AA error", "Error");
+	if (glGetError()) Input::showMessage("AA error", "Error");
 	glEnable(GL_BLEND);
-	if (glGetError()) CInput::showMessage("glEnable error", "Error");
+	if (glGetError()) Input::showMessage("glEnable error", "Error");
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	if (glGetError()) CInput::showMessage("glBlendFunc error", "Error");
+	if (glGetError()) Input::showMessage("glBlendFunc error", "Error");
 	
 
 
 	/*
 	GLfloat fProjectionMatrix[16];
 	glGetFloatv(GL_PROJECTION_MATRIX, fProjectionMatrix);
-	if (glGetError()) CInput::showMessage("glGetFloatv 1 error", "Error");
+	if (glGetError()) Input::showMessage("glGetFloatv 1 error", "Error");
 
 	GLfloat fModelViewMatrix[16];
 	glGetFloatv(GL_MODELVIEW_MATRIX, fModelViewMatrix);
-	if (glGetError()) CInput::showMessage("glGetFloatv 2 error", "Error");
+	if (glGetError()) Input::showMessage("glGetFloatv 2 error", "Error");
 
 	GLint iLocation1 = glGetUniformLocation(ProgramObject, "projection");
-	if (glGetError()) CInput::showMessage("glGetUniformLocation 1 error", "Error");
+	if (glGetError()) Input::showMessage("glGetUniformLocation 1 error", "Error");
 
 	GLint iLocation2 = glGetUniformLocation(ProgramObject, "modelview");
-	if (glGetError()) CInput::showMessage("glGetUniformLocation 2 error", "Error");
+	if (glGetError()) Input::showMessage("glGetUniformLocation 2 error", "Error");
 
 	glUniformMatrix3fv(iLocation1, 1, GL_FALSE, fProjectionMatrix);
-	if (glGetError()) CInput::showMessage("glUniformMatrix3fv 1 error", "Error");
+	if (glGetError()) Input::showMessage("glUniformMatrix3fv 1 error", "Error");
 
 	glUniformMatrix3fv(iLocation2, 1, GL_FALSE, fModelViewMatrix);
-	if (glGetError()) CInput::showMessage("glUniformMatrix3fv 2 error", "Error");
+	if (glGetError()) Input::showMessage("glUniformMatrix3fv 2 error", "Error");
 	*/
 
 	//glUniform(glGetUniformLocation(ProgramObject, "textColor"), color[0], color[1], color[2]);
 	//glUniform3f(glGetUniformLocation(ProgramObject, "textColor"), 0.0, 1.0, 0.0);
-	//if (glGetError()) CInput::showMessage("glUniform3f error", "Error");
+	//if (glGetError()) Input::showMessage("glUniform3f error", "Error");
 
 	static uint32 iRed = 0;
 	iRed++;
@@ -1526,7 +1526,7 @@ void						CollisionViewer::render2DObjects(void)
 	stbtt_bakedchar cdata[96];
 	memset(&cdata, 'z', 95);
 	memcpy((&cdata) + 95, 0, 1);
-	string strFontData = CFile::getFileContent("arial.ttf");
+	string strFontData = File::getFileContent("arial.ttf");
 	uint8 *pPixelsOut = nullptr;
 	stbtt_BakeFontBitmap((const uint8*)strFontData.c_str(), stbtt_GetFontOffsetForIndex((const uint8*)strFontData.c_str(), 0), 32, pPixelsOut, 512, 512, 32, 96, cdata);
 	*/
@@ -1575,7 +1575,7 @@ void						CollisionViewer::render2DText(void)
 
 	if (hdc == NULL)
 	{
-		CInput::showMessage("GetDC() failed", "Error", MB_OK);
+		Input::showMessage("GetDC() failed", "Error", MB_OK);
 	}
 
 	HFONT hFont = CreateFont(16, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
@@ -1589,7 +1589,7 @@ void						CollisionViewer::render2DText(void)
 	rect.top = 10;
 	rect.right = 8000;
 	rect.bottom = 8000;
-	DrawText(hdc, CString2::convertStdStringToStdWString("Test").c_str(), CString2::convertStdStringToStdWString("Test").length(), &rect, DT_NOPREFIX);
+	DrawText(hdc, String2::convertStdStringToStdWString("Test").c_str(), String2::convertStdStringToStdWString("Test").length(), &rect, DT_NOPREFIX);
 
 	//EndPaint(hwnd, &ps);
 }

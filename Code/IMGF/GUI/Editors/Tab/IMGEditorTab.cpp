@@ -3,10 +3,10 @@
 #include "IMGEditorTab.h"
 #include "IMGF.h"
 #include "Globals.h"
-#include "Static/CString2.h"
-#include "Static/CStdVector.h"
-#include "Static/CPath.h"
-#include "Static/CFile.h"
+#include "Static/String2.h"
+#include "Static/StdVector.h"
+#include "Static/Path.h"
+#include "Static/File.h"
 #include "Format/IMG/Regular/CIMGManager.h"
 #include "Format/IMG/Regular/CIMGFormat.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
@@ -17,19 +17,19 @@
 #include "Tasks/Sort/SortPriority.h"
 #include "Tasks/Sort/SortType.h"
 #include "Tasks/Sort/ESortType.h"
-#include "Static/CDebug.h"
+#include "Static/Debug.h"
 #include "DB/DBFormat.h"
 #include "Format/COL/CCOLManager.h"
 #include "Tasks/Find/SearchEntry.h"
 #include "Engine/RW/CRWVersionManager.h"
 #include "Format/COL/CCOLVersionManager.h"
 #include "Engine/RAGE/CRageResourceTypeManager.h"
-#include "Localization/CLocalizationManager.h"
+#include "Localization/LocalizationManager.h"
 #include "Tasks/Sort/SortPriorities.h"
-#include "Platform/Hardware/CPlatformManager.h"
+#include "Platform/Hardware/PlatformManager.h"
 #include "Settings/SettingsManager.h"
-#include "Static/CInput.h"
-#include "Static/CInput.h"
+#include "Static/Input.h"
+#include "Static/Input.h"
 #include "DB/DBManager.h"
 #include "Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Controls/Grid.h"
@@ -95,12 +95,12 @@ void					IMGEditorTab::init(void)
 	getIMGF()->getRecentlyOpenManager()->loadRecentlyOpenEntries();
 
 	// update filename for open last
-	getIMGF()->getActiveWindow()->setOpenLastFilename(CPath::getFileName(getIMGFile()->getFilePath()));
+	getIMGF()->getActiveWindow()->setOpenLastFilename(Path::getFileName(getIMGFile()->getFilePath()));
 
 	// load corresponding DB file & protected entry states
 	m_pDBFile = nullptr;
-	string strDBFilePath = CPath::replaceFileExtension(getIMGFile()->getFilePath(), "db");
-	if (CFile::doesFileExist(strDBFilePath))
+	string strDBFilePath = Path::replaceFileExtension(getIMGFile()->getFilePath(), "db");
+	if (File::doesFileExist(strDBFilePath))
 	{
 		m_pDBFile = DBManager::get()->parseViaFile(strDBFilePath);
 
@@ -242,12 +242,12 @@ void					IMGEditorTab::checkForUnknownRWVersionEntries(void)
 
 		getIMGF()->getTaskManager()->onPauseTask();
 		getIMGF()->getPopupGUIManager()->showListViewDialog(
-			CLocalizationManager::get()->getTranslatedText("UnknownVersions"),
-			CLocalizationManager::get()->getTranslatedFormattedText("UnknownVersionsCheck", CPath::getFileName(getIMGFile()->getFilePath()).c_str(), vecUnknownRWVersionEntries.size()),
-			CLocalizationManager::get()->getTranslatedText("Window_OrphanEntries_EntryName"),
+			LocalizationManager::get()->getTranslatedText("UnknownVersions"),
+			LocalizationManager::get()->getTranslatedFormattedText("UnknownVersionsCheck", Path::getFileName(getIMGFile()->getFilePath()).c_str(), vecUnknownRWVersionEntries.size()),
+			LocalizationManager::get()->getTranslatedText("Window_OrphanEntries_EntryName"),
 			vecIMGEntryNames,
-			CLocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_3_InitialFilename",
-			CPath::replaceFileExtension(CPath::getFileName(getIMGFile()->getFilePath()), "TXT").c_str()),
+			LocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_3_InitialFilename",
+			Path::replaceFileExtension(Path::getFileName(getIMGFile()->getFilePath()), "TXT").c_str()),
 			"UNKNOWNRWVERSIONS"
 			);
 		getIMGF()->getTaskManager()->onResumeTask();
@@ -256,8 +256,8 @@ void					IMGEditorTab::checkForUnknownRWVersionEntries(void)
 
 void					IMGEditorTab::log(string strText, bool bExtendedModeOnly)
 {
-	//string strLogEntryWithTimestamp = "[" + CString2::getTimestampText() + "] " + strText;
-	string strLogEntryWithTimestampAndIMG = "[" + CString2::getTimestampText() + "] [" + CPath::getFileName(m_pIMGFile->getFilePath()) + "] " + strText;
+	//string strLogEntryWithTimestamp = "[" + String2::getTimestampText() + "] " + strText;
+	string strLogEntryWithTimestampAndIMG = "[" + String2::getTimestampText() + "] [" + Path::getFileName(m_pIMGFile->getFilePath()) + "] " + strText;
 
 	if (bExtendedModeOnly)
 	{
@@ -269,9 +269,9 @@ void					IMGEditorTab::log(string strText, bool bExtendedModeOnly)
 			// extended file
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
 			{
-				string strExtendedLogPath = CPath::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
-				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::get()->getTranslatedText("LogFilename_Extended");
-				CFile::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
+				string strExtendedLogPath = Path::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				strExtendedLogPath += String2::getDateTextForFolder() + "/" + LocalizationManager::get()->getTranslatedText("LogFilename_Extended");
+				File::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 		}
 	}
@@ -287,17 +287,17 @@ void					IMGEditorTab::log(string strText, bool bExtendedModeOnly)
 			// basic file
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingBasic"))
 			{
-				string strExtendedLogPath = CPath::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
-				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::get()->getTranslatedText("LogFilename_Basic");
-				CFile::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
+				string strExtendedLogPath = Path::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				strExtendedLogPath += String2::getDateTextForFolder() + "/" + LocalizationManager::get()->getTranslatedText("LogFilename_Basic");
+				File::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 			
 			// extended file
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
 			{
-				string strExtendedLogPath = CPath::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
-				strExtendedLogPath += CString2::getDateTextForFolder() + "/" + CLocalizationManager::get()->getTranslatedText("LogFilename_Extended");
-				CFile::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
+				string strExtendedLogPath = Path::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				strExtendedLogPath += String2::getDateTextForFolder() + "/" + LocalizationManager::get()->getTranslatedText("LogFilename_Extended");
+				File::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 		}
 	}
@@ -307,7 +307,7 @@ void					IMGEditorTab::log(string strText, bool bExtendedModeOnly)
 		/*
 		todo
 		CEdit *pEdit = ((CEdit*)getIMGF()->getDialog()->GetDlgItem(14));
-		pEdit->SetWindowTextW(CString2::convertStdStringToStdWString(CString2::join(m_vecLogLinesGUI, "\r\n")).c_str());
+		pEdit->SetWindowTextW(String2::convertStdStringToStdWString(String2::join(m_vecLogLinesGUI, "\r\n")).c_str());
 		pEdit->LineScroll(pEdit->GetLineCount());
 		*/
 	}
@@ -423,7 +423,7 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 {
 	if (strEntryName == "")
 	{
-		strEntryName = CPath::getFileName(strEntryFilePath);
+		strEntryName = Path::getFileName(strEntryFilePath);
 	}
 
 	CIMGEntry *pIMGEntry = getIMGFile()->getEntryByName(strEntryName);
@@ -490,7 +490,7 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 
 	uint32
 		uiExistingEntryFileCreationDate = pIMGEntry->getFileCreationDate(),
-		uiNewEntryFileCreationDate = CFile::getFileCreationDate(strEntryFilePath);
+		uiNewEntryFileCreationDate = File::getFileCreationDate(strEntryFilePath);
 
 	if (uiExistingEntryFileCreationDate == 0 || uiNewEntryFileCreationDate == 0)
 	{
@@ -704,11 +704,11 @@ void					IMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry, uint32 uiEntryIndex, v
 
 	vector<string> vecText;
 	vecText.resize(bIsFastman92IMGFormat ? 8 : 6);
-	vecText[0] = CString2::addNumberGrouping(CString2::toString(uiEntryIndex + 1));
+	vecText[0] = String2::addNumberGrouping(String2::toString(uiEntryIndex + 1));
 	vecText[1] = pIMGEntry->getEntryExtension();
 	vecText[2] = pIMGEntry->getEntryName();
-	vecText[3] = CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntryOffset()));
-	vecText[4] = CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntrySize()));
+	vecText[3] = String2::addNumberGrouping(String2::toString(pIMGEntry->getEntryOffset()));
+	vecText[4] = String2::addNumberGrouping(String2::toString(pIMGEntry->getEntrySize()));
 	vecText[5] = pIMGEntry->getVersionText();
 	if (bIsFastman92IMGFormat)
 	{
@@ -737,17 +737,17 @@ void					IMGEditorTab::updateGridEntry(CIMGEntry *pIMGEntry)
 		// IMG entry is not currently displayed, e.g. filter.
 		return;
 	}
-	string strExtensionUpper = CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()));
-	getListView()->SetItem(uiEntryIndex, 0, LVIF_TEXT, CString2::convertStdStringToStdWString(CString2::addNumberGrouping(CString2::toString(uiEntryIndex + 1))).c_str(), 0, 0, 0, 0);
-	getListView()->SetItem(uiEntryIndex, 1, LVIF_TEXT, CString2::convertStdStringToStdWString(strExtensionUpper).c_str(), 0, 0, 0, 0);
-	getListView()->SetItem(uiEntryIndex, 2, LVIF_TEXT, CString2::convertStdStringToStdWString(pIMGEntry->getEntryName()).c_str(), 0, 0, 0, 0);
-	getListView()->SetItem(uiEntryIndex, 3, LVIF_TEXT, CString2::convertStdStringToStdWString(CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntryOffset()))).c_str(), 0, 0, 0, 0);
-	getListView()->SetItem(uiEntryIndex, 4, LVIF_TEXT, CString2::convertStdStringToStdWString(CString2::addNumberGrouping(CString2::toString(pIMGEntry->getEntrySize()))).c_str(), 0, 0, 0, 0);
+	string strExtensionUpper = String2::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()));
+	getListView()->SetItem(uiEntryIndex, 0, LVIF_TEXT, String2::convertStdStringToStdWString(String2::addNumberGrouping(String2::toString(uiEntryIndex + 1))).c_str(), 0, 0, 0, 0);
+	getListView()->SetItem(uiEntryIndex, 1, LVIF_TEXT, String2::convertStdStringToStdWString(strExtensionUpper).c_str(), 0, 0, 0, 0);
+	getListView()->SetItem(uiEntryIndex, 2, LVIF_TEXT, String2::convertStdStringToStdWString(pIMGEntry->getEntryName()).c_str(), 0, 0, 0, 0);
+	getListView()->SetItem(uiEntryIndex, 3, LVIF_TEXT, String2::convertStdStringToStdWString(String2::addNumberGrouping(String2::toString(pIMGEntry->getEntryOffset()))).c_str(), 0, 0, 0, 0);
+	getListView()->SetItem(uiEntryIndex, 4, LVIF_TEXT, String2::convertStdStringToStdWString(String2::addNumberGrouping(String2::toString(pIMGEntry->getEntrySize()))).c_str(), 0, 0, 0, 0);
 	//getIMGF()->getIMGEditor()->applyVersionAndResourceTypeColumn(uiEntryIndex, getIMGF()->getEntryListTab()->getIMGFile(), pIMGEntry);
 	if (pIMGEntry->getIMGFile()->getVersion() == IMG_FASTMAN92)
 	{
-		getListView()->SetItem(uiEntryIndex, 6, LVIF_TEXT, CString2::convertStdStringToStdWString(CIMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId())).c_str(), 0, 0, 0, 0);
-		getListView()->SetItem(uiEntryIndex, 7, LVIF_TEXT, CString2::convertStdStringToStdWString(CIMGManager::getEncryptionText(pIMGEntry->isEncrypted())).c_str(), 0, 0, 0, 0);
+		getListView()->SetItem(uiEntryIndex, 6, LVIF_TEXT, String2::convertStdStringToStdWString(CIMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId())).c_str(), 0, 0, 0, 0);
+		getListView()->SetItem(uiEntryIndex, 7, LVIF_TEXT, String2::convertStdStringToStdWString(CIMGManager::getEncryptionText(pIMGEntry->isEncrypted())).c_str(), 0, 0, 0, 0);
 	}
 	*/
 }
@@ -776,11 +776,11 @@ void					IMGEditorTab::updateEntryCountText(void)
 		uiEntryCount = getIMGFile()->getEntryCount();
 	if (isFilterActive())
 	{
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(20))->SetWindowTextW(CLocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_FilteredEntryCount", uiFilteredEntryCount, uiEntryCount).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(20))->SetWindowTextW(LocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_FilteredEntryCount", uiFilteredEntryCount, uiEntryCount).c_str());
 	}
 	else
 	{
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(20))->SetWindowTextW(CLocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_EntryCount", uiEntryCount).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(20))->SetWindowTextW(LocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_EntryCount", uiEntryCount).c_str());
 	}
 	*/
 }
@@ -788,7 +788,7 @@ void					IMGEditorTab::updateIMGText(void)
 {
 	/*
 	todo
-	string strPlatformName = CPlatformManager::get()->getPlatformName(getIMGFile()->getPlatform());
+	string strPlatformName = PlatformManager::get()->getPlatformName(getIMGFile()->getPlatform());
 
 	if (getIMGFile()->getVersion() == IMG_FASTMAN92)
 	{
@@ -797,21 +797,21 @@ void					IMGEditorTab::updateIMGText(void)
 		string strVersionSuffix = "";
 		if (uiEntryCount == uiUncompressedEntryCount)
 		{
-			strVersionSuffix = CLocalizationManager::get()->getTranslatedText("CompressionValue_Uncompressed");
+			strVersionSuffix = LocalizationManager::get()->getTranslatedText("CompressionValue_Uncompressed");
 		}
 		else if (uiUncompressedEntryCount == 0)
 		{
-			strVersionSuffix = CLocalizationManager::get()->getTranslatedText("CompressionValue_Compressed");
+			strVersionSuffix = LocalizationManager::get()->getTranslatedText("CompressionValue_Compressed");
 		}
 		else
 		{
-			strVersionSuffix = CLocalizationManager::get()->getTranslatedText("CompressionValue_PartiallyCompressed");
+			strVersionSuffix = LocalizationManager::get()->getTranslatedText("CompressionValue_PartiallyCompressed");
 		}
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::get()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getVersionName(IMG_FASTMAN92, getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), strVersionSuffix.c_str()).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(LocalizationManager::get()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getVersionName(IMG_FASTMAN92, getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), strVersionSuffix.c_str()).c_str());
 	}
 	else
 	{
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(CLocalizationManager::get()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getVersionName(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), CIMGManager::getVersionGames(getIMGFile()->getVersion()).c_str()).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(LocalizationManager::get()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getVersionName(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), CIMGManager::getVersionGames(getIMGFile()->getVersion()).c_str()).c_str());
 	}
 	*/
 }
@@ -834,7 +834,7 @@ void					IMGEditorTab::rebuild(string strIMGPath, bool bLog)
 	setIMGModifiedSinceRebuild(false);
 	if (bLog)
 	{
-		log(CLocalizationManager::get()->getTranslatedText("Log_127"));
+		log(LocalizationManager::get()->getTranslatedText("Log_127"));
 	}
 }
 uint32			IMGEditorTab::merge(string strPath, vector<string>& vecImportedEntryNames)
@@ -885,7 +885,7 @@ void					IMGEditorTab::splitSelectedEntries(string strPath, EIMGVersion EIMGVers
 		}
 	}
 
-	log(CLocalizationManager::get()->getTranslatedFormattedText("Log_128", vecIMGEntries.size(), CPath::getFileName(strPath).c_str()));
+	log(LocalizationManager::get()->getTranslatedFormattedText("Log_128", vecIMGEntries.size(), Path::getFileName(strPath).c_str()));
 	*/
 }
 void					IMGEditorTab::replace(vector<string>& vecPaths, vector<string>& vecReplacedEntryNames)
@@ -917,12 +917,12 @@ void					IMGEditorTab::searchText(void)
 	}
 	getIMGF()->getIMGEditor()->getSearchEntries().clear();
 
-	string strSearchText = CString2::toUpperCase(m_strSearchText);
+	string strSearchText = String2::toUpperCase(m_strSearchText);
 	bool bAllTabs = ((Button*)getIMGF()->getDialog()->GetDlgItem(46))->GetCheck() == BST_CHECKED;
 
 	if (strSearchText == "")
 	{
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(0))->SetWindowTextW(CLocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", 0).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(0))->SetWindowTextW(LocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", 0).c_str());
 		return;
 	}
 
@@ -949,17 +949,17 @@ void					IMGEditorTab::searchText(void)
 		uint32 i = 0;
 		for (auto pIMGEntry : ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntries())
 		{
-			string strEntryExtension = CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()));
+			string strEntryExtension = String2::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()));
 			bool bMatch = false;
-			if (CString2::toUpperCase(pIMGEntry->getEntryName()).find(strSearchText) != string::npos)
+			if (String2::toUpperCase(pIMGEntry->getEntryName()).find(strSearchText) != string::npos)
 			{
 				bMatch = true;
 			}
-			else if (CString2::toString(pIMGEntry->getEntryOffsetInSectors() * 2048).find(strSearchText) != string::npos)
+			else if (String2::toString(pIMGEntry->getEntryOffsetInSectors() * 2048).find(strSearchText) != string::npos)
 			{
 				bMatch = true;
 			}
-			else if (CString2::toString(pIMGEntry->getEntrySize()).find(strSearchText) != string::npos)
+			else if (String2::toString(pIMGEntry->getEntrySize()).find(strSearchText) != string::npos)
 			{
 				bMatch = true;
 			}
@@ -967,24 +967,24 @@ void					IMGEditorTab::searchText(void)
 			{
 				if (strEntryExtension == "COL")
 				{
-					if (CString2::toUpperCase(CCOLManager::get()->getCOLVersionText(pIMGEntry->getCOLVersion())).find(strSearchText) != string::npos)
+					if (String2::toUpperCase(CCOLManager::get()->getCOLVersionText(pIMGEntry->getCOLVersion())).find(strSearchText) != string::npos)
 					{
 						bMatch = true;
 					}
 				}
-				else if (strEntryExtension == "TXD" || CPath::isModelExtension(strEntryExtension))
+				else if (strEntryExtension == "TXD" || Path::isModelExtension(strEntryExtension))
 				{
 					if (pIMGEntry->getRWVersion() == nullptr)
 					{
 						string strText1 = "Unknown";
-						if (CString2::toUpperCase(strText1).find(strSearchText) != string::npos)
+						if (String2::toUpperCase(strText1).find(strSearchText) != string::npos)
 						{
 							bMatch = true;
 						}
 					}
 					else
 					{
-						if (CString2::toUpperCase(pIMGEntry->getRWVersion()->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pIMGEntry->getRWVersion()->getLocalizationKey()) + ")").find(strSearchText) != string::npos)
+						if (String2::toUpperCase(pIMGEntry->getRWVersion()->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pIMGEntry->getRWVersion()->getLocalizationKey()) + ")").find(strSearchText) != string::npos)
 						{
 							bMatch = true;
 						}
@@ -1028,30 +1028,30 @@ void					IMGEditorTab::searchText(void)
 	{
 		CIMGEntry *pIMGEntry = pSearchEntry->getIMGEntry();
 		uint32 uiRowIndex = pListControl->GetItemCount();
-		string strEntryExtension = CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()));
+		string strEntryExtension = String2::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()));
 		string strExtraInfo;
 		if (strEntryExtension == "COL")
 		{
 			strExtraInfo = CCOLManager::getCOLVersionText(pIMGEntry->getCOLVersion());
 		}
-		else if (strEntryExtension == "TXD" || CPath::isModelExtension(strEntryExtension))
+		else if (strEntryExtension == "TXD" || Path::isModelExtension(strEntryExtension))
 		{
-			strExtraInfo = pIMGEntry->getRWVersion() == nullptr ? CLocalizationManager::get()->getTranslatedText("Window_Main_Combo_RWVersion_Unknown") : pIMGEntry->getRWVersion()->getVersionText() + " (" + CLocalizationManager::get()->getTranslatedText(pIMGEntry->getRWVersion()->getLocalizationKey()) + ")";
+			strExtraInfo = pIMGEntry->getRWVersion() == nullptr ? LocalizationManager::get()->getTranslatedText("Window_Main_Combo_RWVersion_Unknown") : pIMGEntry->getRWVersion()->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pIMGEntry->getRWVersion()->getLocalizationKey()) + ")";
 		}
-		pListControl->InsertItem(LVIF_TEXT | LVIF_PARAM, uiRowIndex, CString2::convertStdStringToStdWString(pIMGEntry->getEntryName()).c_str(), 0, 0, 0, (DWORD)pSearchEntry);
-		pListControl->SetItem(uiRowIndex, 1, LVIF_TEXT, CString2::convertStdStringToStdWString(CPath::getFileName(pSearchEntry->getWindowTab()->getIMGFile()->getFilePath())).c_str(), 0, 0, 0, 0);
-		pListControl->SetItem(uiRowIndex, 2, LVIF_TEXT, CString2::convertStdStringToStdWString(strExtraInfo).c_str(), 0, 0, 0, 0);
+		pListControl->InsertItem(LVIF_TEXT | LVIF_PARAM, uiRowIndex, String2::convertStdStringToStdWString(pIMGEntry->getEntryName()).c_str(), 0, 0, 0, (DWORD)pSearchEntry);
+		pListControl->SetItem(uiRowIndex, 1, LVIF_TEXT, String2::convertStdStringToStdWString(Path::getFileName(pSearchEntry->getWindowTab()->getIMGFile()->getFilePath())).c_str(), 0, 0, 0, 0);
+		pListControl->SetItem(uiRowIndex, 2, LVIF_TEXT, String2::convertStdStringToStdWString(strExtraInfo).c_str(), 0, 0, 0, 0);
 	}
 
 	// result text
 	wstring wstrSearchResultText;
 	if (bAllTabs)
 	{
-		wstrSearchResultText = CLocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_AllTabs", uiMatchCount, uiFileCountWithMatches);
+		wstrSearchResultText = LocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_AllTabs", uiMatchCount, uiFileCountWithMatches);
 	}
 	else
 	{
-		wstrSearchResultText = CLocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", uiMatchCount);
+		wstrSearchResultText = LocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_SearchResult_ActiveTab", uiMatchCount);
 	}
 
 	((CStatic*)getIMGF()->getDialog()->GetDlgItem(0))->SetWindowTextW(wstrSearchResultText.c_str());
@@ -1071,8 +1071,8 @@ void					IMGEditorTab::storeFilterOptions(void)
 	::CString cstr1, cstr2;
 	pComboBox1->GetWindowTextW(cstr1);
 	pComboBox2->GetWindowTextW(cstr2);
-	setActiveFilter("type", CString2::convertCStringToStdString(cstr1));
-	setActiveFilter("version", CString2::convertCStringToStdString(cstr2));
+	setActiveFilter("type", String2::convertCStringToStdString(cstr1));
+	setActiveFilter("version", String2::convertCStringToStdString(cstr2));
 	*/
 }
 void					IMGEditorTab::restoreFilterOptions(void)
@@ -1087,9 +1087,9 @@ void					IMGEditorTab::restoreFilterOptions(void)
 	((CComboBox*)getIMGF()->getDialog()->GetDlgItem(7))->SetCurSel(m_filterOptions.m_iComboBoxes[0]);
 	((CComboBox*)getIMGF()->getDialog()->GetDlgItem(6))->SetCurSel(m_filterOptions.m_iComboBoxes[1]);
 	((CComboBox*)getIMGF()->getDialog()->GetDlgItem(5))->SetCurSel(m_filterOptions.m_iComboBoxes[2]);
-	((CEdit*)getIMGF()->getDialog()->GetDlgItem(9))->SetWindowTextW(CString2::convertStdStringToStdWString(m_filterOptions.m_strEditBoxes[0]).c_str());
-	((CEdit*)getIMGF()->getDialog()->GetDlgItem(8))->SetWindowTextW(CString2::convertStdStringToStdWString(m_filterOptions.m_strEditBoxes[1]).c_str());
-	((CEdit*)getIMGF()->getDialog()->GetDlgItem(48))->SetWindowTextW(CString2::convertStdStringToStdWString(m_filterOptions.m_strEditBoxes[2]).c_str());
+	((CEdit*)getIMGF()->getDialog()->GetDlgItem(9))->SetWindowTextW(String2::convertStdStringToStdWString(m_filterOptions.m_strEditBoxes[0]).c_str());
+	((CEdit*)getIMGF()->getDialog()->GetDlgItem(8))->SetWindowTextW(String2::convertStdStringToStdWString(m_filterOptions.m_strEditBoxes[1]).c_str());
+	((CEdit*)getIMGF()->getDialog()->GetDlgItem(48))->SetWindowTextW(String2::convertStdStringToStdWString(m_filterOptions.m_strEditBoxes[2]).c_str());
 	m_bRestoringFilterOptions = false;
 	*/
 }
@@ -1129,20 +1129,20 @@ void					IMGEditorTab::sortEntries(void)
 		{
 			break;
 		}
-		vecExtendedLogLines.push_back(CLocalizationManager::get()->getTranslatedFormattedText("Sort_Priority_N_WithName", (i + 1), pSortPriority->getType()->getText().c_str()));
+		vecExtendedLogLines.push_back(LocalizationManager::get()->getTranslatedFormattedText("Sort_Priority_N_WithName", (i + 1), pSortPriority->getType()->getText().c_str()));
 		i++;
 		pSortPriority2 = pSortPriority;
 	}
 	if (vecExtendedLogLines.size() == 1)
 	{
-		log(CLocalizationManager::get()->getTranslatedFormattedText("Log_129", pSortPriority2->getType()->getText().c_str()));
+		log(LocalizationManager::get()->getTranslatedFormattedText("Log_129", pSortPriority2->getType()->getText().c_str()));
 	}
 	else
 	{
-		log(CLocalizationManager::get()->getTranslatedFormattedText("Log_130", vecExtendedLogLines.size()));
+		log(LocalizationManager::get()->getTranslatedFormattedText("Log_130", vecExtendedLogLines.size()));
 	}
-	log(CLocalizationManager::get()->getTranslatedText("Log_131"), true);
-	log(CString2::join(vecExtendedLogLines, "\n"), true);
+	log(LocalizationManager::get()->getTranslatedText("Log_131"), true);
+	log(String2::join(vecExtendedLogLines, "\n"), true);
 
 	// render
 	readdGridEntries();
@@ -1212,7 +1212,7 @@ void				IMGEditorTab::unloadFilter_Type(void)
 		pComboBox->DeleteString(0);
 	}
 
-	pComboBox->InsertString(0, CLocalizationManager::get()->getTranslatedTextW("AllTypes").c_str());
+	pComboBox->InsertString(0, LocalizationManager::get()->getTranslatedTextW("AllTypes").c_str());
 
 	pComboBox->SetCurSel(0);
 	*/
@@ -1228,7 +1228,7 @@ void				IMGEditorTab::unloadFilter_Version(void)
 		pComboBox->DeleteString(0);
 	}
 
-	pComboBox->InsertString(0, CLocalizationManager::get()->getTranslatedTextW("AllVersions").c_str());
+	pComboBox->InsertString(0, LocalizationManager::get()->getTranslatedTextW("AllVersions").c_str());
 
 	pComboBox->SetCurSel(0);
 	*/
@@ -1241,7 +1241,7 @@ void				IMGEditorTab::reassignEntryIds(void)
 	CListCtrl *pListControl = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37);
 	for (uint32 i = 0, j = pListControl->GetItemCount(); i < j; i++)
 	{
-		pListControl->SetItem(i, 0, LVIF_TEXT, CString2::convertStdStringToStdWString(CString2::toString(i + 1)).c_str(), 0, 0, 0, 0);
+		pListControl->SetItem(i, 0, LVIF_TEXT, String2::convertStdStringToStdWString(String2::toString(i + 1)).c_str(), 0, 0, 0, 0);
 	}
 	*/
 }

@@ -2,7 +2,7 @@
 
 #include "nsimgf.h"
 #include "Type/Types.h"
-#include "Object/CManager.h"
+#include "Object/Manager.h"
 #include <string>
 
 class imgf::UpdateConnectionManager;
@@ -18,7 +18,7 @@ private:
 	uint8							m_bIsAlpha : 1;
 };
 
-class imgf::UpdateManager : public bxcf::CManager
+class imgf::UpdateManager : public bxcf::Manager
 {
 public:
 	UpdateManager(void);

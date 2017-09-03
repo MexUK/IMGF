@@ -14,10 +14,10 @@ void					DragDrop::onDropFiles(vector<string>& vecPaths)
 		string strPath = vecPaths[i];
 
 		// folder
-		if (CFile::doesFolderExist(strPath))
+		if (File::doesFolderExist(strPath))
 		{
-			strPath = CPath::addSlashToEnd(strPath);
-			vector<string> vecFileNames = CFile::getFileNames(strPath);
+			strPath = Path::addSlashToEnd(strPath);
+			vector<string> vecFileNames = File::getFileNames(strPath);
 			for (auto strFileName : vecFileNames)
 			{
 				vecPaths.push_back(strPath + strFileName);
@@ -25,7 +25,7 @@ void					DragDrop::onDropFiles(vector<string>& vecPaths)
 			continue;
 		}
 
-		string strExtension = CString2::toUpperCase(CPath::getFileExtension(strPath));
+		string strExtension = String2::toUpperCase(Path::getFileExtension(strPath));
 		if (strExtension == "IMG" || strExtension == "DIR")
 		{
 			// open IMG
@@ -48,7 +48,7 @@ void					DragDrop::onDropFiles(vector<string>& vecPaths)
 		{
 			getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strPath);
 		}
-		//getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_23", vecImportPaths.size()));
+		//getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_23", vecImportPaths.size()));
 
 		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	}

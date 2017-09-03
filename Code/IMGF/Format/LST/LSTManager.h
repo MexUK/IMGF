@@ -1,12 +1,12 @@
 #pragma once
 
 #include "nsimgf.h"
-#include "Format/CFormatManager.h"
-#include "Object/CSingleton.h"
+#include "Format/FormatManager.h"
+#include "Object/Singleton.h"
 
 class imgf::LSTFormat;
 
-class imgf::LSTManager : public bxcf::CFormatManager<LSTFormat>, public bxcf::CSingleton<LSTManager>
+class imgf::LSTManager : public bxcf::FormatManager<LSTFormat>, public bxcf::Singleton<LSTManager>
 {
 public:
 	LSTManager(void);

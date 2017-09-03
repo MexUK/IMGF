@@ -3,7 +3,7 @@
 #include "nsimgf.h"
 #include "nsbxcf.h"
 #include "nsbxgi.h"
-#include "Object/CManager.h"
+#include "Object/Manager.h"
 #include <string>
 #include <vector>
 
@@ -16,7 +16,7 @@ class imgf::SortPriorities;
 class imgf::SortMenuItems;
 class imgf::SortMenuItem;
 
-class imgf::SortManager : public bxcf::CManager
+class imgf::SortManager : public bxcf::Manager
 {
 public:
 	SortManager(void);

@@ -1,12 +1,12 @@
 #include "Editor.h"
-#include "Static/CPath.h"
+#include "Static/Path.h"
 #include "GUI/Editor/Tab/EditorTab.h"
-#include "Format/CFormat.h"
+#include "Format/Format.h"
 #include "IMGF.h"
 #include "Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Controls/TabBar.h"
 #include "GUI/Windows/MainWindow.h"
-#include "Static/CString2.h"
+#include "Static/String2.h"
 
 using namespace std;
 using namespace bxcf;
@@ -35,12 +35,12 @@ void								Editor::addFile(EditorTab *pEditorFile)
 	string strFilePath = getResolvedFilePath(pEditorFile->getFile()->getFilePath());
 
 	// choose tab text
-	string strTabText = CPath::getFileName(strFilePath);
-	if (CString2::toUpperCase(CPath::getFileExtension(strTabText)) == "DIR")
+	string strTabText = Path::getFileName(strFilePath);
+	if (String2::toUpperCase(Path::getFileExtension(strTabText)) == "DIR")
 	{
-		strTabText = CPath::replaceFileExtensionWithCase(strTabText, "IMG");
+		strTabText = Path::replaceFileExtensionWithCase(strTabText, "IMG");
 	}
-	strTabText += " (" + CString2::toString(pEditorFile->getFile()->m_uiEntryCount) + ")";
+	strTabText += " (" + String2::toString(pEditorFile->getFile()->m_uiEntryCount) + ")";
 
 	// add controls to tab layer
 	pEditorFile->addControls();

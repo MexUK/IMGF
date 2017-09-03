@@ -1,15 +1,15 @@
 #pragma once
 
 #include "nsimgf.h"
-#include "Format/CFormat.h"
-#include "Pool/CVectorPool.h"
+#include "Format/Format.h"
+#include "Pool/VectorPool.h"
 #include "LSTSection.h"
 #include <string>
 
-class imgf::LSTFormat : public bxcf::CFormat, public bxcf::CVectorPool<LSTSection*>
+class imgf::LSTFormat : public bxcf::Format, public bxcf::VectorPool<LSTSection*>
 {
 public:
-	LSTFormat(void) : bxcf::CFormat(false) {}
+	LSTFormat(void) : bxcf::Format(false) {}
 
 	void								unload(void);
 

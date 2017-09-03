@@ -1,6 +1,6 @@
 #include "AutomatedTesting.h"
-#include "Format/Image/BMP/CBMPManager.h"
-#include "Format/Image/BMP/CBMPFormat.h"
+#include "Format/Image/BMP/BMPManager.h"
+#include "Format/Image/BMP/BMPFormat.h"
 
 using namespace std;
 using namespace bxcf;
@@ -20,7 +20,7 @@ void						testFormatSerialization(string strFormatFilePath)
 	}
 	
 	// test storing
-	string strOutputFormatFilePath = "Output/" + CPath::getFileName(strFormatFilePath);
+	string strOutputFormatFilePath = "Output/" + Path::getFileName(strFormatFilePath);
 	pFormat->storeViaFile(strOutputFormatFilePath);
 	if(bHasError)
 	{
@@ -30,7 +30,7 @@ void						testFormatSerialization(string strFormatFilePath)
 	}
 	
 	// test store with file that is: stored, then parsed, then stored
-	if(!CFile::compareFiles(strFormatFilePath, strOutputFormatFilePath))
+	if(!File::compareFiles(strFormatFilePath, strOutputFormatFilePath))
 	{
 		pFormat->unload();
 		delete pFormat;
@@ -45,12 +45,12 @@ void						testFormatSerialization(string strFormatFilePath)
 void						AutomatedTesting::testFormatsSerialization(void)
 {
 	/*
-	testFormatSerialization<CBMPManager,		CBMPFormat>			("a.bmp");
+	testFormatSerialization<BMPManager,		BMPFormat>			("a.bmp");
 	testFormatSerialization<CCOLManager,		CCOLFormat>			("a.col");
 	testFormatSerialization<CDATLoaderManager,	CDATLoaderFormat>	("a.dat");
 	testFormatSerialization<CDATPathManager,	CDATPathFormat>		("a.dat");
 	testFormatSerialization<DBManager,			DBFormat>			("a.db");
-	testFormatSerialization<CDDSManager,		CDDSFormat>			("a.dds");
+	testFormatSerialization<DDSManager,		DDSFormat>			("a.dds");
 	testFormatSerialization<CDFFManager,		CDFFFormat>			("a.dff");
 	testFormatSerialization<CIDEManager,		CIDEFormat>			("a.ide");
 	testFormatSerialization<CIMGManager,		CIMGFormat>			("a.img");

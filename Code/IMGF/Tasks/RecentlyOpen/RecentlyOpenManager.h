@@ -1,13 +1,13 @@
 #pragma once
 
 #include "nsimgf.h"
-#include "Object/CManager.h"
+#include "Object/Manager.h"
 #include "RecentlyOpenEntry.h"
-#include "Pool/CVectorPool.h"
+#include "Pool/VectorPool.h"
 #include <string>
 #include <unordered_map>
 
-class imgf::RecentlyOpenManager : public bxcf::CManager, public bxcf::CVectorPool<RecentlyOpenEntry*>
+class imgf::RecentlyOpenManager : public bxcf::Manager, public bxcf::VectorPool<RecentlyOpenEntry*>
 {
 public:
 	void					init(void);

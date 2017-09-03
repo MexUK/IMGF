@@ -1,10 +1,10 @@
 #include "DBFormat.h"
 #include "DBEntry.h"
-#include "Static/CString2.h"
+#include "Static/String2.h"
 #include "Format/IMG/Regular/CIMGFormat.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
-#include "Stream/CDataReader.h"
-#include "Stream/CDataWriter.h"
+#include "Stream/DataReader.h"
+#include "Stream/DataWriter.h"
 
 using namespace std;
 using namespace bxcf;
@@ -19,7 +19,7 @@ void								DBFormat::unload(void)
 void								DBFormat::unserialize(void)
 {
 	unload();
-	CDataReader *pDataReader = CDataReader::get();
+	DataReader *pDataReader = DataReader::get();
 
 	// DB file header
 	m_uiDBVersion = pDataReader->readUint32();
@@ -41,7 +41,7 @@ void								DBFormat::unserialize(void)
 
 void								DBFormat::serialize(void)
 {
-	CDataWriter *pDataWriter = CDataWriter::get();
+	DataWriter *pDataWriter = DataWriter::get();
 
 	// DB file header
 	pDataWriter->writeUint32(getDBVersion());
@@ -62,7 +62,7 @@ bool								DBFormat::isIMGEntryFound(CIMGFormat *pIMGFile, CIMGEntry *pIMGEntry
 		return false;
 	}
 
-	if (pDBEntry->getEntryDataCRC() != CString2::getCRC(pIMGEntry->getEntryData()))
+	if (pDBEntry->getEntryDataCRC() != String2::getCRC(pIMGEntry->getEntryData()))
 	{
 		return false;
 	}

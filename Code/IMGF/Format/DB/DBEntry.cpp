@@ -1,6 +1,6 @@
 #include "DBEntry.h"
-#include "Stream/CDataReader.h"
-#include "Stream/CDataWriter.h"
+#include "Stream/DataReader.h"
+#include "Stream/DataWriter.h"
 
 using namespace std;
 using namespace bxcf;
@@ -8,7 +8,7 @@ using namespace imgf;
 
 void				DBEntry::unserialize(void)
 {
-	CDataReader *pDataReader = CDataReader::get();
+	DataReader *pDataReader = DataReader::get();
 
 	uint32 uiEntryNameLength = pDataReader->readUint32();
 	m_strEntryName = string((char*)pDataReader->readCString(uiEntryNameLength));
@@ -20,7 +20,7 @@ void				DBEntry::unserialize(void)
 
 void				DBEntry::serialize(void)
 {
-	CDataWriter *pDataWriter = CDataWriter::get();
+	DataWriter *pDataWriter = DataWriter::get();
 
 	pDataWriter->writeUint32(m_strEntryName.length());
 	pDataWriter->writeStringRef(m_strEntryName);

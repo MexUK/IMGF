@@ -1,11 +1,11 @@
 #pragma once
 
 #include "nsimgf.h"
-#include "Object/CManager.h"
+#include "Object/Manager.h"
 
 class imgf::MainWindow;
 
-class imgf::WindowManager : public bxcf::CManager
+class imgf::WindowManager : public bxcf::Manager
 {
 public:
 	WindowManager(void);

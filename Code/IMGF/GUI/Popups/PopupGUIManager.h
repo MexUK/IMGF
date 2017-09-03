@@ -3,7 +3,7 @@
 #include "nsimgf.h"
 #include <Windows.h>
 #include "nsbxcf.h"
-#include "Object/CManager.h"
+#include "Object/Manager.h"
 #include "Localization/ELanguage.h"
 #include "Game/EPlatformedGame.h"
 #include "Format/IMG/Regular/EIMGVersion.h"
@@ -41,7 +41,7 @@ struct imgf::CDATModelListDialogData;
 struct imgf::COverwriteEntryDialogData;
 class CDialog;
 
-class imgf::PopupGUIManager : public bxcf::CManager
+class imgf::PopupGUIManager : public bxcf::Manager
 {
 public:
 	void									init(void);
@@ -208,7 +208,7 @@ struct imgf::CSplitViaDialogData
 };
 
 class bxgi::CRWVersion;
-class bxcf::CRasterDataFormat;
+class bxcf::RasterDataFormat;
 class bxgi::CCOLVersion;
 struct imgf::DragDropDialogData
 {
@@ -223,7 +223,7 @@ struct imgf::DragDropDialogData
 	{
 		bxgi::EPlatformedGame			m_uiTXDConversionGame;
 		bxgi::CRWVersion*				m_pTXDConversionRWVersion;
-		bxcf::CRasterDataFormat*		m_pTXDConversionRasterDataFormat;
+		bxcf::RasterDataFormat*		m_pTXDConversionRasterDataFormat;
 	};
 };
 
@@ -312,7 +312,7 @@ struct imgf::CTXDOrganizerDialogData
 	bool							m_bIDEUpdate;
 	std::string						m_strIDEUpdateFolderPath;
 	std::string						m_strOutputFolderPath;
-	bxcf::CRasterDataFormat*				m_pRasterDataFormat;
+	bxcf::RasterDataFormat*				m_pRasterDataFormat;
 };
 
 struct imgf::CDATPathsMoverDialogData

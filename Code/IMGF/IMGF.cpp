@@ -13,7 +13,7 @@
 #include "Settings/SettingsManager.h"
 #include "Tasks/Sort/SortManager.h"
 #include "Format/IMG/Regular/CIMGManager.h"
-#include "Static/CInput.h"
+#include "Static/Input.h"
 #include "Window/Window.h"
 #include "Controls/Text.h"
 #include "Controls/Grid.h"
@@ -27,36 +27,36 @@
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Editors/IMGEditor.h"
 #include "GUI/Editors/Tab/IMGEditorTab.h"
-#include "Static/CString2.h"
-#include "Static/CFile.h"
-#include "Static/CPath.h"
-#include "Static/CRegistry.h"
+#include "Static/String2.h"
+#include "Static/File.h"
+#include "Static/Path.h"
+#include "Static/Registry.h"
 #include "DragDrop/DropTarget.h"
 #include "DB/DBManager.h"
 #include "DB/DBFormat.h"
-#include "Static/CDebug.h"
+#include "Static/Debug.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
 #include "Format/COL/CCOLManager.h"
 #include "Format/COL/CCOLVersionManager.h"
 #include "Format/COL/CCOLVersion.h"
-#include "Static/CInput.h"
+#include "Static/Input.h"
 #include "Tasks/Find/SearchEntry.h"
 #include "EntryViewer/EntryViewerManager.h"
-#include "Static/CStdVector.h"
+#include "Static/StdVector.h"
 #include "Updater/UpdateManager.h"
 #include "Program/buildnumber.h"
 #include "Compression/ECompressionAlgorithm.h"
 #include "Format/DAT/Loader/CDATLoaderManager.h"
 #include "Format/DAT/Path/CDATPathManager.h"
-#include "Localization/CLocalizationManager.h"
+#include "Localization/LocalizationManager.h"
 #include "Language/LanguageManager.h"
-#include "Format/Image/BMP/CBMPManager.h"
-#include "Format/Image/CUR/CCURManager.h"
+#include "Format/Image/BMP/BMPManager.h"
+#include "Format/Image/CUR/CURManager.h"
 #include "Format/DFF/CDFFManager.h"
 #include "DB/DBManager.h"
-#include "Format/Image/ICO/CICOManager.h"
+#include "Format/Image/ICO/ICOManager.h"
 #include "Format/IDE/CIDEManager.h"
-#include "Image/CImageManager.h"
+#include "Image/ImageManager.h"
 #include "Format/IPL/CIPLManager.h"
 #include "LST/LSTManager.h"
 #include "Format/TXD/CTXDManager.h"
@@ -65,14 +65,14 @@
 #include "Localization/ELanguage.h"
 #include "Language/Language.h"
 #include "Game/CGameManager.h"
-#include "Platform/Hardware/CPlatformManager.h"
+#include "Platform/Hardware/PlatformManager.h"
 #include "Format/RW/CRWSection.h"
-#include "Static/CTiming.h"
+#include "Static/Timing.h"
 #include "Task/LastUsedValueManager.h"
 #include "GUI/Windows/MainWindow.h"
 #include "Styles/StyleManager.h"
 #include "GUI/Input/InputManager.h"
-#include "Static/CDataPath.h"
+#include "Static/DataPath.h"
 
 using namespace std;
 using namespace bxcf;
@@ -82,7 +82,7 @@ using namespace imgf;
 
 IMGF::IMGF(void)
 {
-	CDataPath::setAppFolderName("IMGFactory");
+	DataPath::setAppFolderName("IMGFactory");
 
 	// construct objects stored by IMGF
 	m_pInputManager			= new InputManager;
@@ -180,7 +180,7 @@ void				IMGF::initInstallationMeta(void)
 	{
 		string strProgramFilesx86FolderName = "IMG Factory";
 		string strPotentialInstallationPath = "C:\\Program Files (x86)\\" + strProgramFilesx86FolderName + "\\" + getIMGF()->getBuildMeta().getCurrentVersionString() + "\\";
-		if (CFile::doesFolderExist(strPotentialInstallationPath))
+		if (File::doesFolderExist(strPotentialInstallationPath))
 		{
 			strInstallationPath = strPotentialInstallationPath;
 			SettingsManager::setInternalSetting("InstallationPath", strPotentialInstallationPath);
@@ -189,8 +189,8 @@ void				IMGF::initInstallationMeta(void)
 		{
 			/*
 			todo
-			//string strChosenInstallationFolder = CInput::chooseFolderDialog(getDialog()->GetSafeHwnd(), CLocalizationManager::get()->getTranslatedText("ChooseFolderPopup_11"), getIMGF()->getLastUsedDirectory("INSTALLATION"));
-			string strChosenInstallationFolder = CInput::chooseFolderDialog(getActiveWindow() ? getActiveWindow()->getWindowHandle() : NULL, "Choose the installation folder for IMGF. (e.g. In program files x86)", getIMGF()->getLastUsedDirectory("INSTALLATION"));
+			//string strChosenInstallationFolder = Input::chooseFolderDialog(getDialog()->GetSafeHwnd(), LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_11"), getIMGF()->getLastUsedDirectory("INSTALLATION"));
+			string strChosenInstallationFolder = Input::chooseFolderDialog(getActiveWindow() ? getActiveWindow()->getWindowHandle() : NULL, "Choose the installation folder for IMGF. (e.g. In program files x86)", getIMGF()->getLastUsedDirectory("INSTALLATION"));
 			if (strChosenInstallationFolder == "")
 			{
 			}
@@ -222,21 +222,21 @@ void				IMGF::initStoredObjects(void)
 void				IMGF::initSingletonObjects(void)
 {
 	// initialize singleton objects
-	CBMPManager::get()->init();
+	BMPManager::get()->init();
 	CCOLManager::get()->init();
-	CCURManager::get()->init();
+	CURManager::get()->init();
 	CDATLoaderManager::get()->init();
 	CDATPathManager::get()->init();
 	DBManager::get()->init();
 	CDFFManager::get()->init();
 	CGameManager::get()->init();
-	CICOManager::get()->init();
+	ICOManager::get()->init();
 	CIDEManager::get()->init();
-	CImageManager::get()->init();
+	ImageManager::get()->init();
 	CIMGManager::get()->init();
 	CIPLManager::get()->init();
 	LSTManager::get()->init();
-	CPlatformManager::get()->init();
+	PlatformManager::get()->init();
 	CRageManager::get()->init();
 	CRWManager::get()->init();
 	CTXDManager::get()->init();
@@ -281,10 +281,10 @@ void				IMGF::initSettings(void)
 void				IMGF::initLocalization(void)
 {
 	ELanguage eActivELanguage = (ELanguage)getIMGF()->getSettingsManager()->getSettingInt("Language");
-	CLocalizationManager::get()->setActivELanguage(eActivELanguage);
-	CLocalizationManager::get()->setActivELanguageName(getIMGF()->getLanguageManager()->getLanguageById(eActivELanguage)->getLanguageName());
-	CLocalizationManager::get()->setInstallationPath(SettingsManager::getInternalSetting("InstallationPath"));
-	CLocalizationManager::get()->loadTranslatedText();
+	LocalizationManager::get()->setActivELanguage(eActivELanguage);
+	LocalizationManager::get()->setActivELanguageName(getIMGF()->getLanguageManager()->getLanguageById(eActivELanguage)->getLanguageName());
+	LocalizationManager::get()->setInstallationPath(SettingsManager::getInternalSetting("InstallationPath"));
+	LocalizationManager::get()->loadTranslatedText();
 }
 
 void				IMGF::initSorting(void)
@@ -303,10 +303,10 @@ void				IMGF::initOldVersionMigration(void)
 		uint32 uiIterationCount = 0;
 		do
 		{
-			bFileExists = CFile::doesFileExist(strPreviousVersionExePath);
+			bFileExists = File::doesFileExist(strPreviousVersionExePath);
 			if (bFileExists)
 			{
-				iResult = DeleteFile(CString2::convertStdStringToStdWString(strPreviousVersionExePath).c_str());
+				iResult = DeleteFile(String2::convertStdStringToStdWString(strPreviousVersionExePath).c_str());
 				if (iResult == 0)
 				{
 					Sleep(250);
@@ -327,7 +327,7 @@ void				IMGF::initCommandLine(void)
 {
 	// command line
 	wchar_t *pCommandLine = GetCommandLine();
-	string strCommandLine = CString2::convertStdWStringToStdString(pCommandLine);
+	string strCommandLine = String2::convertStdWStringToStdString(pCommandLine);
 	int uiPos1 = strCommandLine.find('"', 0);
 	int uiPos2 = strCommandLine.find('"', uiPos1 + 1);
 	int uiPos3 = strCommandLine.find('"', uiPos2 + 1);
@@ -335,7 +335,7 @@ void				IMGF::initCommandLine(void)
 	{
 		int uiPos4 = strCommandLine.find('"', uiPos3 + 1);
 		string strPath = strCommandLine.substr(uiPos3 + 1, (uiPos4 - uiPos3) - 1);
-		//MessageBox(NULL, CString2::convertStdStringToStdWString(strCommandLine).c_str(), L"S", MB_OK);
+		//MessageBox(NULL, String2::convertStdStringToStdWString(strCommandLine).c_str(), L"S", MB_OK);
 		getTaskManager()->getDispatch()->_openFile(strPath);
 	}
 }

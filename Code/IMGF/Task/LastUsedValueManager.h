@@ -2,17 +2,17 @@
 
 #include "nsimgf.h"
 #include "Type/Types.h"
-#include "Object/CManager.h"
+#include "Object/Manager.h"
 #include "Format/IMG/Regular/EIMGVersion.h"
 #include "Format/IMG/Regular/EIMGEntryProperty.h"
 #include "Game/EPlatformedGame.h"
 #include <string>
 
 class bxgi::CRWVersion;
-class bxcf::CRasterDataFormat;
+class bxcf::RasterDataFormat;
 class bxgi::CCOLVersion;
 
-class imgf::LastUsedValueManager : public bxcf::CManager
+class imgf::LastUsedValueManager : public bxcf::Manager
 {
 public:
 	LastUsedValueManager(void);
@@ -40,8 +40,8 @@ public:
 	void								setLastUsedValue_ConvertTXD_Game(bxgi::EPlatformedGame EPlatformedGameValue) { m_uiLastUsedValue_ConvertTXD_Game = EPlatformedGameValue; }
 	bxgi::EPlatformedGame						getLastUsedValue_ConvertTXD_Game(void) { return m_uiLastUsedValue_ConvertTXD_Game; }
 
-	void								setLastUsedValue_ConvertTXD_TextureFormat(bxcf::CRasterDataFormat *pRasterDataFormat) { m_pLastUsedValue_ConvertTXD_RasterDataFormat = pRasterDataFormat; }
-	bxcf::CRasterDataFormat*					getLastUsedValue_ConvertTXD_TextureFormat(void) { return m_pLastUsedValue_ConvertTXD_RasterDataFormat; }
+	void								setLastUsedValue_ConvertTXD_TextureFormat(bxcf::RasterDataFormat *pRasterDataFormat) { m_pLastUsedValue_ConvertTXD_RasterDataFormat = pRasterDataFormat; }
+	bxcf::RasterDataFormat*					getLastUsedValue_ConvertTXD_TextureFormat(void) { return m_pLastUsedValue_ConvertTXD_RasterDataFormat; }
 
 	void								setLastUsedValue_Copy_IMGEntryProperty(bxgi::EIMGEntryProperty EIMGEntryPropertyValue) { m_uiLastUsedValue_Copy_IMGEntryProperty = EIMGEntryPropertyValue; }
 	bxgi::EIMGEntryProperty					getLastUsedValue_Copy_IMGEntryProperty(void) { return m_uiLastUsedValue_Copy_IMGEntryProperty; }
@@ -83,7 +83,7 @@ private:
 	bool								m_bLastUsedValue_Close2_CloseAll;
 	bxgi::CRWVersion*							m_pLastUsedValue_ConvertDFF_RWVersion;
 	bxgi::EPlatformedGame						m_uiLastUsedValue_ConvertTXD_Game;
-	bxcf::CRasterDataFormat*					m_pLastUsedValue_ConvertTXD_RasterDataFormat;
+	bxcf::RasterDataFormat*					m_pLastUsedValue_ConvertTXD_RasterDataFormat;
 	bxgi::EIMGEntryProperty					m_uiLastUsedValue_Copy_IMGEntryProperty;
 	bool								m_bLastUsedValue_SaveLog_ActiveTab;
 	bool								m_bLastUsedValue_SaveLog_NormalFormat;

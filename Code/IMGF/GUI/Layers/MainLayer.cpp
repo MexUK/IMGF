@@ -1,7 +1,7 @@
 #include "MainLayer.h"
 #include "Window/Window.h"
 #include "BXGX.h"
-#include "Type/Colour/CColour.h"
+#include "Type/Colour/Colour.h"
 #include "Controls/TabBar.h"
 #include "Controls/DropDown.h"
 #include "Controls/Button.h"

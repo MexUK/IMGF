@@ -3,9 +3,9 @@
 #include "DBEntry.h"
 #include "Format/IMG/Regular/CIMGFormat.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
-#include "Static/CString2.h"
-#include "Stream/CDataReader.h"
-#include "Static/CDebug.h"
+#include "Static/String2.h"
+#include "Stream/DataReader.h"
+#include "Static/Debug.h"
 
 using namespace std;
 using namespace bxcf;
@@ -32,7 +32,7 @@ DBFormat*		DBManager::createDBFileFromIMGFile(CIMGFormat *pIMGFile)
 		DBEntry *pDBEntry = new DBEntry;
 		pDBEntry->setEntryName(pIMGEntry->getEntryName());
 		pDBEntry->setEntrySize(pIMGEntry->getEntrySize());
-		pDBEntry->setEntryDataCRC(CString2::getCRC(pIMGEntry->getEntryData()));
+		pDBEntry->setEntryDataCRC(String2::getCRC(pIMGEntry->getEntryData()));
 		pDBEntry->setEntryCreationDate(pIMGEntry->getFileCreationDate());
 		pDBEntry->setHasIssue(false);
 		pDBFile->addEntry(pDBEntry);

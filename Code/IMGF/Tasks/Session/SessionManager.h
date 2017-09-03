@@ -1,14 +1,14 @@
 #pragma once
 
 #include "nsimgf.h"
-#include "Object/CManager.h"
+#include "Object/Manager.h"
 #include "Session.h"
-#include "Pool/CVectorPool.h"
+#include "Pool/VectorPool.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
 
-class imgf::SessionManager : public bxcf::CManager, public bxcf::CVectorPool<Session*>
+class imgf::SessionManager : public bxcf::Manager, public bxcf::VectorPool<Session*>
 {
 public:
 	void			init(void);

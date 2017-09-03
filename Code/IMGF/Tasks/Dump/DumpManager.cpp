@@ -7,10 +7,10 @@
 #include "GUI/Editors/Tab/IMGEditorTab.h"
 #include "GUI/Popups/PopupGUIManager.h"
 #include "Format/IMG/Regular/CIMGFormat.h"
-#include "Static/CInput.h"
-#include "Static/CPath.h"
-#include "Static/CString2.h"
-#include "Static/CFile.h"
+#include "Static/Input.h"
+#include "Static/Path.h"
+#include "Static/String2.h"
+#include "Static/File.h"
 #include "Format/IMG/Regular/CIMGManager.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
 #include "Format/DAT/Loader/CDATLoaderManager.h"
@@ -19,24 +19,24 @@
 #include "Format/TXD/CTXDManager.h"
 #include "Format/TXD/CTXDFormat.h"
 #include "Format/RW/Sections/CRWSection_TextureNative.h"
-#include "Format/Image/BMP/CBMPManager.h"
-#include "Format/Image/BMP/CBMPFormat.h"
-#include "Format/Image/CUR/CCURManager.h"
-#include "Format/Image/CUR/CCURFormat.h"
-#include "Format/Image/ICO/CICOManager.h"
-#include "Format/Image/ICO/CICOFormat.h"
+#include "Format/Image/BMP/BMPManager.h"
+#include "Format/Image/BMP/BMPFormat.h"
+#include "Format/Image/CUR/CURManager.h"
+#include "Format/Image/CUR/CURFormat.h"
+#include "Format/Image/ICO/ICOManager.h"
+#include "Format/Image/ICO/ICOFormat.h"
 #include "Bitmap.h"
-#include "Static/CDebug.h"
-#include "Static/CStdVector.h"
+#include "Static/Debug.h"
+#include "Static/StdVector.h"
 #include "Task/TaskManager.h"
 #include "Task/TaskDispatchManager.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
 #include "Format/WTD/CWTDManager.h"
 #include "Format/WTD/CWTDFormat.h"
 #include "Format/WTD/CWTDEntry.h"
-#include "Image/CImageManager.h"
-#include "Format/Image/DDS/CDDSFormat.h"
-#include "Localization/CLocalizationManager.h"
+#include "Image/ImageManager.h"
+#include "Format/Image/DDS/DDSFormat.h"
+#include "Localization/LocalizationManager.h"
 #include "Settings/SettingsManager.h"
 #include <gdiplus.h>
 
@@ -159,7 +159,7 @@ void		DumpManager::process(void)
 		for (auto strIMGRelativePath : vecGameIMGPaths)
 		{
 			string strIMGPath = pDumpDialogData->m_strGameDirectoryPath + strIMGRelativePath;
-			if (CFile::doesFileExist(strIMGPath))
+			if (File::doesFileExist(strIMGPath))
 			{
 				CIMGFormat *pIMGFile = CIMGManager::get()->parseViaFile(strIMGPath);
 				if(!pIMGFile->doesHaveError())
@@ -195,7 +195,7 @@ void		DumpManager::process(void)
 		for (auto strIMGRelativePath : vecGameIMGPaths)
 		{
 			string strIMGPath = pDumpDialogData->m_strGameDirectoryPath + strIMGRelativePath;
-			if (CFile::doesFileExist(strIMGPath))
+			if (File::doesFileExist(strIMGPath))
 			{
 				CIMGFormat *pIMGFile = CIMGManager::get()->parseViaFile(strIMGPath);
 				if(!pIMGFile->doesHaveError())
@@ -207,7 +207,7 @@ void		DumpManager::process(void)
 	}
 
 	// dump folder path
-	pDumpDialogData->m_strDumpDestinationFolderPath = CPath::addSlashToEnd(pDumpDialogData->m_strDumpDestinationFolderPath);
+	pDumpDialogData->m_strDumpDestinationFolderPath = Path::addSlashToEnd(pDumpDialogData->m_strDumpDestinationFolderPath);
 
 	// progress bar
 	uint32 uiProgressMaxTicks = 0;
@@ -248,7 +248,7 @@ void		DumpManager::process(void)
 		// dump IMG entries
 		for (auto pIMGEntry : vecIMGEntries)
 		{
-			string strExtension = CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()));
+			string strExtension = String2::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()));
 			if (strExtension == "COL" || strExtension == "WBN" || strExtension == "WBD")
 			{
 				if (std::find(pDumpDialogData->m_vecDumpExtensions.begin(), pDumpDialogData->m_vecDumpExtensions.end(), "COL") != pDumpDialogData->m_vecDumpExtensions.end())
@@ -283,7 +283,7 @@ void		DumpManager::process(void)
 					string strTXDData = pIMGEntry->getEntryData();
 					if (!CTXDFormat::isTXDSizeValid(strTXDData.size()))
 					{
-						vecTooLargeTXDs.push_back(CLocalizationManager::get()->getTranslatedFormattedText("Log_TXD_MaxSize", pIMGEntry->getEntryName().c_str()));
+						vecTooLargeTXDs.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TXD_MaxSize", pIMGEntry->getEntryName().c_str()));
 					}
 
 					CTXDFormat *pTXDFile = CTXDManager::get()->parseViaMemory(strTXDData);
@@ -294,7 +294,7 @@ void		DumpManager::process(void)
 
 					if (!CTXDFormat::isTextureCountValid(pTXDFile->getTextures().size(), pTXDFile->getPlatformedGames()))
 					{
-						vecTXDsContainingTooManyTextures.push_back(CLocalizationManager::get()->getTranslatedFormattedText("Log_TextureCount", pIMGEntry->getEntryName().c_str(), pTXDFile->getTextures().size()));
+						vecTXDsContainingTooManyTextures.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TextureCount", pIMGEntry->getEntryName().c_str(), pTXDFile->getTextures().size()));
 					}
 
 					uint32 uiTextureIndex = 0;
@@ -302,12 +302,12 @@ void		DumpManager::process(void)
 					{
 						if (!CTXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getPlatformedGames()))
 						{
-							vecInvalidResolutionTXDs.push_back("[" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName() + " (" + CString2::toString(pTexture->getImageSize().x) + " x " + CString2::toString(pTexture->getImageSize().y) + ")");
+							vecInvalidResolutionTXDs.push_back("[" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName() + " (" + String2::toString(pTexture->getImageSize().x) + " x " + String2::toString(pTexture->getImageSize().y) + ")");
 						}
 
 						if (!CTXDFormat::isTextureNameValid(pTexture->getDiffuseName()) || !CTXDFormat::isTextureNameValid(pTexture->getAlphaName(), true))
 						{
-							vecInvalidTextureNames.push_back(CLocalizationManager::get()->getTranslatedFormattedText("Log_TextureIndex", pIMGEntry->getEntryName().c_str(), uiTextureIndex + 1));
+							vecInvalidTextureNames.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TextureIndex", pIMGEntry->getEntryName().c_str(), uiTextureIndex + 1));
 						}
 
 						uiTextureIndex++;
@@ -323,7 +323,7 @@ void		DumpManager::process(void)
 					//vecIMGEntries.push_back(pIMGEntry);
 					//CIMGManager::get()->exportEntries(pIMGFile, vecIMGEntries, pDumpDialogData->m_strDumpDestinationFolderPath + strExtension + "/");
 
-					string strEntryExtensionUpper = CString2::toUpperCase(CPath::getFileExtension(pIMGEntry->getEntryName()));
+					string strEntryExtensionUpper = String2::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()));
 					if (strEntryExtensionUpper != "TXD" && strEntryExtensionUpper != "WTD")
 					{
 						getIMGF()->getTaskManager()->onTaskProgressTick();
@@ -337,7 +337,7 @@ void		DumpManager::process(void)
 
 						if (!CTXDFormat::isTXDSizeValid(strTXDData.size()))
 						{
-							vecTooLargeTXDs.push_back(CLocalizationManager::get()->getTranslatedFormattedText("Log_TXD_MaxSize", pIMGEntry->getEntryName().c_str()));
+							vecTooLargeTXDs.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TXD_MaxSize", pIMGEntry->getEntryName().c_str()));
 						}
 						CTXDFormat *pTXDFile = CTXDManager::get()->parseViaMemory(strTXDData);
 						if (pTXDFile->doesHaveError())
@@ -348,7 +348,7 @@ void		DumpManager::process(void)
 						}
 						if (!CTXDFormat::isTextureCountValid(pTXDFile->getTextures().size(), pTXDFile->getPlatformedGames()))
 						{
-							vecTXDsContainingTooManyTextures.push_back(CLocalizationManager::get()->getTranslatedFormattedText("Log_TextureCount", pIMGEntry->getEntryName().c_str(), pTXDFile->getTextures().size()));
+							vecTXDsContainingTooManyTextures.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TextureCount", pIMGEntry->getEntryName().c_str(), pTXDFile->getTextures().size()));
 						}
 
 						for (auto strImageType : pDumpDialogData->m_vecDumpImageTypes)
@@ -362,21 +362,21 @@ void		DumpManager::process(void)
 								}
 
 								/*
-								CDebugger::log("pTexture->m_strDiffuseName: [" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName());
-								CDebugger::log("pTexture->m_usWidth: " + CString2::toString(pTexture->getImageSize(true)));
-								CDebugger::log("pTexture->m_usHeight: " + CString2::toString(pTexture->getImageSize(false)));
-								CDebugger::log("pTexture->m_uiRasterFormat: " + CString2::toString(pTexture->getRasterFormat()));
-								CDebugger::log("pTexture->m_ucBPP: " + CString2::toString(pTexture->getBPP()));
+								Debugger::log("pTexture->m_strDiffuseName: [" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName());
+								Debugger::log("pTexture->m_usWidth: " + String2::toString(pTexture->getImageSize(true)));
+								Debugger::log("pTexture->m_usHeight: " + String2::toString(pTexture->getImageSize(false)));
+								Debugger::log("pTexture->m_uiRasterFormat: " + String2::toString(pTexture->getRasterFormat()));
+								Debugger::log("pTexture->m_ucBPP: " + String2::toString(pTexture->getBPP()));
 								*/
 
 								if (!CTXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getPlatformedGames()))
 								{
-									vecInvalidResolutionTXDs.push_back("[" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName() + " (" + CString2::toString(pTexture->getImageSize().x) + " x " + CString2::toString(pTexture->getImageSize().y) + ")");
+									vecInvalidResolutionTXDs.push_back("[" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName() + " (" + String2::toString(pTexture->getImageSize().x) + " x " + String2::toString(pTexture->getImageSize().y) + ")");
 								}
 
 								if (!CTXDFormat::isTextureNameValid(pTexture->getDiffuseName()) || !CTXDFormat::isTextureNameValid(pTexture->getAlphaName(), true))
 								{
-									vecInvalidTextureNames.push_back(CLocalizationManager::get()->getTranslatedFormattedText("Log_TextureIndex", pIMGEntry->getEntryName().c_str(), uiTextureIndex + 1));
+									vecInvalidTextureNames.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TextureIndex", pIMGEntry->getEntryName().c_str(), uiTextureIndex + 1));
 								}
 
 								string strTextureNamesLogLine;
@@ -384,7 +384,7 @@ void		DumpManager::process(void)
 								{
 									if (pTexture->doesHaveAlpha())
 									{
-										strTextureNamesLogLine = pTexture->getDiffuseName() + " (" + CLocalizationManager::get()->getTranslatedFormattedText("Log_AlphaTextureName", pTexture->getAlphaName().c_str()) + ")";
+										strTextureNamesLogLine = pTexture->getDiffuseName() + " (" + LocalizationManager::get()->getTranslatedFormattedText("Log_AlphaTextureName", pTexture->getAlphaName().c_str()) + ")";
 									}
 									else
 									{
@@ -395,11 +395,11 @@ void		DumpManager::process(void)
 								{
 									if (pTexture->doesHaveAlpha())
 									{
-										strTextureNamesLogLine = CLocalizationManager::get()->getTranslatedFormattedText("Log_AlphaTextureName", pTexture->getAlphaName().c_str());
+										strTextureNamesLogLine = LocalizationManager::get()->getTranslatedFormattedText("Log_AlphaTextureName", pTexture->getAlphaName().c_str());
 									}
 									else
 									{
-										strTextureNamesLogLine = CLocalizationManager::get()->getTranslatedText("Log_TextureNameNotFound");
+										strTextureNamesLogLine = LocalizationManager::get()->getTranslatedText("Log_TextureNameNotFound");
 									}
 								}
 								vecTextureNames.push_back(strTextureNamesLogLine);
@@ -425,13 +425,13 @@ void		DumpManager::process(void)
 									string strImageDataBGRA = pMipmap->getRasterDataBGRA32();
 									if (strImageDataBGRA == "")
 									{
-										vecMipmapSkippedEntries.push_back(CLocalizationManager::get()->getTranslatedFormattedText("Log_TextureInfo", pIMGEntry->getEntryName().c_str(), uiTextureIndex + 1, pTexture->getDiffuseName().c_str(), uiMipmapIndex + 1, pMipmap->getImageSize().x, pMipmap->getImageSize().y));
+										vecMipmapSkippedEntries.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TextureInfo", pIMGEntry->getEntryName().c_str(), uiTextureIndex + 1, pTexture->getDiffuseName().c_str(), uiMipmapIndex + 1, pMipmap->getImageSize().x, pMipmap->getImageSize().y));
 										//uiMipmapSkippedCount++;
 										uiMipmapIndex++;
 										continue;
 									}
 
-									CBMPFormat *pBMPFile = new CBMPFormat;
+									BMPFormat *pBMPFile = new BMPFormat;
 									pBMPFile->setWidth(pMipmap->getImageSize().x);
 									pBMPFile->setHeight(pMipmap->getImageSize().y);
 									pBMPFile->setBPP(32);
@@ -444,13 +444,13 @@ void		DumpManager::process(void)
 										string strBMPFilePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strBMPFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".BMP";
+											strBMPFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".BMP";
 										}
 										else
 										{
 											strBMPFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".BMP";
 										}
-										strBMPFilePath = CPath::getNextFileName(strBMPFilePath, uiMipmapIndex, "-Mipmap");
+										strBMPFilePath = Path::getNextFileName(strBMPFilePath, uiMipmapIndex, "-Mipmap");
 
 										pBMPFile->setBMPVersion(3);
 										pBMPFile->serializeViaFile(strBMPFilePath);
@@ -460,15 +460,15 @@ void		DumpManager::process(void)
 										string strICOFilePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strICOFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".ICO";
+											strICOFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".ICO";
 										}
 										else
 										{
 											strICOFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".ICO";
 										}
-										strICOFilePath = CPath::getNextFileName(strICOFilePath, uiMipmapIndex, "-Mipmap");
+										strICOFilePath = Path::getNextFileName(strICOFilePath, uiMipmapIndex, "-Mipmap");
 
-										CICOFormat *pICOFormat = CICOManager::get()->createFormatFromBMP(pBMPFile);
+										ICOFormat *pICOFormat = ICOManager::get()->createFormatFromBMP(pBMPFile);
 										pICOFormat->serializeViaFile(strICOFilePath);
 										pICOFormat->unload();
 										delete pICOFormat;
@@ -478,15 +478,15 @@ void		DumpManager::process(void)
 										string strCURFilePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".CUR";
+											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".CUR";
 										}
 										else
 										{
 											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".CUR";
 										}
-										strCURFilePath = CPath::getNextFileName(strCURFilePath, uiMipmapIndex, "-Mipmap");
+										strCURFilePath = Path::getNextFileName(strCURFilePath, uiMipmapIndex, "-Mipmap");
 										
-										CCURFormat *pCURFormat = CCURManager::get()->createFormatFromBMP(pBMPFile);
+										CURFormat *pCURFormat = CURManager::get()->createFormatFromBMP(pBMPFile);
 										pCURFormat->serializeViaFile(strCURFilePath);
 										pCURFormat->unload();
 										delete pCURFormat;
@@ -496,19 +496,19 @@ void		DumpManager::process(void)
 										string strDDSFilePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strDDSFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".DDS";
+											strDDSFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".DDS";
 										}
 										else
 										{
 											strDDSFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".DDS";
 										}
-										strDDSFilePath = CPath::getNextFileName(strDDSFilePath, uiMipmapIndex, "-Mipmap");
+										strDDSFilePath = Path::getNextFileName(strDDSFilePath, uiMipmapIndex, "-Mipmap");
 
-										CDDSFormat ddsFile;
+										DDSFormat ddsFile;
 										ddsFile.m_uiWidth = pMipmap->getImageSize().x;
 										ddsFile.m_uiHeight = pMipmap->getImageSize().y;
-										//ddsFile.m_strRasterData = CImageManager::swapRowsAndColumns(CImageManager::convertBGRA32ToRGBA32(strImageDataBGRA), ddsFile.m_uiWidth, ddsFile.m_uiHeight);
-										ddsFile.m_strRasterData = CImageManager::convertBGRA32ToDXT(CImageManager::swapRowsAndColumns(strImageDataBGRA, ddsFile.m_uiWidth, ddsFile.m_uiHeight), DXT_1, ddsFile.m_uiWidth, ddsFile.m_uiHeight);
+										//ddsFile.m_strRasterData = ImageManager::swapRowsAndColumns(ImageManager::convertBGRA32ToRGBA32(strImageDataBGRA), ddsFile.m_uiWidth, ddsFile.m_uiHeight);
+										ddsFile.m_strRasterData = ImageManager::convertBGRA32ToDXT(ImageManager::swapRowsAndColumns(strImageDataBGRA, ddsFile.m_uiWidth, ddsFile.m_uiHeight), DXT_1, ddsFile.m_uiWidth, ddsFile.m_uiHeight);
 										ddsFile.serializeViaFile(strDDSFilePath);
 									}
 									else if (strImageType == "TGA")
@@ -518,25 +518,25 @@ void		DumpManager::process(void)
 											strImagePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pTexture->getDiffuseName() + ".BMP";
-											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + "." + strImageType;
+											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pTexture->getDiffuseName() + ".BMP";
+											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + "." + strImageType;
 										}
 										else
 										{
 											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/__TEMP_" + pTexture->getDiffuseName() + ".BMP";
 											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + "." + strImageType;
 										}
-										strImagePath = CPath::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
+										strImagePath = Path::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
 
 										pBMPFile->setBMPVersion(3);
 										pBMPFile->serializeViaFile(strTempBMPPath);
 
 										DHPOBitmap *pBmp = new DHPOBitmap;
-										pBmp->loadImage(CString2::convertStdStringToStdWString(strTempBMPPath).c_str());
-										pBmp->saveImage(CString2::convertStdStringToStdWString(strImagePath).c_str());
+										pBmp->loadImage(String2::convertStdStringToStdWString(strTempBMPPath).c_str());
+										pBmp->saveImage(String2::convertStdStringToStdWString(strImagePath).c_str());
 										delete pBmp;
 
-										CFile::removeFile(strTempBMPPath);
+										File::removeFile(strTempBMPPath);
 									}
 									else
 									{
@@ -546,15 +546,15 @@ void		DumpManager::process(void)
 											strImagePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pTexture->getDiffuseName() + ".BMP";
-											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + "." + strImageType;
+											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pTexture->getDiffuseName() + ".BMP";
+											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + "." + strImageType;
 										}
 										else
 										{
 											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/__TEMP_" + pTexture->getDiffuseName() + ".BMP";
 											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + "." + strImageType;
 										}
-										strImagePath = CPath::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
+										strImagePath = Path::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
 
 										pBMPFile->setBMPVersion(3);
 										pBMPFile->serializeViaFile(strTempBMPPath);
@@ -564,17 +564,17 @@ void		DumpManager::process(void)
 										GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
 										// Create an Image object based on a PNG file.
-										Image  *image = new Image(CString2::convertStdStringToStdWString(strTempBMPPath).c_str());
+										Image  *image = new Image(String2::convertStdStringToStdWString(strTempBMPPath).c_str());
 
 										// Save the image.
 										CLSID gifClsid;
-										GetEncoderClsid(CString2::convertStdStringToStdWString(getEncoderClassIdFromImageExtension(strImageType)).c_str(), &gifClsid);
-										image->Save(CString2::convertStdStringToStdWString(strImagePath).c_str(), &gifClsid, NULL);
+										GetEncoderClsid(String2::convertStdStringToStdWString(getEncoderClassIdFromImageExtension(strImageType)).c_str(), &gifClsid);
+										image->Save(String2::convertStdStringToStdWString(strImagePath).c_str(), &gifClsid, NULL);
 
 										delete image;
 										GdiplusShutdown(gdiplusToken);
 
-										CFile::removeFile(strTempBMPPath);
+										File::removeFile(strTempBMPPath);
 									}
 
 									pBMPFile->unload();
@@ -633,13 +633,13 @@ void		DumpManager::process(void)
 									string strImageDataBGRA = pMipmap->getRasterDataBGRA32();
 									if (strImageDataBGRA == "")
 									{
-										vecMipmapSkippedEntries.push_back(CLocalizationManager::get()->getTranslatedFormattedText("Log_TextureInfo", pIMGEntry->getEntryName().c_str(), uiTextureIndex + 1, pWTDEntry->getEntryName().c_str(), uiMipmapIndex + 1, pMipmap->getImageSize(true), pMipmap->getImageSize(false)));
+										vecMipmapSkippedEntries.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TextureInfo", pIMGEntry->getEntryName().c_str(), uiTextureIndex + 1, pWTDEntry->getEntryName().c_str(), uiMipmapIndex + 1, pMipmap->getImageSize(true), pMipmap->getImageSize(false)));
 										//uiMipmapSkippedCount++;
 										uiMipmapIndex++;
 										continue;
 									}
 
-									CBMPFormat *pBMPFile = new CBMPFormat;
+									BMPFormat *pBMPFile = new BMPFormat;
 									pBMPFile->setWidth(pMipmap->getImageSize(true));
 									pBMPFile->setHeight(pMipmap->getImageSize(false));
 									pBMPFile->setBPP(32);
@@ -652,13 +652,13 @@ void		DumpManager::process(void)
 										string strBMPFilePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strBMPFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".BMP";
+											strBMPFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".BMP";
 										}
 										else
 										{
 											strBMPFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + ".BMP";
 										}
-										strBMPFilePath = CPath::getNextFileName(strBMPFilePath, uiMipmapIndex, "-Mipmap");
+										strBMPFilePath = Path::getNextFileName(strBMPFilePath, uiMipmapIndex, "-Mipmap");
 										
 										pBMPFile->setBMPVersion(3);
 										pBMPFile->serializeViaFile(strBMPFilePath);
@@ -668,80 +668,80 @@ void		DumpManager::process(void)
 										string strICOFilePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strICOFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".ICO";
+											strICOFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".ICO";
 										}
 										else
 										{
 											strICOFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + ".ICO";
 										}
-										strICOFilePath = CPath::getNextFileName(strICOFilePath, uiMipmapIndex, "-Mipmap");
+										strICOFilePath = Path::getNextFileName(strICOFilePath, uiMipmapIndex, "-Mipmap");
 
 										string strICOHeaderData = "";
-										strICOHeaderData += CString2::packUint16(0, false);
-										strICOHeaderData += CString2::packUint16(1, false); // 1 for icon, 2 for cursor
-										strICOHeaderData += CString2::packUint16(1, false); // image count
-										strICOHeaderData += CString2::packUint8((uint8)pBMPFile->getWidth());
-										strICOHeaderData += CString2::packUint8((uint8)pBMPFile->getHeight());
-										strICOHeaderData += CString2::packUint8(0); // palette colour count
-										strICOHeaderData += CString2::packUint8(0); // reserved
-										strICOHeaderData += CString2::packUint16(0, false); // colour planes
-										strICOHeaderData += CString2::packUint16(32, false); // BPP
-										strICOHeaderData += CString2::packUint32((pBMPFile->getWidth() * pBMPFile->getHeight()) * (32 / 8), false); // BPP
-										strICOHeaderData += CString2::packUint32(22, false); // offset to BMP data from beginning of file
+										strICOHeaderData += String2::packUint16(0, false);
+										strICOHeaderData += String2::packUint16(1, false); // 1 for icon, 2 for cursor
+										strICOHeaderData += String2::packUint16(1, false); // image count
+										strICOHeaderData += String2::packUint8((uint8)pBMPFile->getWidth());
+										strICOHeaderData += String2::packUint8((uint8)pBMPFile->getHeight());
+										strICOHeaderData += String2::packUint8(0); // palette colour count
+										strICOHeaderData += String2::packUint8(0); // reserved
+										strICOHeaderData += String2::packUint16(0, false); // colour planes
+										strICOHeaderData += String2::packUint16(32, false); // BPP
+										strICOHeaderData += String2::packUint32((pBMPFile->getWidth() * pBMPFile->getHeight()) * (32 / 8), false); // BPP
+										strICOHeaderData += String2::packUint32(22, false); // offset to BMP data from beginning of file
 										
 										pBMPFile->setSkipBMPFileHeaderForSerialize(true);
 										pBMPFile->setBMPVersion(3);
-										CFile::storeFile(strICOFilePath, strICOHeaderData + pBMPFile->serializeViaMemory(), false, true);
+										File::storeFile(strICOFilePath, strICOHeaderData + pBMPFile->serializeViaMemory(), false, true);
 									}
 									else if (strImageType == "CUR")
 									{
 										string strCURFilePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".CUR";
+											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".CUR";
 										}
 										else
 										{
 											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + ".CUR";
 										}
-										strCURFilePath = CPath::getNextFileName(strCURFilePath, uiMipmapIndex, "-Mipmap");
+										strCURFilePath = Path::getNextFileName(strCURFilePath, uiMipmapIndex, "-Mipmap");
 
 										string strCURHeaderData = "";
-										strCURHeaderData += CString2::packUint16(0, false);
-										strCURHeaderData += CString2::packUint16(2, false); // 1 for icon, 2 for cursor
-										strCURHeaderData += CString2::packUint16(1, false); // image count
-										strCURHeaderData += CString2::packUint8((uint8)pBMPFile->getWidth());
-										strCURHeaderData += CString2::packUint8((uint8)pBMPFile->getHeight());
-										strCURHeaderData += CString2::packUint8(0); // palette colour count
-										strCURHeaderData += CString2::packUint8(0); // reserved
-										strCURHeaderData += CString2::packUint16((uint8)pBMPFile->getWidth() / 2, false); // x hotspot
-										strCURHeaderData += CString2::packUint16((uint8)pBMPFile->getHeight() / 2, false); // y hotspot
-										strCURHeaderData += CString2::packUint32((pBMPFile->getWidth() * pBMPFile->getHeight()) * (32 / 8), false); // BPP
-										strCURHeaderData += CString2::packUint32(22, false); // offset to BMP data from beginning of file
+										strCURHeaderData += String2::packUint16(0, false);
+										strCURHeaderData += String2::packUint16(2, false); // 1 for icon, 2 for cursor
+										strCURHeaderData += String2::packUint16(1, false); // image count
+										strCURHeaderData += String2::packUint8((uint8)pBMPFile->getWidth());
+										strCURHeaderData += String2::packUint8((uint8)pBMPFile->getHeight());
+										strCURHeaderData += String2::packUint8(0); // palette colour count
+										strCURHeaderData += String2::packUint8(0); // reserved
+										strCURHeaderData += String2::packUint16((uint8)pBMPFile->getWidth() / 2, false); // x hotspot
+										strCURHeaderData += String2::packUint16((uint8)pBMPFile->getHeight() / 2, false); // y hotspot
+										strCURHeaderData += String2::packUint32((pBMPFile->getWidth() * pBMPFile->getHeight()) * (32 / 8), false); // BPP
+										strCURHeaderData += String2::packUint32(22, false); // offset to BMP data from beginning of file
 										
 										pBMPFile->setSkipBMPFileHeaderForSerialize(true);
 										pBMPFile->setBMPVersion(3);
-										CFile::storeFile(strCURFilePath, strCURHeaderData + pBMPFile->serializeViaMemory(), false, true);
+										File::storeFile(strCURFilePath, strCURHeaderData + pBMPFile->serializeViaMemory(), false, true);
 									}
 									else if (strImageType == "DDS")
 									{
 										string strDDSFilePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strDDSFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".DDS";
+											strDDSFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".DDS";
 										}
 										else
 										{
 											strDDSFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + ".DDS";
 										}
 
-										strDDSFilePath = CPath::getNextFileName(strDDSFilePath, uiMipmapIndex, "-Mipmap");
+										strDDSFilePath = Path::getNextFileName(strDDSFilePath, uiMipmapIndex, "-Mipmap");
 
-										CDDSFormat ddsFile;
+										DDSFormat ddsFile;
 										ddsFile.m_uiWidth = pMipmap->getImageSize(true);
 										ddsFile.m_uiHeight = pMipmap->getImageSize(false);
-										//ddsFile.m_strRasterData = CImageManager::swapRowsAndColumns(CImageManager::convertBGRA32ToRGBA32(strImageDataBGRA), ddsFile.m_uiWidth, ddsFile.m_uiHeight);
-										ddsFile.m_strRasterData = CImageManager::convertBGRA32ToDXT(CImageManager::swapRowsAndColumns(strImageDataBGRA, ddsFile.m_uiWidth, ddsFile.m_uiHeight), DXT_1, ddsFile.m_uiWidth, ddsFile.m_uiHeight);
+										//ddsFile.m_strRasterData = ImageManager::swapRowsAndColumns(ImageManager::convertBGRA32ToRGBA32(strImageDataBGRA), ddsFile.m_uiWidth, ddsFile.m_uiHeight);
+										ddsFile.m_strRasterData = ImageManager::convertBGRA32ToDXT(ImageManager::swapRowsAndColumns(strImageDataBGRA, ddsFile.m_uiWidth, ddsFile.m_uiHeight), DXT_1, ddsFile.m_uiWidth, ddsFile.m_uiHeight);
 										ddsFile.serializeViaFile(strDDSFilePath);
 									}
 									else if (strImageType == "TGA")
@@ -751,25 +751,25 @@ void		DumpManager::process(void)
 											strImagePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
-											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + "." + strImageType;
+											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
+											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + "." + strImageType;
 										}
 										else
 										{
 											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
 											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + "." + strImageType;
 										}
-										strImagePath = CPath::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
+										strImagePath = Path::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
 
 										pBMPFile->setBMPVersion(3);
 										pBMPFile->serializeViaFile(strTempBMPPath);
 
 										DHPOBitmap *pBmp = new DHPOBitmap;
-										pBmp->loadImage(CString2::convertStdStringToStdWString(strTempBMPPath).c_str());
-										pBmp->saveImage(CString2::convertStdStringToStdWString(strImagePath).c_str());
+										pBmp->loadImage(String2::convertStdStringToStdWString(strTempBMPPath).c_str());
+										pBmp->saveImage(String2::convertStdStringToStdWString(strImagePath).c_str());
 										delete pBmp;
 
-										CFile::removeFile(strTempBMPPath);
+										File::removeFile(strTempBMPPath);
 									}
 									else
 									{
@@ -779,15 +779,15 @@ void		DumpManager::process(void)
 											strImagePath;
 										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
 										{
-											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
-											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + CPath::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + "." + strImageType;
+											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
+											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + "." + strImageType;
 										}
 										else
 										{
 											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
 											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + "." + strImageType;
 										}
-										strImagePath = CPath::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
+										strImagePath = Path::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
 										
 										pBMPFile->setBMPVersion(3);
 										pBMPFile->serializeViaFile(strTempBMPPath);
@@ -797,17 +797,17 @@ void		DumpManager::process(void)
 										GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
 										// Create an Image object based on a PNG file.
-										Image  *image = new Image(CString2::convertStdStringToStdWString(strTempBMPPath).c_str());
+										Image  *image = new Image(String2::convertStdStringToStdWString(strTempBMPPath).c_str());
 
 										// Save the image.
 										CLSID gifClsid;
-										GetEncoderClsid(CString2::convertStdStringToStdWString(getEncoderClassIdFromImageExtension(strImageType)).c_str(), &gifClsid);
-										image->Save(CString2::convertStdStringToStdWString(strImagePath).c_str(), &gifClsid, NULL);
+										GetEncoderClsid(String2::convertStdStringToStdWString(getEncoderClassIdFromImageExtension(strImageType)).c_str(), &gifClsid);
+										image->Save(String2::convertStdStringToStdWString(strImagePath).c_str(), &gifClsid, NULL);
 
 										delete image;
 										GdiplusShutdown(gdiplusToken);
 
-										CFile::removeFile(strTempBMPPath);
+										File::removeFile(strTempBMPPath);
 									}
 
 									pBMPFile->unload();
@@ -838,14 +838,14 @@ void		DumpManager::process(void)
 		}
 	}
 
-	vecCorruptTXDs = CStdVector::removeDuplicates(vecCorruptTXDs);
-	vecTooLargeTXDs = CStdVector::removeDuplicates(vecTooLargeTXDs);
-	vecInvalidResolutionTXDs = CStdVector::removeDuplicates(vecInvalidResolutionTXDs);
-	vecInvalidTextureNames = CStdVector::removeDuplicates(vecInvalidTextureNames);
-	vecDumpedEntryNames = CStdVector::removeDuplicates(vecDumpedEntryNames);
-	vecTextureNames = CStdVector::removeDuplicates(vecTextureNames);
-	vecTXDsContainingTooManyTextures = CStdVector::removeDuplicates(vecTXDsContainingTooManyTextures);
-	vecMipmapSkippedEntries = CStdVector::removeDuplicates(vecMipmapSkippedEntries);
+	vecCorruptTXDs = StdVector::removeDuplicates(vecCorruptTXDs);
+	vecTooLargeTXDs = StdVector::removeDuplicates(vecTooLargeTXDs);
+	vecInvalidResolutionTXDs = StdVector::removeDuplicates(vecInvalidResolutionTXDs);
+	vecInvalidTextureNames = StdVector::removeDuplicates(vecInvalidTextureNames);
+	vecDumpedEntryNames = StdVector::removeDuplicates(vecDumpedEntryNames);
+	vecTextureNames = StdVector::removeDuplicates(vecTextureNames);
+	vecTXDsContainingTooManyTextures = StdVector::removeDuplicates(vecTXDsContainingTooManyTextures);
+	vecMipmapSkippedEntries = StdVector::removeDuplicates(vecMipmapSkippedEntries);
 
 	// log
 	if (getIMGF()->getEntryListTab() != nullptr)
@@ -854,31 +854,31 @@ void		DumpManager::process(void)
 		uint32 uiIMGFileCount = vecIMGFormats.size();
 		if (pDumpDialogData->m_uiDumpType == 2)
 		{
-			getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_10", uiDumpedFileCount, uiIMGFileCount));
+			getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_10", uiDumpedFileCount, uiIMGFileCount));
 		}
 		else
 		{
-			getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_11", uiDumpedFileCount, uiIMGFileCount));
+			getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_11", uiDumpedFileCount, uiIMGFileCount));
 		}
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_12"), true);
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_13", vecDumpedEntryNames.size()), true);
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_14", uiDumpedTextureCount), true);
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_15"), true);
-		getIMGF()->getEntryListTab()->log(CString2::join(vecCorruptTXDs, "\n"), true);
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_16"), true);
-		getIMGF()->getEntryListTab()->log(CString2::join(vecTooLargeTXDs, "\n"), true);
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_17"), true);
-		getIMGF()->getEntryListTab()->log(CString2::join(vecTXDsContainingTooManyTextures, "\n"), true);
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_18"), true);
-		getIMGF()->getEntryListTab()->log(CString2::join(vecInvalidResolutionTXDs, "\n"), true);
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_19"), true);
-		getIMGF()->getEntryListTab()->log(CString2::join(vecInvalidTextureNames, "\n"), true);
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_20"), true);
-		getIMGF()->getEntryListTab()->log(CString2::join(vecDumpedEntryNames, "\n"), true);
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_21"), true);
-		getIMGF()->getEntryListTab()->log(CString2::join(vecTextureNames, "\n"), true);
-		getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedText("Log_22"), true);
-		getIMGF()->getEntryListTab()->log(CString2::join(vecMipmapSkippedEntries, "\n"), true);
+		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_12"), true);
+		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_13", vecDumpedEntryNames.size()), true);
+		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_14", uiDumpedTextureCount), true);
+		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_15"), true);
+		getIMGF()->getEntryListTab()->log(String2::join(vecCorruptTXDs, "\n"), true);
+		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_16"), true);
+		getIMGF()->getEntryListTab()->log(String2::join(vecTooLargeTXDs, "\n"), true);
+		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_17"), true);
+		getIMGF()->getEntryListTab()->log(String2::join(vecTXDsContainingTooManyTextures, "\n"), true);
+		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_18"), true);
+		getIMGF()->getEntryListTab()->log(String2::join(vecInvalidResolutionTXDs, "\n"), true);
+		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_19"), true);
+		getIMGF()->getEntryListTab()->log(String2::join(vecInvalidTextureNames, "\n"), true);
+		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_20"), true);
+		getIMGF()->getEntryListTab()->log(String2::join(vecDumpedEntryNames, "\n"), true);
+		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_21"), true);
+		getIMGF()->getEntryListTab()->log(String2::join(vecTextureNames, "\n"), true);
+		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_22"), true);
+		getIMGF()->getEntryListTab()->log(String2::join(vecMipmapSkippedEntries, "\n"), true);
 	}
 	else
 	{
@@ -886,31 +886,31 @@ void		DumpManager::process(void)
 		uint32 uiIMGFileCount = vecIMGFormats.size();
 		if (pDumpDialogData->m_uiDumpType == 2)
 		{
-			getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::get()->getTranslatedFormattedText("Log_10", uiDumpedFileCount, uiIMGFileCount));
+			getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedFormattedText("Log_10", uiDumpedFileCount, uiIMGFileCount));
 		}
 		else
 		{
-			getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::get()->getTranslatedFormattedText("Log_11", uiDumpedFileCount, uiIMGFileCount));
+			getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedFormattedText("Log_11", uiDumpedFileCount, uiIMGFileCount));
 		}
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::get()->getTranslatedText("Log_12"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::get()->getTranslatedFormattedText("Log_13", vecDumpedEntryNames.size()), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::get()->getTranslatedFormattedText("Log_14", uiDumpedTextureCount), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::get()->getTranslatedText("Log_15"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CString2::join(vecCorruptTXDs, "\n"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::get()->getTranslatedText("Log_16"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CString2::join(vecTooLargeTXDs, "\n"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::get()->getTranslatedText("Log_17"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CString2::join(vecTXDsContainingTooManyTextures, "\n"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::get()->getTranslatedText("Log_18"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CString2::join(vecInvalidResolutionTXDs, "\n"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::get()->getTranslatedText("Log_19"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CString2::join(vecInvalidTextureNames, "\n"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::get()->getTranslatedText("Log_20"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CString2::join(vecDumpedEntryNames, "\n"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::get()->getTranslatedText("Log_21"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CString2::join(vecTextureNames, "\n"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CLocalizationManager::get()->getTranslatedText("Log_22"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(CString2::join(vecMipmapSkippedEntries, "\n"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_12"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedFormattedText("Log_13", vecDumpedEntryNames.size()), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedFormattedText("Log_14", uiDumpedTextureCount), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_15"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String2::join(vecCorruptTXDs, "\n"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_16"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String2::join(vecTooLargeTXDs, "\n"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_17"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String2::join(vecTXDsContainingTooManyTextures, "\n"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_18"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String2::join(vecInvalidResolutionTXDs, "\n"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_19"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String2::join(vecInvalidTextureNames, "\n"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_20"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String2::join(vecDumpedEntryNames, "\n"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_21"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String2::join(vecTextureNames, "\n"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_22"), true);
+		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String2::join(vecMipmapSkippedEntries, "\n"), true);
 	}
 
 	// results popup
@@ -924,7 +924,7 @@ void		DumpManager::process(void)
 	if (bSuccessfulResult)
 	{
 		getIMGF()->getTaskManager()->onPauseTask();
-		CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_1"), CLocalizationManager::get()->getTranslatedText("TextPopupTitle_1"));
+		Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_1"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_1"));
 		getIMGF()->getTaskManager()->onResumeTask();
 	}
 	else
@@ -942,12 +942,12 @@ void		DumpManager::process(void)
 
 		if (pDumpResultsDialogData->m_bOpenAdvancedLog)
 		{
-			string strFilePath = getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath") + CString2::getDateTextForFolder() + " / " + CLocalizationManager::get()->getTranslatedText("LogFilename_Extended");
+			string strFilePath = getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath") + String2::getDateTextForFolder() + " / " + LocalizationManager::get()->getTranslatedText("LogFilename_Extended");
 
-			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended") && CFile::doesFileExist(strFilePath))
+			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended") && File::doesFileExist(strFilePath))
 			{
 				// automatic logging is enabled, simply open the txt file for the user
-				ShellExecute(NULL, NULL, CString2::convertStdStringToStdWString(strFilePath).c_str(), NULL, NULL, SW_SHOWNORMAL);
+				ShellExecute(NULL, NULL, String2::convertStdStringToStdWString(strFilePath).c_str(), NULL, NULL, SW_SHOWNORMAL);
 			}
 			else
 			{
@@ -957,7 +957,7 @@ void		DumpManager::process(void)
 				getIMGF()->getTaskManager()->onResumeTask();
 				if (strSaveFilePath != "")
 				{
-					ShellExecute(NULL, NULL, CString2::convertStdStringToStdWString(strSaveFilePath).c_str(), NULL, NULL, SW_SHOWNORMAL);
+					ShellExecute(NULL, NULL, String2::convertStdStringToStdWString(strSaveFilePath).c_str(), NULL, NULL, SW_SHOWNORMAL);
 				}
 			}
 		}
@@ -980,7 +980,7 @@ void		DumpManager::process(void)
 
 string			DumpManager::getEncoderClassIdFromImageExtension(string strFileExtension)
 {
-	strFileExtension = CString2::toUpperCase(strFileExtension);
+	strFileExtension = String2::toUpperCase(strFileExtension);
 	if (strFileExtension == "GIF")
 	{
 		return "image/gif";

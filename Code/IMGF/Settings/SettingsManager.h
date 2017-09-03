@@ -1,13 +1,13 @@
 #pragma once
 
 #include "nsimgf.h"
-#include "Object/CManager.h"
+#include "Object/Manager.h"
 #include <string>
 #include <unordered_map>
 
 struct imgf::CSettingsData;
 
-class imgf::SettingsManager : public bxcf::CManager
+class imgf::SettingsManager : public bxcf::Manager
 {
 public:
 	static const std::string						REGULAR_SETTINGS_STORAGE_SECTION;

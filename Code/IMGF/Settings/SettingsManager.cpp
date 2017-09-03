@@ -5,12 +5,12 @@
 #include "IMGF.h"
 #include "Globals.h"
 #include "GUI/Popups/PopupGUIManager.h"
-#include "Static/CRegistry.h"
-#include "Static/CPath.h"
-#include "Static/CString2.h"
+#include "Static/Registry.h"
+#include "Static/Path.h"
+#include "Static/String2.h"
 #include "Static/AppDataPath.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
-#include "Format/Text/INI/CINIManager.h"
+#include "Format/Text/INI/INIManager.h"
 
 using namespace std;
 using namespace bxcf;
@@ -120,23 +120,23 @@ void			SettingsManager::reloadSettings(void)
 // regular settings
 void			SettingsManager::setSetting(string strSettingName, string strValue, bool bMemoryOnly)
 {
-	CINIManager::setItem(AppDataPath::getRegularSettingsPath(), REGULAR_SETTINGS_STORAGE_SECTION, strSettingName, strValue);
+	INIManager::setItem(AppDataPath::getRegularSettingsPath(), REGULAR_SETTINGS_STORAGE_SECTION, strSettingName, strValue);
 }
 
 string			SettingsManager::getSetting(string strSettingName)
 {
-	return CINIManager::getItem(AppDataPath::getRegularSettingsPath(), REGULAR_SETTINGS_STORAGE_SECTION, strSettingName);
+	return INIManager::getItem(AppDataPath::getRegularSettingsPath(), REGULAR_SETTINGS_STORAGE_SECTION, strSettingName);
 }
 
 // internal settings
 void			SettingsManager::setInternalSetting(string strInternalSettingName, string strValue, bool bMemoryOnly)
 {
-	CINIManager::setItem(AppDataPath::getInternalSettingsPath(), INTERNAL_SETTINGS_STORAGE_SECTION, strInternalSettingName, strValue);
+	INIManager::setItem(AppDataPath::getInternalSettingsPath(), INTERNAL_SETTINGS_STORAGE_SECTION, strInternalSettingName, strValue);
 }
 
 string			SettingsManager::getInternalSetting(string strSettingName)
 {
-	return CINIManager::getItem(AppDataPath::getInternalSettingsPath(), INTERNAL_SETTINGS_STORAGE_SECTION, strSettingName);
+	return INIManager::getItem(AppDataPath::getInternalSettingsPath(), INTERNAL_SETTINGS_STORAGE_SECTION, strSettingName);
 }
 
 // settings - data types - old
@@ -204,33 +204,33 @@ void			SettingsManager::setSettingBool_PermanentStroage(string strSettingName, b
 {
 	if (doesUseINIStorage())
 	{
-		CINIManager::setItem(getINIFilePath(), "Settings", strSettingName, bValue ? "1" : "0");
+		INIManager::setItem(getINIFilePath(), "Settings", strSettingName, bValue ? "1" : "0");
 	}
 	else
 	{
-		CRegistry::setSoftwareValueInt(getRegistryKey(), strSettingName, bValue ? 1 : 0);
+		Registry::setSoftwareValueInt(getRegistryKey(), strSettingName, bValue ? 1 : 0);
 	}
 }
 void			SettingsManager::setSettingInt_PermanentStroage(string strSettingName, int iValue)
 {
 	if (doesUseINIStorage())
 	{
-		CINIManager::setItem(getINIFilePath(), "Settings", strSettingName, CString2::toString(iValue));
+		INIManager::setItem(getINIFilePath(), "Settings", strSettingName, String2::toString(iValue));
 	}
 	else
 	{
-		CRegistry::setSoftwareValueInt(getRegistryKey(), strSettingName, iValue);
+		Registry::setSoftwareValueInt(getRegistryKey(), strSettingName, iValue);
 	}
 }
 void			SettingsManager::setSettingString_PermanentStroage(string strSettingName, string strValue)
 {
 	if (doesUseINIStorage())
 	{
-		CINIManager::setItem(getINIFilePath(), "Settings", strSettingName, strValue);
+		INIManager::setItem(getINIFilePath(), "Settings", strSettingName, strValue);
 	}
 	else
 	{
-		CRegistry::setSoftwareValueString(getRegistryKey(), strSettingName, strValue);
+		Registry::setSoftwareValueString(getRegistryKey(), strSettingName, strValue);
 	}
 }
 
@@ -238,32 +238,32 @@ bool			SettingsManager::getSettingBool_PermanentStroage(string strSettingName)
 {
 	if (doesUseINIStorage())
 	{
-		return CINIManager::getItem(getINIFilePath(), "Settings", strSettingName) == "1";
+		return INIManager::getItem(getINIFilePath(), "Settings", strSettingName) == "1";
 	}
 	else
 	{
-		return CRegistry::getSoftwareValueInt(getRegistryKey(), strSettingName) == 1;
+		return Registry::getSoftwareValueInt(getRegistryKey(), strSettingName) == 1;
 	}
 }
 int				SettingsManager::getSettingInt_PermanentStroage(string strSettingName)
 {
 	if (doesUseINIStorage())
 	{
-		return CString2::toNumber(CINIManager::getItem(getINIFilePath(), "Settings", strSettingName));
+		return String2::toNumber(INIManager::getItem(getINIFilePath(), "Settings", strSettingName));
 	}
 	else
 	{
-		return CRegistry::getSoftwareValueInt(getRegistryKey(), strSettingName);
+		return Registry::getSoftwareValueInt(getRegistryKey(), strSettingName);
 	}
 }
 string			SettingsManager::getSettingString_PermanentStroage(string strSettingName)
 {
 	if (doesUseINIStorage())
 	{
-		return CINIManager::getItem(getINIFilePath(), "Settings", strSettingName);
+		return INIManager::getItem(getINIFilePath(), "Settings", strSettingName);
 	}
 	else
 	{
-		return CRegistry::getSoftwareValueString(getRegistryKey(), strSettingName);
+		return Registry::getSoftwareValueString(getRegistryKey(), strSettingName);
 	}
 }

@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include "nsbxgi.h"
 #include "EntryViewer.h"
-#include "Pool/CVectorPool.h"
+#include "Pool/VectorPool.h"
 #include "EEntryViewerDisplayType.h"
 #include "TextureViewerTextureData.h"
 
@@ -12,7 +12,7 @@ class bxgi::CIMGEntry;
 
 LRESULT CALLBACK				WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-class imgf::TextureViewer : public EntryViewer, public bxcf::CVectorPool<TextureViewerTextureData*>
+class imgf::TextureViewer : public EntryViewer, public bxcf::VectorPool<TextureViewerTextureData*>
 {
 public:
 	TextureViewer(void);

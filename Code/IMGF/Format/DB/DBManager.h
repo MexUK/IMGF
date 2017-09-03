@@ -2,13 +2,13 @@
 
 #include "nsimgf.h"
 #include "nsbxgi.h"
-#include "Format/CFormatManager.h"
-#include "Object/CSingleton.h"
+#include "Format/FormatManager.h"
+#include "Object/Singleton.h"
 
 class imgf::DBFormat;
 class bxgi::CIMGFormat;
 
-class imgf::DBManager : public bxcf::CFormatManager<DBFormat>, public bxcf::CSingleton<DBManager>
+class imgf::DBManager : public bxcf::FormatManager<DBFormat>, public bxcf::Singleton<DBManager>
 {
 public:
 	DBManager(void);

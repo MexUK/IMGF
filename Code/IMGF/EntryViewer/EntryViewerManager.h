@@ -2,7 +2,7 @@
 
 #include "nsimgf.h"
 #include <Windows.h>
-#include "Object/CManager.h"
+#include "Object/Manager.h"
 #include "Format/TXD/ETXDRasterDataFormat.h"
 #include "Image/EDXTCompressionType.h"
 #include "d3d9.h"
@@ -14,7 +14,7 @@ class bxgi::CIMGEntry;
 class imgf::TextureViewer;
 class imgf::CollisionViewer;
 
-class imgf::EntryViewerManager : public bxcf::CManager
+class imgf::EntryViewerManager : public bxcf::Manager
 {
 public:
 	EntryViewerManager(void);

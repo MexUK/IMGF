@@ -7,19 +7,19 @@
 #include "Task/TaskDispatchManager.h"
 #include "Format/IMG/Regular/CIMGFormat.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
-#include "Static/CString2.h"
-#include "Static/CStdVector.h"
-#include "Static/CPath.h"
+#include "Static/String2.h"
+#include "Static/StdVector.h"
+#include "Static/Path.h"
 #include "SortPriority.h"
 #include "SortType.h"
 #include "ESortType.h"
-#include "Static/CInput.h"
+#include "Static/Input.h"
 #include "GUI/Popups/PopupGUIManager.h"
 #include "Format/IDE/CIDEManager.h"
 #include "Format/IDE/CIDEManager.h"
 #include "Format/COL/CCOLManager.h"
 #include "Format/COL/CCOLFormat.h"
-#include "Localization/CLocalizationManager.h"
+#include "Localization/LocalizationManager.h"
 #include "SortTypes.h"
 #include "SortPriorities.h"
 #include "SortMenuItems.h"
@@ -62,47 +62,47 @@ void		SortManager::initSortTypes(void)
 
 	pSortType = new SortType;
 	pSortType->setType(SORT_NAME_AZ);
-	pSortType->setText(CLocalizationManager::get()->getTranslatedText("Sort_EntryName_AToZ"));
+	pSortType->setText(LocalizationManager::get()->getTranslatedText("Sort_EntryName_AToZ"));
 	getSortTypes()->addEntry(pSortType);
 
 	pSortType = new SortType;
 	pSortType->setType(SORT_NAME_ZA);
-	pSortType->setText(CLocalizationManager::get()->getTranslatedText("Sort_EntryName_ZToA"));
+	pSortType->setText(LocalizationManager::get()->getTranslatedText("Sort_EntryName_ZToA"));
 	getSortTypes()->addEntry(pSortType);
 
 	pSortType = new SortType;
 	pSortType->setType(SORT_OFFSET_LOWHIGH);
-	pSortType->setText(CLocalizationManager::get()->getTranslatedText("Sort_Offset_LowToHigh"));
+	pSortType->setText(LocalizationManager::get()->getTranslatedText("Sort_Offset_LowToHigh"));
 	getSortTypes()->addEntry(pSortType);
 
 	pSortType = new SortType;
 	pSortType->setType(SORT_OFFSET_HIGHLOW);
-	pSortType->setText(CLocalizationManager::get()->getTranslatedText("Sort_Offset_HighToLow"));
+	pSortType->setText(LocalizationManager::get()->getTranslatedText("Sort_Offset_HighToLow"));
 	getSortTypes()->addEntry(pSortType);
 
 	pSortType = new SortType;
 	pSortType->setType(SORT_SIZE_SMALLBIG);
-	pSortType->setText(CLocalizationManager::get()->getTranslatedText("Sort_Size_SmallToBig"));
+	pSortType->setText(LocalizationManager::get()->getTranslatedText("Sort_Size_SmallToBig"));
 	getSortTypes()->addEntry(pSortType);
 
 	pSortType = new SortType;
 	pSortType->setType(SORT_SIZE_BIGSMALL);
-	pSortType->setText(CLocalizationManager::get()->getTranslatedText("Sort_Size_BigToSmall"));
+	pSortType->setText(LocalizationManager::get()->getTranslatedText("Sort_Size_BigToSmall"));
 	getSortTypes()->addEntry(pSortType);
 
 	pSortType = new SortType;
 	pSortType->setType(SORT_IDE_FILE);
-	pSortType->setText(CLocalizationManager::get()->getTranslatedText("Sort_IDE"));
+	pSortType->setText(LocalizationManager::get()->getTranslatedText("Sort_IDE"));
 	getSortTypes()->addEntry(pSortType);
 
 	pSortType = new SortType;
 	pSortType->setType(SORT_COL_FILE);
-	pSortType->setText(CLocalizationManager::get()->getTranslatedText("Sort_COL"));
+	pSortType->setText(LocalizationManager::get()->getTranslatedText("Sort_COL"));
 	getSortTypes()->addEntry(pSortType);
 
 	pSortType = new SortType;
 	pSortType->setType(SORT_FILE_EXTENSIONS);
-	pSortType->setText(CLocalizationManager::get()->getTranslatedText("Sort_Extensions"));
+	pSortType->setText(LocalizationManager::get()->getTranslatedText("Sort_Extensions"));
 	getSortTypes()->addEntry(pSortType);
 }
 void		SortManager::uninitSortTypes(void)
@@ -134,20 +134,20 @@ bool		SortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 	SortPriority *pSortPriority = pSortManager->getSortPriorities()->getEntryByIndex((uint16)pSortManager->m_uiSortPriorityIndex);
 	if (!pSortPriority->isEnabled())
 	{
-		//CDebugger::log("not enabled: " + CString2::toString((uint16)pSortManager->m_uiSortPriorityIndex));
+		//Debugger::log("not enabled: " + String2::toString((uint16)pSortManager->m_uiSortPriorityIndex));
 		return false;
 	}
 	ESortType ESortType = pSortPriority->getType()->getType();
 	if (ESortType == SORT_NAME_AZ)
 	{
-		if (CString2::toUpperCase(p1->getEntryName()) == CString2::toUpperCase(p2->getEntryName()))
+		if (String2::toUpperCase(p1->getEntryName()) == String2::toUpperCase(p2->getEntryName()))
 		{
 			pSortManager->m_uiSortPriorityIndex++;
 			bool bResult = sortIMGEntries(p1, p2);
 			pSortManager->m_uiSortPriorityIndex--;
 			return bResult;
 		}
-		else if (CString2::toUpperCase(p1->getEntryName()) < CString2::toUpperCase(p2->getEntryName()))
+		else if (String2::toUpperCase(p1->getEntryName()) < String2::toUpperCase(p2->getEntryName()))
 		{
 			return true;
 		}
@@ -158,14 +158,14 @@ bool		SortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 	}
 	else if (ESortType == SORT_NAME_ZA)
 	{
-		if (CString2::toUpperCase(p1->getEntryName()) == CString2::toUpperCase(p2->getEntryName()))
+		if (String2::toUpperCase(p1->getEntryName()) == String2::toUpperCase(p2->getEntryName()))
 		{
 			pSortManager->m_uiSortPriorityIndex++;
 			bool bResult = sortIMGEntries(p1, p2);
 			pSortManager->m_uiSortPriorityIndex--;
 			return bResult;
 		}
-		else if (CString2::toUpperCase(p1->getEntryName()) > CString2::toUpperCase(p2->getEntryName()))
+		else if (String2::toUpperCase(p1->getEntryName()) > String2::toUpperCase(p2->getEntryName()))
 		{
 			return true;
 		}
@@ -248,8 +248,8 @@ bool		SortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 	}
 	else if (ESortType == SORT_IDE_FILE)
 	{
-		uint32 uiKey1 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(CPath::removeFileExtension(p1->getEntryName())));
-		uint32 uiKey2 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(CPath::removeFileExtension(p2->getEntryName())));
+		uint32 uiKey1 = StdVector::findKey(pSortPriority->getData(), String2::toUpperCase(Path::removeFileExtension(p1->getEntryName())));
+		uint32 uiKey2 = StdVector::findKey(pSortPriority->getData(), String2::toUpperCase(Path::removeFileExtension(p2->getEntryName())));
 		if (uiKey1 == -1 || uiKey2 == -1)
 		{
 			return false;
@@ -272,8 +272,8 @@ bool		SortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 	}
 	else if (ESortType == SORT_COL_FILE)
 	{
-		uint32 uiKey1 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(CPath::removeFileExtension(p1->getEntryName())));
-		uint32 uiKey2 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(CPath::removeFileExtension(p2->getEntryName())));
+		uint32 uiKey1 = StdVector::findKey(pSortPriority->getData(), String2::toUpperCase(Path::removeFileExtension(p1->getEntryName())));
+		uint32 uiKey2 = StdVector::findKey(pSortPriority->getData(), String2::toUpperCase(Path::removeFileExtension(p2->getEntryName())));
 		if (uiKey1 == -1 || uiKey2 == -1)
 		{
 			return false;
@@ -296,8 +296,8 @@ bool		SortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
 	}
 	else if (ESortType == SORT_FILE_EXTENSIONS)
 	{
-		uint32 uiKey1 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(p1->getEntryName()));
-		uint32 uiKey2 = CStdVector::findKey(pSortPriority->getData(), CString2::toUpperCase(p2->getEntryName()));
+		uint32 uiKey1 = StdVector::findKey(pSortPriority->getData(), String2::toUpperCase(p1->getEntryName()));
+		uint32 uiKey2 = StdVector::findKey(pSortPriority->getData(), String2::toUpperCase(p2->getEntryName()));
 		if (uiKey1 == -1 || uiKey2 == -1)
 		{
 			return false;
@@ -371,25 +371,25 @@ void		SortManager::onClickMenuItem(uint16 usMenuHandle)
 
 		if (pSortMenuItem->m_pType->getType() == SORT_IDE_FILE)
 		{
-			vector<string> vecPaths = CInput::openFile(getIMGF()->getLastUsedDirectory("SORT_IDE"), "IDE", false);
+			vector<string> vecPaths = Input::openFile(getIMGF()->getLastUsedDirectory("SORT_IDE"), "IDE", false);
 			if (vecPaths.size() == 0)
 			{
 				bCancel = true;
 			}
 			else
 			{
-				getIMGF()->setLastUsedDirectory("SORT_IDE", CPath::getDirectory(vecPaths[0]));
+				getIMGF()->setLastUsedDirectory("SORT_IDE", Path::getDirectory(vecPaths[0]));
 
 				CIDEFormat *pIDEFile = CIDEManager::get()->parseViaFile(vecPaths[0]);
 				if(!pIDEFile->doesHaveError())
 				{
 					vector<string> vecModelNames = pIDEFile->getModelNames();
 					vector<string> vecTextureNames = pIDEFile->getTXDNames();
-					vector<string> vecEntryNames = CStdVector::toUpperCase(CStdVector::combineVectors(vecModelNames, vecTextureNames));
+					vector<string> vecEntryNames = StdVector::toUpperCase(StdVector::combineVectors(vecModelNames, vecTextureNames));
 					pSortPriority->setData(vecEntryNames);
-					pSortPriority->setStrData(CPath::getFileName(pIDEFile->getFilePath()));
+					pSortPriority->setStrData(Path::getFileName(pIDEFile->getFilePath()));
 
-					// todo pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, CLocalizationManager::get()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), CPath::getFileName(pIDEFile->getFilePath()).c_str()).c_str());
+					// todo pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, LocalizationManager::get()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), Path::getFileName(pIDEFile->getFilePath()).c_str()).c_str());
 				}
 				pIDEFile->unload();
 				delete pIDEFile;
@@ -397,23 +397,23 @@ void		SortManager::onClickMenuItem(uint16 usMenuHandle)
 		}
 		else if (pSortMenuItem->m_pType->getType() == SORT_COL_FILE)
 		{
-			vector<string> vecPaths = CInput::openFile(getIMGF()->getLastUsedDirectory("SORT_COL"), "COL", false);
+			vector<string> vecPaths = Input::openFile(getIMGF()->getLastUsedDirectory("SORT_COL"), "COL", false);
 			if (vecPaths.size() == 0)
 			{
 				bCancel = true;
 			}
 			else
 			{
-				getIMGF()->setLastUsedDirectory("SORT_COL", CPath::getDirectory(vecPaths[0]));
+				getIMGF()->setLastUsedDirectory("SORT_COL", Path::getDirectory(vecPaths[0]));
 
 				CCOLFormat *pCOLFile = CCOLManager::get()->parseViaFile(vecPaths[0]);
 				if(!pCOLFile->doesHaveError())
 				{
-					vector<string> vecEntryNames = CStdVector::toUpperCase(pCOLFile->getModelNames());
+					vector<string> vecEntryNames = StdVector::toUpperCase(pCOLFile->getModelNames());
 					pSortPriority->setData(vecEntryNames);
-					pSortPriority->setStrData(CPath::getFileName(pCOLFile->getFilePath()));
+					pSortPriority->setStrData(Path::getFileName(pCOLFile->getFilePath()));
 
-					// todo pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, CLocalizationManager::get()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), CPath::getFileName(pCOLFile->getFilePath()).c_str()).c_str());
+					// todo pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, LocalizationManager::get()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), Path::getFileName(pCOLFile->getFilePath()).c_str()).c_str());
 				}
 				pCOLFile->unload();
 				delete pCOLFile;
@@ -421,25 +421,25 @@ void		SortManager::onClickMenuItem(uint16 usMenuHandle)
 		}
 		else if (pSortMenuItem->m_pType->getType() == SORT_FILE_EXTENSIONS)
 		{
-			string strText = getIMGF()->getPopupGUIManager()->showTextInputDialog(CLocalizationManager::get()->getTranslatedFormattedText("Sort_ByText", CLocalizationManager::get()->getTranslatedTextW("Sort_Extensions").c_str()), CLocalizationManager::get()->getTranslatedText("Window_TextInput_4_Message"));
+			string strText = getIMGF()->getPopupGUIManager()->showTextInputDialog(LocalizationManager::get()->getTranslatedFormattedText("Sort_ByText", LocalizationManager::get()->getTranslatedTextW("Sort_Extensions").c_str()), LocalizationManager::get()->getTranslatedText("Window_TextInput_4_Message"));
 			if (strText == "")
 			{
 				bCancel = true;
 			}
 			else
 			{
-				vector<string> vecFileExtensions = CString2::split(strText, ",");
+				vector<string> vecFileExtensions = String2::split(strText, ",");
 				for (uint32 i = 0; i < vecFileExtensions.size(); i++)
 				{
-					vecFileExtensions[i] = CString2::toUpperCase(CString2::trim(vecFileExtensions[i]));
+					vecFileExtensions[i] = String2::toUpperCase(String2::trim(vecFileExtensions[i]));
 					if (vecFileExtensions[i].c_str()[0] == '.')
 					{
 						vecFileExtensions[i] = vecFileExtensions[i].substr(1);
 					}
 				}
 				pSortPriority->setData(vecFileExtensions);
-				pSortPriority->setStrData(CString2::join(vecFileExtensions, ", "));
-				// todo pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, CLocalizationManager::get()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), CString2::join(vecFileExtensions, ", ").c_str()).c_str());
+				pSortPriority->setStrData(String2::join(vecFileExtensions, ", "));
+				// todo pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, LocalizationManager::get()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), String2::join(vecFileExtensions, ", ").c_str()).c_str());
 			}
 		}
 

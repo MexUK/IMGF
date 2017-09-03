@@ -3,14 +3,14 @@
 #include "nsimgf.h"
 #include "nsbxcf.h"
 #include "Type/Types.h"
-#include "Object/CManager.h"
+#include "Object/Manager.h"
 #include <string>
 #include <vector>
 
 class imgf::TaskDispatchManager;
 class imgf::TaskDurationManager;
 
-class imgf::TaskManager : public bxcf::CManager
+class imgf::TaskManager : public bxcf::Manager
 {
 public:
 	TaskManager(void);

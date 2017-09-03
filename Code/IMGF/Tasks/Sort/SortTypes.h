@@ -2,6 +2,6 @@
 
 #include "nsimgf.h"
 
-class imgf::SortTypes : public bxcf::CVectorPool<SortType*>
+class imgf::SortTypes : public bxcf::VectorPool<SortType*>
 {
 };

@@ -2,13 +2,13 @@
 
 #include "DropSource.h"
 #include "DragListCtrl.h"
-#include "Static/CString2.h"
+#include "Static/String2.h"
 #include "Globals.h"
 #include "IMGF.h"
 #include "GUI/Editors/Tab/IMGEditorTab.h"
-#include "Static/CDebug.h"
+#include "Static/Debug.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
-#include "Localization/CLocalizationManager.h"
+#include "Localization/LocalizationManager.h"
 
 using namespace std;
 using namespace bxcf;
@@ -34,7 +34,7 @@ void		DropSource::StartDragging(void)
 			for (auto pDraggableFile : m_vecDraggableFiles)
 			{
 				ZeroMemory(&pFileDescriptorArray[index], sizeof(FILEDESCRIPTOR));
-				lstrcpy(pFileDescriptorArray[index].cFileName, CString2::convertStdStringToStdWString(pDraggableFile->m_strFileName).c_str());
+				lstrcpy(pFileDescriptorArray[index].cFileName, String2::convertStdStringToStdWString(pDraggableFile->m_strFileName).c_str());
 				//m_DataSrc.m_Files.Add(pFileDescriptorArray[index].cFileName);
 				pFileDescriptorArray[index].dwFlags = FD_FILESIZE | FD_ATTRIBUTES;
 				pFileDescriptorArray[index].nFileSizeLow = pDraggableFile->m_strFileData.length();
@@ -66,7 +66,7 @@ void		DropSource::StartDragging(void)
 	*/
 }
 
-BOOL DropSource::OnRenderFileData(LPFORMATETC lpFormatEtc, ::CFile* pFile)
+BOOL DropSource::OnRenderFileData(LPFORMATETC lpFormatEtc, ::File* pFile)
 {
 	/*
 	todo
@@ -83,7 +83,7 @@ BOOL DropSource::OnRenderFileData(LPFORMATETC lpFormatEtc, ::CFile* pFile)
 		if (!pDraggableFile->m_bLogged)
 		{
 			pDraggableFile->m_bLogged = true;
-			getIMGF()->getEntryListTab()->log(CLocalizationManager::get()->getTranslatedFormattedText("Log_1", m_vecDraggableFiles[lpFormatEtc->lindex]->m_strFileName.c_str()));
+			getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_1", m_vecDraggableFiles[lpFormatEtc->lindex]->m_strFileName.c_str()));
 		}
 	}
 	*/

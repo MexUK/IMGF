@@ -1,10 +1,10 @@
 #include "Session.h"
-#include "Static/CString2.h"
+#include "Static/String2.h"
 #include "Globals.h"
 #include "IMGF.h"
 #include "SessionManager.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
-#include "Format/Text/INI/CINIManager.h"
+#include "Format/Text/INI/INIManager.h"
 #include "Static/AppDataPath.h"
 
 using namespace std;
@@ -14,14 +14,14 @@ using namespace imgf;
 // serialize
 string			Session::serialize(void)
 {
-	return m_strName + "; " + CString2::join(m_vecPaths, "; ");
+	return m_strName + "; " + String2::join(m_vecPaths, "; ");
 }
 
 // serialize to file
 void			Session::serializeToFile(void)
 {
 	uint32 uiSessionIndex = getIMGF()->getSessionManager()->getIndexByEntry(this);
-	CINIManager::setItem(AppDataPath::getSessionsPath(), "Sessions", uiSessionIndex, serialize());
+	INIManager::setItem(AppDataPath::getSessionsPath(), "Sessions", uiSessionIndex, serialize());
 }
 
 // name

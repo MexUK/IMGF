@@ -1,12 +1,12 @@
 #pragma warning(disable : 4005)
 
 #include "DropTarget.h"
-#include "Static/CString2.h"
+#include "Static/String2.h"
 #include "Globals.h"
 #include "IMGF.h"
 #include "GUI/Editors/IMGEditor.h"
-#include "Static/CPath.h"
-#include "Static/CInput.h"
+#include "Static/Path.h"
+#include "Static/Input.h"
 #include "Format/IMG/Regular/CIMGEntry.h"
 #include "Format/TXD/CTXDManager.h"
 #include "Format/TXD/CTXDFormat.h"
@@ -19,9 +19,9 @@
 #include "Engine/RW/CRWVersionManager.h"
 #include "IMGF.h"
 #include "GUI/Popups/PopupGUIManager.h"
-#include "Image/CRasterDataFormat.h"
-#include "Localization/CLocalizationManager.h"
-#include "Static/CDebug.h"
+#include "Image/RasterDataFormat.h"
+#include "Localization/LocalizationManager.h"
+#include "Static/Debug.h"
 #include <string>
 
 using namespace std;

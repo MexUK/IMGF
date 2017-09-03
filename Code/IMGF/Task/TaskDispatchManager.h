@@ -2,7 +2,7 @@
 
 #include "nsimgf.h"
 #include <Windows.h>
-#include "Object/CManager.h"
+#include "Object/Manager.h"
 #include <string>
 #include <vector>
 #include "nsbxcf.h"
@@ -10,14 +10,14 @@
 #include "Format/IMG/Regular/EIMGEntryProperty.h"
 #include "Game/EPlatformedGame.h"
 
-class bxcf::CRasterDataFormat;
+class bxcf::RasterDataFormat;
 class bxgi::CRWVersion;
 class bxgi::CCOLVersion;
 struct imgf::RenamedIMGEntry;
 class imgf::MainWindow;
 class imgf::TaskManager;
 
-class imgf::TaskDispatchManager : public bxcf::CManager
+class imgf::TaskDispatchManager : public bxcf::Manager
 {
 public:
 	TaskDispatchManager(void);
@@ -130,7 +130,7 @@ public:
 	void						onRequestSaveIMGSignature(void);
 	void						onRequestVerifyIMGSignature(void);
 	void						onRequestCompareIMG(void);
-	void						onRequestConvertTXDToTextureFormat(bxcf::CRasterDataFormat *pRasterDataFormat);
+	void						onRequestConvertTXDToTextureFormat(bxcf::RasterDataFormat *pRasterDataFormat);
 	void						onRequestClearLogs(bool bAllTabs);
 	void						onRequestValidateAllDFFInActiveTab(void);
 	void						onRequestValidateAllTXDInActiveTab(void);
@@ -164,7 +164,7 @@ public:
 	void						onRequestNewWindow(void);
 	void						onRequestFindDFFMissingFromIDEFoundInIPL(void);
 	void						onRequestSortIDEAndIPLFilesByObjectId(void);
-	void						onRequestExtractDVCAndNVCColoursIntoDFFs(void);
+	void						onRequestExtractDVCAndNVColoursIntoDFFs(void);
 	void						onRequestExtract2DFXIntoDFFs(void);
 
 private:

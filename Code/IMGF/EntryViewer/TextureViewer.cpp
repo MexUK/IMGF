@@ -10,10 +10,10 @@
 #include "Format/WTD/CWTDFormat.h"
 #include "Format/WTD/CWTDEntry.h"
 #include "TextureViewerTextureData.h"
-#include "Image/CImageManager.h"
-#include "Localization/CLocalizationManager.h"
-#include "Static/CInput.h"
-#include "Static/CString2.h"
+#include "Image/ImageManager.h"
+#include "Localization/LocalizationManager.h"
+#include "Static/Input.h"
+#include "Static/String2.h"
 #include <gdiplus.h>
 
 using namespace std;
@@ -101,7 +101,7 @@ void				TextureViewer::unloadThreadAndWindow(void)
 
 void				TextureViewer::applyWindowTitle(void)
 {
-	SetWindowText(getWindowHwnd(), CString2::convertStdStringToStdWString(getWindowTitle()).c_str());
+	SetWindowText(getWindowHwnd(), String2::convertStdStringToStdWString(getWindowTitle()).c_str());
 }
 
 DWORD WINAPI		TextureViewer::onThreadStarted(LPVOID lpParam)
@@ -388,7 +388,7 @@ void				TextureViewer::prepareRenderData_WTD(void)
 			pTextureData->m_strDiffuseName = pWTDEntry->getEntryName();
 			pTextureData->m_strAlphaName = "";
 			pTextureData->m_ucBPP = 32;
-			pTextureData->m_strTextureFormat = CImageManager::getD3DFormatText(pWTDEntry->getD3DFormat());
+			pTextureData->m_strTextureFormat = ImageManager::getD3DFormatText(pWTDEntry->getD3DFormat());
 		}
 
 		addEntry(pTextureData);
@@ -444,7 +444,7 @@ void				TextureViewer::openWindow(void)
 	if (!RegisterClassEx(&wc))
 	{
 		DWORD uiError = GetLastError();
-		CInput::showMessage(CLocalizationManager::get()->getTranslatedFormattedText("TextPopup_52", uiError), CLocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
+		Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_52", uiError), LocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
 		return;
 	}
 
@@ -452,13 +452,13 @@ void				TextureViewer::openWindow(void)
 	hwndEntryViewerWindow = CreateWindowEx(
 		WS_EX_CLIENTEDGE,
 		szClassName,
-		CLocalizationManager::get()->getTranslatedTextW("Window_EntryViewer_Title").c_str(),
+		LocalizationManager::get()->getTranslatedTextW("Window_EntryViewer_Title").c_str(),
 		WS_OVERLAPPEDWINDOW | WS_VSCROLL,
 		uiEntryViewerWindowX, uiEntryViewerWindowY, uiEntryViewerWindowWidth, uiEntryViewerWindowHeight,
 		NULL, NULL, hInstance, NULL);
 	if (hwndEntryViewerWindow == NULL)
 	{
-		CInput::showMessage(CLocalizationManager::get()->getTranslatedText("TextPopup_53"), CLocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
+		Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_53"), LocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
 		return;
 	}
 	setWindowHwnd(hwndEntryViewerWindow);
@@ -489,11 +489,11 @@ void				TextureViewer::openWindow(void)
 	setViewMenu(hMenu_View);
 	setDisplayTypeMenu(hMenu_View_DisplayType);
 
-	AppendMenu(hMenubar, MF_POPUP, (UINT_PTR)hMenu_View, CLocalizationManager::get()->getTranslatedTextW("EntryViewerMenu_View").c_str());
-	AppendMenu(hMenu_View, MF_STRING | MF_POPUP, (UINT_PTR)hMenu_View_DisplayType, CLocalizationManager::get()->getTranslatedTextW("EntryViewerMenu_DisplayType").c_str());
-	AppendMenu(hMenu_View_DisplayType, MF_STRING, 1000, CLocalizationManager::get()->getTranslatedTextW("EntryViewerMenu_DisplayType_Float").c_str());
-	AppendMenu(hMenu_View_DisplayType, MF_STRING | MF_CHECKED, 1001, CLocalizationManager::get()->getTranslatedTextW("EntryViewerMenu_DisplayType_Single").c_str());
-	AppendMenu(hMenu_View, MF_STRING, 1020, CLocalizationManager::get()->getTranslatedTextW("EntryViewerMenu_PreviewTextures").c_str());
+	AppendMenu(hMenubar, MF_POPUP, (UINT_PTR)hMenu_View, LocalizationManager::get()->getTranslatedTextW("EntryViewerMenu_View").c_str());
+	AppendMenu(hMenu_View, MF_STRING | MF_POPUP, (UINT_PTR)hMenu_View_DisplayType, LocalizationManager::get()->getTranslatedTextW("EntryViewerMenu_DisplayType").c_str());
+	AppendMenu(hMenu_View_DisplayType, MF_STRING, 1000, LocalizationManager::get()->getTranslatedTextW("EntryViewerMenu_DisplayType_Float").c_str());
+	AppendMenu(hMenu_View_DisplayType, MF_STRING | MF_CHECKED, 1001, LocalizationManager::get()->getTranslatedTextW("EntryViewerMenu_DisplayType_Single").c_str());
+	AppendMenu(hMenu_View, MF_STRING, 1020, LocalizationManager::get()->getTranslatedTextW("EntryViewerMenu_PreviewTextures").c_str());
 
 	::SetMenu(hwndEntryViewerWindow, hMenubar);
 
@@ -563,7 +563,7 @@ LRESULT CALLBACK WndProc_ComboBox(
 {
 	if ((HWND)lParam == hWndComboBox)
 	{
-		CInput::showMessage("T", "D");
+		Input::showMessage("T", "D");
 	}
 	if ((uMsg == WM_COMMAND) && (HIWORD(wParam) == BN_CLICKED))
 	{
@@ -606,7 +606,7 @@ void				TextureViewer::initDisplayType(void)
 
 		for (uint32 i = 0, j = 20; i < j; i++)
 		{
-			((CComboBox*)CWnd::FromHandle(hWndComboBox))->InsertString(i, CString2::convertStdStringToStdWString(CString2::toString(uiZoomLevels[i]) + "%").c_str());
+			((CComboBox*)CWnd::FromHandle(hWndComboBox))->InsertString(i, String2::convertStdStringToStdWString(String2::toString(uiZoomLevels[i]) + "%").c_str());
 		}
 		((CComboBox*)CWnd::FromHandle(hWndComboBox))->SetCurSel(3);
 		*/
@@ -1477,11 +1477,11 @@ void			TextureViewer::renderDisplayType_Single(void)
 
 			// calculate max width out of: image, diffuse text and alpha text
 			SIZE textSize;
-			GetTextExtentPoint32(hdc, CString2::convertStdStringToStdWString(pImageData->m_strDiffuseName).c_str(), pImageData->m_strDiffuseName.length(), &textSize);
+			GetTextExtentPoint32(hdc, String2::convertStdStringToStdWString(pImageData->m_strDiffuseName).c_str(), pImageData->m_strDiffuseName.length(), &textSize);
 			uiCalculatedWidth = textSize.cx;
 
 			SIZE textSize2;
-			GetTextExtentPoint32(hdc, CString2::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &textSize2);
+			GetTextExtentPoint32(hdc, String2::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &textSize2);
 			if (textSize2.cx > (int32)uiCalculatedWidth)
 			{
 				uiCalculatedWidth = textSize2.cx;
@@ -1491,7 +1491,7 @@ void			TextureViewer::renderDisplayType_Single(void)
 			{
 				uiCalculatedWidth = pImageData->m_uiWidth;
 			}
-			//CDebugger::log("IMAGE X = " + CString2::toString(uiImageX));
+			//Debugger::log("IMAGE X = " + String2::toString(uiImageX));
 
 			// draw texture diffuse name
 			SetTextColor(hdc, RGB(255, 255, 255));
@@ -1501,7 +1501,7 @@ void			TextureViewer::renderDisplayType_Single(void)
 			rect.top = uiImageY + 0 - yCurrentScroll;
 			rect.right = 8000;
 			rect.bottom = 8000;
-			DrawText(hdc, CString2::convertStdStringToStdWString(pImageData->m_strDiffuseName).c_str(), pImageData->m_strDiffuseName.length(), &rect, DT_NOPREFIX);
+			DrawText(hdc, String2::convertStdStringToStdWString(pImageData->m_strDiffuseName).c_str(), pImageData->m_strDiffuseName.length(), &rect, DT_NOPREFIX);
 
 			// draw texture alpha name
 			SetTextColor(hdc, RGB(255, 255, 255));
@@ -1510,7 +1510,7 @@ void			TextureViewer::renderDisplayType_Single(void)
 			rect.top = uiImageY + 20 - yCurrentScroll;
 			rect.right = 8000;
 			rect.bottom = 8000;
-			DrawText(hdc, CString2::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &rect, DT_NOPREFIX);
+			DrawText(hdc, String2::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &rect, DT_NOPREFIX);
 
 			// draw texture image
 			//byte alpha = 255;
@@ -1537,11 +1537,11 @@ void			TextureViewer::renderDisplayType_Single(void)
 
 			// calculate max width out of: image, diffuse text and alpha text
 			SIZE textSize;
-			GetTextExtentPoint32(hdc, CString2::convertStdStringToStdWString(pImageData->m_strDiffuseName).c_str(), pImageData->m_strDiffuseName.length(), &textSize);
+			GetTextExtentPoint32(hdc, String2::convertStdStringToStdWString(pImageData->m_strDiffuseName).c_str(), pImageData->m_strDiffuseName.length(), &textSize);
 			uiCalculatedWidth = textSize.cx;
 
 			SIZE textSize2;
-			GetTextExtentPoint32(hdc, CString2::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &textSize2);
+			GetTextExtentPoint32(hdc, String2::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &textSize2);
 			if (textSize2.cx > (int32)uiCalculatedWidth)
 			{
 				uiCalculatedWidth = textSize2.cx;
@@ -1592,8 +1592,8 @@ void			TextureViewer::renderDisplayType_Single(void)
 			rect.top = uiImageY + 10 - yCurrentScroll;
 			rect.right = 8000;
 			rect.bottom = 8000;
-			string strText = CString2::toString(uiTextureIndex + 1);
-			DrawText(hdc, CString2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX);
+			string strText = String2::toString(uiTextureIndex + 1);
+			DrawText(hdc, String2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX);
 
 			// draw texture diffuse name
 			HFONT hFont2 = CreateFont(13, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
@@ -1606,7 +1606,7 @@ void			TextureViewer::renderDisplayType_Single(void)
 			rect.top = uiImageY - yCurrentScroll;
 			rect.right = 8000;
 			rect.bottom = 8000;
-			DrawText(hdc, CString2::convertStdStringToStdWString(pImageData->m_strDiffuseName).c_str(), pImageData->m_strDiffuseName.length(), &rect, DT_NOPREFIX);
+			DrawText(hdc, String2::convertStdStringToStdWString(pImageData->m_strDiffuseName).c_str(), pImageData->m_strDiffuseName.length(), &rect, DT_NOPREFIX);
 			uiImageY += 15;
 
 			// draw texture alpha name
@@ -1616,7 +1616,7 @@ void			TextureViewer::renderDisplayType_Single(void)
 				rect.top = uiImageY - yCurrentScroll;
 				rect.right = 8000;
 				rect.bottom = 8000;
-				DrawText(hdc, CString2::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &rect, DT_NOPREFIX);
+				DrawText(hdc, String2::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &rect, DT_NOPREFIX);
 				uiImageY += 15;
 			}
 
@@ -1625,16 +1625,16 @@ void			TextureViewer::renderDisplayType_Single(void)
 			rect.top = uiImageY - yCurrentScroll;
 			rect.right = 8000;
 			rect.bottom = 8000;
-			strText = CString2::toString(pImageData->m_uiWidth) + " x " + CString2::toString(pImageData->m_uiHeight);
-			DrawText(hdc, CString2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // size
+			strText = String2::toString(pImageData->m_uiWidth) + " x " + String2::toString(pImageData->m_uiHeight);
+			DrawText(hdc, String2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // size
 
 			// draw texture BPP
 			rect.left = uiImageX + uiXOffset1 + 85;
 			rect.top = uiImageY - yCurrentScroll;
 			rect.right = 8000;
 			rect.bottom = 8000;
-			strText = CLocalizationManager::get()->getTranslatedFormattedText("Window_TextureViewer_BPP", pImageData->m_ucBPP);
-			DrawText(hdc, CString2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // BPP
+			strText = LocalizationManager::get()->getTranslatedFormattedText("Window_TextureViewer_BPP", pImageData->m_ucBPP);
+			DrawText(hdc, String2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // BPP
 
 			// draw texture raster format
 			rect.left = uiImageX + uiXOffset1 + 85 + 55;
@@ -1642,7 +1642,7 @@ void			TextureViewer::renderDisplayType_Single(void)
 			rect.right = 8000;
 			rect.bottom = 8000;
 			strText = pImageData->m_strTextureFormat;
-			DrawText(hdc, CString2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // raster format
+			DrawText(hdc, String2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // raster format
 
 			uiImageY += 15;
 			if (pImageData->m_strAlphaName == "")
@@ -1726,8 +1726,8 @@ void			TextureViewer::renderDisplayType_Single(void)
 	rect.top = 10;
 	rect.right = 8000;
 	rect.bottom = 8000;
-	string strText = CLocalizationManager::get()->getTranslatedText("Window_TextureViewer_Zoom");
-	DrawText(hdc, CString2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX);
+	string strText = LocalizationManager::get()->getTranslatedText("Window_TextureViewer_Zoom");
+	DrawText(hdc, String2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX);
 
 	// vertical line next to textures list
 	Pen      pen(Color(255, 0, 0, 0));
@@ -1766,34 +1766,34 @@ void			TextureViewer::renderDisplayType_Single(void)
 	rect.top = 6;
 	rect.right = 8000;
 	rect.bottom = 8000;
-	DrawText(hdc, CString2::convertStdStringToStdWString(pActiveImageData->m_strDiffuseName).c_str(), pActiveImageData->m_strDiffuseName.length(), &rect, DT_NOPREFIX); // diffuse name
+	DrawText(hdc, String2::convertStdStringToStdWString(pActiveImageData->m_strDiffuseName).c_str(), pActiveImageData->m_strDiffuseName.length(), &rect, DT_NOPREFIX); // diffuse name
 
 	rect.left = g_uiLeftPanelWidth + 5;
 	rect.top = 25;
 	rect.right = 8000;
 	rect.bottom = 8000;
-	DrawText(hdc, CString2::convertStdStringToStdWString(pActiveImageData->m_strAlphaName).c_str(), pActiveImageData->m_strAlphaName.length(), &rect, DT_NOPREFIX); // alpha name
+	DrawText(hdc, String2::convertStdStringToStdWString(pActiveImageData->m_strAlphaName).c_str(), pActiveImageData->m_strAlphaName.length(), &rect, DT_NOPREFIX); // alpha name
 
 	rect.left = g_uiLeftPanelWidth + 120 + 5;
 	rect.top = 6;
 	rect.right = 8000;
 	rect.bottom = 8000;
-	string strText = CString2::toString(pActiveImageData->m_uiWidth) + " x " + CString2::toString(pActiveImageData->m_uiHeight);
-	DrawText(hdc, CString2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // size
+	string strText = String2::toString(pActiveImageData->m_uiWidth) + " x " + String2::toString(pActiveImageData->m_uiHeight);
+	DrawText(hdc, String2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // size
 
 	rect.left = g_uiLeftPanelWidth + 120 + 5;
 	rect.top = 25;
 	rect.right = 8000;
 	rect.bottom = 8000;
-	strText = CLocalizationManager::get()->getTranslatedFormattedText("Window_TextureViewer_BPP", pActiveImageData->m_ucBPP);
-	DrawText(hdc, CString2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // BPP
+	strText = LocalizationManager::get()->getTranslatedFormattedText("Window_TextureViewer_BPP", pActiveImageData->m_ucBPP);
+	DrawText(hdc, String2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // BPP
 
 	rect.left = g_uiLeftPanelWidth + 145 + 5;
 	rect.top = 6;
 	rect.right = 8000;
 	rect.bottom = 8000;
-	strText = "0x" + CString2::toStringHex(pActiveImageData->m_uiRasterFormat);
-	DrawText(hdc, CString2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // raster format
+	strText = "0x" + String2::toStringHex(pActiveImageData->m_uiRasterFormat);
+	DrawText(hdc, String2::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // raster format
 	*/
 
 	SelectObject(hdc, old);
@@ -1884,11 +1884,11 @@ void			TextureViewer::renderDisplayType_Float(void)
 
 		// calculate max width out of: image, diffuse text and alpha text
 		SIZE textSize;
-		GetTextExtentPoint32(hdc, CString2::convertStdStringToStdWString(pImageData->m_strDiffuseName).c_str(), pImageData->m_strDiffuseName.length(), &textSize);
+		GetTextExtentPoint32(hdc, String2::convertStdStringToStdWString(pImageData->m_strDiffuseName).c_str(), pImageData->m_strDiffuseName.length(), &textSize);
 		uiCalculatedWidth = textSize.cx;
 
 		SIZE textSize2;
-		GetTextExtentPoint32(hdc, CString2::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &textSize2);
+		GetTextExtentPoint32(hdc, String2::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &textSize2);
 		if (textSize2.cx > (int32)uiCalculatedWidth)
 		{
 			uiCalculatedWidth = textSize2.cx;
@@ -1919,7 +1919,7 @@ void			TextureViewer::renderDisplayType_Float(void)
 		rect.top = uiImageY + 0 - yCurrentScroll;
 		rect.right = 8000;
 		rect.bottom = 8000;
-		DrawText(hdc, CString2::convertStdStringToStdWString(pImageData->m_strDiffuseName).c_str(), pImageData->m_strDiffuseName.length(), &rect, DT_NOPREFIX);
+		DrawText(hdc, String2::convertStdStringToStdWString(pImageData->m_strDiffuseName).c_str(), pImageData->m_strDiffuseName.length(), &rect, DT_NOPREFIX);
 
 		// draw texture alpha name
 		SetTextColor(hdc, RGB(0, 0, 0));
@@ -1928,7 +1928,7 @@ void			TextureViewer::renderDisplayType_Float(void)
 		rect.top = uiImageY + 20 - yCurrentScroll;
 		rect.right = 8000;
 		rect.bottom = 8000;
-		DrawText(hdc, CString2::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &rect, DT_NOPREFIX);
+		DrawText(hdc, String2::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &rect, DT_NOPREFIX);
 
 		// draw texture image
 		//byte alpha = 255;

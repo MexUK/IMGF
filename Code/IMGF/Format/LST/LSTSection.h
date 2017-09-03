@@ -2,11 +2,11 @@
 
 #include "nsimgf.h"
 #include "Type/Types.h"
-#include "Pool/CVectorPool.h"
+#include "Pool/VectorPool.h"
 #include "LSTEntry.h"
 #include <string>
 
-class imgf::LSTSection : public bxcf::CVectorPool<LSTEntry*>
+class imgf::LSTSection : public bxcf::VectorPool<LSTEntry*>
 {
 public:
 	void								unload(void);

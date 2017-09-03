@@ -2,7 +2,7 @@
 
 #include "nsimgf.h"
 #include "Layer/Layer.h"
-#include "Pool/CVectorPool.h"
+#include "Pool/VectorPool.h"
 #include "GUI/Editor/Tab/EditorTab.h"
 #include <string>
 
@@ -19,7 +19,7 @@ public:
 	void								removeFile(EditorTab *pEditorTab);
 	void								removeActiveFile(void);
 
-	bxcf::CVectorPool<EditorTab*>&		getTabs(void) { return m_vecTabs; }
+	bxcf::VectorPool<EditorTab*>&		getTabs(void) { return m_vecTabs; }
 
 	void								setActiveFile(EditorTab *pEditorFile);
 	EditorTab*							getActiveFile(void) { return m_pActiveFile; }
@@ -38,5 +38,5 @@ public:
 protected:
 	bxgx::TabBar*						m_pTabBar;
 	EditorTab*							m_pActiveFile;
-	bxcf::CVectorPool<EditorTab*>		m_vecTabs;
+	bxcf::VectorPool<EditorTab*>		m_vecTabs;
 };
