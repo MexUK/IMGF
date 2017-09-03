@@ -8,7 +8,7 @@
 #include "EEntryViewerDisplayType.h"
 #include "TextureViewerTextureData.h"
 
-class bxgi::CIMGEntry;
+class bxgi::IMGEntry;
 
 LRESULT CALLBACK				WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -23,8 +23,8 @@ public:
 	void						openWindow(void);
 	void						closeWindow(void);
 
-	void						setIMGEntry(bxgi::CIMGEntry *pIMGEntry) { m_pIMGEntry = pIMGEntry; }
-	bxgi::CIMGEntry*			getIMGEntry(void) { return m_pIMGEntry; }
+	void						setIMGEntry(bxgi::IMGEntry *pIMGEntry) { m_pIMGEntry = pIMGEntry; }
+	bxgi::IMGEntry*			getIMGEntry(void) { return m_pIMGEntry; }
 
 	void						setWindowHwnd(HWND hwndEntryViewerWindow) { m_hwndEntryViewerWindow = hwndEntryViewerWindow; }
 	HWND						getWindowHwnd(void) { return m_hwndEntryViewerWindow; }
@@ -78,7 +78,7 @@ private:
 	void						renderDisplayType_Float(void);
 
 private:
-	bxgi::CIMGEntry*					m_pIMGEntry;
+	bxgi::IMGEntry*					m_pIMGEntry;
 	HWND						m_hwndEntryViewerWindow;
 	TextureViewerTextureData*	m_pActiveEntry;
 	float32						m_fZoomLevel;

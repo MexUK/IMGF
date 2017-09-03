@@ -1,12 +1,12 @@
 #pragma warning(disable : 4005)
 
 #include "DragListCtrl.h"
-#include "Format/IMG/Regular/CIMGEntry.h"
+#include "Format/IMG/Regular/IMGEntry.h"
 #include "Static/String2.h"
 #include "Globals.h"
 #include "IMGF.h"
 #include "GUI/Editors/Tab/IMGEditorTab.h"
-#include "Format/IMG/Regular/CIMGFormat.h"
+#include "Format/IMG/Regular/IMGFormat.h"
 #include <string>
 
 using namespace std;
@@ -52,11 +52,11 @@ void		DragListCtrl::OnBeginDrag(void)
 	{
 		return;
 	}
-	CIMGEntry *pIMGEntry;
+	IMGEntry *pIMGEntry;
 	while (pos)
 	{
 		int nItem = GetNextSelectedItem(pos);
-		pIMGEntry = (CIMGEntry*)GetItemData(nItem);
+		pIMGEntry = (IMGEntry*)GetItemData(nItem);
 
 		CDraggableFile *pDraggableFile = new CDraggableFile;
 		pDraggableFile->m_strFileName = pIMGEntry->getEntryName();

@@ -1,15 +1,15 @@
 #include "IMGEditor.h"
 #include "Globals.h"
 #include "IMGF.h"
-#include "Format/IMG/Regular/CIMGManager.h"
+#include "Format/IMG/Regular/IMGManager.h"
 #include "Static/String2.h"
 #include "Static/Path.h"
 #include "Static/File.h"
 #include "Localization/LocalizationManager.h"
 #include "Settings/SettingsManager.h"
-#include "Format/COL/CCOLManager.h"
-#include "Format/IMG/Regular/CIMGEntry.h"
-#include "Engine/RW/CRWVersion.h"
+#include "Format/COL/COLManager.h"
+#include "Format/IMG/Regular/IMGEntry.h"
+#include "Engine/RW/RWVersion.h"
 #include "Task/TaskManager.h"
 #include "Task/TaskDispatchManager.h"
 #include "GUI/Windows/MainWindow.h"
@@ -33,8 +33,8 @@
 #include "../IMGF/Event/EEvent.h"
 
 // for menu start - todo
-#include "Engine/RW/CRWManager.h"
-#include "Engine/RW/CRWVersionManager.h"
+#include "Engine/RW/RWManager.h"
+#include "Engine/RW/RWVersionManager.h"
 #include "Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Tasks/Sort/SortManager.h"
 #include "Tasks/Sort/SortType.h"
@@ -44,9 +44,9 @@
 #include "Tasks/Sort/SortMenuItems.h"
 #include "Image/ImageManager.h"
 #include "Image/RasterDataFormatManager.h"
-#include "Format/COL/CCOLManager.h"
-#include "Format/COL/CCOLVersionManager.h"
-#include "Format/COL/CCOLVersion.h"
+#include "Format/COL/COLManager.h"
+#include "Format/COL/COLVersionManager.h"
+#include "Format/COL/COLVersion.h"
 // for menu end
 
 using namespace std;
@@ -81,7 +81,7 @@ void						IMGEditor::init(void)
 }
 
 // format validation
-bool						IMGEditor::validateFile(CIMGFormat *img)
+bool						IMGEditor::validateFile(IMGFormat *img)
 {
 	if (img->getVersion() == IMG_FASTMAN92)
 	{
@@ -105,7 +105,7 @@ bool						IMGEditor::validateFile(CIMGFormat *img)
 }
 
 // add/remove file
-IMGEditorTab*				IMGEditor::addFile(CIMGFormat *img)
+IMGEditorTab*				IMGEditor::addFile(IMGFormat *img)
 {
 	IMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img);
 
@@ -117,7 +117,7 @@ IMGEditorTab*				IMGEditor::addFile(CIMGFormat *img)
 
 IMGEditorTab*				IMGEditor::addBlankFile(string strIMGPath, EIMGVersion EIMGVersionValue)
 {
-	CIMGFormat *img = new CIMGFormat;
+	IMGFormat *img = new IMGFormat;
 	img->setFilePath(strIMGPath);
 	img->setVersion(EIMGVersionValue);
 
@@ -129,7 +129,7 @@ IMGEditorTab*				IMGEditor::addBlankFile(string strIMGPath, EIMGVersion EIMGVers
 	return imgEditorTab;
 }
 
-IMGEditorTab*				IMGEditor::addTabObjectAndTabControl(CIMGFormat *img)
+IMGEditorTab*				IMGEditor::addTabObjectAndTabControl(IMGFormat *img)
 {
 	IMGEditorTab *imgEditorTab = m_pWindow->addLayer<IMGEditorTab>(-1, true, -50);
 
@@ -182,7 +182,7 @@ void						IMGEditor::removeActiveFile(void)
 }
 
 // progress bar
-void						IMGEditor::onUnserializeEntry(CIMGFormat *img)
+void						IMGEditor::onUnserializeEntry(IMGFormat *img)
 {
 	getIMGF()->getTaskManager()->onTaskProgressTick();
 }
@@ -386,7 +386,7 @@ void					IMGEditor::removeColumnsFromMainListView(void)
 	}
 	*/
 }
-int						IMGEditor::getMainListControlItemByEntry(CIMGEntry *pIMGEntry)
+int						IMGEditor::getMainListControlItemByEntry(IMGEntry *pIMGEntry)
 {
 	/*
 	todo
@@ -489,9 +489,9 @@ uint32					IMGEditor::getEntryCountForAllTabs(void)
 	return uiTotalEntryCount;
 }
 
-vector<CIMGFormat*>		IMGEditor::getAllMainWindowTabsIMGFiles(void)
+vector<IMGFormat*>		IMGEditor::getAllMainWindowTabsIMGFiles(void)
 {
-	vector<CIMGFormat*> vecIMGFormats;
+	vector<IMGFormat*> vecIMGFormats;
 	for (auto pEditorTab : getTabs().getEntries())
 	{
 		vecIMGFormats.push_back(((IMGEditorTab*)pEditorTab)->getIMGFile());
@@ -643,7 +643,7 @@ void					IMGEditor::initMenu(void) // todo - move menu stuff to like MenuManager
 	AppendMenu(hMenu_Edit_Select, MF_STRING | MF_POPUP, (UINT_PTR)hMenu_Edit_SelectViaRWVersion, LocalizationManager::get()->getTranslatedTextW("Menu_Select_RWVersion").c_str());
 	AppendMenu(hMenu_Edit_Select, MF_STRING, 1900, LocalizationManager::get()->getTranslatedTextW("Menu_Select_IDE").c_str());
 	uint32 i = 0;
-	for (auto pRWVersion : CRWManager::get()->getVersionManager()->getEntries())
+	for (auto pRWVersion : RWManager::get()->getVersionManager()->getEntries())
 	{
 		getIMGF()->m_umapMenuItemMapping_SelectRWVersion[1561 + i] = pRWVersion;
 		string strMenuText = LocalizationManager::get()->getTranslatedText("Menu_Select_RWVersion_Prefix") + " " + String2::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + String2::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
@@ -719,7 +719,7 @@ void					IMGEditor::initMenu(void) // todo - move menu stuff to like MenuManager
 	AppendMenu(hMenu_Model, MF_STRING, 2081, LocalizationManager::get()->getTranslatedTextW("Menu_Model_RemoveOrphanTextures").c_str());
 
 	i = 0;
-	for (auto pRWVersion : CRWManager::get()->getVersionManager()->getEntries())
+	for (auto pRWVersion : RWManager::get()->getVersionManager()->getEntries())
 	{
 		if (pRWVersion->getFileType() != TYPE_MODEL)
 		{
@@ -751,7 +751,7 @@ void					IMGEditor::initMenu(void) // todo - move menu stuff to like MenuManager
 
 	AppendMenu(hMenu_Texture_Convert, MF_STRING | MF_POPUP, (UINT_PTR)hMenu_Texture_Convert_TXDRWVersion, LocalizationManager::get()->getTranslatedTextW("TXDRWVersion").c_str());
 	i = 0;
-	for (auto pRWVersion : CRWManager::get()->getVersionManager()->getEntries())
+	for (auto pRWVersion : RWManager::get()->getVersionManager()->getEntries())
 	{
 		if (pRWVersion->getFileType() != TYPE_MODEL)
 		{
@@ -786,7 +786,7 @@ void					IMGEditor::initMenu(void) // todo - move menu stuff to like MenuManager
 	AppendMenu(hMenu_Collision, MF_STRING | MF_POPUP, (UINT_PTR)hMenu_Collision_Convert, LocalizationManager::get()->getTranslatedTextW("Convert").c_str());
 
 	i = 0;
-	for (auto pCOLVersion : CCOLManager::get()->getVersionManager()->getEntries())
+	for (auto pCOLVersion : COLManager::get()->getVersionManager()->getEntries())
 	{
 		getIMGF()->m_umapMenuItemMapping_ConvertCOLtoCOLVersion[2400 + i] = pCOLVersion;
 		AppendMenu(hMenu_Collision_Convert, MF_STRING, 2400 + i, LocalizationManager::get()->getTranslatedFormattedTextW("Menu_Convert_COL_COL", pCOLVersion->getText().c_str()).c_str());
@@ -971,7 +971,7 @@ void					IMGEditor::loadRightClickMenu(int xPos, int yPos)
 	AppendMenu(hMenu, MF_STRING, 2081, LocalizationManager::get()->getTranslatedTextW("Menu_Model_RemoveOrphanTextures").c_str());
 
 	i = 0;
-	for (auto pRWVersion : CRWManager::get()->getVersionManager()->getEntries())
+	for (auto pRWVersion : RWManager::get()->getVersionManager()->getEntries())
 	{
 		if (pRWVersion->getFileType() != TYPE_MODEL)
 		{
@@ -997,7 +997,7 @@ void					IMGEditor::loadRightClickMenu(int xPos, int yPos)
 
 	AppendMenu(hMenu_ConvertTXD, MF_STRING | MF_POPUP, (UINT_PTR)hMenu_ConvertTXD_TXDRWVersion, LocalizationManager::get()->getTranslatedTextW("TXDRWVersion").c_str());
 	i = 0;
-	for (auto pRWVersion : CRWManager::get()->getVersionManager()->getEntries())
+	for (auto pRWVersion : RWManager::get()->getVersionManager()->getEntries())
 	{
 		if (pRWVersion->getFileType() != TYPE_MODEL)
 		{
@@ -1030,7 +1030,7 @@ void					IMGEditor::loadRightClickMenu(int xPos, int yPos)
 	AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT_PTR)hMenu_ConvertCOL, LocalizationManager::get()->getTranslatedTextW("ConvertCollision").c_str());
 
 	i = 0;
-	for (auto pCOLVersion : CCOLManager::get()->getVersionManager()->getEntries())
+	for (auto pCOLVersion : COLManager::get()->getVersionManager()->getEntries())
 	{
 		AppendMenu(hMenu_ConvertCOL, MF_STRING, 2400 + i, LocalizationManager::get()->getTranslatedFormattedTextW("Menu_Convert_COL_COL", pCOLVersion->getText().c_str()).c_str());
 		i++;

@@ -5,6 +5,6 @@
 
 struct imgf::RenamedIMGEntry
 {
-	bxgi::CIMGEntry*			m_pIMGEntry;
+	bxgi::IMGEntry*			m_pIMGEntry;
 	std::string					m_strPreviousName;
 };

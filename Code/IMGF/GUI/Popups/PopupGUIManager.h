@@ -30,16 +30,15 @@ struct imgf::CSplitViaDialogData;
 struct imgf::DragDropDialogData;
 struct imgf::CDumpResultsDialogData;
 struct imgf::CRenamerDialogData;
-struct imgf::CDFFConversionDialogData;
+struct imgf::DFFConversionDialogData;
 struct imgf::CDuplicateEntriesDialogData;
 struct imgf::CBuildTXDDialogData;
-struct imgf::CIMGVersionSettingsDialogData;
-struct imgf::CTXDOrganizerDialogData;
-struct imgf::CDATPathsMoverDialogData;
+struct imgf::IMGVersionSettingsDialogData;
+struct imgf::TXDOrganizerDialogData;
+struct imgf::DATPathsMoverDialogData;
 struct imgf::CMapMoverAndIDShifterDialogData;
-struct imgf::CDATModelListDialogData;
+struct imgf::DATModelListDialogData;
 struct imgf::COverwriteEntryDialogData;
-class CDialog;
 
 class imgf::PopupGUIManager : public bxcf::Manager
 {
@@ -50,7 +49,7 @@ public:
 	void									setParentWindowHwnd(HWND hParentWindowHwnd) { m_hParentWindowHwnd = hParentWindowHwnd; }
 	HWND									getParentWindowHwnd(void) { return m_hParentWindowHwnd; }
 
-	void									updateGUIControlsTextToLanguage(CDialog *pDialog, std::string strWindowName);
+	//void									updateGUIControlsTextToLanguage(CDialog *pDialog, std::string strWindowName); // todo
 
 	uint32									show3ButtonDialog(std::string strWindowTitle, std::string strStaticText, std::string strButton1Text, std::string strButton2Text, std::string strButton3Text);
 	std::string								showTextAreaDialog(std::string strWindowTitle, std::string strStaticText, std::string strEditText = "");
@@ -74,14 +73,14 @@ public:
 	void									showDumpResultsDialog(CDumpResultsDialogData *pDumpResultsDialogData);
 	void									showCreditsDialog(void);
 	CRenamerDialogData*						showRenamerDialog(void);
-	CDFFConversionDialogData*				showDFFConversionDialog(void);
+	DFFConversionDialogData*				showDFFConversionDialog(void);
 	CDuplicateEntriesDialogData*			showDuplicateEntriesDialog(void);
 	CBuildTXDDialogData*					showBuildTXDDialog(void);
-	CIMGVersionSettingsDialogData*			showIMGVersionSettingsDialog(void);
-	CTXDOrganizerDialogData*				showTXDOrganizerDialog(void);
-	CDATPathsMoverDialogData*				showDATPathsMoverDialogData(void);
+	IMGVersionSettingsDialogData*			showIMGVersionSettingsDialog(void);
+	TXDOrganizerDialogData*				showTXDOrganizerDialog(void);
+	DATPathsMoverDialogData*				showDATPathsMoverDialogData(void);
 	CMapMoverAndIDShifterDialogData*		showMapMoverAndIDShifterDialog(void);
-	CDATModelListDialogData*				showDATModelListDialog(void);
+	DATModelListDialogData*				showDATModelListDialog(void);
 	COverwriteEntryDialogData*				showOverwriteEntryDialog(void);
 
 private:
@@ -207,22 +206,22 @@ struct imgf::CSplitViaDialogData
 	uint32							m_uiRadioButtonIndex;
 };
 
-class bxgi::CRWVersion;
+class bxgi::RWVersion;
 class bxcf::RasterDataFormat;
-class bxgi::CCOLVersion;
+class bxgi::COLVersion;
 struct imgf::DragDropDialogData
 {
 	bxgi::EIMGVersion				m_uiDestinationIMGVersion;
 	bool							m_bCancel;
 	bool							m_bCopy;
 	bool							m_bConvert;
-	bxgi::CRWVersion*				m_pDFFConversionRWVersion;
-	bxgi::CCOLVersion*				m_pNewCOLVersion;
+	bxgi::RWVersion*				m_pDFFConversionRWVersion;
+	bxgi::COLVersion*				m_pNewCOLVersion;
 	uint32							m_uiTXDConversionOption;
 	union
 	{
 		bxgi::EPlatformedGame			m_uiTXDConversionGame;
-		bxgi::CRWVersion*				m_pTXDConversionRWVersion;
+		bxgi::RWVersion*				m_pTXDConversionRWVersion;
 		bxcf::RasterDataFormat*		m_pTXDConversionRasterDataFormat;
 	};
 };
@@ -266,7 +265,7 @@ struct imgf::CRenamerDialogData
 	bool							m_bUpdateLODNamesToMatch;
 };
 
-struct imgf::CDFFConversionDialogData
+struct imgf::DFFConversionDialogData
 {
 	bool					m_bConvert;
 	uint8					m_ucPrelightningOption;
@@ -286,16 +285,16 @@ struct imgf::CDuplicateEntriesDialogData
 struct imgf::CBuildTXDDialogData
 {
 	bool							m_bBuild;
-	uint8							m_uCDFFFormatsType;
+	uint8							m_uDFFFormatsType;
 	std::string						m_strDFFsFolderPath;
 	std::string						m_strIDEFilePath;
 	std::string						m_strTexturesFolderPath;
 	std::string						m_strDestinationFolderPath;
 	uint32							m_uiTextureCountPerTXD;
-	bxgi::CRWVersion*						m_pRWVersion;
+	bxgi::RWVersion*						m_pRWVersion;
 };
 
-struct imgf::CIMGVersionSettingsDialogData
+struct imgf::IMGVersionSettingsDialogData
 {
 	bool							m_bSave;
 	uint8							m_ucEntriesType;
@@ -303,7 +302,7 @@ struct imgf::CIMGVersionSettingsDialogData
 	uint32							m_uiCompressionLevel;
 };
 
-struct imgf::CTXDOrganizerDialogData
+struct imgf::TXDOrganizerDialogData
 {
 	bool							m_bOrganize;
 	uint32							m_uiEveryNDFFFiles;
@@ -315,7 +314,7 @@ struct imgf::CTXDOrganizerDialogData
 	bxcf::RasterDataFormat*				m_pRasterDataFormat;
 };
 
-struct imgf::CDATPathsMoverDialogData
+struct imgf::DATPathsMoverDialogData
 {
 	bool							m_bMove;
 	bxcf::Vec2f						m_vecOutputMapRangeMin;
@@ -350,7 +349,7 @@ struct imgf::CMapMoverAndIDShifterDialogData
 	bool							m_bShiftIds;
 };
 
-struct imgf::CDATModelListDialogData
+struct imgf::DATModelListDialogData
 {
 	bool							m_bFetch;
 	std::string						m_strDATFilePath;

@@ -87,14 +87,14 @@ namespace imgf
 	struct DragDropDialogData;
 	struct CDumpResultsDialogData;
 	struct CRenamerDialogData;
-	struct CDFFConversionDialogData;
+	struct DFFConversionDialogData;
 	struct CDuplicateEntriesDialogData;
 	struct CBuildTXDDialogData;
-	struct CIMGVersionSettingsDialogData;
-	struct CTXDOrganizerDialogData;
-	struct CDATPathsMoverDialogData;
+	struct IMGVersionSettingsDialogData;
+	struct TXDOrganizerDialogData;
+	struct DATPathsMoverDialogData;
 	struct CMapMoverAndIDShifterDialogData;
-	struct CDATModelListDialogData;
+	struct DATModelListDialogData;
 	struct COverwriteEntryDialogData;
 	struct C3ButtonDialogData;
 
@@ -144,7 +144,7 @@ namespace imgf
 	class UpdateConnection;
 	class UpdateConnectionManager;
 	class UpdateManager;
-	class CExeBuild;
+	class ExeBuild;
 
 	class IMGF;
 };

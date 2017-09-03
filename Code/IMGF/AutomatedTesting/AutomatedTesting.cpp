@@ -46,18 +46,18 @@ void						AutomatedTesting::testFormatsSerialization(void)
 {
 	/*
 	testFormatSerialization<BMPManager,		BMPFormat>			("a.bmp");
-	testFormatSerialization<CCOLManager,		CCOLFormat>			("a.col");
-	testFormatSerialization<CDATLoaderManager,	CDATLoaderFormat>	("a.dat");
-	testFormatSerialization<CDATPathManager,	CDATPathFormat>		("a.dat");
+	testFormatSerialization<COLManager,		COLFormat>			("a.col");
+	testFormatSerialization<DATLoaderManager,	DATLoaderFormat>	("a.dat");
+	testFormatSerialization<DATPathManager,	DATPathFormat>		("a.dat");
 	testFormatSerialization<DBManager,			DBFormat>			("a.db");
 	testFormatSerialization<DDSManager,		DDSFormat>			("a.dds");
-	testFormatSerialization<CDFFManager,		CDFFFormat>			("a.dff");
-	testFormatSerialization<CIDEManager,		CIDEFormat>			("a.ide");
-	testFormatSerialization<CIMGManager,		CIMGFormat>			("a.img");
-	testFormatSerialization<CIPLManager,		CIPLFormat>			("a.ipl");
+	testFormatSerialization<DFFManager,		DFFFormat>			("a.dff");
+	testFormatSerialization<IDEManager,		IDEFormat>			("a.ide");
+	testFormatSerialization<IMGManager,		IMGFormat>			("a.img");
+	testFormatSerialization<IPLManager,		IPLFormat>			("a.ipl");
 	testFormatSerialization<LSTManager,		LSTFormat>			("a.lst");
-	testFormatSerialization<CTXDManager,		CTXDFormat>			("a.txd");
-	testFormatSerialization<CWDRManager,		CWDRFormat>			("a.wdr");
-	testFormatSerialization<CWTDManager,		CWTDFormat>			("a.wtd");
+	testFormatSerialization<TXDManager,		TXDFormat>			("a.txd");
+	testFormatSerialization<WDRManager,		WDRFormat>			("a.wdr");
+	testFormatSerialization<WTDManager,		WTDFormat>			("a.wtd");
 	*/
 }

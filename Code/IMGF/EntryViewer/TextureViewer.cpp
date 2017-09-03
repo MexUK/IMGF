@@ -1,14 +1,14 @@
 #include "TextureViewer.h"
 #include "Globals.h"
 #include "IMGF.h"
-#include "Format/RW/Sections/CRWSection_TextureNative.h"
+#include "Format/RW/Sections/RWSection_TextureNative.h"
 #include "EntryViewerManager.h"
-#include "Format/IMG/Regular/CIMGEntry.h"
-#include "Format/TXD/CTXDManager.h"
-#include "Format/TXD/CTXDFormat.h"
-#include "Format/WTD/CWTDManager.h"
-#include "Format/WTD/CWTDFormat.h"
-#include "Format/WTD/CWTDEntry.h"
+#include "Format/IMG/Regular/IMGEntry.h"
+#include "Format/TXD/TXDManager.h"
+#include "Format/TXD/TXDFormat.h"
+#include "Format/WTD/WTDManager.h"
+#include "Format/WTD/WTDFormat.h"
+#include "Format/WTD/WTDEntry.h"
 #include "TextureViewerTextureData.h"
 #include "Image/ImageManager.h"
 #include "Localization/LocalizationManager.h"
@@ -121,7 +121,7 @@ DWORD WINAPI		TextureViewer::onThreadStarted(LPVOID lpParam)
 	bool bNotCorrupt = false;
 	if (pTextureViewer->getIMGEntry()->isCollisionFile())
 	{
-		CCOLFormat *pCOLFile = CCOLManager::get()->parseViaMemory(pEntryViewerManager->getIMGEntry()->getEntryData());
+		COLFormat *pCOLFile = COLManager::get()->parseViaMemory(pEntryViewerManager->getIMGEntry()->getEntryData());
 		//delete pCOLFile;
 		if (pCOLFile->doesHaveError())
 		{
@@ -184,7 +184,7 @@ void				TextureViewer::prepareRenderData(void)
 
 void				TextureViewer::prepareRenderData_TXD(void)
 {
-	CTXDFormat *pTXDFile = CTXDManager::get()->parseViaMemory(getIMGEntry()->getEntryData());
+	TXDFormat *pTXDFile = TXDManager::get()->parseViaMemory(getIMGEntry()->getEntryData());
 	if (pTXDFile->doesHaveError())
 	{
 		//string a = pTXDFile->getCorruptReason();
@@ -192,7 +192,7 @@ void				TextureViewer::prepareRenderData_TXD(void)
 		return;
 	}
 
-	vector<CRWSection_TextureNative*> vecTextures = pTXDFile->getTextures();
+	vector<RWSection_TextureNative*> vecTextures = pTXDFile->getTextures();
 	uint32 uiTextureIndex = 0;
 	for (auto pTexture : vecTextures)
 	{
@@ -206,7 +206,7 @@ void				TextureViewer::prepareRenderData_TXD(void)
 		}
 		else
 		{
-			CRWEntry_TextureNative_MipMap *pMipmap = pTexture->getMipMaps().getEntryByIndex(0);
+			RWEntry_TextureNative_MipMap *pMipmap = pTexture->getMipMaps().getEntryByIndex(0);
 			string strBMPImageDataStr = pMipmap->getRasterDataBGRA32();
 			const char *pBmpImageData = strBMPImageDataStr.c_str();
 
@@ -301,7 +301,7 @@ void				TextureViewer::prepareRenderData_TXD(void)
 			pTextureData->m_strDiffuseName = pTexture->getDiffuseName();
 			pTextureData->m_strAlphaName = pTexture->getAlphaName();
 			pTextureData->m_ucBPP = pTexture->getOriginalBPP() == 0 ? pTexture->getBPP() : pTexture->getOriginalBPP();
-			pTextureData->m_strTextureFormat = CTXDManager::getTXDRasterFormatText(pTexture->getTXDRasterDataFormat(), pTexture->getDXTCompressionType());
+			pTextureData->m_strTextureFormat = TXDManager::getTXDRasterFormatText(pTexture->getTXDRasterDataFormat(), pTexture->getDXTCompressionType());
 		}
 
 		addEntry(pTextureData);
@@ -325,7 +325,7 @@ void				TextureViewer::prepareRenderData_TXD(void)
 
 void				TextureViewer::prepareRenderData_WTD(void)
 {
-	CWTDFormat *pWTDFile = CWTDManager::get()->parseViaMemory(getIMGEntry()->getEntryData());
+	WTDFormat *pWTDFile = WTDManager::get()->parseViaMemory(getIMGEntry()->getEntryData());
 	if (pWTDFile->doesHaveError())
 	{
 		setEntityDataIsCorrupt(true);
@@ -333,7 +333,7 @@ void				TextureViewer::prepareRenderData_WTD(void)
 	}
 
 	uint32 uiTextureIndex = 0;
-	vector<CWTDEntry*> vecWTDEntries = pWTDFile->getEntries();
+	vector<WTDEntry*> vecWTDEntries = pWTDFile->getEntries();
 
 	for (auto pWTDEntry : vecWTDEntries)
 	{
@@ -347,7 +347,7 @@ void				TextureViewer::prepareRenderData_WTD(void)
 		}
 		else
 		{
-			CWTDMipmap *pMipmap = pWTDEntry->getEntryByIndex(0);
+			WTDMipmap *pMipmap = pWTDEntry->getEntryByIndex(0);
 			string strBMPImageDataStr = pMipmap->getRasterDataBGRA32();
 			const char *pBmpImageData = strBMPImageDataStr.c_str();
 

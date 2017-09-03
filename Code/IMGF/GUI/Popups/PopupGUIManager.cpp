@@ -13,21 +13,21 @@
 #include "Tasks/Sort/SortManager.h"
 #include "Tasks/Sort/SortType.h"
 #include "Tasks/Sort/SortPriority.h"
-#include "Format/IMG/Regular/CIMGEntry.h"
-#include "Engine/RW/CRWManager.h"
-#include "Engine/RW/CRWVersionManager.h"
-#include "Format/TXD/CTXDManager.h"
+#include "Format/IMG/Regular/IMGEntry.h"
+#include "Engine/RW/RWManager.h"
+#include "Engine/RW/RWVersionManager.h"
+#include "Format/TXD/TXDManager.h"
 #include "Image/RasterDataFormatManager.h"
 #include "Image/ImageManager.h"
-#include "Format/COL/CCOLManager.h"
-#include "Format/COL/CCOLVersionManager.h"
-#include "Format/COL/CCOLVersion.h"
+#include "Format/COL/COLManager.h"
+#include "Format/COL/COLVersionManager.h"
+#include "Format/COL/COLVersion.h"
 #include "Localization/LocalizationManager.h"
 #include "Language/LanguageManager.h"
 #include "Language/Language.h"
 #include "Tasks/Sort/SortTypes.h"
 #include "Tasks/Sort/SortPriorities.h"
-#include "Game/CGameManager.h"
+#include "Game/GameManager.h"
 #include "Settings/SettingsManager.h"
 #include "Static/Debug.h"
 
@@ -42,9 +42,9 @@ void									PopupGUIManager::uninit(void)
 {
 }
 
+/*
 void									PopupGUIManager::updateGUIControlsTextToLanguage(CDialog *pDialog, string strWindowName)
 {
-	/*
 	todo
 	auto umapTranslatedTextEntries = LocalizationManager::get()->getTranslatedTextEntries();
 	for (auto it : umapTranslatedTextEntries)
@@ -72,8 +72,8 @@ void									PopupGUIManager::updateGUIControlsTextToLanguage(CDialog *pDialog, 
 			}
 		}
 	}
-	*/
 }
+*/
 
 INT_PTR CALLBACK DialogProc_3ButtonDialog(
 	HWND hwndDlg,
@@ -1752,7 +1752,7 @@ INT_PTR CALLBACK DialogProc_DragDropDialog(
 	i = 0;
 	((CComboBox*)pDialog->GetDlgItem(52))->AddString(LocalizationManager::get()->getTranslatedTextW("RWVersion").c_str());
 	i++;
-	for (auto pRWVersion : CRWManager::get()->getVersionManager()->getEntries())
+	for (auto pRWVersion : RWManager::get()->getVersionManager()->getEntries())
 	{
 	if (pRWVersion->getFileType() == TYPE_MODEL)
 	{
@@ -1777,7 +1777,7 @@ INT_PTR CALLBACK DialogProc_DragDropDialog(
 	i = 0;
 	((CComboBox*)pDialog->GetDlgItem(56))->AddString(LocalizationManager::get()->getTranslatedTextW("COLVersion").c_str());
 	i++;
-	for (auto pCOLVersion : CCOLManager::get()->getVersionManager()->getEntries())
+	for (auto pCOLVersion : COLManager::get()->getVersionManager()->getEntries())
 	{
 	((CComboBox*)pDialog->GetDlgItem(56))->AddString(String2::convertStdStringToStdWString(pCOLVersion->getText()).c_str());
 	// todo getIMGF()->m_umapMenuItemMapping_ConvertCOLtoCOLVersion_DragDrop[i] = pCOLVersion;
@@ -1815,7 +1815,7 @@ INT_PTR CALLBACK DialogProc_DragDropDialog(
 	// - RW versions
 	i = 6;
 	((CComboBox*) pDialog->GetDlgItem(54))->AddString(LocalizationManager::get()->getTranslatedTextW("RWVersion").c_str());
-	for (auto pRWVersion : CRWManager::get()->getVersionManager()->getEntries())
+	for (auto pRWVersion : RWManager::get()->getVersionManager()->getEntries())
 	{
 		if (pRWVersion->getFileType() == TYPE_MODEL)
 		{
@@ -2330,7 +2330,7 @@ INT_PTR CALLBACK DialogProc_DFFConversionDialog(
 	)
 {
 	/*
-	CDFFConversionDialogData *pConversionDialogData;
+	DFFConversionDialogData *pConversionDialogData;
 	CDialog *pDialog = (CDialog*)CWnd::FromHandle(hwndDlg);
 	HWND hWnd;
 	switch (uMsg)
@@ -2341,14 +2341,14 @@ INT_PTR CALLBACK DialogProc_DFFConversionDialog(
 
 	getIMGF()->getPopupGUIManager()->updateGUIControlsTextToLanguage(pDialog, "DFFConversion");
 
-	pConversionDialogData = (CDFFConversionDialogData*)lParam;
+	pConversionDialogData = (DFFConversionDialogData*)lParam;
 	SetWindowLong(hwndDlg, GWL_USERDATA, (DWORD)pConversionDialogData);
 
 	((Button*)pDialog->GetDlgItem(101))->SetCheck(BST_CHECKED);
 
 	break;
 	case WM_COMMAND:
-	pConversionDialogData = (CDFFConversionDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
+	pConversionDialogData = (DFFConversionDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
 	switch (wParam)
 	{
 	case 201: // close button
@@ -2434,9 +2434,9 @@ INT_PTR CALLBACK DialogProc_DFFConversionDialog(
 	*/
 	return FALSE;
 }
-CDFFConversionDialogData*	PopupGUIManager::showDFFConversionDialog(void)
+DFFConversionDialogData*	PopupGUIManager::showDFFConversionDialog(void)
 {
-	CDFFConversionDialogData *pConversionDialogData = new CDFFConversionDialogData;
+	DFFConversionDialogData *pConversionDialogData = new DFFConversionDialogData;
 	pConversionDialogData->m_bConvert = false;
 
 	DialogBoxParam(NULL, MAKEINTRESOURCE(IDD_DFFCONVERSIONDIALOG), getParentWindowHwnd(), DialogProc_DFFConversionDialog, (DWORD) pConversionDialogData);
@@ -2595,7 +2595,7 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	((Button*)pDialog->GetDlgItem(101))->SetCheck(BST_CHECKED);
 
 	uint32 uiOptionIndex = 0;
-	for (auto pRWVersion : CRWManager::get()->getVersionManager()->getEntries())
+	for (auto pRWVersion : RWManager::get()->getVersionManager()->getEntries())
 	{
 	((CComboBox*)pDialog->GetDlgItem(203))->InsertString(uiOptionIndex, String2::convertStdStringToStdWString(pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str());
 	uiOptionIndex++;
@@ -2628,37 +2628,37 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 
 	if (((Button*)pDialog->GetDlgItem(101))->GetCheck() == BST_CHECKED)
 	{
-	pBuildTXDDialogData->m_uCDFFFormatsType = 0;
+	pBuildTXDDialogData->m_uDFFFormatsType = 0;
 	}
 	else if (((Button*)pDialog->GetDlgItem(102))->GetCheck() == BST_CHECKED)
 	{
-	pBuildTXDDialogData->m_uCDFFFormatsType = 1;
+	pBuildTXDDialogData->m_uDFFFormatsType = 1;
 	}
 	else if (((Button*)pDialog->GetDlgItem(103))->GetCheck() == BST_CHECKED)
 	{
-	pBuildTXDDialogData->m_uCDFFFormatsType = 2;
+	pBuildTXDDialogData->m_uDFFFormatsType = 2;
 	}
 	else if (((Button*)pDialog->GetDlgItem(104))->GetCheck() == BST_CHECKED)
 	{
-	pBuildTXDDialogData->m_uCDFFFormatsType = 3;
+	pBuildTXDDialogData->m_uDFFFormatsType = 3;
 	}
 	else if (((Button*)pDialog->GetDlgItem(108))->GetCheck() == BST_CHECKED)
 	{
-	pBuildTXDDialogData->m_uCDFFFormatsType = 4;
+	pBuildTXDDialogData->m_uDFFFormatsType = 4;
 	}
 
-	if (pBuildTXDDialogData->m_uCDFFFormatsType == 3)
+	if (pBuildTXDDialogData->m_uDFFFormatsType == 3)
 	{
 	((CEdit*)pDialog->GetDlgItem(106))->GetWindowText(cstr4);
 	pBuildTXDDialogData->m_strDFFsFolderPath = Path::addSlashToEnd(String2::convertCStringToStdString(cstr4));
 	}
-	else if (pBuildTXDDialogData->m_uCDFFFormatsType == 4)
+	else if (pBuildTXDDialogData->m_uDFFFormatsType == 4)
 	{
 	((CEdit*)pDialog->GetDlgItem(113))->GetWindowText(cstr4);
 	pBuildTXDDialogData->m_strDFFsFolderPath = Path::addSlashToEnd(String2::convertCStringToStdString(cstr4));
 	}
 
-	if (pBuildTXDDialogData->m_uCDFFFormatsType == 3) // Folder containg DFF files
+	if (pBuildTXDDialogData->m_uDFFFormatsType == 3) // Folder containg DFF files
 	{
 	if (pBuildTXDDialogData->m_strDFFsFolderPath == "")
 	{
@@ -2666,7 +2666,7 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	break;
 	}
 	}
-	else if (pBuildTXDDialogData->m_uCDFFFormatsType == 4) // IDE file referencing DFF files
+	else if (pBuildTXDDialogData->m_uDFFFormatsType == 4) // IDE file referencing DFF files
 	{
 	if (pBuildTXDDialogData->m_strIDEFilePath == "")
 	{
@@ -2697,7 +2697,7 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	((CEdit*)pDialog->GetDlgItem(201))->GetWindowText(cstr5);
 	string str5 = String2::convertCStringToStdString(cstr5);
 	pBuildTXDDialogData->m_uiTextureCountPerTXD = str5 == "" ? 0 : String2::toNumber(str5);
-	pBuildTXDDialogData->m_pRWVersion = CRWManager::get()->getVersionManager()->getEntryByIndex(((CComboBox*)pDialog->GetDlgItem(203))->GetCurSel());
+	pBuildTXDDialogData->m_pRWVersion = RWManager::get()->getVersionManager()->getEntryByIndex(((CComboBox*)pDialog->GetDlgItem(203))->GetCurSel());
 
 	EndDialog(hwndDlg, 0);
 	break;
@@ -2757,7 +2757,7 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 CBuildTXDDialogData*		PopupGUIManager::showBuildTXDDialog(void)
 {
 	CBuildTXDDialogData *pBuildTXDDialogData = new CBuildTXDDialogData;
-	pBuildTXDDialogData->m_uCDFFFormatsType = 0;
+	pBuildTXDDialogData->m_uDFFFormatsType = 0;
 
 	DialogBoxParam(NULL, MAKEINTRESOURCE(IDD_BUILDTXDDIALOG), getParentWindowHwnd(), DialogProc_BuildTXDDialog, (DWORD) pBuildTXDDialogData);
 
@@ -2776,13 +2776,13 @@ INT_PTR CALLBACK DialogProc_IMGVersionSettingsDialog(
 	)
 {
 	/*
-	CIMGVersionSettingsDialogData *pIMGVersionSettingsDialogData;
+	IMGVersionSettingsDialogData *pIMGVersionSettingsDialogData;
 	CDialog *pDialog = (CDialog*)CWnd::FromHandle(hwndDlg);
 	vector<string> vecFilePaths;
 	switch (uMsg)
 	{
 	case WM_INITDIALOG:
-	pIMGVersionSettingsDialogData = (CIMGVersionSettingsDialogData*)lParam;
+	pIMGVersionSettingsDialogData = (IMGVersionSettingsDialogData*)lParam;
 
 	getIMGF()->getPopupGUIManager()->updateGUIControlsTextToLanguage(pDialog, "IMGVersionSettings");
 
@@ -2799,7 +2799,7 @@ INT_PTR CALLBACK DialogProc_IMGVersionSettingsDialog(
 	SetWindowLong(hwndDlg, GWL_USERDATA, (DWORD)pIMGVersionSettingsDialogData);
 	break;
 	case WM_COMMAND:
-	pIMGVersionSettingsDialogData = (CIMGVersionSettingsDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
+	pIMGVersionSettingsDialogData = (IMGVersionSettingsDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
 	switch (LOWORD(wParam))
 	{
 	case 155: // compression type dropdown
@@ -2893,7 +2893,7 @@ INT_PTR CALLBACK DialogProc_IMGVersionSettingsDialog(
 	}
 	break;
 	case WM_CLOSE:
-	pIMGVersionSettingsDialogData = (CIMGVersionSettingsDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
+	pIMGVersionSettingsDialogData = (IMGVersionSettingsDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
 	pIMGVersionSettingsDialogData->m_bSave = false;
 	EndDialog(hwndDlg, 0);
 	break;
@@ -2902,9 +2902,9 @@ INT_PTR CALLBACK DialogProc_IMGVersionSettingsDialog(
 	*/
 	return FALSE;
 }
-CIMGVersionSettingsDialogData*		PopupGUIManager::showIMGVersionSettingsDialog(void)
+IMGVersionSettingsDialogData*		PopupGUIManager::showIMGVersionSettingsDialog(void)
 {
-	CIMGVersionSettingsDialogData *pIMGVersionSettingsDialogData = new CIMGVersionSettingsDialogData;
+	IMGVersionSettingsDialogData *pIMGVersionSettingsDialogData = new IMGVersionSettingsDialogData;
 	pIMGVersionSettingsDialogData->m_bSave = false;
 
 	DialogBoxParam(NULL, MAKEINTRESOURCE(IDD_IMGVERSIONSETTINGSDIALOG), getParentWindowHwnd(), DialogProc_IMGVersionSettingsDialog, (DWORD) pIMGVersionSettingsDialogData);
@@ -2924,14 +2924,14 @@ INT_PTR CALLBACK DialogProc_TXDOrganizerDialog(
 	)
 {
 	/*
-	CTXDOrganizerDialogData *pTXDOrganizerDialogData;
+	TXDOrganizerDialogData *pTXDOrganizerDialogData;
 	CDialog *pDialog = (CDialog*)CWnd::FromHandle(hwndDlg);
 	vector<string> vecFilePaths;
 	switch (uMsg)
 	{
 	case WM_INITDIALOG:
 	{
-	pTXDOrganizerDialogData = (CTXDOrganizerDialogData*)lParam;
+	pTXDOrganizerDialogData = (TXDOrganizerDialogData*)lParam;
 	SetWindowLong(hwndDlg, GWL_USERDATA, (DWORD)pTXDOrganizerDialogData);
 
 	uint32 i = 0;
@@ -2944,7 +2944,7 @@ INT_PTR CALLBACK DialogProc_TXDOrganizerDialog(
 	break;
 	}
 	case WM_COMMAND:
-	pTXDOrganizerDialogData = (CTXDOrganizerDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
+	pTXDOrganizerDialogData = (TXDOrganizerDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
 	switch (wParam)
 	{
 	case 151: // cancel
@@ -3045,7 +3045,7 @@ INT_PTR CALLBACK DialogProc_TXDOrganizerDialog(
 	}
 	break;
 	case WM_CLOSE:
-	pTXDOrganizerDialogData = (CTXDOrganizerDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
+	pTXDOrganizerDialogData = (TXDOrganizerDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
 	pTXDOrganizerDialogData->m_bOrganize = false;
 	EndDialog(hwndDlg, 0);
 	break;
@@ -3054,9 +3054,9 @@ INT_PTR CALLBACK DialogProc_TXDOrganizerDialog(
 	*/
 	return FALSE;
 }
-CTXDOrganizerDialogData*			PopupGUIManager::showTXDOrganizerDialog(void)
+TXDOrganizerDialogData*			PopupGUIManager::showTXDOrganizerDialog(void)
 {
-	CTXDOrganizerDialogData *pTXDOrganizerDialogData = new CTXDOrganizerDialogData;
+	TXDOrganizerDialogData *pTXDOrganizerDialogData = new TXDOrganizerDialogData;
 	pTXDOrganizerDialogData->m_bOrganize = false;
 	pTXDOrganizerDialogData->m_bIDEUpdate = false;
 	pTXDOrganizerDialogData->m_pRasterDataFormat = nullptr;
@@ -3078,14 +3078,14 @@ INT_PTR CALLBACK DialogProc_DATPathsMoverDialog(
 	)
 {
 	/*
-	CDATPathsMoverDialogData *pDATPathsMoverDialogData;
+	DATPathsMoverDialogData *pDATPathsMoverDialogData;
 	CDialog *pDialog = (CDialog*)CWnd::FromHandle(hwndDlg);
 	vector<string> vecFilePaths;
 	switch (uMsg)
 	{
 	case WM_INITDIALOG:
 	{
-	pDATPathsMoverDialogData = (CDATPathsMoverDialogData*)lParam;
+	pDATPathsMoverDialogData = (DATPathsMoverDialogData*)lParam;
 	SetWindowLong(hwndDlg, GWL_USERDATA, (DWORD)pDATPathsMoverDialogData);
 
 	((CComboBox*)pDialog->GetDlgItem(204))->SetWindowTextW(L"0.0");
@@ -3109,7 +3109,7 @@ INT_PTR CALLBACK DialogProc_DATPathsMoverDialog(
 	break;
 	}
 	case WM_COMMAND:
-	pDATPathsMoverDialogData = (CDATPathsMoverDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
+	pDATPathsMoverDialogData = (DATPathsMoverDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
 	switch (wParam)
 	{
 	case 351: // cancel
@@ -3249,7 +3249,7 @@ INT_PTR CALLBACK DialogProc_DATPathsMoverDialog(
 	}
 	break;
 	case WM_CLOSE:
-	pDATPathsMoverDialogData = (CDATPathsMoverDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
+	pDATPathsMoverDialogData = (DATPathsMoverDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
 	pDATPathsMoverDialogData->m_bMove = false;
 	EndDialog(hwndDlg, 0);
 	break;
@@ -3258,9 +3258,9 @@ INT_PTR CALLBACK DialogProc_DATPathsMoverDialog(
 	*/
 	return FALSE;
 }
-CDATPathsMoverDialogData*			PopupGUIManager::showDATPathsMoverDialogData(void)
+DATPathsMoverDialogData*			PopupGUIManager::showDATPathsMoverDialogData(void)
 {
-	CDATPathsMoverDialogData *pDATPathsMoverDialogData = new CDATPathsMoverDialogData;
+	DATPathsMoverDialogData *pDATPathsMoverDialogData = new DATPathsMoverDialogData;
 	pDATPathsMoverDialogData->m_bMove = false;
 
 	DialogBoxParam(NULL, MAKEINTRESOURCE(IDD_DATPATHSMOVERDIALOG), getParentWindowHwnd(), DialogProc_DATPathsMoverDialog, (DWORD) pDATPathsMoverDialogData);
@@ -3515,19 +3515,19 @@ INT_PTR CALLBACK DialogProc_DATModelListDialog(
 	)
 {
 	/*
-	CDATModelListDialogData *pDATModelListDialogData;
+	DATModelListDialogData *pDATModelListDialogData;
 	CDialog *pDialog = (CDialog*)CWnd::FromHandle(hwndDlg);
 	vector<string> vecFilePaths;
 	switch (uMsg)
 	{
 	case WM_INITDIALOG:
 	{
-	pDATModelListDialogData = (CDATModelListDialogData*)lParam;
+	pDATModelListDialogData = (DATModelListDialogData*)lParam;
 	SetWindowLong(hwndDlg, GWL_USERDATA, (DWORD)pDATModelListDialogData);
 	break;
 	}
 	case WM_COMMAND:
-	pDATModelListDialogData = (CDATModelListDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
+	pDATModelListDialogData = (DATModelListDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
 	switch (wParam)
 	{
 	case 151: // cancel
@@ -3606,7 +3606,7 @@ INT_PTR CALLBACK DialogProc_DATModelListDialog(
 	}
 	break;
 	case WM_CLOSE:
-	pDATModelListDialogData = (CDATModelListDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
+	pDATModelListDialogData = (DATModelListDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA);
 	pDATModelListDialogData->m_bFetch = false;
 	EndDialog(hwndDlg, 0);
 	break;
@@ -3615,9 +3615,9 @@ INT_PTR CALLBACK DialogProc_DATModelListDialog(
 	*/
 	return FALSE;
 }
-CDATModelListDialogData*				PopupGUIManager::showDATModelListDialog(void)
+DATModelListDialogData*				PopupGUIManager::showDATModelListDialog(void)
 {
-	CDATModelListDialogData *pDATModelListDialogData = new CDATModelListDialogData;
+	DATModelListDialogData *pDATModelListDialogData = new DATModelListDialogData;
 	pDATModelListDialogData->m_bFetch = false;
 
 	DialogBoxParam(NULL, MAKEINTRESOURCE(IDD_DATMODELLISTDIALOG), getParentWindowHwnd(), DialogProc_DATModelListDialog, (DWORD) pDATModelListDialogData);

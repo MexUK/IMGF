@@ -1,9 +1,9 @@
 #pragma warning(disable : 4005)
 
 #include "IMGF.h"
-#include "Engine/RW/CRWManager.h"
-#include "Engine/RW/CRWVersionManager.h"
-#include "Engine/RAGE/CRageManager.h"
+#include "Engine/RW/RWManager.h"
+#include "Engine/RW/RWVersionManager.h"
+#include "Engine/RAGE/RageManager.h"
 #include "Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Tasks/Session/SessionManager.h"
 #include "GUI/Popups/PopupGUIManager.h"
@@ -12,7 +12,7 @@
 #include "Task/TaskDispatchManager.h"
 #include "Settings/SettingsManager.h"
 #include "Tasks/Sort/SortManager.h"
-#include "Format/IMG/Regular/CIMGManager.h"
+#include "Format/IMG/Regular/IMGManager.h"
 #include "Static/Input.h"
 #include "Window/Window.h"
 #include "Controls/Text.h"
@@ -35,10 +35,10 @@
 #include "DB/DBManager.h"
 #include "DB/DBFormat.h"
 #include "Static/Debug.h"
-#include "Format/IMG/Regular/CIMGEntry.h"
-#include "Format/COL/CCOLManager.h"
-#include "Format/COL/CCOLVersionManager.h"
-#include "Format/COL/CCOLVersion.h"
+#include "Format/IMG/Regular/IMGEntry.h"
+#include "Format/COL/COLManager.h"
+#include "Format/COL/COLVersionManager.h"
+#include "Format/COL/COLVersion.h"
 #include "Static/Input.h"
 #include "Tasks/Find/SearchEntry.h"
 #include "EntryViewer/EntryViewerManager.h"
@@ -46,27 +46,27 @@
 #include "Updater/UpdateManager.h"
 #include "Program/buildnumber.h"
 #include "Compression/ECompressionAlgorithm.h"
-#include "Format/DAT/Loader/CDATLoaderManager.h"
-#include "Format/DAT/Path/CDATPathManager.h"
+#include "Format/DAT/Loader/DATLoaderManager.h"
+#include "Format/DAT/Path/DATPathManager.h"
 #include "Localization/LocalizationManager.h"
 #include "Language/LanguageManager.h"
 #include "Format/Image/BMP/BMPManager.h"
 #include "Format/Image/CUR/CURManager.h"
-#include "Format/DFF/CDFFManager.h"
+#include "Format/DFF/DFFManager.h"
 #include "DB/DBManager.h"
 #include "Format/Image/ICO/ICOManager.h"
-#include "Format/IDE/CIDEManager.h"
+#include "Format/IDE/IDEManager.h"
 #include "Image/ImageManager.h"
-#include "Format/IPL/CIPLManager.h"
+#include "Format/IPL/IPLManager.h"
 #include "LST/LSTManager.h"
-#include "Format/TXD/CTXDManager.h"
-#include "Format/WDR/CWDRManager.h"
-#include "Format/WTD/CWTDManager.h"
+#include "Format/TXD/TXDManager.h"
+#include "Format/WDR/WDRManager.h"
+#include "Format/WTD/WTDManager.h"
 #include "Localization/ELanguage.h"
 #include "Language/Language.h"
-#include "Game/CGameManager.h"
+#include "Game/GameManager.h"
 #include "Platform/Hardware/PlatformManager.h"
-#include "Format/RW/CRWSection.h"
+#include "Format/RW/RWSection.h"
 #include "Static/Timing.h"
 #include "Task/LastUsedValueManager.h"
 #include "GUI/Windows/MainWindow.h"
@@ -223,30 +223,30 @@ void				IMGF::initSingletonObjects(void)
 {
 	// initialize singleton objects
 	BMPManager::get()->init();
-	CCOLManager::get()->init();
+	COLManager::get()->init();
 	CURManager::get()->init();
-	CDATLoaderManager::get()->init();
-	CDATPathManager::get()->init();
+	DATLoaderManager::get()->init();
+	DATPathManager::get()->init();
 	DBManager::get()->init();
-	CDFFManager::get()->init();
-	CGameManager::get()->init();
+	DFFManager::get()->init();
+	GameManager::get()->init();
 	ICOManager::get()->init();
-	CIDEManager::get()->init();
+	IDEManager::get()->init();
 	ImageManager::get()->init();
-	CIMGManager::get()->init();
-	CIPLManager::get()->init();
+	IMGManager::get()->init();
+	IPLManager::get()->init();
 	LSTManager::get()->init();
 	PlatformManager::get()->init();
-	CRageManager::get()->init();
-	CRWManager::get()->init();
-	CTXDManager::get()->init();
-	CWDRManager::get()->init();
-	CWTDManager::get()->init();
+	RageManager::get()->init();
+	RWManager::get()->init();
+	TXDManager::get()->init();
+	WDRManager::get()->init();
+	WTDManager::get()->init();
 }
 
 void				IMGF::initStaticData(void)
 {
-	CRWSection::initStatic();
+	RWSection::initStatic();
 }
 
 void				IMGF::initEventBinding(void)

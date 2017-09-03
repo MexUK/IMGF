@@ -155,7 +155,7 @@ void					MainWindow::initSettingsMenuLayer(void)
 
 void					MainWindow::initEditors(void)
 {
-	//m_pDATEditor = addLayer<CDATEditor>(-1, false);
+	//m_pDATEditor = addLayer<DATEditor>(-1, false);
 	m_pIMGEditor = addLayer<IMGEditor>(-1, true);
 
 	//m_pDATEditor->setMainWindow(this);

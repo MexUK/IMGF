@@ -6,13 +6,13 @@
 #include <string>
 #include <vector>
 #include "nsbxcf.h"
-#include "Format/IMG/Regular/CIMGFormat.h"
+#include "Format/IMG/Regular/IMGFormat.h"
 #include "Format/IMG/Regular/EIMGEntryProperty.h"
 #include "Game/EPlatformedGame.h"
 
 class bxcf::RasterDataFormat;
-class bxgi::CRWVersion;
-class bxgi::CCOLVersion;
+class bxgi::RWVersion;
+class bxgi::COLVersion;
 struct imgf::RenamedIMGEntry;
 class imgf::MainWindow;
 class imgf::TaskManager;
@@ -87,7 +87,7 @@ public:
 	void						onRequestShift(uint8 ucDirection);
 	void						onRequestQuickExport(void);
 	void						onRequestSelectViaFileExtension(void);
-	void						onRequestSelectViaRWVersion(bxgi::CRWVersion *pRWVersion);
+	void						onRequestSelectViaRWVersion(bxgi::RWVersion *pRWVersion);
 	void						onRequestVersion(void);
 	void						onRequestTextureList(void);
 	void						onRequestAssociateIMGExtension(void);
@@ -103,7 +103,7 @@ public:
 	void						onRequestOrphanIDEEntriesNotInIMG(void);
 	void						onRequestSettings(void);
 	void						onRequestReopen(void);
-	void						onRequestConvertDFFToRWVersion(bxgi::CRWVersion *pRWVersion);
+	void						onRequestConvertDFFToRWVersion(bxgi::RWVersion *pRWVersion);
 	void						onRequestMissingTextures(void);
 	void						onRequestReplaceAllFromFolder(void);
 	void						onRequestExportAllEntriesFromAllTabs(void);
@@ -114,7 +114,7 @@ public:
 	void						onRequestExportAllEntriesFromAllTabsIntoMultipleFolders(void);
 	void						onRequestOpenLast(void);
 	void						onRequestConvertTXDToGame(bxgi::EPlatformedGame EPlatformedGame);
-	void						onRequestConvertTXDToRWVersion(bxgi::CRWVersion *pRWVersion);
+	void						onRequestConvertTXDToRWVersion(bxgi::RWVersion *pRWVersion);
 	void						onRequestDump(void);
 	void						onRequestSessionManager(void);
 	void						onRequestWebsite(void);
@@ -142,7 +142,7 @@ public:
 	void						onRequestIMGVersionSettings(void);
 	void						onRequestFeatureByName(std::string strFeatureName);
 	void						onRequestLastFeatureUsed(void);
-	void						onRequestConvertCOLtoCOLVersion(bxgi::CCOLVersion *pCOLVersion);
+	void						onRequestConvertCOLtoCOLVersion(bxgi::COLVersion *pCOLVersion);
 	void						onRequestReportIssueOrIdea(void);
 	static int CALLBACK			sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 	void						onRequestSortViaColumn(uint32 uiColumnIndex);

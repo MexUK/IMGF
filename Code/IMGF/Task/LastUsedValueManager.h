@@ -8,9 +8,9 @@
 #include "Game/EPlatformedGame.h"
 #include <string>
 
-class bxgi::CRWVersion;
+class bxgi::RWVersion;
 class bxcf::RasterDataFormat;
-class bxgi::CCOLVersion;
+class bxgi::COLVersion;
 
 class imgf::LastUsedValueManager : public bxcf::Manager
 {
@@ -34,8 +34,8 @@ public:
 	void								setLastUsedValue_Close2_CloseAll(bool bCloseAll) { m_bLastUsedValue_Close2_CloseAll = bCloseAll; }
 	bool								getLastUsedValue_Close2_CloseAll(void) { return m_bLastUsedValue_Close2_CloseAll; }
 
-	void								setLastUsedValue_ConvertDFF_RWVersion(bxgi::CRWVersion *pRWVersion) { m_pLastUsedValue_ConvertDFF_RWVersion = pRWVersion; }
-	bxgi::CRWVersion*							getLastUsedValue_ConvertDFF_RWVersion(void) { return m_pLastUsedValue_ConvertDFF_RWVersion; }
+	void								setLastUsedValue_ConvertDFF_RWVersion(bxgi::RWVersion *pRWVersion) { m_pLastUsedValue_ConvertDFF_RWVersion = pRWVersion; }
+	bxgi::RWVersion*							getLastUsedValue_ConvertDFF_RWVersion(void) { return m_pLastUsedValue_ConvertDFF_RWVersion; }
 
 	void								setLastUsedValue_ConvertTXD_Game(bxgi::EPlatformedGame EPlatformedGameValue) { m_uiLastUsedValue_ConvertTXD_Game = EPlatformedGameValue; }
 	bxgi::EPlatformedGame						getLastUsedValue_ConvertTXD_Game(void) { return m_uiLastUsedValue_ConvertTXD_Game; }
@@ -52,14 +52,14 @@ public:
 	void								setLastUsedValue_SaveLog_NormalFormat(bool bNormalFormat) { m_bLastUsedValue_SaveLog_NormalFormat = bNormalFormat; }
 	bool								getLastUsedValue_SaveLog_NormalFormat(void) { return m_bLastUsedValue_SaveLog_NormalFormat; }
 
-	void								setLastUsedValue_Select_RWVersion(bxgi::CRWVersion *pRWVersion) { m_pLastUsedValue_Select_RWVersion = pRWVersion; }
-	bxgi::CRWVersion*							getLastUsedValue_Select_RWVersion(void) { return m_pLastUsedValue_Select_RWVersion; }
+	void								setLastUsedValue_Select_RWVersion(bxgi::RWVersion *pRWVersion) { m_pLastUsedValue_Select_RWVersion = pRWVersion; }
+	bxgi::RWVersion*							getLastUsedValue_Select_RWVersion(void) { return m_pLastUsedValue_Select_RWVersion; }
 
 	void								setLastUsedValue_Shift_Direction(uint8 ucShiftDirection) { m_ucLastUsedValue_Shift_Direction = ucShiftDirection; }
 	uint8								getLastUsedValue_Shift_Direction(void) { return m_ucLastUsedValue_Shift_Direction; }
 
-	void								setLastUsedValue_ConvertTXD_RWVersion(bxgi::CRWVersion *pRWVersion) { m_pLastUsedValue_ConvertTXD_RWVersion = pRWVersion; }
-	bxgi::CRWVersion*							getLastUsedValue_ConvertTXD_RWVersion(void) { return m_pLastUsedValue_ConvertTXD_RWVersion; }
+	void								setLastUsedValue_ConvertTXD_RWVersion(bxgi::RWVersion *pRWVersion) { m_pLastUsedValue_ConvertTXD_RWVersion = pRWVersion; }
+	bxgi::RWVersion*							getLastUsedValue_ConvertTXD_RWVersion(void) { return m_pLastUsedValue_ConvertTXD_RWVersion; }
 
 	void								setLastUsedValue_NameCase_CaseType(uint8 ucCaseType) { m_ucLastUsedValue_NameCase_CaseType = ucCaseType; }
 	uint8								getLastUsedValue_NameCase_CaseType(void) { return m_ucLastUsedValue_NameCase_CaseType; }
@@ -70,8 +70,8 @@ public:
 	void								setLastUsedValue_New_IMGVersion(bxgi::EIMGVersion EIMGVersionValue) { m_uiLastUsedValue_New_IMGVersion = EIMGVersionValue; }
 	bxgi::EIMGVersion							getLastUsedValue_New_IMGVersion(void) { return m_uiLastUsedValue_New_IMGVersion; }
 
-	void								setLastUsedValue_ConvertCOL_COLVersion(bxgi::CCOLVersion *pCOLVersion) { m_pLastUsedValue_ConvertCOL_COLVersion = pCOLVersion; }
-	bxgi::CCOLVersion*						getLastUsedValue_ConvertCOL_COLVersion(void) { return m_pLastUsedValue_ConvertCOL_COLVersion; }
+	void								setLastUsedValue_ConvertCOL_COLVersion(bxgi::COLVersion *pCOLVersion) { m_pLastUsedValue_ConvertCOL_COLVersion = pCOLVersion; }
+	bxgi::COLVersion*						getLastUsedValue_ConvertCOL_COLVersion(void) { return m_pLastUsedValue_ConvertCOL_COLVersion; }
 
 	void								setLastUsedValue_SortViaColumn_Column(uint32 uiColumnIndex) { m_uiLastUsedValue_SortViaColumn_Column = uiColumnIndex; }
 	uint32								getLastUsedValue_SortViaColumn_Column(void) { return m_uiLastUsedValue_SortViaColumn_Column; }
@@ -81,18 +81,18 @@ private:
 	bxgi::EIMGVersion							m_uiLastUsedValue_Convert_IMGVersion;
 	bool								m_bLastUsedValue_ClearLogs_AllTabs;
 	bool								m_bLastUsedValue_Close2_CloseAll;
-	bxgi::CRWVersion*							m_pLastUsedValue_ConvertDFF_RWVersion;
+	bxgi::RWVersion*							m_pLastUsedValue_ConvertDFF_RWVersion;
 	bxgi::EPlatformedGame						m_uiLastUsedValue_ConvertTXD_Game;
 	bxcf::RasterDataFormat*					m_pLastUsedValue_ConvertTXD_RasterDataFormat;
 	bxgi::EIMGEntryProperty					m_uiLastUsedValue_Copy_IMGEntryProperty;
 	bool								m_bLastUsedValue_SaveLog_ActiveTab;
 	bool								m_bLastUsedValue_SaveLog_NormalFormat;
-	bxgi::CRWVersion*							m_pLastUsedValue_Select_RWVersion;
+	bxgi::RWVersion*							m_pLastUsedValue_Select_RWVersion;
 	uint8								m_ucLastUsedValue_Shift_Direction;
-	bxgi::CRWVersion*							m_pLastUsedValue_ConvertTXD_RWVersion;
+	bxgi::RWVersion*							m_pLastUsedValue_ConvertTXD_RWVersion;
 	uint8								m_ucLastUsedValue_NameCase_CaseType;
 	uint8								m_ucLastUsedValue_NameCase_FilenameType;
 	bxgi::EIMGVersion							m_uiLastUsedValue_New_IMGVersion;
-	bxgi::CCOLVersion*						m_pLastUsedValue_ConvertCOL_COLVersion;
+	bxgi::COLVersion*						m_pLastUsedValue_ConvertCOL_COLVersion;
 	uint32								m_uiLastUsedValue_SortViaColumn_Column;
 };

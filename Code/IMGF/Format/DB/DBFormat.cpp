@@ -1,8 +1,8 @@
 #include "DBFormat.h"
 #include "DBEntry.h"
 #include "Static/String2.h"
-#include "Format/IMG/Regular/CIMGFormat.h"
-#include "Format/IMG/Regular/CIMGEntry.h"
+#include "Format/IMG/Regular/IMGFormat.h"
+#include "Format/IMG/Regular/IMGEntry.h"
 #include "Stream/DataReader.h"
 #include "Stream/DataWriter.h"
 
@@ -54,7 +54,7 @@ void								DBFormat::serialize(void)
 	}
 }
 
-bool								DBFormat::isIMGEntryFound(CIMGFormat *pIMGFile, CIMGEntry *pIMGEntry)
+bool								DBFormat::isIMGEntryFound(IMGFormat *pIMGFile, IMGEntry *pIMGEntry)
 {
 	DBEntry *pDBEntry = getEntryByNameExactCase(pIMGEntry->getEntryName());
 	if (pDBEntry == nullptr)

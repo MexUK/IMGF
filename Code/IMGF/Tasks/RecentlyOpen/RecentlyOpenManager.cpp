@@ -6,7 +6,7 @@
 #include "Globals.h"
 #include "IMGF.h"
 #include "Static/Debug.h"
-#include "Format/IMG/Regular/CIMGEntry.h"
+#include "Format/IMG/Regular/IMGEntry.h"
 #include "Localization/LocalizationManager.h"
 #include "Window/Window.h"
 #include "Format/Text/INI/INIManager.h"

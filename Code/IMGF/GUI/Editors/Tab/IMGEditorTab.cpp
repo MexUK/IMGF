@@ -7,23 +7,23 @@
 #include "Static/StdVector.h"
 #include "Static/Path.h"
 #include "Static/File.h"
-#include "Format/IMG/Regular/CIMGManager.h"
-#include "Format/IMG/Regular/CIMGFormat.h"
-#include "Format/IMG/Regular/CIMGEntry.h"
-#include "Engine/RW/CRWManager.h"
-#include "Engine/RW/CRWVersion.h"
-#include "Engine/RAGE/CRageManager.h"
+#include "Format/IMG/Regular/IMGManager.h"
+#include "Format/IMG/Regular/IMGFormat.h"
+#include "Format/IMG/Regular/IMGEntry.h"
+#include "Engine/RW/RWManager.h"
+#include "Engine/RW/RWVersion.h"
+#include "Engine/RAGE/RageManager.h"
 #include "Tasks/Sort/SortManager.h"
 #include "Tasks/Sort/SortPriority.h"
 #include "Tasks/Sort/SortType.h"
 #include "Tasks/Sort/ESortType.h"
 #include "Static/Debug.h"
 #include "DB/DBFormat.h"
-#include "Format/COL/CCOLManager.h"
+#include "Format/COL/COLManager.h"
 #include "Tasks/Find/SearchEntry.h"
-#include "Engine/RW/CRWVersionManager.h"
-#include "Format/COL/CCOLVersionManager.h"
-#include "Engine/RAGE/CRageResourceTypeManager.h"
+#include "Engine/RW/RWVersionManager.h"
+#include "Format/COL/COLVersionManager.h"
+#include "Engine/RAGE/RageResourceTypeManager.h"
 #include "Localization/LocalizationManager.h"
 #include "Tasks/Sort/SortPriorities.h"
 #include "Platform/Hardware/PlatformManager.h"
@@ -231,7 +231,7 @@ void					IMGEditorTab::checkForUnknownRWVersionEntries(void)
 		return;
 	}
 
-	vector<CIMGEntry*> vecUnknownRWVersionEntries = getIMGFile()->getUnknownVersionEntries();
+	vector<IMGEntry*> vecUnknownRWVersionEntries = getIMGFile()->getUnknownVersionEntries();
 	if (vecUnknownRWVersionEntries.size() > 0)
 	{
 		vector<string> vecIMGEntryNames;
@@ -327,7 +327,7 @@ void					IMGEditorTab::clearLogs(void)
 	*/
 }
 
-void					IMGEditorTab::checkToApplyCompression(CIMGEntry *pIMGEntry)
+void					IMGEditorTab::checkToApplyCompression(IMGEntry *pIMGEntry)
 {
 	if (getIMGF()->getSettingsManager()->getSettingBool("AutoCompressionImportReplace"))
 	{
@@ -355,7 +355,7 @@ void					IMGEditorTab::checkToApplyCompression(CIMGEntry *pIMGEntry)
 }
 void					IMGEditorTab::addEntryViaFile(string strEntryFilePath, string strEntryName)
 {
-	CIMGEntry *pIMGEntry = getIMGFile()->addEntryViaFile(strEntryFilePath, strEntryName);
+	IMGEntry *pIMGEntry = getIMGFile()->addEntryViaFile(strEntryFilePath, strEntryName);
 	checkToApplyCompression(pIMGEntry);
 	addGridEntry(pIMGEntry);
 	updateEntryCountText();
@@ -363,7 +363,7 @@ void					IMGEditorTab::addEntryViaFile(string strEntryFilePath, string strEntryN
 }
 void					IMGEditorTab::addEntryViaData(string strEntryName, string strEntryData)
 {
-	CIMGEntry *pIMGEntry = getIMGFile()->addEntryViaData(strEntryName, strEntryData);
+	IMGEntry *pIMGEntry = getIMGFile()->addEntryViaData(strEntryName, strEntryData);
 	checkToApplyCompression(pIMGEntry);
 	addGridEntry(pIMGEntry);
 	updateEntryCountText();
@@ -371,14 +371,14 @@ void					IMGEditorTab::addEntryViaData(string strEntryName, string strEntryData)
 }
 void					IMGEditorTab::replaceEntryViaFile(string strEntryName, string strEntryFilePath, string strNewEntryName)
 {
-	CIMGEntry *pIMGEntry = getIMGFile()->replaceEntryViaFile(strEntryName, strEntryFilePath, strNewEntryName);
+	IMGEntry *pIMGEntry = getIMGFile()->replaceEntryViaFile(strEntryName, strEntryFilePath, strNewEntryName);
 	checkToApplyCompression(pIMGEntry);
 	updateGridEntry(pIMGEntry);
 	updateIMGText();
 }
 void					IMGEditorTab::replaceEntryViaData(string strEntryName, string& strEntryData, string strNewEntryName)
 {
-	CIMGEntry *pIMGEntry = getIMGFile()->replaceEntryViaData(strEntryName, strEntryData, strNewEntryName);
+	IMGEntry *pIMGEntry = getIMGFile()->replaceEntryViaData(strEntryName, strEntryData, strNewEntryName);
 	checkToApplyCompression(pIMGEntry);
 	updateGridEntry(pIMGEntry);
 	updateIMGText();
@@ -386,7 +386,7 @@ void					IMGEditorTab::replaceEntryViaData(string strEntryName, string& strEntry
 void					IMGEditorTab::addOrReplaceEntryViaFile(string strEntryFilePath, string strEntryName)
 {
 	uint32 uiIMGEntryCount = getIMGFile()->getEntryCount();
-	CIMGEntry *pIMGEntry = getIMGFile()->addOrReplaceEntryViaFile(strEntryFilePath, strEntryName);
+	IMGEntry *pIMGEntry = getIMGFile()->addOrReplaceEntryViaFile(strEntryFilePath, strEntryName);
 	checkToApplyCompression(pIMGEntry);
 	if (uiIMGEntryCount == getIMGFile()->getEntryCount())
 	{
@@ -404,7 +404,7 @@ void					IMGEditorTab::addOrReplaceEntryViaFile(string strEntryFilePath, string 
 void					IMGEditorTab::addOrReplaceEntryViaData(string strEntryName, string strEntryData)
 {
 	uint32 uiIMGEntryCount = getIMGFile()->getEntryCount();
-	CIMGEntry *pIMGEntry = getIMGFile()->addOrReplaceEntryViaData(strEntryName, strEntryData);
+	IMGEntry *pIMGEntry = getIMGFile()->addOrReplaceEntryViaData(strEntryName, strEntryData);
 	checkToApplyCompression(pIMGEntry);
 	if (uiIMGEntryCount == getIMGFile()->getEntryCount())
 	{
@@ -426,7 +426,7 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 		strEntryName = Path::getFileName(strEntryFilePath);
 	}
 
-	CIMGEntry *pIMGEntry = getIMGFile()->getEntryByName(strEntryName);
+	IMGEntry *pIMGEntry = getIMGFile()->getEntryByName(strEntryName);
 	if (pIMGEntry == nullptr)
 	{
 		// entry name not found in IMG
@@ -542,7 +542,7 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 }
 void					IMGEditorTab::addOrReplaceEntryViaDataAndSettings(string strEntryName, string strEntryData)
 {
-	CIMGEntry *pIMGEntry = getIMGFile()->getEntryByName(strEntryName);
+	IMGEntry *pIMGEntry = getIMGFile()->getEntryByName(strEntryName);
 	if (pIMGEntry == nullptr)
 	{
 		// entry name not found in IMG
@@ -596,7 +596,7 @@ void					IMGEditorTab::addOrReplaceEntryViaDataAndSettings(string strEntryName, 
 	
 	return replaceEntryViaData(strEntryName, strEntryData);
 }
-void					IMGEditorTab::removeEntry(CIMGEntry *pIMGEntry)
+void					IMGEditorTab::removeEntry(IMGEntry *pIMGEntry)
 {
 	getIMGFile()->removeEntry(pIMGEntry);
 	updateEntryCountText();
@@ -653,7 +653,7 @@ void					IMGEditorTab::addGridEntries(void)
 		((GridRow*)(pRows[i]))->setGrid(m_pEntryGrid);
 	}
 
-	for (CIMGEntry *pIMGEntry : m_pIMGFile->getEntries())
+	for (IMGEntry *pIMGEntry : m_pIMGFile->getEntries())
 	{
 		bAddEntry = true;
 		uiFileType = pIMGEntry->getFileType();
@@ -684,7 +684,7 @@ void					IMGEditorTab::addGridEntries(void)
 	//updateIMGText();
 }
 
-void					IMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry, uint32 uiEntryIndex, void **pRows)
+void					IMGEditorTab::addGridEntry(IMGEntry *pIMGEntry, uint32 uiEntryIndex, void **pRows)
 {
 	if (uiEntryIndex == -1)
 	{
@@ -712,8 +712,8 @@ void					IMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry, uint32 uiEntryIndex, v
 	vecText[5] = pIMGEntry->getVersionText();
 	if (bIsFastman92IMGFormat)
 	{
-		vecText[6] = CIMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId());
-		vecText[7] = CIMGManager::getEncryptionText(pIMGEntry->isEncrypted());
+		vecText[6] = IMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId());
+		vecText[7] = IMGManager::getEncryptionText(pIMGEntry->isEncrypted());
 	}
 
 	pRow->getText().assign(1, vecText);
@@ -727,7 +727,7 @@ void					IMGEditorTab::addGridEntry(CIMGEntry *pIMGEntry, uint32 uiEntryIndex, v
 	*/
 }
 
-void					IMGEditorTab::updateGridEntry(CIMGEntry *pIMGEntry)
+void					IMGEditorTab::updateGridEntry(IMGEntry *pIMGEntry)
 {
 	/*
 	todo
@@ -746,19 +746,19 @@ void					IMGEditorTab::updateGridEntry(CIMGEntry *pIMGEntry)
 	//getIMGF()->getIMGEditor()->applyVersionAndResourceTypeColumn(uiEntryIndex, getIMGF()->getEntryListTab()->getIMGFile(), pIMGEntry);
 	if (pIMGEntry->getIMGFile()->getVersion() == IMG_FASTMAN92)
 	{
-		getListView()->SetItem(uiEntryIndex, 6, LVIF_TEXT, String2::convertStdStringToStdWString(CIMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId())).c_str(), 0, 0, 0, 0);
-		getListView()->SetItem(uiEntryIndex, 7, LVIF_TEXT, String2::convertStdStringToStdWString(CIMGManager::getEncryptionText(pIMGEntry->isEncrypted())).c_str(), 0, 0, 0, 0);
+		getListView()->SetItem(uiEntryIndex, 6, LVIF_TEXT, String2::convertStdStringToStdWString(IMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId())).c_str(), 0, 0, 0, 0);
+		getListView()->SetItem(uiEntryIndex, 7, LVIF_TEXT, String2::convertStdStringToStdWString(IMGManager::getEncryptionText(pIMGEntry->isEncrypted())).c_str(), 0, 0, 0, 0);
 	}
 	*/
 }
 
-uint32			IMGEditorTab::getMainListViewItemIndexByItemData(CIMGEntry *pIMGEntry)
+uint32			IMGEditorTab::getMainListViewItemIndexByItemData(IMGEntry *pIMGEntry)
 {
 	/*
 	todo
 	for (uint32 i = 0, j = getListView()->GetItemCount(); i < j; i++)
 	{
-		if ((CIMGEntry*)getListView()->GetItemData(i) == pIMGEntry)
+		if ((IMGEntry*)getListView()->GetItemData(i) == pIMGEntry)
 		{
 			return i;
 		}
@@ -807,15 +807,15 @@ void					IMGEditorTab::updateIMGText(void)
 		{
 			strVersionSuffix = LocalizationManager::get()->getTranslatedText("CompressionValue_PartiallyCompressed");
 		}
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(LocalizationManager::get()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getVersionName(IMG_FASTMAN92, getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), strVersionSuffix.c_str()).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(LocalizationManager::get()->getTranslatedFormattedTextW("IMGVersion", IMGManager::getVersionName(IMG_FASTMAN92, getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), strVersionSuffix.c_str()).c_str());
 	}
 	else
 	{
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(LocalizationManager::get()->getTranslatedFormattedTextW("IMGVersion", CIMGManager::getVersionName(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), CIMGManager::getVersionGames(getIMGFile()->getVersion()).c_str()).c_str());
+		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(LocalizationManager::get()->getTranslatedFormattedTextW("IMGVersion", IMGManager::getVersionName(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), IMGManager::getVersionGames(getIMGFile()->getVersion()).c_str()).c_str());
 	}
 	*/
 }
-CIMGEntry*				IMGEditorTab::getEntryByName(string strEntryName)
+IMGEntry*				IMGEditorTab::getEntryByName(string strEntryName)
 {
 	for (auto pIMGEntry : getIMGFile()->getEntries())
 	{
@@ -845,10 +845,10 @@ void					IMGEditorTab::splitSelectedEntries(string strPath, EIMGVersion EIMGVers
 {
 	/*
 	todo
-	vector<CIMGEntry*> vecIMGEntries;
+	vector<IMGEntry*> vecIMGEntries;
 	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	CIMGEntry *pIMGEntry = nullptr;
+	IMGEntry *pIMGEntry = nullptr;
 	if (pos == NULL)
 	{
 		return;
@@ -859,7 +859,7 @@ void					IMGEditorTab::splitSelectedEntries(string strPath, EIMGVersion EIMGVers
 	while (pos)
 	{
 		int nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (CIMGEntry*)pListControl->GetItemData(nItem);
+		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
 		vecIMGEntries.push_back(pIMGEntry);
 		vecSplitEntryNames.push_back(pIMGEntry->getEntryName());
 
@@ -890,7 +890,7 @@ void					IMGEditorTab::splitSelectedEntries(string strPath, EIMGVersion EIMGVers
 }
 void					IMGEditorTab::replace(vector<string>& vecPaths, vector<string>& vecReplacedEntryNames)
 {
-	vector<CIMGEntry*> vecReplacedEntries;
+	vector<IMGEntry*> vecReplacedEntries;
 	uint32 uiReplaceCount = getIMGFile()->replaceEntries(vecPaths, vecReplacedEntryNames, vecReplacedEntries);
 
 	for (auto pIMGEntry : vecReplacedEntries)
@@ -967,7 +967,7 @@ void					IMGEditorTab::searchText(void)
 			{
 				if (strEntryExtension == "COL")
 				{
-					if (String2::toUpperCase(CCOLManager::get()->getCOLVersionText(pIMGEntry->getCOLVersion())).find(strSearchText) != string::npos)
+					if (String2::toUpperCase(COLManager::get()->getCOLVersionText(pIMGEntry->getCOLVersion())).find(strSearchText) != string::npos)
 					{
 						bMatch = true;
 					}
@@ -1026,13 +1026,13 @@ void					IMGEditorTab::searchText(void)
 	// add all entries to search results list view
 	for (auto pSearchEntry : getIMGF()->getIMGEditor()->getSearchEntries())
 	{
-		CIMGEntry *pIMGEntry = pSearchEntry->getIMGEntry();
+		IMGEntry *pIMGEntry = pSearchEntry->getIMGEntry();
 		uint32 uiRowIndex = pListControl->GetItemCount();
 		string strEntryExtension = String2::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()));
 		string strExtraInfo;
 		if (strEntryExtension == "COL")
 		{
-			strExtraInfo = CCOLManager::getCOLVersionText(pIMGEntry->getCOLVersion());
+			strExtraInfo = COLManager::getCOLVersionText(pIMGEntry->getCOLVersion());
 		}
 		else if (strEntryExtension == "TXD" || Path::isModelExtension(strEntryExtension))
 		{
@@ -1151,12 +1151,12 @@ void					IMGEditorTab::sortEntries(void)
 	setIMGModifiedSinceRebuild(true);
 }
 
-void					IMGEditorTab::onEntryChange(CIMGEntry *pIMGEntry)
+void					IMGEditorTab::onEntryChange(IMGEntry *pIMGEntry)
 {
 	loadProtectedEntryState(pIMGEntry);
 }
 
-void					IMGEditorTab::loadProtectedEntryState(CIMGEntry *pIMGEntry)
+void					IMGEditorTab::loadProtectedEntryState(IMGEntry *pIMGEntry)
 {
 	if (m_pDBFile->isIMGEntryFound(getIMGFile(), pIMGEntry))
 	{
@@ -1246,11 +1246,11 @@ void				IMGEditorTab::reassignEntryIds(void)
 	*/
 }
 
-vector<CIMGEntry*>	IMGEditorTab::getSelectedEntries(void)
+vector<IMGEntry*>	IMGEditorTab::getSelectedEntries(void)
 {
 	/*
 	todo
-	vector<CIMGEntry*> vecIMGEntries;
+	vector<IMGEntry*> vecIMGEntries;
 
 	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
@@ -1259,17 +1259,17 @@ vector<CIMGEntry*>	IMGEditorTab::getSelectedEntries(void)
 		return vecIMGEntries;
 	}
 
-	CIMGEntry *pIMGEntry;
+	IMGEntry *pIMGEntry;
 	while (pos)
 	{
 		int nItem = pListControl->GetNextSelectedItem(pos);
 
-		pIMGEntry = (CIMGEntry*)pListControl->GetItemData(nItem);
+		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
 		vecIMGEntries.push_back(pIMGEntry);
 	}
 
 	return vecIMGEntries;
 	*/
-	vector<CIMGEntry*> vecIMGEntries;
+	vector<IMGEntry*> vecIMGEntries;
 	return vecIMGEntries;
 }

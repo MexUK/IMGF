@@ -32,8 +32,6 @@ class imgf::UpdateManager;
 class imgf::LastUsedValueManager;
 class imgf::WindowManager;
 
-class CWnd; // temp
-
 class imgf::IMGF : public bxcf::Manager
 {
 public:
@@ -71,8 +69,6 @@ public:
 
 	void						setLastUsedDirectory(std::string strHandleName, std::string strDirectory);
 	std::string					getLastUsedDirectory(std::string strHandleName);
-
-	CWnd*						getDialog(void) { return nullptr; } // temp
 
 private:
 	void						initInitializationThread(void);

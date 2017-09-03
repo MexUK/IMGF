@@ -7,7 +7,7 @@
 #include "CollisionViewer.h"
 #include "IMGF.h"
 #include "EntryViewerManager.h"
-#include "Format/COL/CCOLEntry.h"
+#include "Format/COL/COLEntry.h"
 #include "Static/Math.h"
 #include "Static/String2.h"
 #include "Static/File.h"
@@ -33,7 +33,7 @@
 #include "mat4.h"
 #include "shader.h"
 #include "vertex-buffer.h"
-#include "Format/COL/CCOLFormat.h"
+#include "Format/COL/COLFormat.h"
 #include <fstream>
 #include <unordered_map>
 
@@ -976,13 +976,13 @@ void						CollisionViewer::unloadThreadAndWindow(void)
 void						CollisionViewer::prepareRenderData(void)
 {
 	// active COL entry
-	CCOLFormat *pCOLFile = getCOLFile();
+	COLFormat *pCOLFile = getCOLFile();
 	if (pCOLFile->getEntryCount() == 0)
 	{
 		return;
 	}
 	uint32 uiCOLEntryIndex = 0;
-	CCOLEntry *pCOLEntry = pCOLFile->getEntryByIndex(uiCOLEntryIndex);
+	COLEntry *pCOLEntry = pCOLFile->getEntryByIndex(uiCOLEntryIndex);
 	setActiveCOLEntry(pCOLEntry);
 
 	// camera
@@ -1292,7 +1292,7 @@ void						CollisionViewer::renderAxis(void)
 }
 void						CollisionViewer::renderBoundingSphere(void)
 {
-	CCOLEntry *pCOLEntry = getActiveCOLEntry();
+	COLEntry *pCOLEntry = getActiveCOLEntry();
 
 	glBegin(GL_LINE_LOOP);
 	glColor3ub(255, 0, 255);
@@ -1329,7 +1329,7 @@ void						CollisionViewer::renderBoundingSphere(void)
 }
 void						CollisionViewer::renderBoundingCuboid(void)
 {
-	CCOLEntry *pCOLEntry = getActiveCOLEntry();
+	COLEntry *pCOLEntry = getActiveCOLEntry();
 
 	glColor3ub(0, 255, 255);
 	vector<Vec3f> vecVertices = Math::getCuboidFaceVerticesAsQuads(pCOLEntry->getBoundingObjects().m_vecMin, pCOLEntry->getBoundingObjects().m_vecMax);
@@ -1353,7 +1353,7 @@ void						CollisionViewer::renderBoundingCuboid(void)
 
 void						CollisionViewer::renderCollisionMeshes(void)
 {
-	CCOLEntry *pCOLEntry = getActiveCOLEntry();
+	COLEntry *pCOLEntry = getActiveCOLEntry();
 
 	// draw collision mesh faces & vertices
 	glBegin(GL_TRIANGLES);
@@ -1375,7 +1375,7 @@ void						CollisionViewer::renderCollisionMeshes(void)
 
 void						CollisionViewer::renderCollisionCuboids(void)
 {
-	CCOLEntry *pCOLEntry = getActiveCOLEntry();
+	COLEntry *pCOLEntry = getActiveCOLEntry();
 
 	glBegin(GL_QUADS);
 	//glColor3ub(255, 0, 0);
@@ -1418,7 +1418,7 @@ void						CollisionViewer::renderCollisionCuboids(void)
 }
 void						CollisionViewer::renderCollisionSpheres(void)
 {
-	CCOLEntry *pCOLEntry = getActiveCOLEntry();
+	COLEntry *pCOLEntry = getActiveCOLEntry();
 
 	// draw collision spheres
 	uint32 i2 = 0;

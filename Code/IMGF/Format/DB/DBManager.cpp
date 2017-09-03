@@ -1,8 +1,8 @@
 #include "DBManager.h"
 #include "DBFormat.h"
 #include "DBEntry.h"
-#include "Format/IMG/Regular/CIMGFormat.h"
-#include "Format/IMG/Regular/CIMGEntry.h"
+#include "Format/IMG/Regular/IMGFormat.h"
+#include "Format/IMG/Regular/IMGEntry.h"
 #include "Static/String2.h"
 #include "Stream/DataReader.h"
 #include "Static/Debug.h"
@@ -23,7 +23,7 @@ void			DBManager::uninit(void)
 {
 }
 
-DBFormat*		DBManager::createDBFileFromIMGFile(CIMGFormat *pIMGFile)
+DBFormat*		DBManager::createDBFileFromIMGFile(IMGFormat *pIMGFile)
 {
 	DBFormat *pDBFile = new DBFormat;
 	pDBFile->setDBVersion(0x01);

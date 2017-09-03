@@ -3,7 +3,7 @@
 #include "nsimgf.h"
 #include <Windows.h>
 #include "GUI/Editor/Tab/EditorTab.h"
-#include "Format/IMG/Regular/CIMGFormat.h"
+#include "Format/IMG/Regular/IMGFormat.h"
 #include "Tasks/Filter/FilterOptions.h"
 #include "Event/Events.h"
 #include "Task/TaskManager.h"
@@ -11,10 +11,9 @@
 #include <vector>
 
 class imgf::IMGEditor;
-class bxgi::CIMGFormat;
-class bxgi::CIMGEntry;
+class bxgi::IMGFormat;
+class bxgi::IMGEntry;
 class imgf::DBFormat;
-class CListCtrl; // temp
 class bxgx::DropDownItem;
 
 class imgf::IMGEditorTab : public EditorTab, public bxcf::EventBindable
@@ -36,8 +35,8 @@ public:
 	void						setIMGEditor(IMGEditor *pEditor) { m_pEditor = pEditor; }
 	IMGEditor*					getIMGEditor(void) { return m_pEditor; }
 
-	void						setIMGFile(bxgi::CIMGFormat *pIMGFile) { m_pIMGFile = pIMGFile; }
-	bxgi::CIMGFormat*			getIMGFile(void) { return m_pIMGFile; }
+	void						setIMGFile(bxgi::IMGFormat *pIMGFile) { m_pIMGFile = pIMGFile; }
+	bxgi::IMGFormat*			getIMGFile(void) { return m_pIMGFile; }
 
 
 
@@ -56,7 +55,7 @@ public:
 	HWND						getListViewHwnd(void) { return m_hListViewHwnd; }
 
 	//CListCtrl*					getListView(void) { return (CListCtrl*)CWnd::FromHandle(getListViewHwnd()); } // todo
-	CListCtrl*					getListView(void) { return nullptr; } // todo
+	//CListCtrl*					getListView(void) { return nullptr; } // todo
 
 	bool						isRestoringFilterOptions(void) { return m_bRestoringFilterOptions; }
 
@@ -74,16 +73,16 @@ public:
 	void						addOrReplaceEntryViaData(std::string strEntryName, std::string strEntryData); // if entry with name already exists, then it is replaced, otherwise it is added.
 	void						addOrReplaceEntryViaFileAndSettings(std::string strEntryFilePath, std::string strEntryName = ""); // entry is added or replaced depending on settings.
 	void						addOrReplaceEntryViaDataAndSettings(std::string strEntryName, std::string strEntryData); // entry is added or replaced depending on settings.
-	void						removeEntry(bxgi::CIMGEntry *pIMGEntry);
+	void						removeEntry(bxgi::IMGEntry *pIMGEntry);
 
 	void						addGridHeaders(void);
 	void						addGridEntries(void);
 	void						readdGridEntries(void);
-	void						addGridEntry(bxgi::CIMGEntry *pIMGEntry, uint32 uiEntryIndex = -1, void **pRows = nullptr);
-	void						updateGridEntry(bxgi::CIMGEntry *pIMGEntry);
-	uint32						getMainListViewItemIndexByItemData(bxgi::CIMGEntry *pIMGEntry);
+	void						addGridEntry(bxgi::IMGEntry *pIMGEntry, uint32 uiEntryIndex = -1, void **pRows = nullptr);
+	void						updateGridEntry(bxgi::IMGEntry *pIMGEntry);
+	uint32						getMainListViewItemIndexByItemData(bxgi::IMGEntry *pIMGEntry);
 
-	bxgi::CIMGEntry*			getEntryByName(std::string strEntryName);
+	bxgi::IMGEntry*			getEntryByName(std::string strEntryName);
 
 	void						rebuild(std::string strIMGPath = "", bool bLog = true);
 	uint32						merge(std::string strPath, std::vector<std::string>& vecImportedEntryNames);
@@ -103,7 +102,7 @@ public:
 	
 	void						sortEntries(void);
 	
-	void						onEntryChange(bxgi::CIMGEntry *pIMGEntry);
+	void						onEntryChange(bxgi::IMGEntry *pIMGEntry);
 	void						loadProtectedEntryStates(void);
 
 	void						loadFilter_Type(void);
@@ -113,19 +112,19 @@ public:
 
 	void						reassignEntryIds(void);
 
-	std::vector<bxgi::CIMGEntry*>		getSelectedEntries(void);
+	std::vector<bxgi::IMGEntry*>		getSelectedEntries(void);
 
 	void						setActiveFilter(std::string strFilterName, std::string strValue) { m_umapActiveFilterValues[strFilterName] = strValue; }
 	std::string					getActiveFilter(std::string strFilterName) { return m_umapActiveFilterValues[strFilterName]; }
 
-	void						checkToApplyCompression(bxgi::CIMGEntry *pIMGEntry);
+	void						checkToApplyCompression(bxgi::IMGEntry *pIMGEntry);
 
 	void						checkForUnknownRWVersionEntries(void);
 
 	DBFormat*					m_pDBFile; // todo - make private
 
 private:
-	void						loadProtectedEntryState(bxgi::CIMGEntry *pIMGEntry);
+	void						loadProtectedEntryState(bxgi::IMGEntry *pIMGEntry);
 
 private:
 	IMGEditor*					m_pEditor;
@@ -135,7 +134,7 @@ private:
 	bxgx::DropDown*				m_pEntryTypeFilter;
 	bxgx::DropDown*				m_pEntryVersionFilter;
 
-	bxgi::CIMGFormat*			m_pIMGFile;
+	bxgi::IMGFormat*			m_pIMGFile;
 	std::vector<std::string>	m_vecLogLinesGUI;
 	std::vector<std::string>	m_vecLogLinesBasic;
 	std::vector<std::string>	m_vecLogLinesExtended;

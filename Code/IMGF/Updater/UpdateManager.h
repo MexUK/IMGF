@@ -7,7 +7,7 @@
 
 class imgf::UpdateConnectionManager;
 
-class imgf::CExeBuild
+class imgf::ExeBuild
 {
 public:
 	std::string						getBuild(void);
@@ -32,7 +32,7 @@ public:
 	void							processUpdate(void);
 
 private:
-	CExeBuild*						getLatestBuildData(void);
+	ExeBuild*						getLatestBuildData(void);
 
 private:
 	UpdateConnectionManager*		m_pUpdateConnectionManager;

@@ -7,7 +7,7 @@
 #include "IMGF.h"
 #include "GUI/Editors/Tab/IMGEditorTab.h"
 #include "Static/Debug.h"
-#include "Format/IMG/Regular/CIMGEntry.h"
+#include "Format/IMG/Regular/IMGEntry.h"
 #include "Localization/LocalizationManager.h"
 
 using namespace std;

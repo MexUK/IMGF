@@ -5,8 +5,8 @@
 #include "Globals.h"
 #include "Task/TaskManager.h"
 #include "Task/TaskDispatchManager.h"
-#include "Format/IMG/Regular/CIMGFormat.h"
-#include "Format/IMG/Regular/CIMGEntry.h"
+#include "Format/IMG/Regular/IMGFormat.h"
+#include "Format/IMG/Regular/IMGEntry.h"
 #include "Static/String2.h"
 #include "Static/StdVector.h"
 #include "Static/Path.h"
@@ -15,15 +15,15 @@
 #include "ESortType.h"
 #include "Static/Input.h"
 #include "GUI/Popups/PopupGUIManager.h"
-#include "Format/IDE/CIDEManager.h"
-#include "Format/IDE/CIDEManager.h"
-#include "Format/COL/CCOLManager.h"
-#include "Format/COL/CCOLFormat.h"
+#include "Format/IDE/IDEManager.h"
+#include "Format/IDE/IDEManager.h"
+#include "Format/COL/COLManager.h"
+#include "Format/COL/COLFormat.h"
 #include "Localization/LocalizationManager.h"
 #include "SortTypes.h"
 #include "SortPriorities.h"
 #include "SortMenuItems.h"
-#include "Format/IDE/CIDEFormat.h"
+#include "Format/IDE/IDEFormat.h"
 #include <algorithm>
 
 using namespace std;
@@ -122,13 +122,13 @@ void		SortManager::uninitSortPriorities(void)
 	getSortPriorities()->removeAllEntries();
 }
 
-void		SortManager::sort(CIMGFormat *pIMGFile)
+void		SortManager::sort(IMGFormat *pIMGFile)
 {
 	m_uiSortPriorityIndex = 0;
 	std::sort(pIMGFile->getEntries().begin(), pIMGFile->getEntries().end(), SortManager::sortIMGEntries);
 }
 
-bool		SortManager::sortIMGEntries(CIMGEntry *p1, CIMGEntry *p2)
+bool		SortManager::sortIMGEntries(IMGEntry *p1, IMGEntry *p2)
 {
 	SortManager *pSortManager = getIMGF()->getSortManager();
 	SortPriority *pSortPriority = pSortManager->getSortPriorities()->getEntryByIndex((uint16)pSortManager->m_uiSortPriorityIndex);
@@ -380,7 +380,7 @@ void		SortManager::onClickMenuItem(uint16 usMenuHandle)
 			{
 				getIMGF()->setLastUsedDirectory("SORT_IDE", Path::getDirectory(vecPaths[0]));
 
-				CIDEFormat *pIDEFile = CIDEManager::get()->parseViaFile(vecPaths[0]);
+				IDEFormat *pIDEFile = IDEManager::get()->parseViaFile(vecPaths[0]);
 				if(!pIDEFile->doesHaveError())
 				{
 					vector<string> vecModelNames = pIDEFile->getModelNames();
@@ -406,7 +406,7 @@ void		SortManager::onClickMenuItem(uint16 usMenuHandle)
 			{
 				getIMGF()->setLastUsedDirectory("SORT_COL", Path::getDirectory(vecPaths[0]));
 
-				CCOLFormat *pCOLFile = CCOLManager::get()->parseViaFile(vecPaths[0]);
+				COLFormat *pCOLFile = COLManager::get()->parseViaFile(vecPaths[0]);
 				if(!pCOLFile->doesHaveError())
 				{
 					vector<string> vecEntryNames = StdVector::toUpperCase(pCOLFile->getModelNames());

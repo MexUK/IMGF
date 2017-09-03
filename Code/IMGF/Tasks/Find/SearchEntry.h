@@ -3,7 +3,7 @@
 #include "nsimgf.h"
 #include "nsbxgi.h"
 
-class bxgi::CIMGEntry;
+class bxgi::IMGEntry;
 class imgf::IMGEditorTab;
 
 class imgf::SearchEntry
@@ -14,10 +14,10 @@ public:
 	void						setWindowTab(IMGEditorTab* pEditorTab) { m_pEditorTab = pEditorTab; }
 	IMGEditorTab*				getWindowTab(void) { return m_pEditorTab; }
 
-	void						setIMGEntry(bxgi::CIMGEntry* pIMGEntry) { m_pIMGEntry = pIMGEntry; }
-	bxgi::CIMGEntry*					getIMGEntry(void) { return m_pIMGEntry; }
+	void						setIMGEntry(bxgi::IMGEntry* pIMGEntry) { m_pIMGEntry = pIMGEntry; }
+	bxgi::IMGEntry*					getIMGEntry(void) { return m_pIMGEntry; }
 
 private:
 	IMGEditorTab*				m_pEditorTab;
-	bxgi::CIMGEntry*					m_pIMGEntry;
+	bxgi::IMGEntry*					m_pIMGEntry;
 };

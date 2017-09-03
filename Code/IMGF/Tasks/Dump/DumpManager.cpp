@@ -6,19 +6,19 @@
 #include "GUI/Editors/IMGEditor.h"
 #include "GUI/Editors/Tab/IMGEditorTab.h"
 #include "GUI/Popups/PopupGUIManager.h"
-#include "Format/IMG/Regular/CIMGFormat.h"
+#include "Format/IMG/Regular/IMGFormat.h"
 #include "Static/Input.h"
 #include "Static/Path.h"
 #include "Static/String2.h"
 #include "Static/File.h"
-#include "Format/IMG/Regular/CIMGManager.h"
-#include "Format/IMG/Regular/CIMGEntry.h"
-#include "Format/DAT/Loader/CDATLoaderManager.h"
-#include "Format/DAT/Loader/CDATLoaderFormat.h"
-#include "Format/DAT/Loader/CDATLoaderEntry.h"
-#include "Format/TXD/CTXDManager.h"
-#include "Format/TXD/CTXDFormat.h"
-#include "Format/RW/Sections/CRWSection_TextureNative.h"
+#include "Format/IMG/Regular/IMGManager.h"
+#include "Format/IMG/Regular/IMGEntry.h"
+#include "Format/DAT/Loader/DATLoaderManager.h"
+#include "Format/DAT/Loader/DATLoaderFormat.h"
+#include "Format/DAT/Loader/DATLoaderEntry.h"
+#include "Format/TXD/TXDManager.h"
+#include "Format/TXD/TXDFormat.h"
+#include "Format/RW/Sections/RWSection_TextureNative.h"
 #include "Format/Image/BMP/BMPManager.h"
 #include "Format/Image/BMP/BMPFormat.h"
 #include "Format/Image/CUR/CURManager.h"
@@ -30,10 +30,10 @@
 #include "Static/StdVector.h"
 #include "Task/TaskManager.h"
 #include "Task/TaskDispatchManager.h"
-#include "Format/IMG/Regular/CIMGEntry.h"
-#include "Format/WTD/CWTDManager.h"
-#include "Format/WTD/CWTDFormat.h"
-#include "Format/WTD/CWTDEntry.h"
+#include "Format/IMG/Regular/IMGEntry.h"
+#include "Format/WTD/WTDManager.h"
+#include "Format/WTD/WTDFormat.h"
+#include "Format/WTD/WTDEntry.h"
 #include "Image/ImageManager.h"
 #include "Format/Image/DDS/DDSFormat.h"
 #include "Localization/LocalizationManager.h"
@@ -97,7 +97,7 @@ void		DumpManager::process(void)
 	getIMGF()->setLastUsedDirectory("DUMP__Destination", pDumpDialogData->m_strDumpDestinationFolderPath);
 
 	// choose img files
-	vector<CIMGFormat*> vecIMGFormats;
+	vector<IMGFormat*> vecIMGFormats;
 	if (pDumpDialogData->m_uiDumpType == 0) // All entries in active tab
 	{
 		if (getIMGF()->getEntryListTab() == nullptr)
@@ -144,9 +144,9 @@ void		DumpManager::process(void)
 		case 4: // Other
 			break;
 		}
-		string strDATPath = pDumpDialogData->m_strGameDirectoryPath + CDATLoaderManager::getDefaultGameDATSubPath(EPlatformedGameValue);
+		string strDATPath = pDumpDialogData->m_strGameDirectoryPath + DATLoaderManager::getDefaultGameDATSubPath(EPlatformedGameValue);
 
-		CDATLoaderFormat *pDATFile = CDATLoaderManager::get()->parseViaFile(strDATPath);
+		DATLoaderFormat *pDATFile = DATLoaderManager::get()->parseViaFile(strDATPath);
 		if (!pDATFile->doesHaveError())
 		{
 			vecIMGFormats = pDATFile->parseIMGFiles(pDumpDialogData->m_strGameDirectoryPath);
@@ -154,14 +154,14 @@ void		DumpManager::process(void)
 		pDATFile->unload();
 		delete pDATFile;
 
-		vector<string> vecGameIMGPaths = CIMGManager::getDefaultGameIMGSubPaths(EPlatformedGameValue);
+		vector<string> vecGameIMGPaths = IMGManager::getDefaultGameIMGSubPaths(EPlatformedGameValue);
 
 		for (auto strIMGRelativePath : vecGameIMGPaths)
 		{
 			string strIMGPath = pDumpDialogData->m_strGameDirectoryPath + strIMGRelativePath;
 			if (File::doesFileExist(strIMGPath))
 			{
-				CIMGFormat *pIMGFile = CIMGManager::get()->parseViaFile(strIMGPath);
+				IMGFormat *pIMGFile = IMGManager::get()->parseViaFile(strIMGPath);
 				if(!pIMGFile->doesHaveError())
 				{
 					vecIMGFormats.push_back(pIMGFile);
@@ -190,14 +190,14 @@ void		DumpManager::process(void)
 			break;
 		}
 
-		vector<string> vecGameIMGPaths = CIMGManager::getDefaultGameIMGSubPaths(EPlatformedGameValue2);
+		vector<string> vecGameIMGPaths = IMGManager::getDefaultGameIMGSubPaths(EPlatformedGameValue2);
 
 		for (auto strIMGRelativePath : vecGameIMGPaths)
 		{
 			string strIMGPath = pDumpDialogData->m_strGameDirectoryPath + strIMGRelativePath;
 			if (File::doesFileExist(strIMGPath))
 			{
-				CIMGFormat *pIMGFile = CIMGManager::get()->parseViaFile(strIMGPath);
+				IMGFormat *pIMGFile = IMGManager::get()->parseViaFile(strIMGPath);
 				if(!pIMGFile->doesHaveError())
 				{
 					vecIMGFormats.push_back(pIMGFile);
@@ -235,7 +235,7 @@ void		DumpManager::process(void)
 	for (auto pIMGFile : vecIMGFormats)
 	{
 		// choose IMG entries to dump
-		vector<CIMGEntry*> vecIMGEntries;
+		vector<IMGEntry*> vecIMGEntries;
 		if (pDumpDialogData->m_uiDumpType == 4) // selected entries
 		{
 			vecIMGEntries = getIMGF()->getEntryListTab()->getSelectedEntries();
@@ -281,18 +281,18 @@ void		DumpManager::process(void)
 					pIMGFile->exportSingle(pIMGEntry, pDumpDialogData->m_strDumpDestinationFolderPath + strExtension + "/");
 
 					string strTXDData = pIMGEntry->getEntryData();
-					if (!CTXDFormat::isTXDSizeValid(strTXDData.size()))
+					if (!TXDFormat::isTXDSizeValid(strTXDData.size()))
 					{
 						vecTooLargeTXDs.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TXD_MaxSize", pIMGEntry->getEntryName().c_str()));
 					}
 
-					CTXDFormat *pTXDFile = CTXDManager::get()->parseViaMemory(strTXDData);
+					TXDFormat *pTXDFile = TXDManager::get()->parseViaMemory(strTXDData);
 					if (pTXDFile->doesHaveError())
 					{
 						vecCorruptTXDs.push_back(pIMGEntry->getEntryName());
 					}
 
-					if (!CTXDFormat::isTextureCountValid(pTXDFile->getTextures().size(), pTXDFile->getPlatformedGames()))
+					if (!TXDFormat::isTextureCountValid(pTXDFile->getTextures().size(), pTXDFile->getPlatformedGames()))
 					{
 						vecTXDsContainingTooManyTextures.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TextureCount", pIMGEntry->getEntryName().c_str(), pTXDFile->getTextures().size()));
 					}
@@ -300,12 +300,12 @@ void		DumpManager::process(void)
 					uint32 uiTextureIndex = 0;
 					for (auto pTexture : pTXDFile->getTextures())
 					{
-						if (!CTXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getPlatformedGames()))
+						if (!TXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getPlatformedGames()))
 						{
 							vecInvalidResolutionTXDs.push_back("[" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName() + " (" + String2::toString(pTexture->getImageSize().x) + " x " + String2::toString(pTexture->getImageSize().y) + ")");
 						}
 
-						if (!CTXDFormat::isTextureNameValid(pTexture->getDiffuseName()) || !CTXDFormat::isTextureNameValid(pTexture->getAlphaName(), true))
+						if (!TXDFormat::isTextureNameValid(pTexture->getDiffuseName()) || !TXDFormat::isTextureNameValid(pTexture->getAlphaName(), true))
 						{
 							vecInvalidTextureNames.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TextureIndex", pIMGEntry->getEntryName().c_str(), uiTextureIndex + 1));
 						}
@@ -319,9 +319,9 @@ void		DumpManager::process(void)
 
 				if (std::find(pDumpDialogData->m_vecDumpExtensions.begin(), pDumpDialogData->m_vecDumpExtensions.end(), "Texture Images") != pDumpDialogData->m_vecDumpExtensions.end())
 				{
-					//vector<CIMGEntry*> vecIMGEntries;
+					//vector<IMGEntry*> vecIMGEntries;
 					//vecIMGEntries.push_back(pIMGEntry);
-					//CIMGManager::get()->exportEntries(pIMGFile, vecIMGEntries, pDumpDialogData->m_strDumpDestinationFolderPath + strExtension + "/");
+					//IMGManager::get()->exportEntries(pIMGFile, vecIMGEntries, pDumpDialogData->m_strDumpDestinationFolderPath + strExtension + "/");
 
 					string strEntryExtensionUpper = String2::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()));
 					if (strEntryExtensionUpper != "TXD" && strEntryExtensionUpper != "WTD")
@@ -335,18 +335,18 @@ void		DumpManager::process(void)
 					{
 						string strTXDData = pIMGEntry->getEntryData();
 
-						if (!CTXDFormat::isTXDSizeValid(strTXDData.size()))
+						if (!TXDFormat::isTXDSizeValid(strTXDData.size()))
 						{
 							vecTooLargeTXDs.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TXD_MaxSize", pIMGEntry->getEntryName().c_str()));
 						}
-						CTXDFormat *pTXDFile = CTXDManager::get()->parseViaMemory(strTXDData);
+						TXDFormat *pTXDFile = TXDManager::get()->parseViaMemory(strTXDData);
 						if (pTXDFile->doesHaveError())
 						{
 							vecCorruptTXDs.push_back(pIMGEntry->getEntryName());
 							getIMGF()->getTaskManager()->onTaskProgressTick();
 							continue;
 						}
-						if (!CTXDFormat::isTextureCountValid(pTXDFile->getTextures().size(), pTXDFile->getPlatformedGames()))
+						if (!TXDFormat::isTextureCountValid(pTXDFile->getTextures().size(), pTXDFile->getPlatformedGames()))
 						{
 							vecTXDsContainingTooManyTextures.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TextureCount", pIMGEntry->getEntryName().c_str(), pTXDFile->getTextures().size()));
 						}
@@ -369,12 +369,12 @@ void		DumpManager::process(void)
 								Debugger::log("pTexture->m_ucBPP: " + String2::toString(pTexture->getBPP()));
 								*/
 
-								if (!CTXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getPlatformedGames()))
+								if (!TXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getPlatformedGames()))
 								{
 									vecInvalidResolutionTXDs.push_back("[" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName() + " (" + String2::toString(pTexture->getImageSize().x) + " x " + String2::toString(pTexture->getImageSize().y) + ")");
 								}
 
-								if (!CTXDFormat::isTextureNameValid(pTexture->getDiffuseName()) || !CTXDFormat::isTextureNameValid(pTexture->getAlphaName(), true))
+								if (!TXDFormat::isTextureNameValid(pTexture->getDiffuseName()) || !TXDFormat::isTextureNameValid(pTexture->getAlphaName(), true))
 								{
 									vecInvalidTextureNames.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TextureIndex", pIMGEntry->getEntryName().c_str(), uiTextureIndex + 1));
 								}
@@ -405,7 +405,7 @@ void		DumpManager::process(void)
 								vecTextureNames.push_back(strTextureNamesLogLine);
 
 								// choose whether to dump all mipmaps in the texture, or just the first mipmap in the texture
-								vector<CRWEntry_TextureNative_MipMap*> vecTextureMipmapsToDump;
+								vector<RWEntry_TextureNative_MipMap*> vecTextureMipmapsToDump;
 								if (pDumpDialogData->m_bDumpAllTextureMipmaps)
 								{
 									vecTextureMipmapsToDump = pTexture->getMipMaps().getEntries();
@@ -590,7 +590,7 @@ void		DumpManager::process(void)
 					}
 					else if (strEntryExtensionUpper == "WTD")
 					{
-						CWTDFormat *pWTDFile = CWTDManager::get()->parseViaMemory(pIMGEntry->getEntryData());
+						WTDFormat *pWTDFile = WTDManager::get()->parseViaMemory(pIMGEntry->getEntryData());
 						
 						if (pWTDFile->doesHaveError())
 						{
@@ -613,7 +613,7 @@ void		DumpManager::process(void)
 								vecTextureNames.push_back(strTextureNamesLogLine);
 
 								// choose whether to dump all mipmaps in the texture, or just the first mipmap in the texture
-								vector<CWTDMipmap*> vecTextureMipmapsToDump;
+								vector<WTDMipmap*> vecTextureMipmapsToDump;
 								if (pDumpDialogData->m_bDumpAllTextureMipmaps)
 								{
 									vecTextureMipmapsToDump = pWTDEntry->getEntries();

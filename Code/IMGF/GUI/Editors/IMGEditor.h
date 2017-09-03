@@ -13,8 +13,8 @@ class imgf::SearchEntry;
 class bxgx::Grid;
 class bxgx::TextBox;
 class bxgx::DropDown;
-class bxgi::CIMGEntry;
-class bxgi::CIMGFormat;
+class bxgi::IMGEntry;
+class bxgi::IMGFormat;
 
 class imgf::IMGEditor : public Editor, public bxcf::EventBindable
 {
@@ -26,15 +26,15 @@ public:
 
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 
-	static bool					validateFile(bxgi::CIMGFormat *img);
+	static bool					validateFile(bxgi::IMGFormat *img);
 
-	IMGEditorTab*				addFile(bxgi::CIMGFormat *img);
+	IMGEditorTab*				addFile(bxgi::IMGFormat *img);
 	IMGEditorTab*				addBlankFile(std::string strIMGPath, bxgi::EIMGVersion EIMGVersionValue);
-	IMGEditorTab*				addTabObjectAndTabControl(bxgi::CIMGFormat *img);
+	IMGEditorTab*				addTabObjectAndTabControl(bxgi::IMGFormat *img);
 	void						removeFile(IMGEditorTab *pIMGEditorFile);
 	void						removeActiveFile(void);
 	
-	void						onUnserializeEntry(bxgi::CIMGFormat *img);
+	void						onUnserializeEntry(bxgi::IMGFormat *img);
 	void						onTaskProgress(void);
 
 	void						setFileInfoText(EditorTab *pEditorFile);
@@ -53,7 +53,7 @@ public:
 	void						readdColumnsToMainListView(bxgi::EIMGVersion EIMGVersionValue);
 	void						addColumnsToMainListView(bxgi::EIMGVersion EIMGVersionValue);
 	void						removeColumnsFromMainListView(void);
-	int							getMainListControlItemByEntry(bxgi::CIMGEntry *pIMGEntry); // todo - naming -- list control vs list view
+	int							getMainListControlItemByEntry(bxgi::IMGEntry *pIMGEntry); // todo - naming -- list control vs list view
 
 	void						onSelectIMGEntry(bool bEntryIsSelected);
 
@@ -63,7 +63,7 @@ public:
 	uint32						getEntryCountForAllTabs(void);
 	void						updateSelectedEntryCountText(void);
 
-	std::vector<bxgi::CIMGFormat*>	getAllMainWindowTabsIMGFiles(void);
+	std::vector<bxgi::IMGFormat*>	getAllMainWindowTabsIMGFiles(void);
 
 	void						setMainWindow(MainWindow *pMainWindow) { m_pMainWindow = pMainWindow; }
 	MainWindow*					getMainWindow(void) { return m_pMainWindow; }
@@ -91,7 +91,7 @@ private:
 	void						initMenu(void);
 	void						loadRightClickMenu(int xPos, int yPos);
 	
-	IMGEditorTab*				_addTab(bxgi::CIMGFormat *pIMGFormat);
+	IMGEditorTab*				_addTab(bxgi::IMGFormat *pIMGFormat);
 
 public:
 	bxgx::Grid*					m_pEntryGrid;

@@ -7,8 +7,8 @@
 #include <string>
 #include <vector>
 
-class bxgi::CIMGFormat;
-class bxgi::CIMGEntry;
+class bxgi::IMGFormat;
+class bxgi::IMGEntry;
 class imgf::SortPriority;
 class imgf::SortType;
 class imgf::SortTypes;
@@ -25,7 +25,7 @@ public:
 	void									init(void);
 	void									uninit(void);
 
-	void									sort(bxgi::CIMGFormat *pIMGFile);
+	void									sort(bxgi::IMGFormat *pIMGFile);
 
 	SortTypes*								getSortTypes(void) { return m_pSortTypes; }
 	SortPriorities*						getSortPriorities(void) { return m_pSortPriorities; }
@@ -38,7 +38,7 @@ public:
 	void									onClickMenuItem(uint16 usMenuHandle);
 
 private:
-	static bool								sortIMGEntries(bxgi::CIMGEntry *p1, bxgi::CIMGEntry *p2);
+	static bool								sortIMGEntries(bxgi::IMGEntry *p1, bxgi::IMGEntry *p2);
 
 	SortTypes*								m_pSortTypes;
 	SortPriorities*						m_pSortPriorities;

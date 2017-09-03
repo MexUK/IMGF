@@ -4,7 +4,7 @@
 #include "Static/StdVector.h"
 #include "Globals.h"
 #include "IMGF.h"
-#include "Format/IMG/Regular/CIMGEntry.h"
+#include "Format/IMG/Regular/IMGEntry.h"
 #include "Localization/LocalizationManager.h"
 #include "Format/Text/INI/INIManager.h"
 #include "Static/AppDataPath.h"

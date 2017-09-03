@@ -2,7 +2,7 @@
 
 #include "nsimgf.h"
 #include "EntryViewer.h"
-#include "Format/COL/CCOLFormat.h"
+#include "Format/COL/COLFormat.h"
 #include <string>
 #include <vector>
 #include <ft2build.h>
@@ -36,11 +36,11 @@ public:
 	void						initGLFW(void);
 	void						initGLEW(void);
 
-	void						setCOLFile(bxgi::CCOLFormat *pCOLFile) { m_pCOLFile = pCOLFile; }
-	bxgi::CCOLFormat*					getCOLFile(void) { return m_pCOLFile; }
+	void						setCOLFile(bxgi::COLFormat *pCOLFile) { m_pCOLFile = pCOLFile; }
+	bxgi::COLFormat*					getCOLFile(void) { return m_pCOLFile; }
 
-	void						setActiveCOLEntry(bxgi::CCOLEntry *pCOLEntry) { m_pActiveCOLEntry = pCOLEntry; }
-	bxgi::CCOLEntry*					getActiveCOLEntry(void) { return m_pActiveCOLEntry; }
+	void						setActiveCOLEntry(bxgi::COLEntry *pCOLEntry) { m_pActiveCOLEntry = pCOLEntry; }
+	bxgi::COLEntry*					getActiveCOLEntry(void) { return m_pActiveCOLEntry; }
 
 	void						setCOLFileName(std::string strCOLFileName) { m_strCOLFileName = strCOLFileName; }
 	std::string					getCOLFileName(void) { return m_strCOLFileName; }
@@ -93,8 +93,8 @@ private:
 	void						renderPanelLineSeparators(void);
 
 private:
-	bxgi::CCOLFormat*					m_pCOLFile;
-	bxgi::CCOLEntry*					m_pActiveCOLEntry;
+	bxgi::COLFormat*					m_pCOLFile;
+	bxgi::COLEntry*					m_pActiveCOLEntry;
 	std::string					m_strCOLFileName;
 	GLFWwindow*					m_pWindow;
 	FT_Library*					m_pFTLibrary;

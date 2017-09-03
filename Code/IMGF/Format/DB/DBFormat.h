@@ -9,8 +9,8 @@
 #include <string>
 #include <vector>
 
-class bxgi::CIMGFormat;
-class bxgi::CIMGEntry;
+class bxgi::IMGFormat;
+class bxgi::IMGEntry;
 
 class imgf::DBFormat : public bxcf::Format, public bxcf::VectorPool<imgf::DBEntry*>
 {
@@ -19,7 +19,7 @@ public:
 	
 	void								unload(void);
 
-	bool								isIMGEntryFound(bxgi::CIMGFormat *pIMGFile, bxgi::CIMGEntry *pIMGEntry);
+	bool								isIMGEntryFound(bxgi::IMGFormat *pIMGFile, bxgi::IMGEntry *pIMGEntry);
 	imgf::DBEntry*						getEntryByNameExactCase(std::string strEntryName);
 
 	void								setDBVersion(uint32 uiDBVersion) { m_uiDBVersion = uiDBVersion; }

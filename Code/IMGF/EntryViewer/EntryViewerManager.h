@@ -10,7 +10,7 @@
 LRESULT CALLBACK	WndProc_EntryViewer(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void				onPaint(HWND hwnd);
 
-class bxgi::CIMGEntry;
+class bxgi::IMGEntry;
 class imgf::TextureViewer;
 class imgf::CollisionViewer;
 

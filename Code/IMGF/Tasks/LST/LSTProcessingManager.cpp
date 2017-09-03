@@ -13,12 +13,12 @@
 #include "Task/TaskDispatchManager.h"
 #include "GUI/Editors/IMGEditor.h"
 #include "GUI/Editors/Tab/IMGEditorTab.h"
-#include "Format/COL/CCOLManager.h"
-#include "Format/COL/CCOLFormat.h"
-#include "Format/COL/CCOLEntry.h"
+#include "Format/COL/COLManager.h"
+#include "Format/COL/COLFormat.h"
+#include "Format/COL/COLEntry.h"
 #include "Static/Input.h"
 #include "Tasks/Sort/SortManager.h"
-#include "Format/IMG/Regular/CIMGEntry.h"
+#include "Format/IMG/Regular/IMGEntry.h"
 #include "Localization/LocalizationManager.h"
 
 using namespace std;
@@ -108,7 +108,7 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 			else if (strCommandUpper == "DEL")
 			{
 				string strEntryFileName = Path::getFileName(pLSTFileEntry->getValuesLine());
-				CIMGEntry *pIMGEntry = getIMGF()->getEntryListTab()->getEntryByName(strEntryFileName);
+				IMGEntry *pIMGEntry = getIMGF()->getEntryListTab()->getEntryByName(strEntryFileName);
 				if (pIMGEntry == nullptr)
 				{
 					getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_33", strEntryFileName.c_str()));
@@ -148,7 +148,7 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 			Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_29", strCOLPath.c_str()), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 			return;
 		}
-		CCOLFormat *pCOLFile = CCOLManager::get()->parseViaFile(strCOLPath);
+		COLFormat *pCOLFile = COLManager::get()->parseViaFile(strCOLPath);
 		if(!pCOLFile->doesHaveError())
 		{
 			string strSourceFolderPath = "";
@@ -164,7 +164,7 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 				{
 					string strCOLOldFileName = Path::removeFileExtension(Path::getFileName(pLSTFileEntry->getValue(0)));
 					string strCOLNewFileName = Path::removeFileExtension(Path::getFileName(pLSTFileEntry->getValue(1)));
-					CCOLEntry *pCOLEntry = pCOLFile->getEntryByName(strCOLOldFileName);
+					COLEntry *pCOLEntry = pCOLFile->getEntryByName(strCOLOldFileName);
 					if (pCOLEntry == nullptr)
 					{
 						getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_37", strCOLOldFileName.c_str()));
@@ -200,7 +200,7 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 				else if (strCommandUpper == "DEL")
 				{
 					string strEntryFileName = Path::getFileName(pLSTFileEntry->getValuesLine());
-					CCOLEntry *pCOLEntry = pCOLFile->getEntryByName(strEntryFileName);
+					COLEntry *pCOLEntry = pCOLFile->getEntryByName(strEntryFileName);
 					if (pCOLEntry == nullptr)
 					{
 						getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_42", strEntryFileName.c_str()));

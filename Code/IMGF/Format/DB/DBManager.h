@@ -6,7 +6,7 @@
 #include "Object/Singleton.h"
 
 class imgf::DBFormat;
-class bxgi::CIMGFormat;
+class bxgi::IMGFormat;
 
 class imgf::DBManager : public bxcf::FormatManager<DBFormat>, public bxcf::Singleton<DBManager>
 {
@@ -16,7 +16,7 @@ public:
 	void						init(void);
 	void						uninit(void);
 
-	DBFormat*					createDBFileFromIMGFile(bxgi::CIMGFormat *pIMGFile);
+	DBFormat*					createDBFileFromIMGFile(bxgi::IMGFormat *pIMGFile);
 	DBFormat*					createBlankDBFile(void);
 	
 	bool						compareDBFiles(DBFormat *pDBFile1, DBFormat *pDBFile2);
