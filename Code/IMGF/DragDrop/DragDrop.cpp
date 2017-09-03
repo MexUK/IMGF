@@ -25,7 +25,7 @@ void					DragDrop::onDropFiles(vector<string>& vecPaths)
 			continue;
 		}
 
-		string strExtension = String2::toUpperCase(Path::getFileExtension(strPath));
+		string strExtension = String::toUpperCase(Path::getFileExtension(strPath));
 		if (strExtension == "IMG" || strExtension == "DIR")
 		{
 			// open IMG

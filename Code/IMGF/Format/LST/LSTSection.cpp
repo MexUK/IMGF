@@ -1,6 +1,6 @@
 #include "LSTSection.h"
 #include "LSTEntry.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 
 using namespace std;
 using namespace bxcf;
@@ -13,10 +13,10 @@ void					LSTSection::unload(void)
 
 LSTEntry*				LSTSection::getEntryByName(string strName)
 {
-	strName = String2::toUpperCase(strName);
+	strName = String::toUpperCase(strName);
 	for (LSTEntry *pLSTEntry : m_vecEntries)
 	{
-		if (String2::toUpperCase(pLSTEntry->getName()) == strName)
+		if (String::toUpperCase(pLSTEntry->getName()) == strName)
 		{
 			return pLSTEntry;
 		}

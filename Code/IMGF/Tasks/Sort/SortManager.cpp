@@ -7,7 +7,7 @@
 #include "Task/TaskDispatchManager.h"
 #include "Format/IMG/Regular/IMGFormat.h"
 #include "Format/IMG/Regular/IMGEntry.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Static/StdVector.h"
 #include "Static/Path.h"
 #include "SortPriority.h"
@@ -134,20 +134,20 @@ bool		SortManager::sortIMGEntries(IMGEntry *p1, IMGEntry *p2)
 	SortPriority *pSortPriority = pSortManager->getSortPriorities()->getEntryByIndex((uint16)pSortManager->m_uiSortPriorityIndex);
 	if (!pSortPriority->isEnabled())
 	{
-		//Debugger::log("not enabled: " + String2::toString((uint16)pSortManager->m_uiSortPriorityIndex));
+		//Debugger::log("not enabled: " + String::toString((uint16)pSortManager->m_uiSortPriorityIndex));
 		return false;
 	}
 	ESortType ESortType = pSortPriority->getType()->getType();
 	if (ESortType == SORT_NAME_AZ)
 	{
-		if (String2::toUpperCase(p1->getEntryName()) == String2::toUpperCase(p2->getEntryName()))
+		if (String::toUpperCase(p1->getEntryName()) == String::toUpperCase(p2->getEntryName()))
 		{
 			pSortManager->m_uiSortPriorityIndex++;
 			bool bResult = sortIMGEntries(p1, p2);
 			pSortManager->m_uiSortPriorityIndex--;
 			return bResult;
 		}
-		else if (String2::toUpperCase(p1->getEntryName()) < String2::toUpperCase(p2->getEntryName()))
+		else if (String::toUpperCase(p1->getEntryName()) < String::toUpperCase(p2->getEntryName()))
 		{
 			return true;
 		}
@@ -158,14 +158,14 @@ bool		SortManager::sortIMGEntries(IMGEntry *p1, IMGEntry *p2)
 	}
 	else if (ESortType == SORT_NAME_ZA)
 	{
-		if (String2::toUpperCase(p1->getEntryName()) == String2::toUpperCase(p2->getEntryName()))
+		if (String::toUpperCase(p1->getEntryName()) == String::toUpperCase(p2->getEntryName()))
 		{
 			pSortManager->m_uiSortPriorityIndex++;
 			bool bResult = sortIMGEntries(p1, p2);
 			pSortManager->m_uiSortPriorityIndex--;
 			return bResult;
 		}
-		else if (String2::toUpperCase(p1->getEntryName()) > String2::toUpperCase(p2->getEntryName()))
+		else if (String::toUpperCase(p1->getEntryName()) > String::toUpperCase(p2->getEntryName()))
 		{
 			return true;
 		}
@@ -248,8 +248,8 @@ bool		SortManager::sortIMGEntries(IMGEntry *p1, IMGEntry *p2)
 	}
 	else if (ESortType == SORT_IDE_FILE)
 	{
-		uint32 uiKey1 = StdVector::findKey(pSortPriority->getData(), String2::toUpperCase(Path::removeFileExtension(p1->getEntryName())));
-		uint32 uiKey2 = StdVector::findKey(pSortPriority->getData(), String2::toUpperCase(Path::removeFileExtension(p2->getEntryName())));
+		uint32 uiKey1 = StdVector::findKey(pSortPriority->getData(), String::toUpperCase(Path::removeFileExtension(p1->getEntryName())));
+		uint32 uiKey2 = StdVector::findKey(pSortPriority->getData(), String::toUpperCase(Path::removeFileExtension(p2->getEntryName())));
 		if (uiKey1 == -1 || uiKey2 == -1)
 		{
 			return false;
@@ -272,8 +272,8 @@ bool		SortManager::sortIMGEntries(IMGEntry *p1, IMGEntry *p2)
 	}
 	else if (ESortType == SORT_COL_FILE)
 	{
-		uint32 uiKey1 = StdVector::findKey(pSortPriority->getData(), String2::toUpperCase(Path::removeFileExtension(p1->getEntryName())));
-		uint32 uiKey2 = StdVector::findKey(pSortPriority->getData(), String2::toUpperCase(Path::removeFileExtension(p2->getEntryName())));
+		uint32 uiKey1 = StdVector::findKey(pSortPriority->getData(), String::toUpperCase(Path::removeFileExtension(p1->getEntryName())));
+		uint32 uiKey2 = StdVector::findKey(pSortPriority->getData(), String::toUpperCase(Path::removeFileExtension(p2->getEntryName())));
 		if (uiKey1 == -1 || uiKey2 == -1)
 		{
 			return false;
@@ -296,8 +296,8 @@ bool		SortManager::sortIMGEntries(IMGEntry *p1, IMGEntry *p2)
 	}
 	else if (ESortType == SORT_FILE_EXTENSIONS)
 	{
-		uint32 uiKey1 = StdVector::findKey(pSortPriority->getData(), String2::toUpperCase(p1->getEntryName()));
-		uint32 uiKey2 = StdVector::findKey(pSortPriority->getData(), String2::toUpperCase(p2->getEntryName()));
+		uint32 uiKey1 = StdVector::findKey(pSortPriority->getData(), String::toUpperCase(p1->getEntryName()));
+		uint32 uiKey2 = StdVector::findKey(pSortPriority->getData(), String::toUpperCase(p2->getEntryName()));
 		if (uiKey1 == -1 || uiKey2 == -1)
 		{
 			return false;
@@ -428,18 +428,18 @@ void		SortManager::onClickMenuItem(uint16 usMenuHandle)
 			}
 			else
 			{
-				vector<string> vecFileExtensions = String2::split(strText, ",");
+				vector<string> vecFileExtensions = String::split(strText, ",");
 				for (uint32 i = 0; i < vecFileExtensions.size(); i++)
 				{
-					vecFileExtensions[i] = String2::toUpperCase(String2::trim(vecFileExtensions[i]));
+					vecFileExtensions[i] = String::toUpperCase(String::trim(vecFileExtensions[i]));
 					if (vecFileExtensions[i].c_str()[0] == '.')
 					{
 						vecFileExtensions[i] = vecFileExtensions[i].substr(1);
 					}
 				}
 				pSortPriority->setData(vecFileExtensions);
-				pSortPriority->setStrData(String2::join(vecFileExtensions, ", "));
-				// todo pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, LocalizationManager::get()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), String2::join(vecFileExtensions, ", ").c_str()).c_str());
+				pSortPriority->setStrData(String::join(vecFileExtensions, ", "));
+				// todo pSortMenu->ModifyMenuW(usMenuHandle, 0, usMenuHandle, LocalizationManager::get()->getTranslatedFormattedTextW("Sort_ByText_WithFilename", pSortMenuItem->m_pType->getTextForMenu().c_str(), String::join(vecFileExtensions, ", ").c_str()).c_str());
 			}
 		}
 

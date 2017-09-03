@@ -1,7 +1,7 @@
 #pragma warning(disable : 4005)
 
 #include "DropTarget.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Globals.h"
 #include "IMGF.h"
 #include "GUI/Editors/IMGEditor.h"

@@ -3,7 +3,7 @@
 #include "nsbxgx.h"
 #include "Task/TaskDispatchManager.h"
 #include "Task/TaskDurationManager.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Static/Path.h"
 #include "Static/File.h"
 #include "Static/StdVector.h"
@@ -11,7 +11,7 @@
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Windows/MainWindow.h"
 #include "GUI/Layers/MainLayer.h"
-#include "Controls/ProgressBar.h"
+#include "Control/Controls/ProgressBar.h"
 #include "IMGF.h"
 
 using namespace std;

@@ -2,7 +2,7 @@
 
 #include "nsimgf.h"
 
-enum imgf::EEntryViewerDisplayType : uint8
+enum imgf::EEntryViewerDisplayType
 {
 	DISPLAYTYPE_FLOAT,
 	DISPLAYTYPE_SINGLE

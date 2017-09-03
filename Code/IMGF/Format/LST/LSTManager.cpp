@@ -3,7 +3,7 @@
 #include "LSTSection.h"
 #include "LSTEntry.h"
 #include "Stream/DataReader.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Static/StdVector.h"
 #include "Static/Debug.h"
 

@@ -3,7 +3,7 @@
 #include "DBEntry.h"
 #include "Format/IMG/Regular/IMGFormat.h"
 #include "Format/IMG/Regular/IMGEntry.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Stream/DataReader.h"
 #include "Static/Debug.h"
 
@@ -32,7 +32,7 @@ DBFormat*		DBManager::createDBFileFromIMGFile(IMGFormat *pIMGFile)
 		DBEntry *pDBEntry = new DBEntry;
 		pDBEntry->setEntryName(pIMGEntry->getEntryName());
 		pDBEntry->setEntrySize(pIMGEntry->getEntrySize());
-		pDBEntry->setEntryDataCRC(String2::getCRC(pIMGEntry->getEntryData()));
+		pDBEntry->setEntryDataCRC(String::getCRC(pIMGEntry->getEntryData()));
 		pDBEntry->setEntryCreationDate(pIMGEntry->getFileCreationDate());
 		pDBEntry->setHasIssue(false);
 		pDBFile->addEntry(pDBEntry);

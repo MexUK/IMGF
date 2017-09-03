@@ -6,7 +6,7 @@
 #include "LST/LSTFormat.h"
 #include "LST/LSTSection.h"
 #include "LST/LSTEntry.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Static/File.h"
 #include "Static/Path.h"
 #include "Task/TaskManager.h"
@@ -83,7 +83,7 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 
 		for (auto pLSTFileEntry : pLSTFile->getEntryByName("cdimages")->getEntries())
 		{
-			string strCommandUpper = String2::toUpperCase(pLSTFileEntry->getName());
+			string strCommandUpper = String::toUpperCase(pLSTFileEntry->getName());
 			if (strCommandUpper == "ADD")
 			{
 				if (strSourceFolderPath == "")
@@ -159,7 +159,7 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 
 			for (auto pLSTFileEntry : pLSTFile->getEntryByName("collisions")->getEntries())
 			{
-				string strCommandUpper = String2::toUpperCase(pLSTFileEntry->getName());
+				string strCommandUpper = String::toUpperCase(pLSTFileEntry->getName());
 				if (strCommandUpper == "RENAME")
 				{
 					string strCOLOldFileName = Path::removeFileExtension(Path::getFileName(pLSTFileEntry->getValue(0)));
@@ -232,7 +232,7 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 	{
 		for (auto pLSTFileEntry : pLSTFile->getEntryByName("other")->getEntries())
 		{
-			string strCommandUpper = String2::toUpperCase(pLSTFileEntry->getName());
+			string strCommandUpper = String::toUpperCase(pLSTFileEntry->getName());
 			if (strCommandUpper == "SOURCE")
 			{
 				strSourceFolderPath = Path::removeSlashFromFront(Path::addSlashToEnd(pLSTFileEntry->getValuesLine()));

@@ -1,6 +1,6 @@
 #include "nsbxcf.h"
 #include "EditorTab.h"
-#include "Controls/Entries/Tab.h"
+#include "Control/Entries/Tab.h"
 #include <stdarg.h>
 
 using namespace std;

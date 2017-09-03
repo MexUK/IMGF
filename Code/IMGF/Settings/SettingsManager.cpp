@@ -7,7 +7,7 @@
 #include "GUI/Popups/PopupGUIManager.h"
 #include "Static/Registry.h"
 #include "Static/Path.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Static/AppDataPath.h"
 #include "Format/IMG/Regular/IMGEntry.h"
 #include "Format/Text/INI/INIManager.h"
@@ -215,7 +215,7 @@ void			SettingsManager::setSettingInt_PermanentStroage(string strSettingName, in
 {
 	if (doesUseINIStorage())
 	{
-		INIManager::setItem(getINIFilePath(), "Settings", strSettingName, String2::toString(iValue));
+		INIManager::setItem(getINIFilePath(), "Settings", strSettingName, String::toString(iValue));
 	}
 	else
 	{
@@ -249,7 +249,7 @@ int				SettingsManager::getSettingInt_PermanentStroage(string strSettingName)
 {
 	if (doesUseINIStorage())
 	{
-		return String2::toNumber(INIManager::getItem(getINIFilePath(), "Settings", strSettingName));
+		return String::toNumber(INIManager::getItem(getINIFilePath(), "Settings", strSettingName));
 	}
 	else
 	{

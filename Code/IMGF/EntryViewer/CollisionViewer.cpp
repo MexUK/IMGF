@@ -9,7 +9,7 @@
 #include "EntryViewerManager.h"
 #include "Format/COL/COLEntry.h"
 #include "Static/Math.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Static/File.h"
 #include "Static/Input.h"
 #include "Static/Debug.h"
@@ -1301,7 +1301,7 @@ void						CollisionViewer::renderBoundingSphere(void)
 		Vec3f vecPosition = Math::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, Math::convertDegreesToRadians((float32)i), Math::convertDegreesToRadians(0.0f));
 		vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
 		glVertex3f(vecPosition.x, vecPosition.z, vecPosition.y);
-		//Debugger::log("m_fRadius: " + String2::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + String2::toString(vecPosition.x) + ", " + String2::toString(vecPosition.y) + ", " + String2::toString(vecPosition.z));
+		//Debugger::log("m_fRadius: " + String::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + String::toString(vecPosition.x) + ", " + String::toString(vecPosition.y) + ", " + String::toString(vecPosition.z));
 	}
 	glEnd();
 
@@ -1312,7 +1312,7 @@ void						CollisionViewer::renderBoundingSphere(void)
 		Vec3f vecPosition = Math::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, Math::convertDegreesToRadians(90.0f), Math::convertDegreesToRadians((float32)i));
 		vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
 		glVertex3f(vecPosition.x, vecPosition.z, vecPosition.y);
-		//Debugger::log("m_fRadius: " + String2::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + String2::toString(vecPosition.x) + ", " + String2::toString(vecPosition.y) + ", " + String2::toString(vecPosition.z));
+		//Debugger::log("m_fRadius: " + String::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + String::toString(vecPosition.x) + ", " + String::toString(vecPosition.y) + ", " + String::toString(vecPosition.z));
 	}
 	glEnd();
 
@@ -1323,7 +1323,7 @@ void						CollisionViewer::renderBoundingSphere(void)
 		Vec3f vecPosition = Math::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, Math::convertDegreesToRadians((float32)i), Math::convertDegreesToRadians(90.0f));
 		vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
 		glVertex3f(vecPosition.x, vecPosition.z, vecPosition.y);
-		//Debugger::log("m_fRadius: " + String2::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + String2::toString(vecPosition.x) + ", " + String2::toString(vecPosition.y) + ", " + String2::toString(vecPosition.z));
+		//Debugger::log("m_fRadius: " + String::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + String::toString(vecPosition.x) + ", " + String::toString(vecPosition.y) + ", " + String::toString(vecPosition.z));
 	}
 	glEnd();
 }
@@ -1363,9 +1363,9 @@ void						CollisionViewer::renderCollisionMeshes(void)
 		TVertex& vecVector1 = pCOLEntry->getCollisionMeshVertices()[face.m_uiA];
 		TVertex& vecVector2 = pCOLEntry->getCollisionMeshVertices()[face.m_uiB];
 		TVertex& vecVector3 = pCOLEntry->getCollisionMeshVertices()[face.m_uiC];
-		//Debugger::log("vecVector1: " + String2::toString(vecVector1.x) + ", " + String2::toString(vecVector1.y) + ", " + String2::toString(vecVector1.z));
-		//Debugger::log("vecVector2: " + String2::toString(vecVector2.x) + ", " + String2::toString(vecVector2.y) + ", " + String2::toString(vecVector2.z));
-		//Debugger::log("vecVector3: " + String2::toString(vecVector3.x) + ", " + String2::toString(vecVector3.y) + ", " + String2::toString(vecVector3.z));
+		//Debugger::log("vecVector1: " + String::toString(vecVector1.x) + ", " + String::toString(vecVector1.y) + ", " + String::toString(vecVector1.z));
+		//Debugger::log("vecVector2: " + String::toString(vecVector2.x) + ", " + String::toString(vecVector2.y) + ", " + String::toString(vecVector2.z));
+		//Debugger::log("vecVector3: " + String::toString(vecVector3.x) + ", " + String::toString(vecVector3.y) + ", " + String::toString(vecVector3.z));
 		glVertex3f(vecVector1.x, vecVector1.z, vecVector1.y);
 		glVertex3f(vecVector2.x, vecVector2.z, vecVector2.y);
 		glVertex3f(vecVector3.x, vecVector3.z, vecVector3.y);
@@ -1380,8 +1380,8 @@ void						CollisionViewer::renderCollisionCuboids(void)
 	glBegin(GL_QUADS);
 	//glColor3ub(255, 0, 0);
 
-	//Debugger::log("collisionBox.m_min: " + String2::toString(collisionBox.m_min.x) + ", " + String2::toString(collisionBox.m_min.y) + ", " + String2::toString(collisionBox.m_min.z));
-	//Debugger::log("collisionBox.m_max: " + String2::toString(collisionBox.m_max.x) + ", " + String2::toString(collisionBox.m_max.y) + ", " + String2::toString(collisionBox.m_max.z));
+	//Debugger::log("collisionBox.m_min: " + String::toString(collisionBox.m_min.x) + ", " + String::toString(collisionBox.m_min.y) + ", " + String::toString(collisionBox.m_min.z));
+	//Debugger::log("collisionBox.m_max: " + String::toString(collisionBox.m_max.x) + ", " + String::toString(collisionBox.m_max.y) + ", " + String::toString(collisionBox.m_max.z));
 	uint32 i = 0;
 	int i2 = 0;
 	int colors[6][3] = {
@@ -1399,7 +1399,7 @@ void						CollisionViewer::renderCollisionCuboids(void)
 		i2 = 0;
 		for (auto vecVertex : vecVertices)
 		{
-			//Debugger::log("vecVertex: " + String2::toString(vecVertex.x) + ", " + String2::toString(vecVertex.y) + ", " + String2::toString(vecVertex.z));
+			//Debugger::log("vecVertex: " + String::toString(vecVertex.x) + ", " + String::toString(vecVertex.y) + ", " + String::toString(vecVertex.z));
 			if ((i % 4) == 0)
 			{
 				glColor3ub(colors[i2][0], colors[i2][1], colors[i2][2]);
@@ -1589,7 +1589,7 @@ void						CollisionViewer::render2DText(void)
 	rect.top = 10;
 	rect.right = 8000;
 	rect.bottom = 8000;
-	DrawText(hdc, String2::convertStdStringToStdWString("Test").c_str(), String2::convertStdStringToStdWString("Test").length(), &rect, DT_NOPREFIX);
+	DrawText(hdc, String::convertStdStringToStdWString("Test").c_str(), String::convertStdStringToStdWString("Test").length(), &rect, DT_NOPREFIX);
 
 	//EndPaint(hwnd, &ps);
 }

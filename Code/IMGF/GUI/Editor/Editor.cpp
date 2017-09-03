@@ -4,9 +4,9 @@
 #include "Format/Format.h"
 #include "IMGF.h"
 #include "Tasks/RecentlyOpen/RecentlyOpenManager.h"
-#include "Controls/TabBar.h"
+#include "Control/Controls/TabBar.h"
 #include "GUI/Windows/MainWindow.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 
 using namespace std;
 using namespace bxcf;
@@ -36,11 +36,11 @@ void								Editor::addFile(EditorTab *pEditorFile)
 
 	// choose tab text
 	string strTabText = Path::getFileName(strFilePath);
-	if (String2::toUpperCase(Path::getFileExtension(strTabText)) == "DIR")
+	if (String::toUpperCase(Path::getFileExtension(strTabText)) == "DIR")
 	{
 		strTabText = Path::replaceFileExtensionWithCase(strTabText, "IMG");
 	}
-	strTabText += " (" + String2::toString(pEditorFile->getFile()->m_uiEntryCount) + ")";
+	strTabText += " (" + String::toString(pEditorFile->getFile()->m_uiEntryCount) + ")";
 
 	// add controls to tab layer
 	pEditorFile->addControls();

@@ -1,5 +1,5 @@
 #include "SortType.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 
 using namespace std;
 using namespace bxcf;
@@ -7,7 +7,7 @@ using namespace imgf;
 
 string					SortType::getText(void)
 {
-	return String2::replace(m_strText, "&", "");
+	return String::replace(m_strText, "&", "");
 }
 
 string					SortType::getTextForMenu(void)

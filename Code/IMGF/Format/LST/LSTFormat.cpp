@@ -1,7 +1,7 @@
 #include "LSTFormat.h"
 #include "LSTSection.h"
 #include "LSTEntry.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Static/StdVector.h"
 #include "Stream/DataReader.h"
 
@@ -47,7 +47,7 @@ void						LSTFormat::unserializeLine(void)
 	}
 
 	// trim line
-	strActiveLine = String2::trim(strActiveLine);
+	strActiveLine = String::trim(strActiveLine);
 	
 	// process line
 	if (strActiveLine == "")
@@ -60,11 +60,11 @@ void						LSTFormat::unserializeLine(void)
 		{
 			// line is a section
 			LSTSection *pLSTFileSection = new LSTSection;
-			pLSTFileSection->setName(String2::trim(strActiveLine.substr(1, strActiveLine.length() - 2)));
+			pLSTFileSection->setName(String::trim(strActiveLine.substr(1, strActiveLine.length() - 2)));
 			pLSTActiveSection = pLSTFileSection;
 			addEntry(pLSTFileSection);
 
-			if (String2::toUpperCase(pLSTFileSection->getName()) == "END")
+			if (String::toUpperCase(pLSTFileSection->getName()) == "END")
 			{
 				pDataReader->setUserData(1); // stop processing LST format
 			}
@@ -72,7 +72,7 @@ void						LSTFormat::unserializeLine(void)
 		else
 		{
 			// line is an entry
-			deque<string> deqTokens = StdVector::convertVectorToDeque(String2::split(strActiveLine, " "));
+			deque<string> deqTokens = StdVector::convertVectorToDeque(String::split(strActiveLine, " "));
 
 			LSTEntry *pLSTEntry = new LSTEntry;
 			pLSTEntry->setName(deqTokens[0]);
@@ -90,10 +90,10 @@ void						LSTFormat::serialize(void)
 
 LSTSection*				LSTFormat::getEntryByName(string strName)
 {
-	strName = String2::toUpperCase(strName);
+	strName = String::toUpperCase(strName);
 	for (auto pSection : getEntries())
 	{
-		if (String2::toUpperCase(pSection->getName()) == strName)
+		if (String::toUpperCase(pSection->getName()) == strName)
 		{
 			return pSection;
 		}

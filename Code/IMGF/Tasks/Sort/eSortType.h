@@ -3,7 +3,7 @@
 #include "nsimgf.h"
 #include "Type/Types.h"
 
-enum imgf::ESortType : uint8
+enum imgf::ESortType
 {
 	SORT_NAME_AZ,
 	SORT_NAME_ZA,

@@ -1,6 +1,6 @@
 #include "DBFormat.h"
 #include "DBEntry.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Format/IMG/Regular/IMGFormat.h"
 #include "Format/IMG/Regular/IMGEntry.h"
 #include "Stream/DataReader.h"
@@ -62,7 +62,7 @@ bool								DBFormat::isIMGEntryFound(IMGFormat *pIMGFile, IMGEntry *pIMGEntry)
 		return false;
 	}
 
-	if (pDBEntry->getEntryDataCRC() != String2::getCRC(pIMGEntry->getEntryData()))
+	if (pDBEntry->getEntryDataCRC() != String::getCRC(pIMGEntry->getEntryData()))
 	{
 		return false;
 	}

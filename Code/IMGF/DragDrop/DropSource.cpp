@@ -2,7 +2,7 @@
 
 #include "DropSource.h"
 #include "DragListCtrl.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Globals.h"
 #include "IMGF.h"
 #include "GUI/Editors/Tab/IMGEditorTab.h"
@@ -34,7 +34,7 @@ void		DropSource::StartDragging(void)
 			for (auto pDraggableFile : m_vecDraggableFiles)
 			{
 				ZeroMemory(&pFileDescriptorArray[index], sizeof(FILEDESCRIPTOR));
-				lstrcpy(pFileDescriptorArray[index].cFileName, String2::convertStdStringToStdWString(pDraggableFile->m_strFileName).c_str());
+				lstrcpy(pFileDescriptorArray[index].cFileName, String::convertStdStringToStdWString(pDraggableFile->m_strFileName).c_str());
 				//m_DataSrc.m_Files.Add(pFileDescriptorArray[index].cFileName);
 				pFileDescriptorArray[index].dwFlags = FD_FILESIZE | FD_ATTRIBUTES;
 				pFileDescriptorArray[index].nFileSizeLow = pDraggableFile->m_strFileData.length();

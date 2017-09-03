@@ -1,5 +1,5 @@
 #include "RecentlyOpenManager.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Static/Path.h"
 #include "Static/StdVector.h"
 #include "Static/Registry.h"
@@ -40,12 +40,12 @@ void					RecentlyOpenManager::loadRecentlyOpenEntries(void)
 	DeleteMenu(getIMGF()->m_hSubMenu_File_OpenRecent, 1880, 0);
 	DeleteMenu(getIMGF()->m_hSubMenu_File_OpenRecent, 1881, 0);
 
-	uint32 uiRecentlyOpenedCount = String2::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
+	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
 	for (int32 i = uiRecentlyOpenedCount; i >= 1; i--)
 	{
-		string strIMGPath = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String2::toString(i));
+		string strIMGPath = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i));
 
-		AppendMenu(getIMGF()->m_hSubMenu_File_OpenRecent, MF_STRING, 1800 + i, String2::convertStdStringToStdWString(String2::toString((uiRecentlyOpenedCount - i) + 1) + ") " + strIMGPath).c_str());
+		AppendMenu(getIMGF()->m_hSubMenu_File_OpenRecent, MF_STRING, 1800 + i, String::convertStdStringToStdWString(String::toString((uiRecentlyOpenedCount - i) + 1) + ") " + strIMGPath).c_str());
 
 		getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer()[1800 + i] = strIMGPath;
 
@@ -77,28 +77,28 @@ RecentlyOpenEntry*		RecentlyOpenManager::addRecentlyOpenEntry(string strPath)
 		return pRecentlyOpenEntry;
 	}
 
-	strPath = String2::replace(strPath, "/", "\\");
+	strPath = String::replace(strPath, "/", "\\");
 
 	RecentlyOpenEntry *pRecentlyOpenEntry = new RecentlyOpenEntry;
 	pRecentlyOpenEntry->m_strPath = strPath;
 	addEntry(pRecentlyOpenEntry);
 
 	uint32 uiRecentlyOpenedMaxCount = 15;
-	uint32 uiRecentlyOpenedCount = String2::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
+	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
 
 	if (uiRecentlyOpenedCount == uiRecentlyOpenedMaxCount)
 	{
 		for (uint32 i = 2; i <= uiRecentlyOpenedMaxCount; i++)
 		{
-			string strIMGPath2 = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String2::toString(i));
-			INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String2::toString(i - 1), strIMGPath2);
+			string strIMGPath2 = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i));
+			INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i - 1), strIMGPath2);
 		}
-		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String2::toString(uiRecentlyOpenedMaxCount), strPath);
+		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedMaxCount), strPath);
 	}
 	else
 	{
-		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count", String2::toString(uiRecentlyOpenedCount + 1));
-		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String2::toString(uiRecentlyOpenedCount + 1), strPath);
+		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count", String::toString(uiRecentlyOpenedCount + 1));
+		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedCount + 1), strPath);
 	}
 
 	return pRecentlyOpenEntry;
@@ -117,10 +117,10 @@ void					RecentlyOpenManager::removeRecentlyOpenedEntries(void)
 	removeAllEntries();
 	getIMGF()->getActiveWindow()->clearOpenLastFilename();
 
-	uint32 uiRecentlyOpenedCount = String2::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
+	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
 	for (uint32 i = 1; i <= uiRecentlyOpenedCount; i++)
 	{
-		INIManager::removeItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String2::toString(i));
+		INIManager::removeItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i));
 	}
 	INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count", 0);
 
@@ -131,25 +131,25 @@ void					RecentlyOpenManager::removeRecentlyOpenedEntries(void)
 void					RecentlyOpenManager::removeRecentlyOpenEntry(RecentlyOpenEntry *pRecentlyOpenEntry)
 {
 	uint32 uiRecentlyOpenedIndex = getRecentlyOpenedFileIndex(pRecentlyOpenEntry->getPath());
-	INIManager::removeItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String2::toString(uiRecentlyOpenedIndex));
+	INIManager::removeItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedIndex));
 
-	uint32 uiRecentlyOpenedCount = String2::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
+	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
 	for (uint32 i = uiRecentlyOpenedIndex; i <= uiRecentlyOpenedCount; i++)
 	{
-		string strIMGPath2 = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String2::toString(i + 1));
-		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String2::toString(i), strIMGPath2);
+		string strIMGPath2 = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i + 1));
+		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i), strIMGPath2);
 	}
-	INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count", String2::toString(uiRecentlyOpenedCount - 1));
+	INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count", String::toString(uiRecentlyOpenedCount - 1));
 
 	removeEntry(pRecentlyOpenEntry);
 }
 
 uint32			RecentlyOpenManager::getRecentlyOpenedFileIndex(string strIMGPath)
 {
-	uint32 uiRecentlyOpenedCount = String2::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
+	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
 	for (uint32 i = 1; i <= uiRecentlyOpenedCount; i++)
 	{
-		string strIMGPath2 = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String2::toString(i));
+		string strIMGPath2 = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i));
 		if (strIMGPath2 == strIMGPath)
 		{
 			return i;
@@ -160,11 +160,11 @@ uint32			RecentlyOpenManager::getRecentlyOpenedFileIndex(string strIMGPath)
 
 RecentlyOpenEntry*		RecentlyOpenManager::getRecentlyOpenEntryByPath(string strPath)
 {
-	strPath = String2::toUpperCase(strPath);
-	strPath = String2::replace(strPath, "\\", "/");
+	strPath = String::toUpperCase(strPath);
+	strPath = String::replace(strPath, "\\", "/");
 	for (auto pRecentlyOpenEntry : getEntries())
 	{
-		if (String2::replace(String2::toUpperCase(pRecentlyOpenEntry->m_strPath), "\\", "/") == strPath)
+		if (String::replace(String::toUpperCase(pRecentlyOpenEntry->m_strPath), "\\", "/") == strPath)
 		{
 			return pRecentlyOpenEntry;
 		}
@@ -179,13 +179,13 @@ bool					RecentlyOpenManager::doesRecentlyOpenEntryExist(string strPath)
 
 string					RecentlyOpenManager::getLastOpenEntry(void)
 {
-	uint32 uiRecentlyOpenedCount = String2::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
+	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
 	if (uiRecentlyOpenedCount == 0)
 	{
 		return "";
 	}
 
-	string strIMGPath = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String2::toString(uiRecentlyOpenedCount));
+	string strIMGPath = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedCount));
 	return strIMGPath;
 }
 

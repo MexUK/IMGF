@@ -15,19 +15,19 @@
 #include "Format/IMG/Regular/IMGManager.h"
 #include "Static/Input.h"
 #include "Window/Window.h"
-#include "Controls/Text.h"
-#include "Controls/Grid.h"
-#include "Controls/Button.h"
-#include "Controls/CheckBox.h"
-#include "Controls/DropDown.h"
-#include "Controls/ScrollBar.h"
-#include "Controls/ProgressBar.h"
-#include "Controls/RadioButton.h"
-#include "Controls/TextBox.h"
+#include "Control/Controls/Text.h"
+#include "Control/Controls/Grid.h"
+#include "Control/Controls/Button.h"
+#include "Control/Controls/CheckBox.h"
+#include "Control/Controls/DropDown.h"
+#include "Control/Controls/ScrollBar.h"
+#include "Control/Controls/ProgressBar.h"
+#include "Control/Controls/RadioButton.h"
+#include "Control/Controls/TextBox.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Editors/IMGEditor.h"
 #include "GUI/Editors/Tab/IMGEditorTab.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Static/File.h"
 #include "Static/Path.h"
 #include "Static/Registry.h"
@@ -70,7 +70,7 @@
 #include "Static/Timing.h"
 #include "Task/LastUsedValueManager.h"
 #include "GUI/Windows/MainWindow.h"
-#include "Styles/StyleManager.h"
+#include "Style/StyleManager.h"
 #include "GUI/Input/InputManager.h"
 #include "Static/DataPath.h"
 
@@ -306,7 +306,7 @@ void				IMGF::initOldVersionMigration(void)
 			bFileExists = File::doesFileExist(strPreviousVersionExePath);
 			if (bFileExists)
 			{
-				iResult = DeleteFile(String2::convertStdStringToStdWString(strPreviousVersionExePath).c_str());
+				iResult = DeleteFile(String::convertStdStringToStdWString(strPreviousVersionExePath).c_str());
 				if (iResult == 0)
 				{
 					Sleep(250);
@@ -327,7 +327,7 @@ void				IMGF::initCommandLine(void)
 {
 	// command line
 	wchar_t *pCommandLine = GetCommandLine();
-	string strCommandLine = String2::convertStdWStringToStdString(pCommandLine);
+	string strCommandLine = String::convertStdWStringToStdString(pCommandLine);
 	int uiPos1 = strCommandLine.find('"', 0);
 	int uiPos2 = strCommandLine.find('"', uiPos1 + 1);
 	int uiPos3 = strCommandLine.find('"', uiPos2 + 1);
@@ -335,7 +335,7 @@ void				IMGF::initCommandLine(void)
 	{
 		int uiPos4 = strCommandLine.find('"', uiPos3 + 1);
 		string strPath = strCommandLine.substr(uiPos3 + 1, (uiPos4 - uiPos3) - 1);
-		//MessageBox(NULL, String2::convertStdStringToStdWString(strCommandLine).c_str(), L"S", MB_OK);
+		//MessageBox(NULL, String::convertStdStringToStdWString(strCommandLine).c_str(), L"S", MB_OK);
 		getTaskManager()->getDispatch()->_openFile(strPath);
 	}
 }

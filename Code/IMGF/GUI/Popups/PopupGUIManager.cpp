@@ -1,7 +1,7 @@
 #pragma warning(disable : 4005)
 
 #include "PopupGUIManager.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Shlobj.h"
 #include "WindowControlIds.h"
 #include "Static/Input.h"
@@ -54,21 +54,21 @@ void									PopupGUIManager::updateGUIControlsTextToLanguage(CDialog *pDialog, 
 
 		string strStartText = "Window_" + strWindowName + "_";
 
-		if (String2::doesStartWith(strInternalName, strStartText, false))
+		if (String::doesStartWith(strInternalName, strStartText, false))
 		{
 			string strTextRemaining = strInternalName.substr(strStartText.length());
 
-			if (String2::toUpperCase(strTextRemaining) == "TITLE")
+			if (String::toUpperCase(strTextRemaining) == "TITLE")
 			{
 				// e.g. Window_DFFConversion_Title
-				SetWindowText(pDialog->GetSafeHwnd(), String2::convertStdStringToStdWString(strLanguageText).c_str());
+				SetWindowText(pDialog->GetSafeHwnd(), String::convertStdStringToStdWString(strLanguageText).c_str());
 			}
-			else if (String2::isPositiveInteger(strTextRemaining))
+			else if (String::isPositiveInteger(strTextRemaining))
 			{
 				// e.g. Window_DFFConversion_100
-				uint32 uiControlId = String2::toNumber(strTextRemaining);
-				pDialog->GetDlgItem(uiControlId)->SetWindowText(String2::convertStdStringToStdWString(strLanguageText).c_str());
-				//CWnd::FromHandle(GetDlgItem(pDialog->GetSafeHwnd(), uiControlId))->SetWindowText(String2::convertStdStringToStdWString(strLanguageText).c_str());
+				uint32 uiControlId = String::toNumber(strTextRemaining);
+				pDialog->GetDlgItem(uiControlId)->SetWindowText(String::convertStdStringToStdWString(strLanguageText).c_str());
+				//CWnd::FromHandle(GetDlgItem(pDialog->GetSafeHwnd(), uiControlId))->SetWindowText(String::convertStdStringToStdWString(strLanguageText).c_str());
 			}
 		}
 	}
@@ -89,12 +89,12 @@ INT_PTR CALLBACK DialogProc_3ButtonDialog(
 	{
 	case WM_INITDIALOG:
 	p3ButtonDialogData = (C3ButtonDialogData*)lParam;
-	pDialog->SetWindowTextW(String2::convertStdStringToStdWString(p3ButtonDialogData->m_strWindowTitle).c_str());
-	((CStatic*)pDialog->GetDlgItem(100))->SetWindowTextW(String2::convertStdStringToStdWString(p3ButtonDialogData->m_strStaticText).c_str());
+	pDialog->SetWindowTextW(String::convertStdStringToStdWString(p3ButtonDialogData->m_strWindowTitle).c_str());
+	((CStatic*)pDialog->GetDlgItem(100))->SetWindowTextW(String::convertStdStringToStdWString(p3ButtonDialogData->m_strStaticText).c_str());
 
-	((CStatic*)pDialog->GetDlgItem(150))->SetWindowTextW(String2::convertStdStringToStdWString(p3ButtonDialogData->m_strButton1Text).c_str());
-	((CStatic*)pDialog->GetDlgItem(151))->SetWindowTextW(String2::convertStdStringToStdWString(p3ButtonDialogData->m_strButton2Text).c_str());
-	((CStatic*)pDialog->GetDlgItem(152))->SetWindowTextW(String2::convertStdStringToStdWString(p3ButtonDialogData->m_strButton3Text).c_str());
+	((CStatic*)pDialog->GetDlgItem(150))->SetWindowTextW(String::convertStdStringToStdWString(p3ButtonDialogData->m_strButton1Text).c_str());
+	((CStatic*)pDialog->GetDlgItem(151))->SetWindowTextW(String::convertStdStringToStdWString(p3ButtonDialogData->m_strButton2Text).c_str());
+	((CStatic*)pDialog->GetDlgItem(152))->SetWindowTextW(String::convertStdStringToStdWString(p3ButtonDialogData->m_strButton3Text).c_str());
 
 	SetWindowLong(hwndDlg, GWL_USERDATA, (DWORD)p3ButtonDialogData);
 	break;
@@ -163,9 +163,9 @@ INT_PTR CALLBACK DialogProc_TextInputDialog(
 	{
 	case WM_INITDIALOG:
 	pTextInputDialogData = (TextInputDialogData*)lParam;
-	pDialog->SetWindowTextW(String2::convertStdStringToStdWString(pTextInputDialogData->m_strWindowTitle).c_str());
-	((CStatic*)pDialog->GetDlgItem(1))->SetWindowTextW(String2::convertStdStringToStdWString(pTextInputDialogData->m_strStaticText).c_str());
-	((CStatic*)pDialog->GetDlgItem(0))->SetWindowTextW(String2::convertStdStringToStdWString(pTextInputDialogData->m_strEditText).c_str());
+	pDialog->SetWindowTextW(String::convertStdStringToStdWString(pTextInputDialogData->m_strWindowTitle).c_str());
+	((CStatic*)pDialog->GetDlgItem(1))->SetWindowTextW(String::convertStdStringToStdWString(pTextInputDialogData->m_strStaticText).c_str());
+	((CStatic*)pDialog->GetDlgItem(0))->SetWindowTextW(String::convertStdStringToStdWString(pTextInputDialogData->m_strEditText).c_str());
 
 	SetWindowLong(hwndDlg, GWL_USERDATA, (DWORD)pTextInputDialogData);
 	break;
@@ -178,7 +178,7 @@ INT_PTR CALLBACK DialogProc_TextInputDialog(
 	break;
 	case 3:
 	((CEdit*)pDialog->GetDlgItem(0))->GetWindowTextW(strText);
-	((TextInputDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA))->m_strResultText = String2::convertCStringToStdString(strText);
+	((TextInputDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA))->m_strResultText = String::convertCStringToStdString(strText);
 	EndDialog(hwndDlg, 0);
 	break;
 	}
@@ -227,8 +227,8 @@ INT_PTR CALLBACK DialogProc_ConvertDialog(
 	pConvertDialogData = (CConvertDialogData*)lParam;
 	SetWindowLong(hwndDlg, GWL_USERDATA, (DWORD)pConvertDialogData);
 
-	pDialog->SetWindowTextW(String2::convertStdStringToStdWString(pConvertDialogData->m_strWindowTitle).c_str());
-	((Button*)pDialog->GetDlgItem(5))->SetWindowTextW(String2::convertStdStringToStdWString(pConvertDialogData->m_strButtonText).c_str());
+	pDialog->SetWindowTextW(String::convertStdStringToStdWString(pConvertDialogData->m_strWindowTitle).c_str());
+	((Button*)pDialog->GetDlgItem(5))->SetWindowTextW(String::convertStdStringToStdWString(pConvertDialogData->m_strButtonText).c_str());
 	break;
 	case WM_COMMAND:
 	switch (wParam)
@@ -381,9 +381,9 @@ INT_PTR CALLBACK DialogProc_TextAreaDialog(
 	{
 	case WM_INITDIALOG:
 	pTextInputDialogData = (TextInputDialogData*)lParam;
-	pDialog->SetWindowTextW(String2::convertStdStringToStdWString(pTextInputDialogData->m_strWindowTitle).c_str());
-	((CStatic*)pDialog->GetDlgItem(0))->SetWindowTextW(String2::convertStdStringToStdWString(pTextInputDialogData->m_strStaticText).c_str());
-	((CStatic*)pDialog->GetDlgItem(1))->SetWindowTextW(String2::convertStdStringToStdWString(pTextInputDialogData->m_strEditText).c_str());
+	pDialog->SetWindowTextW(String::convertStdStringToStdWString(pTextInputDialogData->m_strWindowTitle).c_str());
+	((CStatic*)pDialog->GetDlgItem(0))->SetWindowTextW(String::convertStdStringToStdWString(pTextInputDialogData->m_strStaticText).c_str());
+	((CStatic*)pDialog->GetDlgItem(1))->SetWindowTextW(String::convertStdStringToStdWString(pTextInputDialogData->m_strEditText).c_str());
 
 	SetWindowLong(hwndDlg, GWL_USERDATA, (DWORD)pTextInputDialogData);
 	break;
@@ -392,7 +392,7 @@ INT_PTR CALLBACK DialogProc_TextAreaDialog(
 	{
 	case 2:
 	((CEdit*)pDialog->GetDlgItem(1))->GetWindowTextW(strText);
-	((TextInputDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA))->m_strResultText = String2::convertCStringToStdString(strText);
+	((TextInputDialogData*)GetWindowLong(hwndDlg, GWL_USERDATA))->m_strResultText = String::convertCStringToStdString(strText);
 	EndDialog(hwndDlg, 0);
 	break;
 	case 3:
@@ -687,8 +687,8 @@ INT_PTR CALLBACK DialogProc_StatsDialog(
 	for (auto it : pStatsDialogData->m_umapStatsExtensions)
 	{
 	uiItemIndex = ((CListCtrl*)pDialog->GetDlgItem(1))->GetItemCount();
-	((CListCtrl*)pDialog->GetDlgItem(1))->InsertItem(uiItemIndex, String2::convertStdStringToStdWString(it.first).c_str());
-	((CListCtrl*)pDialog->GetDlgItem(1))->SetItem(uiItemIndex, 1, LVIF_TEXT, String2::convertStdStringToStdWString(String2::toString(it.second)).c_str(), 0, 0, 0, 0);
+	((CListCtrl*)pDialog->GetDlgItem(1))->InsertItem(uiItemIndex, String::convertStdStringToStdWString(it.first).c_str());
+	((CListCtrl*)pDialog->GetDlgItem(1))->SetItem(uiItemIndex, 1, LVIF_TEXT, String::convertStdStringToStdWString(String::toString(it.second)).c_str(), 0, 0, 0, 0);
 	}
 
 	uiItemIndex = ((CListCtrl*)pDialog->GetDlgItem(1))->GetItemCount();
@@ -711,8 +711,8 @@ INT_PTR CALLBACK DialogProc_StatsDialog(
 	}
 
 	uiItemIndex = ((CListCtrl*)pDialog->GetDlgItem(1))->GetItemCount();
-	((CListCtrl*)pDialog->GetDlgItem(1))->InsertItem(uiItemIndex, String2::convertStdStringToStdWString(strRWVersionName).c_str());
-	((CListCtrl*)pDialog->GetDlgItem(1))->SetItem(uiItemIndex, 1, LVIF_TEXT, String2::convertStdStringToStdWString(String2::toString(it.second)).c_str(), 0, 0, 0, 0);
+	((CListCtrl*)pDialog->GetDlgItem(1))->InsertItem(uiItemIndex, String::convertStdStringToStdWString(strRWVersionName).c_str());
+	((CListCtrl*)pDialog->GetDlgItem(1))->SetItem(uiItemIndex, 1, LVIF_TEXT, String::convertStdStringToStdWString(String::toString(it.second)).c_str(), 0, 0, 0, 0);
 	}
 
 	SetWindowLong(hwndDlg, GWL_USERDATA, (DWORD)pStatsDialogData);
@@ -733,7 +733,7 @@ INT_PTR CALLBACK DialogProc_StatsDialog(
 	{
 	CString strText1 = ((CListCtrl*)pDialog->GetDlgItem(1))->GetItemText(i, 0);
 	CString strText2 = ((CListCtrl*)pDialog->GetDlgItem(1))->GetItemText(i, 1);
-	strSaveData += String2::convertCStringToStdString(strText1) + "\t" + String2::convertCStringToStdString(strText2) + "\n";
+	strSaveData += String::convertCStringToStdString(strText1) + "\t" + String::convertCStringToStdString(strText2) + "\n";
 	}
 	File::storeFile(strSaveFilePath, strSaveData, false, false);
 	}
@@ -785,13 +785,13 @@ INT_PTR CALLBACK DialogProc_OrphanEntriesDialog(
 	((CListCtrl*)pDialog->GetDlgItem(100))->InsertColumn(0, LocalizationManager::get()->getTranslatedTextW("Window_OrphanEntries_EntryName").c_str(), 0, 200);
 	((CListCtrl*)pDialog->GetDlgItem(100))->SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
 
-	((CStatic*)pDialog->GetDlgItem(101))->SetWindowTextW(String2::convertStdStringToStdWString(pOrphanEntriesData->m_strStaticText).c_str());
-	((CStatic*)pDialog->GetDlgItem(102))->SetWindowTextW(String2::convertStdStringToStdWString(pOrphanEntriesData->m_strButtonText).c_str());
+	((CStatic*)pDialog->GetDlgItem(101))->SetWindowTextW(String::convertStdStringToStdWString(pOrphanEntriesData->m_strStaticText).c_str());
+	((CStatic*)pDialog->GetDlgItem(102))->SetWindowTextW(String::convertStdStringToStdWString(pOrphanEntriesData->m_strButtonText).c_str());
 
 	for (auto strEntryName : pOrphanEntriesData->m_vecEntryNames)
 	{
 	uiItemIndex = ((CListCtrl*)pDialog->GetDlgItem(100))->GetItemCount();
-	((CListCtrl*)pDialog->GetDlgItem(100))->InsertItem(uiItemIndex, String2::convertStdStringToStdWString(strEntryName).c_str());
+	((CListCtrl*)pDialog->GetDlgItem(100))->InsertItem(uiItemIndex, String::convertStdStringToStdWString(strEntryName).c_str());
 	}
 
 	SetWindowLong(hwndDlg, GWL_USERDATA, (DWORD)pOrphanEntriesData);
@@ -872,7 +872,7 @@ INT_PTR CALLBACK DialogProc_SettingsDialog(
 	pSettingsData->m_ELanguage = (ELanguage)getIMGF()->getSettingsManager()->getSettingInt("Language");
 
 	// quick export path
-	((CEdit*)pDialog->GetDlgItem(104))->SetWindowTextW(String2::convertStdStringToStdWString(pSettingsData->m_strQuickExportPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(104))->SetWindowTextW(String::convertStdStringToStdWString(pSettingsData->m_strQuickExportPath).c_str());
 
 	// language
 	uint32
@@ -909,7 +909,7 @@ INT_PTR CALLBACK DialogProc_SettingsDialog(
 	((Button*)pDialog->GetDlgItem(154))->SetCheck(pSettingsData->m_bAutoCompressionImportReplace ? BST_CHECKED : BST_UNCHECKED);
 
 	// automatic logging
-	((CEdit*)pDialog->GetDlgItem(110))->SetWindowTextW(String2::convertStdStringToStdWString(pSettingsData->m_strAutomaticLoggingPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(110))->SetWindowTextW(String::convertStdStringToStdWString(pSettingsData->m_strAutomaticLoggingPath).c_str());
 	((Button*)pDialog->GetDlgItem(112))->SetCheck(pSettingsData->m_bAutomaticLoggingBasic ? BST_CHECKED : BST_UNCHECKED);
 	((Button*)pDialog->GetDlgItem(113))->SetCheck(pSettingsData->m_bAutomaticLoggingExtended ? BST_CHECKED : BST_UNCHECKED);
 
@@ -927,14 +927,14 @@ INT_PTR CALLBACK DialogProc_SettingsDialog(
 	{
 	pSettingsData->m_bSave = true;
 	((CEdit*)pDialog->GetDlgItem(104))->GetWindowTextW(strText);
-	pSettingsData->m_strQuickExportPath = String2::convertCStringToStdString(strText);
+	pSettingsData->m_strQuickExportPath = String::convertCStringToStdString(strText);
 	pSettingsData->m_bColouredButtons = ((Button*)pDialog->GetDlgItem(102))->GetCheck() == BST_CHECKED;
 	pSettingsData->m_bColouredTabs = ((Button*)pDialog->GetDlgItem(106))->GetCheck() == BST_CHECKED;
 	pSettingsData->m_bRebuildConfirmationOnClose = ((Button*)pDialog->GetDlgItem(107))->GetCheck() == BST_CHECKED;
 	pSettingsData->m_bRebuildOnConvert = ((Button*)pDialog->GetDlgItem(108))->GetCheck() == BST_CHECKED;
 	pSettingsData->m_bAutoSave = ((Button*)pDialog->GetDlgItem(120))->GetCheck() == BST_CHECKED;
 	((CEdit*)pDialog->GetDlgItem(110))->GetWindowTextW(strText);
-	pSettingsData->m_strAutomaticLoggingPath = String2::convertCStringToStdString(strText);
+	pSettingsData->m_strAutomaticLoggingPath = String::convertCStringToStdString(strText);
 	pSettingsData->m_bAutomaticLoggingBasic = ((Button*)pDialog->GetDlgItem(112))->GetCheck() == BST_CHECKED;
 	pSettingsData->m_bAutomaticLoggingExtended = ((Button*)pDialog->GetDlgItem(113))->GetCheck() == BST_CHECKED;
 	pSettingsData->m_bAskBeforeOverwritingFiles = ((Button*)pDialog->GetDlgItem(150))->GetCheck() == BST_CHECKED;
@@ -955,12 +955,12 @@ INT_PTR CALLBACK DialogProc_SettingsDialog(
 	{
 	TCHAR szModuleName[MAX_PATH];
 	GetModuleFileName(NULL, szModuleName, MAX_PATH);
-	string strExePath = String2::convertStdWStringToStdString(szModuleName);
+	string strExePath = String::convertStdWStringToStdString(szModuleName);
 
 	uint32 uiResult2 = Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_61"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_61"), MB_OKCANCEL);
 	if (uiResult2 == IDOK)
 	{
-	ShellExecute(NULL, L"open", String2::convertStdStringToStdWString(strExePath).c_str(), NULL, NULL, SW_SHOWNORMAL);
+	ShellExecute(NULL, L"open", String::convertStdStringToStdWString(strExePath).c_str(), NULL, NULL, SW_SHOWNORMAL);
 	pSettingsData->m_bNewLanguageApplied = true;
 	}
 	}
@@ -987,11 +987,11 @@ INT_PTR CALLBACK DialogProc_SettingsDialog(
 	}
 	case 100: // choose (for quick export path)
 	pSettingsData->m_strQuickExportPath = Input::chooseFolderDialog(hwndDlg, LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_1"));
-	((CEdit*)pDialog->GetDlgItem(104))->SetWindowTextW(String2::convertStdStringToStdWString(pSettingsData->m_strQuickExportPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(104))->SetWindowTextW(String::convertStdStringToStdWString(pSettingsData->m_strQuickExportPath).c_str());
 	break;
 	case 111: // choose (for automatic logging path)
 	pSettingsData->m_strAutomaticLoggingPath = Input::chooseFolderDialog(hwndDlg, LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_2"));
-	((CEdit*)pDialog->GetDlgItem(110))->SetWindowTextW(String2::convertStdStringToStdWString(pSettingsData->m_strAutomaticLoggingPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(110))->SetWindowTextW(String::convertStdStringToStdWString(pSettingsData->m_strAutomaticLoggingPath).c_str());
 	break;
 	}
 	break;
@@ -1031,8 +1031,8 @@ INT_PTR CALLBACK DialogProc_ConfirmDialog(
 	{
 	case WM_INITDIALOG:
 	pConfirmDialogData = (CConfirmDialogData*)lParam;
-	((CStatic*)pDialog->GetDlgItem(100))->SetWindowTextW(String2::convertStdStringToStdWString(pConfirmDialogData->m_strStaticText).c_str());
-	pDialog->SetWindowTextW(String2::convertStdStringToStdWString(pConfirmDialogData->m_strWindowTitle).c_str());
+	((CStatic*)pDialog->GetDlgItem(100))->SetWindowTextW(String::convertStdStringToStdWString(pConfirmDialogData->m_strStaticText).c_str());
+	pDialog->SetWindowTextW(String::convertStdStringToStdWString(pConfirmDialogData->m_strWindowTitle).c_str());
 
 	SetWindowLong(hwndDlg, GWL_USERDATA, (DWORD)pConfirmDialogData);
 	break;
@@ -1118,7 +1118,7 @@ INT_PTR CALLBACK DialogProc_DumpDialog(
 	//((Button*)pDialog->GetDlgItem(161))->SetCheck(BST_CHECKED);
 
 	pDumpDialogData->m_strDumpDestinationFolderPath = pDumpDialogData->m_strLastUsedPath__Destination;
-	((CEdit*)pDialog->GetDlgItem(113))->SetWindowTextW(String2::convertStdStringToStdWString(pDumpDialogData->m_strLastUsedPath__Destination).c_str());
+	((CEdit*)pDialog->GetDlgItem(113))->SetWindowTextW(String::convertStdStringToStdWString(pDumpDialogData->m_strLastUsedPath__Destination).c_str());
 
 	((CComboBox*)pDialog->GetDlgItem(141))->InsertString(0, LocalizationManager::get()->getTranslatedTextW("Game_III").c_str());
 	((CComboBox*)pDialog->GetDlgItem(141))->InsertString(1, LocalizationManager::get()->getTranslatedTextW("Game_VC").c_str());
@@ -1296,7 +1296,7 @@ INT_PTR CALLBACK DialogProc_DumpDialog(
 				break;
 			}
 			pDumpDialogData->m_strDATPath = vecFilePaths[0];
-			((CEdit*) pDialog->GetDlgItem(116))->SetWindowTextW(String2::convertStdStringToStdWString(pDumpDialogData->m_strDATPath).c_str());
+			((CEdit*) pDialog->GetDlgItem(116))->SetWindowTextW(String::convertStdStringToStdWString(pDumpDialogData->m_strDATPath).c_str());
 			break;
 		case 144: // Change button for Game folder path
 		case 148:
@@ -1307,8 +1307,8 @@ INT_PTR CALLBACK DialogProc_DumpDialog(
 			}
 			pDumpDialogData->m_strGameDirectoryPath = Path::addSlashToEnd(pDumpDialogData->m_strGameDirectoryPath);
 			getIMGF()->setLastUsedDirectory("DUMP__GAME", pDumpDialogData->m_strGameDirectoryPath);
-			((CEdit*) pDialog->GetDlgItem(143))->SetWindowTextW(String2::convertStdStringToStdWString(pDumpDialogData->m_strGameDirectoryPath).c_str());
-			((CEdit*) pDialog->GetDlgItem(149))->SetWindowTextW(String2::convertStdStringToStdWString(pDumpDialogData->m_strGameDirectoryPath).c_str());
+			((CEdit*) pDialog->GetDlgItem(143))->SetWindowTextW(String::convertStdStringToStdWString(pDumpDialogData->m_strGameDirectoryPath).c_str());
+			((CEdit*) pDialog->GetDlgItem(149))->SetWindowTextW(String::convertStdStringToStdWString(pDumpDialogData->m_strGameDirectoryPath).c_str());
 			break;
 		case 110: // Change button for dump destination folder path
 			pDumpDialogData->m_strDumpDestinationFolderPath = Input::chooseFolderDialog(hwndDlg, LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_4"), pDumpDialogData->m_strLastUsedPath__Destination);
@@ -1317,7 +1317,7 @@ INT_PTR CALLBACK DialogProc_DumpDialog(
 				break;
 			}
 			pDumpDialogData->m_strDumpDestinationFolderPath = Path::addSlashToEnd(pDumpDialogData->m_strDumpDestinationFolderPath);
-			((CEdit*) pDialog->GetDlgItem(113))->SetWindowTextW(String2::convertStdStringToStdWString(pDumpDialogData->m_strDumpDestinationFolderPath).c_str());
+			((CEdit*) pDialog->GetDlgItem(113))->SetWindowTextW(String::convertStdStringToStdWString(pDumpDialogData->m_strDumpDestinationFolderPath).c_str());
 			break;
 		}
 		break;
@@ -1364,17 +1364,17 @@ INT_PTR CALLBACK DialogProc_ListViewDialog(
 
 	getIMGF()->getPopupGUIManager()->updateGUIControlsTextToLanguage(pDialog, "ListView");
 
-	pDialog->SetWindowTextW(String2::convertStdStringToStdWString(pListViewDialogData->m_strWindowTitle).c_str());
+	pDialog->SetWindowTextW(String::convertStdStringToStdWString(pListViewDialogData->m_strWindowTitle).c_str());
 
-	((CListCtrl*)pDialog->GetDlgItem(100))->InsertColumn(0, String2::convertStdStringToStdWString(pListViewDialogData->m_strCol1Text).c_str(), 0, 200);
+	((CListCtrl*)pDialog->GetDlgItem(100))->InsertColumn(0, String::convertStdStringToStdWString(pListViewDialogData->m_strCol1Text).c_str(), 0, 200);
 	((CListCtrl*)pDialog->GetDlgItem(100))->SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
 
-	((CStatic*)pDialog->GetDlgItem(101))->SetWindowTextW(String2::convertStdStringToStdWString(pListViewDialogData->m_strStaticText).c_str());
+	((CStatic*)pDialog->GetDlgItem(101))->SetWindowTextW(String::convertStdStringToStdWString(pListViewDialogData->m_strStaticText).c_str());
 
 	for (auto strLineText : pListViewDialogData->m_vecLines)
 	{
 	uiItemIndex = ((CListCtrl*)pDialog->GetDlgItem(100))->GetItemCount();
-	((CListCtrl*)pDialog->GetDlgItem(100))->InsertItem(uiItemIndex, String2::convertStdStringToStdWString(strLineText).c_str());
+	((CListCtrl*)pDialog->GetDlgItem(100))->InsertItem(uiItemIndex, String::convertStdStringToStdWString(strLineText).c_str());
 	}
 
 	break;
@@ -1393,7 +1393,7 @@ INT_PTR CALLBACK DialogProc_ListViewDialog(
 	for (int i = 0; i < ((CListCtrl*)pDialog->GetDlgItem(100))->GetItemCount(); i++)
 	{
 	CString strText1 = ((CListCtrl*)pDialog->GetDlgItem(100))->GetItemText(i, 0);
-	strSaveData += String2::convertCStringToStdString(strText1) + "\n";
+	strSaveData += String::convertCStringToStdString(strText1) + "\n";
 	}
 	File::storeFile(strSaveFilePath, strSaveData, false, false);
 	}
@@ -1441,17 +1441,17 @@ INT_PTR CALLBACK DialogProc_TextureListDialog(
 	case WM_INITDIALOG:
 	pTextureListDialogData = (TextureListDialogData*)lParam;
 
-	pDialog->SetWindowTextW(String2::convertStdStringToStdWString(pTextureListDialogData->m_strWindowTitle).c_str());
+	pDialog->SetWindowTextW(String::convertStdStringToStdWString(pTextureListDialogData->m_strWindowTitle).c_str());
 
-	((CListCtrl*)pDialog->GetDlgItem(100))->InsertColumn(0, String2::convertStdStringToStdWString(pTextureListDialogData->m_strCol1Text).c_str(), 0, 200);
+	((CListCtrl*)pDialog->GetDlgItem(100))->InsertColumn(0, String::convertStdStringToStdWString(pTextureListDialogData->m_strCol1Text).c_str(), 0, 200);
 	((CListCtrl*)pDialog->GetDlgItem(100))->SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
 
-	((CStatic*)pDialog->GetDlgItem(101))->SetWindowTextW(String2::convertStdStringToStdWString(pTextureListDialogData->m_strStaticText).c_str());
+	((CStatic*)pDialog->GetDlgItem(101))->SetWindowTextW(String::convertStdStringToStdWString(pTextureListDialogData->m_strStaticText).c_str());
 
 	for (auto strTextureName : pTextureListDialogData->m_vecLines)
 	{
 	uiItemIndex = ((CListCtrl*)pDialog->GetDlgItem(100))->GetItemCount();
-	((CListCtrl*)pDialog->GetDlgItem(100))->InsertItem(uiItemIndex, String2::convertStdStringToStdWString(strTextureName).c_str());
+	((CListCtrl*)pDialog->GetDlgItem(100))->InsertItem(uiItemIndex, String::convertStdStringToStdWString(strTextureName).c_str());
 	}
 
 	SetWindowLong(hwndDlg, GWL_USERDATA, (DWORD)pTextureListDialogData);
@@ -1475,7 +1475,7 @@ INT_PTR CALLBACK DialogProc_TextureListDialog(
 	for (int i = 0; i < ((CListCtrl*)pDialog->GetDlgItem(100))->GetItemCount(); i++)
 	{
 	CString strText1 = ((CListCtrl*)pDialog->GetDlgItem(100))->GetItemText(i, 0);
-	strSaveData += String2::convertCStringToStdString(strText1) + "\n";
+	strSaveData += String::convertCStringToStdString(strText1) + "\n";
 	}
 	File::storeFile(strSaveFilePath, strSaveData, false, false);
 	}
@@ -1543,7 +1543,7 @@ INT_PTR CALLBACK DialogProc_SessionManagerDialog(
 	uiSessionIndex = 0;
 	for (auto strSessionData : pSessionManagerDialogData->m_vecSessionsData)
 	{
-	deque<string> deqIMGPaths = StdVector::convertVectorToDeque(String2::split(strSessionData, ";"));
+	deque<string> deqIMGPaths = StdVector::convertVectorToDeque(String::split(strSessionData, ";"));
 	string strSessionName = deqIMGPaths[0];
 	deqIMGPaths.pop_front();
 	uint32 uiIMGFileCount = deqIMGPaths.size();
@@ -1554,10 +1554,10 @@ INT_PTR CALLBACK DialogProc_SessionManagerDialog(
 	}
 
 	uiItemIndex = ((CListCtrl*)pDialog->GetDlgItem(100))->GetItemCount();
-	((CListCtrl*)pDialog->GetDlgItem(100))->InsertItem(uiItemIndex, String2::convertStdStringToStdWString(String2::toString(uiSessionIndex + 1)).c_str());
-	((CListCtrl*)pDialog->GetDlgItem(100))->SetItem(uiItemIndex, 1, LVIF_TEXT, String2::convertStdStringToStdWString(strSessionName).c_str(), 0, 0, 0, 0);
-	((CListCtrl*)pDialog->GetDlgItem(100))->SetItem(uiItemIndex, 2, LVIF_TEXT, String2::convertStdStringToStdWString(String2::toString(uiIMGFileCount)).c_str(), 0, 0, 0, 0);
-	((CListCtrl*)pDialog->GetDlgItem(100))->SetItem(uiItemIndex, 3, LVIF_TEXT, String2::convertStdStringToStdWString(String2::join(vecIMGNames, "; ")).c_str(), 0, 0, 0, 0);
+	((CListCtrl*)pDialog->GetDlgItem(100))->InsertItem(uiItemIndex, String::convertStdStringToStdWString(String::toString(uiSessionIndex + 1)).c_str());
+	((CListCtrl*)pDialog->GetDlgItem(100))->SetItem(uiItemIndex, 1, LVIF_TEXT, String::convertStdStringToStdWString(strSessionName).c_str(), 0, 0, 0, 0);
+	((CListCtrl*)pDialog->GetDlgItem(100))->SetItem(uiItemIndex, 2, LVIF_TEXT, String::convertStdStringToStdWString(String::toString(uiIMGFileCount)).c_str(), 0, 0, 0, 0);
+	((CListCtrl*)pDialog->GetDlgItem(100))->SetItem(uiItemIndex, 3, LVIF_TEXT, String::convertStdStringToStdWString(String::join(vecIMGNames, "; ")).c_str(), 0, 0, 0, 0);
 
 	uiSessionIndex++;
 	}
@@ -1571,9 +1571,9 @@ INT_PTR CALLBACK DialogProc_SessionManagerDialog(
 	case 101:
 	// add session
 	strNewSessionData = getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("AddSession"), LocalizationManager::get()->getTranslatedText("Window_TextArea_1_Message"));
-	if (String2::split(strNewSessionData, "\n").size() >= 2)
+	if (String::split(strNewSessionData, "\n").size() >= 2)
 	{
-	pSessionManagerDialogData->m_vecSessionsToAdd.push_back(String2::join(String2::split(strNewSessionData, "\n"), "; "));
+	pSessionManagerDialogData->m_vecSessionsToAdd.push_back(String::join(String::split(strNewSessionData, "\n"), "; "));
 	EndDialog(hwndDlg, 0);
 	}
 	break;
@@ -1586,18 +1586,18 @@ INT_PTR CALLBACK DialogProc_SessionManagerDialog(
 	break;
 	}
 	nItem = pListControl->GetNextSelectedItem(pos);
-	strSessionName = String2::convertCStringToStdString(pListControl->GetItemText(nItem, 1));
+	strSessionName = String::convertCStringToStdString(pListControl->GetItemText(nItem, 1));
 
 	for (auto strSessionData : pSessionManagerDialogData->m_vecSessionsData)
 	{
-	if (String2::split(strSessionData, "; ")[0] == strSessionName)
+	if (String::split(strSessionData, "; ")[0] == strSessionName)
 	{
 	//Debugger::log(strSessionData);
-	strNewSessionData = getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("UpdateSession"), LocalizationManager::get()->getTranslatedText("Window_TextArea_1_Message"), String2::join(String2::split(strSessionData, "; "), "\n"));
-	if (String2::split(strNewSessionData, "\n").size() >= 2)
+	strNewSessionData = getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("UpdateSession"), LocalizationManager::get()->getTranslatedText("Window_TextArea_1_Message"), String::join(String::split(strSessionData, "; "), "\n"));
+	if (String::split(strNewSessionData, "\n").size() >= 2)
 	{
 	pSessionManagerDialogData->m_strSessionNameToUpdate = strSessionName;
-	pSessionManagerDialogData->m_strSessionDataToUpdate = String2::join(String2::split(strNewSessionData, "\n"), "; ");
+	pSessionManagerDialogData->m_strSessionDataToUpdate = String::join(String::split(strNewSessionData, "\n"), "; ");
 	EndDialog(hwndDlg, 0);
 	}
 	break;
@@ -1615,7 +1615,7 @@ INT_PTR CALLBACK DialogProc_SessionManagerDialog(
 	while (pos)
 	{
 	nItem = pListControl->GetNextSelectedItem(pos);
-	pSessionManagerDialogData->m_vecSessionsToRemove.push_back(String2::convertCStringToStdString(pListControl->GetItemText(nItem, 1)));
+	pSessionManagerDialogData->m_vecSessionsToRemove.push_back(String::convertCStringToStdString(pListControl->GetItemText(nItem, 1)));
 	pListControl->DeleteItem(nItem);
 
 	pos = pListControl->GetFirstSelectedItemPosition();
@@ -1756,7 +1756,7 @@ INT_PTR CALLBACK DialogProc_DragDropDialog(
 	{
 	if (pRWVersion->getFileType() == TYPE_MODEL)
 	{
-	((CComboBox*)pDialog->GetDlgItem(52))->AddString(String2::convertStdStringToStdWString(pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str());
+	((CComboBox*)pDialog->GetDlgItem(52))->AddString(String::convertStdStringToStdWString(pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str());
 	// todo getIMGF()->m_umapMenuItemMapping_ConvertDFFtoRWVersion_DragDrop[i] = pRWVersion;
 	i++;
 	}
@@ -1779,7 +1779,7 @@ INT_PTR CALLBACK DialogProc_DragDropDialog(
 	i++;
 	for (auto pCOLVersion : COLManager::get()->getVersionManager()->getEntries())
 	{
-	((CComboBox*)pDialog->GetDlgItem(56))->AddString(String2::convertStdStringToStdWString(pCOLVersion->getText()).c_str());
+	((CComboBox*)pDialog->GetDlgItem(56))->AddString(String::convertStdStringToStdWString(pCOLVersion->getText()).c_str());
 	// todo getIMGF()->m_umapMenuItemMapping_ConvertCOLtoCOLVersion_DragDrop[i] = pCOLVersion;
 	i++;
 
@@ -1819,7 +1819,7 @@ INT_PTR CALLBACK DialogProc_DragDropDialog(
 	{
 		if (pRWVersion->getFileType() == TYPE_MODEL)
 		{
-			((CComboBox*) pDialog->GetDlgItem(54))->AddString(String2::convertStdStringToStdWString(pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str());
+			((CComboBox*) pDialog->GetDlgItem(54))->AddString(String::convertStdStringToStdWString(pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str());
 			// todo getIMGF()->m_umapMenuItemMapping_ConvertTXDtoRWVersion_DragDrop[i] = pRWVersion;
 			i++;
 		}
@@ -1952,12 +1952,12 @@ INT_PTR CALLBACK DialogProc_DumpResultsDialog(
 
 	getIMGF()->getPopupGUIManager()->updateGUIControlsTextToLanguage(pDialog, "DumpResults");
 
-	SetWindowText(pDialog->GetDlgItem(1)->GetSafeHwnd(), String2::convertStdStringToStdWString(String2::toString(pDumpResultsDialogData->m_uiCorruptTXDCount)).c_str());
-	SetWindowText(pDialog->GetDlgItem(2)->GetSafeHwnd(), String2::convertStdStringToStdWString(String2::toString(pDumpResultsDialogData->m_uiTooLargeTXDCount)).c_str());
-	SetWindowText(pDialog->GetDlgItem(3)->GetSafeHwnd(), String2::convertStdStringToStdWString(String2::toString(pDumpResultsDialogData->m_uiInvalidResolutionTXDCount)).c_str());
-	SetWindowText(pDialog->GetDlgItem(4)->GetSafeHwnd(), String2::convertStdStringToStdWString(String2::toString(pDumpResultsDialogData->m_uiInvalidTextureNameCount)).c_str());
-	SetWindowText(pDialog->GetDlgItem(5)->GetSafeHwnd(), String2::convertStdStringToStdWString(String2::toString(pDumpResultsDialogData->m_uiTXDCountExceededTextureCountLimit)).c_str());
-	SetWindowText(pDialog->GetDlgItem(6)->GetSafeHwnd(), String2::convertStdStringToStdWString(String2::toString(pDumpResultsDialogData->m_uiMipmapSkippedCount)).c_str());
+	SetWindowText(pDialog->GetDlgItem(1)->GetSafeHwnd(), String::convertStdStringToStdWString(String::toString(pDumpResultsDialogData->m_uiCorruptTXDCount)).c_str());
+	SetWindowText(pDialog->GetDlgItem(2)->GetSafeHwnd(), String::convertStdStringToStdWString(String::toString(pDumpResultsDialogData->m_uiTooLargeTXDCount)).c_str());
+	SetWindowText(pDialog->GetDlgItem(3)->GetSafeHwnd(), String::convertStdStringToStdWString(String::toString(pDumpResultsDialogData->m_uiInvalidResolutionTXDCount)).c_str());
+	SetWindowText(pDialog->GetDlgItem(4)->GetSafeHwnd(), String::convertStdStringToStdWString(String::toString(pDumpResultsDialogData->m_uiInvalidTextureNameCount)).c_str());
+	SetWindowText(pDialog->GetDlgItem(5)->GetSafeHwnd(), String::convertStdStringToStdWString(String::toString(pDumpResultsDialogData->m_uiTXDCountExceededTextureCountLimit)).c_str());
+	SetWindowText(pDialog->GetDlgItem(6)->GetSafeHwnd(), String::convertStdStringToStdWString(String::toString(pDumpResultsDialogData->m_uiMipmapSkippedCount)).c_str());
 	break;
 	case WM_COMMAND:
 	pDumpResultsDialogData = (CDumpResultsDialogData*) GetWindowLong(hwndDlg, GWL_USERDATA);
@@ -2109,9 +2109,9 @@ INT_PTR CALLBACK DialogProc_RenamerDialog(
 	((CEdit*)pDialog->GetDlgItem(154))->GetWindowText(cstrStrIDEFolder);
 	((CEdit*)pDialog->GetDlgItem(155))->GetWindowText(cstrStrIPLFolder);
 	((CEdit*)pDialog->GetDlgItem(156))->GetWindowText(cstrStrCOLFolder);
-	pRenamerDialogData->m_strMatchingPath_IDE = String2::convertCStringToStdString(cstrStrIDEFolder);
-	pRenamerDialogData->m_strMatchingPath_IPL = String2::convertCStringToStdString(cstrStrIPLFolder);
-	pRenamerDialogData->m_strMatchingPath_COL = String2::convertCStringToStdString(cstrStrCOLFolder);
+	pRenamerDialogData->m_strMatchingPath_IDE = String::convertCStringToStdString(cstrStrIDEFolder);
+	pRenamerDialogData->m_strMatchingPath_IPL = String::convertCStringToStdString(cstrStrIPLFolder);
+	pRenamerDialogData->m_strMatchingPath_COL = String::convertCStringToStdString(cstrStrCOLFolder);
 
 	if (((Button*)pDialog->GetDlgItem(101))->GetCheck() == BST_CHECKED)
 	{
@@ -2154,22 +2154,22 @@ INT_PTR CALLBACK DialogProc_RenamerDialog(
 	((CEdit*)pDialog->GetDlgItem(204))->GetWindowText(cstrStr1);
 	((CEdit*)pDialog->GetDlgItem(205))->GetWindowText(cstrStr2);
 	((CEdit*)pDialog->GetDlgItem(206))->GetWindowText(cstrStr3);
-	pRenamerDialogData->m_strCharAdding_Front = String2::convertCStringToStdString(cstrStr1);
-	pRenamerDialogData->m_strCharAdding_End = String2::convertCStringToStdString(cstrStr2);
-	pRenamerDialogData->m_strCharAdding_AtPosition = String2::convertCStringToStdString(cstrStr3);
+	pRenamerDialogData->m_strCharAdding_Front = String::convertCStringToStdString(cstrStr1);
+	pRenamerDialogData->m_strCharAdding_End = String::convertCStringToStdString(cstrStr2);
+	pRenamerDialogData->m_strCharAdding_AtPosition = String::convertCStringToStdString(cstrStr3);
 
 	if (pRenamerDialogData->m_strCharAdding_AtPosition != "")
 	{
 	CString cstrStr4;
 	((CEdit*)pDialog->GetDlgItem(208))->GetWindowText(cstrStr4);
-	string strStr4 = String2::convertCStringToStdString(cstrStr4);
+	string strStr4 = String::convertCStringToStdString(cstrStr4);
 
 	if (strStr4 == "")
 	{
 	Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_9"), LocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
-	pRenamerDialogData->m_uiCharAddingAtPosition_Position = String2::toNumber(strStr4);
+	pRenamerDialogData->m_uiCharAddingAtPosition_Position = String::toNumber(strStr4);
 	}
 
 	if (((Button*)pDialog->GetDlgItem(251))->GetCheck() == BST_CHECKED)
@@ -2189,29 +2189,29 @@ INT_PTR CALLBACK DialogProc_RenamerDialog(
 	{
 	CString cstrStr5;
 	((CEdit*)pDialog->GetDlgItem(254))->GetWindowText(cstrStr5);
-	string strStr5 = String2::convertCStringToStdString(cstrStr5);
+	string strStr5 = String::convertCStringToStdString(cstrStr5);
 
 	if (strStr5 == "")
 	{
 	Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_10"), LocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
-	pRenamerDialogData->m_uiCharReplaceConditional_Length = String2::toNumber(strStr5);
+	pRenamerDialogData->m_uiCharReplaceConditional_Length = String::toNumber(strStr5);
 	}
 	CString cstrStr6, cstrStr7, cstrStr8;
 	((CEdit*)pDialog->GetDlgItem(304))->GetWindowText(cstrStr6);
 	((CEdit*)pDialog->GetDlgItem(305))->GetWindowText(cstrStr7);
 	((CEdit*)pDialog->GetDlgItem(306))->GetWindowText(cstrStr8);
-	string strStr6_2 = String2::convertCStringToStdString(cstrStr6);
-	string strStr7_2 = String2::convertCStringToStdString(cstrStr7);
-	string strStr8 = String2::convertCStringToStdString(cstrStr8);
+	string strStr6_2 = String::convertCStringToStdString(cstrStr6);
+	string strStr7_2 = String::convertCStringToStdString(cstrStr7);
+	string strStr8 = String::convertCStringToStdString(cstrStr8);
 	if (strStr6_2 == "")
 	{
 	pRenamerDialogData->m_uiCharRemoving_Front = 0;
 	}
 	else
 	{
-	pRenamerDialogData->m_uiCharRemoving_Front = String2::toNumber(strStr6_2);
+	pRenamerDialogData->m_uiCharRemoving_Front = String::toNumber(strStr6_2);
 	}
 	if (strStr7_2 == "")
 	{
@@ -2219,7 +2219,7 @@ INT_PTR CALLBACK DialogProc_RenamerDialog(
 	}
 	else
 	{
-	pRenamerDialogData->m_uiCharRemoving_End = String2::toNumber(strStr7_2);
+	pRenamerDialogData->m_uiCharRemoving_End = String::toNumber(strStr7_2);
 	}
 	if (strStr8 == "")
 	{
@@ -2227,20 +2227,20 @@ INT_PTR CALLBACK DialogProc_RenamerDialog(
 	}
 	else
 	{
-	pRenamerDialogData->m_uiCharRemoving_AtPosition = String2::toNumber(strStr8);
+	pRenamerDialogData->m_uiCharRemoving_AtPosition = String::toNumber(strStr8);
 	}
 	if (strStr8 != "")
 	{
 	CString cstrStr9;
 	((CEdit*)pDialog->GetDlgItem(308))->GetWindowText(cstrStr9);
-	string strStr9 = String2::convertCStringToStdString(cstrStr9);
+	string strStr9 = String::convertCStringToStdString(cstrStr9);
 
 	if (strStr9 == "")
 	{
 	Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_11"), LocalizationManager::get()->getTranslatedFormattedText("TextPopupTitle_InputRequired").c_str());
 	break;
 	}
-	pRenamerDialogData->m_uiCharRemovingAtPosition_Position = String2::toNumber(strStr9);
+	pRenamerDialogData->m_uiCharRemovingAtPosition_Position = String::toNumber(strStr9);
 	}
 
 	if (((Button*)pDialog->GetDlgItem(351))->GetCheck() == BST_CHECKED)
@@ -2277,7 +2277,7 @@ INT_PTR CALLBACK DialogProc_RenamerDialog(
 	}
 	pRenamerDialogData->m_strMatchingPath_IDE = Path::addSlashToEnd(pRenamerDialogData->m_strMatchingPath_IDE);
 	getIMGF()->setLastUsedDirectory("RENAMER__MATCHING_IDE", pRenamerDialogData->m_strMatchingPath_IDE);
-	((CEdit*)pDialog->GetDlgItem(154))->SetWindowTextW(String2::convertStdStringToStdWString(pRenamerDialogData->m_strMatchingPath_IDE).c_str());
+	((CEdit*)pDialog->GetDlgItem(154))->SetWindowTextW(String::convertStdStringToStdWString(pRenamerDialogData->m_strMatchingPath_IDE).c_str());
 	break;
 	case 158: // matching IPL - folder path
 	pRenamerDialogData->m_strMatchingPath_IPL = Input::chooseFolderDialog(hwndDlg, LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_6"), getIMGF()->getLastUsedDirectory("RENAMER__MATCHING_IPL"));
@@ -2287,7 +2287,7 @@ INT_PTR CALLBACK DialogProc_RenamerDialog(
 	}
 	pRenamerDialogData->m_strMatchingPath_IPL = Path::addSlashToEnd(pRenamerDialogData->m_strMatchingPath_IPL);
 	getIMGF()->setLastUsedDirectory("RENAMER__MATCHING_IPL", pRenamerDialogData->m_strMatchingPath_IPL);
-	((CEdit*)pDialog->GetDlgItem(155))->SetWindowTextW(String2::convertStdStringToStdWString(pRenamerDialogData->m_strMatchingPath_IPL).c_str());
+	((CEdit*)pDialog->GetDlgItem(155))->SetWindowTextW(String::convertStdStringToStdWString(pRenamerDialogData->m_strMatchingPath_IPL).c_str());
 	break;
 	case 159: // matching COL - folder path
 	pRenamerDialogData->m_strMatchingPath_COL = Input::chooseFolderDialog(hwndDlg, LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_7"), getIMGF()->getLastUsedDirectory("RENAMER__MATCHING_COL"));
@@ -2297,7 +2297,7 @@ INT_PTR CALLBACK DialogProc_RenamerDialog(
 	}
 	pRenamerDialogData->m_strMatchingPath_COL = Path::addSlashToEnd(pRenamerDialogData->m_strMatchingPath_COL);
 	getIMGF()->setLastUsedDirectory("RENAMER__MATCHING_COL", pRenamerDialogData->m_strMatchingPath_COL);
-	((CEdit*)pDialog->GetDlgItem(156))->SetWindowTextW(String2::convertStdStringToStdWString(pRenamerDialogData->m_strMatchingPath_COL).c_str());
+	((CEdit*)pDialog->GetDlgItem(156))->SetWindowTextW(String::convertStdStringToStdWString(pRenamerDialogData->m_strMatchingPath_COL).c_str());
 	break;
 	}
 	break;
@@ -2394,10 +2394,10 @@ INT_PTR CALLBACK DialogProc_DFFConversionDialog(
 	((CEdit*)pDialog->GetDlgItem(157))->GetWindowText(cstrStr2);
 	((CEdit*)pDialog->GetDlgItem(158))->GetWindowText(cstrStr3);
 	((CEdit*)pDialog->GetDlgItem(159))->GetWindowText(cstrStr4);
-	strStr1 = String2::convertCStringToStdString(cstrStr1);
-	strStr2 = String2::convertCStringToStdString(cstrStr2);
-	strStr3 = String2::convertCStringToStdString(cstrStr3);
-	strStr4 = String2::convertCStringToStdString(cstrStr4);
+	strStr1 = String::convertCStringToStdString(cstrStr1);
+	strStr2 = String::convertCStringToStdString(cstrStr2);
+	strStr3 = String::convertCStringToStdString(cstrStr3);
+	strStr4 = String::convertCStringToStdString(cstrStr4);
 	if (pConversionDialogData->m_ucAdjustPrelightningOption == 0)
 	{
 	if (strStr1 == "" || strStr2 == "" || strStr3 == "" || strStr4 == "")
@@ -2415,10 +2415,10 @@ INT_PTR CALLBACK DialogProc_DFFConversionDialog(
 	}
 	}
 
-	pConversionDialogData->m_ssAdjustColourValues[0] = String2::toNumber(strStr1);
-	pConversionDialogData->m_ssAdjustColourValues[1] = String2::toNumber(strStr2);
-	pConversionDialogData->m_ssAdjustColourValues[2] = String2::toNumber(strStr3);
-	pConversionDialogData->m_ssAdjustColourValues[3] = String2::toNumber(strStr4);
+	pConversionDialogData->m_ssAdjustColourValues[0] = String::toNumber(strStr1);
+	pConversionDialogData->m_ssAdjustColourValues[1] = String::toNumber(strStr2);
+	pConversionDialogData->m_ssAdjustColourValues[2] = String::toNumber(strStr3);
+	pConversionDialogData->m_ssAdjustColourValues[3] = String::toNumber(strStr4);
 	}
 
 	EndDialog(hwndDlg, 0);
@@ -2533,7 +2533,7 @@ INT_PTR CALLBACK DialogProc_DuplicateEntriesDialog(
 	}
 	pDuplicateEntriesDialogData->m_strDATPath = vecFilePaths[0];
 	getIMGF()->setLastUsedDirectory("DUPLICATEENTRIES__DAT", pDuplicateEntriesDialogData->m_strDATPath);
-	((CEdit*)pDialog->GetDlgItem(202))->SetWindowTextW(String2::convertStdStringToStdWString(pDuplicateEntriesDialogData->m_strDATPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(202))->SetWindowTextW(String::convertStdStringToStdWString(pDuplicateEntriesDialogData->m_strDATPath).c_str());
 	break;
 	case 206: // Change button for Game folder path
 	pDuplicateEntriesDialogData->m_strDATGameDirectoryPath = Input::chooseFolderDialog(hwndDlg, LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("DUPLICATEENTRIES__GAME"));
@@ -2543,7 +2543,7 @@ INT_PTR CALLBACK DialogProc_DuplicateEntriesDialog(
 	}
 	pDuplicateEntriesDialogData->m_strDATGameDirectoryPath = Path::addSlashToEnd(pDuplicateEntriesDialogData->m_strDATGameDirectoryPath);
 	getIMGF()->setLastUsedDirectory("DUPLICATEENTRIES__GAME", pDuplicateEntriesDialogData->m_strDATGameDirectoryPath);
-	((CEdit*)pDialog->GetDlgItem(205))->SetWindowTextW(String2::convertStdStringToStdWString(pDuplicateEntriesDialogData->m_strDATGameDirectoryPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(205))->SetWindowTextW(String::convertStdStringToStdWString(pDuplicateEntriesDialogData->m_strDATGameDirectoryPath).c_str());
 	break;
 	}
 	break;
@@ -2597,7 +2597,7 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	uint32 uiOptionIndex = 0;
 	for (auto pRWVersion : RWManager::get()->getVersionManager()->getEntries())
 	{
-	((CComboBox*)pDialog->GetDlgItem(203))->InsertString(uiOptionIndex, String2::convertStdStringToStdWString(pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str());
+	((CComboBox*)pDialog->GetDlgItem(203))->InsertString(uiOptionIndex, String::convertStdStringToStdWString(pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str());
 	uiOptionIndex++;
 	}
 	((CComboBox*)pDialog->GetDlgItem(203))->SetCurSel(7);
@@ -2622,9 +2622,9 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	((CEdit*)pDialog->GetDlgItem(251))->GetWindowText(cstr1);
 	((CEdit*)pDialog->GetDlgItem(255))->GetWindowText(cstr2);
 	((CEdit*)pDialog->GetDlgItem(110))->GetWindowText(cstr3);
-	pBuildTXDDialogData->m_strTexturesFolderPath = Path::addSlashToEnd(String2::convertCStringToStdString(cstr1));
-	pBuildTXDDialogData->m_strDestinationFolderPath = Path::addSlashToEnd(String2::convertCStringToStdString(cstr2));
-	pBuildTXDDialogData->m_strIDEFilePath = String2::convertCStringToStdString(cstr3);
+	pBuildTXDDialogData->m_strTexturesFolderPath = Path::addSlashToEnd(String::convertCStringToStdString(cstr1));
+	pBuildTXDDialogData->m_strDestinationFolderPath = Path::addSlashToEnd(String::convertCStringToStdString(cstr2));
+	pBuildTXDDialogData->m_strIDEFilePath = String::convertCStringToStdString(cstr3);
 
 	if (((Button*)pDialog->GetDlgItem(101))->GetCheck() == BST_CHECKED)
 	{
@@ -2650,12 +2650,12 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	if (pBuildTXDDialogData->m_uDFFFormatsType == 3)
 	{
 	((CEdit*)pDialog->GetDlgItem(106))->GetWindowText(cstr4);
-	pBuildTXDDialogData->m_strDFFsFolderPath = Path::addSlashToEnd(String2::convertCStringToStdString(cstr4));
+	pBuildTXDDialogData->m_strDFFsFolderPath = Path::addSlashToEnd(String::convertCStringToStdString(cstr4));
 	}
 	else if (pBuildTXDDialogData->m_uDFFFormatsType == 4)
 	{
 	((CEdit*)pDialog->GetDlgItem(113))->GetWindowText(cstr4);
-	pBuildTXDDialogData->m_strDFFsFolderPath = Path::addSlashToEnd(String2::convertCStringToStdString(cstr4));
+	pBuildTXDDialogData->m_strDFFsFolderPath = Path::addSlashToEnd(String::convertCStringToStdString(cstr4));
 	}
 
 	if (pBuildTXDDialogData->m_uDFFFormatsType == 3) // Folder containg DFF files
@@ -2695,8 +2695,8 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 
 	CString cstr5;
 	((CEdit*)pDialog->GetDlgItem(201))->GetWindowText(cstr5);
-	string str5 = String2::convertCStringToStdString(cstr5);
-	pBuildTXDDialogData->m_uiTextureCountPerTXD = str5 == "" ? 0 : String2::toNumber(str5);
+	string str5 = String::convertCStringToStdString(cstr5);
+	pBuildTXDDialogData->m_uiTextureCountPerTXD = str5 == "" ? 0 : String::toNumber(str5);
 	pBuildTXDDialogData->m_pRWVersion = RWManager::get()->getVersionManager()->getEntryByIndex(((CComboBox*)pDialog->GetDlgItem(203))->GetCurSel());
 
 	EndDialog(hwndDlg, 0);
@@ -2711,8 +2711,8 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	}
 	pBuildTXDDialogData->m_strDFFsFolderPath = Path::addSlashToEnd(pBuildTXDDialogData->m_strDFFsFolderPath);
 	getIMGF()->setLastUsedDirectory("BUILDTXD__DFF", pBuildTXDDialogData->m_strDFFsFolderPath);
-	((CEdit*)pDialog->GetDlgItem(106))->SetWindowTextW(String2::convertStdStringToStdWString(pBuildTXDDialogData->m_strDFFsFolderPath).c_str());
-	((CEdit*)pDialog->GetDlgItem(113))->SetWindowTextW(String2::convertStdStringToStdWString(pBuildTXDDialogData->m_strDFFsFolderPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(106))->SetWindowTextW(String::convertStdStringToStdWString(pBuildTXDDialogData->m_strDFFsFolderPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(113))->SetWindowTextW(String::convertStdStringToStdWString(pBuildTXDDialogData->m_strDFFsFolderPath).c_str());
 	break;
 	case 111: // Change button for IDE file path
 	vecFilePaths = Input::openFile(getIMGF()->getLastUsedDirectory("BUILDTXD__IDE"), "IDE", false);
@@ -2722,7 +2722,7 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	}
 	pBuildTXDDialogData->m_strIDEFilePath = vecFilePaths[0];
 	getIMGF()->setLastUsedDirectory("BUILDTXD__IDE", pBuildTXDDialogData->m_strIDEFilePath);
-	((CEdit*)pDialog->GetDlgItem(110))->SetWindowTextW(String2::convertStdStringToStdWString(pBuildTXDDialogData->m_strIDEFilePath).c_str());
+	((CEdit*)pDialog->GetDlgItem(110))->SetWindowTextW(String::convertStdStringToStdWString(pBuildTXDDialogData->m_strIDEFilePath).c_str());
 	break;
 	case 253: // Change button for textures folder path
 	pBuildTXDDialogData->m_strTexturesFolderPath = Input::chooseFolderDialog(hwndDlg, LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_9"), getIMGF()->getLastUsedDirectory("BUILDTXD__TEXTURES"));
@@ -2731,7 +2731,7 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	break;
 	}
 	getIMGF()->setLastUsedDirectory("BUILDTXD__TEXTURES", pBuildTXDDialogData->m_strTexturesFolderPath);
-	((CEdit*)pDialog->GetDlgItem(251))->SetWindowTextW(String2::convertStdStringToStdWString(pBuildTXDDialogData->m_strTexturesFolderPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(251))->SetWindowTextW(String::convertStdStringToStdWString(pBuildTXDDialogData->m_strTexturesFolderPath).c_str());
 	break;
 	case 256: // Change button for destination folder path
 	pBuildTXDDialogData->m_strDestinationFolderPath = Input::chooseFolderDialog(hwndDlg, LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_10"), getIMGF()->getLastUsedDirectory("BUILDTXD__DESTINATION"));
@@ -2740,7 +2740,7 @@ INT_PTR CALLBACK DialogProc_BuildTXDDialog(
 	break;
 	}
 	getIMGF()->setLastUsedDirectory("BUILDTXD__DESTINATION", pBuildTXDDialogData->m_strDestinationFolderPath);
-	((CEdit*)pDialog->GetDlgItem(255))->SetWindowTextW(String2::convertStdStringToStdWString(pBuildTXDDialogData->m_strDestinationFolderPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(255))->SetWindowTextW(String::convertStdStringToStdWString(pBuildTXDDialogData->m_strDestinationFolderPath).c_str());
 	break;
 	}
 	break;
@@ -2961,12 +2961,12 @@ INT_PTR CALLBACK DialogProc_TXDOrganizerDialog(
 	((CEdit*)pDialog->GetDlgItem(105))->GetWindowText(cstr3);
 	((CEdit*)pDialog->GetDlgItem(108))->GetWindowText(cstr4);
 	((CEdit*)pDialog->GetDlgItem(111))->GetWindowText(cstr5);
-	string strString1 = String2::convertCStringToStdString(cstr1);
-	pTXDOrganizerDialogData->m_uiEveryNDFFFiles = String2::toNumber(strString1);
-	pTXDOrganizerDialogData->m_strTXDNamePrefix = String2::convertCStringToStdString(cstr2);
-	pTXDOrganizerDialogData->m_strTextureImportFolderPath = String2::convertCStringToStdString(cstr3);
-	pTXDOrganizerDialogData->m_strIDEUpdateFolderPath = String2::convertCStringToStdString(cstr4);
-	pTXDOrganizerDialogData->m_strOutputFolderPath = String2::convertCStringToStdString(cstr5);
+	string strString1 = String::convertCStringToStdString(cstr1);
+	pTXDOrganizerDialogData->m_uiEveryNDFFFiles = String::toNumber(strString1);
+	pTXDOrganizerDialogData->m_strTXDNamePrefix = String::convertCStringToStdString(cstr2);
+	pTXDOrganizerDialogData->m_strTextureImportFolderPath = String::convertCStringToStdString(cstr3);
+	pTXDOrganizerDialogData->m_strIDEUpdateFolderPath = String::convertCStringToStdString(cstr4);
+	pTXDOrganizerDialogData->m_strOutputFolderPath = String::convertCStringToStdString(cstr5);
 
 	if (strString1 == "")
 	{
@@ -3020,7 +3020,7 @@ INT_PTR CALLBACK DialogProc_TXDOrganizerDialog(
 	}
 	pTXDOrganizerDialogData->m_strTextureImportFolderPath = Path::addSlashToEnd(pTXDOrganizerDialogData->m_strTextureImportFolderPath);
 	getIMGF()->setLastUsedDirectory("TXDORGANIZER_TEXTUREIMPORT", pTXDOrganizerDialogData->m_strTextureImportFolderPath);
-	((CEdit*)pDialog->GetDlgItem(105))->SetWindowTextW(String2::convertStdStringToStdWString(pTXDOrganizerDialogData->m_strTextureImportFolderPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(105))->SetWindowTextW(String::convertStdStringToStdWString(pTXDOrganizerDialogData->m_strTextureImportFolderPath).c_str());
 	break;
 	case 109: // Change button for IDE Update Folder Path
 	pTXDOrganizerDialogData->m_strIDEUpdateFolderPath = Input::chooseFolderDialog(hwndDlg, LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_19"), getIMGF()->getLastUsedDirectory("TXDORGANIZER_IDEUPDATE"));
@@ -3030,7 +3030,7 @@ INT_PTR CALLBACK DialogProc_TXDOrganizerDialog(
 	}
 	pTXDOrganizerDialogData->m_strIDEUpdateFolderPath = Path::addSlashToEnd(pTXDOrganizerDialogData->m_strIDEUpdateFolderPath);
 	getIMGF()->setLastUsedDirectory("TXDORGANIZER_IDEUPDATE", pTXDOrganizerDialogData->m_strIDEUpdateFolderPath);
-	((CEdit*)pDialog->GetDlgItem(108))->SetWindowTextW(String2::convertStdStringToStdWString(pTXDOrganizerDialogData->m_strIDEUpdateFolderPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(108))->SetWindowTextW(String::convertStdStringToStdWString(pTXDOrganizerDialogData->m_strIDEUpdateFolderPath).c_str());
 	break;
 	case 112: // Change button for Output Folder
 	pTXDOrganizerDialogData->m_strOutputFolderPath = Input::chooseFolderDialog(hwndDlg, LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_20"), getIMGF()->getLastUsedDirectory("TXDORGANIZER_OUTPUTFOLDER"));
@@ -3040,7 +3040,7 @@ INT_PTR CALLBACK DialogProc_TXDOrganizerDialog(
 	}
 	pTXDOrganizerDialogData->m_strOutputFolderPath = Path::addSlashToEnd(pTXDOrganizerDialogData->m_strOutputFolderPath);
 	getIMGF()->setLastUsedDirectory("TXDORGANIZER_OUTPUTFOLDER", pTXDOrganizerDialogData->m_strOutputFolderPath);
-	((CEdit*)pDialog->GetDlgItem(111))->SetWindowTextW(String2::convertStdStringToStdWString(pTXDOrganizerDialogData->m_strOutputFolderPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(111))->SetWindowTextW(String::convertStdStringToStdWString(pTXDOrganizerDialogData->m_strOutputFolderPath).c_str());
 	break;
 	}
 	break;
@@ -3133,20 +3133,20 @@ INT_PTR CALLBACK DialogProc_DATPathsMoverDialog(
 	((CEdit*)pDialog->GetDlgItem(251))->GetWindowText(cstr10);
 	((CEdit*)pDialog->GetDlgItem(301))->GetWindowText(cstr11);
 	string str1, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11;
-	str1 = String2::convertCStringToStdString(cstr1);
-	str2 = String2::convertCStringToStdString(cstr2);
-	str3 = String2::convertCStringToStdString(cstr3);
-	str4 = String2::convertCStringToStdString(cstr4);
-	str5 = String2::convertCStringToStdString(cstr5);
-	str6 = String2::convertCStringToStdString(cstr6);
-	str7 = String2::convertCStringToStdString(cstr7);
-	str8 = String2::convertCStringToStdString(cstr8);
-	str9 = String2::convertCStringToStdString(cstr9);
-	str10 = String2::convertCStringToStdString(cstr10);
-	str11 = String2::convertCStringToStdString(cstr11);
+	str1 = String::convertCStringToStdString(cstr1);
+	str2 = String::convertCStringToStdString(cstr2);
+	str3 = String::convertCStringToStdString(cstr3);
+	str4 = String::convertCStringToStdString(cstr4);
+	str5 = String::convertCStringToStdString(cstr5);
+	str6 = String::convertCStringToStdString(cstr6);
+	str7 = String::convertCStringToStdString(cstr7);
+	str8 = String::convertCStringToStdString(cstr8);
+	str9 = String::convertCStringToStdString(cstr9);
+	str10 = String::convertCStringToStdString(cstr10);
+	str11 = String::convertCStringToStdString(cstr11);
 
-	pDATPathsMoverDialogData->m_strInputFolderPath = String2::convertCStringToStdString(cstr10);
-	pDATPathsMoverDialogData->m_strOutputFolderPath = String2::convertCStringToStdString(cstr11);
+	pDATPathsMoverDialogData->m_strInputFolderPath = String::convertCStringToStdString(cstr10);
+	pDATPathsMoverDialogData->m_strOutputFolderPath = String::convertCStringToStdString(cstr11);
 
 	if (str1 == "")
 	{
@@ -3208,17 +3208,17 @@ INT_PTR CALLBACK DialogProc_DATPathsMoverDialog(
 	break;
 	}
 
-	pDATPathsMoverDialogData->m_vecOutputMapRangeMin.x = String2::toFloat32(String2::convertCStringToStdString(cstr1));
-	pDATPathsMoverDialogData->m_vecOutputMapRangeMin.y = String2::toFloat32(String2::convertCStringToStdString(cstr2));
-	pDATPathsMoverDialogData->m_vecOutputMapRangeMax.x = String2::toFloat32(String2::convertCStringToStdString(cstr3));
-	pDATPathsMoverDialogData->m_vecOutputMapRangeMax.y = String2::toFloat32(String2::convertCStringToStdString(cstr4));
+	pDATPathsMoverDialogData->m_vecOutputMapRangeMin.x = String::toFloat32(String::convertCStringToStdString(cstr1));
+	pDATPathsMoverDialogData->m_vecOutputMapRangeMin.y = String::toFloat32(String::convertCStringToStdString(cstr2));
+	pDATPathsMoverDialogData->m_vecOutputMapRangeMax.x = String::toFloat32(String::convertCStringToStdString(cstr3));
+	pDATPathsMoverDialogData->m_vecOutputMapRangeMax.y = String::toFloat32(String::convertCStringToStdString(cstr4));
 
-	pDATPathsMoverDialogData->m_vecOutputTileSize.x = String2::toFloat32(String2::convertCStringToStdString(cstr5));
-	pDATPathsMoverDialogData->m_vecOutputTileSize.y = String2::toFloat32(String2::convertCStringToStdString(cstr6));
+	pDATPathsMoverDialogData->m_vecOutputTileSize.x = String::toFloat32(String::convertCStringToStdString(cstr5));
+	pDATPathsMoverDialogData->m_vecOutputTileSize.y = String::toFloat32(String::convertCStringToStdString(cstr6));
 
-	pDATPathsMoverDialogData->m_vecPositionOffset.x = String2::toFloat32(String2::convertCStringToStdString(cstr7));
-	pDATPathsMoverDialogData->m_vecPositionOffset.y = String2::toFloat32(String2::convertCStringToStdString(cstr8));
-	pDATPathsMoverDialogData->m_vecPositionOffset.z = String2::toFloat32(String2::convertCStringToStdString(cstr9));
+	pDATPathsMoverDialogData->m_vecPositionOffset.x = String::toFloat32(String::convertCStringToStdString(cstr7));
+	pDATPathsMoverDialogData->m_vecPositionOffset.y = String::toFloat32(String::convertCStringToStdString(cstr8));
+	pDATPathsMoverDialogData->m_vecPositionOffset.z = String::toFloat32(String::convertCStringToStdString(cstr9));
 
 	pDATPathsMoverDialogData->m_strInputFolderPath = Path::addSlashToEnd(pDATPathsMoverDialogData->m_strInputFolderPath);
 	pDATPathsMoverDialogData->m_strOutputFolderPath = Path::addSlashToEnd(pDATPathsMoverDialogData->m_strOutputFolderPath);
@@ -3234,7 +3234,7 @@ INT_PTR CALLBACK DialogProc_DATPathsMoverDialog(
 	}
 	pDATPathsMoverDialogData->m_strInputFolderPath = Path::addSlashToEnd(pDATPathsMoverDialogData->m_strInputFolderPath);
 	getIMGF()->setLastUsedDirectory("DATPATHSMOVER_DATINPUT", pDATPathsMoverDialogData->m_strInputFolderPath);
-	((CEdit*)pDialog->GetDlgItem(251))->SetWindowTextW(String2::convertStdStringToStdWString(pDATPathsMoverDialogData->m_strInputFolderPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(251))->SetWindowTextW(String::convertStdStringToStdWString(pDATPathsMoverDialogData->m_strInputFolderPath).c_str());
 	break;
 	case 302: // Change button for Output Folder
 	pDATPathsMoverDialogData->m_strOutputFolderPath = Input::chooseFolderDialog(hwndDlg, LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_22"), getIMGF()->getLastUsedDirectory("DATPATHSMOVER_DATOUTPUT"));
@@ -3244,7 +3244,7 @@ INT_PTR CALLBACK DialogProc_DATPathsMoverDialog(
 	}
 	pDATPathsMoverDialogData->m_strOutputFolderPath = Path::addSlashToEnd(pDATPathsMoverDialogData->m_strOutputFolderPath);
 	getIMGF()->setLastUsedDirectory("DATPATHSMOVER_DATOUTPUT", pDATPathsMoverDialogData->m_strOutputFolderPath);
-	((CEdit*)pDialog->GetDlgItem(301))->SetWindowTextW(String2::convertStdStringToStdWString(pDATPathsMoverDialogData->m_strOutputFolderPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(301))->SetWindowTextW(String::convertStdStringToStdWString(pDATPathsMoverDialogData->m_strOutputFolderPath).c_str());
 	break;
 	}
 	break;
@@ -3317,11 +3317,11 @@ INT_PTR CALLBACK DialogProc_MapMoverAndIDShifterDialog(
 	((CEdit*)pDialog->GetDlgItem(110))->GetWindowText(cstr4);
 	((CEdit*)pDialog->GetDlgItem(113))->GetWindowText(cstr5);
 	string str1, str2, str3, str4, str5;
-	str1 = String2::convertCStringToStdString(cstr1);
-	str2 = String2::convertCStringToStdString(cstr2);
-	str3 = String2::convertCStringToStdString(cstr3);
-	str4 = String2::convertCStringToStdString(cstr4);
-	str5 = String2::convertCStringToStdString(cstr5);
+	str1 = String::convertCStringToStdString(cstr1);
+	str2 = String::convertCStringToStdString(cstr2);
+	str3 = String::convertCStringToStdString(cstr3);
+	str4 = String::convertCStringToStdString(cstr4);
+	str5 = String::convertCStringToStdString(cstr5);
 
 	pMapMoverAndIDShifterDialogData->m_strDATFilePath = str1;
 	pMapMoverAndIDShifterDialogData->m_strGameFolderPath = str2;
@@ -3373,17 +3373,17 @@ INT_PTR CALLBACK DialogProc_MapMoverAndIDShifterDialog(
 	((CEdit*)pDialog->GetDlgItem(301))->GetWindowText(cstr10);
 	((CEdit*)pDialog->GetDlgItem(303))->GetWindowText(cstr11);
 	string str6, str7, str8, str9, str10, str11;
-	str6 = String2::convertCStringToStdString(cstr6);
-	str7 = String2::convertCStringToStdString(cstr7);
-	str8 = String2::convertCStringToStdString(cstr8);
-	str9 = String2::convertCStringToStdString(cstr9);
-	str10 = String2::convertCStringToStdString(cstr10);
-	str11 = String2::convertCStringToStdString(cstr11);
+	str6 = String::convertCStringToStdString(cstr6);
+	str7 = String::convertCStringToStdString(cstr7);
+	str8 = String::convertCStringToStdString(cstr8);
+	str9 = String::convertCStringToStdString(cstr9);
+	str10 = String::convertCStringToStdString(cstr10);
+	str11 = String::convertCStringToStdString(cstr11);
 
-	pMapMoverAndIDShifterDialogData->m_uiIDStart = String2::toNumber(str6);
-	pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x = String2::toFloat32(str7);
-	pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y = String2::toFloat32(str8);
-	pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z = String2::toFloat32(str9);
+	pMapMoverAndIDShifterDialogData->m_uiIDStart = String::toNumber(str6);
+	pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x = String::toFloat32(str7);
+	pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y = String::toFloat32(str8);
+	pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z = String::toFloat32(str9);
 
 	if (pMapMoverAndIDShifterDialogData->m_bMovePosition)
 	{
@@ -3417,11 +3417,11 @@ INT_PTR CALLBACK DialogProc_MapMoverAndIDShifterDialog(
 	break;
 	}
 
-	for (string strFilename : String2::split(str10, "\n"))
+	for (string strFilename : String::split(str10, "\n"))
 	{
 	pMapMoverAndIDShifterDialogData->m_umapShifterIgnoreFilenames[strFilename] = true;
 	}
-	for (string strFilename : String2::split(str11, "\n"))
+	for (string strFilename : String::split(str11, "\n"))
 	{
 	pMapMoverAndIDShifterDialogData->m_umapMoverIgnoreFilenames[strFilename] = true;
 	}
@@ -3438,7 +3438,7 @@ INT_PTR CALLBACK DialogProc_MapMoverAndIDShifterDialog(
 	}
 	pMapMoverAndIDShifterDialogData->m_strDATFilePath = vecFilePaths[0];
 	getIMGF()->setLastUsedDirectory("MAPMOVERANDIDSHIFTER_DATINPUT", Path::getDirectory(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
-	((CEdit*)pDialog->GetDlgItem(101))->SetWindowTextW(String2::convertStdStringToStdWString(pMapMoverAndIDShifterDialogData->m_strDATFilePath).c_str());
+	((CEdit*)pDialog->GetDlgItem(101))->SetWindowTextW(String::convertStdStringToStdWString(pMapMoverAndIDShifterDialogData->m_strDATFilePath).c_str());
 	break;
 	}
 	case 105: // Change button for Game Folder
@@ -3449,7 +3449,7 @@ INT_PTR CALLBACK DialogProc_MapMoverAndIDShifterDialog(
 	}
 	pMapMoverAndIDShifterDialogData->m_strGameFolderPath = Path::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strGameFolderPath);
 	getIMGF()->setLastUsedDirectory("MAPMOVERANDIDSHIFTER_GAMEFOLDER", pMapMoverAndIDShifterDialogData->m_strGameFolderPath);
-	((CEdit*)pDialog->GetDlgItem(104))->SetWindowTextW(String2::convertStdStringToStdWString(pMapMoverAndIDShifterDialogData->m_strGameFolderPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(104))->SetWindowTextW(String::convertStdStringToStdWString(pMapMoverAndIDShifterDialogData->m_strGameFolderPath).c_str());
 	break;
 	case 108: // Change button for IDE Folder
 	pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath = Input::chooseFolderDialog(hwndDlg, LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_5"), getIMGF()->getLastUsedDirectory("MAPMOVERANDIDSHIFTER_IDEFOLDER"));
@@ -3459,7 +3459,7 @@ INT_PTR CALLBACK DialogProc_MapMoverAndIDShifterDialog(
 	}
 	pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath = Path::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath);
 	getIMGF()->setLastUsedDirectory("MAPMOVERANDIDSHIFTER_IDEFOLDER", pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath);
-	((CEdit*)pDialog->GetDlgItem(107))->SetWindowTextW(String2::convertStdStringToStdWString(pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(107))->SetWindowTextW(String::convertStdStringToStdWString(pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath).c_str());
 	break;
 	case 111: // Change button for IPL Folder
 	pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath = Input::chooseFolderDialog(hwndDlg, LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_6"), getIMGF()->getLastUsedDirectory("MAPMOVERANDIDSHIFTER_IPLFOLDER"));
@@ -3469,7 +3469,7 @@ INT_PTR CALLBACK DialogProc_MapMoverAndIDShifterDialog(
 	}
 	pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath = Path::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath);
 	getIMGF()->setLastUsedDirectory("MAPMOVERANDIDSHIFTER_IPLFOLDER", pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath);
-	((CEdit*)pDialog->GetDlgItem(110))->SetWindowTextW(String2::convertStdStringToStdWString(pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(110))->SetWindowTextW(String::convertStdStringToStdWString(pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath).c_str());
 	break;
 	case 114: // Change button for Output Folder
 	pMapMoverAndIDShifterDialogData->m_strOutputFolderPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("TextPopup_28"), getIMGF()->getLastUsedDirectory("MAPMOVERANDIDSHIFTER_OUTPUTFOLDER"));
@@ -3479,7 +3479,7 @@ INT_PTR CALLBACK DialogProc_MapMoverAndIDShifterDialog(
 	}
 	pMapMoverAndIDShifterDialogData->m_strOutputFolderPath = Path::addSlashToEnd(pMapMoverAndIDShifterDialogData->m_strOutputFolderPath);
 	getIMGF()->setLastUsedDirectory("MAPMOVERANDIDSHIFTER_OUTPUTFOLDER", Path::getDirectory(pMapMoverAndIDShifterDialogData->m_strOutputFolderPath));
-	((CEdit*)pDialog->GetDlgItem(113))->SetWindowTextW(String2::convertStdStringToStdWString(pMapMoverAndIDShifterDialogData->m_strOutputFolderPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(113))->SetWindowTextW(String::convertStdStringToStdWString(pMapMoverAndIDShifterDialogData->m_strOutputFolderPath).c_str());
 	break;
 	}
 	break;
@@ -3543,9 +3543,9 @@ INT_PTR CALLBACK DialogProc_DATModelListDialog(
 	((CEdit*)pDialog->GetDlgItem(104))->GetWindowText(cstr2);
 	((CEdit*)pDialog->GetDlgItem(107))->GetWindowText(cstr3);
 	string str1, str2, str3;
-	str1 = String2::convertCStringToStdString(cstr1);
-	str2 = String2::convertCStringToStdString(cstr2);
-	str3 = String2::convertCStringToStdString(cstr3);
+	str1 = String::convertCStringToStdString(cstr1);
+	str2 = String::convertCStringToStdString(cstr2);
+	str3 = String::convertCStringToStdString(cstr3);
 
 	pDATModelListDialogData->m_strDATFilePath = str1;
 	pDATModelListDialogData->m_strGameFolderPath = str2;
@@ -3581,7 +3581,7 @@ INT_PTR CALLBACK DialogProc_DATModelListDialog(
 	}
 	pDATModelListDialogData->m_strDATFilePath = vecFilePaths[0];
 	getIMGF()->setLastUsedDirectory("DATMODELLIST_DATINPUT", Path::getDirectory(pDATModelListDialogData->m_strDATFilePath));
-	((CEdit*)pDialog->GetDlgItem(101))->SetWindowTextW(String2::convertStdStringToStdWString(pDATModelListDialogData->m_strDATFilePath).c_str());
+	((CEdit*)pDialog->GetDlgItem(101))->SetWindowTextW(String::convertStdStringToStdWString(pDATModelListDialogData->m_strDATFilePath).c_str());
 	break;
 	}
 	case 105: // Change button for Game Folder
@@ -3592,7 +3592,7 @@ INT_PTR CALLBACK DialogProc_DATModelListDialog(
 	}
 	pDATModelListDialogData->m_strGameFolderPath = Path::addSlashToEnd(pDATModelListDialogData->m_strGameFolderPath);
 	getIMGF()->setLastUsedDirectory("DATMODELLIST_GAMEFOLDER", pDATModelListDialogData->m_strGameFolderPath);
-	((CEdit*)pDialog->GetDlgItem(104))->SetWindowTextW(String2::convertStdStringToStdWString(pDATModelListDialogData->m_strGameFolderPath).c_str());
+	((CEdit*)pDialog->GetDlgItem(104))->SetWindowTextW(String::convertStdStringToStdWString(pDATModelListDialogData->m_strGameFolderPath).c_str());
 	break;
 	case 108: // Change button for Output File
 	pDATModelListDialogData->m_strOutputFilePath = Input::saveFileDialog(getIMGF()->getLastUsedDirectory("DATMODELLIST_TXTOUTPUT"), "TXT", "Model List.txt");
@@ -3601,7 +3601,7 @@ INT_PTR CALLBACK DialogProc_DATModelListDialog(
 	break;
 	}
 	getIMGF()->setLastUsedDirectory("DATMODELLIST_TXTOUTPUT", Path::getDirectory(pDATModelListDialogData->m_strOutputFilePath));
-	((CEdit*)pDialog->GetDlgItem(107))->SetWindowTextW(String2::convertStdStringToStdWString(pDATModelListDialogData->m_strOutputFilePath).c_str());
+	((CEdit*)pDialog->GetDlgItem(107))->SetWindowTextW(String::convertStdStringToStdWString(pDATModelListDialogData->m_strOutputFilePath).c_str());
 	break;
 	}
 	break;

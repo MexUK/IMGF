@@ -1,6 +1,6 @@
 #include "TaskDurationManager.h"
 #include "Format/Text/INI/INIManager.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Static/Tokens.h"
 #include "Static/AppDataPath.h"
 #include "IMGF.h"
@@ -69,7 +69,7 @@ void				TaskDurationManager::addTaskDuration(string& strTaskName, uint32 uiTaskD
 		AppDataPath::getTaskDurationsPath(),
 		STORAGE_SECTION,
 		strTaskName,
-		Tokens::addTokenRightShiftMax(getTaskDurationsString(strTaskName), String2::toString(uiTaskDuration), VALUE_TOKEN_DELIMITER, MAX_DURATIONS_PER_TASK)
+		Tokens::addTokenRightShiftMax(getTaskDurationsString(strTaskName), String::toString(uiTaskDuration), VALUE_TOKEN_DELIMITER, MAX_DURATIONS_PER_TASK)
 	);
 }
 

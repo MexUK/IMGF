@@ -1,5 +1,5 @@
 #include "Session.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Globals.h"
 #include "IMGF.h"
 #include "SessionManager.h"
@@ -14,7 +14,7 @@ using namespace imgf;
 // serialize
 string			Session::serialize(void)
 {
-	return m_strName + "; " + String2::join(m_vecPaths, "; ");
+	return m_strName + "; " + String::join(m_vecPaths, "; ");
 }
 
 // serialize to file

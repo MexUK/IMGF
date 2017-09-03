@@ -2,7 +2,7 @@
 #include "Globals.h"
 #include "IMGF.h"
 #include "Format/IMG/Regular/IMGManager.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Static/Path.h"
 #include "Static/File.h"
 #include "Localization/LocalizationManager.h"
@@ -15,15 +15,15 @@
 #include "GUI/Windows/MainWindow.h"
 #include "Type/Colour/Colour.h"
 #include "BXGX.h"
-#include "Controls/Grid.h"
+#include "Control/Controls/Grid.h"
 #include "GUI/Editor/EEditorItem.h"
 #include "GUI/Windows/MainWindow.h"
 #include "GUI/Layers/MainLayer.h"
-#include "Controls/TabBar.h"
-#include "Controls/ProgressBar.h"
-#include "Controls/TextBox.h"
-#include "Controls/Text.h"
-#include "Controls/DropDown.h"
+#include "Control/Controls/TabBar.h"
+#include "Control/Controls/ProgressBar.h"
+#include "Control/Controls/TextBox.h"
+#include "Control/Controls/Text.h"
+#include "Control/Controls/DropDown.h"
 #include "Static/Input.h"
 #include "Control/ScrollBarPool.h"
 #include "GUI/Layers/MainLayer.h"
@@ -307,7 +307,7 @@ void						IMGEditor::setActiveTab(IMGEditorTab *pEditorTab)
 		((TabCtrl*)getIMGF()->getDialog()->GetDlgItem(1))->SetCurFocus(pEditorTab->getIndex());
 
 		// IMG path
-		((CEdit*)getIMGF()->getDialog()->GetDlgItem(38))->SetWindowTextW(String2::convertStdStringToStdWString(pEditorTab->getIMGFile()->getFilePath()).c_str());
+		((CEdit*)getIMGF()->getDialog()->GetDlgItem(38))->SetWindowTextW(String::convertStdStringToStdWString(pEditorTab->getIMGFile()->getFilePath()).c_str());
 
 		// IMG entry count
 		pEditorTab->updateEntryCountText();
@@ -327,7 +327,7 @@ void						IMGEditor::setActiveTab(IMGEditorTab *pEditorTab)
 		// search text
 		if (((Button*)getIMGF()->getDialog()->GetDlgItem(46))->GetCheck() == BST_UNCHECKED)
 		{
-			((CEdit*)getIMGF()->getDialog()->GetDlgItem(24))->SetWindowTextW(String2::convertStdStringToStdWString(pEditorTab->getSearchText()).c_str());
+			((CEdit*)getIMGF()->getDialog()->GetDlgItem(24))->SetWindowTextW(String::convertStdStringToStdWString(pEditorTab->getSearchText()).c_str());
 			pEditorTab->searchText();
 		}
 
@@ -337,7 +337,7 @@ void						IMGEditor::setActiveTab(IMGEditorTab *pEditorTab)
 
 		// log
 		CEdit *pEdit = ((CEdit*)getIMGF()->getDialog()->GetDlgItem(14));
-		pEdit->SetWindowTextW(String2::convertStdStringToStdWString(String2::join(pEditorTab->getLogLinesGUI(), "\r\n")).c_str());
+		pEdit->SetWindowTextW(String::convertStdStringToStdWString(String::join(pEditorTab->getLogLinesGUI(), "\r\n")).c_str());
 		pEdit->LineScroll(pEdit->GetLineCount());
 
 		// IMG entries
@@ -433,7 +433,7 @@ void					IMGEditor::logAllTabs(string strText, bool bExtendedModeOnly)
 
 void					IMGEditor::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
 {
-	string strLogEntryWithTimestampAndIMG = "[" + String2::getTimestampText() + "] [" + LocalizationManager::get()->getTranslatedText("NoTabsOpen") + "] " + strText;
+	string strLogEntryWithTimestampAndIMG = "[" + String::getTimestampText() + "] [" + LocalizationManager::get()->getTranslatedText("NoTabsOpen") + "] " + strText;
 
 	if (bExtendedModeOnly)
 	{
@@ -446,7 +446,7 @@ void					IMGEditor::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
 			{
 				string strExtendedLogPath = Path::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
-				strExtendedLogPath += String2::getDateTextForFolder() + "/" + LocalizationManager::get()->getTranslatedText("LogFilename_Extended");
+				strExtendedLogPath += String::getDateTextForFolder() + "/" + LocalizationManager::get()->getTranslatedText("LogFilename_Extended");
 				File::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 		}
@@ -464,7 +464,7 @@ void					IMGEditor::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingBasic"))
 			{
 				string strExtendedLogPath = Path::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
-				strExtendedLogPath += String2::getDateTextForFolder() + "/" + LocalizationManager::get()->getTranslatedText("LogFilename_Basic");
+				strExtendedLogPath += String::getDateTextForFolder() + "/" + LocalizationManager::get()->getTranslatedText("LogFilename_Basic");
 				File::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 
@@ -472,7 +472,7 @@ void					IMGEditor::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
 			{
 				string strExtendedLogPath = Path::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
-				strExtendedLogPath += String2::getDateTextForFolder() + "/" + LocalizationManager::get()->getTranslatedText("LogFilename_Extended");
+				strExtendedLogPath += String::getDateTextForFolder() + "/" + LocalizationManager::get()->getTranslatedText("LogFilename_Extended");
 				File::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
 		}
@@ -603,7 +603,7 @@ void					IMGEditor::initMenu(void) // todo - move menu stuff to like MenuManager
 	AppendMenu(hMenu_File, MF_SEPARATOR, 1760, _T(""));
 	AppendMenu(hMenu_File, MF_STRING, 1100, LocalizationManager::get()->getTranslatedTextW("Open").c_str());
 	AppendMenu(hMenu_File, MF_STRING | MF_POPUP, (UINT_PTR)getIMGF()->m_hSubMenu_File_OpenRecent, LocalizationManager::get()->getTranslatedTextW("Menu_OpenRecent").c_str());
-	AppendMenu(hMenu_File, MF_STRING, 1117, String2::convertStdStringToStdWString(LocalizationManager::get()->getTranslatedText("Menu_OpenLast") + (getIMGF()->getRecentlyOpenManager()->getLastOpenEntry() == "" ? "" : " (" + Path::getFileName(getIMGF()->getRecentlyOpenManager()->getLastOpenEntry()) + ")")).c_str());
+	AppendMenu(hMenu_File, MF_STRING, 1117, String::convertStdStringToStdWString(LocalizationManager::get()->getTranslatedText("Menu_OpenLast") + (getIMGF()->getRecentlyOpenManager()->getLastOpenEntry() == "" ? "" : " (" + Path::getFileName(getIMGF()->getRecentlyOpenManager()->getLastOpenEntry()) + ")")).c_str());
 	AppendMenu(hMenu_File, MF_STRING, 1114, LocalizationManager::get()->getTranslatedTextW("Menu_Reopen").c_str());
 	//AppendMenu(hMenu_File, MF_STRING, 1109, _T("Associate IMG extension"));
 	AppendMenu(hMenu_File, MF_STRING | MF_POPUP, (UINT_PTR)hMenu_File_Sessions, LocalizationManager::get()->getTranslatedTextW("Menu_Sessions").c_str());
@@ -646,12 +646,12 @@ void					IMGEditor::initMenu(void) // todo - move menu stuff to like MenuManager
 	for (auto pRWVersion : RWManager::get()->getVersionManager()->getEntries())
 	{
 		getIMGF()->m_umapMenuItemMapping_SelectRWVersion[1561 + i] = pRWVersion;
-		string strMenuText = LocalizationManager::get()->getTranslatedText("Menu_Select_RWVersion_Prefix") + " " + String2::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + String2::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
-		AppendMenu(hMenu_Edit_SelectViaRWVersion, MF_STRING, 1561 + i, String2::convertStdStringToStdWString(strMenuText).c_str());
+		string strMenuText = LocalizationManager::get()->getTranslatedText("Menu_Select_RWVersion_Prefix") + " " + String::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + String::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
+		AppendMenu(hMenu_Edit_SelectViaRWVersion, MF_STRING, 1561 + i, String::convertStdStringToStdWString(strMenuText).c_str());
 		i++;
 	}
 	AppendMenu(hMenu_Edit_SelectViaRWVersion, MF_SEPARATOR, 1731, _T(""));
-	AppendMenu(hMenu_Edit_SelectViaRWVersion, MF_STRING, 1568, String2::convertStdStringToStdWString(LocalizationManager::get()->getTranslatedText("Menu_Select_RWVersion_Prefix") + " " + LocalizationManager::get()->getTranslatedText("Window_Main_Combo_RWVersion_Unknown")).c_str());
+	AppendMenu(hMenu_Edit_SelectViaRWVersion, MF_STRING, 1568, String::convertStdStringToStdWString(LocalizationManager::get()->getTranslatedText("Menu_Select_RWVersion_Prefix") + " " + LocalizationManager::get()->getTranslatedText("Window_Main_Combo_RWVersion_Unknown")).c_str());
 	AppendMenu(hMenu_Edit, MF_SEPARATOR, 1185, _T(""));
 	AppendMenu(hMenu_Edit, MF_STRING, 1182, LocalizationManager::get()->getTranslatedTextW("Menu_Import").c_str());
 	AppendMenu(hMenu_Edit, MF_STRING, 1183, LocalizationManager::get()->getTranslatedTextW("Menu_Replace").c_str());
@@ -727,8 +727,8 @@ void					IMGEditor::initMenu(void) // todo - move menu stuff to like MenuManager
 		}
 
 		getIMGF()->m_umapMenuItemMapping_ConvertDFFtoRWVersion[1590 + i] = pRWVersion;
-		string strMenuText = "Convert DFF to " + String2::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + String2::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
-		AppendMenu(hMenu_Model_Convert_DFFRWVersion, MF_STRING, 1590 + i, String2::convertStdStringToStdWString(strMenuText).c_str());
+		string strMenuText = "Convert DFF to " + String::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + String::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
+		AppendMenu(hMenu_Model_Convert_DFFRWVersion, MF_STRING, 1590 + i, String::convertStdStringToStdWString(strMenuText).c_str());
 		i++;
 	}
 
@@ -759,9 +759,9 @@ void					IMGEditor::initMenu(void) // todo - move menu stuff to like MenuManager
 		}
 
 		getIMGF()->m_umapMenuItemMapping_ConvertTXDtoRWVersion[1660 + i] = pRWVersion;
-		string strString1 = String2::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + String2::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
+		string strString1 = String::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + String::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
 		string strMenuText = LocalizationManager::get()->getTranslatedFormattedText("Menu_Convert_TXD_To", strString1.c_str());
-		AppendMenu(hMenu_Texture_Convert_TXDRWVersion, MF_STRING, 1660 + i, String2::convertStdStringToStdWString(strMenuText).c_str());
+		AppendMenu(hMenu_Texture_Convert_TXDRWVersion, MF_STRING, 1660 + i, String::convertStdStringToStdWString(strMenuText).c_str());
 		i++;
 	}
 
@@ -978,8 +978,8 @@ void					IMGEditor::loadRightClickMenu(int xPos, int yPos)
 			continue;
 		}
 
-		string strMenuText = "Convert DFF to " + String2::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + String2::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
-		AppendMenu(hMenu_ConvertDFF_DFFRWVersion, MF_STRING, 1590 + i, String2::convertStdStringToStdWString(strMenuText).c_str());
+		string strMenuText = "Convert DFF to " + String::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + String::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
+		AppendMenu(hMenu_ConvertDFF_DFFRWVersion, MF_STRING, 1590 + i, String::convertStdStringToStdWString(strMenuText).c_str());
 		i++;
 	}
 
@@ -1004,9 +1004,9 @@ void					IMGEditor::loadRightClickMenu(int xPos, int yPos)
 			continue;
 		}
 
-		string strString1 = String2::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + String2::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
+		string strString1 = String::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(0, 2)) + "&" + String::escapeMenuText((pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").substr(2));
 		string strMenuText = LocalizationManager::get()->getTranslatedFormattedText("Menu_Convert_TXD_To", strString1.c_str());
-		AppendMenu(hMenu_ConvertTXD_TXDRWVersion, MF_STRING, 1660 + i, String2::convertStdStringToStdWString(strMenuText).c_str());
+		AppendMenu(hMenu_ConvertTXD_TXDRWVersion, MF_STRING, 1660 + i, String::convertStdStringToStdWString(strMenuText).c_str());
 		i++;
 	}
 

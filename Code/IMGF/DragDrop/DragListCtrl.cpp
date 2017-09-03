@@ -2,7 +2,7 @@
 
 #include "DragListCtrl.h"
 #include "Format/IMG/Regular/IMGEntry.h"
-#include "Static/String2.h"
+#include "Static/String.h"
 #include "Globals.h"
 #include "IMGF.h"
 #include "GUI/Editors/Tab/IMGEditorTab.h"
