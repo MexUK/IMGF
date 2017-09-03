@@ -74,10 +74,10 @@
       </IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>"..\..\Events\BuildNumber\$(Configuration)\BuildNumber.exe"</Command>
+      <Command>"..\..\Events\BuildNumber\$(Configuration)\IMGF.BuildNumber.exe"</Command>
     </PreBuildEvent>
     <PreBuildEvent>
-      <Message>Build Number</Message>
+      <Message>IMGF Build Number</Message>
     </PreBuildEvent>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
@@ -104,10 +104,10 @@
       <IgnoreSpecificDefaultLibraries>Uafxcw.lib;Libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>"..\..\Events\BuildNumber\$(Configuration)\BuildNumber.exe"</Command>
+      <Command>"..\..\Events\BuildNumber\$(Configuration)\IMGF.BuildNumber.exe"</Command>
     </PreBuildEvent>
     <PreBuildEvent>
-      <Message>Build Number</Message>
+      <Message>IMGF Build Number</Message>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -139,7 +139,6 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tab\EditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layers\MainLayer.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Popups\PopupGUIManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Windows\MainWindow.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\WindowManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Language\LanguageManager.cpp" />
@@ -227,8 +226,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layers\MainLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\ELayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\EMainMenuType.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\PopupGUIManager.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\WindowControlIds.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Windows\MainWindow.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\WindowManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\nsimgf.h" />

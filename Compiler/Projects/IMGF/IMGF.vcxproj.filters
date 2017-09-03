@@ -214,12 +214,6 @@
     <Filter Include="Source Files\Program">
       <UniqueIdentifier>{ff67ada2-70a4-4e75-bfbe-1a47ebd98825}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GUI\Popups">
-      <UniqueIdentifier>{f0abdd53-8498-4ece-be3e-fa39a5b900f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GUI\Popups">
-      <UniqueIdentifier>{31386831-0560-4a8d-8b2f-1de4adb3bfa2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Tasks\RecentlyOpen">
       <UniqueIdentifier>{b3c91b9e-7abd-4c5c-9eef-7dc4061fdaa7}</UniqueIdentifier>
     </Filter>
@@ -440,9 +434,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layers\MainLayer.cpp">
       <Filter>Source Files\GUI\Layers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Popups\PopupGUIManager.cpp">
-      <Filter>Source Files\GUI\Popups</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\WindowManager.cpp">
       <Filter>Source Files\GUI\Window</Filter>
@@ -1079,9 +1070,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\WindowControlIds.h">
-      <Filter>Header Files\GUI\Popups</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Program\buildnumber.h">
       <Filter>Header Files\Program</Filter>
     </ClInclude>
@@ -1186,9 +1174,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\InputManager.h">
       <Filter>Header Files\GUI\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Popups\PopupGUIManager.h">
-      <Filter>Header Files\GUI\Popups</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\WindowManager.h">
       <Filter>Header Files\GUI\Window</Filter>

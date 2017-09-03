@@ -47,7 +47,6 @@
 #include "Engine/RW/RWManager.h"
 #include "Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Tasks/Session/SessionManager.h"
-#include "GUI/Popups/PopupGUIManager.h"
 #include "Tasks/LST/LSTProcessingManager.h"
 #include "Tasks/Dump/DumpManager.h"
 #include "Settings/SettingsManager.h"
@@ -404,7 +403,7 @@ bool		TaskDispatchManager::saveAllOpenFiles(bool bCloseAll)
 
 	bool bDidCancel = false;
 	getIMGF()->getTaskManager()->onPauseTask();
-	bool bResult = getIMGF()->getPopupGUIManager()->showConfirmDialog(strText, LocalizationManager::get()->getTranslatedText("Window_Confirm_3_Title"), bDidCancel);
+	bool bResult = false; // todo false; // todo - getIMGF()->getPopupGUIManager()->showConfirmDialog(strText, LocalizationManager::get()->getTranslatedText("Window_Confirm_3_Title"), bDidCancel);
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (bDidCancel)
 	{
@@ -591,7 +590,7 @@ void		TaskDispatchManager::onRequestRenameEntry(void)
 	bool bMultipleEntries = pListControl->GetSelectedCount() > 1;
 	string strOldName = pIMGEntry->getEntryName();
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strNewName = getIMGF()->getPopupGUIManager()->showTextInputDialog(LocalizationManager::get()->getTranslatedText("Window_TextInput_1_Title"), LocalizationManager::get()->getTranslatedFormattedText("Window_TextInput_1_Message", pListControl->GetSelectedCount()), pIMGEntry->getEntryName());
+	string strNewName = ""; // todo - getIMGF()->getPopupGUIManager()->showTextInputDialog(LocalizationManager::get()->getTranslatedText("Window_TextInput_1_Title"), LocalizationManager::get()->getTranslatedFormattedText("Window_TextInput_1_Message", pListControl->GetSelectedCount()), pIMGEntry->getEntryName());
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strNewName == "")
 	{
@@ -784,7 +783,7 @@ void		TaskDispatchManager::onRequestConvertIMGVersion(EIMGVersion EIMGVersionVal
 	bool bConvertEntries = false;
 	if (ePreviousIMGVersion != IMG_FASTMAN92 && EIMGVersionValue != IMG_FASTMAN92)
 	{
-		bConvertEntries = getIMGF()->getPopupGUIManager()->showConfirmDialog("Also convert entries to appropriate game version?", "Convert Entries?");
+		bConvertEntries = false; // todo - getIMGF()->getPopupGUIManager()->showConfirmDialog("Also convert entries to appropriate game version?", "Convert Entries?");
 	}
 
 	// calculate progress bar tick count
@@ -1021,7 +1020,7 @@ void		TaskDispatchManager::onRequestConvertIMGVersionViaButton(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	uint32 uiRadioButtonIndex = getIMGF()->getPopupGUIManager()->showConvertDialog("Convert IMG Version", LocalizationManager::get()->getTranslatedText("Convert"));
+	uint32 uiRadioButtonIndex = 0; // todo - getIMGF()->getPopupGUIManager()->showConvertDialog("Convert IMG Version", LocalizationManager::get()->getTranslatedText("Convert"));
 	getIMGF()->getTaskManager()->onResumeTask(); 
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
@@ -1096,7 +1095,7 @@ void		TaskDispatchManager::onRequestSplitViaButton(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	uint32 uiRadioButtonIndex = getIMGF()->getPopupGUIManager()->showSplitViaDialog();
+	uint32 uiRadioButtonIndex = 0; // todo - getIMGF()->getPopupGUIManager()->showSplitViaDialog();
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
@@ -1144,7 +1143,7 @@ void		TaskDispatchManager::onRequestSplitSelectedEntries(void)
 	getIMGF()->setLastUsedDirectory("SPLIT_SELECTED", strPath);
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	uint32 uiRadioButtonIndex = getIMGF()->getPopupGUIManager()->showConvertDialog("New IMG Version", LocalizationManager::get()->getTranslatedText("Save"));
+	uint32 uiRadioButtonIndex = 0; // todo - getIMGF()->getPopupGUIManager()->showConvertDialog("New IMG Version", LocalizationManager::get()->getTranslatedText("Save"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
@@ -1153,7 +1152,7 @@ void		TaskDispatchManager::onRequestSplitSelectedEntries(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bool bDeleteFromSource = getIMGF()->getPopupGUIManager()->showConfirmDialog(LocalizationManager::get()->getTranslatedText("Window_Confirm_1_Message"), LocalizationManager::get()->getTranslatedText("Window_Confirm_1_Title"));
+	bool bDeleteFromSource = false; // todo - getIMGF()->getPopupGUIManager()->showConfirmDialog(LocalizationManager::get()->getTranslatedText("Window_Confirm_1_Message"), LocalizationManager::get()->getTranslatedText("Window_Confirm_1_Title"));
 	getIMGF()->getTaskManager()->onResumeTask();
 
 	EIMGVersion EIMGVersionValue = IMG_UNKNOWN;
@@ -1217,7 +1216,7 @@ void		TaskDispatchManager::onRequestSplitViaIDEFile(void)
 	getIMGF()->setLastUsedDirectory("SPLIT_IDE", strPath);
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	uint32 uiRadioButtonIndex = getIMGF()->getPopupGUIManager()->showConvertDialog("New IMG Version", LocalizationManager::get()->getTranslatedText("Save"));
+	uint32 uiRadioButtonIndex = 0; // todo - getIMGF()->getPopupGUIManager()->showConvertDialog("New IMG Version", LocalizationManager::get()->getTranslatedText("Save"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
@@ -1236,7 +1235,7 @@ void		TaskDispatchManager::onRequestSplitViaIDEFile(void)
 	getIMGF()->setLastUsedDirectory("SPLIT_IDE", Path::getDirectory(vecPaths[0]));
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bool bDeleteFromSource = getIMGF()->getPopupGUIManager()->showConfirmDialog(LocalizationManager::get()->getTranslatedText("Window_Confirm_1_Message"), LocalizationManager::get()->getTranslatedText("Window_Confirm_1_Title"));
+	bool bDeleteFromSource = false; // todo - getIMGF()->getPopupGUIManager()->showConfirmDialog(LocalizationManager::get()->getTranslatedText("Window_Confirm_1_Message"), LocalizationManager::get()->getTranslatedText("Window_Confirm_1_Title"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	vector<string> vecEntryNamesWithoutExtension = IDEManager::getIDEEntryNamesWithoutExtension(vecPaths);
 	vecEntryNamesWithoutExtension = StdVector::toUpperCase(vecEntryNamesWithoutExtension);
@@ -1322,7 +1321,7 @@ void		TaskDispatchManager::onRequestSplitViaTextLines(void)
 	getIMGF()->setLastUsedDirectory("SPLIT_TEXTLINES", strPath);
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	uint32 uiRadioButtonIndex = getIMGF()->getPopupGUIManager()->showConvertDialog("New IMG Version", LocalizationManager::get()->getTranslatedText("Save"));
+	uint32 uiRadioButtonIndex = 0; // todo - getIMGF()->getPopupGUIManager()->showConvertDialog("New IMG Version", LocalizationManager::get()->getTranslatedText("Save"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
@@ -1331,7 +1330,7 @@ void		TaskDispatchManager::onRequestSplitViaTextLines(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strData = getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("Window_TextArea_3_Title"), LocalizationManager::get()->getTranslatedText("Window_TextArea_3_Message"));
+	string strData = ""; // todo - getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("Window_TextArea_3_Title"), LocalizationManager::get()->getTranslatedText("Window_TextArea_3_Message"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strData == "")
 	{
@@ -1340,7 +1339,7 @@ void		TaskDispatchManager::onRequestSplitViaTextLines(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bool bDeleteFromSource = getIMGF()->getPopupGUIManager()->showConfirmDialog(LocalizationManager::get()->getTranslatedText("Window_Confirm_1_Message"), LocalizationManager::get()->getTranslatedText("Window_Confirm_1_Title"));
+	bool bDeleteFromSource = false; // todo - getIMGF()->getPopupGUIManager()->showConfirmDialog(LocalizationManager::get()->getTranslatedText("Window_Confirm_1_Message"), LocalizationManager::get()->getTranslatedText("Window_Confirm_1_Title"));
 	getIMGF()->getTaskManager()->onResumeTask();
 
 	vector<string> vecEntryNames;
@@ -1457,7 +1456,7 @@ void		TaskDispatchManager::onRequestReplace(void)
 	if (getIMGF()->getSettingsManager()->getSettingBool("AskBeforeOverwritingFiles"))
 	{
 		getIMGF()->getTaskManager()->onPauseTask();
-		bOverwriteFiles = getIMGF()->getPopupGUIManager()->showConfirmDialog("Replace " + String::toString(uiReplaceEntryCount) + " entr" + (uiReplaceEntryCount == 1 ? "y" : "ies") + "?", LocalizationManager::get()->getTranslatedText("Window_Confirm_2_Title"));
+		bOverwriteFiles = false; // todo - getIMGF()->getPopupGUIManager()->showConfirmDialog("Replace " + String::toString(uiReplaceEntryCount) + " entr" + (uiReplaceEntryCount == 1 ? "y" : "ies") + "?", LocalizationManager::get()->getTranslatedText("Window_Confirm_2_Title"));
 		getIMGF()->getTaskManager()->onResumeTask();
 
 		if (!bOverwriteFiles)
@@ -1723,7 +1722,7 @@ void		TaskDispatchManager::onRequestFind(bool bFindInAllOpenedFiles) // from men
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strSearchText = getIMGF()->getPopupGUIManager()->showTextInputDialog(LocalizationManager::get()->getTranslatedText("Window_TextInput_2_Title"), LocalizationManager::get()->getTranslatedText("Window_TextInput_2_Message"));
+	string strSearchText = ""; // todo - getIMGF()->getPopupGUIManager()->showTextInputDialog(LocalizationManager::get()->getTranslatedText("Window_TextInput_2_Title"), LocalizationManager::get()->getTranslatedText("Window_TextInput_2_Message"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	
 	if (strSearchText == "")
@@ -1758,7 +1757,7 @@ void		TaskDispatchManager::onRequestExportViaButton(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	uint32 uiRadioButtonIndex = getIMGF()->getPopupGUIManager()->showExportViaDialog();
+	uint32 uiRadioButtonIndex = 0; // todo - getIMGF()->getPopupGUIManager()->showExportViaDialog();
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
@@ -1846,7 +1845,7 @@ void		TaskDispatchManager::onRequestExportViaTextLines(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strData = getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("Window_TextArea_3_Title"), LocalizationManager::get()->getTranslatedText("Window_TextArea_3_Message"));
+	string strData = ""; // todo - getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("Window_TextArea_3_Title"), LocalizationManager::get()->getTranslatedText("Window_TextArea_3_Message"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strData == "")
 	{
@@ -1921,7 +1920,7 @@ void		TaskDispatchManager::onRequestSortButton(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	vector<int> vecSortOptions = getIMGF()->getPopupGUIManager()->showSortOptionsDialog();
+	vector<int> vecSortOptions;// todo -  = getIMGF()->getPopupGUIManager()->showSortOptionsDialog();
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (vecSortOptions[10] == -1)
 	{
@@ -2000,7 +1999,7 @@ void		TaskDispatchManager::onRequestSortButton(void)
 		else if (vecSortOptions[i] == 8) // sort by file extensions
 		{
 			getIMGF()->getTaskManager()->onPauseTask();
-			string strText = getIMGF()->getPopupGUIManager()->showTextInputDialog(LocalizationManager::get()->getTranslatedText("Window_TextInput_3_Title"), LocalizationManager::get()->getTranslatedText("Window_TextInput_4_Message"));
+			string strText = ""; // todo - getIMGF()->getPopupGUIManager()->showTextInputDialog(LocalizationManager::get()->getTranslatedText("Window_TextInput_3_Title"), LocalizationManager::get()->getTranslatedText("Window_TextInput_4_Message"));
 			getIMGF()->getTaskManager()->onResumeTask();
 			if (strText == "")
 			{
@@ -2117,7 +2116,7 @@ void		TaskDispatchManager::onRequestRemoveViaTextLines(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strData = getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("Window_TextArea_4_Title"), LocalizationManager::get()->getTranslatedText("Window_TextArea_3_Message"));
+	string strData = ""; // todo - getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("Window_TextArea_4_Title"), LocalizationManager::get()->getTranslatedText("Window_TextArea_3_Message"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strData == "")
 	{
@@ -2190,7 +2189,7 @@ void		TaskDispatchManager::onRequestRemoveViaButton(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	uint32 uiRadioButtonIndex = getIMGF()->getPopupGUIManager()->showRemoveViaDialog();
+	uint32 uiRadioButtonIndex = 0; // todo - getIMGF()->getPopupGUIManager()->showRemoveViaDialog();
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
@@ -2222,7 +2221,7 @@ void		TaskDispatchManager::onRequestImportViaButton(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	uint32 uiRadioButtonIndex = getIMGF()->getPopupGUIManager()->showImportViaDialog();
+	uint32 uiRadioButtonIndex = 0; // todo - getIMGF()->getPopupGUIManager()->showImportViaDialog();
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (uiRadioButtonIndex == 0xFFFFFFFF)
 	{
@@ -2341,7 +2340,7 @@ void		TaskDispatchManager::onRequestImportViaTextLines(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strData = getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("Window_TextArea_5_Title"), LocalizationManager::get()->getTranslatedText("Window_TextArea_3_Message"));
+	string strData = ""; // todo - getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("Window_TextArea_5_Title"), LocalizationManager::get()->getTranslatedText("Window_TextArea_3_Message"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strData == "")
 	{
@@ -2485,7 +2484,7 @@ void		TaskDispatchManager::onRequestStats(void)
 	}
 	
 	getIMGF()->getTaskManager()->onPauseTask();
-	getIMGF()->getPopupGUIManager()->showStatsDialog(umapStatsRWVersions, umapStatsExtensions, umapVersionNames2);
+	// todo - getIMGF()->getPopupGUIManager()->showStatsDialog(umapStatsRWVersions, umapStatsExtensions, umapVersionNames2);
 	getIMGF()->getTaskManager()->onResumeTask();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestStats");
 }
@@ -2783,7 +2782,7 @@ void		TaskDispatchManager::onRequestSelectViaFileExtension(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strText = getIMGF()->getPopupGUIManager()->showTextInputDialog(LocalizationManager::get()->getTranslatedText("Window_TextInput_4_Title"), LocalizationManager::get()->getTranslatedText("Window_TextInput_4_Message"));
+	string strText = ""; // todo - getIMGF()->getPopupGUIManager()->showTextInputDialog(LocalizationManager::get()->getTranslatedText("Window_TextInput_4_Title"), LocalizationManager::get()->getTranslatedText("Window_TextInput_4_Message"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strText == "")
 	{
@@ -3049,7 +3048,7 @@ void		TaskDispatchManager::onRequestSaveSession(void)
 	do
 	{
 		getIMGF()->getTaskManager()->onPauseTask();
-		strSessionName = getIMGF()->getPopupGUIManager()->showTextInputDialog(LocalizationManager::get()->getTranslatedText("SessionName"), LocalizationManager::get()->getTranslatedFormattedText("Window_TextInput_5_Message", getIMGF()->getIMGEditor()->getEntryCount()));
+		strSessionName = ""; // todo - getIMGF()->getPopupGUIManager()->showTextInputDialog(LocalizationManager::get()->getTranslatedText("SessionName"), LocalizationManager::get()->getTranslatedFormattedText("Window_TextInput_5_Message", getIMGF()->getIMGEditor()->getEntryCount()));
 		getIMGF()->getTaskManager()->onResumeTask();
 		if (strSessionName == "")
 		{
@@ -3173,7 +3172,7 @@ void		TaskDispatchManager::onRequestOrphanDFFEntriesNotInCOL(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromCOL, "DFF Entries missing from COL:");
+	// todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromCOL, "DFF Entries missing from COL:");
 	getIMGF()->getTaskManager()->onResumeTask();
 
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInCOL");
@@ -3243,7 +3242,7 @@ void		TaskDispatchManager::onRequestOrphanIDEEntriesNotInCOL(void)
 	getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromCOL, "\n"), true);
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bool bImportEntries = getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromCOL, "IDE Entries missing from COL:", "Import into IMG");
+	bool bImportEntries = false; // todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromCOL, "IDE Entries missing from COL:", "Import into IMG");
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (bImportEntries)
 	{
@@ -3340,7 +3339,7 @@ void		TaskDispatchManager::onRequestOrphanDFFEntriesNotInIDE(void)
 	getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "DFF Entries missing from IDE:");
+	// todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "DFF Entries missing from IDE:");
 	getIMGF()->getTaskManager()->onResumeTask();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInIDE");
 }
@@ -3406,7 +3405,7 @@ void		TaskDispatchManager::onRequestOrphanCOLEntriesNotInIDE(void)
 	getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "COL Entries missing from IDE:");
+	// todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "COL Entries missing from IDE:");
 	getIMGF()->getTaskManager()->onResumeTask();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanCOLEntriesNotInIDE");
 }
@@ -3548,7 +3547,7 @@ void		TaskDispatchManager::onRequestOrphanIPLEntriesNotInIDE(void)
 
 	// popup
 	getIMGF()->getTaskManager()->onPauseTask();
-	getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "IPL Entries missing from IDE:");
+	// todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "IPL Entries missing from IDE:");
 	getIMGF()->getTaskManager()->onResumeTask();
 
 	// end
@@ -3616,7 +3615,7 @@ void		TaskDispatchManager::onRequestOrphanTXDEntriesNotInIDE(void)
 	getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "TXD Entries missing from IDE:");
+	// todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "TXD Entries missing from IDE:");
 	getIMGF()->getTaskManager()->onResumeTask();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanTXDEntriesNotInIDE");
 }
@@ -3659,7 +3658,7 @@ void		TaskDispatchManager::onRequestOrphanIDEEntriesNotInIMG(void)
 	getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIMG, "\n"), true);
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bool bImportEntries = getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIMG, "IDE Entries missing from IMG:", "Import into IMG");
+	bool bImportEntries = false; // todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIMG, "IDE Entries missing from IMG:", "Import into IMG");
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (bImportEntries)
 	{
@@ -3698,7 +3697,7 @@ void		TaskDispatchManager::onRequestSettings(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestSettings");
 	getIMGF()->getTaskManager()->onPauseTask();
-	bool bSave = getIMGF()->getPopupGUIManager()->showSettingsDialog();
+	bool bSave = false; // todo - getIMGF()->getPopupGUIManager()->showSettingsDialog();
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (!bSave)
 	{
@@ -3795,7 +3794,7 @@ void		TaskDispatchManager::onRequestConvertDFFToRWVersion(RWVersion *pRWVersion)
 		// The selected DFFs in the active IMG tab contains at least 1 DFF IMG entry with a RW version of III or VC, and the target RW version to convert to is SA.
 		vector<uint32> vecExtendedLogLines_MissingObjectIds;
 		bool bDidCancel = false;
-		bConvert2DFXFromIIIOrVCToSA = getIMGF()->getPopupGUIManager()->showConfirmDialog("Do you want to also convert 2DFX sections in DFF files from GTA III/VC format to GTA SA format? (Requires IDE input)", "Convert 2DFX Too?", bDidCancel);
+		bConvert2DFXFromIIIOrVCToSA = false; // todo - getIMGF()->getPopupGUIManager()->showConfirmDialog("Do you want to also convert 2DFX sections in DFF files from GTA III/VC format to GTA SA format? (Requires IDE input)", "Convert 2DFX Too?", bDidCancel);
 		if (bDidCancel)
 		{
 			getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
@@ -4386,7 +4385,7 @@ void		TaskDispatchManager::onRequestReplaceAllFromFolder(void)
 	if (getIMGF()->getSettingsManager()->getSettingBool("AskBeforeOverwritingFiles"))
 	{
 		getIMGF()->getTaskManager()->onPauseTask();
-		bOverwriteFiles = getIMGF()->getPopupGUIManager()->showConfirmDialog(LocalizationManager::get()->getTranslatedFormattedText("Window_Confirm_2_Message", uiReplaceEntryCount), LocalizationManager::get()->getTranslatedText("Window_Confirm_2_Title"));
+		bOverwriteFiles = false; // todo - getIMGF()->getPopupGUIManager()->showConfirmDialog(LocalizationManager::get()->getTranslatedFormattedText("Window_Confirm_2_Message", uiReplaceEntryCount), LocalizationManager::get()->getTranslatedText("Window_Confirm_2_Title"));
 		getIMGF()->getTaskManager()->onResumeTask();
 
 		if (!bOverwriteFiles)
@@ -4586,7 +4585,7 @@ void		TaskDispatchManager::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strData = getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("Window_TextArea_3_Title"), LocalizationManager::get()->getTranslatedText("Window_TextArea_3_Message"));
+	string strData = ""; // todo - getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("Window_TextArea_3_Title"), LocalizationManager::get()->getTranslatedText("Window_TextArea_3_Message"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strData == "")
 	{
@@ -4696,6 +4695,7 @@ void		TaskDispatchManager::onRequestImportViaFolder(void)
 }
 void		TaskDispatchManager::onRequestDuplicateEntries(void)
 {
+	/*
 	getIMGF()->getTaskManager()->onStartTask("onRequestDuplicateEntries");
 
 	// show window
@@ -4760,12 +4760,12 @@ void		TaskDispatchManager::onRequestDuplicateEntries(void)
 		case 4: // Other
 			break;
 		}
-		string strDATPath = pDuplicateEntriesDialogData->m_strDATGameDirectoryPath + DATLoaderManager::getDefaultGameDATSubPath(EPlatformedGameValue);
+		string strDATPath = ""; // todo - pDuplicateEntriesDialogData->m_strDATGameDirectoryPath + DATLoaderManager::getDefaultGameDATSubPath(EPlatformedGameValue);
 
 		DATLoaderFormat *pDATFile = DATLoaderManager::get()->parseViaFile(strDATPath);
 		if (!pDATFile->doesHaveError())
 		{
-			vecIMGFormats = pDATFile->parseIMGFiles(pDuplicateEntriesDialogData->m_strDATGameDirectoryPath);
+			// todo - vecIMGFormats = pDATFile->parseIMGFiles(pDuplicateEntriesDialogData->m_strDATGameDirectoryPath);
 		}
 		pDATFile->unload();
 		delete pDATFile;
@@ -4774,7 +4774,7 @@ void		TaskDispatchManager::onRequestDuplicateEntries(void)
 
 		for (auto strIMGRelativePath : vecGameIMGPaths)
 		{
-			string strIMGPath = pDuplicateEntriesDialogData->m_strDATGameDirectoryPath + strIMGRelativePath;
+			string strIMGPath = ""; // todo - pDuplicateEntriesDialogData->m_strDATGameDirectoryPath + strIMGRelativePath;
 			if (File::doesFileExist(strIMGPath))
 			{
 				IMGFormat *pIMGFile = IMGManager::get()->parseViaFile(strIMGPath);
@@ -4877,6 +4877,7 @@ void		TaskDispatchManager::onRequestDuplicateEntries(void)
 	}
 	delete pDuplicateEntriesDialogData;
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries");
+	*/
 }
 void		TaskDispatchManager::onRequestExportAllEntriesFromAllTabsIntoMultipleFolders(void)
 {
@@ -5082,6 +5083,7 @@ void		TaskDispatchManager::onRequestDump(void)
 }
 void		TaskDispatchManager::onRequestSessionManager(void)
 {
+	/*
 	getIMGF()->getTaskManager()->onStartTask("onRequestSessionManager");
 	SessionManagerDialogData *pSessionManagerDialogData = nullptr;
 	bool bReopenWindow;
@@ -5102,11 +5104,6 @@ void		TaskDispatchManager::onRequestSessionManager(void)
 
 		for (auto strSessionName : pSessionManagerDialogData->m_vecSessionsToRemove)
 		{
-			/*
-			char zz[1024];
-			sprintf_s(zz, "strSessionName: %s", strSessionName.c_str());
-			Debugger::log(zz);
-			*/
 			getIMGF()->getSessionManager()->removeSession(getIMGF()->getSessionManager()->getSessionByName(strSessionName));
 		}
 		for (auto strSessionData : pSessionManagerDialogData->m_vecSessionsToAdd)
@@ -5144,6 +5141,7 @@ void		TaskDispatchManager::onRequestSessionManager(void)
 		getIMGF()->getSessionManager()->loadSessions();
 	} while (bReopenWindow);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSessionManager");
+	*/
 }
 void		TaskDispatchManager::onRequestWebsite(void)
 {
@@ -5345,7 +5343,7 @@ void		TaskDispatchManager::onRequestRenameIMG(void)
 
 	string strCurrentIMGFileName = Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath());
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strNewIMGFileName = getIMGF()->getPopupGUIManager()->showTextInputDialog("Rename IMG", LocalizationManager::get()->getTranslatedText("Window_TextInput_6_Message"), strCurrentIMGFileName);
+	string strNewIMGFileName = ""; // todo - getIMGF()->getPopupGUIManager()->showTextInputDialog("Rename IMG", LocalizationManager::get()->getTranslatedText("Window_TextInput_6_Message"), strCurrentIMGFileName);
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strNewIMGFileName == "")
 	{
@@ -5839,7 +5837,9 @@ void		TaskDispatchManager::onRequestCompareIMG(void)
 	vecEntriesInBothFiles.clear();
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	getIMGF()->getPopupGUIManager()->showListViewDialog(
+	/*
+	todo
+	 getIMGF()->getPopupGUIManager()->showListViewDialog(
 		"Compare IMG",
 		String::toString(uiEntryCountInFile1NotInFile2) + " entr" + (uiEntryCountInFile1NotInFile2 == 1 ? "y" : "ies") + " not in " + Path::getFileName(pIMGFile2->getFilePath()) + ", "
 		+ String::toString(uiEntryCountInFile2NotInFile1) + " entr" + (uiEntryCountInFile2NotInFile1 == 1 ? "y" : "ies") + " not in " + Path::getFileName(pIMGFile1->getFilePath()) + ", "
@@ -5849,6 +5849,7 @@ void		TaskDispatchManager::onRequestCompareIMG(void)
 		LocalizationManager::get()->getTranslatedText("SaveFilePopup_7_InitialFilename"),
 		"COMPAREIMG__SAVE"
 	);
+	*/
 	getIMGF()->getTaskManager()->onResumeTask();
 
 	pIMGFile2->unload();
@@ -5986,7 +5987,7 @@ void			TaskDispatchManager::onRequestValidateAllDFFInActiveTab(void)
 	else
 	{
 		getIMGF()->getTaskManager()->onPauseTask();
-		getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("DFFValidationComplete"), LocalizationManager::get()->getTranslatedFormattedText("Window_TextArea_6_Message", vecCorruptDFFEntryLines.size()), String::join(vecCorruptDFFEntryLines, "\n"));
+		""; // todo - getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("DFFValidationComplete"), LocalizationManager::get()->getTranslatedFormattedText("Window_TextArea_6_Message", vecCorruptDFFEntryLines.size()), String::join(vecCorruptDFFEntryLines, "\n"));
 		getIMGF()->getTaskManager()->onResumeTask();
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestValidateAllDFFInActiveTab");
@@ -6060,7 +6061,7 @@ void			TaskDispatchManager::onRequestValidateAllTXDInActiveTab(void)
 	else
 	{
 		getIMGF()->getTaskManager()->onPauseTask();
-		getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("TXDValidationComplete"), LocalizationManager::get()->getTranslatedFormattedText("Window_TextArea_7_Message", vecCorruptTXDEntryLines.size()), String::join(vecCorruptTXDEntryLines, "\n"));
+		""; // todo - getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("TXDValidationComplete"), LocalizationManager::get()->getTranslatedFormattedText("Window_TextArea_7_Message", vecCorruptTXDEntryLines.size()), String::join(vecCorruptTXDEntryLines, "\n"));
 		getIMGF()->getTaskManager()->onResumeTask();
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestValidateAllTXDInActiveTab");
@@ -6070,7 +6071,7 @@ void			TaskDispatchManager::onRequestCredits(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestCredits");
 	getIMGF()->getTaskManager()->onPauseTask();
-	getIMGF()->getPopupGUIManager()->showCreditsDialog();
+	// todo - getIMGF()->getPopupGUIManager()->showCreditsDialog();
 	getIMGF()->getTaskManager()->onResumeTask();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestCredits");
 }
@@ -6220,6 +6221,8 @@ void			TaskDispatchManager::onRequestEntryViewer(bool bDontOpenWindow)
 
 void			TaskDispatchManager::onRequestRenamer(void)
 {
+	/*
+	todo
 	getIMGF()->getTaskManager()->onStartTask("onRequestRenamer");
 	getIMGF()->getTaskManager()->onPauseTask();
 	CRenamerDialogData *pRenamerDialogData = getIMGF()->getPopupGUIManager()->showRenamerDialog();
@@ -6340,7 +6343,7 @@ void			TaskDispatchManager::onRequestRenamer(void)
 				string strEntryNewName = String::mergeStrings(strPrefixText, Path::removeFileExtension(strEntryName), uiExceedLength) + "." + strExtension;
 
 
-				/*
+				//////////////////////////////////////
 				uint32 uiNewLength = pRenamerDialogData->m_strCharAdding_Front.length() + pIMGEntry->getEntryName().length();
 				uint32 uiNameAfterSubstrPosition = uiNewLength > uiExceedLength ? (uiNewLength - uiExceedLength) : 0;
 				//Debugger::log("pRenamerDialogData->m_strCharAdding_Front.length(): " + String::toString(pRenamerDialogData->m_strCharAdding_Front.length()));
@@ -6349,7 +6352,7 @@ void			TaskDispatchManager::onRequestRenamer(void)
 				//Debugger::log("uiNameAfterSubstrPosition: " + String::toString(uiNameAfterSubstrPosition));
 				string strNameAfter = pIMGEntry->getEntryName().substr(uiNameAfterSubstrPosition); // substr(12) causes crash when str.size() == 11
 				string strNewEntryName = pRenamerDialogData->m_strCharAdding_Front + strNameAfter;
-				*/
+				/////////////////////////////////////
 				pIMGEntry->setEntryName(strEntryNewName);
 			}
 
@@ -6633,6 +6636,7 @@ void			TaskDispatchManager::onRequestRenamer(void)
 	vecIMGEntriesWithNewNames.clear();
 	delete pRenamerDialogData;
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRenamer");
+	*/
 }
 
 void		TaskDispatchManager::onRequestClearRecentlyOpenedList(void)
@@ -6644,6 +6648,7 @@ void		TaskDispatchManager::onRequestClearRecentlyOpenedList(void)
 
 void		TaskDispatchManager::onRequestBuildTXD(void)
 {
+	/*
 	getIMGF()->getTaskManager()->onStartTask("onRequestBuildTXD");
 
 	getIMGF()->getTaskManager()->onPauseTask();
@@ -6856,10 +6861,12 @@ void		TaskDispatchManager::onRequestBuildTXD(void)
 	umapDFFEntries.clear();
 	delete pBuildTXDDialogData;
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestBuildTXD");
+	*/
 }
 
 void		TaskDispatchManager::onRequestIMGVersionSettings(void)
 {
+	/*
 	getIMGF()->getTaskManager()->onStartTask("onRequestIMGVersionSettings");
 
 	// ensure a tab is open
@@ -6931,6 +6938,7 @@ void		TaskDispatchManager::onRequestIMGVersionSettings(void)
 	// clean up
 	delete pIMGVersionSettingsDialogData;
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestIMGVersionSettings");
+	*/
 }
 
 void		TaskDispatchManager::onRequestFeatureByName(string strFeatureName)
@@ -8189,6 +8197,7 @@ bool			sortDATPathsEntries(DATEntry_Paths_General_PathNode &pathNode1, DATEntry_
 }
 void			TaskDispatchManager::onRequestDATPathsMover(void)
 {
+	/*
 	getIMGF()->getTaskManager()->onStartTask("onRequestDATPathsMover");
 	
 	getIMGF()->getTaskManager()->onPauseTask();
@@ -8210,7 +8219,7 @@ void			TaskDispatchManager::onRequestDATPathsMover(void)
 	{
 		uint32 uiAreaId = String::toNumber(Path::removeFileExtension(strFileName).substr(5)); // example filename: nodes0.dat, nodes1.dat, nodes63.dat
 
-		DATPathFormat *pDATFile = DATPathManager::get()->parseViaMemory(File::getFileContent(pDATPathsMoverDialogData->m_strInputFolderPath + strFileName, true)/*, uiAreaId*/);
+		DATPathFormat *pDATFile = DATPathManager::get()->parseViaMemory(File::getFileContent(pDATPathsMoverDialogData->m_strInputFolderPath + strFileName, true)//////, uiAreaId///////);
 		if(!pDATFile->doesHaveError())
 		{
 			vecDATInputFiles.push_back(pDATFile);
@@ -8343,7 +8352,7 @@ void			TaskDispatchManager::onRequestDATPathsMover(void)
 	}
 
 	// update target nodes of navi nodes to always be the "lower" node
-	/*
+	////////////////////////////////
 	for (auto pDATFile : vecDATOutputFiles)
 	{
 		uint32 uiNaviNodeAreaId = pDATFile->m_uiFileIndex;
@@ -8406,7 +8415,7 @@ void			TaskDispatchManager::onRequestDATPathsMover(void)
 			uiNaviNodeNodeId++;
 		}
 	}
-	*/
+	////////////////////////////////////////
 
 	// store output DAT files
 	uint32 i = 0;
@@ -8431,6 +8440,7 @@ void			TaskDispatchManager::onRequestDATPathsMover(void)
 	delete pDATPathsMoverDialogData;
 
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestDATPathsMover");
+	*/
 }
 
 void			TaskDispatchManager::onRequestExportViaDATFile(void)
@@ -8484,7 +8494,7 @@ void			TaskDispatchManager::onRequestExportViaDATFile(void)
 
 	// choose input IDE files to export entries from
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strData = getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("Window_TextArea_8_Title"), LocalizationManager::get()->getTranslatedText("Window_TextArea_8_Message"), String::join(vecIDEPaths, "\r\n"));
+	string strData = ""; // todo - getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("Window_TextArea_8_Title"), LocalizationManager::get()->getTranslatedText("Window_TextArea_8_Message"), String::join(vecIDEPaths, "\r\n"));
 	if (strData == "")
 	{
 		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
@@ -8566,6 +8576,7 @@ void			TaskDispatchManager::onRequestExportViaDATFile(void)
 
 void						TaskDispatchManager::onRequestMapMoverAndIDShifter(void)
 {
+	/*
 	getIMGF()->getTaskManager()->onStartTask("onRequestMapMoverAndIDShifter");
 
 	CMapMoverAndIDShifterDialogData *pMapMoverAndIDShifterDialogData = getIMGF()->getPopupGUIManager()->showMapMoverAndIDShifterDialog();
@@ -8770,7 +8781,7 @@ void						TaskDispatchManager::onRequestMapMoverAndIDShifter(void)
 						pIPLEntry->getUpperRightPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
 						pIPLEntry->getUpperRightPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
 						pIPLEntry->getUpperRightPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-						/* no break intended */
+						// no break intended
 					case 0:
 					case 2:
 						pIPLEntry->getCenterPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
@@ -8860,10 +8871,12 @@ void						TaskDispatchManager::onRequestMapMoverAndIDShifter(void)
 
 	delete pMapMoverAndIDShifterDialogData;
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestMapMoverAndIDShifter");
+	*/
 }
 
 void						TaskDispatchManager::onRequestDATModelList(void)
 {
+	/*
 	getIMGF()->getTaskManager()->onStartTask("onRequestModelListFromDAT");
 
 	DATModelListDialogData *pDATModelListDialogData = getIMGF()->getPopupGUIManager()->showDATModelListDialog();
@@ -8931,7 +8944,7 @@ void						TaskDispatchManager::onRequestDATModelList(void)
 		getIMGF()->getEntryListTab()->log("Found " + String::toString(vecModelNames.size()) + " unique model names in IDE/IPL files in " + Path::getFileName(pDATModelListDialogData->m_strDATFilePath));
 	}
 
-	/*
+	////////////////////////////////////////////////
 	string strFilePath = Input::saveFileDialog(getIMGF()->getLastUsedDirectory("DATMODELLIST"), "TXT", "Model Names for " + Path::removeFileExtension(Path::getFileName(strDATFilePath)) + ".txt");
 	if (strFilePath == "")
 	{
@@ -8939,12 +8952,13 @@ void						TaskDispatchManager::onRequestDATModelList(void)
 		return;
 	}
 	getIMGF()->setLastUsedDirectory("DATMODELLIST", Path::getDirectory(strFilePath));
-	*/
+	//////////////////////////////////////////////
 
 	File::storeFile(pDATModelListDialogData->m_strOutputFilePath, String::join(vecModelNames, "\n"), false, false);
 
 	delete pDATModelListDialogData;
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestModelListFromDAT");
+	*/
 }
 
 void						TaskDispatchManager::onRequestFindTXDMissingFromIMGFoundInIDE(void)
@@ -9004,7 +9018,7 @@ void						TaskDispatchManager::onRequestFindTXDMissingFromIMGFoundInIDE(void)
 	string strInitialFilename = LocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", Path::replaceFileExtension(Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
 	string strTitle = LocalizationManager::get()->getTranslatedFormattedText("Log_132", vecTXDNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str());
 	getIMGF()->getTaskManager()->onPauseTask();
-	getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecTXDNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
+	// todo - getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecTXDNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
 	getIMGF()->getTaskManager()->onResumeTask();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindTXDMissingFromIMGFoundInIDE");
 }
@@ -9082,7 +9096,7 @@ void						TaskDispatchManager::onRequestFindCOLMissingFromCOLFoundInIDE(void)
 	string strInitialFilename = LocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", Path::replaceFileExtension(Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
 	string strTitle = LocalizationManager::get()->getTranslatedFormattedText("Log_133", vecCOLNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str());
 	getIMGF()->getTaskManager()->onPauseTask();
-	getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecCOLNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
+	// todo - getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecCOLNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
 	getIMGF()->getTaskManager()->onResumeTask();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindCOLMissingFromCOLFoundInIDE");
 }
@@ -9143,7 +9157,7 @@ void						TaskDispatchManager::onRequestFindDFFMissingFromIMGFoundInIDE(void)
 	string strInitialFilename = LocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", Path::replaceFileExtension(Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
 	string strTitle = LocalizationManager::get()->getTranslatedFormattedText("Log_134", vecDFFNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str());
 	getIMGF()->getTaskManager()->onPauseTask();
-	getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecDFFNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
+	// todo - getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecDFFNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
 	getIMGF()->getTaskManager()->onResumeTask();
 	
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIMGFoundInIDE");
@@ -9434,7 +9448,7 @@ void						TaskDispatchManager::onRequestFindDFFMissingFromIDEFoundInIPL(void)
 	string strInitialFilename = LocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", "DFF not in IDE found in IPL");
 	string strTitle = LocalizationManager::get()->getTranslatedFormattedText("Log_136", vecDFFNamesWithoutExtensionMissingFromIDE.size());
 	getIMGF()->getTaskManager()->onPauseTask();
-	getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecDFFNamesWithoutExtensionMissingFromIDE, strInitialFilename, "MISSINGENTRIES");
+	// todo - getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecDFFNamesWithoutExtensionMissingFromIDE, strInitialFilename, "MISSINGENTRIES");
 	getIMGF()->getTaskManager()->onResumeTask();
 
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIDEFoundInIPL");
@@ -9542,7 +9556,7 @@ void				TaskDispatchManager::onRequestExtractDVCAndNVColoursIntoDFFs(void)
 	getIMGF()->getTaskManager()->onStartTask("onRequestExtractDVCAndNVColoursIntoDFFs");
 
 	// choose DVC, NVC, or both
-	uint32 uiUpdateType = getIMGF()->getPopupGUIManager()->show3ButtonDialog("DVC / NVC Action", "Extract DVC, NVC, or both?", "DVC", "NVC", "Both");
+	uint32 uiUpdateType = 0; // todo - getIMGF()->getPopupGUIManager()->show3ButtonDialog("DVC / NVC Action", "Extract DVC, NVC, or both?", "DVC", "NVC", "Both");
 	if (uiUpdateType == 0)
 	{
 		// user pressed cancel

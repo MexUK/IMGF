@@ -6,7 +6,6 @@
 #include "Engine/RAGE/RageManager.h"
 #include "Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Tasks/Session/SessionManager.h"
-#include "GUI/Popups/PopupGUIManager.h"
 #include "Tasks/LST/LSTProcessingManager.h"
 #include "Task/TaskManager.h"
 #include "Task/TaskDispatchManager.h"
@@ -87,7 +86,6 @@ IMGF::IMGF(void)
 	// construct objects stored by IMGF
 	m_pInputManager			= new InputManager;
 	m_pEntryViewerManager	= new EntryViewerManager;
-	m_pPopupGUIManager		= new PopupGUIManager;
 	m_pLanguageManager		= new LanguageManager;
 	m_pLSTProcessingManager	= new LSTProcessingManager;
 	m_pRecentlyOpenManager	= new RecentlyOpenManager;
@@ -105,7 +103,6 @@ IMGF::~IMGF(void)
 	// destruct objects stored by IMGF
 	delete m_pInputManager;
 	delete m_pEntryViewerManager;
-	delete m_pPopupGUIManager;
 	delete m_pLanguageManager;
 	delete m_pLSTProcessingManager;
 	delete m_pRecentlyOpenManager;
@@ -210,7 +207,6 @@ void				IMGF::initStoredObjects(void)
 	// initialize objects stored by IMGF
 	// Excludes: WindowManager and SortManager
 	m_pEntryViewerManager->init();
-	m_pPopupGUIManager->init();
 	m_pLanguageManager->init();
 	m_pLSTProcessingManager->init();
 	m_pRecentlyOpenManager->init();

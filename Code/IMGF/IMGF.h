@@ -19,7 +19,6 @@ class imgf::IMGEditorTab;
 class imgf::InputManager;
 class imgf::SessionManager;
 class imgf::RecentlyOpenManager;
-class imgf::PopupGUIManager;
 class imgf::TaskManager;
 class imgf::LSTProcessingManager;
 class bxcf::LocalizationManager;
@@ -54,14 +53,13 @@ public:
 	IMGEditorTab*				getEntryListTab(void); // todo
 	
 	DumpManager*				getDumpManager(void) { return m_pDumpManager; }
-	EntryViewerManager*		getEntryViewerManager(void) { return m_pEntryViewerManager; }
-	PopupGUIManager*			getPopupGUIManager(void) { return m_pPopupGUIManager; }
+	EntryViewerManager*			getEntryViewerManager(void) { return m_pEntryViewerManager; }
 	LanguageManager*			getLanguageManager(void) { return m_pLanguageManager; }
 	LSTProcessingManager*		getLSTProcessingManager(void) { return m_pLSTProcessingManager; }
 	WindowManager*				getWindowManager(void) { return m_pWindowManager; }
 	RecentlyOpenManager*		getRecentlyOpenManager(void) { return m_pRecentlyOpenManager; }
 	TaskManager*				getTaskManager(void) { return m_pTaskManager; }
-	SessionManager*			getSessionManager(void) { return m_pSessionManager; }
+	SessionManager*				getSessionManager(void) { return m_pSessionManager; }
 	SettingsManager*			getSettingsManager(void) { return m_pSettingsManager; }
 	SortManager*				getSortManager(void) { return m_pSortManager; }
 	UpdateManager*				getUpdateManager(void) { return m_pUpdateManager; }
@@ -92,14 +90,13 @@ private:
 
 	InputManager*				m_pInputManager;
 	DumpManager*				m_pDumpManager;
-	EntryViewerManager*		m_pEntryViewerManager;
-	PopupGUIManager*			m_pPopupGUIManager;
+	EntryViewerManager*			m_pEntryViewerManager;
 	LanguageManager*			m_pLanguageManager;
 	LSTProcessingManager*		m_pLSTProcessingManager;
 	WindowManager*				m_pWindowManager;
 	RecentlyOpenManager*		m_pRecentlyOpenManager;
 	TaskManager*				m_pTaskManager;
-	SessionManager*			m_pSessionManager;
+	SessionManager*				m_pSessionManager;
 	SettingsManager*			m_pSettingsManager;
 	SortManager*				m_pSortManager;
 	UpdateManager*				m_pUpdateManager;

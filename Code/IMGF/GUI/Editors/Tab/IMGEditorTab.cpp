@@ -34,7 +34,6 @@
 #include "Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Control/Controls/Grid.h"
 #include "GUI/Editors/IMGEditor.h"
-#include "GUI/Popups/PopupGUIManager.h"
 #include "GUI/Windows/MainWindow.h"
 #include "GUI/Layers/MainLayer.h"
 #include "Control/Controls/Text.h"
@@ -240,6 +239,8 @@ void					IMGEditorTab::checkForUnknownRWVersionEntries(void)
 			vecIMGEntryNames.push_back(pIMGEntry->getEntryName());
 		}
 
+		/*
+		todo
 		getIMGF()->getTaskManager()->onPauseTask();
 		getIMGF()->getPopupGUIManager()->showListViewDialog(
 			LocalizationManager::get()->getTranslatedText("UnknownVersions"),
@@ -251,6 +252,7 @@ void					IMGEditorTab::checkForUnknownRWVersionEntries(void)
 			"UNKNOWNRWVERSIONS"
 			);
 		getIMGF()->getTaskManager()->onResumeTask();
+		*/
 	}
 }
 
@@ -447,6 +449,8 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 		}
 		else
 		{
+			/*
+			todo
 			COverwriteEntryDialogData *pOverwriteEntryDialogData = getIMGF()->getPopupGUIManager()->showOverwriteEntryDialog();
 			if (pOverwriteEntryDialogData->m_bCancel)
 			{
@@ -459,6 +463,7 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 			uiResultOption = pOverwriteEntryDialogData->m_uiResultOption;
 
 			delete pOverwriteEntryDialogData;
+			*/
 		}
 
 		if (uiResultOption == 0) // import
@@ -553,6 +558,9 @@ void					IMGEditorTab::addOrReplaceEntryViaDataAndSettings(string strEntryName, 
 	// entry name is found in IMG
 	if (getIMGF()->getSettingsManager()->getSettingBool("AskBeforeOverwritingFiles"))
 	{
+		/*
+		todo
+
 		// Setting is enabled: Ask before overwriting files
 
 		// show popup - ask to replace or import
@@ -575,6 +583,7 @@ void					IMGEditorTab::addOrReplaceEntryViaDataAndSettings(string strEntryName, 
 		}
 
 		delete pOverwriteEntryDialogData;
+		*/
 	}
 
 	if (pIMGEntry->isProtectedEntry())

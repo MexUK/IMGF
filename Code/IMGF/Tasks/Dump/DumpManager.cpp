@@ -5,7 +5,6 @@
 #include "Globals.h"
 #include "GUI/Editors/IMGEditor.h"
 #include "GUI/Editors/Tab/IMGEditorTab.h"
-#include "GUI/Popups/PopupGUIManager.h"
 #include "Format/IMG/Regular/IMGFormat.h"
 #include "Static/Input.h"
 #include "Static/Path.h"
@@ -81,8 +80,9 @@ int GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
 
 void		DumpManager::process(void)
 {
+	/*
 	getIMGF()->getTaskManager()->onPauseTask();
-	CDumpDialogData *pDumpDialogData = getIMGF()->getPopupGUIManager()->showDumpDialog(getIMGF()->getLastUsedDirectory("DUMP__DAT"), getIMGF()->getLastUsedDirectory("DUMP__Destination"));
+	CDumpDialogData *pDumpDialogData = nullptr; // todo - getIMGF()->getPopupGUIManager()->showDumpDialog(getIMGF()->getLastUsedDirectory("DUMP__DAT"), getIMGF()->getLastUsedDirectory("DUMP__Destination"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (!pDumpDialogData->m_bResult)
 	{
@@ -361,13 +361,13 @@ void		DumpManager::process(void)
 									continue;
 								}
 
-								/*
+								////////////////////////////////////////////////////
 								Debugger::log("pTexture->m_strDiffuseName: [" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName());
 								Debugger::log("pTexture->m_usWidth: " + String::toString(pTexture->getImageSize(true)));
 								Debugger::log("pTexture->m_usHeight: " + String::toString(pTexture->getImageSize(false)));
 								Debugger::log("pTexture->m_uiRasterFormat: " + String::toString(pTexture->getRasterFormat()));
 								Debugger::log("pTexture->m_ucBPP: " + String::toString(pTexture->getBPP()));
-								*/
+								////////////////////////////////////////////////////
 
 								if (!TXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getPlatformedGames()))
 								{
@@ -976,6 +976,7 @@ void		DumpManager::process(void)
 	}
 
 	delete pDumpDialogData;
+	*/
 }
 
 string			DumpManager::getEncoderClassIdFromImageExtension(string strFileExtension)

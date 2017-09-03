@@ -14,7 +14,6 @@
 #include "SortType.h"
 #include "ESortType.h"
 #include "Static/Input.h"
-#include "GUI/Popups/PopupGUIManager.h"
 #include "Format/IDE/IDEManager.h"
 #include "Format/IDE/IDEManager.h"
 #include "Format/COL/COLManager.h"
@@ -421,7 +420,7 @@ void		SortManager::onClickMenuItem(uint16 usMenuHandle)
 		}
 		else if (pSortMenuItem->m_pType->getType() == SORT_FILE_EXTENSIONS)
 		{
-			string strText = getIMGF()->getPopupGUIManager()->showTextInputDialog(LocalizationManager::get()->getTranslatedFormattedText("Sort_ByText", LocalizationManager::get()->getTranslatedTextW("Sort_Extensions").c_str()), LocalizationManager::get()->getTranslatedText("Window_TextInput_4_Message"));
+			string strText = ""; // todo - getIMGF()->getPopupGUIManager()->showTextInputDialog(LocalizationManager::get()->getTranslatedFormattedText("Sort_ByText", LocalizationManager::get()->getTranslatedTextW("Sort_Extensions").c_str()), LocalizationManager::get()->getTranslatedText("Window_TextInput_4_Message"));
 			if (strText == "")
 			{
 				bCancel = true;

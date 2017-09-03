@@ -4,13 +4,13 @@
 #include "SettingsManager.h"
 #include "IMGF.h"
 #include "Globals.h"
-#include "GUI/Popups/PopupGUIManager.h"
 #include "Static/Registry.h"
 #include "Static/Path.h"
 #include "Static/String.h"
 #include "Static/AppDataPath.h"
 #include "Format/IMG/Regular/IMGEntry.h"
 #include "Format/Text/INI/INIManager.h"
+#include "Localization/ELanguage.h"
 
 using namespace std;
 using namespace bxcf;

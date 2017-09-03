@@ -18,7 +18,6 @@
 #include "Engine/RW/RWManager.h"
 #include "Engine/RW/RWVersionManager.h"
 #include "IMGF.h"
-#include "GUI/Popups/PopupGUIManager.h"
 #include "Image/RasterDataFormat.h"
 #include "Localization/LocalizationManager.h"
 #include "Static/Debug.h"

@@ -11,15 +11,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Dependencies\ThirdParty\BuildNumber\buildnumber.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.BuildNumber\buildnumber.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Dependencies\ThirdParty\BuildNumber\buildnumber.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.BuildNumber\buildnumber.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6FBD84F0-8530-44AD-A2E6-AFFC9A23EF67}</ProjectGuid>
-    <RootNamespace>BuildNumber</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <RootNamespace>IMGF.BuildNumber</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -46,14 +46,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\..\..\..\Compiler\Events\BuildNumber\$(Configuration)\</OutDir>
-    <IntDir>..\..\..\..\..\_Output\Intermediate\IMGF\ThirdParty\BuildNumber\$(Configuration)\</IntDir>
-    <TargetName>BuildNumber</TargetName>
+    <OutDir>..\..\Events\BuildNumber\$(Configuration)\</OutDir>
+    <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF.BuildNumber\$(Configuration)\</IntDir>
+    <TargetName>IMGF.BuildNumber</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\..\..\..\..\IMGF\BuildEvents\BuildNumber\$(Configuration)\</OutDir>
-    <IntDir>..\..\..\..\..\_Output\Intermediate\IMGF\ThirdParty\BuildNumber\$(Configuration)\</IntDir>
-    <TargetName>BuildNumber</TargetName>
+    <OutDir>..\..\Events\BuildNumber\$(Configuration)\</OutDir>
+    <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF.BuildNumber\$(Configuration)\</IntDir>
+    <TargetName>IMGF.BuildNumber</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
