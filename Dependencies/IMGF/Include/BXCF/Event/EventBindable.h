@@ -1,6 +1,7 @@
 #pragma once
 
 #include "nsbxcf.h"
+#include "Event/EventFunction.h"
 
 struct bxcf::EventBindable
 {

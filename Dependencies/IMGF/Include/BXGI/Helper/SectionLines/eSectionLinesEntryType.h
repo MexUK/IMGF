@@ -3,7 +3,7 @@
 #include "nsbxgi.h"
 #include "Type/Types.h"
 
-enum bxgi::ESectionLinesEntryType : uint8
+enum bxgi::ESectionLinesEntryType
 {
 	SECTION_LINES_ENTRY_UNKNOWN,
 	SECTION_LINES_ENTRY_SECTION,

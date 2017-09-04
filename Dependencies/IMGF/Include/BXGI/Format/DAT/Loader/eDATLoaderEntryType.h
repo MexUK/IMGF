@@ -3,7 +3,7 @@
 #include "nsbxgi.h"
 #include "Type/Types.h"
 
-enum bxgi::EDATLoaderEntryType : uint8
+enum bxgi::EDATLoaderEntryType
 {
 	DAT_LOADER_UNKNOWN,
 	DAT_LOADER_IMG,

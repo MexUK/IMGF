@@ -2,7 +2,7 @@
 
 #include "nsbxgx.h"
 
-enum bxgx::control::events::EInputEvent
+enum bxgx::events::EInputEvent
 {
 	// bxgx
 	BXGX_READY = 20000,
@@ -37,5 +37,7 @@ enum bxgx::control::events::EInputEvent
 	PROGRESS_PROGRESS_BAR,
 
 	SELECT_GRID_ROW,
-	UNSELECT_GRID_ROW
+	UNSELECT_GRID_ROW,
+
+	PRESS_MENU_ITEM
 };

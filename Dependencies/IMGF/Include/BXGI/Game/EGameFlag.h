@@ -3,7 +3,7 @@
 #include "nsbxgi.h"
 #include "Type/Types.h"
 
-enum bxgi::EGameFlag : uint8
+enum bxgi::EGameFlag
 {
 	GAME_FLAG_UNKNOWN	= 0,
 	GAME_FLAG_GTA_III	= 1,

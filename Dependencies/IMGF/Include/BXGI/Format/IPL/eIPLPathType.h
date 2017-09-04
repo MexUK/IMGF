@@ -3,7 +3,7 @@
 #include "nsbxgi.h"
 #include "Type/Types.h"
 
-enum bxgi::EIPLPathType : uint8
+enum bxgi::EIPLPathType
 {
 	IPL_PATH_UNKNOWN,
 	IPL_PATH_GROUP,

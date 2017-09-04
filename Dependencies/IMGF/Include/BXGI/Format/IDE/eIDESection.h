@@ -3,7 +3,7 @@
 #include "nsbxgi.h"
 #include "Type/Types.h"
 
-enum bxgi::EIDESection : uint8
+enum bxgi::EIDESection
 {
 	IDE_SECTION_UNKNOWN,
 	IDE_SECTION_OBJS,

@@ -3,7 +3,7 @@
 #include "nsbxgi.h"
 #include "Type/Types.h"
 
-enum bxgi::ECOLVersion : uint8
+enum bxgi::ECOLVersion
 {
 	COL_UNKNOWN		= 0,
 	COL_1			= 1,

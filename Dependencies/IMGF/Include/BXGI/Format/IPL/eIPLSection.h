@@ -3,7 +3,7 @@
 #include "nsbxgi.h"
 #include "Type/Types.h"
 
-enum bxgi::EIPLSection : uint8
+enum bxgi::EIPLSection
 {
 	IPL_SECTION_UNKNOWN,
 	IPL_SECTION_INST,

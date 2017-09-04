@@ -2,7 +2,7 @@
 
 #include "nsbxcf.h"
 #include "Object/Manager.h"
-#include "RasterDataFormat.h"
+#include "Image/RasterDataFormat.h"
 #include "Pool/VectorPool.h"
 
 class bxcf::RasterDataFormatManager : public bxcf::Manager, public bxcf::VectorPool<bxcf::RasterDataFormat*>

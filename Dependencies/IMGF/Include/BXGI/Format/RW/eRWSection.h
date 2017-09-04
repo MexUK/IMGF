@@ -3,7 +3,7 @@
 #include "nsbxgi.h"
 #include "Type/Types.h"
 
-enum bxgi::ERWSection : uint32
+enum bxgi::ERWSection
 {
 	RW_SECTION_UNKNOWN				= 0xFFFFFFFF,
 	RW_SECTION_STRUCT				= 0x01,

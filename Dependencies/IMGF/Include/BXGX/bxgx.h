@@ -2,15 +2,14 @@
 
 #include "nsbxgx.h"
 #include "Type/Vector/Vec2u.h"
-#include "Object/CManager.h"
-#include "Pool/CVectorPool.h"
-#include "Window/CWindow.h"
-#include "Object/CSingleton.h"
-#include "Styles/CStyleManager.h"
+#include "Object/Manager.h"
+#include "Pool/VectorPool.h"
+#include "Window/Window.h"
+#include "Object/Singleton.h"
+#include "Style/StyleManager.h"
 #include "Event/EInputEvent.h"
 #include "Event/EInternalEvent.h"
-#include "Controls/CScrollBar.h"
-#include "Static/CDebug.h"
+#include "Control/Controls/ScrollBar.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -18,14 +17,16 @@
 #include <thread>
 #include <Windows.h> // for HCURSOR
 
-extern std::mutex mutexRenderableEvents;
+extern std::mutex mutexRenderItemEvents;
 
-class bxgx::CGraphicsLibrary;
-class bxgx::CRenderable;
-class bxgx::CLayerItem;
-class bxgx::CButton;
+class bxgx::GraphicsLibrary;
+class bxgx::RenderItem;
+class bxgx::LayerItem;
+class bxgx::Button;
+class bxgx::MenuItem;
+class bxgx::ScrollBar;
 
-class bxgx::BXGX : public bxcf::CManager, public bxcf::CSingleton<bxgx::BXGX>, public bxcf::CVectorPool<CWindow*>
+class bxgx::BXGX : public bxcf::Manager, public bxcf::Singleton<bxgx::BXGX>, public bxcf::VectorPool<Window*>
 {
 public:
 	BXGX(void);
@@ -72,9 +73,9 @@ public:
 	bool						applyCursor(void);
 	void						applyCursor(char *pCursorIcon);
 
-	CWindow*					addWindow(bxcf::Vec2i& vecWindowPosition, bxcf::Vec2u& vecWindowSize, uint32 uiIcon = -1);
-	CWindow*					addWindow(int32 x, int32 y, uint32 w, uint32 h, uint32 uiIcon = -1);
-	CWindow*					addWindow(uint32 w = 800, uint32 h = 600, uint32 uiIcon = -1);
+	Window*					addWindow(bxcf::Vec2i& vecWindowPosition, bxcf::Vec2u& vecWindowSize, uint32 uiIcon = -1);
+	Window*					addWindow(int32 x, int32 y, uint32 w, uint32 h, uint32 uiIcon = -1);
+	Window*					addWindow(uint32 w = 800, uint32 h = 600, uint32 uiIcon = -1);
 	template <class WindowClass>
 	WindowClass*				addWindow(bxcf::Vec2i& vecWindowPosition, bxcf::Vec2u& vecWindowSize, uint32 uiIcon = -1);
 	template <class WindowClass>
@@ -82,9 +83,9 @@ public:
 	template <class WindowClass>
 	WindowClass*				addWindow(uint32 w, uint32 h, uint32 uiIcon = -1);
 
-	void						triggerEvent(bxgx::events::EInternalEvent uiEvent, bxcf::Vec2i& vecCursorPoint, ...);
-	bool						triggerItemEvent(bxgx::events::EInternalEvent uiEvent, CRenderable *pItem, ...);
-	bool						triggerItemEvent(bxgx::events::EInternalEvent uiEvent, CRenderable *pItem, va_list args);
+	void						triggerEvent(bxgx::events::EInternalEvent uiEvent, bxcf::Vec2i vecCursorPoint, ...);
+	bool						triggerItemEventVA(bxgx::events::EInternalEvent uiEvent, RenderItem *pItem, ...);
+	bool						triggerItemEvent(bxgx::events::EInternalEvent uiEvent, RenderItem *pItem, va_list args);
 
 	inline bool					isWindowEvent(bxgx::events::EInternalEvent uiEvent);
 	inline bool					isMouseEvent(bxgx::events::EInternalEvent uiEvent);
@@ -96,29 +97,39 @@ public:
 	void						render(void);
 	void						renderNow(void);
 
-	CWindow*					getWindowByHwnd(HWND hWnd);
+	Window*					getWindowByHwnd(HWND hWnd);
 
-	void						setGraphicsLibrary(CGraphicsLibrary* pGraphicsLibrary) { m_pGraphicsLibrary = pGraphicsLibrary; }
-	CGraphicsLibrary*			getGraphicsLibrary(void) { return m_pGraphicsLibrary; }
+	void						setGraphicsLibrary(GraphicsLibrary* pGraphicsLibrary) { m_pGraphicsLibrary = pGraphicsLibrary; }
+	GraphicsLibrary*			getGraphicsLibrary(void) { return m_pGraphicsLibrary; }
 
-	void						setActiveWindow(CWindow *pActiveWindow) { m_pActiveWindow = pActiveWindow; }
-	CWindow*					getActiveWindow(void) { return m_pActiveWindow; }
+	void						setActiveWindow(Window *pActiveWindow) { m_pActiveWindow = pActiveWindow; }
+	Window*					getActiveWindow(void) { return m_pActiveWindow; }
 
-	void						setItemMouseIsOver(CLayerItem* pItemMouseIsOver) { m_pItemMouseIsOver = pItemMouseIsOver; }
-	CLayerItem*					getItemMouseIsOver(void) { return m_pItemMouseIsOver; }
-	bool						isMouseOverItem(void) { return m_pItemMouseIsOver != nullptr; }
-	void						clearItemMouseIsOver(void) { m_pItemMouseIsOver = nullptr; }
+	void						setRenderItemMouseIsOver(RenderItem* pItemMouseIsOver) { m_pRenderItemMouseIsOver = pItemMouseIsOver; }
+	RenderItem*				getRenderItemMouseIsOver(void) { return m_pRenderItemMouseIsOver; }
+	bool						isMouseOverItem(void) { return m_pRenderItemMouseIsOver != nullptr; }
+	void						clearItemMouseIsOver(void) { m_pRenderItemMouseIsOver = nullptr; }
 
-	CLayerItem*					getControlOrShapeFromPoint(bxcf::Vec2i& vecPoint);
+	RenderItem*				getRenderItemFromPoint(bxcf::Vec2i& vecPoint);
+	LayerItem*					getControlOrShapeFromPoint(bxcf::Vec2i& vecPoint);
+	Layer*						getLayerFromPoint(bxcf::Vec2i& vecPoint);
+	Window*					getWindowFromPoint(bxcf::Vec2i& vecScreenPoint);
 
-	bool						createWindow(CWindow *pWindow, uint32 uiIcon = -1);
+	bool						createWindow(Window *pWindow, uint32 uiIcon = -1);
 
 	void						markMainThreadToUpdateWindow(void) { m_bMainThreadIsMarkedToUpdateWindow = true; }
 	void						unmarkMainThreadToUpdateWindow(void) { m_bMainThreadIsMarkedToUpdateWindow = false; }
 	bool						isMainThreadMarkedToUpdateWindow(void) { return m_bMainThreadIsMarkedToUpdateWindow; }
 
+	std::vector<Button*>&		getButtonsPressedPending(void) { return m_vecButtonsPressedPending; }
+	std::vector<MenuItem*>&	getMenuItemsPressed(void) { return m_vecMenuItemsPressed; }
+
+	void						setActiveScrollBar(ScrollBar *pScrollBar) { m_pActiveScrollBar = pScrollBar; }
+	ScrollBar*					getActiveScrollBar(void) { return m_pActiveScrollBar; }
+	void						clearActiveScrollBar(void) { m_pActiveScrollBar = nullptr; }
+
 private:
-	bool						initializeWindow(CWindow *pWindow, bxcf::Vec2i& vecWindowPosition, bxcf::Vec2u& vecWindowSize, uint32 uiIcon);
+	bool						initializeWindow(Window *pWindow, bxcf::Vec2i& vecWindowPosition, bxcf::Vec2u& vecWindowSize, uint32 uiIcon);
 
 private:
 	bxcf::Vec2i										m_vecCursorPosition;
@@ -130,15 +141,17 @@ private:
 	bool											m_bThread1Locked;
 	bool											m_bThread2Locked;
 	bool											m_bMainThreadIsMarkedToUpdateWindow;
-	CGraphicsLibrary*								m_pGraphicsLibrary;
-	CWindow*										m_pActiveWindow;
-	CLayerItem*										m_pItemMouseIsOver;
+	GraphicsLibrary*								m_pGraphicsLibrary;
+	Window*										m_pActiveWindow;
+	RenderItem*									m_pRenderItemMouseIsOver;
 	HCURSOR											m_hDefaultCursor;
-	std::vector<CButton*>					m_vecButtonsPressed;
-	std::vector<CButton*>					m_vecButtonsPressedPending;
+	ScrollBar*										m_pActiveScrollBar;
+	std::vector<Button*>							m_vecButtonsPressed;
+	std::vector<Button*>							m_vecButtonsPressedPending;
+	std::vector<MenuItem*>							m_vecMenuItemsPressed;
 
 public:
-	std::unordered_map<uint32, std::vector<CRenderable*>>	m_umapEventControls;
+	std::unordered_map<uint32, std::vector<RenderItem*>>	m_umapRenderItemEvents;
 	bool													m_bTerminateThreads;
 	bool													m_b2ndThreadHasTerminated;
 };

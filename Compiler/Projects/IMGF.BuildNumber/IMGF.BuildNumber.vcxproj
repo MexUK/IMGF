@@ -46,18 +46,18 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\..\Events\IMGF.BuildNumber\$(Configuration)\</OutDir>
-    <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF.BuildNumber\$(Configuration)\</IntDir>
+    <OutDir>../../Events/IMGF.BuildNumber/$(Configuration)/</OutDir>
+    <IntDir>../../../../_Output/Intermediate/IMGF/IMGF.BuildNumber/$(Configuration)/</IntDir>
     <TargetName>IMGF.BuildNumber</TargetName>
-    <IncludePath>C:\Users\james\Desktop\GitHub Repos\BXCF\Code\BXCF;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\BXCF\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:/Users/james/Desktop/GitHub Repos/BXCF/Code/BXCF;$(IncludePath)</IncludePath>
+    <LibraryPath>C:/Users/james/Desktop/GitHub Repos/_Output/Lib/BXCF/BXCF/$(Configuration)/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\..\Events\IMGF.BuildNumber\$(Configuration)\</OutDir>
-    <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF.BuildNumber\$(Configuration)\</IntDir>
+    <OutDir>../../Events/IMGF.BuildNumber/$(Configuration)/</OutDir>
+    <IntDir>../../../../_Output/Intermediate/IMGF/IMGF.BuildNumber/$(Configuration)/</IntDir>
     <TargetName>IMGF.BuildNumber</TargetName>
-    <IncludePath>C:\Users\james\Desktop\GitHub Repos\BXCF\Code\BXCF;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\BXCF\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:/Users/james/Desktop/GitHub Repos/BXCF/Code/BXCF;$(IncludePath)</IncludePath>
+    <LibraryPath>C:/Users/james/Desktop/GitHub Repos/_Output/Lib/BXCF/BXCF/$(Configuration)/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

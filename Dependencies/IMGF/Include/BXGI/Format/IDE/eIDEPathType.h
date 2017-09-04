@@ -3,7 +3,7 @@
 #include "nsbxgi.h"
 #include "Type/Types.h"
 
-enum bxgi::EIDEPathType : uint8
+enum bxgi::EIDEPathType
 {
 	IDE_PATH_UNKNOWN,
 	IDE_PATH_GROUP,

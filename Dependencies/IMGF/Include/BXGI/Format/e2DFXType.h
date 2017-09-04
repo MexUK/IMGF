@@ -3,7 +3,7 @@
 #include "nsbxgi.h"
 #include "Type/Types.h"
 
-enum bxgi::E2DFXType : uint8
+enum bxgi::E2DFXType
 {
 	_2DFX_UNKNOWN,
 

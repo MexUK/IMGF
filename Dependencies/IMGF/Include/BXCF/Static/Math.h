@@ -2,17 +2,16 @@
 
 #include "nsbxcf.h"
 #include "Type/Types.h"
-#include "Type/Vector/Vec3f.h"
-#include "Type/Vector/Vec2f.h"
-#include "Type/Vector/Vec2i.h"
 #include "Type/Vector/Vec2i.h"
 #include "Type/Vector/Vec2u.h"
+#include "Type/Vector/Vec2f.h"
+#include "Type/Vector/Vec3f.h"
 #include "Type/Vector/Vec4u8.h"
 #include "Type/Vector/Vec4u16.h"
 #include "Type/Vector/Vec4u.h"
 #include <vector>
 
-#define SECTOR_BYTE_COUNT 2048
+#define SECTOR_BYTE_COUNT 2048 // todo - namespace
 
 class bxcf::Math
 {

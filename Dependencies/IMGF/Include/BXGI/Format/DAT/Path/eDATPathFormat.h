@@ -3,7 +3,7 @@
 #include "nsbxgi.h"
 #include "Type/Types.h"
 
-enum bxgi::EDATPathFormat : uint8
+enum bxgi::EDATPathFormat
 {
 	DAT_PATH_UNKNOWN,
 	DAT_PATH_DEFAULT,

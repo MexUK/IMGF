@@ -34,8 +34,9 @@ enum bxgx::events::EInternalEvent
 	KEY_DOWN					= 3000,
 	KEY_UP						= 3001,
 	KEY_HELD					= 3002,
-	DOUBLE_KEY_DOWN				= 3003,
-	DOUBLE_KEY_UP				= 3004,
+	KEY_CHAR					= 3003,
+	DOUBLE_KEY_DOWN				= 3004,
+	DOUBLE_KEY_UP				= 3005,
 
 	// render
 	RENDER						= 4000,

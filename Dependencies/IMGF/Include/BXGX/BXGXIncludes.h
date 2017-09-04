@@ -1,0 +1,80 @@
+#pragma once
+
+#include "nsbxgx.h"
+#include "BXGX.h"
+
+#include "Control/Base/EControl.h"
+#include "Control/Base/Control.h"
+#include "Control/Components/ScrollBarPool.h"
+#include "Control/Components/TextComponent.h"
+#include "Control/Controls/Button.h"
+#include "Control/Controls/CheckBox.h"
+#include "Control/Controls/DropDown.h"
+#include "Control/Controls/Grid.h"
+#include "Control/Controls/Image.h"
+#include "Control/Controls/Menu.h"
+#include "Control/Controls/ProgressBar.h"
+#include "Control/Controls/RadioButton.h"
+#include "Control/Controls/ScrollBar.h"
+#include "Control/Controls/TabBar.h"
+#include "Control/Controls/Text.h"
+#include "Control/Controls/TextBox.h"
+#include "Control/Entries/DropDownItem.h"
+#include "Control/Entries/GridHeader.h"
+#include "Control/Entries/GridRow.h"
+#include "Control/Entries/MenuItem.h"
+#include "Control/Entries/Tab.h"
+
+#include "Event/EInputEvent.h"
+#include "Event/EInternalEvent.h"
+
+#include "Format/BXS/BXSFormat.h"
+
+#include "Geometry/Base/EGeometry.h"
+#include "Geometry/Geometries/_1Point1LengthGeometry.h"
+#include "Geometry/Geometries/_1Point2LengthGeometry.h"
+#include "Geometry/Geometries/_2PointGeometry.h"
+#include "Geometry/Geometries/_3PointGeometry.h"
+#include "Geometry/Geometries/NPointGeometry.h"
+
+#include "GraphicsLibrary/Base/GraphicsLibrary.h"
+#include "GraphicsLibrary/Base/ImageObject.h"
+#include "GraphicsLibrary/Libraries/GraphicsLibrary_D3D8.h"
+#include "GraphicsLibrary/Libraries/GraphicsLibrary_GDIPlus.h"
+
+#include "Interaction/RectangleItemPlacement.h"
+
+#include "Item/RectangleItem.h"
+#include "Item/Layer/LayerItem.h"
+#include "Item/Render/ERenderItem.h"
+#include "Item/Render/RenderItem.h"
+
+#include "Layer/ELayerType.h"
+#include "Layer/Layer.h"
+
+#include "Shape/Base/EShape.h"
+#include "Shape/Base/Shape.h"
+#include "Shape/Shapes/Circle.h"
+#include "Shape/Shapes/Ellipse.h"
+#include "Shape/Shapes/Line.h"
+#include "Shape/Shapes/Polygon.h"
+#include "Shape/Shapes/Rectangle.h"
+#include "Shape/Shapes/Square.h"
+#include "Shape/Shapes/Triangle.h"
+
+#include "String/SizedString.h"
+
+#include "Style/StyleManager.h"
+#include "Style/Loading/Group/Base/StyleGroup.h"
+#include "Style/Loading/Group/Groups/ControlStyleGroup.h"
+#include "Style/Loading/Group/Groups/CustomStyleGroup.h"
+#include "Style/Parts/EControlComponent.h"
+#include "Style/Parts/EStyleComponent.h"
+#include "Style/Parts/EStyleFragment.h"
+#include "Style/Parts/EStyleProperty.h"
+#include "Style/Parts/EStyleStatus.h"
+#include "Style/Parts/EStyleValue.h"
+
+#include "Window/EWindowType.h"
+#include "Window/Window.h"
+

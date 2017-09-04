@@ -10,14 +10,7 @@ namespace bxgx
 	namespace events
 	{
 		enum EInternalEvent;
-	};
-
-	namespace control
-	{
-		namespace events
-		{
-			enum EInputEvent;
-		};
+		enum EInputEvent;
 	};
 
 	// controls
@@ -61,7 +54,7 @@ namespace bxgx
 	// items
 	namespace item
 	{
-		enum ERenderable;
+		enum ERenderItem;
 
 		namespace window
 		{
@@ -82,79 +75,80 @@ namespace bxgx
 
 	// general
 	class Control;
-	class CScrollBarPool;
 	enum EControl;
-	enum E2DAxis;
 
 	class TextComponent;
+	class ScrollBarPool;
 
-	class CDropDownItem;
-	class CGridRow;
-	class CGridHeader;
-	class CMenuEntry;
-	class CTab;
+	class DropDownItem;
+	class GridRow;
+	class GridHeader;
+	class MenuItem;
+	class Tab;
 
-	class CButton;
-	class CCheckBox;
-	class CDropDown;
-	class CGrid;
-	class CImage;
-	class CMenu;
-	class CProgressBar;
-	class CRadioButton;
-	class CScrollBar;
-	class CTabBar;
-	class CTextBox;
-	class CText;
+	class Button;
+	class CheckBox;
+	class DropDown;
+	class Grid;
+	class Image;
+	class Menu;
+	class ProgressBar;
+	class RadioButton;
+	class ScrollBar;
+	class TabBar;
+	class TextBox;
+	class Text;
 
-	class CBXSFormat;
+	class BXSFormat;
 
-	class CGDIPlus;;
+	class GDIPlus;
+	class D3D8;
 
-	class CGraphicsLibrary;
+	class GraphicsLibrary;
+	class ImageObject;
 
 	template <class Item>
-	class CRectangleItemPlacement;
+	class RectangleItemPlacement;
 
-	class CLayerItem;
+	class LayerItem;
 
-	class CLayer;
+	class Layer;
 
-	class CRectangleRenderable;
-	class CRenderable;
+	class RectangleItem;
+	class RenderItem;
 
 	enum EGeometry;
-	class CShape;
+	class Shape;
 	enum EShape;
 
-	class C1Point1LengthGeometry;
-	class C1Point2LengthGeometry;
-	class C2PointGeometry;
-	class C3PointGeometry;
-	class CNPointGeometry;
+	class _1Point1LengthGeometry;
+	class _1Point2LengthGeometry;
+	class _2PointGeometry;
+	class _3PointGeometry;
+	class NPointGeometry;
 
-	class CCircle;
-	class CEllipse;
-	class CLine;
-	class CPolygon;
-	class CRectangle;
-	class CSquare;
-	class CTriangle;
+	class Circle;
+	class Ellipse;
+	class Line;
+	class Polygon;
+	class Rectangle;
+	class Square;
+	class Triangle;
 
-	class CRenderableBlank;
+	class RenderItemBlank;
 
-	class CSizedString;
+	class SizedString;
 
-	class CStyleGroup;
-	class CControlStyleGroup;
-	class CCustomStyleGroup;
+	class StyleGroup;
+	class ControlStyleGroup;
+	class CustomStyleGroup;
 
-	class CCoordinate;
-	class CCoordinateWithSign;
-	class CCoordinateExpression;
-	class CStyleManager;
-	class CStyleManager_MapUtility_Uint32;
-	class CStyleManager_MapUtility_CRenderablePointer;
+	class Coordinate;
+	class CoordinateWithSign;
+	class CoordinateExpression;
+	class StyleManager;
+	class StyleManager_MapUtility_Uint32;
+	class StyleManager_MapUtility_RenderItemPointer;
 
-	class CWindow;
+	class Window;
 };
