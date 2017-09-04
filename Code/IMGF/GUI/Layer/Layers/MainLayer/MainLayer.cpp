@@ -60,7 +60,7 @@ void		MainLayer::addControls(void)
 	Menu
 		*pMenu1, *pMenu2, *pMenu3, *pMenu4;
 	MenuItem
-		*pMenuItem1, *pMenuItem2, *pMenuItem3, *pMenuItem4;
+		*pMenuItem1, *pMenuItem2, *pMenuItem3;
 	string
 		strStyleGroup;
 

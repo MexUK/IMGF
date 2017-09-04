@@ -16,6 +16,11 @@ int					main(void)
 
 void				updateMinorBuildNumber(void)
 {
+	if (!File::doesFileExist(PATH_TO_BUILD_VERSION_H))
+	{
+		return;
+	}
+
 	uint32
 		uiMinorBuildVersion = 0,
 		uiNewMinorBuildVersion = 0,
