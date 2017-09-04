@@ -48,6 +48,7 @@
     <IncludePath>..\..\..\Code\IMGF\;..\..\..\Code\IMGF\Format\;..\..\..\Dependencies\ThirdParty\HappyHTTP;..\..\..\Dependencies\ThirdParty\GLEW;..\..\..\Dependencies\ThirdParty\Freetype\include;..\..\..\Dependencies\ThirdParty\GLFW;..\..\..\Dependencies\ThirdParty\GLFW\include\;..\..\..\Dependencies\ThirdParty\freetype-gl;..\..\..\Dependencies\ThirdParty\INI;..\..\..\Dependencies\ThirdParty\Bitmap;..\..\..\Dependencies\ThirdParty\;../../../../BXCF/Code/BXCF/;../../../../BXGX/Code/BXGX/;../../../../BXGI/Code/BXGI/;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\BXCF\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\ThirdParty\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXGX\BXGX\Debug;C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXGI\BXGI\Debug;C:\Users\james\Desktop\GitHub Repos\BXGX\Dependencies\ThirdParty\DXSDK\Lib;$(LibraryPath)</LibraryPath>
     <TargetName>IMG Factory</TargetName>
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\..\_Output\EXE\IMGF\IMGF\$(Configuration)\</OutDir>
@@ -55,6 +56,7 @@
     <IncludePath>..\..\..\Code\IMGF\;..\..\..\Code\IMGF\Format\;..\..\..\Dependencies\ThirdParty\HappyHTTP;..\..\..\Dependencies\ThirdParty\GLEW;..\..\..\Dependencies\ThirdParty\Freetype\include;..\..\..\Dependencies\ThirdParty\GLFW;..\..\..\Dependencies\ThirdParty\GLFW\include\;..\..\..\Dependencies\ThirdParty\freetype-gl;..\..\..\Dependencies\ThirdParty\INI;..\..\..\Dependencies\ThirdParty\Bitmap;..\..\..\Dependencies\ThirdParty\;../../../Dependencies/Include/BXCF/;../../../Dependencies/Include/BXGX/;../../../Dependencies/Include/BXGI/;$(IncludePath)</IncludePath>
     <LibraryPath>../../../Dependencies/Lib/$(Configuration)/;../../../Dependencies/Lib/ThirdParty/$(Configuration)/;$(LibraryPath)</LibraryPath>
     <TargetName>IMG Factory</TargetName>
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -74,7 +76,7 @@
       </IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>"..\..\Events\BuildNumber\$(Configuration)\IMGF.BuildNumber.exe"</Command>
+      <Command>"..\..\Events\IMGF.BuildNumber\$(Configuration)\IMGF.BuildNumber.exe"</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>IMGF Build Number</Message>
@@ -104,7 +106,7 @@
       <IgnoreSpecificDefaultLibraries>Uafxcw.lib;Libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>"..\..\Events\BuildNumber\$(Configuration)\IMGF.BuildNumber.exe"</Command>
+      <Command>"..\..\Events\IMGF.BuildNumber\$(Configuration)\IMGF.BuildNumber.exe"</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>IMGF Build Number</Message>
@@ -115,7 +117,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\Editor.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\Tab\EditorTab.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\IMGEditor.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\IMGEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Input\InputManager.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayer.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\Windows\MainWindow\MainWindow.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\IMGF.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DragDrop.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DragListCtrl.cpp" />
@@ -133,12 +141,6 @@
     <ClCompile Include="..\..\..\Code\IMGF\Format\LST\LSTSection.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Format\LST\LSTManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Globals.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editors\IMGEditor.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editors\Tab\IMGEditorTab.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editor.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tab\EditorTab.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layers\MainLayer.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Windows\MainWindow.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\WindowManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Language\LanguageManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Main.cpp" />
@@ -193,8 +195,18 @@
     <ClCompile Include="..\..\..\Dependencies\ThirdParty\GLM\detail\glm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Base\Editor.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Base\Tab\EditorTab.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\EEditorItem.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\IMGEditor.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\IMGEditorTab.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\TextureEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\InputManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\EInputItem.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\ELayer.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayer.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainMenu\EMainMenuType.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\Windows\MainWindow\MainWindow.h" />
     <ClInclude Include="..\..\..\Code\IMGF\IMGF.h" />
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\DragDrop.h" />
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\DragListCtrl.h" />
@@ -215,22 +227,12 @@
     <ClInclude Include="..\..\..\Code\IMGF\Format\LST\LSTSection.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Format\LST\LSTManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Globals.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\IMGEditor.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\TextureEditor.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\Tab\IMGEditorTab.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editor.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\EEditorItem.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tab\EditorTab.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layers\MainLayer.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\ELayer.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\EMainMenuType.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Windows\MainWindow.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\WindowManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\nsimgf.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Language\Language.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Language\LanguageManager.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\Program\buildnumber.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Program\BuildMeta.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Program\BuildVersion.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Settings\SettingsManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Static\AppDataPath.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Task\TaskManager.h" />

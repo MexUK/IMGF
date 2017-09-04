@@ -36,7 +36,7 @@ namespace imgf
 	class AutomatedTesting;
 	
 	class DragDrop;
-	struct CDraggableFile;
+	struct DraggableFile;
 	class DragListCtrl;
 	class DropSource;
 	class DropTarget;
@@ -69,34 +69,6 @@ namespace imgf
 	class InputManager;
 
 	class MainLayer;
-
-	class PopupGUIManager;
-	struct TextInputDialogData;
-	struct CConvertDialogData;
-	struct CExportViaDialogData;
-	struct CSortOptionsDialogData;
-	struct CStatsDialogData;
-	struct COrphanEntriesData;
-	struct CSettingsData;
-	struct CConfirmDialogData;
-	struct CDumpDialogData;
-	struct CListViewDialogData;
-	struct TextureListDialogData;
-	struct SessionManagerDialogData;
-	struct CSplitViaDialogData;
-	struct DragDropDialogData;
-	struct CDumpResultsDialogData;
-	struct CRenamerDialogData;
-	struct DFFConversionDialogData;
-	struct CDuplicateEntriesDialogData;
-	struct CBuildTXDDialogData;
-	struct IMGVersionSettingsDialogData;
-	struct TXDOrganizerDialogData;
-	struct DATPathsMoverDialogData;
-	struct CMapMoverAndIDShifterDialogData;
-	struct DATModelListDialogData;
-	struct COverwriteEntryDialogData;
-	struct C3ButtonDialogData;
 
 	class WindowManager;
 

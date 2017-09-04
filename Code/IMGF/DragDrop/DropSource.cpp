@@ -5,7 +5,7 @@
 #include "Static/String.h"
 #include "Globals.h"
 #include "IMGF.h"
-#include "GUI/Editors/Tab/IMGEditorTab.h"
+#include "GUI/Editor/Editors/Tab/IMGEditorTab.h"
 #include "Static/Debug.h"
 #include "Format/IMG/Regular/IMGEntry.h"
 #include "Localization/LocalizationManager.h"
@@ -77,7 +77,7 @@ BOOL DropSource::OnRenderFileData(LPFORMATETC lpFormatEtc, ::File* pFile)
 		{
 			return FALSE;
 		}
-		CDraggableFile *pDraggableFile = m_vecDraggableFiles[lpFormatEtc->lindex];
+		DraggableFile *pDraggableFile = m_vecDraggableFiles[lpFormatEtc->lindex];
 		pFile->Write(pDraggableFile->m_strFileData.c_str(), pDraggableFile->m_strFileData.length());
 
 		if (!pDraggableFile->m_bLogged)

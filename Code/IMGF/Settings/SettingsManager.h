@@ -5,8 +5,6 @@
 #include <string>
 #include <unordered_map>
 
-struct imgf::CSettingsData;
-
 class imgf::SettingsManager : public bxcf::Manager
 {
 public:

@@ -1,8 +1,8 @@
 #include "WindowManager.h"
 #include "nsbxgx.h"
 #include "BXGX.h"
-#include "GUI/Windows/MainWindow.h"
-#include "GUI/Editors/IMGEditor.h"
+#include "GUI/Window/Windows/MainWindow/MainWindow.h"
+#include "GUI/Editor/Editors/IMGEditor.h"
 #include "../../Compiler/Projects/IMGF/resource.h"
 #include <string>
 

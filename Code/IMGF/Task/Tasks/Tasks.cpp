@@ -5,7 +5,7 @@
 #include "IMGF.h"
 #include "Globals.h"
 #include "GUI/Window/WindowManager.h"
-#include "GUI/Windows/MainWindow.h"
+#include "GUI/Window/Windows/MainWindow/MainWindow.h"
 #include "Static/Input.h"
 #include "Static/String.h"
 #include "Static/StdVector.h"
@@ -13,8 +13,8 @@
 #include "Static/File.h"
 #include "Static/Registry.h"
 #include "Window/Window.h"
-#include "GUI/Editors/IMGEditor.h"
-#include "GUI/Editors/Tab/IMGEditorTab.h"
+#include "GUI/Editor/Editors/IMGEditor.h"
+#include "GUI/Editor/Editors/Tab/IMGEditorTab.h"
 #include "Format/IMG/Regular/IMGManager.h"
 #include "Format/IMG/Regular/IMGFormat.h"
 #include "Format/IMG/Regular/IMGEntry.h"
@@ -106,7 +106,6 @@
 #include "Updater/UpdateManager.h"
 #include "Updater/UpdateConnectionManager.h"
 #include "Updater/UpdateConnection.h"
-#include "Program/buildnumber.h"
 #include "Format/COL/COLVersionManager.h"
 #include "Format/COL/COLVersion.h"
 #include "Static/Math.h"
@@ -2855,7 +2854,7 @@ void		Tasks::onRequestSelectViaRWVersion(RWVersion *pRWVersion)
 void		Tasks::onRequestVersion(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestVersion");
-	Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_36", getIMGF()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), LocalizationManager::get()->getTranslatedText("Version"), MB_OK);
+	// todo - Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_36", getIMGF()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), LocalizationManager::get()->getTranslatedText("Version"), MB_OK);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestVersion");
 }
 void		Tasks::onRequestTextureList(void)
@@ -5422,10 +5421,10 @@ void		Tasks::onRequestUpdate(void)
 
 		uint32 uiLatestBuildNumber = String::toUint32(strLatestBuildNumber);
 
-		if (uiLatestBuildNumber > BUILDNUMBER)
+		if (uiLatestBuildNumber > 5000) // todo BUILDNUMBER)
 		{
 			getIMGF()->getTaskManager()->onPauseTask();
-			uint32 uiResult = Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_41", strLatestVersion.c_str(), strLatestBuildNumber.c_str(), getIMGF()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), LocalizationManager::get()->getTranslatedText("TextPopupTitle_41"), MB_OKCANCEL);
+			uint32 uiResult = false; // todo - Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_41", strLatestVersion.c_str(), strLatestBuildNumber.c_str(), getIMGF()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), LocalizationManager::get()->getTranslatedText("TextPopupTitle_41"), MB_OKCANCEL);
 			getIMGF()->getTaskManager()->onResumeTask();
 			if (uiResult == IDOK)
 			{
@@ -5473,7 +5472,7 @@ void		Tasks::onRequestUpdate(void)
 		else
 		{
 			getIMGF()->getTaskManager()->onPauseTask();
-			Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_43", getIMGF()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), LocalizationManager::get()->getTranslatedText("UpToDate"), MB_OK);
+			// todo - Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_43", getIMGF()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), LocalizationManager::get()->getTranslatedText("UpToDate"), MB_OK);
 			getIMGF()->getTaskManager()->onResumeTask();
 		}
 	}

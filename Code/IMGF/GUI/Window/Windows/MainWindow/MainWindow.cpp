@@ -1,6 +1,6 @@
 #include "MainWindow.h"
 #include "Event/EInputEvent.h"
-#include "GUI/Editors/IMGEditor.h"
+#include "GUI/Editor/Editors/IMGEditor.h"
 #include "Control/Controls/Button.h"
 #include "Control/Controls/Grid.h"
 #include "GUI/Window/WindowManager.h"
@@ -14,11 +14,12 @@
 #include "Static/Path.h"
 #include "Static/String.h"
 #include "Type/Colour/Colour.h"
-#include "GUI/Layers/MainLayer.h"
-#include "GUI/Layer/EMainMenuType.h"
-#include "GUI/Layer/ELayer.h"
+#include "GUI/Layer/Layers/MainLayer/MainLayer.h"
+#include "GUI/Layer/Layers/MainMenu/EMainMenuType.h"
+#include "GUI/Layer/Layers/ELayer.h"
 #include "Control/Controls/Menu.h"
 #include "Control/Entries/MenuItem.h"
+#include "Program/BuildVersion.h"
 
 using namespace std;
 using namespace bxcf;
@@ -56,7 +57,7 @@ TabBar*			MainWindow::getTabBar(void)
 // window initialization
 void					MainWindow::initWindow(void)
 {
-	addTitleBar("IMG Factory 2.0 - Development Version");
+	addTitleBar("IMG Factory 2.0 - Build " + IMGF_BUILD_VERSION_STRING + " - Development Version!");
 }
 
 void					MainWindow::initLayers(void)

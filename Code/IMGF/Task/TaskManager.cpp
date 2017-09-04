@@ -9,8 +9,8 @@
 #include "Static/StdVector.h"
 #include "Settings/SettingsManager.h"
 #include "GUI/Window/WindowManager.h"
-#include "GUI/Windows/MainWindow.h"
-#include "GUI/Layers/MainLayer.h"
+#include "GUI/Window/Windows/MainWindow/MainWindow.h"
+#include "GUI/Layer/Layers/MainLayer/MainLayer.h"
 #include "Control/Controls/ProgressBar.h"
 #include "IMGF.h"
 

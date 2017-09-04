@@ -42,7 +42,7 @@ private:
 public:
 	MainLayer*				m_pMainLayer;
 	IMGEditor*				m_pIMGEditor;
-	bxgx::Menu*			m_pSettingsMenu;
+	bxgx::Menu*				m_pSettingsMenu;
 
 private:
 	imgf::mainLayer::mainMenuType::EMainMenuType	m_uiMainMenuType;

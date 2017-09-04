@@ -3,7 +3,7 @@
 #include "IMGF.h"
 
 #include "GUI/Window/WindowManager.h"
-#include "GUI/Windows/MainWindow.h"
+#include "GUI/Window/Windows/MainWindow/MainWindow.h"
 
 using namespace imgf;
 

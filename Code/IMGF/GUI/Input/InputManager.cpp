@@ -5,9 +5,9 @@
 #include "Globals.h"
 #include "IMGF.h"
 #include "GUI/Window/WindowManager.h"
-#include "GUI/Windows/MainWindow.h"
-#include "GUI/Layer/ELayer.h"
-#include "GUI/Layer/EMainMenuType.h"
+#include "GUI/Window/Windows/MainWindow/MainWindow.h"
+#include "GUI/Layer/Layers/ELayer.h"
+#include "GUI/Layer/Layers/MainMenu/EMainMenuType.h"
 #include "Task/TaskManager.h"
 #include "Task/Tasks/Tasks.h"
 

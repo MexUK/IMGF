@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Code\IMGF.BuildNumber\buildnumber.c" />
+    <ClInclude Include="..\..\..\Code\IMGF.BuildNumber\BuildVersionUpdater.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Code\IMGF.BuildNumber\buildnumber.h" />
+    <ClCompile Include="..\..\..\Code\IMGF.BuildNumber\BuildVersionUpdater.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6FBD84F0-8530-44AD-A2E6-AFFC9A23EF67}</ProjectGuid>
@@ -46,14 +46,18 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\..\Events\BuildNumber\$(Configuration)\</OutDir>
+    <OutDir>..\..\Events\IMGF.BuildNumber\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF.BuildNumber\$(Configuration)\</IntDir>
     <TargetName>IMGF.BuildNumber</TargetName>
+    <IncludePath>C:\Users\james\Desktop\GitHub Repos\BXCF\Code\BXCF;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\BXCF\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\..\Events\BuildNumber\$(Configuration)\</OutDir>
+    <OutDir>..\..\Events\IMGF.BuildNumber\$(Configuration)\</OutDir>
     <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF.BuildNumber\$(Configuration)\</IntDir>
     <TargetName>IMGF.BuildNumber</TargetName>
+    <IncludePath>C:\Users\james\Desktop\GitHub Repos\BXCF\Code\BXCF;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\james\Desktop\GitHub Repos\_Output\Lib\BXCF\BXCF\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -63,6 +67,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>BXCF.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -78,6 +83,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>BXCF.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

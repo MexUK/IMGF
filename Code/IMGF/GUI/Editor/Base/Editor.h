@@ -3,7 +3,7 @@
 #include "nsimgf.h"
 #include "Layer/Layer.h"
 #include "Pool/VectorPool.h"
-#include "GUI/Editor/Tab/EditorTab.h"
+#include "GUI/Editor/Base/Tab/EditorTab.h"
 #include <string>
 
 class bxgx::TabBar;

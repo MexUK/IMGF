@@ -5,9 +5,9 @@
 //#include <Windows.h>
 #include <string>
 
-struct imgf::CDraggableFile
+struct imgf::DraggableFile
 {
-	CDraggableFile(void);
+	DraggableFile(void);
 
 	std::string						m_strFileName;
 	std::string						m_strFileData;
@@ -25,5 +25,5 @@ public:
 
 private:
 	DropSource						m_dropSource;
-	std::vector<CDraggableFile*>	m_vecDraggableFiles;
+	std::vector<DraggableFile*>	m_vecDraggableFiles;
 };

@@ -4,7 +4,7 @@
 #include "IMGF.h"
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Control/Controls/TabBar.h"
-#include "GUI/Windows/MainWindow.h"
+#include "GUI/Window/Windows/MainWindow/MainWindow.h"
 #include "Static/String.h"
 
 using namespace std;

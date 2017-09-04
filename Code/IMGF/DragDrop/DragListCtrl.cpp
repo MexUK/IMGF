@@ -5,7 +5,7 @@
 #include "Static/String.h"
 #include "Globals.h"
 #include "IMGF.h"
-#include "GUI/Editors/Tab/IMGEditorTab.h"
+#include "GUI/Editor/Editors/Tab/IMGEditorTab.h"
 #include "Format/IMG/Regular/IMGFormat.h"
 #include <string>
 
@@ -13,7 +13,7 @@ using namespace std;
 using namespace bxcf;
 using namespace imgf;
 
-CDraggableFile::CDraggableFile(void) :
+DraggableFile::DraggableFile(void) :
 	m_bLogged(false)
 {
 }
@@ -45,7 +45,7 @@ void		DragListCtrl::OnBeginDrag(void)
 	m_vecDraggableFiles.clear();
 	//m_dropSource.clearDraggableFiles();
 
-	//vector<CDraggableFile*> vecDraggableFiles;
+	//vector<DraggableFile*> vecDraggableFiles;
 
 	POSITION pos = GetFirstSelectedItemPosition();
 	if (pos == NULL)
@@ -58,7 +58,7 @@ void		DragListCtrl::OnBeginDrag(void)
 		int nItem = GetNextSelectedItem(pos);
 		pIMGEntry = (IMGEntry*)GetItemData(nItem);
 
-		CDraggableFile *pDraggableFile = new CDraggableFile;
+		DraggableFile *pDraggableFile = new DraggableFile;
 		pDraggableFile->m_strFileName = pIMGEntry->getEntryName();
 		pDraggableFile->m_strFileData = pIMGEntry->getEntryData();
 		m_vecDraggableFiles.push_back(pDraggableFile);

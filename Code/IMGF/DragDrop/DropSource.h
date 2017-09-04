@@ -4,14 +4,14 @@
 #include <ObjIdl.h>
 #include <vector>
 
-struct imgf::CDraggableFile;
+struct imgf::DraggableFile;
 class File;
 
 class imgf::DropSource // todo : protected COleDataSource
 {
 public:
 	void							StartDragging(void);
-	void							setDraggableFiles(std::vector<CDraggableFile*> vecDraggableFiles) { m_vecDraggableFiles = vecDraggableFiles; }
+	void							setDraggableFiles(std::vector<DraggableFile*> vecDraggableFiles) { m_vecDraggableFiles = vecDraggableFiles; }
 	void							clearDraggableFiles(void);
 
 protected:
@@ -19,5 +19,5 @@ protected:
 	virtual BOOL					OnRenderFileData(LPFORMATETC lpFormatEtc, ::File* pFile);
 
 private:
-	std::vector<CDraggableFile*>	m_vecDraggableFiles;
+	std::vector<DraggableFile*>	m_vecDraggableFiles;
 };

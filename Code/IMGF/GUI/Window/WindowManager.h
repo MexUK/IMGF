@@ -13,12 +13,12 @@ public:
 	void					init(void);
 	void					uninit(void);
 
-	MainWindow*			openWindow(void);
+	MainWindow*				openWindow(void);
 
 	void					process(void);
 
-	MainWindow*			getMainWindow(void) { return m_pMainWindow; }
+	MainWindow*				getMainWindow(void) { return m_pMainWindow; }
 
 private:
-	MainWindow*			m_pMainWindow;
+	MainWindow*				m_pMainWindow;
 };

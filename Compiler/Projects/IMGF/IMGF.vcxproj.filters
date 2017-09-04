@@ -37,29 +37,11 @@
     <Filter Include="Source Files\GUI\Window">
       <UniqueIdentifier>{5ecce35a-62a1-4dcb-aafd-d4d5b1985640}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GUI\Editors">
-      <UniqueIdentifier>{a8c3d5e3-ffc8-495d-aa72-d6dfff688b36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GUI\Editors\Tab">
-      <UniqueIdentifier>{2155cef3-c82a-490b-8233-915828180363}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GUI\Editors">
-      <UniqueIdentifier>{46b844b6-ec38-46f3-aa08-a8d55cf86880}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GUI\Editors\Tab">
-      <UniqueIdentifier>{a26ca086-003c-4d94-800b-f64e3cd8ccc5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GUI\Editor">
       <UniqueIdentifier>{dd3a4478-6f26-404a-bbcc-6df302d7dd8e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\GUI\Editor">
       <UniqueIdentifier>{0bff4621-726e-4d35-87e5-e9c4516e5ce1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GUI\Editor\Tab">
-      <UniqueIdentifier>{54f9aa76-f2b0-4ebb-8b11-465dbcc288f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GUI\Editor\Tab">
-      <UniqueIdentifier>{894af7c2-5f88-4b30-906a-d37d5c76335c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\TEMP_LOCATION_ThirdParty">
       <UniqueIdentifier>{3c7e561f-e7be-469c-a7b3-5ebba43224cd}</UniqueIdentifier>
@@ -187,18 +169,6 @@
     <Filter Include="Source Files\GUI\Layer">
       <UniqueIdentifier>{956838c3-dd9c-4514-bf1a-5c55554d0a06}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GUI\Windows">
-      <UniqueIdentifier>{ce7ea86c-fbbc-4c45-add9-e716e894ed1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GUI\Windows">
-      <UniqueIdentifier>{4e253473-55bd-4c05-92cb-6d78b8871be6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GUI\Layers">
-      <UniqueIdentifier>{fd058a8a-04d6-4130-b271-bdec9ba707f8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GUI\Layers">
-      <UniqueIdentifier>{731de0f5-7694-4bbc-b20d-6c748c1d5fd0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GUI\Input">
       <UniqueIdentifier>{61a3e08f-4936-4af3-8632-053cf1d4d7a1}</UniqueIdentifier>
     </Filter>
@@ -282,6 +252,60 @@
     </Filter>
     <Filter Include="Source Files\Task\Repeat">
       <UniqueIdentifier>{36597224-ac57-45db-aa7e-945fee1dacf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layer\Layers">
+      <UniqueIdentifier>{fd058a8a-04d6-4130-b271-bdec9ba707f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layer\Layers\MainLayer">
+      <UniqueIdentifier>{27984916-7403-430a-a931-2dbf9efc2578}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layer\Layers\MainMenu">
+      <UniqueIdentifier>{f687b083-5085-4ec4-ade0-0c24c067c4bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layer\Layers">
+      <UniqueIdentifier>{731de0f5-7694-4bbc-b20d-6c748c1d5fd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layer\Layers\MainLayer">
+      <UniqueIdentifier>{c78ac5f5-e074-4779-8ffd-f1ef1b91c27c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layer\Layers\MainMenu">
+      <UniqueIdentifier>{f0545247-05dd-4574-94cd-bbf28d3c9cc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Window\Windows">
+      <UniqueIdentifier>{4e253473-55bd-4c05-92cb-6d78b8871be6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Window\Windows\MainWindow">
+      <UniqueIdentifier>{18bd246d-39d3-4362-840e-3664327b7664}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Window\Windows">
+      <UniqueIdentifier>{ce7ea86c-fbbc-4c45-add9-e716e894ed1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Window\Windows\MainWindow">
+      <UniqueIdentifier>{2db7542b-665b-4227-b491-1ec0780e7baf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Editor\Editors">
+      <UniqueIdentifier>{46b844b6-ec38-46f3-aa08-a8d55cf86880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Editor\Editors\Tab">
+      <UniqueIdentifier>{a26ca086-003c-4d94-800b-f64e3cd8ccc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Editor\Editors">
+      <UniqueIdentifier>{a8c3d5e3-ffc8-495d-aa72-d6dfff688b36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Editor\Editors\Tab">
+      <UniqueIdentifier>{2155cef3-c82a-490b-8233-915828180363}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Editor\Base">
+      <UniqueIdentifier>{1b595103-e863-4c9b-bb11-07cb224573cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Editor\Base">
+      <UniqueIdentifier>{24dcb8bc-c14e-42a2-9a56-141493f679b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Editor\Base\Tab">
+      <UniqueIdentifier>{54f9aa76-f2b0-4ebb-8b11-465dbcc288f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Editor\Base\Tab">
+      <UniqueIdentifier>{894af7c2-5f88-4b30-906a-d37d5c76335c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -426,29 +450,11 @@
     <ClCompile Include="..\..\..\Code\IMGF\Format\LST\LSTSection.cpp">
       <Filter>Source Files\Format\LST</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tab\EditorTab.cpp">
-      <Filter>Source Files\GUI\Editor\Tab</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editor.cpp">
-      <Filter>Source Files\GUI\Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editors\IMGEditor.cpp">
-      <Filter>Source Files\GUI\Editors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editors\Tab\IMGEditorTab.cpp">
-      <Filter>Source Files\GUI\Editors\Tab</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Input\InputManager.cpp">
       <Filter>Source Files\GUI\Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layers\MainLayer.cpp">
-      <Filter>Source Files\GUI\Layers</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\WindowManager.cpp">
       <Filter>Source Files\GUI\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Windows\MainWindow.cpp">
-      <Filter>Source Files\GUI\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\Language\LanguageManager.cpp">
       <Filter>Source Files\Language</Filter>
@@ -512,6 +518,24 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\Tasks.cpp">
       <Filter>Source Files\Task\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayer.cpp">
+      <Filter>Source Files\GUI\Layer\Layers\MainLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\Windows\MainWindow\MainWindow.cpp">
+      <Filter>Source Files\GUI\Window\Windows\MainWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\IMGEditorTab.cpp">
+      <Filter>Source Files\GUI\Editor\Editors\Tab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\IMGEditor.cpp">
+      <Filter>Source Files\GUI\Editor\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\Editor.cpp">
+      <Filter>Source Files\GUI\Editor\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\Tab\EditorTab.cpp">
+      <Filter>Source Files\GUI\Editor\Base\Tab</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1079,20 +1103,8 @@
     <ClInclude Include="..\..\..\Code\IMGF\Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Program\buildnumber.h">
-      <Filter>Header Files\Program</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\EMainMenuType.h">
-      <Filter>Header Files\GUI\Layer</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\ELayer.h">
-      <Filter>Header Files\GUI\Layer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\EEditorItem.h">
-      <Filter>Header Files\GUI\Editor</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Event\EEvent.h">
       <Filter>Header Files\Event</Filter>
@@ -1160,29 +1172,11 @@
     <ClInclude Include="..\..\..\Code\IMGF\Format\LST\LSTSection.h">
       <Filter>Header Files\Format\LST</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tab\EditorTab.h">
-      <Filter>Header Files\GUI\Editor\Tab</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editor.h">
-      <Filter>Header Files\GUI\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\Tab\IMGEditorTab.h">
-      <Filter>Header Files\GUI\Editors\Tab</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\IMGEditor.h">
-      <Filter>Header Files\GUI\Editors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editors\TextureEditor.h">
-      <Filter>Header Files\GUI\Editors</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\InputManager.h">
       <Filter>Header Files\GUI\Input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\WindowManager.h">
       <Filter>Header Files\GUI\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Windows\MainWindow.h">
-      <Filter>Header Files\GUI\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Language\Language.h">
       <Filter>Header Files\Language</Filter>
@@ -1256,9 +1250,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\Updater\UpdateConnection.h">
       <Filter>Header Files\Updater</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layers\MainLayer.h">
-      <Filter>Header Files\GUI\Layers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Task\Base\ETask.h">
       <Filter>Header Files\Task\Base</Filter>
     </ClInclude>
@@ -1273,6 +1264,39 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Tasks.h">
       <Filter>Header Files\Task\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\ELayer.h">
+      <Filter>Header Files\GUI\Layer\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayer.h">
+      <Filter>Header Files\GUI\Layer\Layers\MainLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainMenu\EMainMenuType.h">
+      <Filter>Header Files\GUI\Layer\Layers\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\Windows\MainWindow\MainWindow.h">
+      <Filter>Header Files\GUI\Window\Windows\MainWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Base\Tab\EditorTab.h">
+      <Filter>Header Files\GUI\Editor\Base\Tab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Base\Editor.h">
+      <Filter>Header Files\GUI\Editor\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\TextureEditor.h">
+      <Filter>Header Files\GUI\Editor\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\EEditorItem.h">
+      <Filter>Header Files\GUI\Editor\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\IMGEditor.h">
+      <Filter>Header Files\GUI\Editor\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\IMGEditorTab.h">
+      <Filter>Header Files\GUI\Editor\Editors\Tab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Program\BuildVersion.h">
+      <Filter>Header Files\Program</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

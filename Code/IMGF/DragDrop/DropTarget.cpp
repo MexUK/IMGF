@@ -4,7 +4,7 @@
 #include "Static/String.h"
 #include "Globals.h"
 #include "IMGF.h"
-#include "GUI/Editors/IMGEditor.h"
+#include "GUI/Editor/Editors/IMGEditor.h"
 #include "Static/Path.h"
 #include "Static/Input.h"
 #include "Format/IMG/Regular/IMGEntry.h"
