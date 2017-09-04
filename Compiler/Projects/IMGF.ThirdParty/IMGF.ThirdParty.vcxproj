@@ -1,0 +1,684 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{FFC28EA9-BC1A-4D10-B30A-2D45A55542F2}</ProjectGuid>
+    <RootNamespace>IMGFThirdParty</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\..\..\..\_Output\Lib\IMGF\IMGF.ThirdParty\$(Configuration)\</OutDir>
+    <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF.ThirdParty\$(Configuration)\</IntDir>
+    <TargetName>IMGF.ThirdParty</TargetName>
+    <IncludePath>..\..\..\Code\IMGF.ThirdParty\;..\..\..\Code\IMGF.ThirdParty\GLEW\;..\..\..\Code\IMGF.ThirdParty\GLEW\GL\;..\..\..\Code\IMGF.ThirdParty\Freetype\include\;..\..\..\Code\IMGF.ThirdParty\GLFW\;..\..\..\Code\IMGF.ThirdParty\GLFW\include\;..\..\..\Code\IMGF.ThirdParty\GLFW\deps\;..\..\..\Code\IMGF.ThirdParty\freetype-gl\;..\..\..\Code\IMGF.ThirdParty\freetype-gl\windows\glew\include\;..\..\..\Code\IMGF.ThirdParty\GLM\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\..\Dependencies\IMGF.ThirdParty\Lib\$(Configuration);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\..\..\..\_Output\Lib\IMGF\IMGF.ThirdParty\$(Configuration)\</OutDir>
+    <IntDir>..\..\..\..\_Output\Intermediate\IMGF\IMGF.ThirdParty\$(Configuration)\</IntDir>
+    <TargetName>IMGF.ThirdParty</TargetName>
+    <IncludePath>..\..\..\Code\IMGF.ThirdParty\;..\..\..\Code\IMGF.ThirdParty\freetype-gl\windows\glew\include\;..\..\..\Code\IMGF.ThirdParty\Freetype\include\;..\..\..\Code\IMGF.ThirdParty\GLFW\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\..\Dependencies\Lib\ThirdParty\$(Configuration);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_GLFW_USE_OPENGL;_GLFW_WIN32;_GLFW_WGL;GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;freetype261-$(Configuration).lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_GLFW_USE_OPENGL;_GLFW_WIN32;_GLFW_WGL;GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>MSIMG32.LIB;freetype261-$(Configuration).lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Bitmap\bitmap.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\activecf.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\amaudio.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\amparse.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\amstream.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\amva.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\Amvideo.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\atsmedia.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\audevcod.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\austream.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\aviriff.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\basetsd.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\bdaiface.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\bdamedia.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\Bdatif.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\bdatypes.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\comlite.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\control.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3d.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3d8.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3d8caps.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3d8types.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dcaps.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3drm.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3drmdef.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3drmobj.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3drmwin.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dtypes.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dx.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dx8.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dx8core.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dx8effect.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dx8math.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dx8mesh.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dx8shape.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dx8tex.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dxcore.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dxerr.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dxmath.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dxshapes.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dxsprite.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\ddraw.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\ddrawex.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\ddstream.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dinput.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dinputd.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dls1.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dls2.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmdls.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmerror.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmksctrl.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmo.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmodshow.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmoimpl.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmoreg.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmort.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmplugin.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmusbuff.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmusicc.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmusicf.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmusici.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmusics.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dpaddr.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dplay.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dplay8.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dplobby.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dplobby8.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dsetup.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\DShow.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dshowasf.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dsound.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dv.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dvdevcod.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dvdmedia.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dvoice.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dvp.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dx7todx8.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dxerr8.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dxfile.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dxtrans.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dxva.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\edevdefs.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\errors.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\evcode.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\il21dec.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\Iwstdec.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\ks.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\ksguid.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\ksmedia.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\ksproxy.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\ksuuids.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\mediaerr.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\mediaobj.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\medparam.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\mmstream.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\mpconfig.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\mpegtype.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\Mstvca.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\Mstve.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\Msvidctl.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\multimon.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\playlist.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\qedit.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\qnetwork.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\regbag.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\rmxfguid.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\rmxftmpl.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\Segment.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\strmif.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\tune.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\tuner.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\uuids.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\vfwmsgs.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\videoacc.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\vpconfig.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\vpnotify.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\vptype.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\xprtdefs.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freeglut\include\GL\freeglut.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freeglut\include\GL\freeglut_ext.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freeglut\include\GL\freeglut_std.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freeglut\include\GL\glut.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\edtaa3func.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\font-manager.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\freetype-gl.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\markup.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\mat4.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\opengl.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\platform.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\shader.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\text-buffer.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\texture-atlas.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\texture-font.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vec234.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vector.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-attribute.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-buffer.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\config\ftconfig.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\config\ftheader.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\config\ftmodule.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\config\ftoption.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\config\ftstdlib.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\freetype.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftadvanc.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftautoh.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftbbox.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftbdf.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftbitmap.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftbzip2.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftcache.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftcffdrv.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftchapters.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftcid.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\fterrdef.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\fterrors.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftfntfmt.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftgasp.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftglyph.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftgxval.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftgzip.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftimage.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftincrem.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftlcdfil.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftlist.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftlzw.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftmac.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftmm.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftmodapi.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftmoderr.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftotval.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftoutln.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftpfr.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftrender.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftsizes.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftsnames.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftstroke.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftsynth.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftsystem.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\fttrigon.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftttdrv.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\fttypes.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftwinfnt.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\autohint.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftcalc.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftdebug.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftdriver.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftgloadr.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftmemory.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftobjs.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftpic.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftrfork.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftserv.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftstream.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\fttrace.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftvalid.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\internal.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\psaux.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\pshints.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svbdf.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svcid.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svfntfmt.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svgldict.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svgxval.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svkern.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svmm.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svotval.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svpfr.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svpostnm.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svprop.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svpscmap.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svpsinfo.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svsfnt.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svttcmap.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svtteng.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svttglyf.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svwinfnt.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\sfnt.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\t1types.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\tttypes.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\t1tables.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ttnameid.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\tttables.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\tttags.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ttunpat.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\ft2build.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLEW\GL\glew.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLEW\GL\glxew.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLEW\GL\wglew.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\getopt.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\glad\glad.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\GL\glext.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\GL\glxext.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\GL\wglext.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\linmath.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\tinycthread.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\include\GLFW\glfw3.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\include\GLFW\glfw3native.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\cocoa_platform.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\egl_context.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\glx_context.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\internal.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\iokit_joystick.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\linux_joystick.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\mir_platform.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\nsgl_context.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\posix_time.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\posix_tls.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\wgl_context.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_platform.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_tls.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\winmm_joystick.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\wl_platform.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\x11_platform.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\xkb_unicode.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\common.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_common.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_exponential.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_geometric.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_integer.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_matrix.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_packing.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_trigonometric.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_vector_relational.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_common.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_exponential.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_geometric.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_integer.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_matrix.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_trigonometric.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_vector_relational.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\precision.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\setup.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_float.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_gentype.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_half.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_int.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat2x2.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat2x3.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat2x4.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat3x2.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat3x3.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat3x4.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat4x2.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat4x3.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat4x4.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec1.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec2.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec3.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec4.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\_features.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\_fixes.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\_noise.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\_swizzle.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\_swizzle_func.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\_vectorize.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\exponential.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\ext.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\fwd.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\geometric.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\glm.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\bitfield.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\color_space.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\constants.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\epsilon.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\integer.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\matrix_access.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\matrix_integer.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\matrix_inverse.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\matrix_transform.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\noise.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\packing.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\quaternion.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\random.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\reciprocal.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\round.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\type_precision.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\type_ptr.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\ulp.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\vec1.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\associated_min_max.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\bit.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\closest_point.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\color_space.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\color_space_YCoCg.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\common.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\compatibility.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\component_wise.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\dual_quaternion.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\euler_angles.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\extend.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\extended_min_max.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\fast_exponential.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\fast_square_root.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\fast_trigonometry.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\gradient_paint.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\handed_coordinate_space.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\hash.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\integer.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\intersect.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\io.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\log_base.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_cross_product.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_decompose.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_interpolation.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_major_storage.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_operation.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_query.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_transform_2d.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\mixed_product.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\norm.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\normal.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\normalize_dot.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\number_precision.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\optimum_pow.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\orthonormalize.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\perpendicular.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\polar_coordinates.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\projection.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\quaternion.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\range.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\raw_data.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\rotate_normalized_axis.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\rotate_vector.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\scalar_multiplication.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\scalar_relational.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\simd_mat4.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\simd_quat.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\simd_vec4.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\spline.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\std_based_type.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\string_cast.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\transform.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\transform2.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\type_aligned.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\vector_angle.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\vector_query.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\wrap.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\integer.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat2x2.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat2x3.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat2x4.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat3x2.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat3x3.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat3x4.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat4x2.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat4x3.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat4x4.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\matrix.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\packing.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\trigonometric.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\vec2.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\vec3.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\vec4.hpp" />
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\vector_relational.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\Bitmap\bitmap.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\edtaa3func.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\font-manager.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\makefont.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\mat4.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\platform.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\shader.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\text-buffer.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\texture-atlas.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\texture-font.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vector.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-attribute.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-buffer.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLEW\glew.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLEW\glewinfo.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLEW\visualinfo.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\getopt.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\glad.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\tinycthread.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\context.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\init.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\input.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\monitor.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\wgl_context.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_init.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_monitor.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_time.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_tls.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_window.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\window.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\winmm_joystick.c" />
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\glm.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_common.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_exponential.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_geometric.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_integer.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_matrix.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_packing.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_trigonometric.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_vector_relational.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_common.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_exponential.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_geometric.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_integer.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_matrix.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_trigonometric.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_vector_relational.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_gentype.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_half.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat2x2.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat2x3.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat2x4.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat3x2.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat3x3.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat3x4.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat4x2.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat4x3.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat4x4.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec1.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec2.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec3.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec4.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec4_avx.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec4_avx2.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec4_sse2.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\bitfield.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\color_space.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\constants.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\epsilon.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\integer.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\matrix_access.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\matrix_inverse.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\matrix_transform.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\noise.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\packing.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\quaternion.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\random.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\reciprocal.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\round.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\type_precision.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\type_ptr.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\ulp.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\vec1.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\associated_min_max.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\bit.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\closest_point.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\color_space.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\color_space_YCoCg.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\common.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\compatibility.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\component_wise.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\dual_quaternion.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\euler_angles.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\extend.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\extended_min_max.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\fast_exponential.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\fast_square_root.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\fast_trigonometry.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\float_notmalize.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\gradient_paint.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\handed_coordinate_space.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\hash.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\integer.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\intersect.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\io.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\log_base.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_cross_product.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_decompose.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_interpolation.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_major_storage.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_operation.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_query.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_transform_2d.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\mixed_product.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\norm.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\normal.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\normalize_dot.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\number_precision.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\optimum_pow.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\orthonormalize.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\perpendicular.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\polar_coordinates.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\projection.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\quaternion.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\raw_data.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\rotate_normalized_axis.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\rotate_vector.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\scalar_relational.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\simd_mat4.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\simd_quat.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\simd_vec4.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\spline.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\std_based_type.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\string_cast.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\transform.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\transform2.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\type_aligned.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\vector_angle.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\vector_query.inl" />
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\wrap.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

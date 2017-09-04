@@ -1,0 +1,1730 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Bitmap">
+      <UniqueIdentifier>{f35977a4-cf07-438f-b148-127b4a828673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Bitmap">
+      <UniqueIdentifier>{56aa01f8-4529-4361-9bc9-dcc904699c3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DXSDK">
+      <UniqueIdentifier>{727cc0b0-0e50-4160-8281-70f9c884770f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DXSDK">
+      <UniqueIdentifier>{83e13dd7-46ac-4d0e-b899-a71db7ea7182}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Freeglut">
+      <UniqueIdentifier>{f1ac1dcc-0100-4158-ad63-ba039110c7f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Freeglut">
+      <UniqueIdentifier>{9fbc6074-9457-4db4-ae9a-1cf0ce5aade2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Freetype">
+      <UniqueIdentifier>{25f6e1a1-591e-4bb6-8a77-e85d34d03fd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Freetype">
+      <UniqueIdentifier>{5a880f43-da26-4244-b7a2-c3de6f4fd4ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\freetype-gl">
+      <UniqueIdentifier>{aea6f685-8ce2-42d8-a04b-626f25d2ffb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\freetype-gl">
+      <UniqueIdentifier>{a3d7b9c5-9467-454b-8bc4-6ffd7bee42a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLEW">
+      <UniqueIdentifier>{826d0b46-2519-47cd-a60b-35506483df9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLEW">
+      <UniqueIdentifier>{747751c1-ed82-419a-b6bc-78e70350744d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLFW">
+      <UniqueIdentifier>{440607e7-aa26-45cd-b818-bd567b21d881}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLFW">
+      <UniqueIdentifier>{bc8d0ddb-431d-4b0f-b5aa-e354ff0ca12a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLM">
+      <UniqueIdentifier>{e3588da5-66c9-49a2-929e-d8932062f4f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLM">
+      <UniqueIdentifier>{3ffda0d4-2e4e-4dc9-8d74-262d672d246f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Freetype\freetype">
+      <UniqueIdentifier>{53552b3e-acc1-4c93-9c81-2877dc8560ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Freetype\freetype\internal">
+      <UniqueIdentifier>{e5fb6938-81ab-48e6-9137-04b8c1751677}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Freetype\freetype\config">
+      <UniqueIdentifier>{1387f39a-d194-4f5e-ad70-97901652d3ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Freetype\freetype\internal\services">
+      <UniqueIdentifier>{77187617-2b19-45c2-8121-cc646f8011b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLEW\GL">
+      <UniqueIdentifier>{b52bbf51-a6f3-480b-a400-b48b6a3126b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLFW\include">
+      <UniqueIdentifier>{65b4c337-1bbe-480b-8b92-38921af4a494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLFW\include\GLFW">
+      <UniqueIdentifier>{7b52c462-219e-4c87-8eff-6742f84251b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLM\gtx">
+      <UniqueIdentifier>{c15382bd-bd97-4fa1-9e9d-00268f2d2f44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLM\gtc">
+      <UniqueIdentifier>{2ae1f3c4-52ad-4e29-833b-29df4a31cfaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLM\detail">
+      <UniqueIdentifier>{c18f4222-d78c-49b9-8c21-c96f2814254c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLM\detail">
+      <UniqueIdentifier>{1a302ec0-8e8c-4bbd-aa75-536bfe07aedb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLFW\deps">
+      <UniqueIdentifier>{cd19fa08-337f-43ac-98d6-f543ec308106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLFW\deps">
+      <UniqueIdentifier>{fdbac4f1-45cf-4101-9bf1-56170a105b9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLFW\deps\GL">
+      <UniqueIdentifier>{2cc5ea62-51dd-4a84-9151-ce536cdbb077}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLFW\deps\glad">
+      <UniqueIdentifier>{8f9d866f-d0c2-43f1-9251-551bb0e09d55}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Bitmap\bitmap.h">
+      <Filter>Header Files\Bitmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\strmif.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\tune.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\tuner.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\uuids.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\vfwmsgs.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\videoacc.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\vpconfig.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\vpnotify.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\vptype.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\xprtdefs.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\activecf.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\amaudio.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\amparse.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\amstream.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\amva.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\Amvideo.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\atsmedia.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\audevcod.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\austream.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\aviriff.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\basetsd.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\bdaiface.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\bdamedia.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\Bdatif.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\bdatypes.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\comlite.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\control.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3d.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3d8.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3d8caps.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3d8types.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dcaps.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3drm.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3drmdef.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3drmobj.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3drmwin.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dtypes.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dx.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dx8.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dx8core.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dx8effect.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dx8math.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dx8mesh.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dx8shape.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dx8tex.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dxcore.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dxerr.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dxmath.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dxshapes.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\d3dxsprite.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\ddraw.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\ddrawex.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\ddstream.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dinput.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dinputd.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dls1.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dls2.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmdls.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmerror.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmksctrl.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmo.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmodshow.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmoimpl.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmoreg.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmort.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmplugin.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmusbuff.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmusicc.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmusicf.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmusici.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dmusics.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dpaddr.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dplay.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dplay8.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dplobby.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dplobby8.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dsetup.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\DShow.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dshowasf.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dsound.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dv.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dvdevcod.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dvdmedia.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dvoice.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dvp.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dx7todx8.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dxerr8.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dxfile.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dxtrans.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\dxva.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\edevdefs.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\errors.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\evcode.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\il21dec.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\Iwstdec.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\ks.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\ksguid.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\ksmedia.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\ksproxy.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\ksuuids.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\mediaerr.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\mediaobj.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\medparam.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\mmstream.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\mpconfig.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\mpegtype.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\Mstvca.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\Mstve.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\Msvidctl.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\multimon.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\playlist.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\qedit.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\qnetwork.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\regbag.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\rmxfguid.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\rmxftmpl.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\Segment.h">
+      <Filter>Header Files\DXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freeglut\include\GL\freeglut_std.h">
+      <Filter>Header Files\Freeglut</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freeglut\include\GL\glut.h">
+      <Filter>Header Files\Freeglut</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freeglut\include\GL\freeglut.h">
+      <Filter>Header Files\Freeglut</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freeglut\include\GL\freeglut_ext.h">
+      <Filter>Header Files\Freeglut</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\ft2build.h">
+      <Filter>Header Files\Freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftcid.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\fterrdef.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\fterrors.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftfntfmt.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftgasp.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftglyph.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftgxval.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftgzip.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftimage.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftincrem.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftlcdfil.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftlist.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftlzw.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftmac.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftmm.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftmodapi.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftmoderr.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftotval.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftoutln.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftpfr.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftrender.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftsizes.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftsnames.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftstroke.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftsynth.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftsystem.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\fttrigon.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftttdrv.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\fttypes.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftwinfnt.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\t1tables.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ttnameid.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\tttables.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\tttags.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ttunpat.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\freetype.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftadvanc.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftautoh.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftbbox.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftbdf.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftbitmap.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftbzip2.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftcache.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftcffdrv.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ftchapters.h">
+      <Filter>Header Files\Freetype\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\config\ftheader.h">
+      <Filter>Header Files\Freetype\freetype\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\config\ftmodule.h">
+      <Filter>Header Files\Freetype\freetype\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\config\ftoption.h">
+      <Filter>Header Files\Freetype\freetype\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\config\ftstdlib.h">
+      <Filter>Header Files\Freetype\freetype\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\config\ftconfig.h">
+      <Filter>Header Files\Freetype\freetype\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\fttrace.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftvalid.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\internal.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\psaux.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\pshints.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\sfnt.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\t1types.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\tttypes.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\autohint.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftcalc.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftdebug.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftdriver.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftgloadr.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftmemory.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftobjs.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftpic.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftrfork.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftserv.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\ftstream.h">
+      <Filter>Header Files\Freetype\freetype\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svgldict.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svgxval.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svkern.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svmm.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svotval.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svpfr.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svpostnm.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svprop.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svpscmap.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svpsinfo.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svsfnt.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svttcmap.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svtteng.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svttglyf.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svwinfnt.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svbdf.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svcid.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svfntfmt.h">
+      <Filter>Header Files\Freetype\freetype\internal\services</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\texture-atlas.h">
+      <Filter>Header Files\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\texture-font.h">
+      <Filter>Header Files\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vec234.h">
+      <Filter>Header Files\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vector.h">
+      <Filter>Header Files\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-attribute.h">
+      <Filter>Header Files\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-buffer.h">
+      <Filter>Header Files\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\edtaa3func.h">
+      <Filter>Header Files\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\font-manager.h">
+      <Filter>Header Files\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\freetype-gl.h">
+      <Filter>Header Files\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\markup.h">
+      <Filter>Header Files\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\mat4.h">
+      <Filter>Header Files\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\opengl.h">
+      <Filter>Header Files\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\platform.h">
+      <Filter>Header Files\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\shader.h">
+      <Filter>Header Files\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\text-buffer.h">
+      <Filter>Header Files\freetype-gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\nsgl_context.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\wgl_context.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_platform.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_tls.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\winmm_joystick.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\xkb_unicode.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\internal.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\iokit_joystick.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\include\GLFW\glfw3native.h">
+      <Filter>Header Files\GLFW\include\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\include\GLFW\glfw3.h">
+      <Filter>Header Files\GLFW\include\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat3x4.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat4x2.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat4x3.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat4x4.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\matrix.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\packing.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\trigonometric.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\vec2.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\vec3.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\vec4.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\vector_relational.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\common.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\exponential.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\ext.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\fwd.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\geometric.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\glm.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\integer.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat2x2.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat2x3.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat2x4.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat3x2.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat3x3.hpp">
+      <Filter>Header Files\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\associated_min_max.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\bit.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\closest_point.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\color_space.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\color_space_YCoCg.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\common.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\compatibility.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\component_wise.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\dual_quaternion.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\euler_angles.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\extend.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\extended_min_max.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\fast_exponential.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\fast_square_root.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\fast_trigonometry.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\gradient_paint.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\handed_coordinate_space.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\hash.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\integer.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\intersect.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\io.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\log_base.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_cross_product.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_decompose.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_interpolation.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_major_storage.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_operation.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_query.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_transform_2d.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\mixed_product.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\norm.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\normal.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\normalize_dot.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\number_precision.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\optimum_pow.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\orthonormalize.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\perpendicular.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\polar_coordinates.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\projection.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\quaternion.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\range.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\raw_data.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\rotate_normalized_axis.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\rotate_vector.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\scalar_multiplication.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\scalar_relational.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\simd_mat4.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\simd_quat.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\simd_vec4.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\spline.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\std_based_type.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\string_cast.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\transform.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\transform2.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\type_aligned.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\vector_angle.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\vector_query.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\wrap.hpp">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\round.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\type_precision.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\type_ptr.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\ulp.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\vec1.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\bitfield.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\color_space.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\constants.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\epsilon.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\integer.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\matrix_access.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\matrix_integer.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\matrix_inverse.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\matrix_transform.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\noise.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\packing.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\quaternion.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\random.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\reciprocal.hpp">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\_features.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\_fixes.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\_noise.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\_swizzle.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\_swizzle_func.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\_vectorize.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_common.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_exponential.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_geometric.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_integer.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_matrix.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_packing.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_trigonometric.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_vector_relational.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_common.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_exponential.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_geometric.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_integer.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_matrix.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_trigonometric.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_vector_relational.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\precision.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\setup.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_float.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_gentype.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_half.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_int.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat2x2.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat2x3.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat2x4.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat3x2.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat3x3.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat3x4.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat4x2.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat4x3.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat4x4.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec1.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec2.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec3.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec4.hpp">
+      <Filter>Header Files\GLM\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLEW\GL\glew.h">
+      <Filter>Header Files\GLEW\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLEW\GL\wglew.h">
+      <Filter>Header Files\GLEW\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\GL\wglext.h">
+      <Filter>Header Files\GLFW\deps\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\GL\glext.h">
+      <Filter>Header Files\GLFW\deps\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\GL\glxext.h">
+      <Filter>Header Files\GLFW\deps\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\tinycthread.h">
+      <Filter>Header Files\GLFW\deps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\getopt.h">
+      <Filter>Header Files\GLFW\deps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\linmath.h">
+      <Filter>Header Files\GLFW\deps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLEW\GL\glxew.h">
+      <Filter>Header Files\GLEW\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\cocoa_platform.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\egl_context.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\glx_context.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\linux_joystick.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\mir_platform.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\posix_tls.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\posix_time.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\wl_platform.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\x11_platform.h">
+      <Filter>Header Files\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\glad\glad.h">
+      <Filter>Header Files\GLFW\deps\glad</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\Bitmap\bitmap.cpp">
+      <Filter>Source Files\Bitmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\text-buffer.c">
+      <Filter>Source Files\freetype-gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\texture-atlas.c">
+      <Filter>Source Files\freetype-gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\texture-font.c">
+      <Filter>Source Files\freetype-gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vector.c">
+      <Filter>Source Files\freetype-gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-attribute.c">
+      <Filter>Source Files\freetype-gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-buffer.c">
+      <Filter>Source Files\freetype-gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\edtaa3func.c">
+      <Filter>Source Files\freetype-gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\font-manager.c">
+      <Filter>Source Files\freetype-gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\makefont.c">
+      <Filter>Source Files\freetype-gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\mat4.c">
+      <Filter>Source Files\freetype-gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\platform.c">
+      <Filter>Source Files\freetype-gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\shader.c">
+      <Filter>Source Files\freetype-gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\monitor.c">
+      <Filter>Source Files\GLFW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\wgl_context.c">
+      <Filter>Source Files\GLFW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_init.c">
+      <Filter>Source Files\GLFW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_monitor.c">
+      <Filter>Source Files\GLFW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_time.c">
+      <Filter>Source Files\GLFW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_tls.c">
+      <Filter>Source Files\GLFW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_window.c">
+      <Filter>Source Files\GLFW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\window.c">
+      <Filter>Source Files\GLFW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\winmm_joystick.c">
+      <Filter>Source Files\GLFW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\context.c">
+      <Filter>Source Files\GLFW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\init.c">
+      <Filter>Source Files\GLFW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\input.c">
+      <Filter>Source Files\GLFW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\glm.cpp">
+      <Filter>Source Files\GLM\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLEW\glewinfo.c">
+      <Filter>Source Files\GLEW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLEW\visualinfo.c">
+      <Filter>Source Files\GLEW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLEW\glew.c">
+      <Filter>Source Files\GLEW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\tinycthread.c">
+      <Filter>Source Files\GLFW\deps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\getopt.c">
+      <Filter>Source Files\GLFW\deps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\glad.c">
+      <Filter>Source Files\GLFW\deps</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\associated_min_max.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\bit.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\closest_point.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\color_space.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\color_space_YCoCg.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\common.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\compatibility.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\component_wise.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\dual_quaternion.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\euler_angles.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\extend.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\extended_min_max.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\fast_exponential.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\fast_square_root.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\fast_trigonometry.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\float_notmalize.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\gradient_paint.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\handed_coordinate_space.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\hash.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\integer.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\intersect.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\io.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\log_base.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_cross_product.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_decompose.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_interpolation.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_major_storage.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_operation.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_query.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\matrix_transform_2d.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\mixed_product.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\norm.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\normal.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\normalize_dot.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\number_precision.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\optimum_pow.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\orthonormalize.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\perpendicular.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\polar_coordinates.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\projection.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\quaternion.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\raw_data.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\rotate_normalized_axis.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\rotate_vector.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\scalar_relational.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\simd_mat4.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\simd_quat.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\simd_vec4.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\spline.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\std_based_type.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\string_cast.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\transform.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\transform2.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\type_aligned.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\vector_angle.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\vector_query.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtx\wrap.inl">
+      <Filter>Header Files\GLM\gtx</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\bitfield.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\color_space.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\constants.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\epsilon.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\integer.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\matrix_access.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\matrix_inverse.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\matrix_transform.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\noise.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\packing.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\quaternion.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\random.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\reciprocal.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\round.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\type_precision.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\type_ptr.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\ulp.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\gtc\vec1.inl">
+      <Filter>Header Files\GLM\gtc</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat4x3.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat4x4.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec1.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec2.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec3.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec4.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec4_avx.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec4_avx2.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec4_sse2.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_common.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_exponential.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_geometric.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_integer.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_matrix.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_packing.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_trigonometric.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_vector_relational.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_common.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_exponential.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_geometric.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_integer.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_matrix.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_trigonometric.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\intrinsic_vector_relational.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_gentype.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_half.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat2x2.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat2x3.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat2x4.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat3x2.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat3x3.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat3x4.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+    <None Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_mat4x2.inl">
+      <Filter>Header Files\GLM\detail</Filter>
+    </None>
+  </ItemGroup>
+</Project>
