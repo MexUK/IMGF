@@ -4,13 +4,14 @@
 #include "Engine/RW/RWManager.h"
 #include "Engine/RW/RWVersionManager.h"
 #include "Engine/RAGE/RageManager.h"
-#include "Tasks/RecentlyOpen/RecentlyOpenManager.h"
-#include "Tasks/Session/SessionManager.h"
-#include "Tasks/LST/LSTProcessingManager.h"
 #include "Task/TaskManager.h"
-#include "Task/TaskDispatchManager.h"
+#include "Task/Tasks/Tasks.h"
+#include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
+#include "Task/Tasks/Session/SessionManager.h"
+#include "Task/Tasks/LST/LSTProcessingManager.h"
+#include "Task/Tasks/Sort/SortManager.h"
+#include "Task/Tasks/Find/SearchEntry.h"
 #include "Settings/SettingsManager.h"
-#include "Tasks/Sort/SortManager.h"
 #include "Format/IMG/Regular/IMGManager.h"
 #include "Static/Input.h"
 #include "Window/Window.h"
@@ -39,7 +40,6 @@
 #include "Format/COL/COLVersionManager.h"
 #include "Format/COL/COLVersion.h"
 #include "Static/Input.h"
-#include "Tasks/Find/SearchEntry.h"
 #include "EntryViewer/EntryViewerManager.h"
 #include "Static/StdVector.h"
 #include "Updater/UpdateManager.h"
@@ -67,7 +67,7 @@
 #include "Platform/Hardware/PlatformManager.h"
 #include "Format/RW/RWSection.h"
 #include "Static/Timing.h"
-#include "Task/LastUsedValueManager.h"
+#include "Task/Repeat/LastUsedValueManager.h"
 #include "GUI/Windows/MainWindow.h"
 #include "Style/StyleManager.h"
 #include "GUI/Input/InputManager.h"
@@ -397,9 +397,9 @@ IMGEditorTab*		IMGF::getEntryListTab(void)
 // last used directory
 void				IMGF::setLastUsedDirectory(string strHandleName, string strDirectory)
 {
-	// todo - remove after TaskDispatchManager is done
+	// todo - remove after Tasks is done
 }
 string				IMGF::getLastUsedDirectory(string strHandleName)
 {
-	return ""; // todo - remove after TaskDispatchManager is done
+	return ""; // todo - remove after Tasks is done
 }

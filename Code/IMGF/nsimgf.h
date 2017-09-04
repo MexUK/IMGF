@@ -112,7 +112,7 @@ namespace imgf
 	class AppDataPath;
 
 	class LastUsedValueManager;
-	class TaskDispatchManager;
+	class Tasks;
 	class TaskDurationManager;
 	class TaskManager;
 

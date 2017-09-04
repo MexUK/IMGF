@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-class imgf::TaskDispatchManager;
+class imgf::Tasks;
 class imgf::TaskDurationManager;
 
 class imgf::TaskManager : public bxcf::Manager
@@ -19,7 +19,7 @@ public:
 	void										init(void);
 	void										uninit(void);
 
-	TaskDispatchManager*						getDispatch(void) { return m_pTaskDispatchManager; }
+	Tasks*						getDispatch(void) { return m_pTasks; }
 	TaskDurationManager*						getDurationManager(void) { return m_pTaskDurationManager; }
 
 	void										onStartTask(std::string strTaskName);
@@ -42,7 +42,7 @@ public:
 	std::string&								getTaskName(void);
 
 private:
-	TaskDispatchManager*						m_pTaskDispatchManager;
+	Tasks*						m_pTasks;
 	TaskDurationManager*						m_pTaskDurationManager;
 
 	uint32										m_uiTaskProgressTickCount;

@@ -28,7 +28,7 @@
 #include "Static/Debug.h"
 #include "Static/StdVector.h"
 #include "Task/TaskManager.h"
-#include "Task/TaskDispatchManager.h"
+#include "Task/Tasks/Tasks.h"
 #include "Format/IMG/Regular/IMGEntry.h"
 #include "Format/WTD/WTDManager.h"
 #include "Format/WTD/WTDFormat.h"

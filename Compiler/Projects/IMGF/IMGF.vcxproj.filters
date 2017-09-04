@@ -148,12 +148,6 @@
     <Filter Include="Header Files\Format\LST">
       <UniqueIdentifier>{dc991616-56e1-4a2c-b70f-dcb94205632a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\AutomatedTesting">
-      <UniqueIdentifier>{04d3d8e6-a997-4098-86f2-2e5dba0add56}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\AutomatedTesting">
-      <UniqueIdentifier>{54bf0e94-1c0b-49e5-9684-0c05f8d0485e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\DragDrop">
       <UniqueIdentifier>{7dc71615-13dd-48f2-bc40-068150e921f2}</UniqueIdentifier>
     </Filter>
@@ -169,30 +163,6 @@
     <Filter Include="Source Files\Format\LST">
       <UniqueIdentifier>{4b4c91de-4010-415e-81ec-1a3171e0800e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Tasks">
-      <UniqueIdentifier>{99c715cc-064b-48b2-a226-24145895d91a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Tasks\Renamer">
-      <UniqueIdentifier>{06b42a44-c4fe-45e5-9d42-75bab9b326d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Tasks\Find">
-      <UniqueIdentifier>{c33c94a2-1e11-4cd9-92cd-675a3a85d538}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Tasks">
-      <UniqueIdentifier>{b2fda12f-aa2f-4b0c-9d00-4c2af1b97312}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Tasks\Dump">
-      <UniqueIdentifier>{21293ff8-29e8-4198-97c7-6caff15e41f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Tasks\Dump">
-      <UniqueIdentifier>{bbc20b3c-1891-4a21-afce-82780a8e479b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Tasks\LST">
-      <UniqueIdentifier>{bd42fc3f-8aaf-4fa4-8862-ddde441b4cb4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Tasks\LST">
-      <UniqueIdentifier>{b5d49263-0934-470f-889b-412339d4070d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Settings">
       <UniqueIdentifier>{19319d26-7cab-4a6f-a92c-9c8e99bac28d}</UniqueIdentifier>
     </Filter>
@@ -205,32 +175,11 @@
     <Filter Include="Header Files\Updater">
       <UniqueIdentifier>{95b2575e-7be2-40fb-91af-dd87b2413458}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Tasks\Filter">
-      <UniqueIdentifier>{6d550429-6c6f-4f0e-ba3a-214c13330254}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Program">
       <UniqueIdentifier>{ab68d552-0099-4058-9d8f-0d6a74a45d31}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Program">
       <UniqueIdentifier>{ff67ada2-70a4-4e75-bfbe-1a47ebd98825}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Tasks\RecentlyOpen">
-      <UniqueIdentifier>{b3c91b9e-7abd-4c5c-9eef-7dc4061fdaa7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Tasks\Sort">
-      <UniqueIdentifier>{8a83b32b-ed53-492f-b270-aeae5d2a389f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Tasks\Session">
-      <UniqueIdentifier>{1855c45e-a919-43bc-acb2-1fd402fd12a5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Tasks\RecentlyOpen">
-      <UniqueIdentifier>{e51e9d95-6516-46f1-aaba-b980584d28e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Tasks\Sort">
-      <UniqueIdentifier>{477d7b3a-cab0-4673-993b-a8adebf8143d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Tasks\Session">
-      <UniqueIdentifier>{7707ff7c-3e6a-4f9f-80eb-8b863c202f30}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\GUI\Layer">
       <UniqueIdentifier>{60b5e6bc-080d-4563-a54b-857dd208bf8d}</UniqueIdentifier>
@@ -268,8 +217,71 @@
     <Filter Include="Source Files\Static">
       <UniqueIdentifier>{cd257009-e6d1-4491-b9e2-513417f33b65}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Tasks\Find">
+    <Filter Include="Header Files\Task\Tasks">
+      <UniqueIdentifier>{99c715cc-064b-48b2-a226-24145895d91a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Task\Tasks\Renamer">
+      <UniqueIdentifier>{06b42a44-c4fe-45e5-9d42-75bab9b326d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Task\Tasks\Find">
+      <UniqueIdentifier>{c33c94a2-1e11-4cd9-92cd-675a3a85d538}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Task\Tasks\Dump">
+      <UniqueIdentifier>{21293ff8-29e8-4198-97c7-6caff15e41f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Task\Tasks\LST">
+      <UniqueIdentifier>{b5d49263-0934-470f-889b-412339d4070d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Task\Tasks\Filter">
+      <UniqueIdentifier>{6d550429-6c6f-4f0e-ba3a-214c13330254}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Task\Tasks\RecentlyOpen">
+      <UniqueIdentifier>{b3c91b9e-7abd-4c5c-9eef-7dc4061fdaa7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Task\Tasks\Sort">
+      <UniqueIdentifier>{8a83b32b-ed53-492f-b270-aeae5d2a389f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Task\Tasks\Session">
+      <UniqueIdentifier>{1855c45e-a919-43bc-acb2-1fd402fd12a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Task\Tasks">
+      <UniqueIdentifier>{b2fda12f-aa2f-4b0c-9d00-4c2af1b97312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Task\Tasks\Dump">
+      <UniqueIdentifier>{bbc20b3c-1891-4a21-afce-82780a8e479b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Task\Tasks\LST">
+      <UniqueIdentifier>{bd42fc3f-8aaf-4fa4-8862-ddde441b4cb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Task\Tasks\RecentlyOpen">
+      <UniqueIdentifier>{e51e9d95-6516-46f1-aaba-b980584d28e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Task\Tasks\Sort">
+      <UniqueIdentifier>{477d7b3a-cab0-4673-993b-a8adebf8143d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Task\Tasks\Session">
+      <UniqueIdentifier>{7707ff7c-3e6a-4f9f-80eb-8b863c202f30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Task\Tasks\Find">
       <UniqueIdentifier>{9808bfe1-d3f1-4d59-9692-97869864f3b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Task\Base">
+      <UniqueIdentifier>{9fc35442-5fe0-4452-b7fc-f4fdde172d88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Task\Duration">
+      <UniqueIdentifier>{7cfbdfa4-b1d1-432f-aa4b-8a4b661a43d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Task\Repeat">
+      <UniqueIdentifier>{b9e5951d-426c-4df1-a03c-c5c75383c856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Task\Base">
+      <UniqueIdentifier>{bccaaa7d-fffa-462f-8a2d-e12f2836b6e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Task\Duration">
+      <UniqueIdentifier>{afe821fb-36c0-4e5a-8571-f837ac9f855d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Task\Repeat">
+      <UniqueIdentifier>{36597224-ac57-45db-aa7e-945fee1dacf2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -369,9 +381,6 @@
     <ClCompile Include="..\..\..\Code\IMGF\IMGF.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\AutomatedTesting\AutomatedTesting.cpp">
-      <Filter>Source Files\AutomatedTesting</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DragDrop.cpp">
       <Filter>Source Files\DragDrop</Filter>
     </ClCompile>
@@ -453,56 +462,56 @@
     <ClCompile Include="..\..\..\Code\IMGF\Static\AppDataPath.cpp">
       <Filter>Source Files\Static</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Task\LastUsedValueManager.cpp">
-      <Filter>Source Files\Task</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\Dump\DumpManager.cpp">
+      <Filter>Source Files\Task\Tasks\Dump</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Task\TaskDispatchManager.cpp">
-      <Filter>Source Files\Task</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\Find\SearchEntry.cpp">
+      <Filter>Source Files\Task\Tasks\Find</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Task\TaskDurationManager.cpp">
-      <Filter>Source Files\Task</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\LST\LSTProcessingManager.cpp">
+      <Filter>Source Files\Task\Tasks\LST</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Task\TaskManager.cpp">
-      <Filter>Source Files\Task</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\RecentlyOpen\RecentlyOpenEntry.cpp">
+      <Filter>Source Files\Task\Tasks\RecentlyOpen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Dump\DumpManager.cpp">
-      <Filter>Source Files\Tasks\Dump</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\RecentlyOpen\RecentlyOpenManager.cpp">
+      <Filter>Source Files\Task\Tasks\RecentlyOpen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Find\SearchEntry.cpp">
-      <Filter>Source Files\Tasks\Find</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\Session\Session.cpp">
+      <Filter>Source Files\Task\Tasks\Session</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Tasks\LST\LSTProcessingManager.cpp">
-      <Filter>Source Files\Tasks\LST</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\Session\SessionManager.cpp">
+      <Filter>Source Files\Task\Tasks\Session</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Tasks\RecentlyOpen\RecentlyOpenEntry.cpp">
-      <Filter>Source Files\Tasks\RecentlyOpen</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\Sort\SortManager.cpp">
+      <Filter>Source Files\Task\Tasks\Sort</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Tasks\RecentlyOpen\RecentlyOpenManager.cpp">
-      <Filter>Source Files\Tasks\RecentlyOpen</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\Sort\SortMenuItem.cpp">
+      <Filter>Source Files\Task\Tasks\Sort</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Session\Session.cpp">
-      <Filter>Source Files\Tasks\Session</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\Sort\SortPriority.cpp">
+      <Filter>Source Files\Task\Tasks\Sort</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Session\SessionManager.cpp">
-      <Filter>Source Files\Tasks\Session</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Sort\SortManager.cpp">
-      <Filter>Source Files\Tasks\Sort</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Sort\SortMenuItem.cpp">
-      <Filter>Source Files\Tasks\Sort</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Sort\SortPriority.cpp">
-      <Filter>Source Files\Tasks\Sort</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Tasks\Sort\SortType.cpp">
-      <Filter>Source Files\Tasks\Sort</Filter>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\Sort\SortType.cpp">
+      <Filter>Source Files\Task\Tasks\Sort</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\Updater\UpdateConnectionManager.cpp">
       <Filter>Source Files\Updater</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\Updater\UpdateManager.cpp">
       <Filter>Source Files\Updater</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\Duration\TaskDurationManager.cpp">
+      <Filter>Source Files\Task\Duration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\Repeat\LastUsedValueManager.cpp">
+      <Filter>Source Files\Task\Repeat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\TaskManager.cpp">
+      <Filter>Source Files\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\Tasks.cpp">
+      <Filter>Source Files\Task\Tasks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1079,9 +1088,6 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Task\ETask.h">
-      <Filter>Header Files\Task</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\ELayer.h">
       <Filter>Header Files\GUI\Layer</Filter>
     </ClInclude>
@@ -1100,14 +1106,11 @@
     <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\EEntryViewerDisplayType.h">
       <Filter>Header Files\EntryViewer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\ESortType.h">
-      <Filter>Header Files\Tasks\Sort</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Sort\ESortType.h">
+      <Filter>Header Files\Task\Tasks\Sort</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\EInputItem.h">
       <Filter>Header Files\GUI\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\AutomatedTesting\AutomatedTesting.h">
-      <Filter>Header Files\AutomatedTesting</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\DragDrop.h">
       <Filter>Header Files\DragDrop</Filter>
@@ -1196,65 +1199,53 @@
     <ClInclude Include="..\..\..\Code\IMGF\Static\AppDataPath.h">
       <Filter>Header Files\Static</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Task\TaskManager.h">
-      <Filter>Header Files\Task</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Dump\DumpManager.h">
+      <Filter>Header Files\Task\Tasks\Dump</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Task\TaskDurationManager.h">
-      <Filter>Header Files\Task</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Filter\FilterOptions.h">
+      <Filter>Header Files\Task\Tasks\Filter</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Task\TaskDispatchManager.h">
-      <Filter>Header Files\Task</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Find\SearchEntry.h">
+      <Filter>Header Files\Task\Tasks\Find</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Task\LastUsedValueManager.h">
-      <Filter>Header Files\Task</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\LST\LSTProcessingManager.h">
+      <Filter>Header Files\Task\Tasks\LST</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Dump\DumpManager.h">
-      <Filter>Header Files\Tasks\Dump</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\RecentlyOpen\RecentlyOpenEntry.h">
+      <Filter>Header Files\Task\Tasks\RecentlyOpen</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Filter\FilterOptions.h">
-      <Filter>Header Files\Tasks\Filter</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\RecentlyOpen\RecentlyOpenManager.h">
+      <Filter>Header Files\Task\Tasks\RecentlyOpen</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Find\SearchEntry.h">
-      <Filter>Header Files\Tasks\Find</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Renamer\RenamedIMGEntry.h">
+      <Filter>Header Files\Task\Tasks\Renamer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\LST\LSTProcessingManager.h">
-      <Filter>Header Files\Tasks\LST</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Session\Session.h">
+      <Filter>Header Files\Task\Tasks\Session</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\RecentlyOpen\RecentlyOpenEntry.h">
-      <Filter>Header Files\Tasks\RecentlyOpen</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Session\SessionManager.h">
+      <Filter>Header Files\Task\Tasks\Session</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\RecentlyOpen\RecentlyOpenManager.h">
-      <Filter>Header Files\Tasks\RecentlyOpen</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Sort\SortManager.h">
+      <Filter>Header Files\Task\Tasks\Sort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Renamer\RenamedIMGEntry.h">
-      <Filter>Header Files\Tasks\Renamer</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Sort\SortMenuItem.h">
+      <Filter>Header Files\Task\Tasks\Sort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Session\Session.h">
-      <Filter>Header Files\Tasks\Session</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Sort\SortMenuItems.h">
+      <Filter>Header Files\Task\Tasks\Sort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Session\SessionManager.h">
-      <Filter>Header Files\Tasks\Session</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Sort\SortPriorities.h">
+      <Filter>Header Files\Task\Tasks\Sort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\SortManager.h">
-      <Filter>Header Files\Tasks\Sort</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Sort\SortPriority.h">
+      <Filter>Header Files\Task\Tasks\Sort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\SortMenuItem.h">
-      <Filter>Header Files\Tasks\Sort</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Sort\SortType.h">
+      <Filter>Header Files\Task\Tasks\Sort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\SortMenuItems.h">
-      <Filter>Header Files\Tasks\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\SortPriorities.h">
-      <Filter>Header Files\Tasks\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\SortPriority.h">
-      <Filter>Header Files\Tasks\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\SortType.h">
-      <Filter>Header Files\Tasks\Sort</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Tasks\Sort\SortTypes.h">
-      <Filter>Header Files\Tasks\Sort</Filter>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Sort\SortTypes.h">
+      <Filter>Header Files\Task\Tasks\Sort</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Updater\UpdateManager.h">
       <Filter>Header Files\Updater</Filter>
@@ -1267,6 +1258,21 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layers\MainLayer.h">
       <Filter>Header Files\GUI\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Base\ETask.h">
+      <Filter>Header Files\Task\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Duration\TaskDurationManager.h">
+      <Filter>Header Files\Task\Duration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Repeat\LastUsedValueManager.h">
+      <Filter>Header Files\Task\Repeat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\TaskManager.h">
+      <Filter>Header Files\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Tasks.h">
+      <Filter>Header Files\Task\Tasks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

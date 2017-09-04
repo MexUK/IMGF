@@ -1,8 +1,8 @@
 #include "TaskManager.h"
 #include "nsbxcf.h"
 #include "nsbxgx.h"
-#include "Task/TaskDispatchManager.h"
-#include "Task/TaskDurationManager.h"
+#include "Task/Tasks/Tasks.h"
+#include "Task/Duration/TaskDurationManager.h"
 #include "Static/String.h"
 #include "Static/Path.h"
 #include "Static/File.h"
@@ -24,24 +24,24 @@ TaskManager::TaskManager(void) :
 	m_uiTaskProgressTickCount(0),
 	m_uiTaskMaxProgressTickCount(0)
 {
-	m_pTaskDispatchManager = new TaskDispatchManager;
+	m_pTasks = new Tasks;
 	m_pTaskDurationManager = new TaskDurationManager;
 }
 
 TaskManager::~TaskManager(void)
 {
-	delete m_pTaskDispatchManager;
+	delete m_pTasks;
 }
 
 // initialization
 void							TaskManager::init(void)
 {
-	m_pTaskDispatchManager->init();
+	m_pTasks->init();
 }
 
 void							TaskManager::uninit(void)
 {
-	m_pTaskDispatchManager->uninit();
+	m_pTasks->uninit();
 }
 
 // task start/stop

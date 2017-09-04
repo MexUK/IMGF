@@ -9,10 +9,10 @@
 #include "GUI/Layer/ELayer.h"
 #include "GUI/Layer/EMainMenuType.h"
 #include "Task/TaskManager.h"
-#include "Task/TaskDispatchManager.h"
+#include "Task/Tasks/Tasks.h"
 
 using namespace bxgx;
-using namespace bxgx::control::events;
+using namespace bxgx::events;
 using namespace imgf;
 using namespace imgf::layers;
 using namespace imgf::mainLayer::input;
@@ -22,7 +22,7 @@ using namespace imgf::mainLayer::mainMenuType;
 void					InputManager::init(void)
 {
 	m_pMainWindow = g_pIMGF->getWindowManager()->getMainWindow();
-	m_pTaskDispatchManager = g_pIMGF->getTaskManager()->getDispatch();
+	m_pTasks = g_pIMGF->getTaskManager()->getDispatch();
 
 	bindEvents();
 }
@@ -131,12 +131,12 @@ void					InputManager::radar(void)
 // button press - file menu
 void					InputManager::open(void)
 {
-	m_pTaskDispatchManager->chooseFilesToOpen();
+	m_pTasks->chooseFilesToOpen();
 }
 
 void					InputManager::close(void)
 {
-	m_pTaskDispatchManager->closeActiveFile();
+	m_pTasks->closeActiveFile();
 }
 
 void					InputManager::save(void)

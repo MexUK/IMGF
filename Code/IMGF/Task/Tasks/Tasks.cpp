@@ -1,7 +1,7 @@
 #pragma warning(disable : 4005)
 
-#include "TaskDispatchManager.h"
-#include "TaskManager.h"
+#include "Tasks.h"
+#include "Task/TaskManager.h"
 #include "IMGF.h"
 #include "Globals.h"
 #include "GUI/Window/WindowManager.h"
@@ -45,18 +45,22 @@
 #include "Static/Debug.h"
 #include "Format/IPL/IPLManager.h"
 #include "Engine/RW/RWManager.h"
-#include "Tasks/RecentlyOpen/RecentlyOpenManager.h"
-#include "Tasks/Session/SessionManager.h"
-#include "Tasks/LST/LSTProcessingManager.h"
-#include "Tasks/Dump/DumpManager.h"
+#include "Task/Base/ETask.h"
+#include "Task/Repeat/LastUsedValueManager.h"
+#include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
+#include "Task/Tasks/Session/SessionManager.h"
+#include "Task/Tasks/LST/LSTProcessingManager.h"
+#include "Task/Tasks/Dump/DumpManager.h"
+#include "Task/Tasks/Sort/SortManager.h"
+#include "Task/Tasks/Sort/SortPriority.h"
+#include "Task/Tasks/Find/SearchEntry.h"
+#include "Task/Tasks/Sort/SortPriorities.h"
+#include "Task/Tasks/Renamer/RenamedIMGEntry.h"
 #include "Settings/SettingsManager.h"
-#include "Tasks/Sort/SortManager.h"
-#include "Tasks/Sort/SortPriority.h"
 #include "Protocol/HTTP.h"
 #include "DB/DBManager.h"
 #include "DB/DBFormat.h"
 #include "Image/RasterDataFormat.h"
-#include "Tasks/Find/SearchEntry.h"
 #include "Engine/RW/RWVersionManager.h"
 #include "EntryViewer/EntryViewerManager.h"
 #include "Format/IDE/IDEFormat.h"
@@ -120,14 +124,10 @@
 #include "Intermediate/Texture/IntermediateTextureFormat.h"
 #include "Format/DAT/Path/DATPathFormat.h"
 #include "Localization/LocalizationManager.h"
-#include "Tasks/Sort/SortPriorities.h"
 #include "EntryViewer/TextureViewer.h"
 #include "EntryViewer/CollisionViewer.h"
-#include "Tasks/Renamer/RenamedIMGEntry.h"
 #include "Format/RW/TextureEntry.h"
 #include "Game/EGame.h"
-#include "LastUsedValueManager.h"
-#include "Task/ETask.h"
 #include "Stream/DataReader.h"
 #include "Control/Controls/ProgressBar.h"
 #include "Format/GameFormat.h"
@@ -144,46 +144,46 @@ using namespace bxgi;
 using namespace imgf;
 using namespace imgf::task;
 
-TaskDispatchManager::TaskDispatchManager(void) :
+Tasks::Tasks(void) :
 	m_pMainWindow(nullptr),
 	m_pTaskManager(nullptr)
 {
 }
 
 // main interface
-void		TaskDispatchManager::init(void)
+void		Tasks::init(void)
 {
 	m_pMainWindow = g_pIMGF->getWindowManager()->getMainWindow();
 	m_pTaskManager = g_pIMGF->getTaskManager();
 }
 
-void		TaskDispatchManager::uninit(void)
+void		Tasks::uninit(void)
 {
 }
 
 // task
-string&		TaskDispatchManager::getTaskName(void)
+string&		Tasks::getTaskName(void)
 {
 	return g_pIMGF->getTaskManager()->getTaskName();
 }
 
-void		TaskDispatchManager::onStartTask(string strTaskName)
+void		Tasks::onStartTask(string strTaskName)
 {
 	m_pTaskManager->onStartTask(strTaskName);
 }
 
-void		TaskDispatchManager::onCompleteTask(void)
+void		Tasks::onCompleteTask(void)
 {
 	m_pTaskManager->onCompleteTask();
 }
 
-void		TaskDispatchManager::onAbortTask(void)
+void		Tasks::onAbortTask(void)
 {
 	m_pTaskManager->onAbortTask();
 }
 
 // file/folder input windows
-vector<string>	TaskDispatchManager::openFile(string strExtensionFilters, bool bAllowMultiSelect, string strDefaultFileName)
+vector<string>	Tasks::openFile(string strExtensionFilters, bool bAllowMultiSelect, string strDefaultFileName)
 {
 	m_pTaskManager->onPauseTask();
 	vector<string> vecFilePaths = Input::openFile(getTaskName(), strExtensionFilters, bAllowMultiSelect, strDefaultFileName);
@@ -191,7 +191,7 @@ vector<string>	TaskDispatchManager::openFile(string strExtensionFilters, bool bA
 	return vecFilePaths;
 }
 
-string			TaskDispatchManager::saveFile(string strExtensionFilters, string strDefaultFileName)
+string			Tasks::saveFile(string strExtensionFilters, string strDefaultFileName)
 {
 	m_pTaskManager->onPauseTask();
 	//string strFilePath = Input::saveFile(getTaskName(), strExtensionFilters, bAllowMultiSelect, strDefaultFileName);
@@ -200,7 +200,7 @@ string			TaskDispatchManager::saveFile(string strExtensionFilters, string strDef
 	return "";
 }
 
-string			TaskDispatchManager::openFolder(string strTitle, string strInitialDir)
+string			Tasks::openFolder(string strTitle, string strInitialDir)
 {
 	m_pTaskManager->onPauseTask();
 	//string strFolderPath = Input::openFolder(getTaskName(), strTitle, strInitialDir);
@@ -209,7 +209,7 @@ string			TaskDispatchManager::openFolder(string strTitle, string strInitialDir)
 	return "";
 }
 
-string			TaskDispatchManager::saveFolder(string strTitle, string strInitialDir)
+string			Tasks::saveFolder(string strTitle, string strInitialDir)
 {
 	m_pTaskManager->onPauseTask();
 	//string strFolderPath = Input::saveFolder(getTaskName(), strTitle, strInitialDir);
@@ -219,7 +219,7 @@ string			TaskDispatchManager::saveFolder(string strTitle, string strInitialDir)
 }
 
 // tasks
-void		TaskDispatchManager::chooseFilesToOpen(void)
+void		Tasks::chooseFilesToOpen(void)
 {
 	onStartTask("chooseFilesToOpen");
 
@@ -238,7 +238,7 @@ void		TaskDispatchManager::chooseFilesToOpen(void)
 	onCompleteTask();
 }
 
-void		TaskDispatchManager::_openFile(string& strFilePath)
+void		Tasks::_openFile(string& strFilePath)
 {
 	onStartTask("openFile");
 
@@ -346,7 +346,7 @@ void		TaskDispatchManager::_openFile(string& strFilePath)
 	onCompleteTask();
 }
 
-void		TaskDispatchManager::closeActiveFile(void)
+void		Tasks::closeActiveFile(void)
 {
 	m_pTaskManager->onStartTask("closeFile");
 
@@ -367,7 +367,7 @@ void		TaskDispatchManager::closeActiveFile(void)
 
 
 
-bool		TaskDispatchManager::saveAllOpenFiles(bool bCloseAll)
+bool		Tasks::saveAllOpenFiles(bool bCloseAll)
 {
 	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Close2_CloseAll(bCloseAll);
 	getIMGF()->getTaskManager()->onStartTask("saveAllOpenFiles");
@@ -434,7 +434,7 @@ bool		TaskDispatchManager::saveAllOpenFiles(bool bCloseAll)
 	return true;
 }
 
-void		TaskDispatchManager::onRequestCloseAll(void)
+void		Tasks::onRequestCloseAll(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestCloseAll");
 	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose"))
@@ -458,14 +458,14 @@ void		TaskDispatchManager::onRequestCloseAll(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestCloseAll");
 }
 
-void		TaskDispatchManager::onRequestExitTool(void)
+void		Tasks::onRequestExitTool(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestExitTool");
 	DestroyWindow(getIMGF()->getActiveWindow()->getWindowHandle());
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExitTool");
 }
 
-void		TaskDispatchManager::onRequestImportViaFiles(void)
+void		Tasks::onRequestImportViaFiles(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestImportViaFiles");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -503,7 +503,7 @@ void		TaskDispatchManager::onRequestImportViaFiles(void)
 	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFiles");
 }
-void		TaskDispatchManager::onRequestRemoveSelected(void)
+void		Tasks::onRequestRemoveSelected(void)
 {
 	/*
 	todo
@@ -556,7 +556,7 @@ void		TaskDispatchManager::onRequestRemoveSelected(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveSelected");
 	*/
 }
-void		TaskDispatchManager::onRequestRenameEntry(void)
+void		Tasks::onRequestRenameEntry(void)
 {
 	/*
 	todo
@@ -619,7 +619,7 @@ void		TaskDispatchManager::onRequestRenameEntry(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRenameEntry");
 	*/
 }
-void		TaskDispatchManager::onRequestSelectAll(void)
+void		Tasks::onRequestSelectAll(void)
 {
 	/*
 	todo
@@ -664,7 +664,7 @@ void		TaskDispatchManager::onRequestSelectAll(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectAll");
 	*/
 }
-void		TaskDispatchManager::onRequestSelectInverse(void)
+void		Tasks::onRequestSelectInverse(void)
 {
 	/*
 	todo
@@ -699,7 +699,7 @@ void		TaskDispatchManager::onRequestSelectInverse(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectInverse");
 	*/
 }
-void		TaskDispatchManager::onRequestRebuild(void)
+void		Tasks::onRequestRebuild(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestRebuild");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -714,7 +714,7 @@ void		TaskDispatchManager::onRequestRebuild(void)
 	getIMGF()->getEntryListTab()->checkForUnknownRWVersionEntries();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRebuild");
 }
-void		TaskDispatchManager::onRequestRebuildAs(void)
+void		Tasks::onRequestRebuildAs(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestRebuildAs");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -740,7 +740,7 @@ void		TaskDispatchManager::onRequestRebuildAs(void)
 	getIMGF()->getEntryListTab()->checkForUnknownRWVersionEntries();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRebuildAs");
 }
-void		TaskDispatchManager::onRequestRebuildAll(void)
+void		Tasks::onRequestRebuildAll(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestRebuildAll");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -764,7 +764,7 @@ void		TaskDispatchManager::onRequestRebuildAll(void)
 	getIMGF()->getEntryListTab()->checkForUnknownRWVersionEntries();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRebuildAll");
 }
-void		TaskDispatchManager::onRequestConvertIMGVersion(EIMGVersion EIMGVersionValue)
+void		Tasks::onRequestConvertIMGVersion(EIMGVersion EIMGVersionValue)
 {
 	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Convert_IMGVersion(EIMGVersionValue);
 	getIMGF()->getTaskManager()->onStartTask("onRequestConvertIMGVersion");
@@ -1010,7 +1010,7 @@ void		TaskDispatchManager::onRequestConvertIMGVersion(EIMGVersion EIMGVersionVal
 	getIMGF()->getEntryListTab()->checkForUnknownRWVersionEntries();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersion");
 }
-void		TaskDispatchManager::onRequestConvertIMGVersionViaButton(void)
+void		Tasks::onRequestConvertIMGVersionViaButton(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestConvertIMGVersionViaButton");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -1030,7 +1030,7 @@ void		TaskDispatchManager::onRequestConvertIMGVersionViaButton(void)
 	onRequestConvertIMGVersion((EIMGVersion)uiRadioButtonIndex);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersionViaButton");
 }
-void		TaskDispatchManager::onRequestMerge(void)
+void		Tasks::onRequestMerge(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestMerge");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -1085,7 +1085,7 @@ void		TaskDispatchManager::onRequestMerge(void)
 	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestMerge");
 }
-void		TaskDispatchManager::onRequestSplitViaButton(void)
+void		Tasks::onRequestSplitViaButton(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestSplitViaButton");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -1117,7 +1117,7 @@ void		TaskDispatchManager::onRequestSplitViaButton(void)
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaButton", true);
 }
-void		TaskDispatchManager::onRequestSplitSelectedEntries(void)
+void		Tasks::onRequestSplitSelectedEntries(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestSplitSelectedEntries");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -1196,7 +1196,7 @@ void		TaskDispatchManager::onRequestSplitSelectedEntries(void)
 	openFile(strPath);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitSelectedEntries");
 }
-void		TaskDispatchManager::onRequestSplitViaIDEFile(void)
+void		Tasks::onRequestSplitViaIDEFile(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestSplitViaIDEFile");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -1301,7 +1301,7 @@ void		TaskDispatchManager::onRequestSplitViaIDEFile(void)
 	openFile(strPath);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaIDEFile");
 }
-void		TaskDispatchManager::onRequestSplitViaTextLines(void)
+void		Tasks::onRequestSplitViaTextLines(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestSplitViaTextLines");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -1417,7 +1417,7 @@ void		TaskDispatchManager::onRequestSplitViaTextLines(void)
 	openFile(strPath);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaTextLines");
 }
-void		TaskDispatchManager::onRequestReplace(void)
+void		Tasks::onRequestReplace(void)
 {
 	/*
 	todo
@@ -1541,7 +1541,7 @@ void		TaskDispatchManager::onRequestReplace(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestReplace");
 	*/
 }
-void		TaskDispatchManager::onRequestExportSelected(void)
+void		Tasks::onRequestExportSelected(void)
 {
 	/*
 	todo
@@ -1592,7 +1592,7 @@ void		TaskDispatchManager::onRequestExportSelected(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportSelected");
 	*/
 }
-void		TaskDispatchManager::onRequestSearchText(void) // from search box
+void		Tasks::onRequestSearchText(void) // from search box
 {
 	/*
 	todo
@@ -1640,7 +1640,7 @@ void		TaskDispatchManager::onRequestSearchText(void) // from search box
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSearchText");
 	*/
 }
-void		TaskDispatchManager::onRequestSearchSelection(void)
+void		Tasks::onRequestSearchSelection(void)
 {
 	/*
 	todo
@@ -1689,7 +1689,7 @@ void		TaskDispatchManager::onRequestSearchSelection(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSearchSelection");
 	*/
 }
-void		TaskDispatchManager::onRequestFilter(void)
+void		Tasks::onRequestFilter(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestFilter");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -1710,7 +1710,7 @@ void		TaskDispatchManager::onRequestFilter(void)
 	getIMGF()->getEntryListTab()->readdGridEntries();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestFilter");
 }
-void		TaskDispatchManager::onRequestFind(bool bFindInAllOpenedFiles) // from menu
+void		Tasks::onRequestFind(bool bFindInAllOpenedFiles) // from menu
 {
 	/*
 	todo
@@ -1747,7 +1747,7 @@ void		TaskDispatchManager::onRequestFind(bool bFindInAllOpenedFiles) // from men
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestFind");
 	*/
 }
-void		TaskDispatchManager::onRequestExportViaButton(void)
+void		Tasks::onRequestExportViaButton(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestExportViaButton");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -1782,7 +1782,7 @@ void		TaskDispatchManager::onRequestExportViaButton(void)
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaButton");
 }
-void		TaskDispatchManager::onRequestExportViaIDEFile(void)
+void		Tasks::onRequestExportViaIDEFile(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestExportViaIDEFile");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -1835,7 +1835,7 @@ void		TaskDispatchManager::onRequestExportViaIDEFile(void)
 	getIMGF()->getEntryListTab()->log(String::join(vecExportedEntryNames, "\n"), true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaIDEFile");
 }
-void		TaskDispatchManager::onRequestExportViaTextLines(void)
+void		Tasks::onRequestExportViaTextLines(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestExportViaTextLines");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -1898,7 +1898,7 @@ void		TaskDispatchManager::onRequestExportViaTextLines(void)
 	getIMGF()->getEntryListTab()->log(String::join(vecExportedEntryNames, "\n"), true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaTextLines");
 }
-void		TaskDispatchManager::onRequestSortEntries(void)
+void		Tasks::onRequestSortEntries(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestSortEntries");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -1910,7 +1910,7 @@ void		TaskDispatchManager::onRequestSortEntries(void)
 	getIMGF()->getEntryListTab()->sortEntries();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSortEntries");
 }
-void		TaskDispatchManager::onRequestSortButton(void)
+void		Tasks::onRequestSortButton(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestSortButton");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -2036,7 +2036,7 @@ void		TaskDispatchManager::onRequestSortButton(void)
 	getIMGF()->getEntryListTab()->sortEntries();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSortButton");
 }
-void		TaskDispatchManager::onRequestRemoveViaIDEFile(void)
+void		Tasks::onRequestRemoveViaIDEFile(void)
 {
 	/*
 	todo
@@ -2104,7 +2104,7 @@ void		TaskDispatchManager::onRequestRemoveViaIDEFile(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaIDEFile");
 	*/
 }
-void		TaskDispatchManager::onRequestRemoveViaTextLines(void)
+void		Tasks::onRequestRemoveViaTextLines(void)
 {
 	/*
 	todo
@@ -2179,7 +2179,7 @@ void		TaskDispatchManager::onRequestRemoveViaTextLines(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaTextLines");
 	*/
 }
-void		TaskDispatchManager::onRequestRemoveViaButton(void)
+void		Tasks::onRequestRemoveViaButton(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestRemoveViaButton");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -2211,7 +2211,7 @@ void		TaskDispatchManager::onRequestRemoveViaButton(void)
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaButton");
 }
-void		TaskDispatchManager::onRequestImportViaButton(void)
+void		Tasks::onRequestImportViaButton(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestImportViaButton");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -2246,7 +2246,7 @@ void		TaskDispatchManager::onRequestImportViaButton(void)
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaButton");
 }
-void		TaskDispatchManager::onRequestImportViaIDEFile(void)
+void		Tasks::onRequestImportViaIDEFile(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestImportViaIDEFile");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -2330,7 +2330,7 @@ void		TaskDispatchManager::onRequestImportViaIDEFile(void)
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaIDEFile");
 }
-void		TaskDispatchManager::onRequestImportViaTextLines(void)
+void		Tasks::onRequestImportViaTextLines(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestImportViaTextLines");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -2399,7 +2399,7 @@ void		TaskDispatchManager::onRequestImportViaTextLines(void)
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaTextLines");
 }
-void		TaskDispatchManager::onRequestNew(EIMGVersion EIMGVersion)
+void		Tasks::onRequestNew(EIMGVersion EIMGVersion)
 {
 	getIMGF()->getLastUsedValueManager()->setLastUsedValue_New_IMGVersion(EIMGVersion);
 	getIMGF()->getTaskManager()->onStartTask("onRequestNew");
@@ -2428,7 +2428,7 @@ void		TaskDispatchManager::onRequestNew(EIMGVersion EIMGVersion)
 	getIMGF()->getIMGEditor()->addBlankFile(strFilePath, EIMGVersion);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestNew");
 }
-void		TaskDispatchManager::onRequestStats(void)
+void		Tasks::onRequestStats(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestStats");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -2488,7 +2488,7 @@ void		TaskDispatchManager::onRequestStats(void)
 	getIMGF()->getTaskManager()->onResumeTask();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestStats");
 }
-void		TaskDispatchManager::onRequestNameCase(uint8 ucCaseType, uint8 ucFilenameType)
+void		Tasks::onRequestNameCase(uint8 ucCaseType, uint8 ucFilenameType)
 {
 	/*
 	todo
@@ -2572,7 +2572,7 @@ void		TaskDispatchManager::onRequestNameCase(uint8 ucCaseType, uint8 ucFilenameT
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestNameCase");
 	*/
 }
-void		TaskDispatchManager::onRequestCopyEntryData(EIMGEntryProperty EIMGEntryProperty)
+void		Tasks::onRequestCopyEntryData(EIMGEntryProperty EIMGEntryProperty)
 {
 	/*
 	todo
@@ -2631,7 +2631,7 @@ void		TaskDispatchManager::onRequestCopyEntryData(EIMGEntryProperty EIMGEntryPro
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestCopyEntryData");
 	*/
 }
-void		TaskDispatchManager::onRequestShift(uint8 ucDirection)
+void		Tasks::onRequestShift(uint8 ucDirection)
 {
 	/*
 	todo
@@ -2708,7 +2708,7 @@ void		TaskDispatchManager::onRequestShift(uint8 ucDirection)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestShift");
 	*/
 }
-void		TaskDispatchManager::onRequestQuickExport(void)
+void		Tasks::onRequestQuickExport(void)
 {
 	/*
 	todo
@@ -2770,7 +2770,7 @@ void		TaskDispatchManager::onRequestQuickExport(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestQuickExport");
 	*/
 }
-void		TaskDispatchManager::onRequestSelectViaFileExtension(void)
+void		Tasks::onRequestSelectViaFileExtension(void)
 {
 	/*
 	todo
@@ -2821,7 +2821,7 @@ void		TaskDispatchManager::onRequestSelectViaFileExtension(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaFileExtension");
 	*/
 }
-void		TaskDispatchManager::onRequestSelectViaRWVersion(RWVersion *pRWVersion)
+void		Tasks::onRequestSelectViaRWVersion(RWVersion *pRWVersion)
 {
 	/*
 	todo
@@ -2855,13 +2855,13 @@ void		TaskDispatchManager::onRequestSelectViaRWVersion(RWVersion *pRWVersion)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaRWVersion");
 	*/
 }
-void		TaskDispatchManager::onRequestVersion(void)
+void		Tasks::onRequestVersion(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestVersion");
 	Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_36", getIMGF()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), LocalizationManager::get()->getTranslatedText("Version"), MB_OK);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestVersion");
 }
-void		TaskDispatchManager::onRequestTextureList(void)
+void		Tasks::onRequestTextureList(void)
 {
 	/*
 	todo
@@ -2968,7 +2968,7 @@ void		TaskDispatchManager::onRequestTextureList(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestTextureList");
 	*/
 }
-void		TaskDispatchManager::onRequestAssociateIMGExtension(void)
+void		Tasks::onRequestAssociateIMGExtension(void)
 {
 	//TCHAR szExePath[MAX_PATH];
 	//GetModuleFileName(NULL, szExePath, MAX_PATH);
@@ -2977,7 +2977,7 @@ void		TaskDispatchManager::onRequestAssociateIMGExtension(void)
 
 	//Registry::assoicateFileExtension("img", String::convertStdWStringToStdString(szExePath));
 }
-string		TaskDispatchManager::onRequestSaveLog(bool bActiveTab, bool bNormalFormat)
+string		Tasks::onRequestSaveLog(bool bActiveTab, bool bNormalFormat)
 {
 	getIMGF()->getLastUsedValueManager()->setLastUsedValue_SaveLog_ActiveTab(bActiveTab);
 	getIMGF()->getLastUsedValueManager()->setLastUsedValue_SaveLog_NormalFormat(bNormalFormat);
@@ -3032,7 +3032,7 @@ string		TaskDispatchManager::onRequestSaveLog(bool bActiveTab, bool bNormalForma
 
 	return strSaveFilePath;
 }
-void		TaskDispatchManager::onRequestSaveSession(void)
+void		Tasks::onRequestSaveSession(void)
 {
 	/*
 	todo
@@ -3080,7 +3080,7 @@ void		TaskDispatchManager::onRequestSaveSession(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveSession");
 	*/
 }
-void		TaskDispatchManager::onRequestOrphanDFFEntriesNotInCOL(void)
+void		Tasks::onRequestOrphanDFFEntriesNotInCOL(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanDFFEntriesNotInCOL");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -3177,7 +3177,7 @@ void		TaskDispatchManager::onRequestOrphanDFFEntriesNotInCOL(void)
 
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInCOL");
 }
-void		TaskDispatchManager::onRequestOrphanIDEEntriesNotInCOL(void)
+void		Tasks::onRequestOrphanIDEEntriesNotInCOL(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanIDEEntriesNotInCOL");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -3277,7 +3277,7 @@ void		TaskDispatchManager::onRequestOrphanIDEEntriesNotInCOL(void)
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL");
 }
-void		TaskDispatchManager::onRequestOrphanDFFEntriesNotInIDE(void)
+void		Tasks::onRequestOrphanDFFEntriesNotInIDE(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanDFFEntriesNotInIDE");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -3343,7 +3343,7 @@ void		TaskDispatchManager::onRequestOrphanDFFEntriesNotInIDE(void)
 	getIMGF()->getTaskManager()->onResumeTask();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInIDE");
 }
-void		TaskDispatchManager::onRequestOrphanCOLEntriesNotInIDE(void)
+void		Tasks::onRequestOrphanCOLEntriesNotInIDE(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanCOLEntriesNotInIDE");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -3409,7 +3409,7 @@ void		TaskDispatchManager::onRequestOrphanCOLEntriesNotInIDE(void)
 	getIMGF()->getTaskManager()->onResumeTask();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanCOLEntriesNotInIDE");
 }
-void		TaskDispatchManager::onRequestOrphanIMGEntriesNotInIDE(void)
+void		Tasks::onRequestOrphanIMGEntriesNotInIDE(void)
 {
 	/*
 	todo
@@ -3475,7 +3475,7 @@ void		TaskDispatchManager::onRequestOrphanIMGEntriesNotInIDE(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIMGEntriesNotInIDE");
 	*/
 }
-void		TaskDispatchManager::onRequestOrphanIPLEntriesNotInIDE(void)
+void		Tasks::onRequestOrphanIPLEntriesNotInIDE(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanIPLEntriesNotInIDE");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -3553,7 +3553,7 @@ void		TaskDispatchManager::onRequestOrphanIPLEntriesNotInIDE(void)
 	// end
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIPLEntriesNotInIDE");
 }
-void		TaskDispatchManager::onRequestOrphanTXDEntriesNotInIDE(void)
+void		Tasks::onRequestOrphanTXDEntriesNotInIDE(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanTXDEntriesNotInIDE");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -3619,7 +3619,7 @@ void		TaskDispatchManager::onRequestOrphanTXDEntriesNotInIDE(void)
 	getIMGF()->getTaskManager()->onResumeTask();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanTXDEntriesNotInIDE");
 }
-void		TaskDispatchManager::onRequestOrphanIDEEntriesNotInIMG(void)
+void		Tasks::onRequestOrphanIDEEntriesNotInIMG(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanIDEEntriesNotInIMG");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -3693,7 +3693,7 @@ void		TaskDispatchManager::onRequestOrphanIDEEntriesNotInIMG(void)
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInIMG");
 }
-void		TaskDispatchManager::onRequestSettings(void)
+void		Tasks::onRequestSettings(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestSettings");
 	getIMGF()->getTaskManager()->onPauseTask();
@@ -3713,7 +3713,7 @@ void		TaskDispatchManager::onRequestSettings(void)
 		exit(EXIT_SUCCESS);
 	}
 }
-void		TaskDispatchManager::onRequestReopen(void)
+void		Tasks::onRequestReopen(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestReopen");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -3733,7 +3733,7 @@ void		TaskDispatchManager::onRequestReopen(void)
 	openFile(strIMGPath);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestReopen");
 }
-void		TaskDispatchManager::onRequestConvertDFFToRWVersion(RWVersion *pRWVersion)
+void		Tasks::onRequestConvertDFFToRWVersion(RWVersion *pRWVersion)
 {
 	/*
 	todo
@@ -4216,7 +4216,7 @@ void		TaskDispatchManager::onRequestConvertDFFToRWVersion(RWVersion *pRWVersion)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion");
 	*/
 }
-void		TaskDispatchManager::onRequestMissingTextures(void)
+void		Tasks::onRequestMissingTextures(void)
 {
 	/*
 	todo
@@ -4350,7 +4350,7 @@ void		TaskDispatchManager::onRequestMissingTextures(void)
 	*/
 }
 
-void		TaskDispatchManager::onRequestReplaceAllFromFolder(void)
+void		Tasks::onRequestReplaceAllFromFolder(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestReplaceAllFromFolder");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -4466,7 +4466,7 @@ void		TaskDispatchManager::onRequestReplaceAllFromFolder(void)
 	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestReplaceAllFromFolder");
 }
-void		TaskDispatchManager::onRequestExportAllEntriesFromAllTabs(void)
+void		Tasks::onRequestExportAllEntriesFromAllTabs(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestExportAllEntriesFromAllTabs");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -4507,7 +4507,7 @@ void		TaskDispatchManager::onRequestExportAllEntriesFromAllTabs(void)
 	getIMGF()->getIMGEditor()->logAllTabs(String::join(vecIMGPaths, "\n"), true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabs");
 }
-void		TaskDispatchManager::onRequestExportEntriesViaIDEFileFromAllTabs(void)
+void		Tasks::onRequestExportEntriesViaIDEFileFromAllTabs(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestExportEntriesViaIDEFileFromAllTabs");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -4575,7 +4575,7 @@ void		TaskDispatchManager::onRequestExportEntriesViaIDEFileFromAllTabs(void)
 	getIMGF()->getIMGEditor()->logAllTabs(String::join(vecIMGPaths, "\n"), true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaIDEFileFromAllTabs");
 }
-void		TaskDispatchManager::onRequestExportEntriesViaTextLinesFromAllTabs(void)
+void		Tasks::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestExportEntriesViaTextLinesFromAllTabs");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -4653,7 +4653,7 @@ void		TaskDispatchManager::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 	getIMGF()->getIMGEditor()->logAllTabs(String::join(vecIMGPaths, "\n"), true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaTextLinesFromAllTabs");
 }
-void		TaskDispatchManager::onRequestImportViaFolder(void)
+void		Tasks::onRequestImportViaFolder(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestImportViaFolder");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -4693,7 +4693,7 @@ void		TaskDispatchManager::onRequestImportViaFolder(void)
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFolder");
 }
-void		TaskDispatchManager::onRequestDuplicateEntries(void)
+void		Tasks::onRequestDuplicateEntries(void)
 {
 	/*
 	getIMGF()->getTaskManager()->onStartTask("onRequestDuplicateEntries");
@@ -4879,7 +4879,7 @@ void		TaskDispatchManager::onRequestDuplicateEntries(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries");
 	*/
 }
-void		TaskDispatchManager::onRequestExportAllEntriesFromAllTabsIntoMultipleFolders(void)
+void		Tasks::onRequestExportAllEntriesFromAllTabsIntoMultipleFolders(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -4919,7 +4919,7 @@ void		TaskDispatchManager::onRequestExportAllEntriesFromAllTabsIntoMultipleFolde
 	getIMGF()->getIMGEditor()->logAllTabs(String::join(vecIMGPaths, "\n"), true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders");
 }
-void		TaskDispatchManager::onRequestOpenLast(void)
+void		Tasks::onRequestOpenLast(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestOpenLast");
 	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
@@ -4930,7 +4930,7 @@ void		TaskDispatchManager::onRequestOpenLast(void)
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenLast");
 }
-void		TaskDispatchManager::onRequestConvertTXDToGame(EPlatformedGame EPlatformedGame)
+void		Tasks::onRequestConvertTXDToGame(EPlatformedGame EPlatformedGame)
 {
 	/*
 	todo
@@ -5007,7 +5007,7 @@ void		TaskDispatchManager::onRequestConvertTXDToGame(EPlatformedGame EPlatformed
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToGame");
 	*/
 }
-void		TaskDispatchManager::onRequestConvertTXDToRWVersion(RWVersion *pRWVersion)
+void		Tasks::onRequestConvertTXDToRWVersion(RWVersion *pRWVersion)
 {
 	/*
 	todo
@@ -5075,13 +5075,13 @@ void		TaskDispatchManager::onRequestConvertTXDToRWVersion(RWVersion *pRWVersion)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToRWVersion");
 	*/
 }
-void		TaskDispatchManager::onRequestDump(void)
+void		Tasks::onRequestDump(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestDump");
 	getIMGF()->getDumpManager()->process();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestDump");
 }
-void		TaskDispatchManager::onRequestSessionManager(void)
+void		Tasks::onRequestSessionManager(void)
 {
 	/*
 	getIMGF()->getTaskManager()->onStartTask("onRequestSessionManager");
@@ -5143,32 +5143,32 @@ void		TaskDispatchManager::onRequestSessionManager(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSessionManager");
 	*/
 }
-void		TaskDispatchManager::onRequestWebsite(void)
+void		Tasks::onRequestWebsite(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestWebsite");
 	//ShellExecute(NULL, L"open", L"http://imgfactory.mvec.io/", NULL, NULL, SW_SHOWNORMAL);
 	ShellExecute(NULL, L"open", L"http://mvec.io/", NULL, NULL, SW_SHOWNORMAL);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestWebsite");
 }
-void		TaskDispatchManager::onRequestOpenLogBasic(void)
+void		Tasks::onRequestOpenLogBasic(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestOpenLogBasic");
 	ShellExecute(NULL, NULL, String::convertStdStringToStdWString(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath") + String::getDateTextForFolder() + " / " + LocalizationManager::get()->getTranslatedText("LogFilename_Basic")).c_str(), NULL, NULL, SW_SHOWNORMAL);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenLogBasic");
 }
-void		TaskDispatchManager::onRequestOpenLogExtended(void)
+void		Tasks::onRequestOpenLogExtended(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestOpenLogExtended");
 	ShellExecute(NULL, NULL, String::convertStdStringToStdWString(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath") + String::getDateTextForFolder() + " / " + LocalizationManager::get()->getTranslatedText("LogFilename_Extended")).c_str(), NULL, NULL, SW_SHOWNORMAL);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenLogExtended");
 }
-void		TaskDispatchManager::onRequestOpenLogFolder(void)
+void		Tasks::onRequestOpenLogFolder(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestOpenLogFolder");
 	ShellExecute(NULL, NULL, String::convertStdStringToStdWString(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath")).c_str(), NULL, NULL, SW_SHOWNORMAL);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenLogFolder");
 }
-void		TaskDispatchManager::onRequestProcessLSTFile(void)
+void		Tasks::onRequestProcessLSTFile(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestProcessLSTFile");
 	/*
@@ -5205,7 +5205,7 @@ void		TaskDispatchManager::onRequestProcessLSTFile(void)
 	
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestProcessLSTFile");
 }
-void		TaskDispatchManager::onRequestSelectViaIDE(void)
+void		Tasks::onRequestSelectViaIDE(void)
 {
 	/*
 	todo
@@ -5262,7 +5262,7 @@ void		TaskDispatchManager::onRequestSelectViaIDE(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaIDE");
 	*/
 }
-void		TaskDispatchManager::onRequestExportViaIPLFile(void)
+void		Tasks::onRequestExportViaIPLFile(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestExportViaIPLFile");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -5330,7 +5330,7 @@ void		TaskDispatchManager::onRequestExportViaIPLFile(void)
 	getIMGF()->getEntryListTab()->log(String::join(vecIMGEntryNames, "\n"), true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaIPLFile");
 }
-void		TaskDispatchManager::onRequestRenameIMG(void)
+void		Tasks::onRequestRenameIMG(void)
 {
 	/*
 	todo
@@ -5382,7 +5382,7 @@ void		TaskDispatchManager::onRequestRenameIMG(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRenameIMG");
 	*/
 }
-void		TaskDispatchManager::onRequestUpdate(void)
+void		Tasks::onRequestUpdate(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestUpdate");
 
@@ -5574,7 +5574,7 @@ void		TaskDispatchManager::onRequestUpdate(void)
 
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestUpdate");
 }
-void		TaskDispatchManager::onRequestAutoUpdate(void)
+void		Tasks::onRequestAutoUpdate(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestAutoUpdate");
 	vector<string> vecData = String::split(HTTP::get()->getFileContent("http://updater.imgfactory.mvec.io/latest-version.txt"), "\n");
@@ -5636,7 +5636,7 @@ void		TaskDispatchManager::onRequestAutoUpdate(void)
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestAutoUpdate");
 }
-void		TaskDispatchManager::onRequestSaveIMGSignature(void)
+void		Tasks::onRequestSaveIMGSignature(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestSaveIMGSignature");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -5662,7 +5662,7 @@ void		TaskDispatchManager::onRequestSaveIMGSignature(void)
 	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_114", Path::getFileName(strDBPath).c_str()));
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveIMGSignature");
 }
-void		TaskDispatchManager::onRequestVerifyIMGSignature(void)
+void		Tasks::onRequestVerifyIMGSignature(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestVerifyIMGSignature");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -5708,7 +5708,7 @@ void		TaskDispatchManager::onRequestVerifyIMGSignature(void)
 	delete pDBFileForIMGFile;
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestVerifyIMGSignature");
 }
-void		TaskDispatchManager::onRequestCompareIMG(void)
+void		Tasks::onRequestCompareIMG(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestCompareIMG");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -5857,7 +5857,7 @@ void		TaskDispatchManager::onRequestCompareIMG(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestCompareIMG");
 }
 
-void			TaskDispatchManager::onRequestConvertTXDToTextureFormat(RasterDataFormat *pRasterDataFormat)
+void			Tasks::onRequestConvertTXDToTextureFormat(RasterDataFormat *pRasterDataFormat)
 {
 	/*
 	todo
@@ -5930,7 +5930,7 @@ void			TaskDispatchManager::onRequestConvertTXDToTextureFormat(RasterDataFormat 
 	*/
 }
 
-void			TaskDispatchManager::onRequestClearLogs(bool bAllTabs)
+void			Tasks::onRequestClearLogs(bool bAllTabs)
 {
 	getIMGF()->getLastUsedValueManager()->setLastUsedValue_ClearLogs_AllTabs(bAllTabs);
 	getIMGF()->getTaskManager()->onStartTask("onRequestClearLogs");
@@ -5954,7 +5954,7 @@ void			TaskDispatchManager::onRequestClearLogs(bool bAllTabs)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestClearLogs");
 }
 
-void			TaskDispatchManager::onRequestValidateAllDFFInActiveTab(void)
+void			Tasks::onRequestValidateAllDFFInActiveTab(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestValidateAllDFFInActiveTab");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -5993,7 +5993,7 @@ void			TaskDispatchManager::onRequestValidateAllDFFInActiveTab(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestValidateAllDFFInActiveTab");
 }
 
-void			TaskDispatchManager::onRequestValidateAllTXDInActiveTab(void)
+void			Tasks::onRequestValidateAllTXDInActiveTab(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestValidateAllTXDInActiveTab");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -6067,7 +6067,7 @@ void			TaskDispatchManager::onRequestValidateAllTXDInActiveTab(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestValidateAllTXDInActiveTab");
 }
 
-void			TaskDispatchManager::onRequestCredits(void)
+void			Tasks::onRequestCredits(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestCredits");
 	getIMGF()->getTaskManager()->onPauseTask();
@@ -6076,7 +6076,7 @@ void			TaskDispatchManager::onRequestCredits(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestCredits");
 }
 
-void			TaskDispatchManager::onRequestEntryViewer(bool bDontOpenWindow)
+void			Tasks::onRequestEntryViewer(bool bDontOpenWindow)
 {
 	/*
 	todo
@@ -6219,7 +6219,7 @@ void			TaskDispatchManager::onRequestEntryViewer(bool bDontOpenWindow)
 	*/
 }
 
-void			TaskDispatchManager::onRequestRenamer(void)
+void			Tasks::onRequestRenamer(void)
 {
 	/*
 	todo
@@ -6639,14 +6639,14 @@ void			TaskDispatchManager::onRequestRenamer(void)
 	*/
 }
 
-void		TaskDispatchManager::onRequestClearRecentlyOpenedList(void)
+void		Tasks::onRequestClearRecentlyOpenedList(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestClearRecentlyOpenedList");
 	getIMGF()->getRecentlyOpenManager()->removeRecentlyOpenedEntries();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestClearRecentlyOpenedList");
 }
 
-void		TaskDispatchManager::onRequestBuildTXD(void)
+void		Tasks::onRequestBuildTXD(void)
 {
 	/*
 	getIMGF()->getTaskManager()->onStartTask("onRequestBuildTXD");
@@ -6864,7 +6864,7 @@ void		TaskDispatchManager::onRequestBuildTXD(void)
 	*/
 }
 
-void		TaskDispatchManager::onRequestIMGVersionSettings(void)
+void		Tasks::onRequestIMGVersionSettings(void)
 {
 	/*
 	getIMGF()->getTaskManager()->onStartTask("onRequestIMGVersionSettings");
@@ -6941,7 +6941,7 @@ void		TaskDispatchManager::onRequestIMGVersionSettings(void)
 	*/
 }
 
-void		TaskDispatchManager::onRequestFeatureByName(string strFeatureName)
+void		Tasks::onRequestFeatureByName(string strFeatureName)
 {
 	if (strFeatureName == "onRequestFeatureByName")
 	{
@@ -7423,7 +7423,7 @@ void		TaskDispatchManager::onRequestFeatureByName(string strFeatureName)
 	}
 }
 
-void		TaskDispatchManager::onRequestLastFeatureUsed(void)
+void		Tasks::onRequestLastFeatureUsed(void)
 {
 	string strPreviousTaskName = getIMGF()->getTaskManager()->getTaskName();
 	if (strPreviousTaskName == "")
@@ -7434,7 +7434,7 @@ void		TaskDispatchManager::onRequestLastFeatureUsed(void)
 	onRequestFeatureByName(strPreviousTaskName);
 }
 
-void		TaskDispatchManager::onRequestConvertCOLtoCOLVersion(COLVersion *pCOLVersion)
+void		Tasks::onRequestConvertCOLtoCOLVersion(COLVersion *pCOLVersion)
 {
 	/*
 	todo
@@ -7502,7 +7502,7 @@ void		TaskDispatchManager::onRequestConvertCOLtoCOLVersion(COLVersion *pCOLVersi
 	*/
 }
 
-void			TaskDispatchManager::onRequestReportIssueOrIdea(void)
+void			Tasks::onRequestReportIssueOrIdea(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestReportIssueOrIdea");
 	ShellExecute(NULL, L"open", L"http://mvec.io/todo/project/4", NULL, NULL, SW_SHOWNORMAL);
@@ -7512,7 +7512,7 @@ void			TaskDispatchManager::onRequestReportIssueOrIdea(void)
 uint32 uiSortPreviousColumnIndex;
 bool bSortDirectionIsAscending = true;
 
-int CALLBACK		TaskDispatchManager::sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+int CALLBACK		Tasks::sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	/*
 	todo
@@ -7612,7 +7612,7 @@ bool sortViaColumn_ExtraInfo(IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2)
 	return false;// strcmp(pIMGEntry1->getEntryName().c_str(), pIMGEntry2->getEntryName().c_str());
 }
 
-void			TaskDispatchManager::onRequestSortViaColumn(uint32 uiColumnIndex)
+void			Tasks::onRequestSortViaColumn(uint32 uiColumnIndex)
 {
 	/*
 	todo
@@ -7651,7 +7651,7 @@ void			TaskDispatchManager::onRequestSortViaColumn(uint32 uiColumnIndex)
 	*/
 }
 
-void			TaskDispatchManager::onRequestCenterCOLCollisionMeshes(void)
+void			Tasks::onRequestCenterCOLCollisionMeshes(void)
 {
 	/*
 	todo
@@ -7725,7 +7725,7 @@ void			TaskDispatchManager::onRequestCenterCOLCollisionMeshes(void)
 	*/
 }
 
-void			TaskDispatchManager::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
+void			Tasks::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestAlignCOLCollisionMeshesToDFFMesh");
 
@@ -7846,7 +7846,7 @@ void			TaskDispatchManager::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestAlignCOLCollisionMeshesToDFFMesh");
 }
 
-void			TaskDispatchManager::onRequestConvertDFFFileToWDRFile(void)
+void			Tasks::onRequestConvertDFFFileToWDRFile(void)
 {
 	/*
 	todo
@@ -7916,7 +7916,7 @@ void			TaskDispatchManager::onRequestConvertDFFFileToWDRFile(void)
 	*/
 }
 
-void				TaskDispatchManager::onRequestTXDOrganizer(void)
+void				Tasks::onRequestTXDOrganizer(void)
 {
 	/*
 	todo
@@ -8109,7 +8109,7 @@ void				TaskDispatchManager::onRequestTXDOrganizer(void)
 	*/
 }
 
-void			TaskDispatchManager::onRequestConvertWTDFileToTXDFile(void)
+void			Tasks::onRequestConvertWTDFileToTXDFile(void)
 {
 	/*
 	todo
@@ -8195,7 +8195,7 @@ bool			sortDATPathsEntries(DATEntry_Paths_General_PathNode &pathNode1, DATEntry_
 	}
 	return false;
 }
-void			TaskDispatchManager::onRequestDATPathsMover(void)
+void			Tasks::onRequestDATPathsMover(void)
 {
 	/*
 	getIMGF()->getTaskManager()->onStartTask("onRequestDATPathsMover");
@@ -8443,7 +8443,7 @@ void			TaskDispatchManager::onRequestDATPathsMover(void)
 	*/
 }
 
-void			TaskDispatchManager::onRequestExportViaDATFile(void)
+void			Tasks::onRequestExportViaDATFile(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestExportViaDATFile");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -8574,7 +8574,7 @@ void			TaskDispatchManager::onRequestExportViaDATFile(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile");
 }
 
-void						TaskDispatchManager::onRequestMapMoverAndIDShifter(void)
+void						Tasks::onRequestMapMoverAndIDShifter(void)
 {
 	/*
 	getIMGF()->getTaskManager()->onStartTask("onRequestMapMoverAndIDShifter");
@@ -8874,7 +8874,7 @@ void						TaskDispatchManager::onRequestMapMoverAndIDShifter(void)
 	*/
 }
 
-void						TaskDispatchManager::onRequestDATModelList(void)
+void						Tasks::onRequestDATModelList(void)
 {
 	/*
 	getIMGF()->getTaskManager()->onStartTask("onRequestModelListFromDAT");
@@ -8961,7 +8961,7 @@ void						TaskDispatchManager::onRequestDATModelList(void)
 	*/
 }
 
-void						TaskDispatchManager::onRequestFindTXDMissingFromIMGFoundInIDE(void)
+void						Tasks::onRequestFindTXDMissingFromIMGFoundInIDE(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestFindTXDMissingFromIMGFoundInIDE");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -9022,7 +9022,7 @@ void						TaskDispatchManager::onRequestFindTXDMissingFromIMGFoundInIDE(void)
 	getIMGF()->getTaskManager()->onResumeTask();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindTXDMissingFromIMGFoundInIDE");
 }
-void						TaskDispatchManager::onRequestFindCOLMissingFromCOLFoundInIDE(void)
+void						Tasks::onRequestFindCOLMissingFromCOLFoundInIDE(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestFindCOLMissingFromCOLFoundInIDE");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -9100,7 +9100,7 @@ void						TaskDispatchManager::onRequestFindCOLMissingFromCOLFoundInIDE(void)
 	getIMGF()->getTaskManager()->onResumeTask();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindCOLMissingFromCOLFoundInIDE");
 }
-void						TaskDispatchManager::onRequestFindDFFMissingFromIMGFoundInIDE(void)
+void						Tasks::onRequestFindDFFMissingFromIMGFoundInIDE(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestFindDFFMissingFromIMGFoundInIDE");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -9163,7 +9163,7 @@ void						TaskDispatchManager::onRequestFindDFFMissingFromIMGFoundInIDE(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIMGFoundInIDE");
 }
 
-void						TaskDispatchManager::onRequestCloneIMG(void)
+void						Tasks::onRequestCloneIMG(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestCloneIMG");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -9192,7 +9192,7 @@ void						TaskDispatchManager::onRequestCloneIMG(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestCloneIMG");
 }
 
-void						TaskDispatchManager::onRequestOpenIMGFolder(void)
+void						Tasks::onRequestOpenIMGFolder(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestOpenIMGFolder");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -9213,7 +9213,7 @@ void						TaskDispatchManager::onRequestOpenIMGFolder(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenIMGFolder");
 }
 
-void						TaskDispatchManager::onRequestRemoveOrphanTexturesFromModel(void)
+void						Tasks::onRequestRemoveOrphanTexturesFromModel(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestRemoveOrphanTexturesFromModel");
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -9359,7 +9359,7 @@ void						TaskDispatchManager::onRequestRemoveOrphanTexturesFromModel(void)
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveOrphanTexturesFromModel");
 }
-void						TaskDispatchManager::onRequestNewWindow(void)
+void						Tasks::onRequestNewWindow(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestNewWindow");
 
@@ -9372,7 +9372,7 @@ void						TaskDispatchManager::onRequestNewWindow(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestNewWindow");
 }
 
-void						TaskDispatchManager::onRequestFindDFFMissingFromIDEFoundInIPL(void)
+void						Tasks::onRequestFindDFFMissingFromIDEFoundInIPL(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestFindDFFMissingFromIDEFoundInIPL");
 
@@ -9454,7 +9454,7 @@ void						TaskDispatchManager::onRequestFindDFFMissingFromIDEFoundInIPL(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIDEFoundInIPL");
 }
 
-void				TaskDispatchManager::onRequestSortIDEAndIPLFilesByObjectId(void)
+void				Tasks::onRequestSortIDEAndIPLFilesByObjectId(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestSortIDEAndIPLFilesByObjectId");
 
@@ -9550,7 +9550,7 @@ void				TaskDispatchManager::onRequestSortIDEAndIPLFilesByObjectId(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId");
 }
 
-void				TaskDispatchManager::onRequestExtractDVCAndNVColoursIntoDFFs(void)
+void				Tasks::onRequestExtractDVCAndNVColoursIntoDFFs(void)
 {
 	// begin
 	getIMGF()->getTaskManager()->onStartTask("onRequestExtractDVCAndNVColoursIntoDFFs");
@@ -9696,7 +9696,7 @@ void				TaskDispatchManager::onRequestExtractDVCAndNVColoursIntoDFFs(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExtractDVCAndNVColoursIntoDFFs");
 }
 
-void				TaskDispatchManager::onRequestExtract2DFXIntoDFFs(void)
+void				Tasks::onRequestExtract2DFXIntoDFFs(void)
 {
 	// begin
 	getIMGF()->getTaskManager()->onStartTask("onRequestExtract2DFXIntoDFFs");

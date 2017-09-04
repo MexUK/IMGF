@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include "GUI/Editor/Tab/EditorTab.h"
 #include "Format/IMG/Regular/IMGFormat.h"
-#include "Tasks/Filter/FilterOptions.h"
+#include "Task/Tasks/Filter/FilterOptions.h"
 #include "Event/Events.h"
 #include "Task/TaskManager.h"
 #include <string>

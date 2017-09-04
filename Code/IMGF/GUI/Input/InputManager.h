@@ -8,7 +8,7 @@
 class bxgx::MenuItem;
 class bxgx::Button;
 class imgf::MainWindow;
-class imgf::TaskDispatchManager;
+class imgf::Tasks;
 
 class imgf::InputManager : public bxcf::EventBindable
 {
@@ -57,5 +57,5 @@ private:
 
 private:
 	MainWindow*			m_pMainWindow;
-	TaskDispatchManager*	m_pTaskDispatchManager;
+	Tasks*	m_pTasks;
 };

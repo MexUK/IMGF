@@ -17,10 +17,10 @@ struct imgf::RenamedIMGEntry;
 class imgf::MainWindow;
 class imgf::TaskManager;
 
-class imgf::TaskDispatchManager : public bxcf::Manager
+class imgf::Tasks : public bxcf::Manager
 {
 public:
-	TaskDispatchManager(void);
+	Tasks(void);
 
 private:
 	std::string&				getTaskName(void);

@@ -13,25 +13,25 @@
 #include "Engine/RW/RWManager.h"
 #include "Engine/RW/RWVersion.h"
 #include "Engine/RAGE/RageManager.h"
-#include "Tasks/Sort/SortManager.h"
-#include "Tasks/Sort/SortPriority.h"
-#include "Tasks/Sort/SortType.h"
-#include "Tasks/Sort/ESortType.h"
+#include "Task/Tasks/Sort/SortManager.h"
+#include "Task/Tasks/Sort/SortPriority.h"
+#include "Task/Tasks/Sort/SortType.h"
+#include "Task/Tasks/Sort/ESortType.h"
+#include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
+#include "Task/Tasks/Find/SearchEntry.h"
+#include "Task/Tasks/Sort/SortPriorities.h"
 #include "Static/Debug.h"
 #include "DB/DBFormat.h"
 #include "Format/COL/COLManager.h"
-#include "Tasks/Find/SearchEntry.h"
 #include "Engine/RW/RWVersionManager.h"
 #include "Format/COL/COLVersionManager.h"
 #include "Engine/RAGE/RageResourceTypeManager.h"
 #include "Localization/LocalizationManager.h"
-#include "Tasks/Sort/SortPriorities.h"
 #include "Platform/Hardware/PlatformManager.h"
 #include "Settings/SettingsManager.h"
 #include "Static/Input.h"
 #include "Static/Input.h"
 #include "DB/DBManager.h"
-#include "Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Control/Controls/Grid.h"
 #include "GUI/Editors/IMGEditor.h"
 #include "GUI/Windows/MainWindow.h"
@@ -40,9 +40,9 @@
 #include "Control/Controls/TabBar.h"
 #include "Control/Controls/TextBox.h"
 #include "Control/Controls/DropDown.h"
+#include "Control/Components/ScrollBarPool.h"
 #include "Format/EFileType.h"
 #include "Event/EInputEvent.h"
-#include "Control/ScrollBarPool.h"
 #include <map>
 #include <algorithm>
 
@@ -50,7 +50,7 @@ using namespace std;
 using namespace bxcf;
 using namespace bxcf::fileType;
 using namespace bxgx;
-using namespace bxgx::control::events;
+using namespace bxgx::events;
 using namespace bxgi;
 using namespace imgf;
 

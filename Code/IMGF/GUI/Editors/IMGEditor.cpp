@@ -11,7 +11,7 @@
 #include "Format/IMG/Regular/IMGEntry.h"
 #include "Engine/RW/RWVersion.h"
 #include "Task/TaskManager.h"
-#include "Task/TaskDispatchManager.h"
+#include "Task/Tasks/Tasks.h"
 #include "GUI/Windows/MainWindow.h"
 #include "Type/Colour/Colour.h"
 #include "BXGX.h"
@@ -25,7 +25,7 @@
 #include "Control/Controls/Text.h"
 #include "Control/Controls/DropDown.h"
 #include "Static/Input.h"
-#include "Control/ScrollBarPool.h"
+#include "Control/Components/ScrollBarPool.h"
 #include "GUI/Layers/MainLayer.h"
 #include "Event/EInputEvent.h"
 #include "../BXGI/Event/EEvent.h"
@@ -35,13 +35,13 @@
 // for menu start - todo
 #include "Engine/RW/RWManager.h"
 #include "Engine/RW/RWVersionManager.h"
-#include "Tasks/RecentlyOpen/RecentlyOpenManager.h"
-#include "Tasks/Sort/SortManager.h"
-#include "Tasks/Sort/SortType.h"
-#include "Tasks/Sort/SortPriority.h"
-#include "Tasks/Sort/SortTypes.h"
-#include "Tasks/Sort/SortPriorities.h"
-#include "Tasks/Sort/SortMenuItems.h"
+#include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
+#include "Task/Tasks/Sort/SortManager.h"
+#include "Task/Tasks/Sort/SortType.h"
+#include "Task/Tasks/Sort/SortPriority.h"
+#include "Task/Tasks/Sort/SortTypes.h"
+#include "Task/Tasks/Sort/SortPriorities.h"
+#include "Task/Tasks/Sort/SortMenuItems.h"
 #include "Image/ImageManager.h"
 #include "Image/RasterDataFormatManager.h"
 #include "Format/COL/COLManager.h"
@@ -52,7 +52,7 @@
 using namespace std;
 using namespace bxcf;
 using namespace bxgx;
-using namespace bxgx::control::events;
+using namespace bxgx::events;
 using namespace bxgi;
 using namespace imgf;
 using namespace imgf::editor::items;

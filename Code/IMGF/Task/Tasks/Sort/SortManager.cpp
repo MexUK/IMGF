@@ -4,7 +4,7 @@
 #include "IMGF.h"
 #include "Globals.h"
 #include "Task/TaskManager.h"
-#include "Task/TaskDispatchManager.h"
+#include "Task/Tasks/Tasks.h"
 #include "Format/IMG/Regular/IMGFormat.h"
 #include "Format/IMG/Regular/IMGEntry.h"
 #include "Static/String.h"

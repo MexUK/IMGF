@@ -9,7 +9,7 @@
 #include "Globals.h"
 #include "IMGF.h"
 #include "Task/TaskManager.h"
-#include "Task/TaskDispatchManager.h"
+#include "Task/Tasks/Tasks.h"
 #include "Static/File.h"
 #include "Static/Path.h"
 #include "Static/String.h"
@@ -23,7 +23,7 @@
 using namespace std;
 using namespace bxcf;
 using namespace bxgx;
-using namespace bxgx::control::events;
+using namespace bxgx::events;
 using namespace imgf;
 using namespace imgf::mainLayer::mainMenuType;
 using namespace imgf::layers;
