@@ -1,6 +1,5 @@
 #include "LSTFormat.h"
-#include "LSTSection.h"
-#include "LSTEntry.h"
+#include "Format/LST/LSTEntry.h"
 #include "Static/String.h"
 #include "Static/StdVector.h"
 #include "Stream/DataReader.h"

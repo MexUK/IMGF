@@ -1,12 +1,12 @@
 #pragma once
 
 #include "nsbxcf.h"
-#include "Stream/CDataWriter.h"
+#include "Stream/DataWriter.h"
 
 class bxcf::IP
 {
 public:
-	static void						send(std::string& strIP, CDataWriter& w);
+	static void						send(std::string& strIP, DataWriter& w);
 
 	static std::string				createPacketIncludingLinkLayer(void);
 	static std::string				createPacket(void);

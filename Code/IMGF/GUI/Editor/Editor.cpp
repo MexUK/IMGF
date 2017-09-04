@@ -1,6 +1,5 @@
 #include "Editor.h"
 #include "Static/Path.h"
-#include "GUI/Editor/Tab/EditorTab.h"
 #include "Format/Format.h"
 #include "IMGF.h"
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"

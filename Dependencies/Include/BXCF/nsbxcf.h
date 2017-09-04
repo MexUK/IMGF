@@ -18,12 +18,13 @@ namespace bxcf
 	
 	enum ECompressionAlgorithm;
 
-	class CDataPath;
+	class DataPath;
 
-	class CDebug;
+	class Debug;
 
 	template <typename TReturn, typename ...Args> struct EventFunction;
 	template <typename TReturn, typename ...Args> std::unordered_map<int, std::vector< bxcf::EventFunction<TReturn, Args...>* >> g_eventBoundFunctions;
+	template <typename TReturn, typename ...Args> std::unordered_map<int, std::vector< bxcf::EventFunction<TReturn, const Args...>* >> g_eventBoundFunctionsConst;
 	struct Events;
 	struct EventBindable;
 
@@ -35,89 +36,94 @@ namespace bxcf
 	};
 
 
-	template<class T> class CFormatManager;
-	class CFormat;
+	template<class T> class FormatManager;
+	class Format;
 
-	class CBMPFormat;
-	struct CBMPFormat_Header1;
-	struct CBMPFormat_Header2_Version2;
-	struct CBMPFormat_Header2_Version3;
-	struct CBMPFormat_Header2_Version4;
-	class CBMPManager;
+	class BMPFormat;
+	struct BMPFormat_Header1;
+	struct BMPFormat_Header2_Version2;
+	struct BMPFormat_Header2_Version3;
+	struct BMPFormat_Header2_Version4;
+	class BMPManager;
 
-	class CCURFormat;
-	class CCURManager;
+	class CURFormat;
+	class CURManager;
 
-	class CDDSFormat;
-	struct CDDSFormat_Header_DDS_HEADER;
-	struct CDDSFormat_Header_DDS_HEADER_DXT10;
-	struct CDDSFormat_Header_DDS_PIXELFORMAT_Part1;
-	struct CDDSFormat_Header_DDS_PIXELFORMAT_Part2;
-	class CDDSManager;
+	class DDSFormat;
+	struct DDSFormat_Header_DDS_HEADER;
+	struct DDSFormat_Header_DDS_HEADER_DXT10;
+	struct DDSFormat_Header_DDS_PIXELFORMAT_Part1;
+	struct DDSFormat_Header_DDS_PIXELFORMAT_Part2;
+	class DDSManager;
 
-	class CICOFormat;
-	class CICOManager;
+	class ICOFormat;
+	class ICOManager;
 
-	enum EJsonType;
-	class CJSONString;
-	class CJSONValue;
-	class CJSONNumber;
-	class CJSONBoolean;
-	class CJSONNull;
-	class CJSONContainer;
-	class CJSONArray;
-	class CJSONObject;
-	class CJSONManager;
+	enum EJSONType;
+	class JSONString;
+	class JSONValue;
+	class JSONNumber;
+	class JSONBoolean;
+	class JSONNull;
+	class JSONContainer;
+	class JSONArray;
+	class JSONObject;
+	class JSONManager;
 
-	class CURL;
+	class URL;
+	struct URLComponents;
 
-	class CINIManager;
+	class INIManager;
 
-	class CImageFile;
-	class CImageManager;
-	class CRasterDataFormat;
-	class CRasterDataFormatManager;
+	class ImageFile;
+	class ImageManager;
+	class RasterDataFormat;
+	class RasterDataFormatManager;
 
-	class CLocalizationFormat;
-	class CLocalizationManager;
+	class LocalizationFormat;
+	class LocalizationManager;
 	enum ELanguage;
 
-	template<class Class> class CIndexedInstance;
-	template<class SingletonClass> class CSingleton;
-	class CManager;
+	template<class Class> class IndexedInstance;
+	template<class SingletonClass> class Singleton;
+	class Manager;
 
-	class CPlatform;
-	class CPlatformManager;
+	class Platform;
+	class PlatformManager;
 	enum EPlatform;
 
-	template <class T> class CVectorPool;
-	template <class Key, class Value> class CUMapContainer;
+	template <class T> class VectorPool;
+	template <class Key, class Value> class UMapContainer;
 
-	class CDataReader;
-	class CDataStream;
+	class DataReader;
+	class DataStream;
 	enum EDataStreamType;
-	class CDataWriter;
+	class DataWriter;
 
-	class CTiming;
+	class Timing;
 
 	enum EEndian;
 
-	class CCompressionManager;
-	class CFile;
-	class CImageManager;
-	class CInput;
+	class CompressionManager;
+	class File;
+	class ImageManager;
+	class Input;
 	enum EDXTCompressionType;
 	enum ERasterDataFormat;
-	class CMath;
-	class CMemory;
-	class CNumber;
-	class CPath;
-	class CProcess;
-	class CRegistry;
-	class CString2;
-	class CStdVector;
+	class Math;
+	class Memory;
+	class Number;
+	class Path;
+	class Process;
+	class Registry;
+	class String;
+	class StdVector;
 
-	class CColour;
+	template <typename TReturn, class TStruct, typename ...Args> class Timers;
+	template <typename TReturn, class TStruct, typename ...Args> class Timer;
+
+	enum E2DAxis;
+	class Colour;
 	class Vec2i8;
 	class Vec2i16;
 	class Vec2i;

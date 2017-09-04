@@ -5,7 +5,7 @@
 #include "GUI/Editors/Tab/IMGEditorTab.h"
 #include "GUI/Editor/Editor.h"
 #include "Format/IMG/Regular/EIMGVersion.h"
-#include "Event/Events.h"
+#include "Event/EventBindable.h"
 #include <string>
 
 class imgf::MainWindow;

@@ -2,7 +2,7 @@
 
 #include "nsbxcf.h"
 
-enum bxcf::EPlatform : uint8
+enum bxcf::EPlatform
 {
 	_PLATFORM_UNKNOWN,
 	PLATFORM_PC,

@@ -12,7 +12,6 @@
 #include "Engine/RW/RWVersion.h"
 #include "Task/TaskManager.h"
 #include "Task/Tasks/Tasks.h"
-#include "GUI/Windows/MainWindow.h"
 #include "Type/Colour/Colour.h"
 #include "BXGX.h"
 #include "Control/Controls/Grid.h"
@@ -26,10 +25,8 @@
 #include "Control/Controls/DropDown.h"
 #include "Static/Input.h"
 #include "Control/Components/ScrollBarPool.h"
-#include "GUI/Layers/MainLayer.h"
 #include "Event/EInputEvent.h"
 #include "../BXGI/Event/EEvent.h"
-#include "Event/EInputEvent.h"
 #include "../IMGF/Event/EEvent.h"
 
 // for menu start - todo
@@ -44,7 +41,6 @@
 #include "Task/Tasks/Sort/SortMenuItems.h"
 #include "Image/ImageManager.h"
 #include "Image/RasterDataFormatManager.h"
-#include "Format/COL/COLManager.h"
 #include "Format/COL/COLVersionManager.h"
 #include "Format/COL/COLVersion.h"
 // for menu end

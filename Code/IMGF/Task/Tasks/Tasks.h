@@ -1,14 +1,13 @@
 #pragma once
 
 #include "nsimgf.h"
-#include <Windows.h>
-#include "Object/Manager.h"
-#include <string>
-#include <vector>
 #include "nsbxcf.h"
-#include "Format/IMG/Regular/IMGFormat.h"
+#include "Object/Manager.h"
 #include "Format/IMG/Regular/EIMGEntryProperty.h"
 #include "Game/EPlatformedGame.h"
+#include <string>
+#include <vector>
+#include <Windows.h>
 
 class bxcf::RasterDataFormat;
 class bxgi::RWVersion;

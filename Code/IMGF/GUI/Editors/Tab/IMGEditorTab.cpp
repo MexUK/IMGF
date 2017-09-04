@@ -30,7 +30,6 @@
 #include "Platform/Hardware/PlatformManager.h"
 #include "Settings/SettingsManager.h"
 #include "Static/Input.h"
-#include "Static/Input.h"
 #include "DB/DBManager.h"
 #include "Control/Controls/Grid.h"
 #include "GUI/Editors/IMGEditor.h"

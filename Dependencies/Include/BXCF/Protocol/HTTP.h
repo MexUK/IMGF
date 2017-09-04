@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Type/Types.h"
-#include "Object/CSingleton.h"
-#include "Object/CManager.h"
+#include "Object/Singleton.h"
+#include "Object/Manager.h"
 #include "Protocol/HTTP/HappyHTTP/happyhttp.h"
 #include <string>
 
@@ -12,7 +12,7 @@ void		OnBegin(const happyhttp::Response* r, void* userdata);
 void		OnData(const happyhttp::Response* r, void* userdata, const uint8* data, int n);
 void		OnComplete(const happyhttp::Response* r, void* userdata);
 
-class HTTP : public bxcf::CManager, public bxcf::CSingleton<HTTP>
+class HTTP : public bxcf::Manager, public bxcf::Singleton<HTTP>
 {
 public:
 	void						init(void);

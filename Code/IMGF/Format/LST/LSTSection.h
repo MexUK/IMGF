@@ -3,7 +3,7 @@
 #include "nsimgf.h"
 #include "Type/Types.h"
 #include "Pool/VectorPool.h"
-#include "LSTEntry.h"
+#include "Format/LST/LSTEntry.h"
 #include <string>
 
 class imgf::LSTSection : public bxcf::VectorPool<LSTEntry*>

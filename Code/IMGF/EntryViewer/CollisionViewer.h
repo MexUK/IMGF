@@ -1,20 +1,22 @@
 #pragma once
 
 #include "nsimgf.h"
+#include "nsbxgi.h"
 #include "EntryViewer.h"
-#include "Format/COL/COLFormat.h"
 #include <string>
 #include <vector>
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-void							timer(int extra);
-void							render(void);
-void							glutKeyboardInputCallback(uint8 ucKey, int x, int y);
-void							glutSpecialInputCallback(int iKey, int x, int y);
+void							timer(int extra); // todo - namespace
+void							render(void); // todo - namespace
+void							glutKeyboardInputCallback(uint8 ucKey, int x, int y); // todo - namespace
+void							glutSpecialInputCallback(int iKey, int x, int y); // todo - namespace
 
-struct GLFWwindow;
-class SolidSphere;
+struct GLFWwindow; // todo - namespace
+class SolidSphere; // todo - namespace
+class bxgi::COLFormat;
+class bxgi::COLEntry;
 
 class imgf::CollisionViewer : public EntryViewer
 {
@@ -37,10 +39,10 @@ public:
 	void						initGLEW(void);
 
 	void						setCOLFile(bxgi::COLFormat *pCOLFile) { m_pCOLFile = pCOLFile; }
-	bxgi::COLFormat*					getCOLFile(void) { return m_pCOLFile; }
+	bxgi::COLFormat*			getCOLFile(void) { return m_pCOLFile; }
 
 	void						setActiveCOLEntry(bxgi::COLEntry *pCOLEntry) { m_pActiveCOLEntry = pCOLEntry; }
-	bxgi::COLEntry*					getActiveCOLEntry(void) { return m_pActiveCOLEntry; }
+	bxgi::COLEntry*				getActiveCOLEntry(void) { return m_pActiveCOLEntry; }
 
 	void						setCOLFileName(std::string strCOLFileName) { m_strCOLFileName = strCOLFileName; }
 	std::string					getCOLFileName(void) { return m_strCOLFileName; }
@@ -93,12 +95,12 @@ private:
 	void						renderPanelLineSeparators(void);
 
 private:
-	bxgi::COLFormat*					m_pCOLFile;
-	bxgi::COLEntry*					m_pActiveCOLEntry;
+	bxgi::COLFormat*			m_pCOLFile;
+	bxgi::COLEntry*				m_pActiveCOLEntry;
 	std::string					m_strCOLFileName;
 	GLFWwindow*					m_pWindow;
 	FT_Library*					m_pFTLibrary;
-	uint32				m_uiLastKeyProcessTime;
-	uint8				m_bWindowIsOpening : 1;
-	uint8				m_bEntryIsChanging : 1;
+	uint32						m_uiLastKeyProcessTime;
+	uint8						m_bWindowIsOpening : 1;
+	uint8						m_bEntryIsChanging : 1;
 };

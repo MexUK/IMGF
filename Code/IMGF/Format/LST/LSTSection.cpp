@@ -1,5 +1,4 @@
 #include "LSTSection.h"
-#include "LSTEntry.h"
 #include "Static/String.h"
 
 using namespace std;

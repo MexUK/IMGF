@@ -29,7 +29,6 @@
 #include "Static/StdVector.h"
 #include "Task/TaskManager.h"
 #include "Task/Tasks/Tasks.h"
-#include "Format/IMG/Regular/IMGEntry.h"
 #include "Format/WTD/WTDManager.h"
 #include "Format/WTD/WTDFormat.h"
 #include "Format/WTD/WTDEntry.h"

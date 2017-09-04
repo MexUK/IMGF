@@ -9,7 +9,6 @@
 #include "Format/WTD/WTDManager.h"
 #include "Format/WTD/WTDFormat.h"
 #include "Format/WTD/WTDEntry.h"
-#include "TextureViewerTextureData.h"
 #include "Image/ImageManager.h"
 #include "Localization/LocalizationManager.h"
 #include "Static/Input.h"

@@ -3,7 +3,7 @@
 #include "nsbxcf.h"
 #include "Type/Types.h"
 
-enum bxcf::ERasterDataFormat : uint8
+enum bxcf::ERasterDataFormat
 {
 	RASTERDATAFORMAT_UNKNOWN,
 	RASTERDATAFORMAT_DXT1,

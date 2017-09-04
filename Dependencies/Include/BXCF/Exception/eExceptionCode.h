@@ -4,7 +4,7 @@
 
 using namespace bxcf;
 
-enum bxcf::EExceptionCode // Note: When adding an enum entry here, also add the string equivalent in CFormat::getErrorReason.
+enum bxcf::EExceptionCode // Note: When adding an enum entry here, also add the string equivalent in Format::getErrorReason.
 {
 	EXCEPTION_INVALID_DATA_SIZE_MULTIPLE,
 	EXCEPTION_UNSUPPORTED_FORMAT_VERSION,

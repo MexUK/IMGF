@@ -15,7 +15,6 @@
 #include "ESortType.h"
 #include "Static/Input.h"
 #include "Format/IDE/IDEManager.h"
-#include "Format/IDE/IDEManager.h"
 #include "Format/COL/COLManager.h"
 #include "Format/COL/COLFormat.h"
 #include "Localization/LocalizationManager.h"

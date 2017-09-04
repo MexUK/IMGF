@@ -1,5 +1,4 @@
 #include "DBFormat.h"
-#include "DBEntry.h"
 #include "Static/String.h"
 #include "Format/IMG/Regular/IMGFormat.h"
 #include "Format/IMG/Regular/IMGEntry.h"

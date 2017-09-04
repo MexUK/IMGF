@@ -3,7 +3,7 @@
 #include "nsimgf.h"
 #include "nsbxgx.h"
 #include "Layer/Layer.h"
-#include "Event/Events.h"
+#include "Event/EventBindable.h"
 
 class imgf::MainWindow;
 class bxgx::TabBar;

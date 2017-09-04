@@ -18,7 +18,6 @@
 //#include <GL/freeglut.h>
 //#include <GL/glut.h>
 //#include <GL/freeglut.h>
-//#include "Shader.h"
 #include <include/GLFW/glfw3.h>
 #define GLFW_EXPOSE_NATIVE_WIN32 1
 #define GLFW_EXPOSE_NATIVE_WGL 1

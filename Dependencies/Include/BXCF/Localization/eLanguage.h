@@ -5,7 +5,7 @@
 #include "nsbxcf.h"
 #include "Type/Types.h"
 
-enum bxcf::ELanguage : uint8
+enum bxcf::ELanguage
 {
 	LANGUAGE_UNKNOWN,
 	LANGUAGE_ENGLISH,

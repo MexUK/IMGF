@@ -2,7 +2,7 @@
 
 #include "nsbxcf.h"
 
-enum bxcf::EEndian : uint8
+enum bxcf::EEndian
 {
 	LITTLE_ENDIAN	=	0,
 	BIG_ENDIAN		=	1

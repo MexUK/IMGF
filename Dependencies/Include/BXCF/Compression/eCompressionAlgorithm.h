@@ -3,7 +3,7 @@
 #include "nsbxcf.h"
 #include "Type/Types.h"
 
-enum bxcf::ECompressionAlgorithm : uint8
+enum bxcf::ECompressionAlgorithm
 {
 	COMPRESSION_NONE		= 0,
 	COMPRESSION_UNKNOWN		= 255,

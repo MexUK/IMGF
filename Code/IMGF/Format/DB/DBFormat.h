@@ -5,7 +5,7 @@
 #include "Type/Types.h"
 #include "Format/Format.h"
 #include "Pool/VectorPool.h"
-#include "DBEntry.h"
+#include "Format/DB/DBEntry.h"
 #include <string>
 #include <vector>
 

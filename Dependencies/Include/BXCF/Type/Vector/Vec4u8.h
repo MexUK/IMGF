@@ -18,7 +18,7 @@ public:
 			(y * 256) +
 			(z * 65536) +
 			(w * 16777216);
-		// todo - make like: uint32 CMath::getUint32(ui8_1, ui8_2, ui8_3, ui8_4, bool bBigEndian = false)
+		// todo - make like: uint32 Math::getUint32(ui8_1, ui8_2, ui8_3, ui8_4, bool bBigEndian = false)
 		// todo - and make this function take a bool for endian type
 	};
 };

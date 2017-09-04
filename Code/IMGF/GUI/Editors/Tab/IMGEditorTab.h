@@ -1,14 +1,14 @@
 #pragma once
 
 #include "nsimgf.h"
-#include <Windows.h>
+#include "nsbxgi.h"
 #include "GUI/Editor/Tab/EditorTab.h"
-#include "Format/IMG/Regular/IMGFormat.h"
 #include "Task/Tasks/Filter/FilterOptions.h"
-#include "Event/Events.h"
+#include "Event/EventBindable.h"
 #include "Task/TaskManager.h"
 #include <string>
 #include <vector>
+#include <Windows.h>
 
 class imgf::IMGEditor;
 class bxgi::IMGFormat;
