@@ -127,7 +127,10 @@ fill 175 175 175
 .topMenu:item:hover .main_lineLeft .main_textAlign .main_spacing
 fill 158 158 158
 
-.settingsMenu .main_fill_1
+.settingsMenuButton .main_fill_1
+
+.settingsMenuButton:hover
+fill 158 158 158
 
 .settingsMenu:item .main_lineTop .main_textAlign .main_spacing .main_fill_2
 

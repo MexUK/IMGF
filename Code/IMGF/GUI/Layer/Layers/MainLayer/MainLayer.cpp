@@ -154,16 +154,15 @@ void		MainLayer::addControls(void)
 	x += w;
 	w = uiButtonHeight + 1;
 	h = uiButtonHeight;
-	strStyleGroup = "settingsMenu";
 
-	m_pSettingsButton = addButton(x, y, w, h, "", strStyleGroup, SETTINGS, 0);
+	m_pSettingsButton = addButton(x, y, w, h, "", "settingsMenuButton", SETTINGS, 5);
 	m_pSettingsButtonLine1 = addLine(x + 10, y + 10, x + 27, y + 10, "settingsMenuLine", -1, 10);
 	m_pSettingsButtonLine2 = addLine(x + 10, y + 19, x + 27, y + 19, "settingsMenuLine", -1, 10);
 	m_pSettingsButtonLine3 = addLine(x + 10, y + 28, x + 27, y + 28, "settingsMenuLine", -1, 10);
 
-	//m_pSettingsButtonLine1->setContainerItem(m_pSettingsButton);
-	//m_pSettingsButtonLine2->setContainerItem(m_pSettingsButton);
-	//m_pSettingsButtonLine3->setContainerItem(m_pSettingsButton);
+	m_pSettingsButton->addLinkedItem(m_pSettingsButtonLine1);
+	m_pSettingsButton->addLinkedItem(m_pSettingsButtonLine2);
+	m_pSettingsButton->addLinkedItem(m_pSettingsButtonLine3);
 
 	// files tab bar
 	x = 139 + 139;
