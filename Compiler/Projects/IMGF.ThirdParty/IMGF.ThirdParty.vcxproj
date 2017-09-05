@@ -70,18 +70,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>../../../../_Output/Lib/IMGF/IMGF.ThirdParty/$(Configuration)/</OutDir>
-    <IntDir>../../../../_Output/Intermediate/IMGF/IMGF.ThirdParty/$(Configuration)/</IntDir>
+    <OutDir>../../../../Output/Final/IMGF/$(Configuration).$(Platform)/</OutDir>
+    <IntDir>../../../../Output/Intermediate/IMGF/IMGF.ThirdParty/$(Configuration).$(Platform)/</IntDir>
     <TargetName>IMGF.ThirdParty</TargetName>
     <IncludePath>../../../Code/IMGF.ThirdParty/;../../../Code/IMGF.ThirdParty/GLEW/;../../../Code/IMGF.ThirdParty/GLEW/GL/;../../../Code/IMGF.ThirdParty/Freetype/include/;../../../Code/IMGF.ThirdParty/GLFW/;../../../Code/IMGF.ThirdParty/GLFW/include/;../../../Code/IMGF.ThirdParty/GLFW/deps/;../../../Code/IMGF.ThirdParty/freetype-gl/;../../../Code/IMGF.ThirdParty/freetype-gl/windows/glew/include/;../../../Code/IMGF.ThirdParty/GLM/;$(IncludePath)</IncludePath>
-    <LibraryPath>../../../Dependencies/IMGF.ThirdParty/Lib/$(Configuration);$(LibraryPath)</LibraryPath>
+    <LibraryPath>../../../../Input/;$(LibraryPath)</LibraryPath>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>../../../../_Output/Lib/IMGF/IMGF.ThirdParty/$(Configuration)/</OutDir>
-    <IntDir>../../../../_Output/Intermediate/IMGF/IMGF.ThirdParty/$(Configuration)/</IntDir>
+    <OutDir>../../../../Output/Final/IMGF/$(Configuration).$(Platform)/</OutDir>
+    <IntDir>../../../../Output/Intermediate/IMGF/IMGF.ThirdParty/$(Configuration).$(Platform)/</IntDir>
     <TargetName>IMGF.ThirdParty</TargetName>
-    <IncludePath>../../../Code/IMGF.ThirdParty/;../../../Code/IMGF.ThirdParty/freetype-gl/windows/glew/include/;../../../Code/IMGF.ThirdParty/Freetype/include/;../../../Code/IMGF.ThirdParty/GLFW/include/;$(IncludePath)</IncludePath>
-    <LibraryPath>../../../Dependencies/Lib/ThirdParty/$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>../../../Code/IMGF.ThirdParty/;../../../Code/IMGF.ThirdParty/GLEW/;../../../Code/IMGF.ThirdParty/GLEW/GL/;../../../Code/IMGF.ThirdParty/Freetype/include/;../../../Code/IMGF.ThirdParty/GLFW/;../../../Code/IMGF.ThirdParty/GLFW/include/;../../../Code/IMGF.ThirdParty/GLFW/deps/;../../../Code/IMGF.ThirdParty/freetype-gl/;../../../Code/IMGF.ThirdParty/freetype-gl/windows/glew/include/;../../../Code/IMGF.ThirdParty/GLM/;$(IncludePath)</IncludePath>
+    <LibraryPath>../../../../Input/;$(LibraryPath)</LibraryPath>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -97,7 +99,8 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
     <PostBuildEvent>
-      <Command>"../../Events/BXVLP/$(Configuration)/BXVLP.exe"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -114,18 +117,22 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_GLFW_USE_OPENGL;_GLFW_WIN32;_GLFW_WGL;GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_GLFW_USE_OPENGL;_GLFW_WIN32;_GLFW_WGL;GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>MSIMG32.LIB;freetype261-$(Configuration).lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;freetype261-$(Configuration).lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>"../../Events/BXVLP/$(Configuration)/BXVLP.exe"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
