@@ -95,7 +95,6 @@ private:
 
 public:
 	bxgx::Grid*					m_pEntryGrid;
-	bxgx::TextBox*				m_pLog;
 	bxgx::DropDown*				m_pEntryTypeFilter;
 	bxgx::DropDown*				m_pEntryVersionFilter;
 

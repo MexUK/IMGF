@@ -264,8 +264,9 @@ void		MainLayer::addControls(void)
 	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
 	pMenu2 = pMenuItem1->addMenu();
-	pMenu2->addMenuItem("Select All");
-	pMenu2->addMenuItem("Unselect All");
+	pMenu2->addMenuItem("Select All", SELECT_ALL);
+	pMenu2->addMenuItem("Unselect All", UNSELECT_ALL);
+	pMenu2->addMenuItem("Select Inverse", SELECT_INVERSE);
 	pMenuItem2 = pMenu2->addMenuItem("Select by..");
 
 	pMenu3 = pMenuItem2->addMenu();

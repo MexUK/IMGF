@@ -152,6 +152,9 @@ fill 0 0 0
 
 .filter:listRow .main_textAlign .main_spacing .main_textColour
 
+.filter:listRow:hover .main_textAlign .main_spacing .main_textColour
+fill 198 198 198
+
 .filter:caret .main_textAlign .main_spacing
 line 0 0 0
 

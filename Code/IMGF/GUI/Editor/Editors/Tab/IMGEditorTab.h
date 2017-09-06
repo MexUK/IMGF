@@ -15,6 +15,7 @@ class bxgi::IMGFormat;
 class bxgi::IMGEntry;
 class imgf::DBFormat;
 class bxgx::DropDownItem;
+class bxgx::Grid;
 
 class imgf::IMGEditorTab : public EditorTab, public bxcf::EventBindable
 {
@@ -38,6 +39,14 @@ public:
 	void						setIMGFile(bxgi::IMGFormat *pIMGFile) { m_pIMGFile = pIMGFile; }
 	bxgi::IMGFormat*			getIMGFile(void) { return m_pIMGFile; }
 
+	void						setTabMarkedForClose(bool bTabMarkedForClose) { m_bTabMarkedForClose = bTabMarkedForClose; }
+	bool						isTabMarkedForClose(void) { return m_bTabMarkedForClose; }
+
+	void						setTabReadyToClose(bool bTabReadyToClose) { m_bTabReadyToClose = bTabReadyToClose; }
+	bool						isTabReadyToClose(void) { return m_bTabReadyToClose; }
+
+	void						getEntryGrid(bxgx::Grid *pEntryGrid) { m_pEntryGrid = pEntryGrid; }
+	bxgx::Grid*					getEntryGrid(void) { return m_pEntryGrid; }
 
 
 
@@ -59,7 +68,7 @@ public:
 
 	bool						isRestoringFilterOptions(void) { return m_bRestoringFilterOptions; }
 
-	void						log(std::string strText, bool bExtendedModeOnly = false);
+	//void						log(std::string strText, bool bExtendedModeOnly = false);
 	void						clearLogs(void);
 	std::vector<std::string>&	getLogLinesGUI(void) { return m_vecLogLinesGUI; }
 	std::vector<std::string>&	getLogLinesBasic(void) { return m_vecLogLinesBasic; }
@@ -82,7 +91,7 @@ public:
 	void						updateGridEntry(bxgi::IMGEntry *pIMGEntry);
 	uint32						getMainListViewItemIndexByItemData(bxgi::IMGEntry *pIMGEntry);
 
-	bxgi::IMGEntry*			getEntryByName(std::string strEntryName);
+	bxgi::IMGEntry*				getEntryByName(std::string strEntryName);
 
 	void						rebuild(std::string strIMGPath = "", bool bLog = true);
 	uint32						merge(std::string strPath, std::vector<std::string>& vecImportedEntryNames);
@@ -112,7 +121,7 @@ public:
 
 	void						reassignEntryIds(void);
 
-	std::vector<bxgi::IMGEntry*>		getSelectedEntries(void);
+	std::vector<bxgi::IMGEntry*>	getSelectedEntries(void);
 
 	void						setActiveFilter(std::string strFilterName, std::string strValue) { m_umapActiveFilterValues[strFilterName] = strValue; }
 	std::string					getActiveFilter(std::string strFilterName) { return m_umapActiveFilterValues[strFilterName]; }
@@ -130,19 +139,20 @@ private:
 	IMGEditor*					m_pEditor;
 
 	bxgx::Grid*					m_pEntryGrid;
-	bxgx::TextBox*				m_pLog;
 	bxgx::DropDown*				m_pEntryTypeFilter;
 	bxgx::DropDown*				m_pEntryVersionFilter;
+	bool						m_bTabMarkedForClose;
+	bool						m_bTabReadyToClose;
 
 	bxgi::IMGFormat*			m_pIMGFile;
-	std::vector<std::string>	m_vecLogLinesGUI;
-	std::vector<std::string>	m_vecLogLinesBasic;
-	std::vector<std::string>	m_vecLogLinesExtended;
 	std::string					m_strSearchText;
 	FilterOptions				m_filterOptions;
 	bool						m_bRestoringFilterOptions;
 	HWND						m_hListViewHwnd;
 	bool						m_bIMGModifiedSinceRebuild;
-	std::unordered_map<std::string, std::string>	m_umapActiveFilterValues;
 	uint32						m_uiOverwriteEntryOption;
+	std::unordered_map<std::string, std::string>	m_umapActiveFilterValues;
+	std::vector<std::string>	m_vecLogLinesGUI;
+	std::vector<std::string>	m_vecLogLinesBasic;
+	std::vector<std::string>	m_vecLogLinesExtended;
 };

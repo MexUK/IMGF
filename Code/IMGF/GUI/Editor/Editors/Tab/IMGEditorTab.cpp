@@ -56,12 +56,13 @@ using namespace imgf;
 IMGEditorTab::IMGEditorTab(void) :
 	m_pEditor(nullptr),
 	m_pEntryGrid(nullptr),
-	m_pLog(nullptr),
 	m_pEntryTypeFilter(nullptr),
 	m_pEntryVersionFilter(nullptr),
 	m_bRestoringFilterOptions(false),
 	m_bIMGModifiedSinceRebuild(false),
-	m_uiOverwriteEntryOption(0)
+	m_uiOverwriteEntryOption(0),
+	m_bTabMarkedForClose(false),
+	m_bTabReadyToClose(true)
 {
 }
 
@@ -77,8 +78,17 @@ void					IMGEditorTab::unload(void)
 // initialization
 void					IMGEditorTab::init(void)
 {
+	getRenderItems().addEntry(m_pEntryGrid);
+	getRenderItems().addEntry(m_pEntryTypeFilter);
+	getRenderItems().addEntry(m_pEntryVersionFilter);
+
 	//setFileInfoText();
 	addGridEntries();
+
+	if (m_bTabMarkedForClose)
+	{
+		return;
+	}
 
 	m_pEntryGrid->setActiveItem();
 
@@ -162,17 +172,7 @@ void					IMGEditorTab::addControls(void)
 
 	m_pEntryVersionFilter = addDrop(x, y, w, h, "Entry Version", strStyleGroup, -1, -50);
 	m_pEntryVersionFilter->addItem("No file is open", false, false);
-
-	// log
-	TextBox *pBlankLog = m_pEditor->m_pLog;
-
-	x = pBlankLog->getPosition().x;
-	y = pBlankLog->getPosition().y;
-	w = pBlankLog->getSize().x;
-	h = pBlankLog->getSize().y;
-
-	m_pLog = addTextBox(x, y, w, h, "", true, "log");
-	m_pLog->setReadOnly(true);
+	m_pEntryVersionFilter->addLinkedItem(m_pEntryTypeFilter);
 }
 
 void					IMGEditorTab::initControls(void)
@@ -255,6 +255,7 @@ void					IMGEditorTab::checkForUnknownRWVersionEntries(void)
 	}
 }
 
+/*
 void					IMGEditorTab::log(string strText, bool bExtendedModeOnly)
 {
 	//string strLogEntryWithTimestamp = "[" + String::getTimestampText() + "] " + strText;
@@ -305,14 +306,15 @@ void					IMGEditorTab::log(string strText, bool bExtendedModeOnly)
 
 	if (getIMGF()->getActiveTab() == this)
 	{
-		/*
+		/////////////////////////
 		todo
 		CEdit *pEdit = ((CEdit*)getIMGF()->getDialog()->GetDlgItem(14));
 		pEdit->SetWindowTextW(String::convertStdStringToStdWString(String::join(m_vecLogLinesGUI, "\r\n")).c_str());
 		pEdit->LineScroll(pEdit->GetLineCount());
-		*/
+		//////////////////////
 	}
 }
+*/
 
 void					IMGEditorTab::clearLogs(void)
 {
@@ -627,6 +629,8 @@ void					IMGEditorTab::readdGridEntries(void)
 
 void					IMGEditorTab::addGridEntries(void)
 {
+	m_bTabReadyToClose = false;
+
 	DropDownItem
 		*pTypeFilterItem = m_pEntryTypeFilter->getActiveItem(),
 		*pVersionFilterItem = m_pEntryVersionFilter->getActiveItem();
@@ -682,10 +686,17 @@ void					IMGEditorTab::addGridEntries(void)
 		}
 
 		pTaskManager->onTaskProgressTick();
+
+		if (m_bTabMarkedForClose)
+		{
+			break;
+		}
 	}
 
 	m_pEntryGrid->recalculateProgressFor1Item();
 	m_pEntryGrid->render();
+	
+	m_bTabReadyToClose = true;
 
 	// todo
 	//updateEntryCountText();
@@ -1149,8 +1160,8 @@ void					IMGEditorTab::sortEntries(void)
 	{
 		log(LocalizationManager::get()->getTranslatedFormattedText("Log_130", vecExtendedLogLines.size()));
 	}
-	log(LocalizationManager::get()->getTranslatedText("Log_131"), true);
-	log(String::join(vecExtendedLogLines, "\n"), true);
+	// todo - log(LocalizationManager::get()->getTranslatedText("Log_131"), true);
+	// todo - log(String::join(vecExtendedLogLines, "\n"), true);
 
 	// render
 	readdGridEntries();

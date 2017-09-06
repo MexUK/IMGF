@@ -50,8 +50,9 @@ public:
 	void						onRequestImportViaFiles(void);
 	void						onRequestRemoveSelected(void);
 	void						onRequestRenameEntry(void);
-	void						onRequestSelectAll(void);
-	void						onRequestSelectInverse(void);
+	void						selectAll(void);
+	void						unselectAll(void);
+	void						selectInverse(void);
 	void						onRequestRebuild(void);
 	void						onRequestRebuildAs(void);
 	void						onRequestRebuildAll(void);

@@ -7,6 +7,7 @@
 #include <string>
 
 class bxgx::TabBar;
+class bxgx::TextBox;
 
 class imgf::Editor : public bxgx::Layer
 {
@@ -14,6 +15,9 @@ public:
 	Editor(void);
 
 	virtual void						init(void) = 0;
+
+	virtual void						addControls(void);
+	virtual void						initControls(void);
 
 	void								addFile(EditorTab *pEditorTab);
 	void								removeFile(EditorTab *pEditorTab);
@@ -27,6 +31,9 @@ public:
 	void								setTabBar(bxgx::TabBar *pTabBar) { m_pTabBar = pTabBar; }
 	bxgx::TabBar*						getTabBar(void) { return m_pTabBar; }
 
+	void								setLog(bxgx::TextBox *pLog) { m_pLog = pLog; }
+	bxgx::TextBox*						getLog(void) { return m_pLog; }
+
 	void								updateActiveFileDisplayedInfo(void);
 	void								clearActiveFileDisplayedInfo(void);
 
@@ -38,5 +45,6 @@ public:
 protected:
 	bxgx::TabBar*						m_pTabBar;
 	EditorTab*							m_pActiveFile;
+	bxgx::TextBox*						m_pLog;
 	bxcf::VectorPool<EditorTab*>		m_vecTabs;
 };

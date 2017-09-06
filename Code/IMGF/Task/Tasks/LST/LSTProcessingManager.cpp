@@ -97,12 +97,12 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 				if (File::doesFileExist(strEntryPath))
 				{
 					getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strEntryPath);
-					getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_30", strEntryFileName.c_str()));
+					// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_30", strEntryFileName.c_str()));
 				}
 				else
 				{
-					getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_31", strEntryFileName.c_str()));
-					getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_32", strEntryPath.c_str()), true);
+					// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_31", strEntryFileName.c_str()));
+					// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_32", strEntryPath.c_str()), true);
 				}
 			}
 			else if (strCommandUpper == "DEL")
@@ -111,24 +111,24 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 				IMGEntry *pIMGEntry = getIMGF()->getEntryListTab()->getEntryByName(strEntryFileName);
 				if (pIMGEntry == nullptr)
 				{
-					getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_33", strEntryFileName.c_str()));
+					// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_33", strEntryFileName.c_str()));
 				}
 				else
 				{
 					getIMGF()->getEntryListTab()->removeEntry(pIMGEntry);
-					getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_34", strEntryFileName.c_str()));
+					// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_34", strEntryFileName.c_str()));
 				}
 			}
 			else if (strCommandUpper == "RESORT")
 			{
 				getIMGF()->getSortManager()->sort(getIMGF()->getEntryListTab()->getIMGFile());
-				getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_35"));
+				// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_35"));
 			}
 			else if (strCommandUpper == "REBUILD")
 			{
 				getIMGF()->getEntryListTab()->rebuild();
 				getIMGF()->getIMGEditor()->refreshActiveTab();
-				getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_36"));
+				// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_36"));
 			}
 		}
 
@@ -167,12 +167,12 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 					COLEntry *pCOLEntry = pCOLFile->getEntryByName(strCOLOldFileName);
 					if (pCOLEntry == nullptr)
 					{
-						getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_37", strCOLOldFileName.c_str()));
+						// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_37", strCOLOldFileName.c_str()));
 					}
 					else
 					{
 						pCOLEntry->setModelName(strCOLNewFileName);
-						getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_38", strCOLOldFileName.c_str(), strCOLNewFileName.c_str()));
+						// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_38", strCOLOldFileName.c_str(), strCOLNewFileName.c_str()));
 					}
 				}
 				else if (strCommandUpper == "ADD")
@@ -189,12 +189,12 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 					if (File::doesFileExist(strEntryPath))
 					{
 						getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strEntryPath);
-						getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_39", strEntryFileName.c_str()));
+						// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_39", strEntryFileName.c_str()));
 					}
 					else
 					{
-						getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_40", strEntryFileName.c_str()));
-						getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_41", strEntryPath.c_str()), true);
+						// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_40", strEntryFileName.c_str()));
+						// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_41", strEntryPath.c_str()), true);
 					}
 				}
 				else if (strCommandUpper == "DEL")
@@ -203,19 +203,19 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 					COLEntry *pCOLEntry = pCOLFile->getEntryByName(strEntryFileName);
 					if (pCOLEntry == nullptr)
 					{
-						getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_42", strEntryFileName.c_str()));
+						// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_42", strEntryFileName.c_str()));
 					}
 					else
 					{
 						string strEntryActualFileName = pCOLEntry->getModelName();
 						pCOLFile->removeEntry(pCOLEntry);
-						getIMGF()->getEntryListTab()->log("Removed COL entry: " + strEntryActualFileName);
+						// todo - getIMGF()->getEntryListTab()->log("Removed COL entry: " + strEntryActualFileName);
 					}
 				}
 				else if (strCommandUpper == "RESORT")
 				{
 					pCOLFile->sort();
-					getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_43"));
+					// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_43"));
 				}
 			}
 			pCOLFile->serializeViaFile();
@@ -265,8 +265,8 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 						string strCopyDestinationPath = strGTARootFolderPath + strGamePathFolderPath + strFileName;
 						File::copyFile(strCopySourcePath, strCopyDestinationPath);
 					}
-					getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_LSTCopy1"));
-					getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_LSTCopy2", strCopySourceFolder.c_str(), (strGTARootFolderPath + strGamePathFolderPath).c_str()), true);
+					// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_LSTCopy1"));
+					// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_LSTCopy2", strCopySourceFolder.c_str(), (strGTARootFolderPath + strGamePathFolderPath).c_str()), true);
 				}
 				else
 				{
@@ -274,8 +274,8 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 					string strCopySourcePath = strGTARootFolderPath + strSourceFolderPath + strFileName;
 					string strCopyDestinationPath = strGTARootFolderPath + strGamePathFolderPath + strFileName;
 					File::copyFile(strCopySourcePath, strCopyDestinationPath);
-					getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_LSTCopy3", strFileName.c_str()));
-					getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_LSTCopy4", strFileName.c_str(), strCopySourcePath.c_str(), strCopyDestinationPath.c_str()), true);
+					// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_LSTCopy3", strFileName.c_str()));
+					// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_LSTCopy4", strFileName.c_str(), strCopySourcePath.c_str(), strCopyDestinationPath.c_str()), true);
 				}
 			}
 			else if (strCommandUpper == "DEL" || strCommandUpper == "DELETE")
@@ -301,8 +301,8 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 						string strFilePath = strFolderPath + strFileName;
 						File::removeFile(strFilePath);
 					}
-					getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_LSTDelete1"));
-					getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_LSTDelete2", strFolderPath.c_str()), true);
+					// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_LSTDelete1"));
+					// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_LSTDelete2", strFolderPath.c_str()), true);
 				}
 				else
 				{
@@ -310,8 +310,8 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 					string strFilePath = strGTARootFolderPath + strGamePathFolderPath + strFileName;
 					File::removeFile(strFilePath);
 
-					getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_LSTDelete3", strFileName.c_str()));
-					getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_LSTDelete4", strFilePath.c_str()), true);
+					// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_LSTDelete3", strFileName.c_str()));
+					// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_LSTDelete4", strFilePath.c_str()), true);
 				}
 			}
 		}

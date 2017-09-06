@@ -56,7 +56,6 @@ using namespace imgf::editor::items;
 IMGEditor::IMGEditor(void) :
 	m_pMainWindow(nullptr),
 	m_pEntryGrid(nullptr),
-	m_pLog(nullptr),
 	m_pEntryTypeFilter(nullptr),
 	m_pEntryVersionFilter(nullptr),
 	m_uiSelectedEntryCount(0),
@@ -69,6 +68,10 @@ IMGEditor::IMGEditor(void) :
 void						IMGEditor::init(void)
 {
 	Editor::init();
+
+	Editor::addControls();
+	Editor::initControls();
+
 	addControls();
 	initControls();
 
@@ -130,6 +133,7 @@ IMGEditorTab*				IMGEditor::addTabObjectAndTabControl(IMGFormat *img)
 	IMGEditorTab *imgEditorTab = m_pWindow->addLayer<IMGEditorTab>(-1, true, -50);
 
 	imgEditorTab->setIMGEditor(this);
+	imgEditorTab->setEditor(this);
 	imgEditorTab->setIMGFile(img);
 	imgEditorTab->setFile(img);
 	
@@ -151,6 +155,9 @@ IMGEditorTab*				IMGEditor::addTabObjectAndTabControl(IMGFormat *img)
 
 void						IMGEditor::removeFile(IMGEditorTab *pIMGEditorFile)
 {
+	pIMGEditorFile->setTabMarkedForClose(true);
+	while (!pIMGEditorFile->isTabReadyToClose());
+
 	Editor::removeFile(pIMGEditorFile);
 
 	m_pWindow->removeLayer(pIMGEditorFile);
@@ -423,7 +430,7 @@ void					IMGEditor::logAllTabs(string strText, bool bExtendedModeOnly)
 {
 	for (auto pEditorTab : getTabs().getEntries())
 	{
-		((IMGEditorTab*)pEditorTab)->log(strText, bExtendedModeOnly);
+		// todo - ((IMGEditorTab*)pEditorTab)->log(strText, bExtendedModeOnly);
 	}
 }
 
@@ -1096,15 +1103,6 @@ void		IMGEditor::addControls(void)
 
 	m_pEntryVersionFilter = addDrop(x, y, w, h, "Entry Version", strStyleGroup, -1, -50);
 	m_pEntryVersionFilter->addItem("No file is open", false, false);
-
-	// log
-	x = 0;
-	y = 508;
-	w = 139 + 139;
-	h = 120;
-
-	m_pLog = addTextBox(x, y, w, h, "", true, "log");
-	m_pLog->setReadOnly(true);
 }
 
 void		IMGEditor::initControls(void)

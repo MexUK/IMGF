@@ -126,6 +126,7 @@
 #include "Game/EGame.h"
 #include "Stream/DataReader.h"
 #include "Control/Controls/ProgressBar.h"
+#include "Control/Controls/Grid.h"
 #include "Format/GameFormat.h"
 #include "Format/Text/INI/INIManager.h"
 #include "Static/AppDataPath.h"
@@ -136,6 +137,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgx;
 using namespace bxgi;
 using namespace imgf;
 using namespace imgf::task;
@@ -487,14 +489,14 @@ void		Tasks::onRequestImportViaFiles(void)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_23", vecPaths.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntryNames"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_23", vecPaths.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntryNames"), true);
 	vector<string> vecFileNames;
 	for (auto strPath : vecPaths)
 	{
 		vecFileNames.push_back(strPath);
 	}
-	getIMGF()->getEntryListTab()->log(String::join(vecFileNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecFileNames, "\n"), true);
 
 	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFiles");
@@ -541,9 +543,9 @@ void		Tasks::onRequestRemoveSelected(void)
 
 	getIMGF()->getEntryListTab()->searchText();
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_53", uiRemoveCount));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntryNames"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_53", uiRemoveCount));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntryNames"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNames, "\n"), true);
 
 	if (uiRemoveCount > 0)
 	{
@@ -606,95 +608,62 @@ void		Tasks::onRequestRenameEntry(void)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_54", strOldName.c_str(), strNewName.c_str()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_55", strNewName.c_str(), getIMGF()->getEntryListTab()->getIMGFile()->getEntryCountForName(strNewName)), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_54", strOldName.c_str(), strNewName.c_str()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_55", strNewName.c_str(), getIMGF()->getEntryListTab()->getIMGFile()->getEntryCountForName(strNewName)), true);
 
 	getIMGF()->getEntryListTab()->searchText();
 
 	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRenameEntry");
+
 	*/
 }
-void		Tasks::onRequestSelectAll(void)
+
+void		Tasks::selectAll(void)
 {
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestSelectAll");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectAll", true);
-		return;
-	}
+	onStartTask("selectAll");
 
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
-	bool bNewSelectedState = true;
-	if (pListControl->GetItemState(0, LVIS_SELECTED) == LVIS_SELECTED)
-	{
-		bNewSelectedState = false;
-	}
-	for (uint32 i = 0, j = pListControl->GetItemCount(); i < j; i++)
-	{
-		if (bNewSelectedState)
-		{
-			pListControl->SetItemState(i, LVIS_SELECTED, LVIS_SELECTED);
-			pListControl->SetSelectionMark(i);
-		}
-		else
-		{
-			pListControl->SetItemState(i, ~LVIS_SELECTED, LVIS_SELECTED);
-		}
+	IMGEditorTab *pEditorTab = m_pMainWindow->getIMGEditor()->getActiveTab();
+	Grid *pEntryGrid = pEditorTab->getEntryGrid();
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
-	}
+	pEntryGrid->selectAllRows();
+	pEntryGrid->setActiveItem();
 
-	pListControl->SetFocus();
-	if(bNewSelectedState)
-	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_56", pListControl->GetItemCount()));
-	}
-	else
-	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_57", pListControl->GetItemCount()));
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectAll");
-	*/
+	pEditorTab->log("Selected all entries.");
+
+	onCompleteTask();
 }
-void		Tasks::onRequestSelectInverse(void)
+
+void		Tasks::unselectAll(void)
 {
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestSelectInverse");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectInverse", true);
-		return;
-	}
+	onStartTask("unselectAll");
 
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
-	uint32 uiSelectedEntryCount = 0;
-	for (uint32 i = 0, j = pListControl->GetItemCount(); i < j; i++)
-	{
-		if (pListControl->GetItemState(i, LVIS_SELECTED) == LVIS_SELECTED)
-		{
-			pListControl->SetItemState(i, ~LVIS_SELECTED, LVIS_SELECTED);
-		}
-		else
-		{
-			uiSelectedEntryCount++;
-			pListControl->SetItemState(i, LVIS_SELECTED, LVIS_SELECTED);
-			pListControl->SetSelectionMark(i);
-		}
+	IMGEditorTab *pEditorTab = m_pMainWindow->getIMGEditor()->getActiveTab();
+	Grid *pEntryGrid = pEditorTab->getEntryGrid();
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
-	}
+	pEntryGrid->unselectAllRows();
+	pEntryGrid->setActiveItem();
 
-	pListControl->SetFocus();
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_58", uiSelectedEntryCount, pListControl->GetItemCount()));
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectInverse");
-	*/
+	pEditorTab->log("Unselected all entries.");
+
+	onCompleteTask();
 }
+
+void		Tasks::selectInverse(void)
+{
+	onStartTask("selectInverse");
+
+	IMGEditorTab *pEditorTab = m_pMainWindow->getIMGEditor()->getActiveTab();
+	Grid *pEntryGrid = pEditorTab->getEntryGrid();
+
+	pEntryGrid->selectInverseRows();
+	pEntryGrid->setActiveItem();
+
+	pEditorTab->logf("Selected inverse entries. (%u)", pEntryGrid->getSelectedRowCount());
+
+	onCompleteTask();
+}
+
 void		Tasks::onRequestRebuild(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestRebuild");
@@ -730,7 +699,7 @@ void		Tasks::onRequestRebuildAs(void)
 	getIMGF()->setLastUsedDirectory("REBUILD_AS", strIMGPath);
 
 	getIMGF()->getEntryListTab()->rebuild(strIMGPath, false);
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_59", Path::getFileName(strIMGPath).c_str()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_59", Path::getFileName(strIMGPath).c_str()));
 	getIMGF()->getIMGEditor()->refreshActiveTab();
 
 	getIMGF()->getEntryListTab()->checkForUnknownRWVersionEntries();
@@ -989,7 +958,7 @@ void		Tasks::onRequestConvertIMGVersion(EIMGVersion EIMGVersionValue)
 	}
 
 	// log
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_60", IMGManager::getVersionNameWithGames((EIMGVersion)ePreviousIMGVersion, bPreviouslyEncrypted).c_str(), IMGManager::getVersionNameWithGames(EIMGVersionValue, false).c_str()).c_str());
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_60", IMGManager::getVersionNameWithGames((EIMGVersion)ePreviousIMGVersion, bPreviouslyEncrypted).c_str(), IMGManager::getVersionNameWithGames(EIMGVersionValue, false).c_str()).c_str());
 
 	// rebuild
 	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildOnConvert"))
@@ -1067,14 +1036,14 @@ void		Tasks::onRequestMerge(void)
 
 	if (vecPaths.size() == 1)
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_61", Path::getFileName(vecPaths[0]).c_str(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str(), uiImportedEntryCount));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_61", Path::getFileName(vecPaths[0]).c_str(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str(), uiImportedEntryCount));
 	}
 	else
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_62", vecPaths.size(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str(), uiImportedEntryCount));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_62", vecPaths.size(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str(), uiImportedEntryCount));
 	}
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_63"), true);
-	getIMGF()->getEntryListTab()->log(strExtendedLog, true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_63"), true);
+	// todo - getIMGF()->getEntryListTab()->log(strExtendedLog, true);
 
 	getIMGF()->getIMGEditor()->refreshActiveTab();
 
@@ -1175,14 +1144,14 @@ void		Tasks::onRequestSplitSelectedEntries(void)
 	getIMGF()->getEntryListTab()->splitSelectedEntries(strPath, EIMGVersionValue, bDeleteFromSource, vecSplitEntryNames);
 	if(bDeleteFromSource)
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_66", getIMGF()->getIMGEditor()->getSelectedEntryCount(), Path::getFileName(strPath).c_str(), IMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_66", getIMGF()->getIMGEditor()->getSelectedEntryCount(), Path::getFileName(strPath).c_str(), IMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
 	else
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_65", getIMGF()->getIMGEditor()->getSelectedEntryCount(), Path::getFileName(strPath).c_str(), IMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_65", getIMGF()->getIMGEditor()->getSelectedEntryCount(), Path::getFileName(strPath).c_str(), IMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_67"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecSplitEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_67"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecSplitEntryNames, "\n"), true);
 
 	if (bDeleteFromSource)
 	{
@@ -1274,14 +1243,14 @@ void		Tasks::onRequestSplitViaIDEFile(void)
 	
 	if(bDeleteFromSource)
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_70", vecSplitEntryNames.size(), Path::getFileName(strPath).c_str(), IMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_70", vecSplitEntryNames.size(), Path::getFileName(strPath).c_str(), IMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
 	else
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_69", vecSplitEntryNames.size(), Path::getFileName(strPath).c_str(), IMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_69", vecSplitEntryNames.size(), Path::getFileName(strPath).c_str(), IMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_67"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecSplitEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_67"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecSplitEntryNames, "\n"), true);
 
 	if (bDeleteFromSource)
 	{
@@ -1390,14 +1359,14 @@ void		Tasks::onRequestSplitViaTextLines(void)
 
 	if(bDeleteFromSource)
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_73", vecSplitEntryNames.size(), Path::getFileName(strPath).c_str(), IMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_73", vecSplitEntryNames.size(), Path::getFileName(strPath).c_str(), IMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
 	else
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_72", vecSplitEntryNames.size(), Path::getFileName(strPath).c_str(), IMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_72", vecSplitEntryNames.size(), Path::getFileName(strPath).c_str(), IMGManager::getVersionNameWithGames(EIMGVersionValue, bIsEncrypted).c_str(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str()));
 	}
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_67"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecSplitEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_67"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecSplitEntryNames, "\n"), true);
 
 	if (bDeleteFromSource)
 	{
@@ -1529,9 +1498,9 @@ void		Tasks::onRequestReplace(void)
 
 	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("ReplacedEntries", vecReplacedEntryNames.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntriesForReplace"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecReplacedEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("ReplacedEntries", vecReplacedEntryNames.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntriesForReplace"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecReplacedEntryNames, "\n"), true);
 
 	getIMGF()->getIMGEditor()->refreshActiveTab();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestReplace");
@@ -1582,9 +1551,9 @@ void		Tasks::onRequestExportSelected(void)
 	}
 
 	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_76", vecIMGEntries.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_77"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecExportedEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_76", vecIMGEntries.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_77"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecExportedEntryNames, "\n"), true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportSelected");
 	*/
 }
@@ -1615,11 +1584,11 @@ void		Tasks::onRequestSearchText(void) // from search box
 	bool bSearchInAllTabs = ((Button*)getIMGF()->getDialog()->GetDlgItem(46))->GetCheck() == BST_CHECKED;
 	if(bSearchInAllTabs)
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_79", strSearchText.c_str()), bSearchInAllTabs);
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_79", strSearchText.c_str()), bSearchInAllTabs);
 	}
 	else
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_78", strSearchText.c_str()), bSearchInAllTabs);
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_78", strSearchText.c_str()), bSearchInAllTabs);
 	}
 
 	getIMGF()->getEntryListTab()->setSearchText(strSearchText);
@@ -1631,7 +1600,7 @@ void		Tasks::onRequestSearchText(void) // from search box
 	}
 	else
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("LogAllTabs_3", getIMGF()->getIMGEditor()->getSearchHitCount(), getIMGF()->getIMGEditor()->getSearchFileCount()), true);
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("LogAllTabs_3", getIMGF()->getIMGEditor()->getSearchHitCount(), getIMGF()->getIMGEditor()->getSearchFileCount()), true);
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSearchText");
 	*/
@@ -1826,9 +1795,9 @@ void		Tasks::onRequestExportViaIDEFile(void)
 
 	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size());
 	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_80", vecIMGEntries.size(), getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_77"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecExportedEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_80", vecIMGEntries.size(), getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_77"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecExportedEntryNames, "\n"), true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaIDEFile");
 }
 void		Tasks::onRequestExportViaTextLines(void)
@@ -1889,9 +1858,9 @@ void		Tasks::onRequestExportViaTextLines(void)
 
 	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size());
 	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_81", vecIMGEntries.size(), vecEntryNames.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_77"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecExportedEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_81", vecIMGEntries.size(), vecEntryNames.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_77"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecExportedEntryNames, "\n"), true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaTextLines");
 }
 void		Tasks::onRequestSortEntries(void)
@@ -2089,9 +2058,9 @@ void		Tasks::onRequestRemoveViaIDEFile(void)
 
 	getIMGF()->getEntryListTab()->searchText();
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_82", vecIMGEntries.size(), vecEntryNamesWithoutExtension.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_83"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecRemovedEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_82", vecIMGEntries.size(), vecEntryNamesWithoutExtension.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_83"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecRemovedEntryNames, "\n"), true);
 
 	if (vecIMGEntries.size() > 0)
 	{
@@ -2164,9 +2133,9 @@ void		Tasks::onRequestRemoveViaTextLines(void)
 
 	getIMGF()->getEntryListTab()->searchText();
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_82", uiRemoveCount, vecEntryNames.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_83"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecRemovedEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_82", uiRemoveCount, vecEntryNames.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_83"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecRemovedEntryNames, "\n"), true);
 
 	if (uiRemoveCount > 0)
 	{
@@ -2316,9 +2285,9 @@ void		Tasks::onRequestImportViaIDEFile(void)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_84", uiImportCount, vecEntryNamesInAllFiles.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntriesForImport"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecImportedEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_84", uiImportCount, vecEntryNamesInAllFiles.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntriesForImport"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecImportedEntryNames, "\n"), true);
 
 	if (uiImportCount > 0)
 	{
@@ -2385,9 +2354,9 @@ void		Tasks::onRequestImportViaTextLines(void)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_84", uiImportCount, vecEntryNamesWithoutExtension.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntriesForImport"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecImportedEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_84", uiImportCount, vecEntryNamesWithoutExtension.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntriesForImport"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecImportedEntryNames, "\n"), true);
 
 	if (uiImportCount > 0)
 	{
@@ -2755,14 +2724,14 @@ void		Tasks::onRequestQuickExport(void)
 	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, getIMGF()->getSettingsManager()->getSettingString("QuickExportPath"));
 	if (vecIMGEntries.size() == 1)
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_86", vecIMGEntries[0]->getEntryName().c_str(), vecIMGEntries[0]->getEntrySize()));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_86", vecIMGEntries[0]->getEntryName().c_str(), vecIMGEntries[0]->getEntrySize()));
 	}
 	else
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_87", vecIMGEntries.size()));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_87", vecIMGEntries.size()));
 	}
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_88"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecExportedEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_88"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecExportedEntryNames, "\n"), true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestQuickExport");
 	*/
 }
@@ -2811,7 +2780,7 @@ void		Tasks::onRequestSelectViaFileExtension(void)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_89", uiSelectedEntryCount));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_89", uiSelectedEntryCount));
 
 	pListControl->SetFocus();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaFileExtension");
@@ -2844,8 +2813,8 @@ void		Tasks::onRequestSelectViaRWVersion(RWVersion *pRWVersion)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_90", uiSelectedEntryCount));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_91", (pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_90", uiSelectedEntryCount));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_91", (pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()), true);
 
 	pListControl->SetFocus();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaRWVersion");
@@ -3156,9 +3125,9 @@ void		Tasks::onRequestOrphanDFFEntriesNotInCOL(void)
 
 	if (getIMGF()->getIMGEditor()->getTabs().getEntryCount() > 0)
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_125", vecEntryNamesMissingFromCOL.size()));
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-		getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromCOL, "\n"), true);
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_125", vecEntryNamesMissingFromCOL.size()));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
+		// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromCOL, "\n"), true);
 	}
 	else
 	{
@@ -3233,9 +3202,9 @@ void		Tasks::onRequestOrphanIDEEntriesNotInCOL(void)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_112", vecEntryNamesMissingFromCOL.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromCOL, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_112", vecEntryNamesMissingFromCOL.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromCOL, "\n"), true);
 
 	getIMGF()->getTaskManager()->onPauseTask();
 	bool bImportEntries = false; // todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromCOL, "IDE Entries missing from COL:", "Import into IMG");
@@ -3264,7 +3233,7 @@ void		Tasks::onRequestOrphanIDEEntriesNotInCOL(void)
 			}
 		}
 
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_84", uiImportedFileCount, vecEntryNamesMissingFromCOL.size()));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_84", uiImportedFileCount, vecEntryNamesMissingFromCOL.size()));
 
 		if (uiImportedFileCount > 0)
 		{
@@ -3330,9 +3299,9 @@ void		Tasks::onRequestOrphanDFFEntriesNotInIDE(void)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_126", vecEntryNamesMissingFromIDE.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_126", vecEntryNamesMissingFromIDE.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
 	getIMGF()->getTaskManager()->onPauseTask();
 	// todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "DFF Entries missing from IDE:");
@@ -3396,9 +3365,9 @@ void		Tasks::onRequestOrphanCOLEntriesNotInIDE(void)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_113", vecEntryNamesMissingFromIDE.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_113", vecEntryNamesMissingFromIDE.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
 	getIMGF()->getTaskManager()->onPauseTask();
 	// todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "COL Entries missing from IDE:");
@@ -3440,9 +3409,9 @@ void		Tasks::onRequestOrphanIMGEntriesNotInIDE(void)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_92", vecEntryNamesMissingFromIDE.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_92", vecEntryNamesMissingFromIDE.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
 	getIMGF()->getTaskManager()->onPauseTask();
 	bool bRemoveEntries = getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "IMG Entries missing from IDE:", "Remove from IMG");
@@ -3459,7 +3428,7 @@ void		Tasks::onRequestOrphanIMGEntriesNotInIDE(void)
 			getIMGF()->getEntryListTab()->removeEntry(pIMGEntry);
 		}
 
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_53", vecEntryNamesMissingFromIDE.size()));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_53", vecEntryNamesMissingFromIDE.size()));
 
 		if (vecEntryNamesMissingFromIDE.size() > 0)
 		{
@@ -3537,9 +3506,9 @@ void		Tasks::onRequestOrphanIPLEntriesNotInIDE(void)
 	}
 
 	// log
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_141", vecEntryNamesMissingFromIDE.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_141", vecEntryNamesMissingFromIDE.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
 	// popup
 	getIMGF()->getTaskManager()->onPauseTask();
@@ -3606,9 +3575,9 @@ void		Tasks::onRequestOrphanTXDEntriesNotInIDE(void)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_140", vecEntryNamesMissingFromIDE.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_140", vecEntryNamesMissingFromIDE.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
 
 	getIMGF()->getTaskManager()->onPauseTask();
 	// todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "TXD Entries missing from IDE:");
@@ -3649,9 +3618,9 @@ void		Tasks::onRequestOrphanIDEEntriesNotInIMG(void)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_94", vecEntryNamesMissingFromIMG.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIMG, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_94", vecEntryNamesMissingFromIMG.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIMG, "\n"), true);
 
 	getIMGF()->getTaskManager()->onPauseTask();
 	bool bImportEntries = false; // todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIMG, "IDE Entries missing from IMG:", "Import into IMG");
@@ -3680,7 +3649,7 @@ void		Tasks::onRequestOrphanIDEEntriesNotInIMG(void)
 			}
 		}
 
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_84", uiImportedFileCount, vecEntryNamesMissingFromIMG.size()));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_84", uiImportedFileCount, vecEntryNamesMissingFromIMG.size()));
 
 		if (uiImportedFileCount > 0)
 		{
@@ -3906,13 +3875,13 @@ void		Tasks::onRequestConvertDFFToRWVersion(RWVersion *pRWVersion)
 			}
 		}
 
-		getIMGF()->getEntryListTab()->log("[Convert 2DFX from IDE (GTA III/VC) to DFF (GTA SA)] IDE 2DFX object IDs entries not having an IDE entry linked by object ID:", true);
+		// todo - getIMGF()->getEntryListTab()->log("[Convert 2DFX from IDE (GTA III/VC) to DFF (GTA SA)] IDE 2DFX object IDs entries not having an IDE entry linked by object ID:", true);
 		vector<string> vecExtendedLogLines_MissingObjectIds2;
 		for (uint32 uiValue : vecExtendedLogLines_MissingObjectIds)
 		{
 			vecExtendedLogLines_MissingObjectIds2.push_back(String::toString(uiValue));
 		}
-		getIMGF()->getEntryListTab()->log(String::join(vecExtendedLogLines_MissingObjectIds2, "\n"), true);
+		// todo - getIMGF()->getEntryListTab()->log(String::join(vecExtendedLogLines_MissingObjectIds2, "\n"), true);
 		vecExtendedLogLines_MissingObjectIds.clear();
 		vecExtendedLogLines_MissingObjectIds2.clear();
 	}
@@ -4192,9 +4161,9 @@ void		Tasks::onRequestConvertDFFToRWVersion(RWVersion *pRWVersion)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 	
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_95", vecConvertedDFFEntryNames.size(), (pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_96"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecConvertedDFFEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_95", vecConvertedDFFEntryNames.size(), (pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_96"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecConvertedDFFEntryNames, "\n"), true);
 
 	if (pIMGEntry != nullptr)
 	{
@@ -4335,9 +4304,9 @@ void		Tasks::onRequestMissingTextures(void)
 		}
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_97", vecDFFTexturesMissingFromTXD.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_98"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecDFFTexturesMissingFromTXD, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_97", vecDFFTexturesMissingFromTXD.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_98"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecDFFTexturesMissingFromTXD, "\n"), true);
 
 	getIMGF()->getTaskManager()->onPauseTask();
 	getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Textures", "Textures missing:", "Texture Name", vecDFFTexturesMissingFromTXD, LocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_4_InitialFilename", Path::replaceFileExtension(Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str()), "MISSINGTEXTURES");
@@ -4455,9 +4424,9 @@ void		Tasks::onRequestReplaceAllFromFolder(void)
 	vector<string> vecReplacedEntryNames;
 	getIMGF()->getEntryListTab()->replace(vecFilePaths, vecReplacedEntryNames);
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("ReplacedEntries", vecReplacedEntryNames.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntriesForReplace"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecReplacedEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("ReplacedEntries", vecReplacedEntryNames.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntriesForReplace"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecReplacedEntryNames, "\n"), true);
 
 	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestReplaceAllFromFolder");
@@ -4677,11 +4646,11 @@ void		Tasks::onRequestImportViaFolder(void)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_99", vecFileNames.size(), Path::getFolderName(strPath).c_str()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_100"), true);
-	getIMGF()->getEntryListTab()->log(strPath, true);
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntriesForImport"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecFileNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_99", vecFileNames.size(), Path::getFolderName(strPath).c_str()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_100"), true);
+	// todo - getIMGF()->getEntryListTab()->log(strPath, true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntriesForImport"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecFileNames, "\n"), true);
 
 	if (vecFileNames.size() > 0)
 	{
@@ -4842,9 +4811,9 @@ void		Tasks::onRequestDuplicateEntries(void)
 	// log
 	if (getIMGF()->getEntryListTab())
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_102", vecEntryDuplicateNames.size()));
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_103"), true);
-		getIMGF()->getEntryListTab()->log(String::join(vecEntryDuplicateNames, "\n"), true);
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_102", vecEntryDuplicateNames.size()));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_103"), true);
+		// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryDuplicateNames, "\n"), true);
 	}
 
 	// results window
@@ -4990,11 +4959,11 @@ void		Tasks::onRequestConvertTXDToGame(EPlatformedGame EPlatformedGame)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_104", uiConvertedTXDCount, GameManager::get()->getPlatformedGameText(EPlatformedGame).c_str(), vecMipmapsRemoved.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_105"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecConvertedTXDNames, "\n"), true);
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("MipmapsRemoved"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecMipmapsRemoved, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_104", uiConvertedTXDCount, GameManager::get()->getPlatformedGameText(EPlatformedGame).c_str(), vecMipmapsRemoved.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_105"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecConvertedTXDNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("MipmapsRemoved"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecMipmapsRemoved, "\n"), true);
 
 	if (pIMGEntry != nullptr)
 	{
@@ -5060,9 +5029,9 @@ void		Tasks::onRequestConvertTXDToRWVersion(RWVersion *pRWVersion)
 		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_107", vecConvertedTXDEntryNames.size(), (pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_105"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecConvertedTXDEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_107", vecConvertedTXDEntryNames.size(), (pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_105"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecConvertedTXDEntryNames, "\n"), true);
 
 	if (pIMGEntry != nullptr)
 	{
@@ -5252,7 +5221,7 @@ void		Tasks::onRequestSelectViaIDE(void)
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	getIMGF()->getEntryListTab()->log("Selected " + String::toString(uiSelectedEntryCount) + " entr" + (uiSelectedEntryCount == 1 ? "y" : "ies") + " (vie IDE file).");
+	// todo - getIMGF()->getEntryListTab()->log("Selected " + String::toString(uiSelectedEntryCount) + " entr" + (uiSelectedEntryCount == 1 ? "y" : "ies") + " (vie IDE file).");
 
 	pListControl->SetFocus();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaIDE");
@@ -5316,14 +5285,14 @@ void		Tasks::onRequestExportViaIPLFile(void)
 	
 	for (auto pIMGEntry : vecIMGEntries)
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_109", pIMGEntry->getEntryName().c_str()), true);
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_109", pIMGEntry->getEntryName().c_str()), true);
 	}
 
 	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size());
 	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_110", vecIMGEntries.size(), getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_77"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecIMGEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_110", vecIMGEntries.size(), getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_77"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecIMGEntryNames, "\n"), true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaIPLFile");
 }
 void		Tasks::onRequestRenameIMG(void)
@@ -5374,7 +5343,7 @@ void		Tasks::onRequestRenameIMG(void)
 	ltag.pszText = &wstrNewIMGFileName[0];
 	((TabCtrl*)getIMGF()->getDialog()->GetDlgItem(1))->SetItem(getIMGF()->getEntryListTab()->getIndex(), &ltag);
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_111", strCurrentIMGFileName.c_str(), strNewIMGFileName.c_str()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_111", strCurrentIMGFileName.c_str(), strNewIMGFileName.c_str()));
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRenameIMG");
 	*/
 }
@@ -5655,7 +5624,7 @@ void		Tasks::onRequestSaveIMGSignature(void)
 	getIMGF()->getEntryListTab()->loadProtectedEntryStates();
 	getIMGF()->getEntryListTab()->readdGridEntries();
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_114", Path::getFileName(strDBPath).c_str()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_114", Path::getFileName(strDBPath).c_str()));
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveIMGSignature");
 }
 void		Tasks::onRequestVerifyIMGSignature(void)
@@ -5912,11 +5881,11 @@ void			Tasks::onRequestConvertTXDToTextureFormat(RasterDataFormat *pRasterDataFo
 		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_115", vecConvertedTXDEntryNames.size(), LocalizationManager::get()->getTranslatedText(pRasterDataFormat->getLocalizationKey()).c_str(), vecMipmapsRemoved.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_105"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecConvertedTXDEntryNames, "\n"), true);
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("MipmapsRemoved"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecMipmapsRemoved, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_115", vecConvertedTXDEntryNames.size(), LocalizationManager::get()->getTranslatedText(pRasterDataFormat->getLocalizationKey()).c_str(), vecMipmapsRemoved.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_105"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecConvertedTXDEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("MipmapsRemoved"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecMipmapsRemoved, "\n"), true);
 
 	if (pIMGEntry != nullptr)
 	{
@@ -6614,9 +6583,9 @@ void			Tasks::onRequestRenamer(void)
 	}
 
 	// log
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_116", vecIMGEntriesWithNewNames.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_117"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecCorruptCOLFiles, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_116", vecIMGEntriesWithNewNames.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_117"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecCorruptCOLFiles, "\n"), true);
 
 	// mark tab as modified
 	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
@@ -6839,11 +6808,11 @@ void		Tasks::onRequestBuildTXD(void)
 	}
 
 	// log
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_118", uiTotalTXDFileCount, uiTotalTextureCountUsed));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_119", pBuildTXDDialogData->m_strTexturesFolderPath.c_str()), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecTextureImagesNotFound, "\n"), true);
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_120"), true);
-	getIMGF()->getEntryListTab()->log(String::join(veTXDFormatNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_118", uiTotalTXDFileCount, uiTotalTextureCountUsed));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_119", pBuildTXDDialogData->m_strTexturesFolderPath.c_str()), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecTextureImagesNotFound, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_120"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(veTXDFormatNames, "\n"), true);
 
 	// clean up
 	//for (DFFFormat *pDFFFile : veDFFFormats)
@@ -6924,9 +6893,9 @@ void		Tasks::onRequestIMGVersionSettings(void)
 
 	// log
 	// todo rename getCompressionTypeText to alrogrfirmtm
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_121", IMGManager::getCompressionTypeText(pIMGVersionSettingsDialogData->m_ECompressionAlgorithm).c_str(), vecIMGEntries.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_122"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_121", IMGManager::getCompressionTypeText(pIMGVersionSettingsDialogData->m_ECompressionAlgorithm).c_str(), vecIMGEntries.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_122"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNames, "\n"), true);
 
 	// mark as modified since rebuild
 	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
@@ -6974,13 +6943,17 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	{
 		onRequestRenameEntry();
 	}
-	else if (strFeatureName == "onRequestSelectAll")
+	else if (strFeatureName == "selectAll")
 	{
-		onRequestSelectAll();
+		selectAll();
 	}
-	else if (strFeatureName == "onRequestSelectInverse")
+	else if (strFeatureName == "unselectAll")
 	{
-		onRequestSelectInverse();
+		unselectAll();
+	}
+	else if (strFeatureName == "selectInverse")
+	{
+		selectInverse();
 	}
 	else if (strFeatureName == "onRequestRebuild")
 	{
@@ -7490,7 +7463,7 @@ void		Tasks::onRequestConvertCOLtoCOLVersion(COLVersion *pCOLVersion)
 		uiEntryCount++;
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_123", uiEntryCount, pCOLVersion->getText().c_str()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_123", uiEntryCount, pCOLVersion->getText().c_str()));
 
 	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 
@@ -7713,7 +7686,7 @@ void			Tasks::onRequestCenterCOLCollisionMeshes(void)
 		uiEntryCount++;
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_124", uiEntryCount));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_124", uiEntryCount));
 
 	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 
@@ -7832,7 +7805,7 @@ void			Tasks::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 	string strLogText = LocalizationManager::get()->getTranslatedFormattedText("Log_AlignMeshes_COL_DFF", vecFilePaths_COL.size());
 	if (getIMGF()->getIMGEditor()->getTabs().getEntryCount() > 0)
 	{
-		getIMGF()->getEntryListTab()->log(strLogText);
+		// todo - getIMGF()->getEntryListTab()->log(strLogText);
 	}
 	else
 	{
@@ -7905,7 +7878,7 @@ void			Tasks::onRequestConvertDFFFileToWDRFile(void)
 		uiEntryCount++;
 	}
 
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_Convert_DFF_WDR", uiEntryCount));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_Convert_DFF_WDR", uiEntryCount));
 
 	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFFileToWDRFile");
@@ -8097,7 +8070,7 @@ void				Tasks::onRequestTXDOrganizer(void)
 	}
 
 	// log
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_TXDOrganizer", uiEntryCount, uiTXDCount));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_TXDOrganizer", uiEntryCount, uiTXDCount));
 
 	// clean up
 	delete pTXDOrganizerDialogData;
@@ -8168,7 +8141,7 @@ void			Tasks::onRequestConvertWTDFileToTXDFile(void)
 		uiEntryCount++;
 	}
 
-	getIMGF()->getEntryListTab()->log("Converted " + String::toString(uiEntryCount) + " WTD file" + (uiEntryCount == 1 ? "" : "s") + " to TXD file" + (uiEntryCount == 1 ? "" : "s") + ".");
+	// todo - getIMGF()->getEntryListTab()->log("Converted " + String::toString(uiEntryCount) + " WTD file" + (uiEntryCount == 1 ? "" : "s") + " to TXD file" + (uiEntryCount == 1 ? "" : "s") + ".");
 
 	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertWTDFileToTXDFile");
@@ -8557,9 +8530,9 @@ void			Tasks::onRequestExportViaDATFile(void)
 
 	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntriesToExport.size());
 	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntriesToExport, strOutputFolderPath);
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_Export_DAT", vecIMGEntriesToExport.size()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_77"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecExportedEntryNames, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_Export_DAT", vecIMGEntriesToExport.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_77"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecExportedEntryNames, "\n"), true);
 	
 	for (auto pIDEFile : veIDEFormats)
 	{
@@ -8862,7 +8835,7 @@ void						Tasks::onRequestMapMoverAndIDShifter(void)
 	}
 	else
 	{
-		getIMGF()->getEntryListTab()->log("Moved and ID shifted " + String::toString(vecIDEPaths.size()) + " IDE files and " + String::toString(vecIPLPaths.size()) + " IPL files in " + Path::getFileName(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
+		// todo - getIMGF()->getEntryListTab()->log("Moved and ID shifted " + String::toString(vecIDEPaths.size()) + " IDE files and " + String::toString(vecIPLPaths.size()) + " IPL files in " + Path::getFileName(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
 	}
 
 	delete pMapMoverAndIDShifterDialogData;
@@ -8937,7 +8910,7 @@ void						Tasks::onRequestDATModelList(void)
 	}
 	else
 	{
-		getIMGF()->getEntryListTab()->log("Found " + String::toString(vecModelNames.size()) + " unique model names in IDE/IPL files in " + Path::getFileName(pDATModelListDialogData->m_strDATFilePath));
+		// todo - getIMGF()->getEntryListTab()->log("Found " + String::toString(vecModelNames.size()) + " unique model names in IDE/IPL files in " + Path::getFileName(pDATModelListDialogData->m_strDATFilePath));
 	}
 
 	////////////////////////////////////////////////
@@ -9006,9 +8979,9 @@ void						Tasks::onRequestFindTXDMissingFromIMGFoundInIDE(void)
 
 	// log
 	string strIMGFileName = Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath());
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_132", vecTXDNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_135"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecTXDNamesWithoutExtensionMissingFromIMG, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_132", vecTXDNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_135"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecTXDNamesWithoutExtensionMissingFromIMG, "\n"), true);
 
 	// popup
 	string strInitialFilename = LocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", Path::replaceFileExtension(Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
@@ -9084,9 +9057,9 @@ void						Tasks::onRequestFindCOLMissingFromCOLFoundInIDE(void)
 
 	// log
 	string strIMGFileName = Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath());
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_133", vecCOLNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_135"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecCOLNamesWithoutExtensionMissingFromIMG, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_133", vecCOLNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_135"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecCOLNamesWithoutExtensionMissingFromIMG, "\n"), true);
 
 	// popup
 	string strInitialFilename = LocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", Path::replaceFileExtension(Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
@@ -9145,9 +9118,9 @@ void						Tasks::onRequestFindDFFMissingFromIMGFoundInIDE(void)
 
 	// log
 	string strIMGFileName = Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath());
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_134", vecDFFNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str()));
-	getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_135"), true);
-	getIMGF()->getEntryListTab()->log(String::join(vecDFFNamesWithoutExtensionMissingFromIMG, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_134", vecDFFNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_135"), true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecDFFNamesWithoutExtensionMissingFromIMG, "\n"), true);
 
 	// popup
 	string strInitialFilename = LocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", Path::replaceFileExtension(Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
@@ -9343,9 +9316,9 @@ void						Tasks::onRequestRemoveOrphanTexturesFromModel(void)
 	}
 
 	// log
-	getIMGF()->getEntryListTab()->log("Removed orphan textures from " + String::toString(uiDFFFileCountWithRemovedSections) + " of " + String::toString(vecDFFFormatsInput.size()) + " DFF files.");
-	getIMGF()->getEntryListTab()->log("Textures in DFF files missing from TXD files:", true);
-	getIMGF()->getEntryListTab()->log(String::join(vecTexturesInDFFMissingFromTXD, "\n"), true);
+	// todo - getIMGF()->getEntryListTab()->log("Removed orphan textures from " + String::toString(uiDFFFileCountWithRemovedSections) + " of " + String::toString(vecDFFFormatsInput.size()) + " DFF files.");
+	// todo - getIMGF()->getEntryListTab()->log("Textures in DFF files missing from TXD files:", true);
+	// todo - getIMGF()->getEntryListTab()->log(String::join(vecTexturesInDFFMissingFromTXD, "\n"), true);
 
 	// clean up
 	for (auto pDFFFile : vecDFFFormatsInput)
@@ -9429,9 +9402,9 @@ void						Tasks::onRequestFindDFFMissingFromIDEFoundInIPL(void)
 	// log
 	if (getIMGF()->getEntryListTab())
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_136", vecDFFNamesWithoutExtensionMissingFromIDE.size()));
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_135"), true);
-		getIMGF()->getEntryListTab()->log(String::join(vecDFFNamesWithoutExtensionMissingFromIDE, "\n"), true);
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_136", vecDFFNamesWithoutExtensionMissingFromIDE.size()));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_135"), true);
+		// todo - getIMGF()->getEntryListTab()->log(String::join(vecDFFNamesWithoutExtensionMissingFromIDE, "\n"), true);
 	}
 	else
 	{
@@ -9536,7 +9509,7 @@ void				Tasks::onRequestSortIDEAndIPLFilesByObjectId(void)
 	// log
 	if (getIMGF()->getEntryListTab())
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_137", veIDEFormats.size(), veIPLFormats.size(), Path::getFileName(strDATFilePath).c_str()));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_137", veIDEFormats.size(), veIPLFormats.size(), Path::getFileName(strDATFilePath).c_str()));
 	}
 	else
 	{
@@ -9681,7 +9654,7 @@ void				Tasks::onRequestExtractDVCAndNVColoursIntoDFFs(void)
 	// log
 	if (getIMGF()->getEntryListTab())
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_138", uiDFFUpdatedFileCount));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_138", uiDFFUpdatedFileCount));
 	}
 	else
 	{
@@ -9792,7 +9765,7 @@ void				Tasks::onRequestExtract2DFXIntoDFFs(void)
 	// log
 	if (getIMGF()->getEntryListTab())
 	{
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_139", uiDFFUpdatedFileCount));
+		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_139", uiDFFUpdatedFileCount));
 	}
 	else
 	{

@@ -3,9 +3,10 @@
 #include "Format/Format.h"
 #include "IMGF.h"
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
-#include "Control/Controls/TabBar.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
 #include "Static/String.h"
+#include "Control/Controls/TextBox.h"
+#include "Control/Controls/TabBar.h"
 
 using namespace std;
 using namespace bxcf;
@@ -14,7 +15,8 @@ using namespace imgf;
 
 Editor::Editor(void) :
 	m_pActiveFile(nullptr),
-	m_pTabBar(nullptr)
+	m_pTabBar(nullptr),
+	m_pLog(nullptr)
 {
 }
 
@@ -22,6 +24,26 @@ Editor::Editor(void) :
 void								Editor::init(void)
 {
 	m_pTabBar = ((MainWindow*)getWindow())->getTabBar();
+}
+
+// controls
+void								Editor::addControls(void)
+{
+	int32 x, y;
+	uint32 w, h;
+
+	// log
+	x = 0;
+	y = 508;
+	w = 139 + 139;
+	h = 120;
+
+	m_pLog = addTextBox(x, y, w, h, "", true, "log");
+	m_pLog->setReadOnly(true);
+}
+
+void								Editor::initControls(void)
+{
 }
 
 // add/remove file
@@ -42,6 +64,9 @@ void								Editor::addFile(EditorTab *pEditorFile)
 	strTabText += " (" + String::toString(pEditorFile->getFile()->m_uiEntryCount) + ")";
 
 	// add controls to tab layer
+	pEditorFile->EditorTab::addControls();
+	pEditorFile->EditorTab::initControls();
+
 	pEditorFile->addControls();
 	pEditorFile->initControls();
 
@@ -58,6 +83,15 @@ void								Editor::removeFile(EditorTab *pEditorFile)
 {
 	// remove tab from tab bar
 	m_pTabBar->removeTab(pEditorFile->getTab());
+
+	// unmark items to render
+	for (RenderItem *pRenderItem : pEditorFile->getRenderItems().getEntries())
+	{
+		if (m_pWindow->isRenderItemMarkedForRender(pRenderItem))
+		{
+			m_pWindow->setRenderItemMarkedForRender(pRenderItem, false);
+		}
+	}
 
 	// remove tab object
 	m_vecTabs.removeEntry(pEditorFile);

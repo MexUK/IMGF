@@ -65,18 +65,9 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case CLOSE:				return close();
 	case SAVE:				return save();
 
-	case IMPORT:			return _import();
-	case EXPORT:			return _export();
-	case QUICK_EXPORT:		return quickExport();
-	case RENAME:			return rename();
-	case REPLACE:			return replace();
-	case REMOVE:			return remove();
-	case MERGE:				return merge();
-	case SPLIT:				return split();
-	case CONVERT:			return convert();
-	case SELECT:			return select();
-	case SORT:				return sort();
-	case LST:				return lst();
+	case SELECT_ALL:		return selectAll();
+	case UNSELECT_ALL:		return unselectAll();
+	case SELECT_INVERSE:	return selectInverse();
 	}
 }
 
@@ -180,8 +171,19 @@ void					InputManager::convert(void)
 {
 }
 
-void					InputManager::select(void)
+void					InputManager::selectAll(void)
 {
+	m_pTasks->selectAll();
+}
+
+void					InputManager::unselectAll(void)
+{
+	m_pTasks->unselectAll();
+}
+
+void					InputManager::selectInverse(void)
+{
+	m_pTasks->selectInverse();
 }
 
 void					InputManager::sort(void)

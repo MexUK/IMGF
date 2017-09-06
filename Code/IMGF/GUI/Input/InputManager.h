@@ -40,6 +40,10 @@ private:
 	void					close(void);
 	void					save(void);
 
+	void					selectAll(void);
+	void					unselectAll(void);
+	void					selectInverse(void);
+
 	void					_import(void);
 	void					_export(void);
 	void					quickExport(void);
@@ -49,7 +53,6 @@ private:
 	void					merge(void);
 	void					split(void);
 	void					convert(void);
-	void					select(void);
 	void					sort(void);
 	void					lst(void);
 
