@@ -76,7 +76,7 @@
       </IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>"../../../../Output/Final/IMGF/$(Configuration).$(Platform)/IMGF.BuildNumber.exe"</Command>
+      <Command>"../../../../Output/Final/IMGF/$(Configuration).$(Platform)/IMGF.BuildVersion.exe"</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>IMGF Build Number</Message>
@@ -106,7 +106,7 @@
       <IgnoreSpecificDefaultLibraries>Uafxcw.lib;Libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>"../../../../Output/Final/IMGF/$(Configuration).$(Platform)/IMGF.BuildNumber.exe"</Command>
+      <Command>"../../../../Output/Final/IMGF/$(Configuration).$(Platform)/IMGF.BuildVersion.exe"</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>IMGF Build Number</Message>
@@ -126,6 +126,7 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\IMGEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Input\InputManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayer.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayerNoTabsOpen.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\Windows\MainWindow\MainWindow.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\IMGF.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DragDrop.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\EInputItem.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\ELayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayer.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayerNoTabsOpen.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainMenu\EMainMenuType.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\Windows\MainWindow\MainWindow.h" />
     <ClInclude Include="..\..\..\Code\IMGF\IMGF.h" />

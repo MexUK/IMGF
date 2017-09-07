@@ -40,9 +40,11 @@
 #include "Control/Controls/TabBar.h"
 #include "Control/Controls/TextBox.h"
 #include "Control/Controls/DropDown.h"
+#include "Control/Controls/ProgressBar.h"
 #include "Control/Components/ScrollBarPool.h"
 #include "Format/EFileType.h"
 #include "Event/EInputEvent.h"
+#include "../BXGI/Event/EEvent.h"
 #include <map>
 #include <algorithm>
 
@@ -67,6 +69,14 @@ IMGEditorTab::IMGEditorTab(void) :
 {
 }
 
+IMGEditorTab::~IMGEditorTab(void)
+{
+	unbindEvent(RESIZE_WINDOW, &IMGEditorTab::repositionAndResizeControls);
+	unbindEvent(SELECT_DROP_ENTRY, &IMGEditorTab::onSelectDropEntry);
+	unbindEvent(CHANGE_TEXT_BOX, &IMGEditorTab::onChangeTextBox);
+	unbindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
+}
+
 // load/unload
 void					IMGEditorTab::unload(void)
 {
@@ -79,6 +89,45 @@ void					IMGEditorTab::unload(void)
 // initialization
 void					IMGEditorTab::init(void)
 {
+	// add controls to tab layer
+	EditorTab::addControls();
+	EditorTab::initControls();
+
+	addControls();
+	initControls();
+
+	// choose tab text
+	string strTabText = Path::getFileName(m_pIMGFile->getFilePath());
+	if (String::toUpperCase(Path::getFileExtension(strTabText)) == "DIR")
+	{
+		strTabText = Path::replaceFileExtensionWithCase(strTabText, "IMG");
+	}
+	strTabText += " (Loading..)";
+
+	// add tab to tab bar
+	TabBar *pTabBar = m_pEditor->getTabBar();
+	m_pTab = pTabBar->addTab(strTabText, true);
+	pTabBar->bindTabLayer(m_pTab, this);
+}
+
+// on file loaded
+void					IMGEditorTab::onFileLoaded(void)
+{
+	string strFilePath = m_pEditor->getResolvedFilePath(getFile()->getFilePath());
+
+	// update tab text
+	string strTabText = Path::getFileName(strFilePath);
+	if (String::toUpperCase(Path::getFileExtension(strTabText)) == "DIR")
+	{
+		strTabText = Path::replaceFileExtensionWithCase(strTabText, "IMG");
+	}
+	strTabText += " (" + String::toString(getFile()->m_uiEntryCount) + ")";
+	m_pTab->setText(strTabText);
+
+	// add file path to recently opened files list
+	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(strFilePath);
+
+	// store render items
 	getRenderItems().addEntry(m_pEntryGrid);
 	getRenderItems().addEntry(m_pEntryTypeFilter);
 	getRenderItems().addEntry(m_pEntryVersionFilter);
@@ -95,6 +144,9 @@ void					IMGEditorTab::init(void)
 
 	loadFilter_Type();
 	loadFilter_Version();
+
+
+
 
 
 
@@ -183,6 +235,13 @@ void					IMGEditorTab::initControls(void)
 
 	bindEvent(SELECT_DROP_ENTRY, &IMGEditorTab::onSelectDropEntry);
 	bindEvent(CHANGE_TEXT_BOX, &IMGEditorTab::onChangeTextBox);
+
+	bindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
+}
+
+void					IMGEditorTab::onUnserializeEntry(IMGFormat *img)
+{
+	getIMGF()->getTaskManager()->onTaskProgressTick();
 }
 
 void					IMGEditorTab::removeControls(void)
@@ -215,6 +274,57 @@ void					IMGEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	point = m_pEntryVersionFilter->getPosition();
 	iNewX = m_pWindow->getSize().x - m_pEntryVersionFilter->getSize().x;
 	m_pEntryVersionFilter->setPosition(Vec2i(iNewX, point.y));
+}
+
+// file unserialization
+bool					IMGEditorTab::unserializeFile(void)
+{
+	IMGFormat *img = getIMGFile();
+
+	if (!img->open())
+	{
+		Input::showMessage("Unable to open IMG file:\r\n\r\n" + img->getFilePath(), "Can't Open File");
+		delete img;
+		return false;
+	}
+
+	if (img->getVersion() == IMG_UNKNOWN)
+	{
+		Input::showMessage("Version of IMG format is not supported:\r\n\r\n" + img->getFilePath(), "IMG Version Not Supported");
+		delete img;
+		return false;
+	}
+
+	if (!getIMGEditor()->validateFile(img))
+	{
+		delete img;
+		return false;
+	}
+
+	/*
+	progress bar: 3 or 4 stages
+
+	x3 for:
+	- reading entry header (parsing)
+	- reading RW versions (parsing)
+	- adding all entries to grid
+
+	x4 for:
+	- reading IMG version 3 entry names
+	*/
+	uint32
+		uiProgressBarMaxMultiplier = img->getVersion() == IMG_3 ? 4 : 3,
+		uiProgressBarMax = img->m_uiEntryCount * uiProgressBarMaxMultiplier;
+	getProgressBar()->setMax(uiProgressBarMax);
+
+	if (!img->unserialize2())
+	{
+		Input::showMessage("Failed to read the IMG file:\r\n\r\n" + img->getFilePath(), "Unable To Read File");
+		delete img;
+		return false;
+	}
+
+	return true;
 }
 
 // control events
@@ -642,7 +752,7 @@ void					IMGEditorTab::addGridEntries(void)
 		*pTypeFilterItem = m_pEntryTypeFilter->getActiveItem(),
 		*pVersionFilterItem = m_pEntryVersionFilter->getActiveItem();
 	TextBox
-		*pSearchBoxFilter = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->getSearchBox();
+		*pSearchBoxFilter = m_pSearchBox;
 	int32
 		iTypeFilterSelectedIndex = m_pEntryTypeFilter->getSelectedItemIndex(),
 		iVersionFilterSelectedIndex = m_pEntryVersionFilter->getSelectedItemIndex();

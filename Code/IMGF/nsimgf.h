@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Type/Types.h"
+
 namespace imgf
 {
 	namespace layers
@@ -69,6 +71,7 @@ namespace imgf
 	class InputManager;
 
 	class MainLayer;
+	class MainLayerNoTabsOpen;
 
 	class WindowManager;
 

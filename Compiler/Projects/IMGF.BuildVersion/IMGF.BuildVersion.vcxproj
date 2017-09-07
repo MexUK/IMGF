@@ -11,15 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Code\IMGF.BuildNumber\BuildVersionUpdater.h" />
+    <ClInclude Include="..\..\..\Code\IMGF.BuildVersion\BuildVersionUpdater.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Code\IMGF.BuildNumber\BuildVersionUpdater.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF.BuildVersion\BuildVersionUpdater.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6FBD84F0-8530-44AD-A2E6-AFFC9A23EF67}</ProjectGuid>
-    <RootNamespace>IMGF.BuildNumber</RootNamespace>
+    <RootNamespace>IMGF.BuildVersion</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <ProjectName>IMGF.BuildVersion</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -47,15 +48,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>../../../../Output/Final/IMGF/$(Configuration).$(Platform)/</OutDir>
-    <IntDir>../../../../Output/Intermediate/IMGF/IMGF.BuildNumber/$(Configuration).$(Platform)/</IntDir>
-    <TargetName>IMGF.BuildNumber</TargetName>
+    <IntDir>../../../../Output/Intermediate/IMGF/IMGF.BuildVersion/$(Configuration).$(Platform)/</IntDir>
+    <TargetName>IMGF.BuildVersion</TargetName>
     <IncludePath>../../../../BXCF/Code/BXCF/;$(IncludePath)</IncludePath>
     <LibraryPath>../../../../Output/Final/BXCF/$(Configuration).$(Platform)/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>../../../../Output/Final/IMGF/$(Configuration).$(Platform)/</OutDir>
-    <IntDir>../../../../Output/Intermediate/IMGF/IMGF.BuildNumber/$(Configuration).$(Platform)/</IntDir>
-    <TargetName>IMGF.BuildNumber</TargetName>
+    <IntDir>../../../../Output/Intermediate/IMGF/IMGF.BuildVersion/$(Configuration).$(Platform)/</IntDir>
+    <TargetName>IMGF.BuildVersion</TargetName>
     <IncludePath>../../../../BXCF/Code/BXCF/;$(IncludePath)</IncludePath>
     <LibraryPath>../../../../Output/Final/BXCF/$(Configuration).$(Platform)/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>

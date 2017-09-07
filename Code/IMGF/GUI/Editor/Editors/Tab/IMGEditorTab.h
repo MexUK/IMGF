@@ -4,7 +4,6 @@
 #include "nsbxgi.h"
 #include "GUI/Editor/Base/Tab/EditorTab.h"
 #include "Task/Tasks/Filter/FilterOptions.h"
-#include "Event/EventBindable.h"
 #include "Task/TaskManager.h"
 #include <string>
 #include <vector>
@@ -16,20 +15,28 @@ class bxgi::IMGEntry;
 class imgf::DBFormat;
 class bxgx::DropDownItem;
 class bxgx::Grid;
+class bxgi::IMGFormat;
 
-class imgf::IMGEditorTab : public EditorTab, public bxcf::EventBindable
+class imgf::IMGEditorTab : public imgf::EditorTab
 {
 public:
 	IMGEditorTab(void);
+	~IMGEditorTab(void);
 
 	void						unload(void);
 
 	void						init(void);
 
+	void						onFileLoaded(void);
+
 	void						addControls(void);
 	void						removeControls(void);
 	void						initControls(void);
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
+
+	bool						unserializeFile(void);
+
+	void						onUnserializeEntry(bxgi::IMGFormat *img);
 
 	void						onSelectDropEntry(bxgx::DropDownItem *pDropEntry);
 	void						onChangeTextBox(bxgx::TextBox *pTextBox);

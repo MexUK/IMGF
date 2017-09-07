@@ -11,6 +11,8 @@
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
 #include "GUI/Layer/Layers/MainLayer/MainLayer.h"
+#include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
+#include "GUI/Editor/Editors/IMGEditor.h"
 #include "Control/Controls/ProgressBar.h"
 #include "IMGF.h"
 
@@ -124,7 +126,15 @@ void							TaskManager::onTaskProgressTick(void)
 {
 	//setTaskProgressTickCount(getTaskProgressTickCount() + 1);
 
-	static ProgressBar *pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pProgressBar;
+	ProgressBar *pProgressBar;
+	if (getIMGF()->getWindowManager()->getMainWindow()->getIMGEditor()->getActiveTab())
+	{
+		pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getIMGEditor()->getActiveTab()->getProgressBar();
+	}
+	else
+	{
+		pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->getProgressBar();
+	}
 	pProgressBar->increaseCurrent();
 }
 

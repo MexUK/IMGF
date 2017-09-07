@@ -280,52 +280,13 @@ void		Tasks::_openFile(string& strFilePath)
 		}
 		else
 		{
+		}
 		*/
-			if (!img->open())
-			{
-				Input::showMessage("Unable to open IMG file:\r\n\r\n" + strFilePath, "Can't Open File");
-				delete img;
-				return onAbortTask();
-			}
-		//}
 
-		if (img->getVersion() == IMG_UNKNOWN)
+		if (!m_pMainWindow->getIMGEditor()->addFile(img))
 		{
-			Input::showMessage("Version of IMG format is not supported:\r\n\r\n" + strFilePath, "IMG Version Not Supported");
-			delete img;
 			return onAbortTask();
 		}
-
-		if (!m_pMainWindow->getIMGEditor()->validateFile(img))
-		{
-			delete img;
-			return onAbortTask();
-		}
-
-		/*
-		progress bar: 3 or 4 stages
-
-		x3 for:
-		- reading entry header (parsing)
-		- reading RW versions (parsing)
-		- adding all entries to grid
-		
-		x4 for:
-		- reading IMG version 3 entry names
-		*/
-		uint32
-			uiProgressBarMaxMultiplier = img->getVersion() == IMG_3 ? 4 : 3,
-			uiProgressBarMax = img->m_uiEntryCount * uiProgressBarMaxMultiplier;
-		m_pMainWindow->getProgressBar()->setMax(uiProgressBarMax);
-
-		if (!img->unserialize2())
-		{
-			Input::showMessage("Failed to read the IMG file:\r\n\r\n" + img->getFilePath(), "Unable To Read File");
-			delete img;
-			return onAbortTask();
-		}
-
-		m_pMainWindow->getIMGEditor()->addFile(img);
 
 		img->close();
 	}

@@ -5,7 +5,6 @@
 #include "GUI/Editor/Editors/Tab/IMGEditorTab.h"
 #include "GUI/Editor/Base/Editor.h"
 #include "Format/IMG/Regular/EIMGVersion.h"
-#include "Event/EventBindable.h"
 #include <string>
 
 class imgf::MainWindow;
@@ -16,7 +15,7 @@ class bxgx::DropDown;
 class bxgi::IMGEntry;
 class bxgi::IMGFormat;
 
-class imgf::IMGEditor : public Editor, public bxcf::EventBindable
+class imgf::IMGEditor : public Editor
 {
 public:
 	IMGEditor(void);
@@ -33,9 +32,6 @@ public:
 	IMGEditorTab*				addTabObjectAndTabControl(bxgi::IMGFormat *img);
 	void						removeFile(IMGEditorTab *pIMGEditorFile);
 	void						removeActiveFile(void);
-	
-	void						onUnserializeEntry(bxgi::IMGFormat *img);
-	void						onTaskProgress(void);
 
 	void						setFileInfoText(EditorTab *pEditorFile);
 	void						clearFileInfoText(void);

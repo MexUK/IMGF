@@ -57,7 +57,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IMGF.App", "..\..\Projects\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{0AE806B2-6E9C-41D6-BBC3-D48487042C0D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IMGF.BuildNumber", "..\..\Projects\IMGF.BuildNumber\IMGF.BuildNumber.vcxproj", "{6FBD84F0-8530-44AD-A2E6-AFFC9A23EF67}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IMGF.BuildVersion", "..\..\Projects\IMGF.BuildVersion\IMGF.BuildVersion.vcxproj", "{6FBD84F0-8530-44AD-A2E6-AFFC9A23EF67}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A79785A9-ED86-4F96-8158-C0F79ACCB843} = {A79785A9-ED86-4F96-8158-C0F79ACCB843}
 	EndProjectSection

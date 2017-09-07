@@ -15,12 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Code\IMGF.BuildNumber\BuildVersionUpdater.h">
+    <ClInclude Include="..\..\..\Code\IMGF.BuildVersion\BuildVersionUpdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Code\IMGF.BuildNumber\BuildVersionUpdater.cpp">
+    <ClCompile Include="..\..\..\Code\IMGF.BuildVersion\BuildVersionUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

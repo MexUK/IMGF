@@ -141,15 +141,6 @@ void		MainLayer::addControls(void)
 	pMenu1->addMenuItem("Close", CLOSE);
 	pMenu1->addMenuItem("Save", SAVE);
 
-	// search box
-	w2 = 0;
-	x += pMenu1->getEntryCount() * w;
-	w = (m_pWindow->getSize().x - x) - (uiButtonHeight + 1);
-	h = uiButtonHeight;
-	strStyleGroup = "filter";
-
-	m_pSearchBox = addTextBox(x, y, w, h, "Search", false, strStyleGroup);
-
 	// settings icon
 	x += w;
 	w = uiButtonHeight + 1;
@@ -334,17 +325,6 @@ void		MainLayer::addControls(void)
 
 
 
-	// progress bar
-	w = 150;
-	w2 = 10;
-	h2 = uiButtonHeight + 10;
-	x = (m_pWindow->getSize().x - w2) - w;
-	y = uiTitleBarHeight + h2;
-	h = 5;
-	strStyleGroup = "progressBar";
-
-	m_pProgressBar = addProgressBar(x, y, w, h, strStyleGroup);
-
 	// logo
 	x = 139 + 14;
 	y = uiTitleBarHeight;
@@ -372,16 +352,6 @@ void		MainLayer::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	int32 x, y, iNewX, iNewWidth;
 	uint32 uiButtonHeight = 37;
 
-	// progress bar
-	point = m_pProgressBar->getPosition();
-	iNewX = (pWindow->getSize().x - m_pProgressBar->getSize().x) - 10;
-	m_pProgressBar->setPosition(Vec2i(iNewX, point.y));
-
-	// search box
-	size = m_pSearchBox->getSize();
-	iNewWidth = (pWindow->getSize().x - m_pSearchBox->getPosition().x) - (uiButtonHeight + 1);
-	m_pSearchBox->setSize(Vec2u(iNewWidth, size.y));
-
 	// tab bar
 	size = m_pTabBar->getSize();
 	iNewWidth = pWindow->getSize().x - m_pTabBar->getPosition().x;
@@ -392,8 +362,8 @@ void		MainLayer::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	iNewX = pWindow->getSize().x - (uiButtonHeight + 1);
 	m_pSettingsButton->setPosition(Vec2i(iNewX, point.y));
 
-	x = m_pSearchBox->getPosition().x + m_pSearchBox->getSize().x;
-	y = m_pSearchBox->getPosition().y;
+	x = m_pWindow->getSize().x - (uiButtonHeight + 1);
+	y = m_pWindow->getTitleBarHeight();
 	m_pSettingsButtonLine1->setPoint1(Vec2i(x + 10, y + 10));
 	m_pSettingsButtonLine1->setPoint2(Vec2i(x + 27, y + 10));
 	m_pSettingsButtonLine2->setPoint1(Vec2i(x + 10, y + 19));

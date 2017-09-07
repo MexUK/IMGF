@@ -23,8 +23,6 @@ public:
 	MainWindow*					getIMGFWindow(void) { return m_pMainWindow; }
 
 	bxgx::TabBar*				getTabBar(void) { return m_pTabBar; }
-	bxgx::ProgressBar*			getProgressBar(void) { return m_pProgressBar; }
-	bxgx::TextBox*				getSearchBox(void) { return m_pSearchBox; }
 
 	void						onChangeTab(bxgx::TabBar *pTabBar);
 	void						onRemoveTab(bxgx::Tab *pTab);
@@ -39,8 +37,6 @@ public:
 	MainWindow*					m_pMainWindow;
 
 	bxgx::TabBar*				m_pTabBar;
-	bxgx::ProgressBar*			m_pProgressBar;
-	bxgx::TextBox*				m_pSearchBox;
 
 	bxgx::Button*				m_pSettingsButton;
 	bxgx::Line*					m_pSettingsButtonLine1;

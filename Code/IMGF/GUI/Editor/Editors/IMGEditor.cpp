@@ -28,6 +28,8 @@
 #include "Event/EInputEvent.h"
 #include "../BXGI/Event/EEvent.h"
 #include "../IMGF/Event/EEvent.h"
+#include "GUI/Window/WindowManager.h"
+#include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 
 // for menu start - todo
 #include "Engine/RW/RWManager.h"
@@ -74,9 +76,6 @@ void						IMGEditor::init(void)
 
 	addControls();
 	initControls();
-
-	bindEvent(TASK_PROGRESS, &IMGEditor::onTaskProgress);
-	bindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditor::onUnserializeEntry);
 }
 
 // format validation
@@ -107,6 +106,10 @@ bool						IMGEditor::validateFile(IMGFormat *img)
 IMGEditorTab*				IMGEditor::addFile(IMGFormat *img)
 {
 	IMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img);
+	if (!imgEditorTab)
+	{
+		return nullptr;
+	}
 
 	string strFileName = Path::getFileName(img->getFilePath());
 	imgEditorTab->logf("Opened %s", strFileName.c_str());
@@ -144,11 +147,18 @@ IMGEditorTab*				IMGEditor::addTabObjectAndTabControl(IMGFormat *img)
 	else
 	{
 		setEnabled(false);
+		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(false);
 	}
 
 	Editor::addFile(imgEditorTab);
-
 	imgEditorTab->init();
+
+	if (!imgEditorTab->unserializeFile())
+	{
+		return nullptr;
+	}
+
+	imgEditorTab->onFileLoaded();
 
 	return imgEditorTab;
 }
@@ -167,6 +177,7 @@ void						IMGEditor::removeFile(IMGEditorTab *pIMGEditorFile)
 	if (getTabs().getEntryCount() == 0)
 	{
 		setEnabled(true);
+		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(true);
 	}
 	else
 	{
@@ -182,17 +193,6 @@ void						IMGEditor::removeActiveFile(void)
 	}
 
 	removeFile((IMGEditorTab*)getActiveFile());
-}
-
-// progress bar
-void						IMGEditor::onUnserializeEntry(IMGFormat *img)
-{
-	getIMGF()->getTaskManager()->onTaskProgressTick();
-}
-
-void						IMGEditor::onTaskProgress(void)
-{
-	getIMGF()->getTaskManager()->onTaskProgressTick();
 }
 
 // file info text
@@ -1110,7 +1110,6 @@ void		IMGEditor::initControls(void)
 	addColumnsToMainListView(IMG_UNKNOWN);
 	
 	bindEvent(RESIZE_WINDOW, &IMGEditor::repositionAndResizeControls);
-	//bindEvent<imgf::IMGEditor, bxcf::Vec2i&>(RESIZE_WINDOW, &IMGEditor::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));
 }
 

@@ -15,8 +15,7 @@ using namespace imgf;
 
 Editor::Editor(void) :
 	m_pActiveFile(nullptr),
-	m_pTabBar(nullptr),
-	m_pLog(nullptr)
+	m_pTabBar(nullptr)
 {
 }
 
@@ -29,17 +28,6 @@ void								Editor::init(void)
 // controls
 void								Editor::addControls(void)
 {
-	int32 x, y;
-	uint32 w, h;
-
-	// log
-	x = 0;
-	y = 508;
-	w = 139 + 139;
-	h = 120;
-
-	m_pLog = addTextBox(x, y, w, h, "", true, "log");
-	m_pLog->setReadOnly(true);
 }
 
 void								Editor::initControls(void)
@@ -52,31 +40,6 @@ void								Editor::addFile(EditorTab *pEditorFile)
 	// store file object
 	m_vecTabs.addEntry(pEditorFile);
 	setActiveFile(pEditorFile);
-
-	string strFilePath = getResolvedFilePath(pEditorFile->getFile()->getFilePath());
-
-	// choose tab text
-	string strTabText = Path::getFileName(strFilePath);
-	if (String::toUpperCase(Path::getFileExtension(strTabText)) == "DIR")
-	{
-		strTabText = Path::replaceFileExtensionWithCase(strTabText, "IMG");
-	}
-	strTabText += " (" + String::toString(pEditorFile->getFile()->m_uiEntryCount) + ")";
-
-	// add controls to tab layer
-	pEditorFile->EditorTab::addControls();
-	pEditorFile->EditorTab::initControls();
-
-	pEditorFile->addControls();
-	pEditorFile->initControls();
-
-	// add tab to tab bar
-	Tab *pTab = m_pTabBar->addTab(strTabText, true);
-	m_pTabBar->bindTabLayer(pTab, pEditorFile);
-	pEditorFile->setTab(pTab);
-
-	// add file path to recently opened files list
-	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(strFilePath);
 }
 
 void								Editor::removeFile(EditorTab *pEditorFile)

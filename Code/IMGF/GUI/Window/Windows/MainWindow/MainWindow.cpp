@@ -15,6 +15,7 @@
 #include "Static/String.h"
 #include "Type/Colour/Colour.h"
 #include "GUI/Layer/Layers/MainLayer/MainLayer.h"
+#include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 #include "GUI/Layer/Layers/MainMenu/EMainMenuType.h"
 #include "GUI/Layer/Layers/ELayer.h"
 #include "Control/Controls/Menu.h"
@@ -32,6 +33,7 @@ using namespace imgf::layers;
 MainWindow::MainWindow(void) :
 	m_uiMainMenuType(FORMATS),
 	m_pMainLayer(nullptr),
+	m_pMainLayerNoTabsOpen(nullptr),
 	m_pIMGEditor(nullptr)
 {
 }
@@ -46,7 +48,7 @@ void					MainWindow::init(void)
 // item fetching
 ProgressBar*		MainWindow::getProgressBar(void)
 {
-	return m_pMainLayer->getProgressBar();
+	return m_pMainLayerNoTabsOpen->getProgressBar();
 }
 
 TabBar*			MainWindow::getTabBar(void)
@@ -63,6 +65,7 @@ void					MainWindow::initWindow(void)
 void					MainWindow::initLayers(void)
 {
 	initMainLayer();
+	initMainLayerNoTabsOpen();
 	initMainMenuLayers();
 	initSettingsMenuLayer();
 	initEditors();
@@ -77,6 +80,13 @@ void					MainWindow::initMainLayer(void)
 	m_pMainLayer = addLayer<MainLayer>(-1, true);
 	m_pMainLayer->setIMGFWindow(this);
 	m_pMainLayer->init();
+}
+
+void					MainWindow::initMainLayerNoTabsOpen(void)
+{
+	m_pMainLayerNoTabsOpen = addLayer<MainLayerNoTabsOpen>(-1, true);
+	m_pMainLayerNoTabsOpen->setIMGFWindow(this);
+	m_pMainLayerNoTabsOpen->init();
 }
 
 void					MainWindow::initMainMenuLayers(void)

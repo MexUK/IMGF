@@ -23,6 +23,7 @@ public:
 	void					setMainMenuType(imgf::mainLayer::mainMenuType::EMainMenuType uiMainMenuType);
 
 	MainLayer*				getMainLayer(void) { return m_pMainLayer; }
+	MainLayerNoTabsOpen*	getMainLayerNoTabsOpen(void) { return m_pMainLayerNoTabsOpen; }
 	IMGEditor*				getIMGEditor(void) { return m_pIMGEditor; }
 
 	bxgx::ProgressBar*		getProgressBar(void);
@@ -35,12 +36,14 @@ private:
 	void					initLayers(void);
 
 	void					initMainLayer(void);
+	void					initMainLayerNoTabsOpen(void);
 	void					initMainMenuLayers(void);
 	void					initSettingsMenuLayer(void);
 	void					initEditors(void);
 
 public:
 	MainLayer*				m_pMainLayer;
+	MainLayerNoTabsOpen*	m_pMainLayerNoTabsOpen;
 	IMGEditor*				m_pIMGEditor;
 	bxgx::Menu*				m_pSettingsMenu;
 

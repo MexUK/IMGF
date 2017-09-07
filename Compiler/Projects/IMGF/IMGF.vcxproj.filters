@@ -378,6 +378,9 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\Tab\EditorTab.cpp">
       <Filter>Source Files\GUI\Editor\Base\Tab</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayerNoTabsOpen.cpp">
+      <Filter>Source Files\GUI\Layer\Layers\MainLayer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\IMGF\Globals.h">
@@ -577,6 +580,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Program\BuildVersion.h">
       <Filter>Header Files\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayerNoTabsOpen.h">
+      <Filter>Header Files\GUI\Layer\Layers\MainLayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
