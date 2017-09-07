@@ -135,10 +135,12 @@ void					IMGEditorTab::onFileLoaded(void)
 	//setFileInfoText();
 	addGridEntries();
 
+	/*
 	if (m_bTabMarkedForClose)
 	{
 		return;
 	}
+	*/
 
 	m_pEntryGrid->setActiveItem();
 
@@ -149,7 +151,7 @@ void					IMGEditorTab::onFileLoaded(void)
 
 
 
-
+	return;
 
 	// add to recently open
 	
@@ -241,6 +243,11 @@ void					IMGEditorTab::initControls(void)
 
 void					IMGEditorTab::onUnserializeEntry(IMGFormat *img)
 {
+	if (img != m_pIMGFile)
+	{
+		return;
+	}
+
 	getIMGF()->getTaskManager()->onTaskProgressTick();
 }
 
@@ -746,7 +753,7 @@ void					IMGEditorTab::readdGridEntries(void)
 
 void					IMGEditorTab::addGridEntries(void)
 {
-	m_bTabReadyToClose = false;
+	//m_bTabReadyToClose = false;
 
 	DropDownItem
 		*pTypeFilterItem = m_pEntryTypeFilter->getActiveItem(),
@@ -814,16 +821,18 @@ void					IMGEditorTab::addGridEntries(void)
 
 		pTaskManager->onTaskProgressTick();
 
+		/*
 		if (m_bTabMarkedForClose)
 		{
 			break;
 		}
+		*/
 	}
 
 	m_pEntryGrid->recalculateProgressFor1Item();
 	m_pEntryGrid->render();
 	
-	m_bTabReadyToClose = true;
+	//m_bTabReadyToClose = true;
 
 	// todo
 	//updateEntryCountText();

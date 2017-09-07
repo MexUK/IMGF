@@ -215,4 +215,6 @@ fill 135 135 135
 
 .imgEditor_grid:cell .main_textAlign .main_spacing .main_textColour
 
-.log .main_fill_2
+.log .main_spacing .main_fill_2
+spacing y 8
+

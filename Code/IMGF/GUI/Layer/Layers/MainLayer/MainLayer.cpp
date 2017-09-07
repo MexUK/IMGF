@@ -84,17 +84,17 @@ void		MainLayer::addControls(void)
 	h2 = 15;
 	strStyleGroup = "gameInfoText";
 
-	addText(x, y, w, h, "Game", strStyleGroup);
+	addText(x, y, w, h, "Game", strStyleGroup, -1, -150);
 	y += h2;
-	addText(x, y, w, h, "Game Validity", strStyleGroup);
+	addText(x, y, w, h, "Game Validity", strStyleGroup, -1, -150);
 	y += h2;
-	addText(x, y, w, h, "Game Location", strStyleGroup);
+	addText(x, y, w, h, "Game Location", strStyleGroup, -1, -150);
 	y += h2;
-	addText(x, y, w, h, "File Game", strStyleGroup);
+	addText(x, y, w, h, "File Game", strStyleGroup, -1, -150);
 	y += h2;
-	addText(x, y, w, h, "File Validity", strStyleGroup);
+	addText(x, y, w, h, "File Validity", strStyleGroup, -1, -150);
 	y += h2;
-	addText(x, y, w, h, "File Location", strStyleGroup);
+	addText(x, y, w, h, "File Location", strStyleGroup, -1, -150);
 
 	// game information values
 	x += 149;
@@ -115,17 +115,17 @@ void		MainLayer::addControls(void)
 	y += h2;
 	addText(x, y, w, h, "C:/Program Files (x86)/Rockstar Games/Grand Theft Auto Vice City/DATA/maps/a.txd", strStyleGroup);
 	*/
-	m_pText_Game = addText(x, y, w2, h, "No file is open", strStyleGroup);
+	m_pText_Game = addText(x, y, w2, h, "No file is open", strStyleGroup, -1, -150);
 	y += h2;
-	m_pText_GameValidity = addText(x, y, w2, h, "-", strStyleGroup);
+	m_pText_GameValidity = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
 	y += h2;
-	m_pText_GameLocation = addText(x, y, w, h, "-", strStyleGroup);
+	m_pText_GameLocation = addText(x, y, w, h, "-", strStyleGroup, -1, -150);
 	y += h2;
-	m_pText_FilEGame = addText(x, y, w2, h, "-", strStyleGroup);
+	m_pText_FilEGame = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
 	y += h2;
-	m_pText_FileValidity = addText(x, y, w2, h, "-", strStyleGroup);
+	m_pText_FileValidity = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
 	y += h2;
-	m_pText_FileLocation = addText(x, y, w, h, "-", strStyleGroup);
+	m_pText_FileLocation = addText(x, y, w, h, "-", strStyleGroup, -1, -150);
 
 	// top menu - buttons
 	x = 139 + 139;

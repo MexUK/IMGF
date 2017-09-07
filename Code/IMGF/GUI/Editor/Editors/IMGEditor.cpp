@@ -165,8 +165,8 @@ IMGEditorTab*				IMGEditor::addTabObjectAndTabControl(IMGFormat *img)
 
 void						IMGEditor::removeFile(IMGEditorTab *pIMGEditorFile)
 {
-	pIMGEditorFile->setTabMarkedForClose(true);
-	while (!pIMGEditorFile->isTabReadyToClose());
+	//pIMGEditorFile->setTabMarkedForClose(true);
+	//while (!pIMGEditorFile->isTabReadyToClose());
 
 	Editor::removeFile(pIMGEditorFile);
 
