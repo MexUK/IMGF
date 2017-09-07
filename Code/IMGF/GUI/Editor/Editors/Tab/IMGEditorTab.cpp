@@ -33,6 +33,7 @@
 #include "DB/DBManager.h"
 #include "Control/Controls/Grid.h"
 #include "GUI/Editor/Editors/IMGEditor.h"
+#include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
 #include "GUI/Layer/Layers/MainLayer/MainLayer.h"
 #include "Control/Controls/Text.h"
@@ -163,14 +164,14 @@ void					IMGEditorTab::addControls(void)
 	h = 24;
 	strStyleGroup = "filter";
 
-	m_pEntryTypeFilter = addDrop(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally", -1, -50);
+	m_pEntryTypeFilter = addDropDown(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally", -1, -50);
 	m_pEntryTypeFilter->addItem("No file is open", false, false);
 
 	// filter - entry version
 	w = w2;
 	x = m_pWindow->getSize().x - w;
 
-	m_pEntryVersionFilter = addDrop(x, y, w, h, "Entry Version", strStyleGroup, -1, -50);
+	m_pEntryVersionFilter = addDropDown(x, y, w, h, "Entry Version", strStyleGroup, -1, -50);
 	m_pEntryVersionFilter->addItem("No file is open", false, false);
 	m_pEntryVersionFilter->addLinkedItem(m_pEntryTypeFilter);
 }
@@ -181,6 +182,7 @@ void					IMGEditorTab::initControls(void)
 	repositionAndResizeControls(Vec2i(0, 0));
 
 	bindEvent(SELECT_DROP_ENTRY, &IMGEditorTab::onSelectDropEntry);
+	bindEvent(CHANGE_TEXT_BOX, &IMGEditorTab::onChangeTextBox);
 }
 
 void					IMGEditorTab::removeControls(void)
@@ -217,6 +219,11 @@ void					IMGEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 
 // control events
 void					IMGEditorTab::onSelectDropEntry(DropDownItem *pDropEntry)
+{
+	readdGridEntries();
+}
+
+void					IMGEditorTab::onChangeTextBox(TextBox *pTextBox)
 {
 	readdGridEntries();
 }
@@ -634,6 +641,8 @@ void					IMGEditorTab::addGridEntries(void)
 	DropDownItem
 		*pTypeFilterItem = m_pEntryTypeFilter->getActiveItem(),
 		*pVersionFilterItem = m_pEntryVersionFilter->getActiveItem();
+	TextBox
+		*pSearchBoxFilter = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->getSearchBox();
 	int32
 		iTypeFilterSelectedIndex = m_pEntryTypeFilter->getSelectedItemIndex(),
 		iVersionFilterSelectedIndex = m_pEntryVersionFilter->getSelectedItemIndex();
@@ -647,9 +656,12 @@ void					IMGEditorTab::addGridEntries(void)
 	bool
 		bAddEntry,
 		bTypeFilterIsDynamicItem = iTypeFilterSelectedIndex > 0,
-		bVersionFilterIsDynamicItem = iVersionFilterSelectedIndex > 0;
+		bVersionFilterIsDynamicItem = iVersionFilterSelectedIndex > 0,
+		bSearchFilterIsActive = pSearchBoxFilter->doesContainText();
 	TaskManager
 		*pTaskManager = getIMGF()->getTaskManager();
+	string
+		strSearchFilterText = pSearchBoxFilter->getTextAtLine(0);
 
 	m_pEntryGrid->getEntries().resize(m_pIMGFile->getEntryCount());
 
@@ -676,6 +688,11 @@ void					IMGEditorTab::addGridEntries(void)
 		}
 
 		if (bVersionFilterIsDynamicItem && (uiFileType != uiSelectedFileVersionType || uiSelectedFileVersion != pIMGEntry->getRawVersion()))
+		{
+			bAddEntry = false;
+		}
+
+		if (bSearchFilterIsActive && !String::isIn(pIMGEntry->getEntryName(), strSearchFilterText, false))
 		{
 			bAddEntry = false;
 		}

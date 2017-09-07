@@ -1094,14 +1094,14 @@ void		IMGEditor::addControls(void)
 	h = 24;
 	strStyleGroup = "filter";
 
-	m_pEntryTypeFilter = addDrop(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally", -1, -50);
+	m_pEntryTypeFilter = addDropDown(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally", -1, -50);
 	m_pEntryTypeFilter->addItem("No file is open", false, false);
 
 	// filter - entry version
 	w = w2;
 	x = m_pWindow->getSize().x - w;
 
-	m_pEntryVersionFilter = addDrop(x, y, w, h, "Entry Version", strStyleGroup, -1, -50);
+	m_pEntryVersionFilter = addDropDown(x, y, w, h, "Entry Version", strStyleGroup, -1, -50);
 	m_pEntryVersionFilter->addItem("No file is open", false, false);
 }
 

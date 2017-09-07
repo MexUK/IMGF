@@ -343,7 +343,7 @@ void		MainLayer::addControls(void)
 	h = 5;
 	strStyleGroup = "progressBar";
 
-	m_pProgressBar = addProgress(x, y, w, h, strStyleGroup);
+	m_pProgressBar = addProgressBar(x, y, w, h, strStyleGroup);
 
 	// logo
 	x = 139 + 14;

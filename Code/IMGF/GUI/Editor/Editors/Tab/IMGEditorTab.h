@@ -32,6 +32,7 @@ public:
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 
 	void						onSelectDropEntry(bxgx::DropDownItem *pDropEntry);
+	void						onChangeTextBox(bxgx::TextBox *pTextBox);
 
 	void						setIMGEditor(IMGEditor *pEditor) { m_pEditor = pEditor; }
 	IMGEditor*					getIMGEditor(void) { return m_pEditor; }
