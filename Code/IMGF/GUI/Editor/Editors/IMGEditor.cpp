@@ -103,13 +103,18 @@ bool						IMGEditor::validateFile(IMGFormat *img)
 }
 
 // add/remove file
-IMGEditorTab*				IMGEditor::addFile(IMGFormat *img)
+IMGEditorTab*				IMGEditor::addFile(string& strFilePath)
 {
+	IMGFormat *img = new IMGFormat(strFilePath);
+
 	IMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img);
 	if (!imgEditorTab)
 	{
+		img->close();
 		return nullptr;
 	}
+
+	img->close();
 
 	string strFileName = Path::getFileName(img->getFilePath());
 	imgEditorTab->logf("Opened %s", strFileName.c_str());
@@ -155,6 +160,7 @@ IMGEditorTab*				IMGEditor::addTabObjectAndTabControl(IMGFormat *img)
 
 	if (!imgEditorTab->unserializeFile())
 	{
+		removeFile(imgEditorTab);
 		return nullptr;
 	}
 

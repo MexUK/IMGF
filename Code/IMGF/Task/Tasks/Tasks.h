@@ -47,7 +47,9 @@ public:
 
 	void						onRequestCloseAll(void);
 	void						onRequestExitTool(void);
-	void						onRequestImportViaFiles(void);
+	void						importByFiles(void);
+	void						importBySingleFolder(void);
+	void						importByRecursiveFolders(void);
 	void						onRequestRemoveSelected(void);
 	void						onRequestRenameEntry(void);
 	void						selectAll(void);
@@ -77,7 +79,6 @@ public:
 	void						onRequestRemoveViaIDEFile(void);
 	void						onRequestRemoveViaTextLines(void);
 	void						onRequestRemoveViaButton(void);
-	void						onRequestImportViaButton(void);
 	void						onRequestImportViaIDEFile(void);
 	void						onRequestImportViaTextLines(void);
 	void						onRequestNew(bxgi::EIMGVersion EIMGVersion);
@@ -109,7 +110,6 @@ public:
 	void						onRequestExportAllEntriesFromAllTabs(void);
 	void						onRequestExportEntriesViaIDEFileFromAllTabs(void);
 	void						onRequestExportEntriesViaTextLinesFromAllTabs(void);
-	void						onRequestImportViaFolder(void);
 	void						onRequestDuplicateEntries(void);
 	void						onRequestExportAllEntriesFromAllTabsIntoMultipleFolders(void);
 	void						onRequestOpenLast(void);

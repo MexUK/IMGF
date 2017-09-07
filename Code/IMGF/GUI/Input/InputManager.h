@@ -40,6 +40,10 @@ private:
 	void					close(void);
 	void					save(void);
 
+	void					importByFiles(void);
+	void					importBySingleFolder(void);
+	void					importByFolderRecursively(void);
+
 	void					selectAll(void);
 	void					unselectAll(void);
 	void					selectInverse(void);

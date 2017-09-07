@@ -116,13 +116,7 @@ void					IMGEditorTab::onFileLoaded(void)
 	string strFilePath = m_pEditor->getResolvedFilePath(getFile()->getFilePath());
 
 	// update tab text
-	string strTabText = Path::getFileName(strFilePath);
-	if (String::toUpperCase(Path::getFileExtension(strTabText)) == "DIR")
-	{
-		strTabText = Path::replaceFileExtensionWithCase(strTabText, "IMG");
-	}
-	strTabText += " (" + String::toString(getFile()->m_uiEntryCount) + ")";
-	m_pTab->setText(strTabText);
+	updateTabText();
 
 	// add file path to recently opened files list
 	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(strFilePath);
@@ -309,18 +303,20 @@ bool					IMGEditorTab::unserializeFile(void)
 	}
 
 	/*
-	progress bar: 3 or 4 stages
+	progress bar: 3 stages
 
-	x3 for:
-	- reading entry header (parsing)
-	- reading RW versions (parsing)
-	- adding all entries to grid
+	[IMG versions 1, 2, and fastman92]
+	- parsing header
+	- parsing RW versions
+	- adding entries to grid
 
-	x4 for:
-	- reading IMG version 3 entry names
+	[IMG versions 3 (encrypted and unencrypted)]
+	- parsing header
+	- parsing entry names
+	- adding entries to grid
 	*/
 	uint32
-		uiProgressBarMaxMultiplier = img->getVersion() == IMG_3 ? 4 : 3,
+		uiProgressBarMaxMultiplier = 3,
 		uiProgressBarMax = img->m_uiEntryCount * uiProgressBarMaxMultiplier;
 	getProgressBar()->setMax(uiProgressBarMax);
 
@@ -480,22 +476,38 @@ void					IMGEditorTab::checkToApplyCompression(IMGEntry *pIMGEntry)
 		}
 	}
 }
-void					IMGEditorTab::addEntryViaFile(string strEntryFilePath, string strEntryName)
+
+void					IMGEditorTab::addFile(string strEntryFilePath, string strEntryName)
 {
+	if (strEntryName == "")
+	{
+		strEntryName = Path::getFileName(strEntryFilePath);
+	}
+
 	IMGEntry *pIMGEntry = getIMGFile()->addEntryViaFile(strEntryFilePath, strEntryName);
 	checkToApplyCompression(pIMGEntry);
+
 	addGridEntry(pIMGEntry);
+
 	updateEntryCountText();
 	updateIMGText();
+
+	logf("Added file %s.", strEntryName.c_str());
 }
+
 void					IMGEditorTab::addEntryViaData(string strEntryName, string strEntryData)
 {
 	IMGEntry *pIMGEntry = getIMGFile()->addEntryViaData(strEntryName, strEntryData);
 	checkToApplyCompression(pIMGEntry);
+
 	addGridEntry(pIMGEntry);
+
 	updateEntryCountText();
 	updateIMGText();
+
+	log("Added a file.");
 }
+
 void					IMGEditorTab::replaceEntryViaFile(string strEntryName, string strEntryFilePath, string strNewEntryName)
 {
 	IMGEntry *pIMGEntry = getIMGFile()->replaceEntryViaFile(strEntryName, strEntryFilePath, strNewEntryName);
@@ -503,6 +515,7 @@ void					IMGEditorTab::replaceEntryViaFile(string strEntryName, string strEntryF
 	updateGridEntry(pIMGEntry);
 	updateIMGText();
 }
+
 void					IMGEditorTab::replaceEntryViaData(string strEntryName, string& strEntryData, string strNewEntryName)
 {
 	IMGEntry *pIMGEntry = getIMGFile()->replaceEntryViaData(strEntryName, strEntryData, strNewEntryName);
@@ -510,6 +523,7 @@ void					IMGEditorTab::replaceEntryViaData(string strEntryName, string& strEntry
 	updateGridEntry(pIMGEntry);
 	updateIMGText();
 }
+
 void					IMGEditorTab::addOrReplaceEntryViaFile(string strEntryFilePath, string strEntryName)
 {
 	uint32 uiIMGEntryCount = getIMGFile()->getEntryCount();
@@ -528,6 +542,7 @@ void					IMGEditorTab::addOrReplaceEntryViaFile(string strEntryFilePath, string 
 	}
 	updateIMGText();
 }
+
 void					IMGEditorTab::addOrReplaceEntryViaData(string strEntryName, string strEntryData)
 {
 	uint32 uiIMGEntryCount = getIMGFile()->getEntryCount();
@@ -546,6 +561,7 @@ void					IMGEditorTab::addOrReplaceEntryViaData(string strEntryName, string strE
 	}
 	updateIMGText();
 }
+
 void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePath, string strEntryName)
 {
 	if (strEntryName == "")
@@ -558,7 +574,7 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 	{
 		// entry name not found in IMG
 		// import the entry
-		return addEntryViaFile(strEntryFilePath, strEntryName);
+		return addFile(strEntryFilePath, strEntryName);
 	}
 
 	// entry name is found in IMG
@@ -593,7 +609,7 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 
 		if (uiResultOption == 0) // import
 		{
-			return addEntryViaFile(strEntryFilePath, strEntryName);
+			return addFile(strEntryFilePath, strEntryName);
 		}
 		else if (uiResultOption == 1) // replace
 		{
@@ -670,6 +686,7 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 	// replace by default. e.g. if no settings are enabled.
 	return replaceEntryViaFile(strEntryName, strEntryFilePath);
 }
+
 void					IMGEditorTab::addOrReplaceEntryViaDataAndSettings(string strEntryName, string strEntryData)
 {
 	IMGEntry *pIMGEntry = getIMGFile()->getEntryByName(strEntryName);
@@ -730,6 +747,7 @@ void					IMGEditorTab::addOrReplaceEntryViaDataAndSettings(string strEntryName, 
 	
 	return replaceEntryViaData(strEntryName, strEntryData);
 }
+
 void					IMGEditorTab::removeEntry(IMGEntry *pIMGEntry)
 {
 	getIMGFile()->removeEntry(pIMGEntry);
@@ -872,8 +890,15 @@ void					IMGEditorTab::addGridEntry(IMGEntry *pIMGEntry, uint32 uiEntryIndex, vo
 	}
 
 	pRow->getText().assign(1, vecText);
-	m_pEntryGrid->setEntryByIndex(uiEntryIndex, pRow);
-	
+	if (pRows == nullptr)
+	{
+		m_pEntryGrid->addEntry(pRow);
+	}
+	else
+	{
+		m_pEntryGrid->setEntryByIndex(uiEntryIndex, pRow);
+	}
+
 	/*
 	if (pRow->isRowDisplayedWithinScrollRange())
 	{
@@ -924,6 +949,8 @@ uint32			IMGEditorTab::getMainListViewItemIndexByItemData(IMGEntry *pIMGEntry)
 
 void					IMGEditorTab::updateEntryCountText(void)
 {
+	updateTabText();
+
 	/*
 	todo
 	uint32
@@ -939,6 +966,18 @@ void					IMGEditorTab::updateEntryCountText(void)
 	}
 	*/
 }
+
+void					IMGEditorTab::updateTabText(void)
+{
+	string strTabText = Path::getFileName(m_pIMGFile->getFilePath());
+	if (String::toUpperCase(Path::getFileExtension(strTabText)) == "DIR")
+	{
+		strTabText = Path::replaceFileExtensionWithCase(strTabText, "IMG");
+	}
+	strTabText += " (" + String::toString(getFile()->m_uiEntryCount) + ")";
+	m_pTab->setText(strTabText);
+}
+
 void					IMGEditorTab::updateIMGText(void)
 {
 	/*

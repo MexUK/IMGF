@@ -82,7 +82,7 @@ public:
 	std::vector<std::string>&	getLogLinesBasic(void) { return m_vecLogLinesBasic; }
 	std::vector<std::string>&	getLogLinesExtended(void) { return m_vecLogLinesExtended; }
 
-	void						addEntryViaFile(std::string strEntryFilePath, std::string strEntryName = "");
+	void						addFile(std::string strEntryFilePath, std::string strEntryName = "");
 	void						addEntryViaData(std::string strEntryName, std::string strEntryData);
 	void						replaceEntryViaFile(std::string strEntryName, std::string strEntryFilePath, std::string strNewEntryName = "");
 	void						replaceEntryViaData(std::string strEntryName, std::string& strEntryData, std::string strNewEntryName = "");
@@ -111,6 +111,7 @@ public:
 	bool						getIMGModifiedSinceRebuild(void) { return m_bIMGModifiedSinceRebuild; } // todo - rename to has..Been.. instead of get
 
 	void						updateEntryCountText(void);
+	void						updateTabText(void);
 	void						updateIMGText(void);
 
 	void						storeFilterOptions(void);

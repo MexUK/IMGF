@@ -184,14 +184,18 @@ void		MainLayer::addControls(void)
 
 
 
-	pMenu1 = addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -100);
+	pMenu1 = addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -200);
 
 	// import
 	pMenuItem1 = pMenu1->addMenuItem("Import");
 
 	pMenu2 = pMenuItem1->addMenu();
-	pMenu2->addMenuItem("Import by File(s)");
-	pMenu2->addMenuItem("Import by Folder");
+	pMenu2->addMenuItem("Import by File(s)", IMPORT_BY_FILES);
+	pMenuItem2 = pMenu2->addMenuItem("Import by Folder(s)");
+
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("Import by Single Folder", IMPORT_BY_SINGLE_FOLDER);
+	pMenu3->addMenuItem("Import by Folder Recursively", IMPORT_BY_FOLDER_RECURSIVELY);
 
 	// export
 	pMenuItem1 = pMenu1->addMenuItem("Export");

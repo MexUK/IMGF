@@ -27,9 +27,10 @@ public:
 
 	static bool					validateFile(bxgi::IMGFormat *img);
 
-	IMGEditorTab*				addFile(bxgi::IMGFormat *img);
+	IMGEditorTab*				addFile(std::string& strFilePath);
 	IMGEditorTab*				addBlankFile(std::string strIMGPath, bxgi::EIMGVersion EIMGVersionValue);
 	IMGEditorTab*				addTabObjectAndTabControl(bxgi::IMGFormat *img);
+
 	void						removeFile(IMGEditorTab *pIMGEditorFile);
 	void						removeActiveFile(void);
 

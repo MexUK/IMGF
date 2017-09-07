@@ -271,7 +271,6 @@ void		Tasks::_openFile(string& strFilePath)
 		DataReader reader(strFilePath);
 		IMGFormat *img = new IMGFormat(reader);
 		*/
-		IMGFormat *img = new IMGFormat(strFilePath);
 
 		/*
 		if (bUseExistingFileHandle)
@@ -283,12 +282,10 @@ void		Tasks::_openFile(string& strFilePath)
 		}
 		*/
 
-		if (!m_pMainWindow->getIMGEditor()->addFile(img))
+		if (!m_pMainWindow->getIMGEditor()->addFile(strFilePath))
 		{
 			return onAbortTask();
 		}
-
-		img->close();
 	}
 	else
 	{
@@ -424,44 +421,76 @@ void		Tasks::onRequestExitTool(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExitTool");
 }
 
-void		Tasks::onRequestImportViaFiles(void)
+void		Tasks::importByFiles(void)
 {
-	getIMGF()->getTaskManager()->onStartTask("onRequestImportViaFiles");
+	onStartTask("importByFiles");
+
+	vector<string> vecFilePaths = openFile();
+	if (vecFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecFilePaths.size());
+
+	IMGEditorTab *pEditorTab = m_pMainWindow->getIMGEditor()->getActiveTab();
+
+	for (string& strFilePath : vecFilePaths)
+	{
+		pEditorTab->addFile(strFilePath);
+		getIMGF()->getTaskManager()->onTaskProgressTick();
+	}
+
+	onCompleteTask();
+}
+
+void		Tasks::importBySingleFolder(void)
+{
+	onStartTask("importBySingleFolder");
+
+	getIMGF()->getTaskManager()->onStartTask("onRequestImportViaFolder");
 	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFiles", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFolder", true);
 		return;
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecPaths = Input::openFile(getIMGF()->getLastUsedDirectory("IMPORT_FILES"));
+	string strPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_15"), getIMGF()->getLastUsedDirectory("IMPORT_FOLDER"));
 	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecPaths.size() == 0)
+	if (strPath == "")
 	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFiles", true);
+		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFolder", true);
 		return;
 	}
-	getIMGF()->setLastUsedDirectory("IMPORT_FILES", Path::getDirectory(vecPaths[0]));
+	strPath = Path::addSlashToEnd(strPath);
+	getIMGF()->setLastUsedDirectory("IMPORT_FOLDER", strPath);
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecPaths.size());
-	for (auto strPath : vecPaths)
+	vector<string> vecFileNames = File::getFileNames(strPath);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecFileNames.size());
+	for (auto strFileName : vecFileNames)
 	{
-		getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strPath);
+		getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strPath + strFileName);
 		getIMGF()->getTaskManager()->onTaskProgressTick();
 	}
 
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_23", vecPaths.size()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntryNames"), true);
-	vector<string> vecFileNames;
-	for (auto strPath : vecPaths)
-	{
-		vecFileNames.push_back(strPath);
-	}
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_99", vecFileNames.size(), Path::getFolderName(strPath).c_str()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_100"), true);
+	// todo - getIMGF()->getEntryListTab()->log(strPath, true);
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntriesForImport"), true);
 	// todo - getIMGF()->getEntryListTab()->log(String::join(vecFileNames, "\n"), true);
 
-	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFiles");
+	if (vecFileNames.size() > 0)
+	{
+		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	}
+	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFolder");
 }
+
+void		Tasks::importByRecursiveFolders(void)
+{
+}
+
 void		Tasks::onRequestRemoveSelected(void)
 {
 	/*
@@ -2136,41 +2165,6 @@ void		Tasks::onRequestRemoveViaButton(void)
 		break;
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaButton");
-}
-void		Tasks::onRequestImportViaButton(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestImportViaButton");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaButton", true);
-		return;
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	uint32 uiRadioButtonIndex = 0; // todo - getIMGF()->getPopupGUIManager()->showImportViaDialog();
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (uiRadioButtonIndex == 0xFFFFFFFF)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaButton", true);
-		return;
-	}
-
-	switch (uiRadioButtonIndex)
-	{
-	case 0:
-		onRequestImportViaFiles();
-		break;
-	case 1:
-		onRequestImportViaIDEFile();
-		break;
-	case 2:
-		onRequestImportViaTextLines();
-		break;
-	case 3:
-		onRequestImportViaFolder();
-		break;
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaButton");
 }
 void		Tasks::onRequestImportViaIDEFile(void)
 {
@@ -4579,46 +4573,7 @@ void		Tasks::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 	getIMGF()->getIMGEditor()->logAllTabs(String::join(vecIMGPaths, "\n"), true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaTextLinesFromAllTabs");
 }
-void		Tasks::onRequestImportViaFolder(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestImportViaFolder");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFolder", true);
-		return;
-	}
 
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_15"), getIMGF()->getLastUsedDirectory("IMPORT_FOLDER"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strPath == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFolder", true);
-		return;
-	}
-	strPath = Path::addSlashToEnd(strPath);
-	getIMGF()->setLastUsedDirectory("IMPORT_FOLDER", strPath);
-
-	vector<string> vecFileNames = File::getFileNames(strPath);
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecFileNames.size());
-	for (auto strFileName : vecFileNames)
-	{
-		getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strPath + strFileName);
-		getIMGF()->getTaskManager()->onTaskProgressTick();
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_99", vecFileNames.size(), Path::getFolderName(strPath).c_str()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_100"), true);
-	// todo - getIMGF()->getEntryListTab()->log(strPath, true);
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntriesForImport"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecFileNames, "\n"), true);
-
-	if (vecFileNames.size() > 0)
-	{
-		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFolder");
-}
 void		Tasks::onRequestDuplicateEntries(void)
 {
 	/*
@@ -6892,9 +6847,17 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	{
 		onRequestExitTool();
 	}
-	else if (strFeatureName == "onRequestImportViaFiles")
+	else if (strFeatureName == "importByFiles")
 	{
-		onRequestImportViaFiles();
+		importByFiles();
+	}
+	else if (strFeatureName == "importBySingleFolder")
+	{
+		importBySingleFolder();
+	}
+	else if (strFeatureName == "importByRecursiveFolders")
+	{
+		importByRecursiveFolders();
 	}
 	else if (strFeatureName == "onRequestRemoveSelected")
 	{
@@ -7012,10 +6975,6 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	{
 		onRequestRemoveViaButton();
 	}
-	else if (strFeatureName == "onRequestImportViaButton")
-	{
-		onRequestImportViaButton();
-	}
 	else if (strFeatureName == "onRequestImportViaIDEFile")
 	{
 		onRequestImportViaIDEFile();
@@ -7111,10 +7070,6 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	else if (strFeatureName == "onRequestExportEntriesViaTextLinesFromAllTabs")
 	{
 		onRequestExportEntriesViaTextLinesFromAllTabs();
-	}
-	else if (strFeatureName == "onRequestImportViaFolder")
-	{
-		onRequestImportViaFolder();
 	}
 	else if (strFeatureName == "onRequestDuplicateEntries")
 	{
