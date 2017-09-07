@@ -145,7 +145,13 @@ fill 255 255 255
 
 .filter .main_lineLeft .main_textAlign .main_textColour .main_spacing .main_fill_2
 
+.filter:hover .main_lineLeft .main_textAlign .main_textColour .main_spacing
+fill 198 198 198
+
 .filter:arrow
+fill 0 0 0
+
+.filter:arrow:hover
 fill 0 0 0
 
 .filter:list .main_fill_2 .main_spacing
@@ -174,11 +180,18 @@ fill 72 72 72
 
 .scrollBar .main_fill_2
 
+.scrollBar:hover .main_fill_2
+
 .scrollBar:itemIcon
+fill 0 0 0
+
+.scrollBar:itemIcon:hover
 fill 0 0 0
 
 .scrollBar:seekBar .main_fill_1
 
+.scrollBar:seekBar:hover
+fill 181 181 181
 
 
 // img editor
