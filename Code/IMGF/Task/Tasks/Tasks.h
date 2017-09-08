@@ -61,6 +61,8 @@ public:
 	void						exportAllFromAllTabsIntoGroupedFoldersByType(void);
 	void						exportSelectionFromAllTabs(void);
 
+	void						removeSelected(void);
+	void						removeAll(void);
 
 
 
@@ -73,8 +75,7 @@ public:
 
 	void						onRequestCloseAll(void);
 	void						onRequestExitTool(void);
-	
-	void						onRequestRemoveSelected(void);
+
 	void						onRequestRenameEntry(void);
 	void						selectAll(void);
 	void						unselectAll(void);

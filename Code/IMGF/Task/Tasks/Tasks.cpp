@@ -380,6 +380,8 @@ void		Tasks::importByFiles(void)
 		getIMGTab()->logf("Added %u files.", vecFilePaths.size());
 	}
 
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
+
 	onCompleteTask();
 }
 
@@ -400,6 +402,11 @@ void		Tasks::importBySingleFolder(void)
 	{
 		getIMGTab()->addFile(strFolderPath + strFileName);
 		increaseProgress();
+	}
+
+	if (vecFileNames.size() > 0)
+	{
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 
 	getIMGTab()->logf("Added %u files from folder %s.", vecFileNames.size(), Path::getFolderName(strFolderPath).c_str());
@@ -424,6 +431,11 @@ void		Tasks::importByFolderRecursively(void)
 	{
 		getIMGTab()->addFile(strFilePath);
 		increaseProgress();
+	}
+
+	if (vecFilePaths.size() > 0)
+	{
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 
 	getIMGTab()->logf("Added %u files recursively from folder %s.", vecFilePaths.size(), Path::getFolderName(strFolderPath).c_str());
@@ -622,6 +634,58 @@ void		Tasks::exportSelectionFromAllTabs(void)
 	onCompleteTask();
 }
 
+void		Tasks::removeSelected(void)
+{
+	onStartTask("removeSelected");
+
+	uint32 uiSelectedEntryCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
+	setMaxProgress(uiSelectedEntryCount);
+
+	vector<IMGEntry*> vecIMGEntries;
+	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getSelectedRows())
+	{
+		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
+
+		vecIMGEntries.push_back(pIMGEntry);
+	}
+
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->removeEntry(pIMGEntry);
+		increaseProgress();
+	}
+
+	getIMGTab()->readdGridEntries();
+
+	if (uiSelectedEntryCount > 0)
+	{
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->logf("Removed %u selected entries.", uiSelectedEntryCount);
+
+	onCompleteTask();
+}
+
+void		Tasks::removeAll(void)
+{
+	onStartTask("removeAll");
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	getIMGTab()->removeAllEntries();
+	getIMGTab()->readdGridEntries();
+
+	if (uiTotalEntryCount > 0)
+	{
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->logf("Removed all %u entries.", uiTotalEntryCount);
+
+	onCompleteTask();
+}
 
 
 
@@ -736,59 +800,6 @@ void		Tasks::onRequestExitTool(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExitTool");
 }
 
-void		Tasks::onRequestRemoveSelected(void)
-{
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestRemoveSelected");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		return;
-	}
-
-	CListCtrl *pListControl = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37);
-	setMaxProgress(pListControl->GetSelectedCount());
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	if (pos == NULL)
-	{
-		return;
-	}
-	vector<string> vecEntryNames;
-	uint32 uiRemoveCount = 0;
-	IMGEntry *pIMGEntry;
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-		vecEntryNames.push_back(pIMGEntry->getEntryName());
-		getIMGF()->getEntryListTab()->removeEntry(pIMGEntry);
-		pListControl->DeleteItem(nItem);
-
-		pos = pListControl->GetFirstSelectedItemPosition();
-
-		uiRemoveCount++;
-		increaseProgress();
-	}
-
-	if (pListControl->GetItemCount() == 0)
-	{
-		getIMGF()->getEntryListTab()->readdGridEntries();
-	}
-
-	getIMGF()->getEntryListTab()->searchText();
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_53", uiRemoveCount));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntryNames"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNames, "\n"), true);
-
-	if (uiRemoveCount > 0)
-	{
-		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveSelected");
-	*/
-}
 void		Tasks::onRequestRenameEntry(void)
 {
 	/*
@@ -848,7 +859,7 @@ void		Tasks::onRequestRenameEntry(void)
 
 	getIMGF()->getEntryListTab()->searchText();
 
-	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRenameEntry");
 
 	*/
@@ -1205,7 +1216,7 @@ void		Tasks::onRequestConvertIMGVersion(EIMGVersion EIMGVersionValue)
 	getIMGF()->getIMGEditor()->refreshActiveTab();
 
 	// other
-	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
 
 	getIMGF()->getEntryListTab()->checkForUnknownRWVersionEntries();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersion");
@@ -1282,7 +1293,7 @@ void		Tasks::onRequestMerge(void)
 
 	getIMGF()->getIMGEditor()->refreshActiveTab();
 
-	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestMerge");
 }
 void		Tasks::onRequestSplitViaButton(void)
@@ -1390,7 +1401,7 @@ void		Tasks::onRequestSplitSelectedEntries(void)
 
 	if (bDeleteFromSource)
 	{
-		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 
 	openFile(strPath);
@@ -1489,7 +1500,7 @@ void		Tasks::onRequestSplitViaIDEFile(void)
 
 	if (bDeleteFromSource)
 	{
-		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
 		for (auto pIMGEntry : vecIMGEntries)
 		{
 			getIMGF()->getEntryListTab()->removeEntry(pIMGEntry);
@@ -1605,7 +1616,7 @@ void		Tasks::onRequestSplitViaTextLines(void)
 
 	if (bDeleteFromSource)
 	{
-		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
 		for (auto pIMGEntry : vecIMGEntries)
 		{
 			getIMGF()->getEntryListTab()->removeEntry(pIMGEntry);
@@ -1731,7 +1742,7 @@ void		Tasks::onRequestReplace(void)
 	vector<string> vecReplacedEntryNames;
 	getIMGF()->getEntryListTab()->replace(vecPaths, vecReplacedEntryNames);
 
-	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
 
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("ReplacedEntries", vecReplacedEntryNames.size()));
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntriesForReplace"), true);
@@ -2249,7 +2260,7 @@ void		Tasks::onRequestRemoveViaIDEFile(void)
 
 	if (vecIMGEntries.size() > 0)
 	{
-		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaIDEFile");
 	*/
@@ -2324,7 +2335,7 @@ void		Tasks::onRequestRemoveViaTextLines(void)
 
 	if (uiRemoveCount > 0)
 	{
-		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaTextLines");
 	*/
@@ -2350,7 +2361,7 @@ void		Tasks::onRequestRemoveViaButton(void)
 	switch (uiRadioButtonIndex)
 	{
 	case 0:
-		onRequestRemoveSelected();
+		removeSelected();
 		break;
 	case 1:
 		onRequestRemoveViaIDEFile();
@@ -2441,7 +2452,7 @@ void		Tasks::onRequestImportViaIDEFile(void)
 
 	if (uiImportCount > 0)
 	{
-		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaIDEFile");
 }
@@ -2510,7 +2521,7 @@ void		Tasks::onRequestImportViaTextLines(void)
 
 	if (uiImportCount > 0)
 	{
-		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaTextLines");
 }
@@ -2683,7 +2694,7 @@ void		Tasks::onRequestNameCase(uint8 ucCaseType, uint8 ucFilenameType)
 
 	getIMGF()->getEntryListTab()->searchText();
 
-	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestNameCase");
 	*/
 }
@@ -2819,7 +2830,7 @@ void		Tasks::onRequestShift(uint8 ucDirection)
 	getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 	increaseProgress();
 
-	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestShift");
 	*/
 }
@@ -3387,7 +3398,7 @@ void		Tasks::onRequestOrphanIDEEntriesNotInCOL(void)
 
 		if (uiImportedFileCount > 0)
 		{
-			getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+			getIMGTab()->setIMGModifiedSinceRebuild(true);
 		}
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL");
@@ -3582,7 +3593,7 @@ void		Tasks::onRequestOrphanIMGEntriesNotInIDE(void)
 
 		if (vecEntryNamesMissingFromIDE.size() > 0)
 		{
-			getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+			getIMGTab()->setIMGModifiedSinceRebuild(true);
 		}
 
 		getIMGF()->getEntryListTab()->searchText();
@@ -3803,7 +3814,7 @@ void		Tasks::onRequestOrphanIDEEntriesNotInIMG(void)
 
 		if (uiImportedFileCount > 0)
 		{
-			getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+			getIMGTab()->setIMGModifiedSinceRebuild(true);
 		}
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInIMG");
@@ -4317,7 +4328,7 @@ void		Tasks::onRequestConvertDFFToRWVersion(RWVersion *pRWVersion)
 
 	if (pIMGEntry != nullptr)
 	{
-		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 
 	getIMGF()->getEntryListTab()->checkForUnknownRWVersionEntries();
@@ -4578,7 +4589,7 @@ void		Tasks::onRequestReplaceAllFromFolder(void)
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntriesForReplace"), true);
 	// todo - getIMGF()->getEntryListTab()->log(String::join(vecReplacedEntryNames, "\n"), true);
 
-	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestReplaceAllFromFolder");
 }
 void		Tasks::onRequestExportAllEntriesFromAllTabs(void)
@@ -5039,7 +5050,7 @@ void		Tasks::onRequestConvertTXDToGame(EPlatformedGame EPlatformedGame)
 
 	if (pIMGEntry != nullptr)
 	{
-		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToGame");
 	*/
@@ -5107,7 +5118,7 @@ void		Tasks::onRequestConvertTXDToRWVersion(RWVersion *pRWVersion)
 
 	if (pIMGEntry != nullptr)
 	{
-		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToRWVersion");
 	*/
@@ -5961,7 +5972,7 @@ void			Tasks::onRequestConvertTXDToTextureFormat(RasterDataFormat *pRasterDataFo
 
 	if (pIMGEntry != nullptr)
 	{
-		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToTextureFormat");
 	*/
@@ -6660,7 +6671,7 @@ void			Tasks::onRequestRenamer(void)
 	// todo - getIMGF()->getEntryListTab()->log(String::join(vecCorruptCOLFiles, "\n"), true);
 
 	// mark tab as modified
-	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
 
 	// refresh tab's main list view
 	getIMGF()->getIMGEditor()->refreshActiveTab();
@@ -6970,7 +6981,7 @@ void		Tasks::onRequestIMGVersionSettings(void)
 	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNames, "\n"), true);
 
 	// mark as modified since rebuild
-	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
 
 	// clean up
 	delete pIMGVersionSettingsDialogData;
@@ -7015,9 +7026,9 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	{
 		importByFolderRecursively();
 	}
-	else if (strFeatureName == "onRequestRemoveSelected")
+	else if (strFeatureName == "removeSelected")
 	{
-		onRequestRemoveSelected();
+		removeSelected();
 	}
 	else if (strFeatureName == "onRequestRenameEntry")
 	{
@@ -7537,7 +7548,7 @@ void		Tasks::onRequestConvertCOLtoCOLVersion(COLVersion *pCOLVersion)
 
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_123", uiEntryCount, pCOLVersion->getText().c_str()));
 
-	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
 
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertCOLtoCOLVersion");
 	*/
@@ -7687,7 +7698,7 @@ void			Tasks::onRequestSortViaColumn(uint32 uiColumnIndex)
 	pListCtrl->SortItems(sortMainListView, uiColumnIndex);
 	getIMGF()->getEntryListTab()->reassignEntryIds();
 	uiSortPreviousColumnIndex = uiColumnIndex;
-	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSortViaColumn");
 	*/
 }
@@ -7760,7 +7771,7 @@ void			Tasks::onRequestCenterCOLCollisionMeshes(void)
 
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_124", uiEntryCount));
 
-	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
 
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestCenterCOLCollisionMeshes");
 	*/
@@ -7952,7 +7963,7 @@ void			Tasks::onRequestConvertDFFFileToWDRFile(void)
 
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_Convert_DFF_WDR", uiEntryCount));
 
-	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFFileToWDRFile");
 	*/
 }
@@ -8215,7 +8226,7 @@ void			Tasks::onRequestConvertWTDFileToTXDFile(void)
 
 	// todo - getIMGF()->getEntryListTab()->log("Converted " + String::toString(uiEntryCount) + " WTD file" + (uiEntryCount == 1 ? "" : "s") + " to TXD file" + (uiEntryCount == 1 ? "" : "s") + ".");
 
-	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertWTDFileToTXDFile");
 	*/
 }

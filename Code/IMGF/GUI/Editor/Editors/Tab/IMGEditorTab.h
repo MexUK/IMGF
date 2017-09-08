@@ -91,6 +91,7 @@ public:
 	void						addOrReplaceEntryViaFileAndSettings(std::string strEntryFilePath, std::string strEntryName = ""); // entry is added or replaced depending on settings.
 	void						addOrReplaceEntryViaDataAndSettings(std::string strEntryName, std::string strEntryData); // entry is added or replaced depending on settings.
 	void						removeEntry(bxgi::IMGEntry *pIMGEntry);
+	void						removeAllEntries(void);
 
 	void						addGridHeaders(void);
 	void						addGridEntries(void);

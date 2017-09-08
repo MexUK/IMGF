@@ -243,8 +243,8 @@ void		MainLayer::addControls(void)
 	pMenuItem1 = pMenu1->addMenuItem("Remove");
 
 	pMenu2 = pMenuItem1->addMenu();
-	pMenu2->addMenuItem("Remove Selection");
-	pMenu2->addMenuItem("Remove All");
+	pMenu2->addMenuItem("Remove Selection", REMOVE_SELECTED);
+	pMenu2->addMenuItem("Remove All", REMOVE_ALL);
 	pMenuItem2 = pMenu2->addMenuItem("Remove by..");
 
 	pMenu3 = pMenuItem2->addMenu();

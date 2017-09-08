@@ -76,6 +76,9 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE:		return exportAllFromAllTabsIntoGroupedFoldersByType();
 	case EXPORT_SELECTION_FROM_ALL_TABS:			return exportSelectionFromAllTabs();
 
+	case REMOVE_SELECTED:							return removeSelected();
+	case REMOVE_ALL:								return removeAll();
+
 	case SELECT_ALL:								return selectAll();
 	case UNSELECT_ALL:								return unselectAll();
 	case SELECT_INVERSE:							return selectInverse();
@@ -203,8 +206,14 @@ void					InputManager::replace(void)
 {
 }
 
-void					InputManager::remove(void)
+void					InputManager::removeSelected(void)
 {
+	m_pTasks->removeSelected();
+}
+
+void					InputManager::removeAll(void)
+{
+	m_pTasks->removeAll();
 }
 
 void					InputManager::merge(void)

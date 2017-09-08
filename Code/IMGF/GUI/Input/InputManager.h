@@ -53,6 +53,9 @@ private:
 
 	void					quickExport(void);
 	
+	void					removeSelected(void);
+	void					removeAll(void);
+
 	void					selectAll(void);
 	void					unselectAll(void);
 	void					selectInverse(void);
@@ -60,14 +63,23 @@ private:
 
 
 
+
+
+
+
+
 	void					rename(void);
 	void					replace(void);
-	void					remove(void);
 	void					merge(void);
 	void					split(void);
 	void					convert(void);
 	void					sort(void);
 	void					lst(void);
+
+
+
+
+
 
 	void					settings(void);
 

@@ -751,6 +751,12 @@ void					IMGEditorTab::removeEntry(IMGEntry *pIMGEntry)
 	updateIMGText();
 }
 
+void					IMGEditorTab::removeAllEntries(void)
+{
+	getIMGFile()->removeAllEntries();
+	updateEntryCountText();
+}
+
 void					IMGEditorTab::addGridHeaders(void)
 {
 	getIMGF()->getIMGEditor()->addColumnsToMainListView(getIMGFile()->getVersion());
