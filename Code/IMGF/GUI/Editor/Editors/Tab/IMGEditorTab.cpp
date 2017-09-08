@@ -491,8 +491,6 @@ void					IMGEditorTab::addFile(string strEntryFilePath, string strEntryName)
 
 	updateEntryCountText();
 	updateIMGText();
-
-	logf("Added file %s.", strEntryName.c_str());
 }
 
 void					IMGEditorTab::addEntryViaData(string strEntryName, string strEntryData)
@@ -504,8 +502,6 @@ void					IMGEditorTab::addEntryViaData(string strEntryName, string strEntryData)
 
 	updateEntryCountText();
 	updateIMGText();
-
-	log("Added a file.");
 }
 
 void					IMGEditorTab::replaceEntryViaFile(string strEntryName, string strEntryFilePath, string strNewEntryName)
@@ -874,6 +870,8 @@ void					IMGEditorTab::addGridEntry(IMGEntry *pIMGEntry, uint32 uiEntryIndex, vo
 	}
 
 	bool bIsFastman92IMGFormat = m_pIMGFile->getVersion() == IMG_FASTMAN92;
+
+	pRow->setUserData((uint32)pIMGEntry);
 
 	vector<string> vecText;
 	vecText.resize(bIsFastman92IMGFormat ? 8 : 6);

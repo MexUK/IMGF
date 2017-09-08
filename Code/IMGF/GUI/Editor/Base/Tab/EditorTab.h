@@ -8,7 +8,7 @@
 #include "Pool/VectorPool.h"
 #include "Event/EventBindable.h"
 #include "Event/EInputEvent.h"
-#include "../IMGF/Event/EEvent.h"
+#include "../BXCF/Event/EEvent.h"
 #include <string>
 
 class imgf::Editor;
@@ -24,7 +24,7 @@ public:
 	virtual ~EditorTab(void)
 	{
 		unbindEvent(bxgx::events::EInputEvent::RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
-		unbindEvent(imgf::EEvent::TASK_PROGRESS, &EditorTab::onTaskProgress);
+		unbindEvent(bxcf::EEvent::TASK_PROGRESS, &EditorTab::onTaskProgress);
 	}
 
 	void								unload(void) {}

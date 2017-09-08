@@ -137,8 +137,14 @@ void		MainLayer::addControls(void)
 
 	pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, -1, -100);
 	pMenu1->addMenuItem("New", NEW);
-	pMenu1->addMenuItem("Open", OPEN);
+
+	pMenuItem1 = pMenu1->addMenuItem("Open", OPEN);
+
+	pMenu2 = pMenuItem1->addMenu(VERTICAL);
+	pMenu2->addMenuItem("Open Folder");
+
 	pMenu1->addMenuItem("Close", CLOSE);
+
 	pMenu1->addMenuItem("Save", SAVE);
 
 	// settings icon
@@ -201,8 +207,8 @@ void		MainLayer::addControls(void)
 	pMenuItem1 = pMenu1->addMenuItem("Export");
 
 	pMenu2 = pMenuItem1->addMenu();
-	pMenu2->addMenuItem("Export Selection");
-	pMenu2->addMenuItem("Export All");
+	pMenu2->addMenuItem("Export Selection", EXPORT_SELECTED);
+	pMenu2->addMenuItem("Export All", EXPORT_ALL);
 	pMenuItem2 = pMenu2->addMenuItem("Export by..");
 
 	pMenu3 = pMenuItem2->addMenu();

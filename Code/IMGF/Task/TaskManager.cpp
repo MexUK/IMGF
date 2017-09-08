@@ -130,12 +130,12 @@ void							TaskManager::onTaskProgressTick(void)
 	if (getIMGF()->getWindowManager()->getMainWindow()->getIMGEditor()->getActiveTab())
 	{
 		pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getIMGEditor()->getActiveTab()->getProgressBar();
-		pProgressBar->increaseCurrent();
 	}
 	else
 	{
-		//pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->getProgressBar();
+		pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->getProgressBar();
 	}
+	pProgressBar->increaseCurrent();
 }
 
 void							TaskManager::onTaskProgressComplete(void)
@@ -156,6 +156,17 @@ void							TaskManager::setTaskMaxProgressTickCount(uint32 uiProgressMaxTicks, b
 		setTaskProgressTickCount(0);
 	}
 	m_uiTaskMaxProgressTickCount = uiProgressMaxTicks;
+
+	ProgressBar *pProgressBar;
+	if (getIMGF()->getWindowManager()->getMainWindow()->getIMGEditor()->getActiveTab())
+	{
+		pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getIMGEditor()->getActiveTab()->getProgressBar();
+	}
+	else
+	{
+		pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->getProgressBar();
+	}
+	pProgressBar->setMax(uiProgressMaxTicks);
 
 	/*
 	todo

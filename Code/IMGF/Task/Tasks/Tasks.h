@@ -5,6 +5,7 @@
 #include "Object/Manager.h"
 #include "Format/IMG/Regular/EIMGEntryProperty.h"
 #include "Game/EPlatformedGame.h"
+#include "Event/EventBindable.h"
 #include <string>
 #include <vector>
 #include <Windows.h>
@@ -16,7 +17,7 @@ struct imgf::RenamedIMGEntry;
 class imgf::MainWindow;
 class imgf::TaskManager;
 
-class imgf::Tasks : public bxcf::Manager
+class imgf::Tasks : public bxcf::Manager, public bxcf::EventBindable
 {
 public:
 	Tasks(void);
@@ -32,6 +33,13 @@ private:
 	void						onStartTask(std::string strTaskName);
 	void						onCompleteTask(void);
 	void						onAbortTask(void);
+	void						onProgressTask(void);
+
+	EditorTab*					getTab(void);
+	IMGEditorTab*				getIMGTab(void);
+
+	void						setMaxProgress(uint32 uiMaxProgress);
+	void						increaseProgress(void);
 
 public:
 	void						init(void);
@@ -42,14 +50,18 @@ public:
 	void						closeActiveFile(void);
 	bool						saveAllOpenFiles(bool bCloseAll);
 
+	void						importByFiles(void);
+	void						importBySingleFolder(void);
+	void						importByFolderRecursively(void);
+
+	void						exportSelected(void);
+	void						exportAll(void);
 
 
 
 	void						onRequestCloseAll(void);
 	void						onRequestExitTool(void);
-	void						importByFiles(void);
-	void						importBySingleFolder(void);
-	void						importByRecursiveFolders(void);
+	
 	void						onRequestRemoveSelected(void);
 	void						onRequestRenameEntry(void);
 	void						selectAll(void);
@@ -66,7 +78,7 @@ public:
 	void						onRequestSplitViaIDEFile(void);
 	void						onRequestSplitViaTextLines(void);
 	void						onRequestReplace(void);
-	void						onRequestExportSelected(void);
+	
 	void						onRequestSearchText(void);
 	void						onRequestSearchSelection(void);
 	void						onRequestFilter(void);

@@ -69,6 +69,9 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case IMPORT_BY_SINGLE_FOLDER:		return importBySingleFolder();
 	case IMPORT_BY_FOLDER_RECURSIVELY:	return importByFolderRecursively();
 
+	case EXPORT_SELECTED:				return exportSelected();
+	case EXPORT_ALL:					return exportAll();
+
 	case SELECT_ALL:					return selectAll();
 	case UNSELECT_ALL:					return unselectAll();
 	case SELECT_INVERSE:				return selectInverse();
@@ -151,10 +154,17 @@ void					InputManager::importBySingleFolder(void)
 
 void					InputManager::importByFolderRecursively(void)
 {
+	m_pTasks->importByFolderRecursively();
 }
 
-void					InputManager::_export(void)
+void					InputManager::exportSelected(void)
 {
+	m_pTasks->exportSelected();
+}
+
+void					InputManager::exportAll(void)
+{
+	m_pTasks->exportAll();
 }
 
 void					InputManager::quickExport(void)

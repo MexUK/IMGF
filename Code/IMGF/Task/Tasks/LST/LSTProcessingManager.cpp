@@ -45,7 +45,7 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 	}
 	if (strGTARootFolderPath == "")
 	{
-		strGTARootFolderPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("LST_GAME"));
+		strGTARootFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("LST_GAME"));
 		if (strGTARootFolderPath == "")
 		{
 			Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_60"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_60"), MB_OK);

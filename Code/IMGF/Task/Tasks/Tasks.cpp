@@ -153,6 +153,8 @@ void		Tasks::init(void)
 {
 	m_pMainWindow = g_pIMGF->getWindowManager()->getMainWindow();
 	m_pTaskManager = g_pIMGF->getTaskManager();
+
+	bindEvent(TASK_PROGRESS, &Tasks::onProgressTask);
 }
 
 void		Tasks::uninit(void)
@@ -180,6 +182,14 @@ void		Tasks::onAbortTask(void)
 	m_pTaskManager->onAbortTask();
 }
 
+void		Tasks::onProgressTask(void)
+{
+	if (getTaskName() == "exportAll")
+	{
+		increaseProgress();
+	}
+}
+
 // file/folder input windows
 vector<string>	Tasks::openFile(string strExtensionFilters, bool bAllowMultiSelect, string strDefaultFileName)
 {
@@ -201,10 +211,9 @@ string			Tasks::saveFile(string strExtensionFilters, string strDefaultFileName)
 string			Tasks::openFolder(string strTitle, string strInitialDir)
 {
 	m_pTaskManager->onPauseTask();
-	//string strFolderPath = Input::openFolder(getTaskName(), strTitle, strInitialDir);
+	string strFolderPath = Input::openFolder(strTitle, getTaskName());
 	m_pTaskManager->onResumeTask();
-	//return strFolderPath;
-	return "";
+	return strFolderPath;
 }
 
 string			Tasks::saveFolder(string strTitle, string strInitialDir)
@@ -215,6 +224,33 @@ string			Tasks::saveFolder(string strTitle, string strInitialDir)
 	//return strFolderPath;
 	return "";
 }
+
+// active tab
+EditorTab*		Tasks::getTab(void)
+{
+	return nullptr;
+	// todo - return m_pMainWindow->getActiveEditor()->getActiveTab();
+}
+
+IMGEditorTab*	Tasks::getIMGTab(void)
+{
+	return m_pMainWindow->getIMGEditor()->getActiveTab();
+}
+
+// progress
+void			Tasks::setMaxProgress(uint32 uiMaxProgress)
+{
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiMaxProgress);
+}
+
+void			Tasks::increaseProgress(void)
+{
+	getIMGF()->getTaskManager()->onTaskProgressTick();
+}
+
+
+
+
 
 // tasks
 void		Tasks::chooseFilesToOpen(void)
@@ -316,6 +352,140 @@ void		Tasks::closeActiveFile(void)
 	m_pMainWindow->getIMGEditor()->removeActiveFile();
 	m_pTaskManager->onCompleteTask();
 }
+
+void		Tasks::importByFiles(void)
+{
+	onStartTask("importByFiles");
+
+	vector<string> vecFilePaths = openFile();
+	if (vecFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	setMaxProgress(vecFilePaths.size());
+
+	for (string& strFilePath : vecFilePaths)
+	{
+		getIMGTab()->addFile(strFilePath);
+		increaseProgress();
+	}
+
+	if (vecFilePaths.size() == 1)
+	{
+		getIMGTab()->logf("Added file %s.", Path::getFileName(vecFilePaths[0]).c_str());
+	}
+	else
+	{
+		getIMGTab()->logf("Added %u files.", vecFilePaths.size());
+	}
+
+	onCompleteTask();
+}
+
+void		Tasks::importBySingleFolder(void)
+{
+	onStartTask("importBySingleFolder");
+
+	string strFolderPath = openFolder("Import files from a single folder.");
+	if (strFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecFileNames = File::getFileNames(strFolderPath);
+	setMaxProgress(vecFileNames.size());
+
+	for (string& strFileName : vecFileNames)
+	{
+		getIMGTab()->addFile(strFolderPath + strFileName);
+		increaseProgress();
+	}
+
+	getIMGTab()->logf("Added %u files from folder %s.", vecFileNames.size(), Path::getFolderName(strFolderPath).c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::importByFolderRecursively(void)
+{
+	onStartTask("importByFolderRecursively");
+
+	string strFolderPath = openFolder("Import files from a folder recursively.");
+	if (strFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecFilePaths = File::getFilePaths(strFolderPath, true, false, "", true);
+	setMaxProgress(vecFilePaths.size());
+
+	for (string& strFilePath : vecFilePaths)
+	{
+		getIMGTab()->addFile(strFilePath);
+		increaseProgress();
+	}
+
+	getIMGTab()->logf("Added %u files recursively from folder %s.", vecFilePaths.size(), Path::getFolderName(strFolderPath).c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::exportSelected(void)
+{
+	onStartTask("exportSelected");
+
+	string strFolderPath = openFolder("Choose a folder to export the selected files to.");
+	if (strFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiSelectedEntryCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
+	setMaxProgress(uiSelectedEntryCount);
+
+	vector<IMGEntry*> vecIMGEntries;
+	vector<string> vecExportedEntryNames;
+	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getSelectedRows())
+	{
+		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
+
+		vecIMGEntries.push_back(pIMGEntry);
+		vecExportedEntryNames.push_back(pIMGEntry->getEntryName());
+	}
+
+	getIMGTab()->getIMGFile()->exportMultiple(vecIMGEntries, strFolderPath);
+
+	getIMGTab()->logf("Exported %u selected entries.", uiSelectedEntryCount);
+
+	onCompleteTask();
+}
+
+void		Tasks::exportAll(void)
+{
+	onStartTask("exportAll");
+
+	string strFolderPath = openFolder("Choose a folder to export all files to.");
+	if (strFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	getIMGTab()->getIMGFile()->exportAll(strFolderPath);
+
+	getIMGTab()->logf("Exported all %u entries.", uiTotalEntryCount);
+
+	onCompleteTask();
+}
+
+
+
+
+
+
 
 
 
@@ -421,76 +591,6 @@ void		Tasks::onRequestExitTool(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExitTool");
 }
 
-void		Tasks::importByFiles(void)
-{
-	onStartTask("importByFiles");
-
-	vector<string> vecFilePaths = openFile();
-	if (vecFilePaths.size() == 0)
-	{
-		return onAbortTask();
-	}
-
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecFilePaths.size());
-
-	IMGEditorTab *pEditorTab = m_pMainWindow->getIMGEditor()->getActiveTab();
-
-	for (string& strFilePath : vecFilePaths)
-	{
-		pEditorTab->addFile(strFilePath);
-		getIMGF()->getTaskManager()->onTaskProgressTick();
-	}
-
-	onCompleteTask();
-}
-
-void		Tasks::importBySingleFolder(void)
-{
-	onStartTask("importBySingleFolder");
-
-	getIMGF()->getTaskManager()->onStartTask("onRequestImportViaFolder");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFolder", true);
-		return;
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_15"), getIMGF()->getLastUsedDirectory("IMPORT_FOLDER"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strPath == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFolder", true);
-		return;
-	}
-	strPath = Path::addSlashToEnd(strPath);
-	getIMGF()->setLastUsedDirectory("IMPORT_FOLDER", strPath);
-
-	vector<string> vecFileNames = File::getFileNames(strPath);
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecFileNames.size());
-	for (auto strFileName : vecFileNames)
-	{
-		getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strPath + strFileName);
-		getIMGF()->getTaskManager()->onTaskProgressTick();
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_99", vecFileNames.size(), Path::getFolderName(strPath).c_str()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_100"), true);
-	// todo - getIMGF()->getEntryListTab()->log(strPath, true);
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntriesForImport"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecFileNames, "\n"), true);
-
-	if (vecFileNames.size() > 0)
-	{
-		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestImportViaFolder");
-}
-
-void		Tasks::importByRecursiveFolders(void)
-{
-}
-
 void		Tasks::onRequestRemoveSelected(void)
 {
 	/*
@@ -502,7 +602,7 @@ void		Tasks::onRequestRemoveSelected(void)
 	}
 
 	CListCtrl *pListControl = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37);
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	setMaxProgress(pListControl->GetSelectedCount());
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
 	if (pos == NULL)
 	{
@@ -523,7 +623,7 @@ void		Tasks::onRequestRemoveSelected(void)
 		pos = pListControl->GetFirstSelectedItemPosition();
 
 		uiRemoveCount++;
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	if (pListControl->GetItemCount() == 0)
@@ -585,7 +685,7 @@ void		Tasks::onRequestRenameEntry(void)
 		return;
 	}
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	setMaxProgress(pListControl->GetSelectedCount());
 	while (pos)
 	{
 		nItem = pListControl->GetNextSelectedItem(pos);
@@ -595,7 +695,7 @@ void		Tasks::onRequestRenameEntry(void)
 		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 
 		getIMGF()->getEntryListTab()->onEntryChange(pIMGEntry);
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_54", strOldName.c_str(), strNewName.c_str()));
@@ -755,7 +855,7 @@ void		Tasks::onRequestConvertIMGVersion(EIMGVersion EIMGVersionValue)
 	{
 		uiProgressMaxTicks += uiIMGEntryCount;
 	}
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiProgressMaxTicks);
+	setMaxProgress(uiProgressMaxTicks);
 
 	/*
 	// remove compression from entries body data in version Fastman92 IMG
@@ -831,7 +931,7 @@ void		Tasks::onRequestConvertIMGVersion(EIMGVersion EIMGVersionValue)
 	if (ePreviousIMGVersion == IMG_1)
 	{
 		File::removeFile(Path::replaceFileExtension(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath(), "dir"));
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// check to convert entries aswell as IMG
@@ -867,7 +967,7 @@ void		Tasks::onRequestConvertIMGVersion(EIMGVersion EIMGVersionValue)
 			{
 				if (eDestGame == UNKNOWN_PLATFORMED_GAME)
 				{
-					getIMGF()->getTaskManager()->onTaskProgressTick();
+					increaseProgress();
 					continue;
 				}
 
@@ -876,7 +976,7 @@ void		Tasks::onRequestConvertIMGVersion(EIMGVersion EIMGVersionValue)
 				{
 					pDFFFile->unload();
 					delete pDFFFile;
-					getIMGF()->getTaskManager()->onTaskProgressTick();
+					increaseProgress();
 					continue;
 				}
 
@@ -892,7 +992,7 @@ void		Tasks::onRequestConvertIMGVersion(EIMGVersion EIMGVersionValue)
 			{
 				if (eDestGame == UNKNOWN_PLATFORMED_GAME)
 				{
-					getIMGF()->getTaskManager()->onTaskProgressTick();
+					increaseProgress();
 					continue;
 				}
 
@@ -901,7 +1001,7 @@ void		Tasks::onRequestConvertIMGVersion(EIMGVersion EIMGVersionValue)
 				{
 					pTXDFile->unload();
 					delete pTXDFile;
-					getIMGF()->getTaskManager()->onTaskProgressTick();
+					increaseProgress();
 					continue;
 				}
 
@@ -918,7 +1018,7 @@ void		Tasks::onRequestConvertIMGVersion(EIMGVersion EIMGVersionValue)
 			{
 				if (eDestCOLVersion == COL_UNKNOWN)
 				{
-					getIMGF()->getTaskManager()->onTaskProgressTick();
+					increaseProgress();
 					continue;
 				}
 
@@ -927,7 +1027,7 @@ void		Tasks::onRequestConvertIMGVersion(EIMGVersion EIMGVersionValue)
 				{
 					pCOLFile->unload();
 					delete pCOLFile;
-					getIMGF()->getTaskManager()->onTaskProgressTick();
+					increaseProgress();
 					continue;
 				}
 
@@ -943,7 +1043,7 @@ void		Tasks::onRequestConvertIMGVersion(EIMGVersion EIMGVersionValue)
 				delete pCOLFile;
 			}
 
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 		}
 	}
 
@@ -1009,7 +1109,7 @@ void		Tasks::onRequestMerge(void)
 	{
 		uiMergeEntryCount += IMGManager::getIMGEntryCount(strPath, IMGManager::detectIMGVersion(strPath));
 	}
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiMergeEntryCount);
+	setMaxProgress(uiMergeEntryCount);
 
 	uint32 uiImportedEntryCount = 0;
 	vector<string> vecImportedEntryNames;
@@ -1228,7 +1328,7 @@ void		Tasks::onRequestSplitViaIDEFile(void)
 		break;
 	}
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size() * (bDeleteFromSource ? 2 : 1));
+	setMaxProgress(vecIMGEntries.size() * (bDeleteFromSource ? 2 : 1));
 	getIMGF()->getEntryListTab()->getIMGFile()->split(vecIMGEntries, strPath, EIMGVersionValue);
 	
 	if(bDeleteFromSource)
@@ -1249,7 +1349,7 @@ void		Tasks::onRequestSplitViaIDEFile(void)
 		{
 			getIMGF()->getEntryListTab()->removeEntry(pIMGEntry);
 
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 		}
 	}
 
@@ -1344,7 +1444,7 @@ void		Tasks::onRequestSplitViaTextLines(void)
 		break;
 	}
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size() * (bDeleteFromSource ? 2 : 1));
+	setMaxProgress(vecIMGEntries.size() * (bDeleteFromSource ? 2 : 1));
 	getIMGF()->getEntryListTab()->getIMGFile()->split(vecIMGEntries, strPath, EIMGVersionValue);
 
 	if(bDeleteFromSource)
@@ -1365,7 +1465,7 @@ void		Tasks::onRequestSplitViaTextLines(void)
 		{
 			getIMGF()->getEntryListTab()->removeEntry(pIMGEntry);
 
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 		}
 	}
 
@@ -1482,7 +1582,7 @@ void		Tasks::onRequestReplace(void)
 		vecPaths = StdVector::combineVectors(vecUniqueFilePaths, vecNewReplacedFilePaths);
 	}
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecPaths.size());
+	setMaxProgress(vecPaths.size());
 	vector<string> vecReplacedEntryNames;
 	getIMGF()->getEntryListTab()->replace(vecPaths, vecReplacedEntryNames);
 
@@ -1496,57 +1596,7 @@ void		Tasks::onRequestReplace(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestReplace");
 	*/
 }
-void		Tasks::onRequestExportSelected(void)
-{
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestExportSelected");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportSelected", true);
-		return;
-	}
 
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_SELECTED"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strPath == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportSelected", true);
-		return;
-	}
-	strPath = Path::addSlashToEnd(strPath);
-	getIMGF()->setLastUsedDirectory("EXPORT_SELECTED", strPath);
-
-	vector<IMGEntry*> vecIMGEntries;
-	vector<string> vecExportedEntryNames;
-
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	IMGEntry *pIMGEntry = nullptr;
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportSelected", true);
-		return;
-	}
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-		vecIMGEntries.push_back(pIMGEntry);
-		vecExportedEntryNames.push_back(pIMGEntry->getEntryName());
-
-		getIMGF()->getTaskManager()->onTaskProgressTick();
-	}
-
-	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_76", vecIMGEntries.size()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_77"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecExportedEntryNames, "\n"), true);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportSelected");
-	*/
-}
 void		Tasks::onRequestSearchText(void) // from search box
 {
 	/*
@@ -1659,7 +1709,7 @@ void		Tasks::onRequestFilter(void)
 		return;
 	}
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount());
+	setMaxProgress(getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount());
 
 	getIMGF()->getEntryListTab()->storeFilterOptions();
 	getIMGF()->getEntryListTab()->readdGridEntries();
@@ -1723,7 +1773,7 @@ void		Tasks::onRequestExportViaButton(void)
 	switch (uiRadioButtonIndex)
 	{
 	case 0:
-		onRequestExportSelected();
+		exportSelected();
 		break;
 	case 1:
 		onRequestExportViaIDEFile();
@@ -1757,7 +1807,7 @@ void		Tasks::onRequestExportViaIDEFile(void)
 	getIMGF()->setLastUsedDirectory("EXPORT_IDE__IDE", Path::getDirectory(vecPaths[0]));
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_IDE__DESTINATION"));
+	string strPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_IDE__DESTINATION"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strPath == "")
 	{
@@ -1783,7 +1833,7 @@ void		Tasks::onRequestExportViaIDEFile(void)
 		}
 	}
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size());
+	setMaxProgress(vecIMGEntries.size());
 	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_80", vecIMGEntries.size(), getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount()));
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_77"), true);
@@ -1809,7 +1859,7 @@ void		Tasks::onRequestExportViaTextLines(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_TEXTLINES"));
+	string strPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_TEXTLINES"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strPath == "")
 	{
@@ -1846,7 +1896,7 @@ void		Tasks::onRequestExportViaTextLines(void)
 		}
 	}
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size());
+	setMaxProgress(vecIMGEntries.size());
 	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_81", vecIMGEntries.size(), vecEntryNames.size()));
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_77"), true);
@@ -2026,7 +2076,7 @@ void		Tasks::onRequestRemoveViaIDEFile(void)
 		}
 	}
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount());
+	setMaxProgress(getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount());
 
 	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	vector<string> vecRemovedEntryNames;
@@ -2038,7 +2088,7 @@ void		Tasks::onRequestRemoveViaIDEFile(void)
 		vecRemovedEntryNames.push_back(pIMGEntry->getEntryName());
 		getIMGF()->getEntryListTab()->removeEntry(pIMGEntry);
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	if (pListControl->GetItemCount() == 0)
@@ -2093,7 +2143,7 @@ void		Tasks::onRequestRemoveViaTextLines(void)
 	}
 	vecEntryNames = StdVector::toUpperCase(vecEntryNames);
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecEntryNames.size());
+	setMaxProgress(vecEntryNames.size());
 
 	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	uint32 uiRemoveCount = 0;
@@ -2113,7 +2163,7 @@ void		Tasks::onRequestRemoveViaTextLines(void)
 			uiRemoveCount++;
 		}
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	if (pListControl->GetItemCount() == 0)
@@ -2186,7 +2236,7 @@ void		Tasks::onRequestImportViaIDEFile(void)
 	getIMGF()->setLastUsedDirectory("IMPORT_IDE__IDE", Path::getDirectory(vecPaths[0]));
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strFolderPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_13"), getIMGF()->getLastUsedDirectory("IMPORT_IDE__SOURCE"));
+	string strFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_13"), getIMGF()->getLastUsedDirectory("IMPORT_IDE__SOURCE"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strFolderPath == "")
 	{
@@ -2224,7 +2274,7 @@ void		Tasks::onRequestImportViaIDEFile(void)
 	}
 	vecEntryNamesInAllFiles = StdVector::removeDuplicates(vecEntryNamesInAllFiles);
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecEntryNamesInAllFiles.size());
+	setMaxProgress(vecEntryNamesInAllFiles.size());
 	uint32 uiImportCount = 0;
 	vector<string> vecImportedEntryNames;
 	for (auto strEntryName : vecEntryNamesInAllFiles)
@@ -2237,7 +2287,7 @@ void		Tasks::onRequestImportViaIDEFile(void)
 			vecImportedEntryNames.push_back(strEntryName);
 		}
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_84", uiImportCount, vecEntryNamesInAllFiles.size()));
@@ -2269,7 +2319,7 @@ void		Tasks::onRequestImportViaTextLines(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_13"), getIMGF()->getLastUsedDirectory("IMPORT_TEXTLINES"));
+	string strPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_13"), getIMGF()->getLastUsedDirectory("IMPORT_TEXTLINES"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strPath == "")
 	{
@@ -2294,7 +2344,7 @@ void		Tasks::onRequestImportViaTextLines(void)
 	}
 	vecEntryNamesWithoutExtension = StdVector::removeDuplicates(StdVector::toUpperCase(vecEntryNamesWithoutExtension));
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecEntryNamesWithoutExtension.size());
+	setMaxProgress(vecEntryNamesWithoutExtension.size());
 	uint32 uiImportCount = 0;
 	for (auto strEntryNameWithoutExtension : vecEntryNamesWithoutExtension)
 	{
@@ -2306,7 +2356,7 @@ void		Tasks::onRequestImportViaTextLines(void)
 			vecImportedEntryNames.push_back(strFileName);
 		}
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_84", uiImportCount, vecEntryNamesWithoutExtension.size()));
@@ -2429,7 +2479,7 @@ void		Tasks::onRequestNameCase(uint8 ucCaseType, uint8 ucFilenameType)
 		getIMGF()->getTaskManager()->onTaskEnd("onRequestNameCase", true);
 		return;
 	}
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	setMaxProgress(pListControl->GetSelectedCount());
 	while (pos)
 	{
 		int nItem = pListControl->GetNextSelectedItem(pos);
@@ -2483,7 +2533,7 @@ void		Tasks::onRequestNameCase(uint8 ucCaseType, uint8 ucFilenameType)
 
 		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	getIMGF()->getEntryListTab()->searchText();
@@ -2513,7 +2563,7 @@ void		Tasks::onRequestCopyEntryData(EIMGEntryProperty EIMGEntryProperty)
 		getIMGF()->getTaskManager()->onTaskEnd("onRequestCopyEntryData", true);
 		return;
 	}
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	setMaxProgress(pListControl->GetSelectedCount());
 	while (pos)
 	{
 		int nItem = pListControl->GetNextSelectedItem(pos);
@@ -2544,7 +2594,7 @@ void		Tasks::onRequestCopyEntryData(EIMGEntryProperty EIMGEntryProperty)
 			break;
 		}
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	String::setClipboardText(String::join(vecCopyLines, "\r\n"));
@@ -2608,21 +2658,21 @@ void		Tasks::onRequestShift(uint8 ucDirection)
 		uiIMGEntry2Index = nItem + 1;
 	}
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(4);
+	setMaxProgress(4);
 
 	pIMGEntry2 = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByIndex(uiIMGEntry2Index);
 	getIMGF()->getEntryListTab()->getIMGFile()->swapEntries(pIMGEntry, pIMGEntry2);
-	getIMGF()->getTaskManager()->onTaskProgressTick();
+	increaseProgress();
 
 	pListControl->SetItemData(uiIMGEntry1Index, (DWORD)pIMGEntry2);
 	pListControl->SetItemData(uiIMGEntry2Index, (DWORD)pIMGEntry);
-	getIMGF()->getTaskManager()->onTaskProgressTick();
+	increaseProgress();
 
 	getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry2);
-	getIMGF()->getTaskManager()->onTaskProgressTick();
+	increaseProgress();
 
 	getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-	getIMGF()->getTaskManager()->onTaskProgressTick();
+	increaseProgress();
 
 	getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestShift");
@@ -2642,7 +2692,7 @@ void		Tasks::onRequestQuickExport(void)
 	if (getIMGF()->getSettingsManager()->getSettingString("QuickExportPath") == "")
 	{
 		getIMGF()->getTaskManager()->onPauseTask();
-		string strQuickExportPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_1"), getIMGF()->getLastUsedDirectory("QUICK_EXPORT"));
+		string strQuickExportPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_1"), getIMGF()->getLastUsedDirectory("QUICK_EXPORT"));
 		getIMGF()->getTaskManager()->onResumeTask();
 	
 		if (strQuickExportPath == "")
@@ -2659,7 +2709,7 @@ void		Tasks::onRequestQuickExport(void)
 	vector<string> vecExportedEntryNames;
 	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	setMaxProgress(pListControl->GetSelectedCount());
 	IMGEntry *pIMGEntry = nullptr;
 	if (pos == NULL)
 	{
@@ -2673,7 +2723,7 @@ void		Tasks::onRequestQuickExport(void)
 		vecIMGEntries.push_back(pIMGEntry);
 		vecExportedEntryNames.push_back(pIMGEntry->getEntryName());
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, getIMGF()->getSettingsManager()->getSettingString("QuickExportPath"));
@@ -2722,7 +2772,7 @@ void		Tasks::onRequestSelectViaFileExtension(void)
 
 	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	uint32 uiSelectedEntryCount = 0;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
+	setMaxProgress(pListControl->GetItemCount());
 	for (uint32 i = 0; i < (uint32)pListControl->GetItemCount(); i++)
 	{
 		if (std::find(vecFileExtensions.begin(), vecFileExtensions.end(), String::toUpperCase(Path::getFileExtension(getIMGF()->getEntryListTab()->getIMGFile()->getEntryByIndex(i)->getEntryName()))) != vecFileExtensions.end())
@@ -2732,7 +2782,7 @@ void		Tasks::onRequestSelectViaFileExtension(void)
 			pListControl->SetSelectionMark(i);
 		}
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_89", uiSelectedEntryCount));
@@ -2755,7 +2805,7 @@ void		Tasks::onRequestSelectViaRWVersion(RWVersion *pRWVersion)
 
 	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	uint32 uiSelectedEntryCount = 0;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
+	setMaxProgress(pListControl->GetItemCount());
 	for (uint32 i = 0; i < (uint32)pListControl->GetItemCount(); i++)
 	{
 		RWVersion *pEntryRWVersion = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByIndex(i)->getRWVersion();
@@ -2765,7 +2815,7 @@ void		Tasks::onRequestSelectViaRWVersion(RWVersion *pRWVersion)
 			pListControl->SetItemState(i, LVIS_SELECTED, LVIS_SELECTED);
 			pListControl->SetSelectionMark(i);
 		}
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_90", uiSelectedEntryCount));
@@ -2803,7 +2853,7 @@ void		Tasks::onRequestTextureList(void)
 		getIMGF()->getTaskManager()->onTaskEnd("onRequestTextureList", true);
 		return;
 	}
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	setMaxProgress(pListControl->GetSelectedCount());
 	while (pos)
 	{
 		nItem = pListControl->GetNextSelectedItem(pos);
@@ -2854,7 +2904,7 @@ void		Tasks::onRequestTextureList(void)
 			uiEntryCount++;
 		}
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
@@ -3067,7 +3117,7 @@ void		Tasks::onRequestOrphanDFFEntriesNotInCOL(void)
 	vector<string>
 		vecEntryNamesMissingFromCOL,
 		vecEntryNamesMissingFromCOLUpper;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFEntryNamesWithoutExtension.size());
+	setMaxProgress(vecDFFEntryNamesWithoutExtension.size());
 	for (auto strDFFEntryNameWithoutExtension : vecDFFEntryNamesWithoutExtension)
 	{
 		if (std::find(vecCOLEntryNamesWithoutExtension.begin(), vecCOLEntryNamesWithoutExtension.end(), strDFFEntryNameWithoutExtension) == vecCOLEntryNamesWithoutExtension.end())
@@ -3075,7 +3125,7 @@ void		Tasks::onRequestOrphanDFFEntriesNotInCOL(void)
 			vecEntryNamesMissingFromCOL.push_back(strDFFEntryNameWithoutExtension);
 			vecEntryNamesMissingFromCOLUpper.push_back(String::toUpperCase(strDFFEntryNameWithoutExtension));
 		}
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	if (getIMGF()->getIMGEditor()->getTabs().getEntryCount() > 0)
@@ -3147,14 +3197,14 @@ void		Tasks::onRequestOrphanIDEEntriesNotInCOL(void)
 	vecCOLEntryNamesWithoutExtension = StdVector::removeDuplicates(vecCOLEntryNamesWithoutExtension);
 
 	vector<string> vecEntryNamesMissingFromCOL;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIDEEntryNamesWithoutExtension.size());
+	setMaxProgress(vecIDEEntryNamesWithoutExtension.size());
 	for (auto strIDEEntryNameWithoutExtension : vecIDEEntryNamesWithoutExtension)
 	{
 		if (std::find(vecCOLEntryNamesWithoutExtension.begin(), vecCOLEntryNamesWithoutExtension.end(), strIDEEntryNameWithoutExtension) == vecCOLEntryNamesWithoutExtension.end())
 		{
 			vecEntryNamesMissingFromCOL.push_back(strIDEEntryNameWithoutExtension);
 		}
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_112", vecEntryNamesMissingFromCOL.size()));
@@ -3167,7 +3217,7 @@ void		Tasks::onRequestOrphanIDEEntriesNotInCOL(void)
 	if (bImportEntries)
 	{
 		getIMGF()->getTaskManager()->onPauseTask();
-		string strFolderPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_17"), getIMGF()->getLastUsedDirectory("ORPHAN_IDE_COL__IMPORT"));
+		string strFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_17"), getIMGF()->getLastUsedDirectory("ORPHAN_IDE_COL__IMPORT"));
 		getIMGF()->getTaskManager()->onResumeTask();
 		if (strFolderPath == "")
 		{
@@ -3244,14 +3294,14 @@ void		Tasks::onRequestOrphanDFFEntriesNotInIDE(void)
 	vecDFFEntryNamesWithoutExtension = StdVector::removeDuplicates(vecDFFEntryNamesWithoutExtension);
 
 	vector<string> vecEntryNamesMissingFromIDE;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFEntryNamesWithoutExtension.size());
+	setMaxProgress(vecDFFEntryNamesWithoutExtension.size());
 	for (auto strDFFEntryNameWithoutExtension : vecDFFEntryNamesWithoutExtension)
 	{
 		if (std::find(vecIDEEntryNamesWithoutExtension.begin(), vecIDEEntryNamesWithoutExtension.end(), strDFFEntryNameWithoutExtension) == vecIDEEntryNamesWithoutExtension.end())
 		{
 			vecEntryNamesMissingFromIDE.push_back(strDFFEntryNameWithoutExtension);
 		}
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_126", vecEntryNamesMissingFromIDE.size()));
@@ -3310,14 +3360,14 @@ void		Tasks::onRequestOrphanCOLEntriesNotInIDE(void)
 	vecCOLEntryNamesWithoutExtension = StdVector::removeDuplicates(vecCOLEntryNamesWithoutExtension);
 
 	vector<string> vecEntryNamesMissingFromIDE;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecCOLEntryNamesWithoutExtension.size());
+	setMaxProgress(vecCOLEntryNamesWithoutExtension.size());
 	for (auto strCOLEntryNameWithoutExtension : vecCOLEntryNamesWithoutExtension)
 	{
 		if (std::find(vecIDEEntryNamesWithoutExtension.begin(), vecIDEEntryNamesWithoutExtension.end(), strCOLEntryNameWithoutExtension) == vecIDEEntryNamesWithoutExtension.end())
 		{
 			vecEntryNamesMissingFromIDE.push_back(strCOLEntryNameWithoutExtension);
 		}
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_113", vecEntryNamesMissingFromIDE.size()));
@@ -3354,14 +3404,14 @@ void		Tasks::onRequestOrphanIMGEntriesNotInIDE(void)
 	vecEntryNamesWithoutExtension = StdVector::toUpperCase(vecEntryNamesWithoutExtension);
 
 	vector<string> vecEntryNamesMissingFromIDE;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(getIMGF()->getEntryListTab()->getIMGFile()->getEntries().size());
+	setMaxProgress(getIMGF()->getEntryListTab()->getIMGFile()->getEntries().size());
 	for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
 	{
 		if (std::find(vecEntryNamesWithoutExtension.begin(), vecEntryNamesWithoutExtension.end(), String::toUpperCase(Path::removeFileExtension(pIMGEntry->getEntryName()))) == vecEntryNamesWithoutExtension.end())
 		{
 			vecEntryNamesMissingFromIDE.push_back(pIMGEntry->getEntryName());
 		}
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_92", vecEntryNamesMissingFromIDE.size()));
@@ -3449,7 +3499,7 @@ void		Tasks::onRequestOrphanIPLEntriesNotInIDE(void)
 
 	// find DFF names in IPL files but not found in IDE files
 	vector<string> vecEntryNamesMissingFromIDE;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFNamesWithoutExtensionInIPL.size());
+	setMaxProgress(vecDFFNamesWithoutExtensionInIPL.size());
 	for (auto strDFFEntryNameWithoutExtension : vecDFFNamesWithoutExtensionInIPL)
 	{
 		string strDFFEntryNameWithoutExtensionUpper = String::toUpperCase(strDFFEntryNameWithoutExtension);
@@ -3457,7 +3507,7 @@ void		Tasks::onRequestOrphanIPLEntriesNotInIDE(void)
 		{
 			vecEntryNamesMissingFromIDE.push_back(strDFFEntryNameWithoutExtension);
 		}
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// log
@@ -3520,14 +3570,14 @@ void		Tasks::onRequestOrphanTXDEntriesNotInIDE(void)
 	vecTXDEntryNamesWithoutExtension = StdVector::removeDuplicates(vecTXDEntryNamesWithoutExtension);
 
 	vector<string> vecEntryNamesMissingFromIDE;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecTXDEntryNamesWithoutExtension.size());
+	setMaxProgress(vecTXDEntryNamesWithoutExtension.size());
 	for (auto strTXDEntryNameWithoutExtension : vecTXDEntryNamesWithoutExtension)
 	{
 		if (std::find(vecIDEEntryNamesWithoutExtension.begin(), vecIDEEntryNamesWithoutExtension.end(), strTXDEntryNameWithoutExtension) == vecIDEEntryNamesWithoutExtension.end())
 		{
 			vecEntryNamesMissingFromIDE.push_back(strTXDEntryNameWithoutExtension);
 		}
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_140", vecEntryNamesMissingFromIDE.size()));
@@ -3562,7 +3612,7 @@ void		Tasks::onRequestOrphanIDEEntriesNotInIMG(void)
 	vecEntryNamesWithoutExtension = StdVector::toUpperCase(vecEntryNamesWithoutExtension);
 
 	vector<string> vecEntryNamesMissingFromIMG;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecEntryNamesWithoutExtension.size());
+	setMaxProgress(vecEntryNamesWithoutExtension.size());
 	for (auto strEntryNameWithoutExtension : vecEntryNamesWithoutExtension)
 	{
 		IMGEntry *pIMGEntry = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByNameWithoutExtension(strEntryNameWithoutExtension);
@@ -3570,7 +3620,7 @@ void		Tasks::onRequestOrphanIDEEntriesNotInIMG(void)
 		{
 			vecEntryNamesMissingFromIMG.push_back(strEntryNameWithoutExtension);
 		}
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_94", vecEntryNamesMissingFromIMG.size()));
@@ -3583,7 +3633,7 @@ void		Tasks::onRequestOrphanIDEEntriesNotInIMG(void)
 	if (bImportEntries)
 	{
 		getIMGF()->getTaskManager()->onPauseTask();
-		string strFolderPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_17"), getIMGF()->getLastUsedDirectory("ORPHAN_IDE_IMG__IMPORT"));
+		string strFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_17"), getIMGF()->getLastUsedDirectory("ORPHAN_IDE_IMG__IMPORT"));
 		getIMGF()->getTaskManager()->onResumeTask();
 		if (strFolderPath == "")
 		{
@@ -3857,7 +3907,7 @@ void		Tasks::onRequestConvertDFFToRWVersion(RWVersion *pRWVersion)
 
 	pIMGEntry = nullptr;
 	vector<string> vecConvertedDFFEntryNames;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	setMaxProgress(pListControl->GetSelectedCount());
 	while (pos)
 	{
 		int nItem = pListControl->GetNextSelectedItem(pos);
@@ -3865,7 +3915,7 @@ void		Tasks::onRequestConvertDFFToRWVersion(RWVersion *pRWVersion)
 
 		if (!Path::isModelExtension(String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()))))
 		{
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 
@@ -4113,7 +4163,7 @@ void		Tasks::onRequestConvertDFFToRWVersion(RWVersion *pRWVersion)
 
 		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 	
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_95", vecConvertedDFFEntryNames.size(), (pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()));
@@ -4158,13 +4208,13 @@ void		Tasks::onRequestMissingTextures(void)
 	vector<IMGEntry*> vecSelectedDFFs;
 	vector<string> vecSelectedDFFsFilenames;
 	IMGEntry *pIMGEntry = nullptr;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	setMaxProgress(pListControl->GetSelectedCount());
 	while (pos)
 	{
 		int nItem = pListControl->GetNextSelectedItem(pos);
 		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 		if (!Path::isModelExtension(String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()))))
 		{
 			continue;
@@ -4280,7 +4330,7 @@ void		Tasks::onRequestReplaceAllFromFolder(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strFolderPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_14"), getIMGF()->getLastUsedDirectory("REPLACE_ALL_FOLDER"));
+	string strFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_14"), getIMGF()->getLastUsedDirectory("REPLACE_ALL_FOLDER"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strFolderPath == "")
 	{
@@ -4396,7 +4446,7 @@ void		Tasks::onRequestExportAllEntriesFromAllTabs(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_ALL_ALL"));
+	string strPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_ALL_ALL"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strPath == "")
 	{
@@ -4411,7 +4461,7 @@ void		Tasks::onRequestExportAllEntriesFromAllTabs(void)
 	{
 		uiTotalEntryCount += ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
+	setMaxProgress(uiTotalEntryCount);
 
 	vector<string> vecIMGPaths;
 	for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
@@ -4447,7 +4497,7 @@ void		Tasks::onRequestExportEntriesViaIDEFileFromAllTabs(void)
 	getIMGF()->setLastUsedDirectory("EXPORT_IDE_ALL__IDE", Path::getDirectory(vecPaths[0]));
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_IDE_ALL__DEST"));
+	string strPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_IDE_ALL__DEST"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strPath == "")
 	{
@@ -4465,7 +4515,7 @@ void		Tasks::onRequestExportEntriesViaIDEFileFromAllTabs(void)
 	{
 		uiTotalEntryCount += ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
+	setMaxProgress(uiTotalEntryCount);
 
 	uint32 uiTotalEntryExportedCount = 0;
 	vector<string> vecIMGPaths;
@@ -4484,7 +4534,7 @@ void		Tasks::onRequestExportEntriesViaIDEFileFromAllTabs(void)
 				vecIMGEntries.push_back(pIMGEntry);
 			}
 
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 		}
 
 		((IMGEditorTab*)pEditorTab)->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
@@ -4514,7 +4564,7 @@ void		Tasks::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_TEXTLINES_ALL"));
+	string strPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_TEXTLINES_ALL"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strPath == "")
 	{
@@ -4543,7 +4593,7 @@ void		Tasks::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 	{
 		uiTotalEntryCount += ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
+	setMaxProgress(uiTotalEntryCount);
 
 	uint32 uiTotalEntryExportedCount = 0;
 	vector<string> vecIMGPaths;
@@ -4562,7 +4612,7 @@ void		Tasks::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 				vecIMGEntries.push_back(pIMGEntry);
 			}
 
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 		}
 
 		((IMGEditorTab*)pEditorTab)->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
@@ -4673,7 +4723,7 @@ void		Tasks::onRequestDuplicateEntries(void)
 	{
 		uiTickCount += pIMGFile->getEntryCount();
 	}
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiTickCount);
+	setMaxProgress(uiTickCount);
 
 	// fetch selected entries
 	vector<IMGEntry*> vecSelectedIMGEntries;
@@ -4705,7 +4755,7 @@ void		Tasks::onRequestDuplicateEntries(void)
 		{
 			umapIMGEntries[String::toUpperCase(pIMGEntry->getEntryName())].push_back(pIMGEntry);
 
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 		}
 	}
 	for (auto it : umapIMGEntries)
@@ -4770,7 +4820,7 @@ void		Tasks::onRequestExportAllEntriesFromAllTabsIntoMultipleFolders(void)
 	}
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_16"), getIMGF()->getLastUsedDirectory("EXPORT_ALL_FOLDERS"));
+	string strPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_16"), getIMGF()->getLastUsedDirectory("EXPORT_ALL_FOLDERS"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strPath == "")
 	{
@@ -4785,7 +4835,7 @@ void		Tasks::onRequestExportAllEntriesFromAllTabsIntoMultipleFolders(void)
 	{
 		uiTotalEntryCount += ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiTotalEntryCount);
+	setMaxProgress(uiTotalEntryCount);
 
 	vector<string> vecIMGPaths;
 	for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
@@ -4836,7 +4886,7 @@ void		Tasks::onRequestConvertTXDToGame(EPlatformedGame EPlatformedGame)
 	vector<string>
 		vecConvertedTXDNames,
 		vecMipmapsRemoved;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	setMaxProgress(pListControl->GetSelectedCount());
 	while (pos)
 	{
 		int nItem = pListControl->GetNextSelectedItem(pos);
@@ -4844,7 +4894,7 @@ void		Tasks::onRequestConvertTXDToGame(EPlatformedGame EPlatformedGame)
 
 		if (String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName())) != "TXD")
 		{
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 
@@ -4853,7 +4903,7 @@ void		Tasks::onRequestConvertTXDToGame(EPlatformedGame EPlatformedGame)
 		{
 			pTXDFile->unload();
 			delete pTXDFile;
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 		uiConvertedTXDCount++;
@@ -4872,7 +4922,7 @@ void		Tasks::onRequestConvertTXDToGame(EPlatformedGame EPlatformedGame)
 
 		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 		
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_104", uiConvertedTXDCount, GameManager::get()->getPlatformedGameText(EPlatformedGame).c_str(), vecMipmapsRemoved.size()));
@@ -5054,7 +5104,7 @@ void		Tasks::onRequestProcessLSTFile(void)
 	getIMGF()->getTaskManager()->onStartTask("onRequestProcessLSTFile");
 	/*
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strGameDirectoryPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("PROCESS_LST__GAME"));
+	string strGameDirectoryPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("PROCESS_LST__GAME"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strGameDirectoryPath == "")
 	{
@@ -5113,7 +5163,7 @@ void		Tasks::onRequestSelectViaIDE(void)
 	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
 	bool bSelectEntry;
 	uint32 uiSelectedEntryCount = 0;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
+	setMaxProgress(pListControl->GetItemCount());
 	for (uint32 i = 0, j = pListControl->GetItemCount(); i < j; i++)
 	{
 		IMGEntry *pIMGEntry = (IMGEntry*)pListControl->GetItemData(i);
@@ -5134,7 +5184,7 @@ void		Tasks::onRequestSelectViaIDE(void)
 			pListControl->SetSelectionMark(i);
 		}
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// todo - getIMGF()->getEntryListTab()->log("Selected " + String::toString(uiSelectedEntryCount) + " entr" + (uiSelectedEntryCount == 1 ? "y" : "ies") + " (vie IDE file).");
@@ -5163,7 +5213,7 @@ void		Tasks::onRequestExportViaIPLFile(void)
 	getIMGF()->setLastUsedDirectory("EXPORT_IPL__IPL", Path::getDirectory(vecPaths[0]));
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_IPL__DESTINATION"));
+	string strPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_IPL__DESTINATION"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strPath == "")
 	{
@@ -5204,7 +5254,7 @@ void		Tasks::onRequestExportViaIPLFile(void)
 		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_109", pIMGEntry->getEntryName().c_str()), true);
 	}
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size());
+	setMaxProgress(vecIMGEntries.size());
 	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_110", vecIMGEntries.size(), getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount()));
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_77"), true);
@@ -5232,26 +5282,26 @@ void		Tasks::onRequestRenameIMG(void)
 		return;
 	}
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(5);
+	setMaxProgress(5);
 
 	string strFolderPath = Path::addSlashToEnd(Path::removeFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()));
 	File::renameFile(strFolderPath + strCurrentIMGFileName, strFolderPath + strNewIMGFileName);
-	getIMGF()->getTaskManager()->onTaskProgressTick();
+	increaseProgress();
 
 	if (getIMGF()->getEntryListTab()->getIMGFile()->getVersion() == IMG_1)
 	{
 		File::renameFile(Path::replaceFileExtension(strFolderPath + strCurrentIMGFileName, "dir"), Path::replaceFileExtension(strFolderPath + strNewIMGFileName, "dir"));
 	}
-	getIMGF()->getTaskManager()->onTaskProgressTick();
+	increaseProgress();
 
 	getIMGF()->getEntryListTab()->getIMGFile()->setFilePath(strFolderPath + strNewIMGFileName);
-	getIMGF()->getTaskManager()->onTaskProgressTick();
+	increaseProgress();
 
 	((CEdit*)getIMGF()->getDialog()->GetDlgItem(38))->SetWindowTextW(String::convertStdStringToStdWString(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str());
-	getIMGF()->getTaskManager()->onTaskProgressTick();
+	increaseProgress();
 
 	getIMGF()->getEntryListTab()->searchText();
-	getIMGF()->getTaskManager()->onTaskProgressTick();
+	increaseProgress();
 
 	wstring wstrNewIMGFileName = String::convertStdStringToStdWString(strNewIMGFileName);
 	TCITEM ltag;
@@ -6136,7 +6186,7 @@ void			Tasks::onRequestRenamer(void)
 		vecIMGEntries = getIMGF()->getEntryListTab()->getSelectedEntries();
 	}
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size() * 2); // x1 for the main loop, and x1 for the refreshing the main list view display
+	setMaxProgress(vecIMGEntries.size() * 2); // x1 for the main loop, and x1 for the refreshing the main list view display
 
 	vector<RenamedIMGEntry*> vecIMGEntriesWithNewNames;
 
@@ -6148,7 +6198,7 @@ void			Tasks::onRequestRenamer(void)
 		{
 			if (String::toUpperCase(pIMGEntry->getEntryName().substr(0, 3)) == "LOD")
 			{
-				getIMGF()->getTaskManager()->onTaskProgressTick();
+				increaseProgress();
 				continue;
 			}
 		}
@@ -6346,7 +6396,7 @@ void			Tasks::onRequestRenamer(void)
 		}
 
 		// progress bar
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// matching entries
@@ -6655,7 +6705,7 @@ void		Tasks::onRequestBuildTXD(void)
 	vector<string>
 		vecTextureImagesNotFound,
 		veTXDFormatNames;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(umapDFFEntries.size());
+	setMaxProgress(umapDFFEntries.size());
 	for (auto it : umapDFFEntries)
 	{
 		DFFFormat *pDFFFile = it.first;
@@ -6663,7 +6713,7 @@ void		Tasks::onRequestBuildTXD(void)
 
 		if (pDFFFile->doesHaveError())
 		{
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 
@@ -6720,7 +6770,7 @@ void		Tasks::onRequestBuildTXD(void)
 			delete pTXDFile;
 		}
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// log
@@ -6793,7 +6843,7 @@ void		Tasks::onRequestIMGVersionSettings(void)
 	}
 
 	// apply new compression type to IMG entries
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntries.size());
+	setMaxProgress(vecIMGEntries.size());
 	vector<string> vecEntryNames;
 	for (auto pIMGEntry : vecIMGEntries)
 	{
@@ -6801,7 +6851,7 @@ void		Tasks::onRequestIMGVersionSettings(void)
 		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 		vecEntryNames.push_back(pIMGEntry->getEntryName());
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// update IMG version text in main window
@@ -6855,9 +6905,9 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	{
 		importBySingleFolder();
 	}
-	else if (strFeatureName == "importByRecursiveFolders")
+	else if (strFeatureName == "importByFolderRecursively")
 	{
-		importByRecursiveFolders();
+		importByFolderRecursively();
 	}
 	else if (strFeatureName == "onRequestRemoveSelected")
 	{
@@ -6925,7 +6975,7 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	}
 	else if (strFeatureName == "onRequestExportSelected")
 	{
-		onRequestExportSelected();
+		exportSelected();
 	}
 	else if (strFeatureName == "onRequestSearchText")
 	{
@@ -7340,7 +7390,7 @@ void		Tasks::onRequestConvertCOLtoCOLVersion(COLVersion *pCOLVersion)
 		return;
 	}
 	uint32 uiEntryCount = 0;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount());
+	setMaxProgress(pListControl->GetItemCount());
 
 	IMGEntry *pIMGEntry = nullptr;
 	while (pos)
@@ -7350,7 +7400,7 @@ void		Tasks::onRequestConvertCOLtoCOLVersion(COLVersion *pCOLVersion)
 
 		if (String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName())) != "COL")
 		{
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 
@@ -7359,7 +7409,7 @@ void		Tasks::onRequestConvertCOLtoCOLVersion(COLVersion *pCOLVersion)
 		{
 			pCOLFile->unload();
 			delete pCOLFile;
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 		for (auto pCOLEntry : pCOLFile->getEntries())
@@ -7375,7 +7425,7 @@ void		Tasks::onRequestConvertCOLtoCOLVersion(COLVersion *pCOLVersion)
 
 		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 		uiEntryCount++;
 	}
 
@@ -7556,7 +7606,7 @@ void			Tasks::onRequestCenterCOLCollisionMeshes(void)
 		return;
 	}
 	uint32 uiEntryCount = 0;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	setMaxProgress(pListControl->GetSelectedCount());
 
 	IMGEntry *pIMGEntry = nullptr;
 	while (pos)
@@ -7566,7 +7616,7 @@ void			Tasks::onRequestCenterCOLCollisionMeshes(void)
 
 		if (String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName())) != "COL")
 		{
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 
@@ -7574,7 +7624,7 @@ void			Tasks::onRequestCenterCOLCollisionMeshes(void)
 		if (pCOLFile->doesHaveError())
 		{
 			delete pCOLFile;
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 		for (auto pCOLEntry : pCOLFile->getEntries())
@@ -7598,7 +7648,7 @@ void			Tasks::onRequestCenterCOLCollisionMeshes(void)
 		
 		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 		uiEntryCount++;
 	}
 
@@ -7616,7 +7666,7 @@ void			Tasks::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 
 	// choose DFFs folder
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strDFFFolderPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_8"), getIMGF()->getLastUsedDirectory("ALIGNCOLMESHTODFFMESH_DFF"));
+	string strDFFFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_8"), getIMGF()->getLastUsedDirectory("ALIGNCOLMESHTODFFMESH_DFF"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strDFFFolderPath == "")
 	{
@@ -7628,7 +7678,7 @@ void			Tasks::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 
 	// choose COLs folder
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strCOLFolderPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_7"), getIMGF()->getLastUsedDirectory("ALIGNCOLMESHTODFFMESH_COL"));
+	string strCOLFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_7"), getIMGF()->getLastUsedDirectory("ALIGNCOLMESHTODFFMESH_COL"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strCOLFolderPath == "")
 	{
@@ -7645,7 +7695,7 @@ void			Tasks::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 		vecFilePaths_BSP = File::getFileNamesByExtension(strDFFFolderPath, "bsp"),
 		vecFilePaths_COL = File::getFileNamesByExtension(strCOLFolderPath, "col");
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecFilePaths_DFF.size() + vecFilePaths_COL.size());
+	setMaxProgress(vecFilePaths_DFF.size() + vecFilePaths_COL.size());
 
 	vecFilePaths_DFF = StdVector::combineVectors(vecFilePaths_DFF, vecFilePaths_BSP);
 	
@@ -7657,7 +7707,7 @@ void			Tasks::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 		{
 			pDFFFile->unload();
 			delete pDFFFile;
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 		
@@ -7675,7 +7725,7 @@ void			Tasks::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 		pDFFFile->unload();
 		delete pDFFFile;
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// check if COL mesh centers are the same as DFF mesh centers, if not then align the COLs to match DFFs
@@ -7686,7 +7736,7 @@ void			Tasks::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 		{
 			pCOLFile->unload();
 			delete pCOLFile;
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 		pCOLFile->setFilePath(strFilePath);
@@ -7715,7 +7765,7 @@ void			Tasks::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 		pCOLFile->unload();
 		delete pCOLFile;
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 	
 	string strLogText = LocalizationManager::get()->getTranslatedFormattedText("Log_AlignMeshes_COL_DFF", vecFilePaths_COL.size());
@@ -7751,7 +7801,7 @@ void			Tasks::onRequestConvertDFFFileToWDRFile(void)
 		return;
 	}
 	uint32 uiEntryCount = 0;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	setMaxProgress(pListControl->GetSelectedCount());
 
 	IMGEntry *pIMGEntry = nullptr;
 	while (pos)
@@ -7761,7 +7811,7 @@ void			Tasks::onRequestConvertDFFFileToWDRFile(void)
 
 		if (!pIMGEntry->isModelFile())
 		{
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 
@@ -7770,7 +7820,7 @@ void			Tasks::onRequestConvertDFFFileToWDRFile(void)
 		{
 			pDFFFile->unload();
 			delete pDFFFile;
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 
@@ -7790,7 +7840,7 @@ void			Tasks::onRequestConvertDFFFileToWDRFile(void)
 		pDFFFile->unload();
 		delete pDFFFile;
 		
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 		uiEntryCount++;
 	}
 
@@ -7827,7 +7877,7 @@ void				Tasks::onRequestTXDOrganizer(void)
 	}
 
 	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetItemCount() + (pTXDOrganizerDialogData->m_bIDEUpdate ? vecFilePaths.size() : 0));
+	setMaxProgress(pListControl->GetItemCount() + (pTXDOrganizerDialogData->m_bIDEUpdate ? vecFilePaths.size() : 0));
 
 	uint32 uiTXDCount = 0;
 	TXDFormat *pTXDFile = TXDManager::get()->createFormat();
@@ -7847,7 +7897,7 @@ void				Tasks::onRequestTXDOrganizer(void)
 
 		if (!pIMGEntry->isModelFile())
 		{
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 
@@ -7856,7 +7906,7 @@ void				Tasks::onRequestTXDOrganizer(void)
 		{
 			pDFFFile->unload();
 			delete pDFFFile;
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 
@@ -7911,7 +7961,7 @@ void				Tasks::onRequestTXDOrganizer(void)
 		pDFFFile->unload();
 		delete pDFFFile;
 		
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 		uiEntryCount++;
 	}
 
@@ -7946,7 +7996,7 @@ void				Tasks::onRequestTXDOrganizer(void)
 
 			if (pIDEFile->doesHaveError())
 			{
-				getIMGF()->getTaskManager()->onTaskProgressTick();
+				increaseProgress();
 				continue;
 			}
 
@@ -7981,7 +8031,7 @@ void				Tasks::onRequestTXDOrganizer(void)
 
 			pIDEFile->unload();
 			delete pIDEFile;
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 		}
 	}
 
@@ -8014,7 +8064,7 @@ void			Tasks::onRequestConvertWTDFileToTXDFile(void)
 		return;
 	}
 	uint32 uiEntryCount = 0;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount());
+	setMaxProgress(pListControl->GetSelectedCount());
 
 	IMGEntry *pIMGEntry = nullptr;
 	while (pos)
@@ -8024,7 +8074,7 @@ void			Tasks::onRequestConvertWTDFileToTXDFile(void)
 
 		if (!pIMGEntry->isTextureFile()) // WTD
 		{
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 
@@ -8034,7 +8084,7 @@ void			Tasks::onRequestConvertWTDFileToTXDFile(void)
 		{
 			pWTDFile->unload();
 			delete pWTDFile;
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 
@@ -8053,7 +8103,7 @@ void			Tasks::onRequestConvertWTDFileToTXDFile(void)
 		
 		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 		uiEntryCount++;
 	}
 
@@ -8120,13 +8170,13 @@ void			Tasks::onRequestDATPathsMover(void)
 	
 	std::sort(vecDATInputFiles.begin(), vecDATInputFiles.end(), sortDATFiles);
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount((vecDATInputFiles.size() * 2) + (vecDATOutputFiles.size() * 4));
+	setMaxProgress((vecDATInputFiles.size() * 2) + (vecDATOutputFiles.size() * 4));
 
 	for (auto pDATFile : vecDATInputFiles)
 	{
 		pDATFile->applyOffsetToPositions(pDATPathsMoverDialogData->m_vecPositionOffset);
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// process
@@ -8166,14 +8216,14 @@ void			Tasks::onRequestDATPathsMover(void)
 			i++;
 		}
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	for (auto pDATFile : vecDATOutputFiles)
 	{
 		std::sort(pDATFile->m_vecPathNodes.begin(), pDATFile->m_vecPathNodes.end(), sortDATPathsEntries);
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	for (auto pDATFile : vecDATOutputFiles)
@@ -8194,7 +8244,7 @@ void			Tasks::onRequestDATPathsMover(void)
 			}
 		}
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 	
 	for (auto pDATFile : vecDATOutputFiles)
@@ -8233,7 +8283,7 @@ void			Tasks::onRequestDATPathsMover(void)
 			}
 		}
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// update target nodes of navi nodes to always be the "lower" node
@@ -8307,7 +8357,7 @@ void			Tasks::onRequestDATPathsMover(void)
 	for (auto pDATFile : vecDATOutputFiles)
 	{
 		File::storeFile(pDATPathsMoverDialogData->m_strOutputFolderPath + "nodes" + String::toString(i) + ".dat", pDATFile->serializeViaMemory(), false, true);
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 		i++;
 	}
 
@@ -8350,7 +8400,7 @@ void			Tasks::onRequestExportViaDATFile(void)
 
 	// choose input game folder
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strGameFolderPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("EXPORTVIADAT_GAME"));
+	string strGameFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("EXPORTVIADAT_GAME"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (vecDATPaths.size() == 0)
 	{
@@ -8389,7 +8439,7 @@ void			Tasks::onRequestExportViaDATFile(void)
 
 	// choose output folder
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strOutputFolderPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORTVIADAT_OUTPUT"));
+	string strOutputFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORTVIADAT_OUTPUT"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strOutputFolderPath == "")
 	{
@@ -8444,7 +8494,7 @@ void			Tasks::onRequestExportViaDATFile(void)
 		}
 	}
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIMGEntriesToExport.size());
+	setMaxProgress(vecIMGEntriesToExport.size());
 	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntriesToExport, strOutputFolderPath);
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_Export_DAT", vecIMGEntriesToExport.size()));
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_77"), true);
@@ -8543,7 +8593,7 @@ void						Tasks::onRequestMapMoverAndIDShifter(void)
 		vecIPLPaths = StdVector::combineVectors(vecIPLPaths, File::getFilePaths(pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath, true, false, "IPL"));
 	}
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecIDEPaths.size() + vecIPLPaths.size());
+	setMaxProgress(vecIDEPaths.size() + vecIPLPaths.size());
 
 	uint32 uiIDEEntryNewObjectId = pMapMoverAndIDShifterDialogData->m_uiIDStart;
 	unordered_map<uint32, uint32> umapNewObjectIds;
@@ -8583,7 +8633,7 @@ void						Tasks::onRequestMapMoverAndIDShifter(void)
 			pIDEFile->unload();
 			delete pIDEFile;
 
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 		}
 	}
 
@@ -8742,7 +8792,7 @@ void						Tasks::onRequestMapMoverAndIDShifter(void)
 		pIPLFile->unload();
 		delete pIPLFile;
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	if (getIMGF()->getEntryListTab() == nullptr)
@@ -8784,7 +8834,7 @@ void						Tasks::onRequestDATModelList(void)
 	pDATFile->unload();
 	delete pDATFile;
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecRelativeIDEPaths.size() + vecRelativeIPLPaths.size() + 1);
+	setMaxProgress(vecRelativeIDEPaths.size() + vecRelativeIPLPaths.size() + 1);
 
 	vector<string> vecModelNames;
 	for (string& strRelativeIDEPath : vecRelativeIDEPaths)
@@ -8799,7 +8849,7 @@ void						Tasks::onRequestDATModelList(void)
 		pIDEFile->unload();
 		delete pIDEFile;
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	for (string& strRelativeIPLPath : vecRelativeIPLPaths)
@@ -8814,11 +8864,11 @@ void						Tasks::onRequestDATModelList(void)
 		pIPLFile->unload();
 		delete pIPLFile;
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	vecModelNames = StdVector::removeDuplicates(vecModelNames);
-	getIMGF()->getTaskManager()->onTaskProgressTick();
+	increaseProgress();
 
 	if (getIMGF()->getEntryListTab() == nullptr)
 	{
@@ -8883,14 +8933,14 @@ void						Tasks::onRequestFindTXDMissingFromIMGFoundInIDE(void)
 
 	// find TXD names found in IDE but not found in IMG
 	vector<string> vecTXDNamesWithoutExtensionMissingFromIMG;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecTXDNamesWithoutExtensionInIDE.size());
+	setMaxProgress(vecTXDNamesWithoutExtensionInIDE.size());
 	for (string& strTXDName : vecTXDNamesWithoutExtensionInIDE)
 	{
 		if (umapTXDNamesWithoutExtensionInIMG.count(String::toUpperCase(strTXDName)) == 0)
 		{
 			vecTXDNamesWithoutExtensionMissingFromIMG.push_back(strTXDName);
 		}
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// log
@@ -8961,14 +9011,14 @@ void						Tasks::onRequestFindCOLMissingFromCOLFoundInIDE(void)
 
 	// find COL names found in IDE but not found in COL
 	vector<string> vecCOLNamesWithoutExtensionMissingFromIMG;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFNamesWithoutExtensionInIDE.size());
+	setMaxProgress(vecDFFNamesWithoutExtensionInIDE.size());
 	for (string& strDFFName : vecDFFNamesWithoutExtensionInIDE)
 	{
 		if (umapCOLNamesWithoutExtensionInCOL.count(String::toUpperCase(strDFFName)) == 0)
 		{
 			vecCOLNamesWithoutExtensionMissingFromIMG.push_back(strDFFName);
 		}
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// log
@@ -9022,14 +9072,14 @@ void						Tasks::onRequestFindDFFMissingFromIMGFoundInIDE(void)
 
 	// find DFF names found in IDE but not found in IMG
 	vector<string> vecDFFNamesWithoutExtensionMissingFromIMG;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFNamesWithoutExtensionInIDE.size());
+	setMaxProgress(vecDFFNamesWithoutExtensionInIDE.size());
 	for (string& strDFFName : vecDFFNamesWithoutExtensionInIDE)
 	{
 		if (umapDFFNamesWithoutExtensionInIMG.count(String::toUpperCase(strDFFName)) == 0)
 		{
 			vecDFFNamesWithoutExtensionMissingFromIMG.push_back(strDFFName);
 		}
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// log
@@ -9069,7 +9119,7 @@ void						Tasks::onRequestCloneIMG(void)
 		return;
 	}
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pIMGFile->getEntryCount() * 3);
+	setMaxProgress(pIMGFile->getEntryCount() * 3);
 
 	//IMGEditorTab *pNewTab = getIMGF()->getIMGEditor()->addTab(strClonedIMGPath, pIMGFile->getVersion());
 	//getIMGF()->getIMGEditor()->setActiveTab(pNewTab);
@@ -9086,14 +9136,14 @@ void						Tasks::onRequestOpenIMGFolder(void)
 		return;
 	}
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(2);
+	setMaxProgress(2);
 
 	IMGFormat *pIMGFile = getIMGF()->getEntryListTab()->getIMGFile();
 	string strFolderPath = Path::getDirectory(pIMGFile->getFilePath());
-	getIMGF()->getTaskManager()->onTaskProgressTick();
+	increaseProgress();
 
 	ShellExecute(NULL, NULL, String::convertStdStringToStdWString(strFolderPath).c_str(), NULL, NULL, SW_SHOWNORMAL);
-	getIMGF()->getTaskManager()->onTaskProgressTick();
+	increaseProgress();
 
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenIMGFolder");
 }
@@ -9127,7 +9177,7 @@ void						Tasks::onRequestRemoveOrphanTexturesFromModel(void)
 			uiSelectedDFFCount++;
 		}
 	}
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount((uiSelectedDFFCount  * 2) + vecTXDPaths.size());
+	setMaxProgress((uiSelectedDFFCount  * 2) + vecTXDPaths.size());
 
 	// fetch texture names from DFF files (selected IMG entries)
 	vector<string> vecDFFTextureNames;
@@ -9143,7 +9193,7 @@ void						Tasks::onRequestRemoveOrphanTexturesFromModel(void)
 			{
 				pDFFFile->unload();
 				delete pDFFFile;
-				getIMGF()->getTaskManager()->onTaskProgressTick();
+				increaseProgress();
 				uiProgressMaxTicksDecudctionForCorruptDFFFiles++;
 				continue;
 			}
@@ -9152,10 +9202,10 @@ void						Tasks::onRequestRemoveOrphanTexturesFromModel(void)
 			vecDFFFormatsInput.push_back(pDFFFile);
 			vecIMGEntries.push_back(pIMGEntry);
 
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 		}
 	}
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(getIMGF()->getTaskManager()->getTaskMaxProgressTickCount() - uiProgressMaxTicksDecudctionForCorruptDFFFiles, false); // for below
+	setMaxProgress(getIMGF()->getTaskManager()->getTaskMaxProgressTickCount() - uiProgressMaxTicksDecudctionForCorruptDFFFiles); // for below
 
 	// fetch texture names from TXD files (files input)
 	vector<string> vecTXDTextureNames;
@@ -9166,7 +9216,7 @@ void						Tasks::onRequestRemoveOrphanTexturesFromModel(void)
 		{
 			pTXDFile->unload();
 			delete pTXDFile;
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 
@@ -9175,7 +9225,7 @@ void						Tasks::onRequestRemoveOrphanTexturesFromModel(void)
 		pTXDFile->unload();
 		delete pTXDFile;
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// find texture names found in DFF files getIMGF()->getEntryListTab()but not found in TXD files
@@ -9226,7 +9276,7 @@ void						Tasks::onRequestRemoveOrphanTexturesFromModel(void)
 			uiDFFFileCountWithRemovedSections++;
 		}
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 
 		i++;
 	}
@@ -9305,14 +9355,14 @@ void						Tasks::onRequestFindDFFMissingFromIDEFoundInIPL(void)
 
 	// find DFF names found in IPL but not found in IDE
 	vector<string> vecDFFNamesWithoutExtensionMissingFromIDE;
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFNamesWithoutExtensionInIDE.size());
+	setMaxProgress(vecDFFNamesWithoutExtensionInIDE.size());
 	for (string& strDFFName : vecDFFNamesWithoutExtensionInIPL)
 	{
 		if (umapDFFNamesWithoutExtensionInIDE.count(String::toUpperCase(strDFFName)) == 0)
 		{
 			vecDFFNamesWithoutExtensionMissingFromIDE.push_back(strDFFName);
 		}
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// log
@@ -9357,7 +9407,7 @@ void				Tasks::onRequestSortIDEAndIPLFilesByObjectId(void)
 
 	// choose game folder
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strGameDirectoryPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("SORTIDEANDIPL_OBJECTID_GAME"));
+	string strGameDirectoryPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("SORTIDEANDIPL_OBJECTID_GAME"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strGameDirectoryPath == "")
 	{
@@ -9369,7 +9419,7 @@ void				Tasks::onRequestSortIDEAndIPLFilesByObjectId(void)
 
 	// choose output folder
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strOutputFolderPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_23"), getIMGF()->getLastUsedDirectory("SORTIDEANDIPL_OBJECTID_OUTPUT"));
+	string strOutputFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_23"), getIMGF()->getLastUsedDirectory("SORTIDEANDIPL_OBJECTID_OUTPUT"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strOutputFolderPath == "")
 	{
@@ -9396,7 +9446,7 @@ void				Tasks::onRequestSortIDEAndIPLFilesByObjectId(void)
 	pDATFile_GTA->unload();
 	delete pDATFile_GTA;
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(veIDEFormats.size() + veIPLFormats.size());
+	setMaxProgress(veIDEFormats.size() + veIPLFormats.size());
 
 	// sort and store IDE files
 	for (IDEFormat *pIDEFile : veIDEFormats)
@@ -9407,7 +9457,7 @@ void				Tasks::onRequestSortIDEAndIPLFilesByObjectId(void)
 		pIDEFile->unload();
 		delete pIDEFile;
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// sort and store IPL files
@@ -9419,7 +9469,7 @@ void				Tasks::onRequestSortIDEAndIPLFilesByObjectId(void)
 		pIPLFile->unload();
 		delete pIPLFile;
 
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 	}
 
 	// log
@@ -9451,7 +9501,7 @@ void				Tasks::onRequestExtractDVCAndNVColoursIntoDFFs(void)
 
 	// choose DFF input folder for colours
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strDFFInputFolderForColours = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_24"), getIMGF()->getLastUsedDirectory("EXTRACTNVCDVC_DFFCOLOURINPUT"));
+	string strDFFInputFolderForColours = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_24"), getIMGF()->getLastUsedDirectory("EXTRACTNVCDVC_DFFCOLOURINPUT"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strDFFInputFolderForColours == "")
 	{
@@ -9463,7 +9513,7 @@ void				Tasks::onRequestExtractDVCAndNVColoursIntoDFFs(void)
 
 	// choose DFF input folder for models
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strDFFInputFolderForModels = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_25"), getIMGF()->getLastUsedDirectory("EXTRACTNVCDVC_DFFMODELINPUT"));
+	string strDFFInputFolderForModels = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_25"), getIMGF()->getLastUsedDirectory("EXTRACTNVCDVC_DFFMODELINPUT"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strDFFInputFolderForModels == "")
 	{
@@ -9475,7 +9525,7 @@ void				Tasks::onRequestExtractDVCAndNVColoursIntoDFFs(void)
 
 	// choose output folder
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strOutputFolderPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_23"), getIMGF()->getLastUsedDirectory("EXTRACTNVCDVC_OUTPUT"));
+	string strOutputFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_23"), getIMGF()->getLastUsedDirectory("EXTRACTNVCDVC_OUTPUT"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strOutputFolderPath == "")
 	{
@@ -9494,7 +9544,7 @@ void				Tasks::onRequestExtractDVCAndNVColoursIntoDFFs(void)
 
 	unordered_map<string, bool> umapDFFInputFilenamesUpperForModels = StdVector::convertVectorToUnorderedMap(StdVector::toUpperCase(vecDFFInputFilenamesForModels));
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFInputFilenamesForColours.size());
+	setMaxProgress(vecDFFInputFilenamesForColours.size());
 
 	// iterate around input DFFs
 	uint32 uiDFFUpdatedFileCount = 0;
@@ -9502,7 +9552,7 @@ void				Tasks::onRequestExtractDVCAndNVColoursIntoDFFs(void)
 	{
 		if (umapDFFInputFilenamesUpperForModels.count(String::toUpperCase(strDFFFilename_Colours)) == 0)
 		{
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 		string& strDFFFilename_Model = strDFFFilename_Colours;
@@ -9512,7 +9562,7 @@ void				Tasks::onRequestExtractDVCAndNVColoursIntoDFFs(void)
 		{
 			pDFFFile_Colours->unload();
 			delete pDFFFile_Colours;
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 
@@ -9540,7 +9590,7 @@ void				Tasks::onRequestExtractDVCAndNVColoursIntoDFFs(void)
 		{
 			pDFFFile_Model->unload();
 			delete pDFFFile_Model;
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 
@@ -9563,7 +9613,7 @@ void				Tasks::onRequestExtractDVCAndNVColoursIntoDFFs(void)
 
 		pDFFFile_Model->unload();
 		delete pDFFFile_Model;
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 		uiDFFUpdatedFileCount++;
 	}
 
@@ -9588,7 +9638,7 @@ void				Tasks::onRequestExtract2DFXIntoDFFs(void)
 
 	// choose DFF input folder for colours
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strDFFInputFolderFor2DFX = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_26"), getIMGF()->getLastUsedDirectory("EXTRACTDFF2DFX_INPUT2DFX"));
+	string strDFFInputFolderFor2DFX = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_26"), getIMGF()->getLastUsedDirectory("EXTRACTDFF2DFX_INPUT2DFX"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strDFFInputFolderFor2DFX == "")
 	{
@@ -9600,7 +9650,7 @@ void				Tasks::onRequestExtract2DFXIntoDFFs(void)
 
 	// choose DFF input folder for models
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strDFFInputFolderForModels = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_25"), getIMGF()->getLastUsedDirectory("EXTRACTDFF2DFX_INPUTMODEL"));
+	string strDFFInputFolderForModels = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_25"), getIMGF()->getLastUsedDirectory("EXTRACTDFF2DFX_INPUTMODEL"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strDFFInputFolderForModels == "")
 	{
@@ -9612,7 +9662,7 @@ void				Tasks::onRequestExtract2DFXIntoDFFs(void)
 
 	// choose output folder
 	getIMGF()->getTaskManager()->onPauseTask();
-	string strOutputFolderPath = Input::chooseFolderDialog(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_23"), getIMGF()->getLastUsedDirectory("EXTRACTDFF2DFX_OUTPUT"));
+	string strOutputFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_23"), getIMGF()->getLastUsedDirectory("EXTRACTDFF2DFX_OUTPUT"));
 	getIMGF()->getTaskManager()->onResumeTask();
 	if (strOutputFolderPath == "")
 	{
@@ -9631,7 +9681,7 @@ void				Tasks::onRequestExtract2DFXIntoDFFs(void)
 
 	unordered_map<string, bool> umapDFFInputFilenamesUpperForModels = StdVector::convertVectorToUnorderedMap(StdVector::toUpperCase(vecDFFInputFilenamesForModels));
 
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(vecDFFInputFilenamesFor2DFX.size());
+	setMaxProgress(vecDFFInputFilenamesFor2DFX.size());
 
 	// iterate around input DFFs
 	uint32 uiDFFUpdatedFileCount = 0;
@@ -9639,7 +9689,7 @@ void				Tasks::onRequestExtract2DFXIntoDFFs(void)
 	{
 		if (umapDFFInputFilenamesUpperForModels.count(String::toUpperCase(strDFFFilename_2DFX)) == 0)
 		{
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 		string& strDFFFilename_Model = strDFFFilename_2DFX;
@@ -9649,7 +9699,7 @@ void				Tasks::onRequestExtract2DFXIntoDFFs(void)
 		{
 			pDFFFile_2DFX->unload();
 			delete pDFFFile_2DFX;
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 
@@ -9662,7 +9712,7 @@ void				Tasks::onRequestExtract2DFXIntoDFFs(void)
 			delete pDFFFile_2DFX;
 			pDFFFile_Model->unload();
 			delete pDFFFile_Model;
-			getIMGF()->getTaskManager()->onTaskProgressTick();
+			increaseProgress();
 			continue;
 		}
 
@@ -9674,7 +9724,7 @@ void				Tasks::onRequestExtract2DFXIntoDFFs(void)
 		delete pDFFFile_2DFX;
 		pDFFFile_Model->unload();
 		delete pDFFFile_Model;
-		getIMGF()->getTaskManager()->onTaskProgressTick();
+		increaseProgress();
 		uiDFFUpdatedFileCount++;
 	}
 

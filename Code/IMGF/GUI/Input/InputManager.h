@@ -44,13 +44,17 @@ private:
 	void					importBySingleFolder(void);
 	void					importByFolderRecursively(void);
 
+	void					exportSelected(void);
+	void					exportAll(void);
+	void					quickExport(void);
+
 	void					selectAll(void);
 	void					unselectAll(void);
 	void					selectInverse(void);
 
-	void					_import(void);
-	void					_export(void);
-	void					quickExport(void);
+
+
+
 	void					rename(void);
 	void					replace(void);
 	void					remove(void);
