@@ -46,8 +46,13 @@ private:
 
 	void					exportSelected(void);
 	void					exportAll(void);
-	void					quickExport(void);
+	void					exportAllIntoGroupedFoldersByType(void);
+	void					exportAllFromAllTabs(void);
+	void					exportAllFromAllTabsIntoGroupedFoldersByType(void);
+	void					exportSelectionFromAllTabs(void);
 
+	void					quickExport(void);
+	
 	void					selectAll(void);
 	void					unselectAll(void);
 	void					selectInverse(void);

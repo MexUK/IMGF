@@ -56,6 +56,18 @@ public:
 
 	void						exportSelected(void);
 	void						exportAll(void);
+	void						exportAllIntoGroupedFoldersByType(void);
+	void						exportAllFromAllTabs(void);
+	void						exportAllFromAllTabsIntoGroupedFoldersByType(void);
+	void						exportSelectionFromAllTabs(void);
+
+
+
+
+	
+
+
+
 
 
 
@@ -123,7 +135,7 @@ public:
 	void						onRequestExportEntriesViaIDEFileFromAllTabs(void);
 	void						onRequestExportEntriesViaTextLinesFromAllTabs(void);
 	void						onRequestDuplicateEntries(void);
-	void						onRequestExportAllEntriesFromAllTabsIntoMultipleFolders(void);
+	
 	void						onRequestOpenLast(void);
 	void						onRequestConvertTXDToGame(bxgi::EPlatformedGame EPlatformedGame);
 	void						onRequestConvertTXDToRWVersion(bxgi::RWVersion *pRWVersion);

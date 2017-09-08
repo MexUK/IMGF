@@ -209,20 +209,25 @@ void		MainLayer::addControls(void)
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Export Selection", EXPORT_SELECTED);
 	pMenu2->addMenuItem("Export All", EXPORT_ALL);
-	pMenuItem2 = pMenu2->addMenuItem("Export by..");
 
+	pMenuItem2 = pMenu2->addMenuItem("Export by..");
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Export by Index");
 	pMenu3->addMenuItem("Export by Name (Wildcard match)");
 	pMenu3->addMenuItem("Export by Offset");
 	pMenu3->addMenuItem("Export by Size");
-	pMenuItem3 = pMenu3->addMenuItem("Export by Type..");
-
-	pMenu4 = pMenuItem3->addMenu();
-	pMenu4->addMenuItem("Export by Type into Single Folder");
-	pMenu4->addMenuItem("Export by Type into Grouped Folder(s)");
-
+	pMenu3->addMenuItem("Export by Type..");
 	pMenu3->addMenuItem("Export by Version");
+
+	pMenuItem2 = pMenu2->addMenuItem("Export All into..");
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("Export All into Grouped Folders by Type", EXPORT_ALL_INTO_GROUPED_FOLDERS_BY_TYPE);
+
+	pMenuItem2 = pMenu2->addMenuItem("Export All Tabs..");
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("Export all from all tabs", EXPORT_ALL_FROM_ALL_TABS);
+	pMenu3->addMenuItem("Export all from all tabs into grouped folders by type", EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE);
+	pMenu3->addMenuItem("Export selection from all tabs", EXPORT_SELECTION_FROM_ALL_TABS);
 
 	// quick export
 	pMenu1->addMenuItem("Quick Export");

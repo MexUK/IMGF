@@ -36,6 +36,8 @@ public:
 
 	void						setFileInfoText(EditorTab *pEditorFile);
 	void						clearFileInfoText(void);
+	
+	bxcf::VectorPool<IMGEditorTab*>&	getIMGTabs(void) { return (bxcf::VectorPool<IMGEditorTab*>&)m_vecTabs; }
 
 
 

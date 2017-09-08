@@ -78,7 +78,12 @@ void						EditorTab::initControls(void)
 	bindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));
 
-	bindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
+	static bool bTaskProgressEventBound = false;
+	if (!bTaskProgressEventBound)
+	{
+		bindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
+		bTaskProgressEventBound = true;
+	}
 }
 
 void						EditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)

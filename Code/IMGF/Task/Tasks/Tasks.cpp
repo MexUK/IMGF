@@ -186,7 +186,7 @@ void		Tasks::onProgressTask(void)
 {
 	if (getTaskName() == "exportAll")
 	{
-		increaseProgress();
+		//increaseProgress();
 	}
 }
 
@@ -445,13 +445,11 @@ void		Tasks::exportSelected(void)
 	setMaxProgress(uiSelectedEntryCount);
 
 	vector<IMGEntry*> vecIMGEntries;
-	vector<string> vecExportedEntryNames;
 	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getSelectedRows())
 	{
 		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
 
 		vecIMGEntries.push_back(pIMGEntry);
-		vecExportedEntryNames.push_back(pIMGEntry->getEntryName());
 	}
 
 	getIMGTab()->getIMGFile()->exportMultiple(vecIMGEntries, strFolderPath);
@@ -480,6 +478,153 @@ void		Tasks::exportAll(void)
 
 	onCompleteTask();
 }
+
+void		Tasks::exportAllIntoGroupedFoldersByType(void)
+{
+	onStartTask("exportAllIntoGroupedFoldersByType");
+
+	string strFolderPath = openFolder("Choose a folder to export files into grouped folders by type.");
+	if (strFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	set<string> setExtensionsUsed;
+	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getEntries())
+	{
+		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
+		string strFileExtension = pIMGEntry->getEntryExtension();
+		if (strFileExtension == "")
+		{
+			strFileExtension = "NoExtension";
+		}
+
+		string strExportGroupedByTypeFolderPath = strFolderPath + strFileExtension + "/";
+
+		getIMGTab()->getIMGFile()->exportSingle(pIMGEntry, strExportGroupedByTypeFolderPath);
+
+		increaseProgress();
+
+		setExtensionsUsed.insert(strFileExtension);
+	}
+
+	getIMGTab()->logf("Exported all %u entries into %u folders.", uiTotalEntryCount, setExtensionsUsed.size());
+
+	onCompleteTask();
+}
+
+void		Tasks::exportAllFromAllTabs(void)
+{
+	onStartTask("exportAllFromAllTabs");
+
+	string strFolderPath = openFolder("Choose a folder to export all files from all tabs to.");
+	if (strFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = 0;
+	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGTabs().getEntries())
+	{
+		uiTotalEntryCount += pEditorTab->getIMGFile()->getEntryCount();
+	}
+	setMaxProgress(uiTotalEntryCount);
+
+	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGTabs().getEntries())
+	{
+		pEditorTab->getIMGFile()->exportAll(strFolderPath);
+	}
+
+	getIMGTab()->logf("Exported all %u entries from all tabs.", uiTotalEntryCount);
+
+	onCompleteTask();
+}
+
+void		Tasks::exportAllFromAllTabsIntoGroupedFoldersByType(void)
+{
+	onStartTask("exportAllFromAllTabsIntoGroupedFoldersByType");
+
+	string strFolderPath = openFolder("Choose a folder to export all files from all tabs grouped by type to.");
+	if (strFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = 0;
+	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGTabs().getEntries())
+	{
+		uiTotalEntryCount += pEditorTab->getIMGFile()->getEntryCount();
+	}
+	setMaxProgress(uiTotalEntryCount);
+
+	set<string> setExtensionsUsed;
+	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGTabs().getEntries())
+	{
+		for (GridRow *pRow : pEditorTab->getEntryGrid()->getEntries())
+		{
+			IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
+			string strFileExtension = pIMGEntry->getEntryExtension();
+			if (strFileExtension == "")
+			{
+				strFileExtension = "NoExtension";
+			}
+
+			string strExportGroupedByTypeFolderPath = strFolderPath + strFileExtension + "/";
+
+			pEditorTab->getIMGFile()->exportSingle(pIMGEntry, strExportGroupedByTypeFolderPath);
+
+			increaseProgress();
+
+			setExtensionsUsed.insert(strFileExtension);
+		}
+	}
+
+	getIMGTab()->logf("Exported all %u entries from all tabs into %u folders.", uiTotalEntryCount, setExtensionsUsed.size());
+
+	onCompleteTask();
+}
+
+void		Tasks::exportSelectionFromAllTabs(void)
+{
+	onStartTask("exportSelectionFromAllTabs");
+
+	string strFolderPath = openFolder("Choose a folder to export selected files from all tabs to.");
+	if (strFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiSelectedEntryCount = 0;
+	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGTabs().getEntries())
+	{
+		uiSelectedEntryCount += pEditorTab->getEntryGrid()->getSelectedRowCount();
+	}
+	setMaxProgress(uiSelectedEntryCount);
+
+	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGTabs().getEntries())
+	{
+		vector<IMGEntry*> vecIMGEntries;
+		for (GridRow *pRow : pEditorTab->getEntryGrid()->getSelectedRows())
+		{
+			IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
+
+			vecIMGEntries.push_back(pIMGEntry);
+		}
+
+		pEditorTab->getIMGFile()->exportMultiple(vecIMGEntries, strFolderPath);
+	}
+
+	getIMGTab()->logf("Exported %u selected entries from all tabs.", uiSelectedEntryCount);
+
+	onCompleteTask();
+}
+
+
+
+
 
 
 
@@ -4810,46 +4955,7 @@ void		Tasks::onRequestDuplicateEntries(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries");
 	*/
 }
-void		Tasks::onRequestExportAllEntriesFromAllTabsIntoMultipleFolders(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders", true);
-		return;
-	}
 
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_16"), getIMGF()->getLastUsedDirectory("EXPORT_ALL_FOLDERS"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strPath == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders", true);
-		return;
-	}
-	strPath = Path::addSlashToEnd(strPath);
-	getIMGF()->setLastUsedDirectory("EXPORT_ALL_FOLDERS", strPath);
-
-	uint32 uiTotalEntryCount = 0;
-	for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
-	{
-		uiTotalEntryCount += ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
-	}
-	setMaxProgress(uiTotalEntryCount);
-
-	vector<string> vecIMGPaths;
-	for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
-	{
-		vecIMGPaths.push_back(((IMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
-
-		((IMGEditorTab*)pEditorTab)->getIMGFile()->exportMultiple(((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntries(), strPath + Path::getFileName(((IMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath()) + "/");
-	}
-
-	getIMGF()->getIMGEditor()->logAllTabs(LocalizationManager::get()->getTranslatedFormattedText("LogAllTabs_9", uiTotalEntryCount, getIMGF()->getIMGEditor()->getTabs().getEntries()));
-	getIMGF()->getIMGEditor()->logAllTabs(LocalizationManager::get()->getTranslatedText("LogAllTabs_7"), true);
-	getIMGF()->getIMGEditor()->logAllTabs(String::join(vecIMGPaths, "\n"), true);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportAllEntriesFromAllTabsIntoMultipleFolders");
-}
 void		Tasks::onRequestOpenLast(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestOpenLast");
@@ -7125,9 +7231,9 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	{
 		onRequestDuplicateEntries();
 	}
-	else if (strFeatureName == "onRequestExportAllEntriesFromAllTabsIntoMultipleFolders")
+	else if (strFeatureName == "exportAllIntoGroupedFoldersByType")
 	{
-		onRequestExportAllEntriesFromAllTabsIntoMultipleFolders();
+		exportAllIntoGroupedFoldersByType();
 	}
 	else if (strFeatureName == "onRequestOpenLast")
 	{

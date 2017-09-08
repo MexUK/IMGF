@@ -48,33 +48,37 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 {
 	switch (pMenuItem->getId())
 	{
-	case EInputItem::FORMATS:			return formats();
-	case EInputItem::UTILITY:			return utility();
+	case EInputItem::FORMATS:						return formats();
+	case EInputItem::UTILITY:						return utility();
 
-	case DAT:							return dat();
-	case IMG:							return img();
-	case ITEM_DEFINITION:				return itemDefinition();
-	case ITEM_PLACEMENT:				return itemPlacement();
-	case MODELS:						return models();
-	case COLLISIONS:					return collisions();
-	case TEXTURES:						return textures();
-	case ANIMATIONS:					return animations();
-	case RADAR:							return radar();
+	case DAT:										return dat();
+	case IMG:										return img();
+	case ITEM_DEFINITION:							return itemDefinition();
+	case ITEM_PLACEMENT:							return itemPlacement();
+	case MODELS:									return models();
+	case COLLISIONS:								return collisions();
+	case TEXTURES:									return textures();
+	case ANIMATIONS:								return animations();
+	case RADAR:										return radar();
 
-	case OPEN:							return open();
-	case CLOSE:							return close();
-	case SAVE:							return save();
+	case OPEN:										return open();
+	case CLOSE:										return close();
+	case SAVE:										return save();
 
-	case IMPORT_BY_FILES:				return importByFiles();
-	case IMPORT_BY_SINGLE_FOLDER:		return importBySingleFolder();
-	case IMPORT_BY_FOLDER_RECURSIVELY:	return importByFolderRecursively();
+	case IMPORT_BY_FILES:							return importByFiles();
+	case IMPORT_BY_SINGLE_FOLDER:					return importBySingleFolder();
+	case IMPORT_BY_FOLDER_RECURSIVELY:				return importByFolderRecursively();
 
-	case EXPORT_SELECTED:				return exportSelected();
-	case EXPORT_ALL:					return exportAll();
+	case EXPORT_SELECTED:							return exportSelected();
+	case EXPORT_ALL:								return exportAll();
+	case EXPORT_ALL_INTO_GROUPED_FOLDERS_BY_TYPE:	return exportAllIntoGroupedFoldersByType();
+	case EXPORT_ALL_FROM_ALL_TABS:					return exportAllFromAllTabs();
+	case EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE:		return exportAllFromAllTabsIntoGroupedFoldersByType();
+	case EXPORT_SELECTION_FROM_ALL_TABS:			return exportSelectionFromAllTabs();
 
-	case SELECT_ALL:					return selectAll();
-	case UNSELECT_ALL:					return unselectAll();
-	case SELECT_INVERSE:				return selectInverse();
+	case SELECT_ALL:								return selectAll();
+	case UNSELECT_ALL:								return unselectAll();
+	case SELECT_INVERSE:							return selectInverse();
 	}
 }
 
@@ -165,6 +169,26 @@ void					InputManager::exportSelected(void)
 void					InputManager::exportAll(void)
 {
 	m_pTasks->exportAll();
+}
+
+void					InputManager::exportAllIntoGroupedFoldersByType(void)
+{
+	m_pTasks->exportAllIntoGroupedFoldersByType();
+}
+
+void					InputManager::exportAllFromAllTabs(void)
+{
+	m_pTasks->exportAllFromAllTabs();
+}
+
+void					InputManager::exportAllFromAllTabsIntoGroupedFoldersByType(void)
+{
+	m_pTasks->exportAllFromAllTabsIntoGroupedFoldersByType();
+}
+
+void					InputManager::exportSelectionFromAllTabs(void)
+{
+	m_pTasks->exportSelectionFromAllTabs();
 }
 
 void					InputManager::quickExport(void)
