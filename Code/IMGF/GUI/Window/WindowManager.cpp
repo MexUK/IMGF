@@ -25,7 +25,7 @@ void					WindowManager::uninit(void)
 }
 
 // window open/close
-MainWindow*			WindowManager::openWindow(void)
+MainWindow*				WindowManager::openWindow(void)
 {
 	LPWSTR pIcon = MAKEINTRESOURCE(IDI_ICON1);
 	uint32 uiIcon = (uint32) pIcon;

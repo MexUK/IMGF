@@ -53,6 +53,8 @@ private:
 
 	void					quickExport(void);
 	
+	void					rename(void);
+
 	void					removeSelected(void);
 	void					removeAll(void);
 
@@ -68,7 +70,6 @@ private:
 
 
 
-	void					rename(void);
 	void					replace(void);
 	void					merge(void);
 	void					split(void);

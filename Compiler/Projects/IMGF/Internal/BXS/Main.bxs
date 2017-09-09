@@ -218,3 +218,22 @@ fill 135 135 135
 .log .main_spacing .main_fill_2
 spacing y 8
 
+
+// single line text box window
+.singleLineTextBox_textBox
+line 0 0 0
+text 0 0 0
+spacing x 5 y 2
+
+.singleLineTextBox_displayedText
+text 0 0 0
+
+.singleLineTextBox_button .main_fill_2
+text center center 0 0 0
+
+.singleLineTextBox_button:hover .main_fill_1
+text center center 0 0 0
+
+.singleLineTextBox_button:active .main_fill_1
+text center center 0 0 0
+

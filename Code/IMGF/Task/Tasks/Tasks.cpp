@@ -634,6 +634,52 @@ void		Tasks::exportSelectionFromAllTabs(void)
 	onCompleteTask();
 }
 
+void		Tasks::rename(void)
+{
+	onStartTask("rename");
+
+	if (getIMGTab()->getEntryGrid()->getSelectedRowCount() == 0)
+	{
+		Input::showMessage("At least one IMG entry must be selected to rename.", "No Entries Selected");
+		return onAbortTask();
+	}
+	else if (getIMGTab()->getEntryGrid()->getSelectedRowCount() > 1)
+	{
+		Input::showMessage("Only one IMG entry can be selected to rename.", "Too Many Entries Selected");
+		return onAbortTask();
+	}
+
+	IMGEntry *pIMGEntry = (IMGEntry*)getIMGTab()->getEntryGrid()->getSelectedRows()[0]->getUserData();
+
+	string strNewEntryName = Window::showSingleLineTextBox("New IMG Entry Name", "Choose a new name for the IMG entry:", pIMGEntry->getEntryName());
+	if (strNewEntryName == "")
+	{
+		return onAbortTask();
+	}
+
+	if (Path::getFileExtension(strNewEntryName) == "")
+	{
+		string strOldExtension = Path::getFileExtension(pIMGEntry->getEntryName());
+		if (strOldExtension != "")
+		{
+			strNewEntryName += "." + strOldExtension;
+		}
+	}
+
+	setMaxProgress(2);
+	
+	pIMGEntry->setEntryName(strNewEntryName);
+	getIMGTab()->updateGridEntry(pIMGEntry);
+	increaseProgress();
+
+	getIMGTab()->readdGridEntries(); // for search text
+	increaseProgress();
+
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
+
+	onCompleteTask();
+}
+
 void		Tasks::removeSelected(void)
 {
 	onStartTask("removeSelected");
@@ -798,71 +844,6 @@ void		Tasks::onRequestExitTool(void)
 	getIMGF()->getTaskManager()->onStartTask("onRequestExitTool");
 	DestroyWindow(getIMGF()->getActiveWindow()->getWindowHandle());
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExitTool");
-}
-
-void		Tasks::onRequestRenameEntry(void)
-{
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestRenameEntry");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestRenameEntry", true);
-		return;
-	}
-
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestRenameEntry", true);
-		return;
-	}
-
-	int nItem;
-	IMGEntry *pIMGEntry = nullptr;
-	nItem = pListControl->GetNextSelectedItem(pos);
-	pIMGEntry = ((IMGEntry*)pListControl->GetItemData(nItem));
-
-	pos = pListControl->GetFirstSelectedItemPosition();
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestRenameEntry", true);
-		return;
-	}
-
-	bool bMultipleEntries = pListControl->GetSelectedCount() > 1;
-	string strOldName = pIMGEntry->getEntryName();
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strNewName = ""; // todo - getIMGF()->getPopupGUIManager()->showTextInputDialog(LocalizationManager::get()->getTranslatedText("Window_TextInput_1_Title"), LocalizationManager::get()->getTranslatedFormattedText("Window_TextInput_1_Message", pListControl->GetSelectedCount()), pIMGEntry->getEntryName());
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strNewName == "")
-	{
-		return;
-	}
-
-	setMaxProgress(pListControl->GetSelectedCount());
-	while (pos)
-	{
-		nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = ((IMGEntry*)pListControl->GetItemData(nItem));
-
-		pIMGEntry->setEntryName(strNewName);
-		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-
-		getIMGF()->getEntryListTab()->onEntryChange(pIMGEntry);
-		increaseProgress();
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_54", strOldName.c_str(), strNewName.c_str()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_55", strNewName.c_str(), getIMGF()->getEntryListTab()->getIMGFile()->getEntryCountForName(strNewName)), true);
-
-	getIMGF()->getEntryListTab()->searchText();
-
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestRenameEntry");
-
-	*/
 }
 
 void		Tasks::selectAll(void)
@@ -7030,9 +7011,9 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	{
 		removeSelected();
 	}
-	else if (strFeatureName == "onRequestRenameEntry")
+	else if (strFeatureName == "rename")
 	{
-		onRequestRenameEntry();
+		rename();
 	}
 	else if (strFeatureName == "selectAll")
 	{

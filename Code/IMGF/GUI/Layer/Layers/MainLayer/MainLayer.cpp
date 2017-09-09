@@ -233,7 +233,7 @@ void		MainLayer::addControls(void)
 	pMenu1->addMenuItem("Quick Export");
 
 	// rename
-	pMenuItem1 = pMenu1->addMenuItem("Rename");
+	pMenuItem1 = pMenu1->addMenuItem("Rename", RENAME);
 	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
 	// replace
