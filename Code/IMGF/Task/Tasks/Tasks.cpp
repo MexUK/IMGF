@@ -651,7 +651,7 @@ void		Tasks::rename(void)
 
 	IMGEntry *pIMGEntry = (IMGEntry*)getIMGTab()->getEntryGrid()->getSelectedRows()[0]->getUserData();
 
-	string strNewEntryName = Window::showSingleLineTextBox("New IMG Entry Name", "Choose a new name for the IMG entry:", pIMGEntry->getEntryName());
+	string strNewEntryName = getIMGTab()->getWindow()->showSingleLineTextBox("New IMG Entry Name", "Choose a new name for the IMG entry:", pIMGEntry->getEntryName());
 	if (strNewEntryName == "")
 	{
 		return onAbortTask();

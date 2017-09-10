@@ -338,7 +338,10 @@ void					IMGEditorTab::onSelectDropEntry(DropDownItem *pDropEntry)
 
 void					IMGEditorTab::onChangeTextBox(TextBox *pTextBox)
 {
-	readdGridEntries();
+	if(pTextBox == m_pSearchBox)
+	{
+		readdGridEntries();
+	}
 }
 
 // error checking
