@@ -56,6 +56,12 @@ public:
 
 	void						exportSelected(void);
 	void						exportAll(void);
+	void						exportByIndex(void);
+	void						exportByName(void);
+	void						exportByOffset(void);
+	void						exportBySize(void);
+	void						exportByType(void);
+	void						exportByVersion(void);
 	void						exportAllIntoGroupedFoldersByType(void);
 	void						exportAllFromAllTabs(void);
 	void						exportAllFromAllTabsIntoGroupedFoldersByType(void);
@@ -69,6 +75,12 @@ public:
 
 	void						removeSelected(void);
 	void						removeAll(void);
+	void						removeByIndex(void);
+	void						removeByName(void);
+	void						removeByOffset(void);
+	void						removeBySize(void);
+	void						removeByType(void);
+	void						removeByVersion(void);
 
 	void						selectAll(void);
 	void						unselectAll(void);

@@ -71,6 +71,12 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 
 	case EXPORT_SELECTED:							return exportSelected();
 	case EXPORT_ALL:								return exportAll();
+	case EXPORT_BY_INDEX:							return exportByIndex();
+	case EXPORT_BY_NAME:							return exportByName();
+	case EXPORT_BY_OFFSET:							return exportByOffset();
+	case EXPORT_BY_SIZE:							return exportBySize();
+	case EXPORT_BY_TYPE:							return exportByType();
+	case EXPORT_BY_VERSION:							return exportByVersion();
 	case EXPORT_ALL_INTO_GROUPED_FOLDERS_BY_TYPE:	return exportAllIntoGroupedFoldersByType();
 	case EXPORT_ALL_FROM_ALL_TABS:					return exportAllFromAllTabs();
 	case EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE:		return exportAllFromAllTabsIntoGroupedFoldersByType();
@@ -84,6 +90,12 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 
 	case REMOVE_SELECTED:							return removeSelected();
 	case REMOVE_ALL:								return removeAll();
+	case REMOVE_BY_INDEX:							return removeByIndex();
+	case REMOVE_BY_NAME:							return removeByName();
+	case REMOVE_BY_OFFSET:							return removeByOffset();
+	case REMOVE_BY_SIZE:							return removeBySize();
+	case REMOVE_BY_TYPE:							return removeByType();
+	case REMOVE_BY_VERSION:							return removeByVersion();
 
 	case SELECT_ALL:								return selectAll();
 	case UNSELECT_ALL:								return unselectAll();
@@ -194,6 +206,36 @@ void					InputManager::exportAll(void)
 	m_pTasks->exportAll();
 }
 
+void					InputManager::exportByIndex(void)
+{
+	m_pTasks->exportByIndex();
+}
+
+void					InputManager::exportByName(void)
+{
+	m_pTasks->exportByName();
+}
+
+void					InputManager::exportByOffset(void)
+{
+	m_pTasks->exportByOffset();
+}
+
+void					InputManager::exportBySize(void)
+{
+	m_pTasks->exportBySize();
+}
+
+void					InputManager::exportByType(void)
+{
+	m_pTasks->exportByType();
+}
+
+void					InputManager::exportByVersion(void)
+{
+	m_pTasks->exportByVersion();
+}
+
 void					InputManager::exportAllIntoGroupedFoldersByType(void)
 {
 	m_pTasks->exportAllIntoGroupedFoldersByType();
@@ -250,6 +292,36 @@ void					InputManager::removeSelected(void)
 void					InputManager::removeAll(void)
 {
 	m_pTasks->removeAll();
+}
+
+void					InputManager::removeByIndex(void)
+{
+	m_pTasks->removeByIndex();
+}
+
+void					InputManager::removeByName(void)
+{
+	m_pTasks->removeByName();
+}
+
+void					InputManager::removeByOffset(void)
+{
+	m_pTasks->removeByOffset();
+}
+
+void					InputManager::removeBySize(void)
+{
+	m_pTasks->removeBySize();
+}
+
+void					InputManager::removeByType(void)
+{
+	m_pTasks->removeByType();
+}
+
+void					InputManager::removeByVersion(void)
+{
+	m_pTasks->removeByVersion();
 }
 
 // merge

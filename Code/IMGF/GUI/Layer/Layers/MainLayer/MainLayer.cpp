@@ -212,12 +212,12 @@ void		MainLayer::addControls(void)
 
 	pMenuItem2 = pMenu2->addMenuItem("Export by..");
 	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Export by Index");
-	pMenu3->addMenuItem("Export by Name (Wildcard match)");
-	pMenu3->addMenuItem("Export by Offset");
-	pMenu3->addMenuItem("Export by Size");
-	pMenu3->addMenuItem("Export by Type..");
-	pMenu3->addMenuItem("Export by Version");
+	pMenu3->addMenuItem("Export by Index", EXPORT_BY_INDEX);
+	pMenu3->addMenuItem("Export by Name", EXPORT_BY_NAME);
+	pMenu3->addMenuItem("Export by Offset", EXPORT_BY_OFFSET);
+	pMenu3->addMenuItem("Export by Size", EXPORT_BY_SIZE);
+	pMenu3->addMenuItem("Export by Type", EXPORT_BY_TYPE);
+	pMenu3->addMenuItem("Export by Version", EXPORT_BY_VERSION);
 
 	pMenuItem2 = pMenu2->addMenuItem("Export All into..");
 	pMenu3 = pMenuItem2->addMenu();
@@ -256,12 +256,12 @@ void		MainLayer::addControls(void)
 	pMenuItem2 = pMenu2->addMenuItem("Remove by..");
 
 	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Remove by Index");
-	pMenu3->addMenuItem("Remove by Name (Wildcard match)");
-	pMenu3->addMenuItem("Remove by Offset");
-	pMenu3->addMenuItem("Remove by Size");
-	pMenu3->addMenuItem("Remove by Type");
-	pMenu3->addMenuItem("Remove by Version");
+	pMenu3->addMenuItem("Remove by Index", REMOVE_BY_INDEX);
+	pMenu3->addMenuItem("Remove by Name", REMOVE_BY_NAME);
+	pMenu3->addMenuItem("Remove by Offset", REMOVE_BY_OFFSET);
+	pMenu3->addMenuItem("Remove by Size", REMOVE_BY_SIZE);
+	pMenu3->addMenuItem("Remove by Type", REMOVE_BY_TYPE);
+	pMenu3->addMenuItem("Remove by Version", REMOVE_BY_VERSION);
 	
 	// merge
 	pMenuItem1 = pMenu1->addMenuItem("Merge");

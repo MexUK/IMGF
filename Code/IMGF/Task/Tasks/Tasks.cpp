@@ -492,6 +492,118 @@ void		Tasks::exportAll(void)
 	onCompleteTask();
 }
 
+void		Tasks::exportByIndex(void)
+{
+	onStartTask("exportByIndex");
+
+	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Export by Index", "Export entries with an index");
+	if (nmoir.m_bCancelled)
+	{
+		return onAbortTask();
+	}
+
+	string strFolderPath = openFolder("Choose a folder to export the files to.");
+	if (strFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount * 2);
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(0, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->getIMGFile()->exportSingle(pIMGEntry, strFolderPath);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	getIMGTab()->logf("Exported %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::exportByName(void)
+{
+}
+
+void		Tasks::exportByOffset(void)
+{
+	onStartTask("exportByOffset");
+
+	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Export by Offset", "Export entries with an offset");
+	if (nmoir.m_bCancelled)
+	{
+		return onAbortTask();
+	}
+
+	string strFolderPath = openFolder("Choose a folder to export the files to.");
+	if (strFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount * 2);
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(2, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->getIMGFile()->exportSingle(pIMGEntry, strFolderPath);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	getIMGTab()->logf("Exported %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::exportBySize(void)
+{
+	onStartTask("exportBySize");
+
+	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Export by Size", "Export entries with a size");
+	if (nmoir.m_bCancelled)
+	{
+		return onAbortTask();
+	}
+
+	string strFolderPath = openFolder("Choose a folder to export the files to.");
+	if (strFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount * 2);
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(3, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->getIMGFile()->exportSingle(pIMGEntry, strFolderPath);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	getIMGTab()->logf("Exported %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::exportByType(void)
+{
+}
+
+void		Tasks::exportByVersion(void)
+{
+}
+
+
 void		Tasks::exportAllIntoGroupedFoldersByType(void)
 {
 	onStartTask("exportAllIntoGroupedFoldersByType");
@@ -829,10 +941,9 @@ void		Tasks::removeSelected(void)
 		increaseProgress();
 	}
 
-	getIMGTab()->readdGridEntries();
-
 	if (uiSelectedEntryCount > 0)
 	{
+		getIMGTab()->readdGridEntries();
 		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 
@@ -849,16 +960,127 @@ void		Tasks::removeAll(void)
 	setMaxProgress(uiTotalEntryCount);
 
 	getIMGTab()->removeAllEntries();
-	getIMGTab()->readdGridEntries();
 
 	if (uiTotalEntryCount > 0)
 	{
+		getIMGTab()->readdGridEntries();
 		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 
 	getIMGTab()->logf("Removed all %u entries.", uiTotalEntryCount);
 
 	onCompleteTask();
+}
+
+void		Tasks::removeByIndex(void)
+{
+	onStartTask("removeByIndex");
+
+	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Remove by Index", "Remove entries with an index");
+	if (nmoir.m_bCancelled)
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount * 3);
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(0, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size() + (uiTotalEntryCount - vecIMGEntries.size()), false);
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->removeEntry(pIMGEntry);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	if (vecIMGEntries.size() > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->logf("Removed %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::removeByName(void)
+{
+}
+
+void		Tasks::removeByOffset(void)
+{
+	onStartTask("removeByOffset");
+
+	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Remove by Offset", "Remove entries with an offset");
+	if (nmoir.m_bCancelled)
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount * 3);
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(2, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size() + (uiTotalEntryCount - vecIMGEntries.size()), false);
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->removeEntry(pIMGEntry);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	if (vecIMGEntries.size() > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->logf("Removed %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::removeBySize(void)
+{
+	onStartTask("removeBySize");
+
+	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Remove by Size", "Remove entries with a size");
+	if (nmoir.m_bCancelled)
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount * 3);
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(3, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size() + (uiTotalEntryCount - vecIMGEntries.size()), false);
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->removeEntry(pIMGEntry);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	if (vecIMGEntries.size() > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->logf("Removed %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::removeByType(void)
+{
+}
+
+void		Tasks::removeByVersion(void)
+{
 }
 
 void		Tasks::selectAll(void)
