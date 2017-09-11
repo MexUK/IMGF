@@ -53,8 +53,12 @@ public:
 	void						setTabReadyToClose(bool bTabReadyToClose) { m_bTabReadyToClose = bTabReadyToClose; }
 	bool						isTabReadyToClose(void) { return m_bTabReadyToClose; }
 
-	void						getEntryGrid(bxgx::Grid *pEntryGrid) { m_pEntryGrid = pEntryGrid; }
+	//void						setEntryGrid(bxgx::Grid *pEntryGrid) { m_pEntryGrid = pEntryGrid; } // todo - still needed?
 	bxgx::Grid*					getEntryGrid(void) { return m_pEntryGrid; }
+	bxgx::DropDown*				getEntryTypeFilter(void) { return m_pEntryTypeFilter; }
+	bxgx::DropDown*				getEntryVersionFilter(void) { return m_pEntryVersionFilter; }
+
+
 
 
 

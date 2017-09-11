@@ -127,11 +127,12 @@
 #include "Stream/DataReader.h"
 #include "Control/Controls/ProgressBar.h"
 #include "Control/Controls/Grid.h"
+#include "Control/Controls/DropDown.h"
 #include "Format/GameFormat.h"
 #include "Format/Text/INI/INIManager.h"
 #include "Static/AppDataPath.h"
 #include "Static/DataPath.h"
-#include "Layer/Layers/NumericMultiOptionInputResult.h"
+#include "Layer/Layers/NumericMultiOptionInputLayerResult.h"
 #include <gdiplus.h>
 #include <stdio.h>
 #include <algorithm>
@@ -496,7 +497,7 @@ void		Tasks::exportByIndex(void)
 {
 	onStartTask("exportByIndex");
 
-	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Export Entries by Index", "Export entries with an index");
+	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Export Entries by Index", "Export entries with an index"); // todo - rename nmoir
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -562,7 +563,7 @@ void		Tasks::exportByOffset(void)
 {
 	onStartTask("exportByOffset");
 
-	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Export Entries by Offset", "Export entries with an offset");
+	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Export Entries by Offset", "Export entries with an offset");
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -595,7 +596,7 @@ void		Tasks::exportBySize(void)
 {
 	onStartTask("exportBySize");
 
-	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Export Entries by Size", "Export entries with a size");
+	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Export Entries by Size", "Export entries with a size");
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -659,6 +660,43 @@ void		Tasks::exportByType(void)
 
 void		Tasks::exportByVersion(void)
 {
+	onStartTask("exportByVersion");
+
+	DropDown *pVersionFilter = getIMGTab()->getEntryVersionFilter();
+	vector<string> vecVersionOptions = pVersionFilter->getItems();
+	int32 iVersionOptionIndex = m_pMainWindow->showDropDownInput("Export Entries by Version", "Export entries with version", vecVersionOptions);
+	if (iVersionOptionIndex == -1)
+	{
+		return onAbortTask();
+	}
+
+	string strFolderPath = openFolder("Choose a folder to export the files to.");
+	if (strFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount * 2);
+
+	DropDownItem
+		*pDropDownItem = pVersionFilter->getEntryByIndex(iVersionOptionIndex);
+	uint32
+		uiFileTypeId = pDropDownItem->getUserdata2(), // todo - rename to getUserData2()
+		uiFileVersionId = pDropDownItem->getUserdata(); // todo - rename to getUserData()
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByVersion(uiFileTypeId, uiFileVersionId);
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false); // todo - increaseMaxProgress
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->getIMGFile()->exportSingle(pIMGEntry, strFolderPath);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	getIMGTab()->logf("Exported %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
+
+	onCompleteTask();
 }
 
 
@@ -1034,7 +1072,7 @@ void		Tasks::removeByIndex(void)
 {
 	onStartTask("removeByIndex");
 
-	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Remove Entries by Index", "Remove entries with an index");
+	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Remove Entries by Index", "Remove entries with an index");
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -1055,6 +1093,8 @@ void		Tasks::removeByIndex(void)
 	if (vecIMGEntries.size() > 0)
 	{
 		getIMGTab()->readdGridEntries();
+		getIMGTab()->loadFilter_Type();
+		getIMGTab()->loadFilter_Version();
 		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 
@@ -1088,6 +1128,8 @@ void		Tasks::removeByName(void)
 	if (vecIMGEntries.size() > 0)
 	{
 		getIMGTab()->readdGridEntries();
+		getIMGTab()->loadFilter_Type();
+		getIMGTab()->loadFilter_Version();
 		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 
@@ -1100,7 +1142,7 @@ void		Tasks::removeByOffset(void)
 {
 	onStartTask("removeByOffset");
 
-	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Remove Entries by Offset", "Remove entries with an offset");
+	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Remove Entries by Offset", "Remove entries with an offset");
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -1121,6 +1163,8 @@ void		Tasks::removeByOffset(void)
 	if (vecIMGEntries.size() > 0)
 	{
 		getIMGTab()->readdGridEntries();
+		getIMGTab()->loadFilter_Type();
+		getIMGTab()->loadFilter_Version();
 		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 
@@ -1133,7 +1177,7 @@ void		Tasks::removeBySize(void)
 {
 	onStartTask("removeBySize");
 
-	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Remove Entries by Size", "Remove entries with a size");
+	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Remove Entries by Size", "Remove entries with a size");
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -1154,6 +1198,8 @@ void		Tasks::removeBySize(void)
 	if (vecIMGEntries.size() > 0)
 	{
 		getIMGTab()->readdGridEntries();
+		getIMGTab()->loadFilter_Type();
+		getIMGTab()->loadFilter_Version();
 		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 
@@ -1187,6 +1233,8 @@ void		Tasks::removeByType(void)
 	if (vecIMGEntries.size() > 0)
 	{
 		getIMGTab()->readdGridEntries();
+		getIMGTab()->loadFilter_Type();
+		getIMGTab()->loadFilter_Version();
 		getIMGTab()->setIMGModifiedSinceRebuild(true);
 	}
 
@@ -1197,6 +1245,45 @@ void		Tasks::removeByType(void)
 
 void		Tasks::removeByVersion(void)
 {
+	onStartTask("removeByVersion");
+
+	DropDown *pVersionFilter = getIMGTab()->getEntryVersionFilter();
+	vector<string> vecVersionOptions = pVersionFilter->getItems();
+	int32 iVersionOptionIndex = m_pMainWindow->showDropDownInput("Remove Entries by Version", "Remove entries with version", vecVersionOptions);
+	if (iVersionOptionIndex == -1)
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount * 3);
+
+	DropDownItem
+		*pDropDownItem = pVersionFilter->getEntryByIndex(iVersionOptionIndex);
+	uint32
+		uiFileTypeId = pDropDownItem->getUserdata2(), // todo - rename to getUserData2()
+		uiFileVersionId = pDropDownItem->getUserdata(); // todo - rename to getUserData()
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByVersion(uiFileTypeId, uiFileVersionId);
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size() + (vecIMGEntries.size() == 0 ? 0 : (uiTotalEntryCount - vecIMGEntries.size())), false);
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->removeEntry(pIMGEntry);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	if (vecIMGEntries.size() > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->loadFilter_Type();
+		getIMGTab()->loadFilter_Version();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->logf("Removed %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
+
+	onCompleteTask();
 }
 
 void		Tasks::selectAll(void)
@@ -1248,7 +1335,7 @@ void		Tasks::selectByIndex(void)
 {
 	onStartTask("selectByIndex");
 
-	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Select Entries by Index", "Select entries with an index");
+	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Select Entries by Index", "Select entries with an index");
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -1302,7 +1389,7 @@ void		Tasks::selectByOffset(void)
 {
 	onStartTask("selectByOffset");
 
-	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Select Entries by Offset", "Select entries with an offset");
+	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Select Entries by Offset", "Select entries with an offset");
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -1329,7 +1416,7 @@ void		Tasks::selectBySize(void)
 {
 	onStartTask("selectBySize");
 
-	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Select Entries by Size", "Select entries with a size");
+	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Select Entries by Size", "Select entries with a size");
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -1383,8 +1470,10 @@ void		Tasks::selectByVersion(void)
 {
 	onStartTask("selectByVersion");
 
-	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Select Entries by Version", "Select entries with a version");
-	if (nmoir.m_bCancelled)
+	DropDown *pVersionFilter = getIMGTab()->getEntryVersionFilter();
+	vector<string> vecVersionOptions = pVersionFilter->getItems();
+	int32 iVersionOptionIndex = m_pMainWindow->showDropDownInput("Select Entries by Version", "Select entries with version", vecVersionOptions);
+	if (iVersionOptionIndex == -1)
 	{
 		return onAbortTask();
 	}
@@ -1392,8 +1481,14 @@ void		Tasks::selectByVersion(void)
 	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(5, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
+	DropDownItem
+		*pDropDownItem = pVersionFilter->getEntryByIndex(iVersionOptionIndex);
+	uint32
+		uiFileTypeId = pDropDownItem->getUserdata2(), // todo - rename to getUserData2()
+		uiFileVersionId = pDropDownItem->getUserdata(); // todo - rename to getUserData()
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByVersion(uiFileTypeId, uiFileVersionId);
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false); // todo - increaseMaxProgress
 	for (IMGEntry *pIMGEntry : vecIMGEntries)
 	{
 		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(true);
@@ -1401,7 +1496,7 @@ void		Tasks::selectByVersion(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Selected %u entries with a version %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getIMGTab()->logf("Selected %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
 
 	onCompleteTask();
 }
@@ -1410,7 +1505,7 @@ void		Tasks::unselectByIndex(void)
 {
 	onStartTask("unselectByIndex");
 
-	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Unselect Entries by Index", "Unselect entries with an index");
+	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Unselect Entries by Index", "Unselect entries with an index");
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -1464,7 +1559,7 @@ void		Tasks::unselectByOffset(void)
 {
 	onStartTask("unselectByOffset");
 
-	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Unselect Entries by Offset", "Unselect entries with an offset");
+	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Unselect Entries by Offset", "Unselect entries with an offset");
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -1491,7 +1586,7 @@ void		Tasks::unselectBySize(void)
 {
 	onStartTask("unselectBySize");
 
-	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Unselect Entries by Size", "Unselect entries with a size");
+	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Unselect Entries by Size", "Unselect entries with a size");
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -1543,6 +1638,37 @@ void		Tasks::unselectByType(void)
 
 void		Tasks::unselectByVersion(void)
 {
+	onStartTask("unselectByVersion");
+
+	DropDown *pVersionFilter = getIMGTab()->getEntryVersionFilter();
+	vector<string> vecVersionOptions = pVersionFilter->getItems();
+	int32 iVersionOptionIndex = m_pMainWindow->showDropDownInput("Unselect Entries by Version", "Unselect entries with version", vecVersionOptions);
+	if (iVersionOptionIndex == -1)
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount * 2);
+
+	DropDownItem
+		*pDropDownItem = pVersionFilter->getEntryByIndex(iVersionOptionIndex);
+	uint32
+		uiFileTypeId = pDropDownItem->getUserdata2(), // todo - rename to getUserData2()
+		uiFileVersionId = pDropDownItem->getUserdata(); // todo - rename to getUserData()
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByVersion(uiFileTypeId, uiFileVersionId);
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false); // todo - increaseMaxProgress
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(false);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	getIMGTab()->logf("Unselected %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
+
+	onCompleteTask();
 }
 
 
