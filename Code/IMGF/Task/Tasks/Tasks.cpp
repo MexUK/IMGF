@@ -131,6 +131,7 @@
 #include "Format/Text/INI/INIManager.h"
 #include "Static/AppDataPath.h"
 #include "Static/DataPath.h"
+#include "Layer/Layers/NumericMultiOptionInputResult.h"
 #include <gdiplus.h>
 #include <stdio.h>
 #include <algorithm>
@@ -238,9 +239,9 @@ IMGEditorTab*	Tasks::getIMGTab(void)
 }
 
 // progress
-void			Tasks::setMaxProgress(uint32 uiMaxProgress)
+void			Tasks::setMaxProgress(uint32 uiMaxProgress, bool bResetCurrent)
 {
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiMaxProgress);
+	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(uiMaxProgress, bResetCurrent);
 }
 
 void			Tasks::increaseProgress(void)
@@ -651,7 +652,7 @@ void		Tasks::rename(void)
 
 	IMGEntry *pIMGEntry = (IMGEntry*)getIMGTab()->getEntryGrid()->getSelectedRows()[0]->getUserData();
 
-	string strNewEntryName = getIMGTab()->getWindow()->showSingleLineTextBox("New IMG Entry Name", "Choose a new name for the IMG entry:", pIMGEntry->getEntryName());
+	string strNewEntryName = getIMGTab()->getWindow()->showSingleLineTextBoxInput("New IMG Entry Name", "Choose a new name for the IMG entry:", pIMGEntry->getEntryName());
 	if (strNewEntryName == "")
 	{
 		return onAbortTask();
@@ -676,6 +677,133 @@ void		Tasks::rename(void)
 	increaseProgress();
 
 	getIMGTab()->setIMGModifiedSinceRebuild(true);
+
+	onCompleteTask();
+}
+
+void		Tasks::replaceByFiles(void)
+{
+	onStartTask("replaceByFiles");
+
+	vector<string> vecFilePaths = openFile();
+	if (vecFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	setMaxProgress(vecFilePaths.size());
+
+	uint32 uiReplacedEntryCount = 0;
+	IMGFormat *pIMGFile = getIMGTab()->getIMGFile();
+	for (string& strFilePath : vecFilePaths)
+	{
+		string strFileName = Path::getFileName(strFilePath);
+
+		IMGEntry *pIMGEntry = getIMGTab()->getEntryByName(strFileName);
+		if (!pIMGEntry)
+		{
+			continue;
+		}
+
+		pIMGEntry->replace(strFilePath);
+
+		increaseProgress();
+		uiReplacedEntryCount++;
+	}
+
+	if (uiReplacedEntryCount > 0)
+	{
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->readdGridEntries();
+	}
+
+	getIMGTab()->logf("Replaced %u entries by file.", uiReplacedEntryCount);
+
+	onCompleteTask();
+}
+
+void		Tasks::replaceBySingleFolder(void)
+{
+	onStartTask("replaceBySingleFolder");
+
+	string strFolderPath = openFolder("Choose a folder to replace entries from.");
+	if (strFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecFileNames = File::getFileNames(strFolderPath);
+
+	setMaxProgress(vecFileNames.size());
+
+	uint32 uiReplacedEntryCount = 0;
+	IMGFormat *pIMGFile = getIMGTab()->getIMGFile();
+	for (string& strFileName : vecFileNames)
+	{
+		string strFilePath = strFolderPath + strFileName;
+
+		IMGEntry *pIMGEntry = getIMGTab()->getEntryByName(strFileName);
+		if (!pIMGEntry)
+		{
+			continue;
+		}
+
+		pIMGEntry->replace(strFilePath);
+
+		increaseProgress();
+		uiReplacedEntryCount++;
+	}
+
+	if (uiReplacedEntryCount > 0)
+	{
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->readdGridEntries();
+	}
+
+	getIMGTab()->logf("Replaced %u entries by folder.", uiReplacedEntryCount);
+
+	onCompleteTask();
+}
+
+void		Tasks::replaceByFolderRecursively(void)
+{
+	onStartTask("replaceByFolderRecursively");
+
+	string strFolderPath = openFolder("Choose a folder to recursively replace entries from.");
+	if (strFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecFilePaths = File::getFilePaths(strFolderPath, true, false, "", true);
+
+	setMaxProgress(vecFilePaths.size());
+
+	uint32 uiReplacedEntryCount = 0;
+	IMGFormat *pIMGFile = getIMGTab()->getIMGFile();
+	for (string& strFilePath : vecFilePaths)
+	{
+		string strFileName = Path::getFileName(strFilePath);
+
+		IMGEntry *pIMGEntry = getIMGTab()->getEntryByName(strFileName);
+		if (!pIMGEntry)
+		{
+			continue;
+		}
+
+		pIMGEntry->replace(strFilePath);
+
+		increaseProgress();
+		uiReplacedEntryCount++;
+	}
+
+	if (uiReplacedEntryCount > 0)
+	{
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->readdGridEntries();
+	}
+
+	getIMGTab()->logf("Replaced %u entries recursively by folder.", uiReplacedEntryCount);
 
 	onCompleteTask();
 }
@@ -732,6 +860,281 @@ void		Tasks::removeAll(void)
 
 	onCompleteTask();
 }
+
+void		Tasks::selectAll(void)
+{
+	onStartTask("selectAll");
+
+	IMGEditorTab *pEditorTab = m_pMainWindow->getIMGEditor()->getActiveTab();
+	Grid *pEntryGrid = pEditorTab->getEntryGrid();
+
+	pEntryGrid->selectAllRows();
+	pEntryGrid->setActiveItem();
+
+	pEditorTab->log("Selected all entries.");
+
+	onCompleteTask();
+}
+
+void		Tasks::unselectAll(void)
+{
+	onStartTask("unselectAll");
+
+	IMGEditorTab *pEditorTab = m_pMainWindow->getIMGEditor()->getActiveTab();
+	Grid *pEntryGrid = pEditorTab->getEntryGrid();
+
+	pEntryGrid->unselectAllRows();
+	pEntryGrid->setActiveItem();
+
+	pEditorTab->log("Unselected all entries.");
+
+	onCompleteTask();
+}
+
+void		Tasks::selectInverse(void)
+{
+	onStartTask("selectInverse");
+
+	IMGEditorTab *pEditorTab = m_pMainWindow->getIMGEditor()->getActiveTab();
+	Grid *pEntryGrid = pEditorTab->getEntryGrid();
+
+	pEntryGrid->selectInverseRows();
+	pEntryGrid->setActiveItem();
+
+	pEditorTab->logf("Selected inverse entries. (%u)", pEntryGrid->getSelectedRowCount());
+
+	onCompleteTask();
+}
+
+void		Tasks::selectByIndex(void)
+{
+	onStartTask("selectByIndex");
+
+	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Select by Index", "Select entries with an index");
+	if (nmoir.m_bCancelled)
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount * 2);
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(0, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(true);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	getIMGTab()->logf("Selected %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::selectByName(void)
+{
+	onStartTask("selectByIndex");
+
+	/*
+	StringMultiOptionInputResult nmoir = m_pMainWindow->showStringMultiOptionInput("Select by Index", "Select entries by Index that are");
+	if (nmoir.m_bCancelled)
+	{
+		return onAbortTask();
+	}
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByStringMultiOptionValues(0, nmoir.m_uiOptionIndex, nmoir.m_strTextBoxValue1, nmoir.m_strTextBoxValue2, m_bUseWildcard); // todo - magic int
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(true);
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	getIMGTab()->logf("Selected %u entries by Name %s.", vecIMGEntries.size(), nmoir.getMessageText());
+	*/
+
+	onCompleteTask();
+}
+
+void		Tasks::selectByOffset(void)
+{
+	onStartTask("selectByOffset");
+
+	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Select by Offset", "Select entries with an offset");
+	if (nmoir.m_bCancelled)
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount * 2);
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(2, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(true);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	getIMGTab()->logf("Selected %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::selectBySize(void)
+{
+	onStartTask("selectBySize");
+
+	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Select by Size", "Select entries with a size");
+	if (nmoir.m_bCancelled)
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount * 2);
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(3, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(true);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	getIMGTab()->logf("Selected %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::selectByType(void)
+{
+}
+
+void		Tasks::selectByVersion(void)
+{
+	onStartTask("selectByVersion");
+
+	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Select by Version", "Select entries with a version");
+	if (nmoir.m_bCancelled)
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount * 2);
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(5, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(true);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	getIMGTab()->logf("Selected %u entries with a version %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::unselectByIndex(void)
+{
+	onStartTask("unselectByIndex");
+
+	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Unselect by Index", "Unselect entries with an index");
+	if (nmoir.m_bCancelled)
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount * 2);
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(0, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(false);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	getIMGTab()->logf("Unselected %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::unselectByName(void)
+{
+}
+
+void		Tasks::unselectByOffset(void)
+{
+	onStartTask("unselectByOffset");
+
+	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Unselect by Offset", "Unselect entries with an offset");
+	if (nmoir.m_bCancelled)
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount * 2);
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(2, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(false);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	getIMGTab()->logf("Unselected %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::unselectBySize(void)
+{
+	onStartTask("unselectBySize");
+
+	NumericMultiOptionInputResult nmoir = m_pMainWindow->showNumericMultiOptionInput("Unselect by Size", "Unselect entries with a size");
+	if (nmoir.m_bCancelled)
+	{
+		return onAbortTask();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount * 2);
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(3, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(false);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	getIMGTab()->logf("Unselected %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::unselectByType(void)
+{
+}
+
+void		Tasks::unselectByVersion(void)
+{
+}
+
 
 
 
@@ -844,51 +1247,6 @@ void		Tasks::onRequestExitTool(void)
 	getIMGF()->getTaskManager()->onStartTask("onRequestExitTool");
 	DestroyWindow(getIMGF()->getActiveWindow()->getWindowHandle());
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestExitTool");
-}
-
-void		Tasks::selectAll(void)
-{
-	onStartTask("selectAll");
-
-	IMGEditorTab *pEditorTab = m_pMainWindow->getIMGEditor()->getActiveTab();
-	Grid *pEntryGrid = pEditorTab->getEntryGrid();
-
-	pEntryGrid->selectAllRows();
-	pEntryGrid->setActiveItem();
-
-	pEditorTab->log("Selected all entries.");
-
-	onCompleteTask();
-}
-
-void		Tasks::unselectAll(void)
-{
-	onStartTask("unselectAll");
-
-	IMGEditorTab *pEditorTab = m_pMainWindow->getIMGEditor()->getActiveTab();
-	Grid *pEntryGrid = pEditorTab->getEntryGrid();
-
-	pEntryGrid->unselectAllRows();
-	pEntryGrid->setActiveItem();
-
-	pEditorTab->log("Unselected all entries.");
-
-	onCompleteTask();
-}
-
-void		Tasks::selectInverse(void)
-{
-	onStartTask("selectInverse");
-
-	IMGEditorTab *pEditorTab = m_pMainWindow->getIMGEditor()->getActiveTab();
-	Grid *pEntryGrid = pEditorTab->getEntryGrid();
-
-	pEntryGrid->selectInverseRows();
-	pEntryGrid->setActiveItem();
-
-	pEditorTab->logf("Selected inverse entries. (%u)", pEntryGrid->getSelectedRowCount());
-
-	onCompleteTask();
 }
 
 void		Tasks::onRequestRebuild(void)
@@ -1608,130 +1966,6 @@ void		Tasks::onRequestSplitViaTextLines(void)
 
 	openFile(strPath);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaTextLines");
-}
-void		Tasks::onRequestReplace(void)
-{
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestReplace");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestReplace", true);
-		return;
-	}
-
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	string strEntryName;
-	if (pos != NULL)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-		IMGEntry *pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-		strEntryName = pIMGEntry->getEntryName();
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecPaths = Input::openFile(getIMGF()->getLastUsedDirectory("REPLACE"), "", "", strEntryName);
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestReplace", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("REPLACE", Path::getDirectory(vecPaths[0]));
-
-	vector<string> vecUniqueFilePaths = Path::getUniqueFilePaths(vecPaths, getIMGF()->getEntryListTab()->getIMGFile()->getEntryNames());
-	vector<string> vecReplaceFilePaths = StdVector::getUniqueEntries(vecPaths, vecUniqueFilePaths);
-	uint32 uiReplaceEntryCount = vecReplaceFilePaths.size();
-
-	bool bOverwriteFiles = false;
-	if (getIMGF()->getSettingsManager()->getSettingBool("AskBeforeOverwritingFiles"))
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		bOverwriteFiles = false; // todo - getIMGF()->getPopupGUIManager()->showConfirmDialog("Replace " + String::toString(uiReplaceEntryCount) + " entr" + (uiReplaceEntryCount == 1 ? "y" : "ies") + "?", LocalizationManager::get()->getTranslatedText("Window_Confirm_2_Title"));
-		getIMGF()->getTaskManager()->onResumeTask();
-
-		if (!bOverwriteFiles)
-		{
-			vecPaths = vecUniqueFilePaths;
-		}
-	}
-	else
-	{
-		//vector<string> vecA = StdVector::getUniqueEntries(getIMGF()->getEntryListTab()->getIMGFile()->getEntryNamesUpper(), Path::getFileNamesFromFilePaths(vecPaths));
-
-		vector<string> vecNewReplacedFilePaths;
-		for (auto strFilePath : vecReplaceFilePaths)
-		{
-			bool bReplaceEntry = true;
-			IMGEntry *pIMGEntry = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByName(Path::getFileName(strFilePath));
-
-			uint32
-				uiExistingEntryFileCreationDate = pIMGEntry->getFileCreationDate(),
-				uiNewEntryFileCreationDate = File::getFileCreationDate(strFilePath);
-
-			if (uiExistingEntryFileCreationDate < uiNewEntryFileCreationDate)
-			{
-				// the existing entry is older than the new entry
-
-				if (getIMGF()->getSettingsManager()->getSettingBool("OverwriteOlderFiles"))
-				{
-					bReplaceEntry = true;
-				}
-				else
-				{
-					bReplaceEntry = false;
-				}
-			}
-			else if (uiExistingEntryFileCreationDate > uiNewEntryFileCreationDate)
-			{
-				// the existing entry is newer than the new entry
-
-				if (getIMGF()->getSettingsManager()->getSettingBool("OverwriteNewerFiles"))
-				{
-					bReplaceEntry = true;
-				}
-				else
-				{
-					bReplaceEntry = false;
-				}
-			}
-
-			if (pIMGEntry->isProtectedEntry())
-			{
-				// the entry is protected
-
-				if (getIMGF()->getSettingsManager()->getSettingBool("OverwriteProtectedFiles"))
-				{
-					bReplaceEntry = true;
-				}
-				else
-				{
-					bReplaceEntry = false;
-				}
-			}
-
-			if (bReplaceEntry)
-			{
-				vecNewReplacedFilePaths.push_back(strFilePath);
-			}
-		}
-		vecPaths = StdVector::combineVectors(vecUniqueFilePaths, vecNewReplacedFilePaths);
-	}
-
-	setMaxProgress(vecPaths.size());
-	vector<string> vecReplacedEntryNames;
-	getIMGF()->getEntryListTab()->replace(vecPaths, vecReplacedEntryNames);
-
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("ReplacedEntries", vecReplacedEntryNames.size()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("EntriesForReplace"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecReplacedEntryNames, "\n"), true);
-
-	getIMGF()->getIMGEditor()->refreshActiveTab();
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestReplace");
-	*/
 }
 
 void		Tasks::onRequestSearchText(void) // from search box
@@ -7067,9 +7301,17 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	{
 		onRequestSplitViaTextLines();
 	}
-	else if (strFeatureName == "onRequestReplace")
+	else if (strFeatureName == "replaceByFiles")
 	{
-		onRequestReplace();
+		replaceByFiles();
+	}
+	else if (strFeatureName == "replaceBySingleFolder")
+	{
+		replaceBySingleFolder();
+	}
+	else if (strFeatureName == "replaceByFolderRecursively")
+	{
+		replaceByFolderRecursively();
 	}
 	else if (strFeatureName == "onRequestExportSelected")
 	{

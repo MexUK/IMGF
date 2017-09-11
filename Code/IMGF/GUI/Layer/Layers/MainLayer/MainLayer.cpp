@@ -237,7 +237,15 @@ void		MainLayer::addControls(void)
 	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
 	// replace
-	pMenu1->addMenuItem("Replace");
+	pMenuItem1 = pMenu1->addMenuItem("Replace");
+
+	pMenu2 = pMenuItem1->addMenu();
+	pMenuItem2 = pMenu2->addMenuItem("Replace by File(s)", REPLACE_BY_FILES);
+	pMenuItem2 = pMenu2->addMenuItem("Replace by Folder..");
+
+	pMenu3 = pMenuItem2->addMenu();
+	pMenuItem3 = pMenu3->addMenuItem("Replace by Single Folder", REPLACE_BY_SINGLE_FOLDER);
+	pMenuItem3 = pMenu3->addMenuItem("Replace by Folder Recursively", REPLACE_BY_FOLDER_RECURSIVELY);
 
 	// remove
 	pMenuItem1 = pMenu1->addMenuItem("Remove");
@@ -276,22 +284,22 @@ void		MainLayer::addControls(void)
 	pMenuItem2 = pMenu2->addMenuItem("Select by..");
 
 	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Select by Index");
-	pMenu3->addMenuItem("Select by Name (Wildcard match)");
-	pMenu3->addMenuItem("Select by Offset");
-	pMenu3->addMenuItem("Select by Size");
-	pMenu3->addMenuItem("Select by Type");
-	pMenu3->addMenuItem("Select by Version");
+	pMenu3->addMenuItem("Select by Index", SELECT_BY_INDEX);
+	pMenu3->addMenuItem("Select by Name", SELECT_BY_NAME);
+	pMenu3->addMenuItem("Select by Offset", SELECT_BY_OFFSET);
+	pMenu3->addMenuItem("Select by Size", SELECT_BY_SIZE);
+	pMenu3->addMenuItem("Select by Type", SELECT_BY_TYPE);
+	pMenu3->addMenuItem("Select by Version", SELECT_BY_VERSION);
 
 	pMenuItem2 = pMenu2->addMenuItem("Unselect by..");
 
 	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Unselect by Index");
-	pMenu3->addMenuItem("Unselect by Name (Wildcard match)");
-	pMenu3->addMenuItem("Unselect by Offset");
-	pMenu3->addMenuItem("Unselect by Size");
-	pMenu3->addMenuItem("Unselect by Type");
-	pMenu3->addMenuItem("Unselect by Version");
+	pMenu3->addMenuItem("Unselect by Index", UNSELECT_BY_INDEX);
+	pMenu3->addMenuItem("Unselect by Name", UNSELECT_BY_NAME);
+	pMenu3->addMenuItem("Unselect by Offset", UNSELECT_BY_OFFSET);
+	pMenu3->addMenuItem("Unselect by Size", UNSELECT_BY_SIZE);
+	pMenu3->addMenuItem("Unselect by Type", UNSELECT_BY_TYPE);
+	pMenu3->addMenuItem("Unselect by Version", UNSELECT_BY_VERSION);
 	
 	// sort
 	pMenuItem1 = pMenu1->addMenuItem("Sort");

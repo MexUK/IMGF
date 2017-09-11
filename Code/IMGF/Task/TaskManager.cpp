@@ -149,9 +149,9 @@ void							TaskManager::onTaskProgressComplete(void)
 	*/
 }
 
-void							TaskManager::setTaskMaxProgressTickCount(uint32 uiProgressMaxTicks, bool bReset)
+void							TaskManager::setTaskMaxProgressTickCount(uint32 uiProgressMaxTicks, bool bResetCurrent)
 {
-	if (bReset)
+	if (bResetCurrent)
 	{
 		setTaskProgressTickCount(0);
 	}
@@ -166,7 +166,7 @@ void							TaskManager::setTaskMaxProgressTickCount(uint32 uiProgressMaxTicks, b
 	{
 		pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->getProgressBar();
 	}
-	pProgressBar->setMax(uiProgressMaxTicks);
+	pProgressBar->setMax(uiProgressMaxTicks, bResetCurrent);
 
 	/*
 	todo

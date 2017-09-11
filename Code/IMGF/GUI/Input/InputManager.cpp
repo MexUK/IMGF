@@ -78,12 +78,28 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 
 	case RENAME:									return rename();
 
+	case REPLACE_BY_FILES:							return replaceByFiles();
+	case REPLACE_BY_SINGLE_FOLDER:					return replaceBySingleFolder();
+	case REPLACE_BY_FOLDER_RECURSIVELY:				return replaceByFolderRecursively();
+
 	case REMOVE_SELECTED:							return removeSelected();
 	case REMOVE_ALL:								return removeAll();
 
 	case SELECT_ALL:								return selectAll();
 	case UNSELECT_ALL:								return unselectAll();
 	case SELECT_INVERSE:							return selectInverse();
+	case SELECT_BY_INDEX:							return selectByIndex();
+	case SELECT_BY_NAME:							return selectByName();
+	case SELECT_BY_OFFSET:							return selectByOffset();
+	case SELECT_BY_SIZE:							return selectBySize();
+	case SELECT_BY_TYPE:							return selectByType();
+	case SELECT_BY_VERSION:							return selectByVersion();
+	case UNSELECT_BY_INDEX:							return unselectByIndex();
+	case UNSELECT_BY_NAME:							return unselectByName();
+	case UNSELECT_BY_OFFSET:						return unselectByOffset();
+	case UNSELECT_BY_SIZE:							return unselectBySize();
+	case UNSELECT_BY_TYPE:							return unselectByType();
+	case UNSELECT_BY_VERSION:						return unselectByVersion();
 	}
 }
 
@@ -151,6 +167,7 @@ void					InputManager::save(void)
 }
 
 // button press - action menu
+// import
 void					InputManager::importByFiles(void)
 {
 	m_pTasks->importByFiles();
@@ -166,6 +183,7 @@ void					InputManager::importByFolderRecursively(void)
 	m_pTasks->importByFolderRecursively();
 }
 
+// export
 void					InputManager::exportSelected(void)
 {
 	m_pTasks->exportSelected();
@@ -196,19 +214,34 @@ void					InputManager::exportSelectionFromAllTabs(void)
 	m_pTasks->exportSelectionFromAllTabs();
 }
 
+// quick export
 void					InputManager::quickExport(void)
 {
 }
 
+// rename
 void					InputManager::rename(void)
 {
 	m_pTasks->rename();
 }
 
-void					InputManager::replace(void)
+// replace
+void					InputManager::replaceByFiles(void)
 {
+	m_pTasks->replaceByFiles();
 }
 
+void					InputManager::replaceBySingleFolder(void)
+{
+	m_pTasks->replaceBySingleFolder();
+}
+
+void					InputManager::replaceByFolderRecursively(void)
+{
+	m_pTasks->replaceByFolderRecursively();
+}
+
+// remove
 void					InputManager::removeSelected(void)
 {
 	m_pTasks->removeSelected();
@@ -219,18 +252,22 @@ void					InputManager::removeAll(void)
 	m_pTasks->removeAll();
 }
 
+// merge
 void					InputManager::merge(void)
 {
 }
 
+// split
 void					InputManager::split(void)
 {
 }
 
+// convert
 void					InputManager::convert(void)
 {
 }
 
+// select
 void					InputManager::selectAll(void)
 {
 	m_pTasks->selectAll();
@@ -246,14 +283,77 @@ void					InputManager::selectInverse(void)
 	m_pTasks->selectInverse();
 }
 
+void					InputManager::selectByIndex(void)
+{
+	m_pTasks->selectByIndex();
+}
+
+void					InputManager::selectByName(void)
+{
+	m_pTasks->selectByName();
+}
+
+void					InputManager::selectByOffset(void)
+{
+	m_pTasks->selectByOffset();
+}
+
+void					InputManager::selectBySize(void)
+{
+	m_pTasks->selectBySize();
+}
+
+void					InputManager::selectByType(void)
+{
+	m_pTasks->selectByType();
+}
+
+void					InputManager::selectByVersion(void)
+{
+	m_pTasks->selectByVersion();
+}
+
+void					InputManager::unselectByIndex(void)
+{
+	m_pTasks->unselectByIndex();
+}
+
+void					InputManager::unselectByName(void)
+{
+	m_pTasks->unselectByName();
+}
+
+void					InputManager::unselectByOffset(void)
+{
+	m_pTasks->unselectByOffset();
+}
+
+void					InputManager::unselectBySize(void)
+{
+	m_pTasks->unselectBySize();
+}
+
+void					InputManager::unselectByType(void)
+{
+	m_pTasks->unselectByType();
+}
+
+void					InputManager::unselectByVersion(void)
+{
+	m_pTasks->unselectByVersion();
+}
+
+// sort
 void					InputManager::sort(void)
 {
 }
 
+// LST
 void					InputManager::lst(void)
 {
 }
 
+// button press - top right menu
 // settings
 void					InputManager::settings(void)
 {

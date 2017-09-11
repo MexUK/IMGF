@@ -55,12 +55,28 @@ private:
 	
 	void					rename(void);
 
+	void					replaceByFiles(void);
+	void					replaceBySingleFolder(void);
+	void					replaceByFolderRecursively(void);
+
 	void					removeSelected(void);
 	void					removeAll(void);
 
 	void					selectAll(void);
 	void					unselectAll(void);
 	void					selectInverse(void);
+	void					selectByIndex(void);
+	void					selectByName(void);
+	void					selectByOffset(void);
+	void					selectBySize(void);
+	void					selectByType(void);
+	void					selectByVersion(void);
+	void					unselectByIndex(void);
+	void					unselectByName(void);
+	void					unselectByOffset(void);
+	void					unselectBySize(void);
+	void					unselectByType(void);
+	void					unselectByVersion(void);
 
 
 
@@ -69,8 +85,6 @@ private:
 
 
 
-
-	void					replace(void);
 	void					merge(void);
 	void					split(void);
 	void					convert(void);

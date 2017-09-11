@@ -38,7 +38,7 @@ private:
 	EditorTab*					getTab(void);
 	IMGEditorTab*				getIMGTab(void);
 
-	void						setMaxProgress(uint32 uiMaxProgress);
+	void						setMaxProgress(uint32 uiMaxProgress, bool bResetCurrent = true);
 	void						increaseProgress(void);
 
 public:
@@ -63,11 +63,28 @@ public:
 
 	void						rename(void);
 
+	void						replaceByFiles(void);
+	void						replaceBySingleFolder(void);
+	void						replaceByFolderRecursively(void);
+
 	void						removeSelected(void);
 	void						removeAll(void);
 
-
-
+	void						selectAll(void);
+	void						unselectAll(void);
+	void						selectInverse(void);
+	void						selectByIndex(void);
+	void						selectByName(void);
+	void						selectByOffset(void);
+	void						selectBySize(void);
+	void						selectByType(void);
+	void						selectByVersion(void);
+	void						unselectByIndex(void);
+	void						unselectByName(void);
+	void						unselectByOffset(void);
+	void						unselectBySize(void);
+	void						unselectByType(void);
+	void						unselectByVersion(void);
 	
 
 
@@ -78,9 +95,6 @@ public:
 	void						onRequestCloseAll(void);
 	void						onRequestExitTool(void);
 
-	void						selectAll(void);
-	void						unselectAll(void);
-	void						selectInverse(void);
 	void						onRequestRebuild(void);
 	void						onRequestRebuildAs(void);
 	void						onRequestRebuildAll(void);
@@ -91,7 +105,6 @@ public:
 	void						onRequestSplitSelectedEntries(void);
 	void						onRequestSplitViaIDEFile(void);
 	void						onRequestSplitViaTextLines(void);
-	void						onRequestReplace(void);
 	
 	void						onRequestSearchText(void);
 	void						onRequestSearchSelection(void);

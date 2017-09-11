@@ -19,12 +19,13 @@ public:
 	void										init(void);
 	void										uninit(void);
 
-	Tasks*						getDispatch(void) { return m_pTasks; }
+	Tasks*										getDispatch(void) { return m_pTasks; } // todo - rename method
 	TaskDurationManager*						getDurationManager(void) { return m_pTaskDurationManager; }
 
 	void										onStartTask(std::string strTaskName);
 	void										onCompleteTask(void);
 	void										onAbortTask(void);
+
 	void										onTaskEnd(std::string strTaskName, bool bFeatureAborted = false) {} // temp
 
 	void										onPauseTask(void);
@@ -36,13 +37,13 @@ public:
 	inline void									setTaskProgressTickCount(uint32 uiTaskProgressTickCount) { m_uiTaskProgressTickCount = uiTaskProgressTickCount; }
 	inline uint32								getTaskProgressTickCount(void) { return m_uiTaskProgressTickCount; }
 
-	void										setTaskMaxProgressTickCount(uint32 uiTaskMaxProgressTickCount, bool bReset = true);
+	void										setTaskMaxProgressTickCount(uint32 uiTaskMaxProgressTickCount, bool bResetCurrent = true);
 	inline uint32								getTaskMaxProgressTickCount(void) { return m_uiTaskMaxProgressTickCount; }
 
 	std::string&								getTaskName(void);
 
 private:
-	Tasks*						m_pTasks;
+	Tasks*										m_pTasks;
 	TaskDurationManager*						m_pTaskDurationManager;
 
 	uint32										m_uiTaskProgressTickCount;

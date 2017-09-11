@@ -100,7 +100,9 @@ public:
 	void						updateGridEntry(bxgi::IMGEntry *pIMGEntry);
 	uint32						getMainListViewItemIndexByItemData(bxgi::IMGEntry *pIMGEntry);
 
-	bxgi::IMGEntry*				getEntryByName(std::string strEntryName);
+	bxgi::IMGEntry*					getEntryByName(std::string strEntryName);
+	std::vector<bxgi::IMGEntry*>	getEntriesByNumericMultiOptionValues(uint32 uiEntryAttribute, uint32 uiMatchType, uint32 uiValue1, uint32 uiValue2);
+	std::vector<bxgi::IMGEntry*>	getEntriesByStringMultiOptionValues(uint32 uiEntryAttribute, uint32 uiMatchType, std::string& strValue1, std::string& strValue2, bool bMatchWildcard);
 
 	void						rebuild(std::string strIMGPath = "", bool bLog = true);
 	uint32						merge(std::string strPath, std::vector<std::string>& vecImportedEntryNames);
