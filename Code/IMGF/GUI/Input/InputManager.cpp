@@ -112,6 +112,20 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case UNSELECT_BY_SIZE:							return unselectBySize();
 	case UNSELECT_BY_TYPE:							return unselectByType();
 	case UNSELECT_BY_VERSION:						return unselectByVersion();
+
+	case SORT_BY_INDEX_REVERSE:						return sortByIndexReverse();
+	case SORT_BY_NAME_ASCENDING_09AZ:				return sortByNameAscending09AZ();
+	case SORT_BY_NAME_ASCENDING_AZ09:				return sortByNameAscendingAZ09();
+	case SORT_BY_NAME_DESCENDING_ZA90:				return sortByNameDescendingZA90();
+	case SORT_BY_NAME_DESCENDING_90ZA:				return sortByNameDescending90ZA();
+	case SORT_BY_OFFSET_LOW_HIGH:					return sortByOffsetLowHigh();
+	case SORT_BY_OFFSET_HIGH_LOW:					return sortByOffsetHighLow();
+	case SORT_BY_SIZE_SMALL_BIG:					return sortBySizeSmallBig();
+	case SORT_BY_SIZE_BIG_SMALL:					return sortBySizeBigSmall();
+	case SORT_BY_TYPE_AZ:							return sortByTypeAZ();
+	case SORT_BY_TYPE_ZA:							return sortByTypeZA();
+	case SORT_BY_VERSION_OLD_NEW:					return sortByVersionOldNew();
+	case SORT_BY_VERSION_NEW_OLD:					return sortByVersionNewOld();
 	}
 }
 
@@ -416,8 +430,69 @@ void					InputManager::unselectByVersion(void)
 }
 
 // sort
-void					InputManager::sort(void)
+void					InputManager::sortByIndexReverse(void)
 {
+	m_pTasks->sortByIndexReverse();
+}
+
+void					InputManager::sortByNameAscending09AZ(void)
+{
+	m_pTasks->sortByNameAscending09AZ();
+}
+
+void					InputManager::sortByNameAscendingAZ09(void)
+{
+	m_pTasks->sortByNameAscendingAZ09();
+}
+
+void					InputManager::sortByNameDescendingZA90(void)
+{
+	m_pTasks->sortByNameDescendingZA90();
+}
+
+void					InputManager::sortByNameDescending90ZA(void)
+{
+	m_pTasks->sortByNameDescending90ZA();
+}
+
+void					InputManager::sortByOffsetLowHigh(void)
+{
+	m_pTasks->sortByOffsetLowHigh();
+}
+
+void					InputManager::sortByOffsetHighLow(void)
+{
+	m_pTasks->sortByOffsetHighLow();
+}
+
+void					InputManager::sortBySizeSmallBig(void)
+{
+	m_pTasks->sortBySizeSmallBig();
+}
+
+void					InputManager::sortBySizeBigSmall(void)
+{
+	m_pTasks->sortBySizeBigSmall();
+}
+
+void					InputManager::sortByTypeAZ(void)
+{
+	m_pTasks->sortByTypeAZ();
+}
+
+void					InputManager::sortByTypeZA(void)
+{
+	m_pTasks->sortByTypeZA();
+}
+
+void					InputManager::sortByVersionOldNew(void)
+{
+	m_pTasks->sortByVersionOldNew();
+}
+
+void					InputManager::sortByVersionNewOld(void)
+{
+	m_pTasks->sortByVersionNewOld();
 }
 
 // LST

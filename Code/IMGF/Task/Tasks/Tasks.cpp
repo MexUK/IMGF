@@ -1671,6 +1671,335 @@ void		Tasks::unselectByVersion(void)
 	onCompleteTask();
 }
 
+void		Tasks::sortByIndexReverse(void)
+{
+	onStartTask("sortByIndexReverse");
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	unordered_map<IMGEntry*, uint32> umapEntryIndexes;
+	for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->getEntries())
+	{
+		umapEntryIndexes[pIMGEntry] = pIMGEntry->getIMGFile()->getIndexByEntry(pIMGEntry);
+	}
+
+	auto sortIMGEntries_IndexReverse = [&](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	{
+		return umapEntryIndexes[pIMGEntry1] > umapEntryIndexes[pIMGEntry2];
+	};
+	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_IndexReverse);
+
+	if (uiTotalEntryCount > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->log("Sorted all entries by index (reverse).");
+
+	onCompleteTask();
+}
+
+void		Tasks::sortByNameAscending09AZ(void)
+{
+	onStartTask("sortByNameAscending09AZ");
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	auto sortIMGEntries_NameAscending09AZ = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	{
+		return strcmp(String::toLowerCase(pIMGEntry1->getEntryName()).c_str(), String::toLowerCase(pIMGEntry2->getEntryName()).c_str()) < 0;
+	};
+	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_NameAscending09AZ);
+
+	if (uiTotalEntryCount > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->log("Sorted all entries by name (ascending 0-9 A-Z).");
+
+	onCompleteTask();
+}
+
+void		Tasks::sortByNameAscendingAZ09(void)
+{
+	// todo
+	/*
+	onStartTask("sortByNameAscendingAZ09");
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	auto sortIMGEntries_NameAscendingAZ09 = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	{
+		const char
+			*pEntryName1 = pIMGEntry1->getEntryName().c_str(),
+			*pEntryName2 = pIMGEntry2->getEntryName().c_str();
+		for (uint32 i = 0, j = pIMGEntry1->getEntryName().length(); i < j; i++)
+		{
+			bool
+				bEntry1CharIsDigit = pEntryName1[i] >= 48 && pEntryName1[i] <= 57,
+				bEntry2CharIsDigit = pEntryName2[i] >= 48 && pEntryName2[i] <= 57;
+			if (bEntry1CharIsDigit && !bEntry2CharIsDigit)
+			{
+				return false;
+			}
+			else if (!bEntry1CharIsDigit && bEntry2CharIsDigit)
+			{
+				return true;
+			}
+			else if (bEntry1CharIsDigit && bEntry2CharIsDigit)
+			{
+				continue;
+			}
+			else if (!bEntry1CharIsDigit && !bEntry2CharIsDigit)
+			{
+				continue;
+			}
+		}
+
+		return strcmp(String::toLowerCase(pIMGEntry1->getEntryName()).c_str(), String::toLowerCase(pIMGEntry2->getEntryName()).c_str()) < 0;
+	};
+	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_NameAscendingAZ09);
+
+	if (uiTotalEntryCount > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->log("Sorted all entries by name (ascending A-Z 0-9).");
+
+	onCompleteTask();
+	*/
+}
+
+
+void		Tasks::sortByNameDescendingZA90(void)
+{
+	onStartTask("sortByNameDescendingZA90");
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	auto sortIMGEntries_NameDescendingZA90 = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	{
+		return strcmp(String::toLowerCase(pIMGEntry1->getEntryName()).c_str(), String::toLowerCase(pIMGEntry2->getEntryName()).c_str()) > 0;
+	};
+	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_NameDescendingZA90);
+
+	if (uiTotalEntryCount > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->log("Sorted all entries by name (descending Z-A 9-0).");
+
+	onCompleteTask();
+}
+
+void		Tasks::sortByNameDescending90ZA(void)
+{
+	// todo
+}
+
+void		Tasks::sortByOffsetLowHigh(void)
+{
+	onStartTask("sortByOffsetLowHigh");
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	auto sortIMGEntries_OffsetLowToHigh = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	{
+		return pIMGEntry1->getEntryOffset() < pIMGEntry2->getEntryOffset();
+	};
+	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_OffsetLowToHigh);
+
+	if (uiTotalEntryCount > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->log("Sorted all entries by offset (low to high).");
+
+	onCompleteTask();
+}
+
+void		Tasks::sortByOffsetHighLow(void)
+{
+	onStartTask("sortByOffsetHighLow");
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	auto sortIMGEntries_OffsetHighToLow = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	{
+		return pIMGEntry1->getEntryOffset() > pIMGEntry2->getEntryOffset();
+	};
+	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_OffsetHighToLow);
+
+	if (uiTotalEntryCount > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->log("Sorted all entries by offset (high to low).");
+
+	onCompleteTask();
+}
+
+void		Tasks::sortBySizeSmallBig(void)
+{
+	onStartTask("sortBySizeSmallBig");
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	auto sortIMGEntries_SizeSmallToBig = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	{
+		return pIMGEntry1->getEntrySize() < pIMGEntry2->getEntrySize();
+	};
+	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_SizeSmallToBig);
+
+	if (uiTotalEntryCount > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->log("Sorted all entries by size (small to big).");
+
+	onCompleteTask();
+}
+
+void		Tasks::sortBySizeBigSmall(void)
+{
+	onStartTask("sortBySizeBigSmall");
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	auto sortIMGEntries_SizeBigToSmall = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	{
+		return pIMGEntry1->getEntrySize() > pIMGEntry2->getEntrySize();
+	};
+	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_SizeBigToSmall);
+
+	if (uiTotalEntryCount > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->log("Sorted all entries by size (big to small).");
+
+	onCompleteTask();
+}
+
+void		Tasks::sortByTypeAZ(void)
+{
+	onStartTask("sortByTypeAZ");
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	auto sortIMGEntries_TypeAscending09AZ = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	{
+		return strcmp(String::toLowerCase(pIMGEntry1->getEntryExtension()).c_str(), String::toLowerCase(pIMGEntry2->getEntryExtension()).c_str()) < 0;
+	};
+	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_TypeAscending09AZ);
+
+	if (uiTotalEntryCount > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->log("Sorted all entries by type (ascending 0-9 A-Z).");
+
+	onCompleteTask();
+}
+
+void		Tasks::sortByTypeZA(void)
+{
+	onStartTask("sortByTypeZA");
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	auto sortIMGEntries_TypeDescendingZA90 = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	{
+		return strcmp(String::toLowerCase(pIMGEntry1->getEntryExtension()).c_str(), String::toLowerCase(pIMGEntry2->getEntryExtension()).c_str()) > 0;
+	};
+	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_TypeDescendingZA90);
+
+	if (uiTotalEntryCount > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->log("Sorted all entries by type (descending Z-A 9-0).");
+
+	onCompleteTask();
+}
+
+void		Tasks::sortByVersionOldNew(void)
+{
+	onStartTask("sortByVersionOldNew");
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	auto sortIMGEntries_VersionOldToNew = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	{
+		return pIMGEntry1->getRawVersion() < pIMGEntry2->getRawVersion();
+	};
+	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_VersionOldToNew);
+
+	if (uiTotalEntryCount > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->log("Sorted all entries by version (old to new).");
+
+	onCompleteTask();
+}
+
+void		Tasks::sortByVersionNewOld(void)
+{
+	onStartTask("sortByVersionNewOld");
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	auto sortIMGEntries_VersionNewToOld = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	{
+		return pIMGEntry1->getRawVersion() > pIMGEntry2->getRawVersion();
+	};
+	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_VersionNewToOld);
+
+	if (uiTotalEntryCount > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->log("Sorted all entries by version (new to old).");
+
+	onCompleteTask();
+}
+
 
 
 

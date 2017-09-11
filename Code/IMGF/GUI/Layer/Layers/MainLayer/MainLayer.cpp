@@ -308,39 +308,39 @@ void		MainLayer::addControls(void)
 	pMenuItem2 = pMenu2->addMenuItem("Sort by Index..");
 
 	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Sort by Index (Reverse)");
+	pMenu3->addMenuItem("Sort by Index (Reverse)", SORT_BY_INDEX_REVERSE);
 
 	pMenuItem2 = pMenu2->addMenuItem("Sort by Name..");
 
 	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Sort by Name Ascending (0-9, A-Z)");
-	pMenu3->addMenuItem("Sort by Name Ascending (A-Z, 0-9)");
-	pMenu3->addMenuItem("Sort by Name Descending (Z-A, 9-0)");
-	pMenu3->addMenuItem("Sort by Name Descending (9-0, Z-A)");
+	pMenu3->addMenuItem("Sort by Name Ascending (0-9, A-Z)", SORT_BY_NAME_ASCENDING_09AZ);
+	//pMenu3->addMenuItem("Sort by Name Ascending (A-Z, 0-9)", SORT_BY_NAME_ASCENDING_AZ09);
+	pMenu3->addMenuItem("Sort by Name Descending (Z-A, 9-0)", SORT_BY_NAME_DESCENDING_ZA90);
+	//pMenu3->addMenuItem("Sort by Name Descending (9-0, Z-A)", SORT_BY_NAME_DESCENDING_90ZA);
 
 	pMenuItem2 = pMenu2->addMenuItem("Sort by Offset..");
 
 	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Sort by Offset (Low-High)");
-	pMenu3->addMenuItem("Sort by Offset (High-Low)");
+	pMenu3->addMenuItem("Sort by Offset (Low-High)", SORT_BY_OFFSET_LOW_HIGH);
+	pMenu3->addMenuItem("Sort by Offset (High-Low)", SORT_BY_OFFSET_HIGH_LOW);
 
 	pMenuItem2 = pMenu2->addMenuItem("Sort by Size..");
 
 	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Sort by Size (Small-Big)");
-	pMenu3->addMenuItem("Sort by Size (Big-Small)");
+	pMenu3->addMenuItem("Sort by Size (Small-Big)", SORT_BY_SIZE_SMALL_BIG);
+	pMenu3->addMenuItem("Sort by Size (Big-Small)", SORT_BY_SIZE_BIG_SMALL);
 
 	pMenuItem2 = pMenu2->addMenuItem("Sort by Type..");
 
 	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Sort by Type (A-Z)");
-	pMenu3->addMenuItem("Sort by Type (Z-A)");
+	pMenu3->addMenuItem("Sort by Type (A-Z)", SORT_BY_TYPE_AZ);
+	pMenu3->addMenuItem("Sort by Type (Z-A)", SORT_BY_TYPE_ZA);
 
 	pMenuItem2 = pMenu2->addMenuItem("Sort by Version..");
 
 	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Sort by Version (Old-New)");
-	pMenu3->addMenuItem("Sort by Version (New-Old)");
+	pMenu3->addMenuItem("Sort by Version (Old-New)", SORT_BY_VERSION_OLD_NEW);
+	pMenu3->addMenuItem("Sort by Version (New-Old)", SORT_BY_VERSION_NEW_OLD);
 
 	// LST
 	pMenu1->addMenuItem("LST");

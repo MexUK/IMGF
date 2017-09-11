@@ -97,6 +97,20 @@ public:
 	void						unselectBySize(void);
 	void						unselectByType(void);
 	void						unselectByVersion(void);
+
+	void						sortByIndexReverse(void);
+	void						sortByNameAscending09AZ(void);
+	void						sortByNameAscendingAZ09(void);
+	void						sortByNameDescendingZA90(void);
+	void						sortByNameDescending90ZA(void);
+	void						sortByOffsetLowHigh(void);
+	void						sortByOffsetHighLow(void);
+	void						sortBySizeSmallBig(void);
+	void						sortBySizeBigSmall(void);
+	void						sortByTypeAZ(void);
+	void						sortByTypeZA(void);
+	void						sortByVersionOldNew(void);
+	void						sortByVersionNewOld(void);
 	
 
 
