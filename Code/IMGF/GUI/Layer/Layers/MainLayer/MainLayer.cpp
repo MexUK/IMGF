@@ -229,6 +229,8 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Export all from all tabs into grouped folders by type", EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE);
 	pMenu3->addMenuItem("Export selection from all tabs", EXPORT_SELECTION_FROM_ALL_TABS);
 
+	pMenu2->addMenuItem("Export by IDE", EXPORT_BY_IDE);
+
 	// quick export
 	pMenu1->addMenuItem("Quick Export");
 

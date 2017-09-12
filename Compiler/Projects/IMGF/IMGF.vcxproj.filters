@@ -235,6 +235,12 @@
     <Filter Include="Header Files\GUI\Editor\Base\Tab">
       <UniqueIdentifier>{894af7c2-5f88-4b30-906a-d37d5c76335c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GUI\Layer\Layers\IDEInputWindow">
+      <UniqueIdentifier>{eaa474d0-14a6-4437-bfbe-826dd9b448a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layer\Layers\IDEInputWindow">
+      <UniqueIdentifier>{be2a17f6-74dc-44be-8b0a-50a23a647535}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\IMGF\Globals.cpp">
@@ -380,6 +386,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayerNoTabsOpen.cpp">
       <Filter>Source Files\GUI\Layer\Layers\MainLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\IDEInputWindow\IDEInputLayer.cpp">
+      <Filter>Source Files\GUI\Layer\Layers\IDEInputWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -583,6 +592,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayerNoTabsOpen.h">
       <Filter>Header Files\GUI\Layer\Layers\MainLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\IDEInputWindow\IDEInputWindowResult.h">
+      <Filter>Header Files\GUI\Layer\Layers\IDEInputWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\IDEInputWindow\IDEInputLayer.h">
+      <Filter>Header Files\GUI\Layer\Layers\IDEInputWindow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

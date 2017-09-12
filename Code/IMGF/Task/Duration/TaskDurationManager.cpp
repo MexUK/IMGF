@@ -56,9 +56,9 @@ void				TaskDurationManager::onResumeTask(void)
 		uiTaskPausedDuration = uiResumeTaskTime - m_uiTaskPauseStartTime;
 
 	m_uiTaskPauseStartTime = 0;
-	for (uint32 uiTaskIndex2 : m_vecTaskPauseDurations)
+	for (uint32& uiTaskPauseDuration2 : m_vecTaskPauseDurations)
 	{
-		m_vecTaskPauseDurations[uiTaskIndex2] += uiTaskPausedDuration;
+		uiTaskPauseDuration2 += uiTaskPausedDuration;
 	}
 }
 

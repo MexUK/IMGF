@@ -81,6 +81,7 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case EXPORT_ALL_FROM_ALL_TABS:					return exportAllFromAllTabs();
 	case EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE:		return exportAllFromAllTabsIntoGroupedFoldersByType();
 	case EXPORT_SELECTION_FROM_ALL_TABS:			return exportSelectionFromAllTabs();
+	case EXPORT_BY_IDE:								return exportByIDE();
 
 	case RENAME:									return rename();
 
@@ -268,6 +269,11 @@ void					InputManager::exportAllFromAllTabsIntoGroupedFoldersByType(void)
 void					InputManager::exportSelectionFromAllTabs(void)
 {
 	m_pTasks->exportSelectionFromAllTabs();
+}
+
+void					InputManager::exportByIDE(void)
+{
+	m_pTasks->exportByIDE();
 }
 
 // quick export

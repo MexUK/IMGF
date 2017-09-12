@@ -56,6 +56,7 @@ private:
 	void					exportAllFromAllTabs(void);
 	void					exportAllFromAllTabsIntoGroupedFoldersByType(void);
 	void					exportSelectionFromAllTabs(void);
+	void					exportByIDE(void);
 
 	void					quickExport(void);
 	

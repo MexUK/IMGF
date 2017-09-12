@@ -843,6 +843,86 @@ void		Tasks::exportSelectionFromAllTabs(void)
 	onCompleteTask();
 }
 
+void		Tasks::exportByIDE(void)
+{
+	onStartTask("exportByIDE");
+
+	IDEInputWindowResult ideInputWindowResult = getIMGF()->getWindowManager()->showIDEInputWindow("Export from IMG by IDE", "Choose IDE items to export from the IMG:");
+	if (getIMGF()->getWindowManager()->m_bWindow2Cancelled)
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecIDEFilePaths = openFile("IDE");
+	if (vecIDEFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	string strFolderPath = openFolder("Choose a folder to export the files to.");
+	if (strFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	setMaxProgress(vecIDEFilePaths.size() * 3);
+	vector<string>
+		vecModelSetNames,
+		vecTextureSetNames;
+	for (string& strIDEFilePath : vecIDEFilePaths)
+	{
+		IDEFormat ideFormat;
+		ideFormat.setFilePath(strIDEFilePath);
+		ideFormat.open();
+		ideFormat.unserialize();
+		ideFormat.close();
+		if (ideFormat.doesHaveError())
+		{
+			continue;
+		}
+
+		vector<EIDESection>
+			vecModelSections,
+			vecTextureSections;
+		ideInputWindowResult.getIDESections(vecModelSections, vecTextureSections);
+
+		vecModelSetNames = StdVector::combineVectors(vecModelSetNames, ideFormat.getModelSetNamesInSections(vecModelSections));
+		vecTextureSetNames = StdVector::combineVectors(vecTextureSetNames, ideFormat.getTextureSetNamesInSections(vecTextureSections));
+
+		increaseProgress();
+	}
+
+	setMaxProgress((vecIDEFilePaths.size() * 2) + (vecModelSetNames.size() + vecTextureSetNames.size()));
+	vector<IMGEntry*> vecIMGEntries;
+	for (string& strModelSetName : vecModelSetNames)
+	{
+		IMGEntry *pIMGEntry = getIMGTab()->getIMGFile()->getEntryByName(strModelSetName + ".DFF");
+		if (!pIMGEntry)
+		{
+			continue;
+		}
+		vecIMGEntries.push_back(pIMGEntry);
+		increaseProgress();
+	}
+	for (string& strTextureSetName : vecTextureSetNames)
+	{
+		IMGEntry *pIMGEntry = getIMGTab()->getIMGFile()->getEntryByName(strTextureSetName + ".TXD");
+		if (!pIMGEntry)
+		{
+			continue;
+		}
+		vecIMGEntries.push_back(pIMGEntry);
+		increaseProgress();
+	}
+
+	setMaxProgress(vecIDEFilePaths.size() + (vecModelSetNames.size() + vecTextureSetNames.size()) + vecIMGEntries.size());
+	getIMGTab()->getIMGFile()->exportMultiple(vecIMGEntries, strFolderPath);
+
+	getIMGTab()->logf("Exported %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
+
+	onCompleteTask();
+}
+
 void		Tasks::rename(void)
 {
 	onStartTask("rename");

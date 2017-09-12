@@ -73,6 +73,9 @@ namespace imgf
 	class MainLayer;
 	class MainLayerNoTabsOpen;
 
+	class IDEInputLayer;
+	struct IDEInputWindowResult;
+
 	class WindowManager;
 
 	class MainWindow;

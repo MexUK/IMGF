@@ -268,3 +268,5 @@ fill 0 0 0
 .window2_dropDown:arrow:hover
 fill 0 0 0
 
+.window2_checkBox
+line 0 0 0
