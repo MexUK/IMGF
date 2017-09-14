@@ -249,6 +249,8 @@ void		MainLayer::addControls(void)
 	pMenuItem3 = pMenu3->addMenuItem("Replace by Single Folder", REPLACE_BY_SINGLE_FOLDER);
 	pMenuItem3 = pMenu3->addMenuItem("Replace by Folder Recursively", REPLACE_BY_FOLDER_RECURSIVELY);
 
+	pMenuItem2 = pMenu2->addMenuItem("Replace by IDE", REPLACE_BY_IDE);
+
 	// remove
 	pMenuItem1 = pMenu1->addMenuItem("Remove");
 
@@ -265,12 +267,14 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Remove by Type", REMOVE_BY_TYPE);
 	pMenu3->addMenuItem("Remove by Version", REMOVE_BY_VERSION);
 	
+	pMenu2->addMenuItem("Remove by IDE", REMOVE_BY_IDE);
+
 	// merge
-	pMenuItem1 = pMenu1->addMenuItem("Merge");
+	pMenuItem1 = pMenu1->addMenuItem("Merge", MERGE);
 	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
 	// split
-	pMenu1->addMenuItem("Split");
+	pMenu1->addMenuItem("Split", SPLIT);
 
 	// convert
 	pMenu1->addMenuItem("Convert");
@@ -293,6 +297,8 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Select by Type", SELECT_BY_TYPE);
 	pMenu3->addMenuItem("Select by Version", SELECT_BY_VERSION);
 
+	pMenu2->addMenuItem("Select by IDE", SELECT_BY_IDE);
+
 	pMenuItem2 = pMenu2->addMenuItem("Unselect by..");
 
 	pMenu3 = pMenuItem2->addMenu();
@@ -303,6 +309,8 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Unselect by Type", UNSELECT_BY_TYPE);
 	pMenu3->addMenuItem("Unselect by Version", UNSELECT_BY_VERSION);
 	
+	pMenu2->addMenuItem("Unselect by IDE", UNSELECT_BY_IDE);
+
 	// sort
 	pMenuItem1 = pMenu1->addMenuItem("Sort");
 

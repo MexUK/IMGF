@@ -88,6 +88,7 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case REPLACE_BY_FILES:							return replaceByFiles();
 	case REPLACE_BY_SINGLE_FOLDER:					return replaceBySingleFolder();
 	case REPLACE_BY_FOLDER_RECURSIVELY:				return replaceByFolderRecursively();
+	case REPLACE_BY_IDE:							return replaceByIDE();
 
 	case REMOVE_SELECTED:							return removeSelected();
 	case REMOVE_ALL:								return removeAll();
@@ -97,6 +98,10 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case REMOVE_BY_SIZE:							return removeBySize();
 	case REMOVE_BY_TYPE:							return removeByType();
 	case REMOVE_BY_VERSION:							return removeByVersion();
+	case REMOVE_BY_IDE:								return removeByIDE();
+
+	case MERGE:										return merge();
+	case SPLIT:										return split();
 
 	case SELECT_ALL:								return selectAll();
 	case UNSELECT_ALL:								return unselectAll();
@@ -107,12 +112,14 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case SELECT_BY_SIZE:							return selectBySize();
 	case SELECT_BY_TYPE:							return selectByType();
 	case SELECT_BY_VERSION:							return selectByVersion();
+	case SELECT_BY_IDE:								return selectByIDE();
 	case UNSELECT_BY_INDEX:							return unselectByIndex();
 	case UNSELECT_BY_NAME:							return unselectByName();
 	case UNSELECT_BY_OFFSET:						return unselectByOffset();
 	case UNSELECT_BY_SIZE:							return unselectBySize();
 	case UNSELECT_BY_TYPE:							return unselectByType();
 	case UNSELECT_BY_VERSION:						return unselectByVersion();
+	case UNSELECT_BY_IDE:							return unselectByIDE();
 
 	case SORT_BY_INDEX_REVERSE:						return sortByIndexReverse();
 	case SORT_BY_NAME_ASCENDING_09AZ:				return sortByNameAscending09AZ();
@@ -303,6 +310,11 @@ void					InputManager::replaceByFolderRecursively(void)
 	m_pTasks->replaceByFolderRecursively();
 }
 
+void					InputManager::replaceByIDE(void)
+{
+	m_pTasks->replaceByIDE();
+}
+
 // remove
 void					InputManager::removeSelected(void)
 {
@@ -344,14 +356,21 @@ void					InputManager::removeByVersion(void)
 	m_pTasks->removeByVersion();
 }
 
+void					InputManager::removeByIDE(void)
+{
+	m_pTasks->removeByIDE();
+}
+
 // merge
 void					InputManager::merge(void)
 {
+	m_pTasks->merge();
 }
 
 // split
 void					InputManager::split(void)
 {
+	m_pTasks->split();
 }
 
 // convert
@@ -405,6 +424,11 @@ void					InputManager::selectByVersion(void)
 	m_pTasks->selectByVersion();
 }
 
+void					InputManager::selectByIDE(void)
+{
+	m_pTasks->selectByIDE();
+}
+
 void					InputManager::unselectByIndex(void)
 {
 	m_pTasks->unselectByIndex();
@@ -433,6 +457,11 @@ void					InputManager::unselectByType(void)
 void					InputManager::unselectByVersion(void)
 {
 	m_pTasks->unselectByVersion();
+}
+
+void					InputManager::unselectByIDE(void)
+{
+	m_pTasks->unselectByIDE();
 }
 
 // sort

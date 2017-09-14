@@ -865,57 +865,34 @@ void		Tasks::exportByIDE(void)
 		return onAbortTask();
 	}
 
+	// fetch chosen IDE sections from input window
+	vector<EIDESection>
+		vecModelSections,
+		vecTextureSections;
+	ideInputWindowResult.getIDESections(vecModelSections, vecTextureSections);
+
+	// fetch model and TXD names from IDE file
 	setMaxProgress(vecIDEFilePaths.size() * 3);
-	vector<string>
-		vecModelSetNames,
-		vecTextureSetNames;
-	for (string& strIDEFilePath : vecIDEFilePaths)
-	{
-		IDEFormat ideFormat;
-		ideFormat.setFilePath(strIDEFilePath);
-		ideFormat.open();
-		ideFormat.unserialize();
-		ideFormat.close();
-		if (ideFormat.doesHaveError())
-		{
-			continue;
-		}
 
-		vector<EIDESection>
-			vecModelSections,
-			vecTextureSections;
-		ideInputWindowResult.getIDESections(vecModelSections, vecTextureSections);
+	set<string>
+		stModelNames,
+		stTextureSetNames;
+	IDEManager::getModelAndTextureSetNamesFromFiles(vecIDEFilePaths, stModelNames, stTextureSetNames, vecModelSections, vecTextureSections);
 
-		vecModelSetNames = StdVector::combineVectors(vecModelSetNames, ideFormat.getModelSetNamesInSections(vecModelSections));
-		vecTextureSetNames = StdVector::combineVectors(vecTextureSetNames, ideFormat.getTextureSetNamesInSections(vecTextureSections));
+	// fetch model and TXD names from DFF/TXD files inside IMG file
+	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount());
 
-		increaseProgress();
-	}
+	unordered_map<IMGEntry*, vector<string>>
+		umapIMGModelNames,
+		umapIMGTextureSetNames;
+	getIMGTab()->getIMGFile()->getModelAndTextureSetNamesFromEntries(umapIMGModelNames, umapIMGTextureSetNames);
 
-	setMaxProgress((vecIDEFilePaths.size() * 2) + (vecModelSetNames.size() + vecTextureSetNames.size()));
-	vector<IMGEntry*> vecIMGEntries;
-	for (string& strModelSetName : vecModelSetNames)
-	{
-		IMGEntry *pIMGEntry = getIMGTab()->getIMGFile()->getEntryByName(strModelSetName + ".DFF");
-		if (!pIMGEntry)
-		{
-			continue;
-		}
-		vecIMGEntries.push_back(pIMGEntry);
-		increaseProgress();
-	}
-	for (string& strTextureSetName : vecTextureSetNames)
-	{
-		IMGEntry *pIMGEntry = getIMGTab()->getIMGFile()->getEntryByName(strTextureSetName + ".TXD");
-		if (!pIMGEntry)
-		{
-			continue;
-		}
-		vecIMGEntries.push_back(pIMGEntry);
-		increaseProgress();
-	}
+	// choose IMG entries that have a model name or TXD name found in IDE file
+	vector<IMGEntry*> vecIMGEntries = StdVector::getKeysWithMatchingEntries(umapIMGModelNames, stModelNames);
+	StdVector::addToVector(vecIMGEntries, StdVector::getKeysWithMatchingEntries(umapIMGTextureSetNames, stTextureSetNames));
 
-	setMaxProgress(vecIDEFilePaths.size() + (vecModelSetNames.size() + vecTextureSetNames.size()) + vecIMGEntries.size());
+	// export the IMG entries
+	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount() + vecIMGEntries.size());
 	getIMGTab()->getIMGFile()->exportMultiple(vecIMGEntries, strFolderPath);
 
 	getIMGTab()->logf("Exported %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
@@ -990,6 +967,7 @@ void		Tasks::replaceByFiles(void)
 		IMGEntry *pIMGEntry = getIMGTab()->getEntryByName(strFileName);
 		if (!pIMGEntry)
 		{
+			increaseProgress();
 			continue;
 		}
 
@@ -1033,6 +1011,7 @@ void		Tasks::replaceBySingleFolder(void)
 		IMGEntry *pIMGEntry = getIMGTab()->getEntryByName(strFileName);
 		if (!pIMGEntry)
 		{
+			increaseProgress();
 			continue;
 		}
 
@@ -1076,6 +1055,7 @@ void		Tasks::replaceByFolderRecursively(void)
 		IMGEntry *pIMGEntry = getIMGTab()->getEntryByName(strFileName);
 		if (!pIMGEntry)
 		{
+			increaseProgress();
 			continue;
 		}
 
@@ -1092,6 +1072,96 @@ void		Tasks::replaceByFolderRecursively(void)
 	}
 
 	getIMGTab()->logf("Replaced %u entries recursively by folder.", uiReplacedEntryCount);
+
+	onCompleteTask();
+}
+
+void		Tasks::replaceByIDE(void)
+{
+	onStartTask("replaceByIDE");
+
+	IDEInputWindowResult ideInputWindowResult = getIMGF()->getWindowManager()->showIDEInputWindow("Replace in IMG by IDE", "Choose IDE items to replace in the IMG:");
+	if (getIMGF()->getWindowManager()->m_bWindow2Cancelled)
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecIDEFilePaths = openFile("IDE");
+	if (vecIDEFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecFilePaths = openFile();
+	if (vecFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	// fetch chosen IDE sections from input window
+	vector<EIDESection>
+		vecModelSections,
+		vecTextureSections;
+	ideInputWindowResult.getIDESections(vecModelSections, vecTextureSections);
+
+	// fetch model and TXD names from IDE file
+	setMaxProgress(vecIDEFilePaths.size() * 3);
+
+	set<string>
+		stModelNames,
+		stTextureSetNames;
+	IDEManager::getModelAndTextureSetNamesFromFiles(vecIDEFilePaths, stModelNames, stTextureSetNames, vecModelSections, vecTextureSections);
+
+	// fetch model and TXD names from DFF/TXD files inside IMG file
+	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount());
+
+	unordered_map<IMGEntry*, vector<string>>
+		umapIMGModelNames,
+		umapIMGTextureSetNames;
+	getIMGTab()->getIMGFile()->getModelAndTextureSetNamesFromEntries(umapIMGModelNames, umapIMGTextureSetNames);
+
+	// choose IMG entries that have a model name or TXD name found in IDE file
+	vector<IMGEntry*> vecIMGEntries = StdVector::getKeysWithMatchingEntries(umapIMGModelNames, stModelNames);
+	StdVector::addToVector(vecIMGEntries, StdVector::getKeysWithMatchingEntries(umapIMGTextureSetNames, stTextureSetNames));
+
+	// export the IMG entries
+	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount() + vecFilePaths.size());
+
+	uint32 uiReplacedEntryCount = 0;
+	IMGFormat *pIMGFile = getIMGTab()->getIMGFile();
+	for (string& strFilePath : vecFilePaths)
+	{
+		string strFileName = String::toUpperCase(Path::getFileName(strFilePath));
+
+		IMGEntry *pIMGEntry = nullptr;
+		for (IMGEntry *pIMGEntry2 : vecIMGEntries)
+		{
+			if (strFileName == String::toUpperCase(pIMGEntry2->getEntryName()))
+			{
+				pIMGEntry = pIMGEntry2;
+				break;
+			}
+		}
+
+		if (!pIMGEntry)
+		{
+			increaseProgress();
+			continue;
+		}
+
+		pIMGEntry->replace(strFilePath);
+
+		increaseProgress();
+		uiReplacedEntryCount++;
+	}
+
+	if (uiReplacedEntryCount > 0)
+	{
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->readdGridEntries();
+	}
+
+	getIMGTab()->logf("Replaced %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
 
 	onCompleteTask();
 }
@@ -1366,6 +1436,109 @@ void		Tasks::removeByVersion(void)
 	onCompleteTask();
 }
 
+void		Tasks::removeByIDE(void)
+{
+	onStartTask("removeByIDE");
+
+	IDEInputWindowResult ideInputWindowResult = getIMGF()->getWindowManager()->showIDEInputWindow("Remove from IMG by IDE", "Choose IDE items to remove from the IMG:");
+	if (getIMGF()->getWindowManager()->m_bWindow2Cancelled)
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecIDEFilePaths = openFile("IDE");
+	if (vecIDEFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	// fetch chosen IDE sections from input window
+	vector<EIDESection>
+		vecModelSections,
+		vecTextureSections;
+	ideInputWindowResult.getIDESections(vecModelSections, vecTextureSections);
+
+	// fetch model and TXD names from IDE file
+	setMaxProgress(vecIDEFilePaths.size() * 3);
+
+	set<string>
+		stModelNames,
+		stTextureSetNames;
+	IDEManager::getModelAndTextureSetNamesFromFiles(vecIDEFilePaths, stModelNames, stTextureSetNames, vecModelSections, vecTextureSections);
+
+	// fetch model and TXD names from DFF/TXD files inside IMG file
+	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount());
+
+	unordered_map<IMGEntry*, vector<string>>
+		umapIMGModelNames,
+		umapIMGTextureSetNames;
+	getIMGTab()->getIMGFile()->getModelAndTextureSetNamesFromEntries(umapIMGModelNames, umapIMGTextureSetNames);
+
+	// choose IMG entries that have a model name or TXD name found in IDE file
+	vector<IMGEntry*> vecIMGEntries = StdVector::getKeysWithMatchingEntries(umapIMGModelNames, stModelNames);
+	StdVector::addToVector(vecIMGEntries, StdVector::getKeysWithMatchingEntries(umapIMGTextureSetNames, stTextureSetNames));
+
+	// export the IMG entries
+	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount() + vecIMGEntries.size());
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->removeEntry(pIMGEntry);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	if (vecIMGEntries.size() > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->loadFilter_Type();
+		getIMGTab()->loadFilter_Version();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->logf("Removed %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
+
+	onCompleteTask();
+}
+
+void		Tasks::merge(void)
+{
+	onStartTask("merge");
+	
+	vector<string> vecFilePaths = openFile("img,dir");
+
+	uint32 uiMergeEntryCount = 0;
+	for (string& strFilePath : vecFilePaths)
+	{
+		uiMergeEntryCount += IMGManager::getIMGEntryCount(strFilePath, IMGManager::detectIMGVersion(strFilePath));
+	}
+	setMaxProgress(uiMergeEntryCount);
+
+	vector<string> vecImportedEntryNames;
+	for (string& strFilePath : vecFilePaths)
+	{
+		getIMGTab()->merge(strFilePath, vecImportedEntryNames);
+		vecImportedEntryNames.clear();
+	}
+
+	if (uiMergeEntryCount > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->loadFilter_Type();
+		getIMGTab()->loadFilter_Version();
+		getIMGTab()->updateEntryCountText();
+		getIMGTab()->updateIMGText();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->logf("Merged in %u IMG files (%u entries).", vecFilePaths.size(), uiMergeEntryCount);
+
+	onCompleteTask();
+}
+
+void		Tasks::split(void)
+{
+}
+
 void		Tasks::selectAll(void)
 {
 	onStartTask("selectAll");
@@ -1581,6 +1754,62 @@ void		Tasks::selectByVersion(void)
 	onCompleteTask();
 }
 
+void		Tasks::selectByIDE(void)
+{
+	onStartTask("selectByIDE");
+
+	IDEInputWindowResult ideInputWindowResult = getIMGF()->getWindowManager()->showIDEInputWindow("Select in IMG by IDE", "Choose IDE items to select in the IMG:");
+	if (getIMGF()->getWindowManager()->m_bWindow2Cancelled)
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecIDEFilePaths = openFile("IDE");
+	if (vecIDEFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	// fetch chosen IDE sections from input window
+	vector<EIDESection>
+		vecModelSections,
+		vecTextureSections;
+	ideInputWindowResult.getIDESections(vecModelSections, vecTextureSections);
+
+	// fetch model and TXD names from IDE file
+	setMaxProgress(vecIDEFilePaths.size() * 3);
+
+	set<string>
+		stModelNames,
+		stTextureSetNames;
+	IDEManager::getModelAndTextureSetNamesFromFiles(vecIDEFilePaths, stModelNames, stTextureSetNames, vecModelSections, vecTextureSections);
+
+	// fetch model and TXD names from DFF/TXD files inside IMG file
+	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount());
+
+	unordered_map<IMGEntry*, vector<string>>
+		umapIMGModelNames,
+		umapIMGTextureSetNames;
+	getIMGTab()->getIMGFile()->getModelAndTextureSetNamesFromEntries(umapIMGModelNames, umapIMGTextureSetNames);
+
+	// choose IMG entries that have a model name or TXD name found in IDE file
+	vector<IMGEntry*> vecIMGEntries = StdVector::getKeysWithMatchingEntries(umapIMGModelNames, stModelNames);
+	StdVector::addToVector(vecIMGEntries, StdVector::getKeysWithMatchingEntries(umapIMGTextureSetNames, stTextureSetNames));
+
+	// export the IMG entries
+	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount() + vecIMGEntries.size());
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(true);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	getIMGTab()->logf("Selected %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
+
+	onCompleteTask();
+}
+
 void		Tasks::unselectByIndex(void)
 {
 	onStartTask("unselectByIndex");
@@ -1747,6 +1976,62 @@ void		Tasks::unselectByVersion(void)
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
 	getIMGTab()->logf("Unselected %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::unselectByIDE(void)
+{
+	onStartTask("unselectByIDE");
+
+	IDEInputWindowResult ideInputWindowResult = getIMGF()->getWindowManager()->showIDEInputWindow("Unselect in IMG by IDE", "Choose IDE items to unselect in the IMG:");
+	if (getIMGF()->getWindowManager()->m_bWindow2Cancelled)
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecIDEFilePaths = openFile("IDE");
+	if (vecIDEFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	// fetch chosen IDE sections from input window
+	vector<EIDESection>
+		vecModelSections,
+		vecTextureSections;
+	ideInputWindowResult.getIDESections(vecModelSections, vecTextureSections);
+
+	// fetch model and TXD names from IDE file
+	setMaxProgress(vecIDEFilePaths.size() * 3);
+
+	set<string>
+		stModelNames,
+		stTextureSetNames;
+	IDEManager::getModelAndTextureSetNamesFromFiles(vecIDEFilePaths, stModelNames, stTextureSetNames, vecModelSections, vecTextureSections);
+
+	// fetch model and TXD names from DFF/TXD files inside IMG file
+	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount());
+
+	unordered_map<IMGEntry*, vector<string>>
+		umapIMGModelNames,
+		umapIMGTextureSetNames;
+	getIMGTab()->getIMGFile()->getModelAndTextureSetNamesFromEntries(umapIMGModelNames, umapIMGTextureSetNames);
+
+	// choose IMG entries that have a model name or TXD name found in IDE file
+	vector<IMGEntry*> vecIMGEntries = StdVector::getKeysWithMatchingEntries(umapIMGModelNames, stModelNames);
+	StdVector::addToVector(vecIMGEntries, StdVector::getKeysWithMatchingEntries(umapIMGTextureSetNames, stTextureSetNames));
+
+	// export the IMG entries
+	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount() + vecIMGEntries.size());
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(false);
+		increaseProgress();
+	}
+	getIMGTab()->getEntryGrid()->setActiveItem();
+
+	getIMGTab()->logf("Unselected %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
 
 	onCompleteTask();
 }
@@ -2525,61 +2810,7 @@ void		Tasks::onRequestConvertIMGVersionViaButton(void)
 	onRequestConvertIMGVersion((EIMGVersion)uiRadioButtonIndex);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersionViaButton");
 }
-void		Tasks::onRequestMerge(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestMerge");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestMerge", true);
-		return;
-	}
 
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecPaths = Input::openFile(getIMGF()->getLastUsedDirectory("MERGE"), "IMG");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestMerge", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("MERGE", Path::getDirectory(vecPaths[0]));
-
-	uint32 uiMergeEntryCount = 0;
-	for (auto strPath : vecPaths)
-	{
-		uiMergeEntryCount += IMGManager::getIMGEntryCount(strPath, IMGManager::detectIMGVersion(strPath));
-	}
-	setMaxProgress(uiMergeEntryCount);
-
-	uint32 uiImportedEntryCount = 0;
-	vector<string> vecImportedEntryNames;
-	string strExtendedLog = "";
-	for (auto strPath : vecPaths)
-	{
-		uiImportedEntryCount += getIMGF()->getEntryListTab()->merge(strPath, vecImportedEntryNames);
-
-		strExtendedLog += "[" + Path::getFileName(strPath) + "]\n";
-		strExtendedLog += String::join(vecImportedEntryNames, "\n");
-
-		vecImportedEntryNames.clear();
-	}
-
-	if (vecPaths.size() == 1)
-	{
-		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_61", Path::getFileName(vecPaths[0]).c_str(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str(), uiImportedEntryCount));
-	}
-	else
-	{
-		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_62", vecPaths.size(), Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str(), uiImportedEntryCount));
-	}
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_63"), true);
-	// todo - getIMGF()->getEntryListTab()->log(strExtendedLog, true);
-
-	getIMGF()->getIMGEditor()->refreshActiveTab();
-
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestMerge");
-}
 void		Tasks::onRequestSplitViaButton(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestSplitViaButton");
@@ -8226,9 +8457,9 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	{
 		onRequestConvertIMGVersionViaButton();
 	}
-	else if (strFeatureName == "onRequestMerge")
+	else if (strFeatureName == "merge")
 	{
-		onRequestMerge();
+		merge();
 	}
 	else if (strFeatureName == "onRequestSplitViaButton")
 	{

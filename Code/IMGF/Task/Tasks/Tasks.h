@@ -73,6 +73,7 @@ public:
 	void						replaceByFiles(void);
 	void						replaceBySingleFolder(void);
 	void						replaceByFolderRecursively(void);
+	void						replaceByIDE(void);
 
 	void						removeSelected(void);
 	void						removeAll(void);
@@ -82,6 +83,11 @@ public:
 	void						removeBySize(void);
 	void						removeByType(void);
 	void						removeByVersion(void);
+	void						removeByIDE(void);
+
+	void						merge(void);
+
+	void						split(void);
 
 	void						selectAll(void);
 	void						unselectAll(void);
@@ -92,12 +98,14 @@ public:
 	void						selectBySize(void);
 	void						selectByType(void);
 	void						selectByVersion(void);
+	void						selectByIDE(void);
 	void						unselectByIndex(void);
 	void						unselectByName(void);
 	void						unselectByOffset(void);
 	void						unselectBySize(void);
 	void						unselectByType(void);
 	void						unselectByVersion(void);
+	void						unselectByIDE(void);
 
 	void						sortByIndexReverse(void);
 	void						sortByNameAscending09AZ(void);
@@ -127,7 +135,6 @@ public:
 	void						onRequestRebuildAll(void);
 	void						onRequestConvertIMGVersion(bxgi::EIMGVersion EIMGVersion);
 	void						onRequestConvertIMGVersionViaButton(void);
-	void						onRequestMerge(void);
 	void						onRequestSplitViaButton(void);
 	void						onRequestSplitSelectedEntries(void);
 	void						onRequestSplitViaIDEFile(void);

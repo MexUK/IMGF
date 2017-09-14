@@ -1023,9 +1023,10 @@ void					IMGEditorTab::updateIMGText(void)
 // entry fetching
 IMGEntry*				IMGEditorTab::getEntryByName(string strEntryName)
 {
+	strEntryName = String::toUpperCase(strEntryName);
 	for (IMGEntry *pIMGEntry : getIMGFile()->getEntries())
 	{
-		if (strEntryName == pIMGEntry->getEntryName())
+		if (strEntryName == String::toUpperCase(pIMGEntry->getEntryName()))
 		{
 			return pIMGEntry;
 		}
