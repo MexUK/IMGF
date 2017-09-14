@@ -24,9 +24,7 @@ public:
 	void						render(void);
 
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
-
-	static bool					validateFile(bxgi::IMGFormat *img);
-
+	
 	IMGEditorTab*				addFile(std::string& strFilePath);
 	IMGEditorTab*				addBlankFile(std::string strIMGPath, bxgi::EIMGVersion EIMGVersionValue);
 	IMGEditorTab*				addTabObjectAndTabControl(bxgi::IMGFormat *img);

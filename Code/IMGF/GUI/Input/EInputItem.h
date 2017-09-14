@@ -60,6 +60,8 @@ enum imgf::mainLayer::input::EInputItem
 	MERGE,
 	SPLIT,
 
+	CONVERT_IMG_VERSION,
+
 	SELECT_ALL,
 	UNSELECT_ALL,
 	SELECT_INVERSE,

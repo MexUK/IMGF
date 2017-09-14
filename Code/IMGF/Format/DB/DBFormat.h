@@ -16,7 +16,8 @@ class imgf::DBFormat : public bxcf::Format, public bxcf::VectorPool<imgf::DBEntr
 {
 public:
 	DBFormat(void) : bxcf::Format(true, bxcf::LITTLE_ENDIAN) {}
-	
+	DBFormat(std::string& strFilePathOrData, bool bStringIsFilePath = true) : bxcf::Format(strFilePathOrData, bStringIsFilePath, true, bxcf::LITTLE_ENDIAN) {}
+
 	void								unload(void);
 
 	bool								isIMGEntryFound(bxgi::IMGFormat *pIMGFile, bxgi::IMGEntry *pIMGEntry);
@@ -26,8 +27,8 @@ public:
 	uint32								getDBVersion(void) { return m_uiDBVersion; }
 
 private:
-	void								unserialize(void);
-	void								serialize(void);
+	void								_unserialize(void);
+	void								_serialize(void);
 
 private:
 	uint32								m_uiDBVersion;

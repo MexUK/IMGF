@@ -103,6 +103,8 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case MERGE:										return merge();
 	case SPLIT:										return split();
 
+	case CONVERT_IMG_VERSION:						return convertIMGVersion();
+
 	case SELECT_ALL:								return selectAll();
 	case UNSELECT_ALL:								return unselectAll();
 	case SELECT_INVERSE:							return selectInverse();
@@ -374,8 +376,9 @@ void					InputManager::split(void)
 }
 
 // convert
-void					InputManager::convert(void)
+void					InputManager::convertIMGVersion(void)
 {
+	m_pTasks->convertIMGVersion();
 }
 
 // select

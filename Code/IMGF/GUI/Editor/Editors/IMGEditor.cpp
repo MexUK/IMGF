@@ -78,30 +78,6 @@ void						IMGEditor::init(void)
 	initControls();
 }
 
-// format validation
-bool						IMGEditor::validateFile(IMGFormat *img)
-{
-	if (img->getVersion() == IMG_FASTMAN92)
-	{
-		// check if IMG is fastman92 format and is encrypted
-		if (img->isEncrypted())
-		{
-			Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_21"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_21"), MB_OK);
-			return false;
-		}
-
-		// check if IMG is fastman92 format and has an unsupported game type
-		if (img->getGameType() != 0)
-		{
-			Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_68", img->getGameType()), LocalizationManager::get()->getTranslatedText("UnableToOpenIMG"), MB_OK);
-			return false;
-		}
-	}
-
-	// no errors occurred
-	return true;
-}
-
 // add/remove file
 IMGEditorTab*				IMGEditor::addFile(string& strFilePath)
 {

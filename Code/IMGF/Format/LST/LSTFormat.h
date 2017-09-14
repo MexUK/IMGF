@@ -10,15 +10,16 @@ class imgf::LSTFormat : public bxcf::Format, public bxcf::VectorPool<LSTSection*
 {
 public:
 	LSTFormat(void) : bxcf::Format(false) {}
+	LSTFormat(std::string& strFilePathOrData, bool bStringIsFilePath = true) : bxcf::Format(strFilePathOrData, bStringIsFilePath, false) {}
 
 	void								unload(void);
 
-	LSTSection*						getEntryByName(std::string strName);
+	LSTSection*							getEntryByName(std::string strName);
 	bool								doesEntryExistByName(std::string strName);
 
 private:
-	void								unserialize(void);
-	void								serialize(void);
+	void								_unserialize(void);
+	void								_serialize(void);
 
 	void								unserializeLine(void);
 };

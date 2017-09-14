@@ -89,6 +89,8 @@ public:
 
 	void						split(void);
 
+	void						convertIMGVersion(void);
+
 	void						selectAll(void);
 	void						unselectAll(void);
 	void						selectInverse(void);
@@ -133,9 +135,6 @@ public:
 	void						onRequestRebuild(void);
 	void						onRequestRebuildAs(void);
 	void						onRequestRebuildAll(void);
-	void						onRequestConvertIMGVersion(bxgi::EIMGVersion EIMGVersion);
-	void						onRequestConvertIMGVersionViaButton(void);
-	void						onRequestSplitViaButton(void);
 	void						onRequestSplitSelectedEntries(void);
 	void						onRequestSplitViaIDEFile(void);
 	void						onRequestSplitViaTextLines(void);
@@ -144,14 +143,12 @@ public:
 	void						onRequestSearchSelection(void);
 	void						onRequestFilter(void);
 	void						onRequestFind(bool bFindInAllOpenedFiles = false);
-	void						onRequestExportViaButton(void);
 	void						onRequestExportViaIDEFile(void);
 	void						onRequestExportViaTextLines(void);
 	void						onRequestSortEntries(void);
 	void						onRequestSortButton(void);
 	void						onRequestRemoveViaIDEFile(void);
 	void						onRequestRemoveViaTextLines(void);
-	void						onRequestRemoveViaButton(void);
 	void						onRequestImportViaIDEFile(void);
 	void						onRequestImportViaTextLines(void);
 	void						onRequestNew(bxgi::EIMGVersion EIMGVersion);
@@ -241,6 +238,6 @@ public:
 	void						onRequestExtract2DFXIntoDFFs(void);
 
 private:
-	MainWindow*				m_pMainWindow;
+	MainWindow*					m_pMainWindow;
 	TaskManager*				m_pTaskManager;
 };

@@ -45,6 +45,7 @@
 #include "Format/EFileType.h"
 #include "Event/EInputEvent.h"
 #include "../BXGI/Event/EEvent.h"
+#include "Exception/EExceptionCode.h"
 #include <map>
 #include <algorithm>
 
@@ -282,26 +283,6 @@ bool					IMGEditorTab::unserializeFile(void)
 {
 	IMGFormat *img = getIMGFile();
 
-	if (!img->open())
-	{
-		Input::showMessage("Unable to open IMG file:\r\n\r\n" + img->getFilePath(), "Can't Open File");
-		delete img;
-		return false;
-	}
-
-	if (img->getVersion() == IMG_UNKNOWN)
-	{
-		Input::showMessage("Version of IMG format is not supported:\r\n\r\n" + img->getFilePath(), "IMG Version Not Supported");
-		delete img;
-		return false;
-	}
-
-	if (!getIMGEditor()->validateFile(img))
-	{
-		delete img;
-		return false;
-	}
-
 	/*
 	progress bar: 3 stages
 
@@ -315,14 +296,21 @@ bool					IMGEditorTab::unserializeFile(void)
 	- parsing entry names
 	- adding entries to grid
 	*/
+
+	if (!img->openFile())
+	{
+		return false;
+	}
+	img->readMetaData(); // for progress bar tick count
+
 	uint32
 		uiProgressBarMaxMultiplier = 3,
 		uiProgressBarMax = img->m_uiEntryCount * uiProgressBarMaxMultiplier;
 	getProgressBar()->setMax(uiProgressBarMax);
 
-	if (!img->unserialize2())
+	if (!img->unserialize())
 	{
-		Input::showMessage("Failed to read the IMG file:\r\n\r\n" + img->getFilePath(), "Unable To Read File");
+		Input::showMessage(Format::getErrorReason(img->getErrorCode()) + "\r\n\r\n" + img->getFilePath(), "Can't Open IMG File");
 		delete img;
 		return false;
 	}

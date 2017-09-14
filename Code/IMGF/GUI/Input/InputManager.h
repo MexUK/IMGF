@@ -80,6 +80,8 @@ private:
 	void					merge(void);
 	void					split(void);
 
+	void					convertIMGVersion(void);
+
 	void					selectAll(void);
 	void					unselectAll(void);
 	void					selectInverse(void);
@@ -112,24 +114,11 @@ private:
 	void					sortByVersionOldNew(void);
 	void					sortByVersionNewOld(void);
 
-
-
-
-
-
-
-
-	void					convert(void);
 	void					lst(void);
-
-
-
-
-
 
 	void					settings(void);
 
 private:
-	MainWindow*			m_pMainWindow;
-	Tasks*	m_pTasks;
+	MainWindow*				m_pMainWindow;
+	Tasks*					m_pTasks;
 };

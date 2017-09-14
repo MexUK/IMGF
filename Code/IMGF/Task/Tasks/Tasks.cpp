@@ -1539,6 +1539,78 @@ void		Tasks::split(void)
 {
 }
 
+void		Tasks::convertIMGVersion(void)
+{
+	onStartTask("convertIMGVersion");
+
+	EIMGVersion uiCurrentIMGVersion = getIMGTab()->getIMGFile()->getVersion();
+
+	// show new version selection window
+	vector<string> vecDropDownOptions = { // todo - IMGFormat::getVersionsText()
+		"IMG 1 (GTA III / VC)",
+		"IMG 2 (GTA SA)",
+		"IMG 3 (GTA IV)",
+		"IMG Fastman92"
+	};
+	int32 iNewIMGVersionOptionIndex = getIMGTab()->getWindow()->showDropDownInput("Convert IMG Version", "Convert IMG to version", vecDropDownOptions);
+	if (iNewIMGVersionOptionIndex == -1)
+	{
+		return onAbortTask();
+	}
+
+	// check to remove DIR file
+	if (uiCurrentIMGVersion == IMG_1)
+	{
+		// todo bool bRemoveDIRFile = getIMGTab()->getWindow()->showBoolWindow("Remove DIR file previously associated with IMG file?");
+		bool bRemoveDIRFile = Input::showMessage("Remove DIR file previously associated with IMG file?", "Remove DIR File?") == MB_OK;
+		if (bRemoveDIRFile)
+		{
+			File::removeFile(getIMGTab()->getIMGFile()->getDIRFilePath());
+		}
+	}
+
+	// set new IMG version
+	EIMGVersion uiNewIMGVersion;
+	string strNewIMGVersionText;
+	switch (iNewIMGVersionOptionIndex)
+	{
+	case 0:
+		uiNewIMGVersion = IMG_1;
+		strNewIMGVersionText = "1";
+		break;
+	case 1:
+		uiNewIMGVersion = IMG_2;
+		strNewIMGVersionText = "2";
+		break;
+	case 2:
+		uiNewIMGVersion = IMG_3;
+		strNewIMGVersionText = "3";
+		break;
+	case 3:
+		uiNewIMGVersion = IMG_FASTMAN92;
+		strNewIMGVersionText = "Fastman92";
+		break;
+	}
+	getIMGTab()->getIMGFile()->setVersion(uiNewIMGVersion);
+
+	// check to rebuild
+	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildOnConvert"))
+	{
+		getIMGF()->getEntryListTab()->rebuild();
+	}
+
+	// render
+	getIMGTab()->getIMGEditor()->refreshActiveTab();
+
+	// set modified status
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
+
+	// log
+	getIMGTab()->logf("Converted IMG file to version %s.", strNewIMGVersionText.c_str());
+
+	onCompleteTask();
+}
+
 void		Tasks::selectAll(void)
 {
 	onStartTask("selectAll");
@@ -2381,6 +2453,23 @@ void		Tasks::sortByVersionNewOld(void)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 bool		Tasks::saveAllOpenFiles(bool bCloseAll)
 {
 	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Close2_CloseAll(bCloseAll);
@@ -2544,305 +2633,7 @@ void		Tasks::onRequestRebuildAll(void)
 	getIMGF()->getEntryListTab()->checkForUnknownRWVersionEntries();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRebuildAll");
 }
-void		Tasks::onRequestConvertIMGVersion(EIMGVersion EIMGVersionValue)
-{
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Convert_IMGVersion(EIMGVersionValue);
-	getIMGF()->getTaskManager()->onStartTask("onRequestConvertIMGVersion");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersion", true);
-		return;
-	}
 
-	// fetch data
-	uint32 uiIMGEntryCount = getIMGF()->getEntryListTab()->getIMGFile()->getEntryCount();
-	uint32 ePreviousIMGVersion = getIMGF()->getEntryListTab()->getIMGFile()->getVersion();
-	bool bPreviouslyEncrypted = getIMGF()->getEntryListTab()->getIMGFile()->isEncrypted();
-
-	// also convert entries to appropriate game version?
-	bool bConvertEntries = false;
-	if (ePreviousIMGVersion != IMG_FASTMAN92 && EIMGVersionValue != IMG_FASTMAN92)
-	{
-		bConvertEntries = false; // todo - getIMGF()->getPopupGUIManager()->showConfirmDialog("Also convert entries to appropriate game version?", "Convert Entries?");
-	}
-
-	// calculate progress bar tick count
-	uint32 uiProgressMaxTicks = uiIMGEntryCount * 2;
-	if (ePreviousIMGVersion == IMG_1)
-	{
-		uiProgressMaxTicks += 1;
-	}
-	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildOnConvert"))
-	{
-		uiProgressMaxTicks += uiIMGEntryCount;
-	}
-	if (bConvertEntries)
-	{
-		uiProgressMaxTicks += uiIMGEntryCount;
-	}
-	setMaxProgress(uiProgressMaxTicks);
-
-	/*
-	// remove compression from entries body data in version Fastman92 IMG
-	if (ePreviousIMGVersion == IMG_FASTMAN92)
-	{
-		for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
-		{
-			if (pIMGEntry->isCompressed())
-			{
-				string strEntryNewData;
-				switch(pIMGEntry->getCompressionAlgorithmId())
-				{
-					case COMPRESSION_ZLIB:
-						strEntryNewData = IMGManager::decompressZLib(pIMGEntry->getEntryData(), pIMGEntry->getFUncompressedSize());
-					break;
-					case COMPRESSION_LZ4:
-						strEntryNewData = IMGManager::decompressLZ4(pIMGEntry->getEntryData(), pIMGEntry->getFUncompressedSize());
-					break;
-				}
-				pIMGEntry->setEntryData(strEntryNewData);
-				getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-			}
-		}
-	}
-	
-	// add compression to entries body data in version Fastman92 IMG
-	if (EIMGVersionValue == IMG_FASTMAN92)
-	{
-		for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
-		{
-			if (pIMGEntry->isCompressed())
-			{
-				string strEntryNewData;
-				switch(pIMGEntry->getCompressionAlgorithmId())
-				{
-					case COMPRESSION_ZLIB:
-						strEntryNewData = IMGManager::compressZLib(pIMGEntry->getEntryData());
-					break;
-					case COMPRESSION_LZ4:
-						strEntryNewData = IMGManager::compressLZ4(pIMGEntry->getEntryData());
-					break;
-				}
-				pIMGEntry->setEntryData(strEntryNewData);
-				getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-			}
-		}
-	}
-	*/
-
-	// re-apply compression type to entry data
-	if (ePreviousIMGVersion == IMG_FASTMAN92 && EIMGVersionValue != IMG_FASTMAN92)
-	{
-		for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
-		{
-			pIMGEntry->applyCompression(COMPRESSION_NONE);
-		}
-	}
-
-	// fetch RW versions or resource types
-	if (EIMGVersionValue == IMG_1 || EIMGVersionValue == IMG_2)
-	{
-		getIMGF()->getEntryListTab()->getIMGFile()->unserializERWVersions(); // todo - func name inconsitent with one below - RW / Rage
-	}
-	else
-	{
-		getIMGF()->getEntryListTab()->getIMGFile()->unserializeResourceTypes();
-	}
-
-	// set new IMG version
-	getIMGF()->getEntryListTab()->getIMGFile()->setVersion(EIMGVersionValue);
-
-	// remove dir file?
-	if (ePreviousIMGVersion == IMG_1)
-	{
-		File::removeFile(Path::replaceFileExtension(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath(), "dir"));
-		increaseProgress();
-	}
-
-	// check to convert entries aswell as IMG
-	if (bConvertEntries)
-	{
-		// choose destination version for DFF, TXD and COL files
-		EPlatformedGame eDestGame = UNKNOWN_PLATFORMED_GAME;
-		if (EIMGVersionValue == IMG_1)
-		{
-			eDestGame = PC_GTA_VC;
-		}
-		else if (EIMGVersionValue == IMG_2)
-		{
-			eDestGame = PC_GTA_SA;
-		}
-		RWVersion *pDestRWVersion = eDestGame == UNKNOWN_PLATFORMED_GAME ? nullptr : RWManager::get()->getVersionManager()->getRWVersionFromGame(eDestGame);
-
-		ECOLVersion eDestCOLVersion = COL_UNKNOWN;
-		if (EIMGVersionValue == IMG_1)
-		{
-			eDestCOLVersion = COL_2;
-		}
-		else if (EIMGVersionValue == IMG_2)
-		{
-			eDestCOLVersion = COL_3;
-		}
-
-		// convert entries to appropriate version
-		for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
-		{
-			string strEntryExtensionUpper = String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()));
-			if (GameFormat::isModelExtension(strEntryExtensionUpper))
-			{
-				if (eDestGame == UNKNOWN_PLATFORMED_GAME)
-				{
-					increaseProgress();
-					continue;
-				}
-
-				DFFFormat *pDFFFile = DFFManager::get()->parseViaMemory(pIMGEntry->getEntryData());
-				if (pDFFFile->doesHaveError())
-				{
-					pDFFFile->unload();
-					delete pDFFFile;
-					increaseProgress();
-					continue;
-				}
-
-				pDFFFile->setRWVersion(pDestRWVersion);
-
-				pIMGEntry->setEntryData(pDFFFile->storeViaMemory());
-				getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-				
-				pDFFFile->unload();
-				delete pDFFFile;
-			}
-			else if (strEntryExtensionUpper == "TXD")
-			{
-				if (eDestGame == UNKNOWN_PLATFORMED_GAME)
-				{
-					increaseProgress();
-					continue;
-				}
-
-				TXDFormat *pTXDFile = TXDManager::get()->parseViaMemory(pIMGEntry->getEntryData());
-				if (pTXDFile->doesHaveError())
-				{
-					pTXDFile->unload();
-					delete pTXDFile;
-					increaseProgress();
-					continue;
-				}
-
-				vector<string> vecMipmapsRemoved;
-				pTXDFile->convertToGame(eDestGame, vecMipmapsRemoved);
-
-				pIMGEntry->setEntryData(pTXDFile->serializeViaMemory());
-				getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-				
-				pTXDFile->unload();
-				delete pTXDFile;
-			}
-			else if (strEntryExtensionUpper == "COL")
-			{
-				if (eDestCOLVersion == COL_UNKNOWN)
-				{
-					increaseProgress();
-					continue;
-				}
-
-				COLFormat *pCOLFile = COLManager::get()->parseViaMemory(pIMGEntry->getEntryData());
-				if (pCOLFile->doesHaveError())
-				{
-					pCOLFile->unload();
-					delete pCOLFile;
-					increaseProgress();
-					continue;
-				}
-
-				for (auto pCOLEntry : pCOLFile->getEntries())
-				{
-					pCOLEntry->setCOLVersion(eDestCOLVersion);
-				}
-
-				pIMGEntry->setEntryData(pCOLFile->storeViaMemory());
-				getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-				
-				pCOLFile->unload();
-				delete pCOLFile;
-			}
-
-			increaseProgress();
-		}
-	}
-
-	// log
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_60", IMGManager::getVersionNameWithGames((EIMGVersion)ePreviousIMGVersion, bPreviouslyEncrypted).c_str(), IMGManager::getVersionNameWithGames(EIMGVersionValue, false).c_str()).c_str());
-
-	// rebuild
-	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildOnConvert"))
-	{
-		getIMGF()->getEntryListTab()->rebuild();
-	}
-
-	// render
-	getIMGF()->getIMGEditor()->refreshActiveTab();
-
-	// other
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
-
-	getIMGF()->getEntryListTab()->checkForUnknownRWVersionEntries();
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersion");
-}
-void		Tasks::onRequestConvertIMGVersionViaButton(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestConvertIMGVersionViaButton");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersionViaButton", true);
-		return;
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	uint32 uiRadioButtonIndex = 0; // todo - getIMGF()->getPopupGUIManager()->showConvertDialog("Convert IMG Version", LocalizationManager::get()->getTranslatedText("Convert"));
-	getIMGF()->getTaskManager()->onResumeTask(); 
-	if (uiRadioButtonIndex == 0xFFFFFFFF)
-	{
-		return;
-	}
-
-	onRequestConvertIMGVersion((EIMGVersion)uiRadioButtonIndex);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertIMGVersionViaButton");
-}
-
-void		Tasks::onRequestSplitViaButton(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestSplitViaButton");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaButton", true);
-		return;
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	uint32 uiRadioButtonIndex = 0; // todo - getIMGF()->getPopupGUIManager()->showSplitViaDialog();
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (uiRadioButtonIndex == 0xFFFFFFFF)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaButton", true);
-		return;
-	}
-
-	switch (uiRadioButtonIndex)
-	{
-	case 0:
-		onRequestSplitSelectedEntries();
-		break;
-	case 1:
-		onRequestSplitViaIDEFile();
-		break;
-	case 2:
-		onRequestSplitViaTextLines();
-		break;
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestSplitViaButton", true);
-}
 void		Tasks::onRequestSplitSelectedEntries(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestSplitSelectedEntries");
@@ -3299,41 +3090,7 @@ void		Tasks::onRequestFind(bool bFindInAllOpenedFiles) // from menu
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestFind");
 	*/
 }
-void		Tasks::onRequestExportViaButton(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestExportViaButton");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaButton", true);
-		return;
-	}
 
-	getIMGF()->getTaskManager()->onPauseTask();
-	uint32 uiRadioButtonIndex = 0; // todo - getIMGF()->getPopupGUIManager()->showExportViaDialog();
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (uiRadioButtonIndex == 0xFFFFFFFF)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaButton", true);
-		return;
-	}
-
-	switch (uiRadioButtonIndex)
-	{
-	case 0:
-		exportSelected();
-		break;
-	case 1:
-		onRequestExportViaIDEFile();
-		break;
-	case 2:
-		onRequestExportViaTextLines();
-		break;
-	case 3:
-		onRequestExportViaIPLFile();
-		break;
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaButton");
-}
 void		Tasks::onRequestExportViaIDEFile(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestExportViaIDEFile");
@@ -3731,38 +3488,7 @@ void		Tasks::onRequestRemoveViaTextLines(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaTextLines");
 	*/
 }
-void		Tasks::onRequestRemoveViaButton(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestRemoveViaButton");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaButton", true);
-		return;
-	}
 
-	getIMGF()->getTaskManager()->onPauseTask();
-	uint32 uiRadioButtonIndex = 0; // todo - getIMGF()->getPopupGUIManager()->showRemoveViaDialog();
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (uiRadioButtonIndex == 0xFFFFFFFF)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaButton", true);
-		return;
-	}
-
-	switch (uiRadioButtonIndex)
-	{
-	case 0:
-		removeSelected();
-		break;
-	case 1:
-		onRequestRemoveViaIDEFile();
-		break;
-	case 2:
-		onRequestRemoveViaTextLines();
-		break;
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveViaButton");
-}
 void		Tasks::onRequestImportViaIDEFile(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestImportViaIDEFile");
@@ -8449,21 +8175,13 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	{
 		onRequestRebuildAll();
 	}
-	else if (strFeatureName == "onRequestConvertIMGVersion")
+	else if (strFeatureName == "convertIMGVersion")
 	{
-		onRequestConvertIMGVersion(getIMGF()->getLastUsedValueManager()->getLastUsedValue_Convert_IMGVersion());
-	}
-	else if (strFeatureName == "onRequestConvertIMGVersionViaButton")
-	{
-		onRequestConvertIMGVersionViaButton();
+		convertIMGVersion();
 	}
 	else if (strFeatureName == "merge")
 	{
 		merge();
-	}
-	else if (strFeatureName == "onRequestSplitViaButton")
-	{
-		onRequestSplitViaButton();
 	}
 	else if (strFeatureName == "onRequestSplitSelectedEntries")
 	{
@@ -8509,10 +8227,6 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	{
 		onRequestFind();
 	}
-	else if (strFeatureName == "onRequestExportViaButton")
-	{
-		onRequestExportViaButton();
-	}
 	else if (strFeatureName == "onRequestExportViaIDEFile")
 	{
 		onRequestExportViaIDEFile();
@@ -8536,10 +8250,6 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	else if (strFeatureName == "onRequestRemoveViaTextLines")
 	{
 		onRequestRemoveViaTextLines();
-	}
-	else if (strFeatureName == "onRequestRemoveViaButton")
-	{
-		onRequestRemoveViaButton();
 	}
 	else if (strFeatureName == "onRequestImportViaIDEFile")
 	{

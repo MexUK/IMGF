@@ -13,7 +13,8 @@ void						LSTFormat::unload(void)
 	removeAllEntries();
 }
 
-void						LSTFormat::unserialize(void)
+// serialization
+void						LSTFormat::_unserialize(void)
 {
 	DataReader *pDataReader = DataReader::get();
 	pDataReader->readAndStoreLines();
@@ -21,6 +22,11 @@ void						LSTFormat::unserialize(void)
 	{
 		unserializeLine();
 	}
+}
+
+void						LSTFormat::_serialize(void)
+{
+	// todo - serialize LST format
 }
 
 void						LSTFormat::unserializeLine(void)
@@ -82,11 +88,7 @@ void						LSTFormat::unserializeLine(void)
 	}
 }
 
-void						LSTFormat::serialize(void)
-{
-	// todo - serialize LST format
-}
-
+// fetch entry
 LSTSection*				LSTFormat::getEntryByName(string strName)
 {
 	strName = String::toUpperCase(strName);
@@ -100,6 +102,7 @@ LSTSection*				LSTFormat::getEntryByName(string strName)
 	return nullptr;
 }
 
+// check entry existence
 bool						LSTFormat::doesEntryExistByName(string strName)
 {
 	return getEntryByName(strName) != nullptr;

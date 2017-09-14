@@ -15,7 +15,8 @@ void								DBFormat::unload(void)
 	removeAllEntries();
 }
 
-void								DBFormat::unserialize(void)
+// serialization
+void								DBFormat::_unserialize(void)
 {
 	unload();
 	DataReader *pDataReader = DataReader::get();
@@ -38,7 +39,7 @@ void								DBFormat::unserialize(void)
 	}
 }
 
-void								DBFormat::serialize(void)
+void								DBFormat::_serialize(void)
 {
 	DataWriter *pDataWriter = DataWriter::get();
 
@@ -53,6 +54,20 @@ void								DBFormat::serialize(void)
 	}
 }
 
+// fetch entry
+DBEntry*							DBFormat::getEntryByNameExactCase(string strEntryName)
+{
+	for (auto pDBEntry : getEntries())
+	{
+		if (pDBEntry->getEntryName() == strEntryName)
+		{
+			return pDBEntry;
+		}
+	}
+	return nullptr;
+}
+
+// check entry existence
 bool								DBFormat::isIMGEntryFound(IMGFormat *pIMGFile, IMGEntry *pIMGEntry)
 {
 	DBEntry *pDBEntry = getEntryByNameExactCase(pIMGEntry->getEntryName());
@@ -67,16 +82,4 @@ bool								DBFormat::isIMGEntryFound(IMGFormat *pIMGFile, IMGEntry *pIMGEntry)
 	}
 
 	return true;
-}
-
-DBEntry*							DBFormat::getEntryByNameExactCase(string strEntryName)
-{
-	for (auto pDBEntry : getEntries())
-	{
-		if (pDBEntry->getEntryName() == strEntryName)
-		{
-			return pDBEntry;
-		}
-	}
-	return nullptr;
 }

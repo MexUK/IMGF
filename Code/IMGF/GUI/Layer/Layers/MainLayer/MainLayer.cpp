@@ -208,9 +208,9 @@ void		MainLayer::addControls(void)
 
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Export Selection", EXPORT_SELECTED);
-	pMenu2->addMenuItem("Export All", EXPORT_ALL);
+	pMenu2->addMenuItem("Export All Entries", EXPORT_ALL);
 
-	pMenuItem2 = pMenu2->addMenuItem("Export by..");
+	pMenuItem2 = pMenu2->addMenuItem("Export by Column..");
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Export by Index", EXPORT_BY_INDEX);
 	pMenu3->addMenuItem("Export by Name", EXPORT_BY_NAME);
@@ -219,14 +219,14 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Export by Type", EXPORT_BY_TYPE);
 	pMenu3->addMenuItem("Export by Version", EXPORT_BY_VERSION);
 
-	pMenuItem2 = pMenu2->addMenuItem("Export All into..");
+	pMenuItem2 = pMenu2->addMenuItem("Export All Entries into..");
 	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Export All into Grouped Folders by Type", EXPORT_ALL_INTO_GROUPED_FOLDERS_BY_TYPE);
+	pMenu3->addMenuItem("Export all entries into Grouped Folders by Type", EXPORT_ALL_INTO_GROUPED_FOLDERS_BY_TYPE);
 
 	pMenuItem2 = pMenu2->addMenuItem("Export All Tabs..");
 	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Export all from all tabs", EXPORT_ALL_FROM_ALL_TABS);
-	pMenu3->addMenuItem("Export all from all tabs into grouped folders by type", EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE);
+	pMenu3->addMenuItem("Export all entries from all tabs", EXPORT_ALL_FROM_ALL_TABS);
+	pMenu3->addMenuItem("Export all entries from all tabs into grouped folders by type", EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE);
 	pMenu3->addMenuItem("Export selection from all tabs", EXPORT_SELECTION_FROM_ALL_TABS);
 
 	pMenu2->addMenuItem("Export by IDE", EXPORT_BY_IDE);
@@ -256,8 +256,8 @@ void		MainLayer::addControls(void)
 
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Remove Selection", REMOVE_SELECTED);
-	pMenu2->addMenuItem("Remove All", REMOVE_ALL);
-	pMenuItem2 = pMenu2->addMenuItem("Remove by..");
+	pMenu2->addMenuItem("Remove All Entries", REMOVE_ALL);
+	pMenuItem2 = pMenu2->addMenuItem("Remove by Column..");
 
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Remove by Index", REMOVE_BY_INDEX);
@@ -277,17 +277,23 @@ void		MainLayer::addControls(void)
 	pMenu1->addMenuItem("Split", SPLIT);
 
 	// convert
-	pMenu1->addMenuItem("Convert");
+	pMenuItem1 = pMenu1->addMenuItem("Convert");
+
+	pMenu2 = pMenuItem1->addMenu();
+	pMenuItem2 = pMenu2->addMenuItem("IMG");
+
+	pMenu3 = pMenuItem2->addMenu();
+	pMenuItem3 = pMenu3->addMenuItem("Convert IMG Version", CONVERT_IMG_VERSION);
 
 	// select
 	pMenuItem1 = pMenu1->addMenuItem("Select");
 	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
 	pMenu2 = pMenuItem1->addMenu();
-	pMenu2->addMenuItem("Select All", SELECT_ALL);
-	pMenu2->addMenuItem("Unselect All", UNSELECT_ALL);
+	pMenu2->addMenuItem("Select All Entries", SELECT_ALL);
+	pMenu2->addMenuItem("Unselect All Entries", UNSELECT_ALL);
 	pMenu2->addMenuItem("Select Inverse", SELECT_INVERSE);
-	pMenuItem2 = pMenu2->addMenuItem("Select by..");
+	pMenuItem2 = pMenu2->addMenuItem("Select by Column..");
 
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Select by Index", SELECT_BY_INDEX);
@@ -299,7 +305,7 @@ void		MainLayer::addControls(void)
 
 	pMenu2->addMenuItem("Select by IDE", SELECT_BY_IDE);
 
-	pMenuItem2 = pMenu2->addMenuItem("Unselect by..");
+	pMenuItem2 = pMenu2->addMenuItem("Unselect by Column..");
 
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Unselect by Index", UNSELECT_BY_INDEX);
