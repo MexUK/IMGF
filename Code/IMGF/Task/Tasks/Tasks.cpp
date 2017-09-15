@@ -261,11 +261,10 @@ void		Tasks::chooseFilesToOpen(void)
 	vector<string> vecFilePaths = openFile("img,dir");
 	if (vecFilePaths.size() == 0)
 	{
-		m_pTaskManager->onAbortTask();
-		return;
+		return m_pTaskManager->onAbortTask();
 	}
 
-	for (auto &strFilePath : vecFilePaths)
+	for (string& strFilePath : vecFilePaths)
 	{
 		_openFile(strFilePath);
 	}
@@ -335,6 +334,60 @@ void		Tasks::_openFile(string& strFilePath)
 			Input::showMessage(strExtensionUpper + " files are not supported.\r\n\r\n" + strFilePath, "Format Not Supported");
 		}
 		return onAbortTask();
+	}
+
+	onCompleteTask();
+}
+
+void		Tasks::chooseFolderToOpen(void)
+{
+	onStartTask("chooseFolderToOpen");
+
+	string strFolderPath = openFolder("Choose a folder to open IMG files from.");
+	if (strFolderPath == "")
+	{
+		return m_pTaskManager->onAbortTask();
+	}
+
+	vector<string> vecFileNames = File::getFileNames(strFolderPath);
+	for (string& strFileName : vecFileNames)
+	{
+		string strFileExtension = String::toUpperCase(Path::getFileExtension(strFileName));
+		if (strFileExtension == "IMG" || strFileExtension == "DIR")
+		{
+			_openFile(strFolderPath + strFileName);
+		}
+	}
+
+	onCompleteTask();
+}
+
+void		Tasks::openFolderRecursively(void)
+{
+	onStartTask("openFolderRecursively");
+
+	string strFolderPath = openFolder("Choose a folder to recursively open IMG files from.");
+	if (strFolderPath == "")
+	{
+		return m_pTaskManager->onAbortTask();
+	}
+
+	/*
+	todo - add to File:
+	getFolderNamesInFolder()
+	getFileNamesInFolder(string strExtensionFilters = "")
+	getFolderPathsInFolder()
+	getFilePathsInFolder(string strExtensionFilters = "")
+	getFolderNamesInFolderDeep()
+	getFileNamesInFolderDeep(string strExtensionFilters = "")
+	getFolderPathsInFolderDeep()
+	getFilePathsInFolderDeep(string strExtensionFilters = "")
+	*/
+
+	vector<string> vecFilePaths = File::getFilePaths(strFolderPath, true, false, "img,dir", true);
+	for (string& strFilePath : vecFilePaths)
+	{
+		_openFile(strFilePath);
 	}
 
 	onCompleteTask();
@@ -2509,6 +2562,42 @@ void		Tasks::sortByVersionNewOld(void)
 	}
 
 	getIMGTab()->log("Sorted all entries by version (new to old).");
+
+	onCompleteTask();
+}
+
+void		Tasks::lst(void)
+{
+	onStartTask("lst");
+
+	string strGameFolderPath = openFolder("Choose a game folder to run the LST file on.");
+	if (strGameFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecLSTFilePaths = openFile("LST");
+	if (vecLSTFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	setMaxProgress(vecLSTFilePaths.size());
+
+	LSTProcessingManager *lstProcessingManager = getIMGF()->getLSTProcessingManager();
+	for (string& strLSTFilePath : vecLSTFilePaths)
+	{
+		LSTFormat lstFormat(strLSTFilePath);
+		if (lstFormat.unserialize())
+		{
+			lstProcessingManager->process(&lstFormat);
+		}
+		lstFormat.unload();
+
+		increaseProgress();
+	}
+
+	getIMGTab()->logf("Processed %u LST files.", vecLSTFilePaths.size());
 
 	onCompleteTask();
 }
@@ -6331,43 +6420,7 @@ void		Tasks::onRequestOpenLogFolder(void)
 	ShellExecute(NULL, NULL, String::convertStdStringToStdWString(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath")).c_str(), NULL, NULL, SW_SHOWNORMAL);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenLogFolder");
 }
-void		Tasks::onRequestProcessLSTFile(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestProcessLSTFile");
-	/*
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strGameDirectoryPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("PROCESS_LST__GAME"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strGameDirectoryPath == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestProcessLSTFile", true);
-		return;
-	}
-	strGameDirectoryPath = Path::addSlashToEnd(strGameDirectoryPath);
-	getIMGF()->setLastUsedDirectory("PROCESS_LST__GAME", strGameDirectoryPath);
-	*/
 
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecPaths = Input::openFile(getIMGF()->getLastUsedDirectory("PROCESS_LST__LST"), "LST", false);
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestProcessLSTFile", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("PROCESS_LST__LST", Path::getDirectory(vecPaths[0]));
-
-	LSTFormat *pLSTFile = LSTManager::get()->unserializeFile(vecPaths[0]);
-	if(!pLSTFile->doesHaveError())
-	{
-		getIMGF()->getLSTProcessingManager()->process(pLSTFile);
-	}
-	
-	pLSTFile->unload();
-	delete pLSTFile;
-	
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestProcessLSTFile");
-}
 void		Tasks::onRequestSelectViaIDE(void)
 {
 	/*
@@ -8389,9 +8442,9 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	{
 		onRequestOpenLogFolder();
 	}
-	else if (strFeatureName == "onRequestProcessLSTFile")
+	else if (strFeatureName == "lst")
 	{
-		onRequestProcessLSTFile();
+		lst();
 	}
 	else if (strFeatureName == "onRequestSelectViaIDE")
 	{

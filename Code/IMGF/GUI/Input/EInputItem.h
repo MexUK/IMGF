@@ -20,6 +20,7 @@ enum imgf::mainLayer::input::EInputItem
 	NEW,
 	OPEN_FILES,
 	OPEN_FOLDER,
+	OPEN_FOLDER_RECURSIVELY,
 	CLOSE_FILE,
 	CLOSE_ALL_FILES,
 	SAVE_FILE,
@@ -97,6 +98,8 @@ enum imgf::mainLayer::input::EInputItem
 	SORT_BY_TYPE_ZA,
 	SORT_BY_VERSION_OLD_NEW,
 	SORT_BY_VERSION_NEW_OLD,
+
+	LST,
 
 	SETTINGS
 };

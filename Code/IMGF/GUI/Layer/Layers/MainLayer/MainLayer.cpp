@@ -142,6 +142,7 @@ void		MainLayer::addControls(void)
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);
 	pMenu2->addMenuItem("Open File(s)", OPEN_FILES);
 	pMenu2->addMenuItem("Open Folder", OPEN_FOLDER);
+	pMenu2->addMenuItem("Open Folder Recursively", OPEN_FOLDER_RECURSIVELY);
 
 	pMenuItem1 = pMenu1->addMenuItem("Save", SAVE_FILE);
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);
@@ -366,7 +367,7 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Sort by Version (New-Old)", SORT_BY_VERSION_NEW_OLD);
 
 	// LST
-	pMenu1->addMenuItem("LST");
+	pMenu1->addMenuItem("LST", LST);
 
 
 

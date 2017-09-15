@@ -63,6 +63,7 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 
 	case OPEN_FILES:								return openFiles();
 	case OPEN_FOLDER:								return openFolder();
+	case OPEN_FOLDER_RECURSIVELY:					return openFolderRecursively();
 	case CLOSE_FILE:								return closeFile();
 	case CLOSE_ALL_FILES:							return closeAllFiles();
 	case SAVE_FILE:									return saveFile();
@@ -140,6 +141,8 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case SORT_BY_TYPE_ZA:							return sortByTypeZA();
 	case SORT_BY_VERSION_OLD_NEW:					return sortByVersionOldNew();
 	case SORT_BY_VERSION_NEW_OLD:					return sortByVersionNewOld();
+
+	case LST:										return lst();
 	}
 }
 
@@ -199,7 +202,12 @@ void					InputManager::openFiles(void)
 
 void					InputManager::openFolder(void)
 {
-	//m_pTasks->chooseFolderToOpen();
+	m_pTasks->chooseFolderToOpen();
+}
+
+void					InputManager::openFolderRecursively(void)
+{
+	m_pTasks->openFolderRecursively();
 }
 
 void					InputManager::closeFile(void)
@@ -561,6 +569,7 @@ void					InputManager::sortByVersionNewOld(void)
 // LST
 void					InputManager::lst(void)
 {
+	m_pTasks->lst();
 }
 
 // button press - top right menu

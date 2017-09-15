@@ -38,6 +38,7 @@ private:
 
 	void					openFiles(void);
 	void					openFolder(void);
+	void					openFolderRecursively(void);
 	void					closeFile(void);
 	void					closeAllFiles(void);
 	void					saveFile(void);
