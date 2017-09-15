@@ -61,9 +61,13 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case ANIMATIONS:								return animations();
 	case RADAR:										return radar();
 
-	case OPEN:										return open();
-	case CLOSE:										return close();
-	case SAVE:										return save();
+	case OPEN_FILES:								return openFiles();
+	case OPEN_FOLDER:								return openFolder();
+	case CLOSE_FILE:								return closeFile();
+	case CLOSE_ALL_FILES:							return closeAllFiles();
+	case SAVE_FILE:									return saveFile();
+	case SAVE_FILE_AS:								return saveFileAs();
+	case SAVE_ALL_FILES:							return saveAllFiles();
 
 	case IMPORT_BY_FILES:							return importByFiles();
 	case IMPORT_BY_SINGLE_FOLDER:					return importBySingleFolder();
@@ -188,18 +192,39 @@ void					InputManager::radar(void)
 }
 
 // button press - file menu
-void					InputManager::open(void)
+void					InputManager::openFiles(void)
 {
 	m_pTasks->chooseFilesToOpen();
 }
 
-void					InputManager::close(void)
+void					InputManager::openFolder(void)
 {
-	m_pTasks->closeActiveFile();
+	//m_pTasks->chooseFolderToOpen();
 }
 
-void					InputManager::save(void)
+void					InputManager::closeFile(void)
 {
+	m_pTasks->closeFile();
+}
+
+void					InputManager::closeAllFiles(void)
+{
+	m_pTasks->closeAllFiles();
+}
+
+void					InputManager::saveFile(void)
+{
+	m_pTasks->_saveFile();
+}
+
+void					InputManager::saveFileAs(void)
+{
+	m_pTasks->saveFileAs();
+}
+
+void					InputManager::saveAllFiles(void)
+{
+	m_pTasks->saveAllFiles();
 }
 
 // button press - action menu

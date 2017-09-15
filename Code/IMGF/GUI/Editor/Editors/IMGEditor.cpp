@@ -152,9 +152,14 @@ void						IMGEditor::removeFile(IMGEditorTab *pIMGEditorFile)
 
 	Editor::removeFile(pIMGEditorFile);
 
-	m_pWindow->removeLayer(pIMGEditorFile);
+	mutexRenderItems.lock();
 
+	m_pWindow->removeLayer(pIMGEditorFile);
 	delete pIMGEditorFile;
+
+	mutexRenderItems.unlock();
+
+	mutexRendering.lock();
 
 	if (getTabs().getEntryCount() == 0)
 	{
@@ -165,6 +170,8 @@ void						IMGEditor::removeFile(IMGEditorTab *pIMGEditorFile)
 	{
 		m_pActiveFile->setEnabled(true);
 	}
+
+	mutexRendering.unlock();
 }
 
 void						IMGEditor::removeActiveFile(void)

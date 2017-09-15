@@ -127,6 +127,15 @@ fill 175 175 175
 .topMenu:item:hover .main_lineLeft .main_textAlign .main_spacing
 fill 158 158 158
 
+.topMenu:itemIcon
+fill 0 0 0
+
+.topMenu:itemIcon:active
+fill 0 0 0
+
+.topMenu:itemIcon:hover
+fill 0 0 0
+
 .settingsMenuButton .main_fill_1
 
 .settingsMenuButton:hover

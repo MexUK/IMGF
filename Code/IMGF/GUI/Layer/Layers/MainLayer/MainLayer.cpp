@@ -71,7 +71,7 @@ void		MainLayer::addControls(void)
 	h = uiButtonHeight;
 	strStyleGroup = "topLeftMenu";
 
-	pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, -1, -100);
+	pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, -1, -200);
 	pMenu1->addMenuItem("Formats", FORMATS);
 	pMenu1->addMenuItem("Utility", UTILITY);
 
@@ -135,17 +135,24 @@ void		MainLayer::addControls(void)
 	w2 = w;
 	strStyleGroup = "topMenu";
 
-	pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, -1, -100);
+	pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, -1, -200);
 	pMenu1->addMenuItem("New", NEW);
 
-	pMenuItem1 = pMenu1->addMenuItem("Open", OPEN);
-
+	pMenuItem1 = pMenu1->addMenuItem("Open", OPEN_FILES);
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);
-	pMenu2->addMenuItem("Open Folder");
+	pMenu2->addMenuItem("Open File(s)", OPEN_FILES);
+	pMenu2->addMenuItem("Open Folder", OPEN_FOLDER);
 
-	pMenu1->addMenuItem("Close", CLOSE);
+	pMenuItem1 = pMenu1->addMenuItem("Save", SAVE_FILE);
+	pMenu2 = pMenuItem1->addMenu(VERTICAL);
+	pMenu2->addMenuItem("Save File", SAVE_FILE);
+	pMenu2->addMenuItem("Save As", SAVE_FILE_AS);
+	pMenu2->addMenuItem("Save All", SAVE_ALL_FILES);
 
-	pMenu1->addMenuItem("Save", SAVE);
+	pMenuItem1 = pMenu1->addMenuItem("Close", CLOSE_FILE);
+	pMenu2 = pMenuItem1->addMenu(VERTICAL);
+	pMenu2->addMenuItem("Close File", CLOSE_FILE);
+	pMenu2->addMenuItem("Close All", CLOSE_ALL_FILES);
 
 	// settings icon
 	x += w;

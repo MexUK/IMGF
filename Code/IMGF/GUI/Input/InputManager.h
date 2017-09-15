@@ -36,9 +36,13 @@ private:
 	void					animations(void);
 	void					radar(void);
 
-	void					open(void);
-	void					close(void);
-	void					save(void);
+	void					openFiles(void);
+	void					openFolder(void);
+	void					closeFile(void);
+	void					closeAllFiles(void);
+	void					saveFile(void);
+	void					saveFileAs(void);
+	void					saveAllFiles(void);
 
 	void					importByFiles(void);
 	void					importBySingleFolder(void);

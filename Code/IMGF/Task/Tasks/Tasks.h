@@ -46,9 +46,16 @@ public:
 	void						uninit(void);
 
 	void						chooseFilesToOpen(void); // todo - remove all "onRequest" from start of function names and change first characters to lowercase.
-	void						_openFile(std::string& strFilePath);
-	void						closeActiveFile(void);
-	bool						saveAllOpenFiles(bool bCloseAll);
+	void						_openFile(std::string& strFilePath); // todo - rename to openFile eventually after IO windows renamed to showOpenFileWindow() etc
+	
+	void						_saveFile(void); // todo - rename to saveFile eventually after IO windows renamed to showSaveFileWindow() etc
+	void						saveFileAs(void);
+	void						saveAllFiles(void);
+
+	void						closeFile(void);
+	void						closeAllFiles(void);
+
+	bool						saveAllOpenFiles(bool bCloseAll); // todo - remove parameter?
 
 	void						importByFiles(void);
 	void						importBySingleFolder(void);

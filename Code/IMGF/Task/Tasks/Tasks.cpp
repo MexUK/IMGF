@@ -133,6 +133,7 @@
 #include "Static/AppDataPath.h"
 #include "Static/DataPath.h"
 #include "Layer/Layers/NumericMultiOptionInputLayerResult.h"
+#include "Pool/VectorPool.h"
 #include <gdiplus.h>
 #include <stdio.h>
 #include <algorithm>
@@ -335,22 +336,99 @@ void		Tasks::_openFile(string& strFilePath)
 		}
 		return onAbortTask();
 	}
+
 	onCompleteTask();
 }
 
-void		Tasks::closeActiveFile(void)
+void		Tasks::_saveFile(void)
 {
-	m_pTaskManager->onStartTask("closeFile");
+	onStartTask("saveFile");
+
+	setMaxProgress(getIMGTab()->getIMGFile()->getEntryCount() * 2);
+
+	getIMGTab()->getIMGFile()->serialize();
+
+	getIMGTab()->logf("Saved %s.", Path::getFileName(getIMGTab()->getIMGFile()->getIMGFilePath()).c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::saveFileAs(void)
+{
+	onStartTask("saveFileAs");
+
+	string strNewFilePath = saveFile("img,dir", "New IMG Name.IMG");
+	if (strNewFilePath == "")
+	{
+		return onAbortTask();
+	}
+
+	setMaxProgress(getIMGTab()->getIMGFile()->getEntryCount() * 2);
+
+	getIMGTab()->getIMGFile()->serialize(strNewFilePath);
+
+	getIMGTab()->logf("Saved as %s.", Path::getFileName(strNewFilePath).c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::saveAllFiles(void)
+{
+	onStartTask("saveAllFiles");
+
+	uint32 uiEntryCountAllTabs = 0;
+	for (IMGEditorTab *pIMGEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	{
+		uiEntryCountAllTabs += pIMGEditorTab->getIMGFile()->getEntryCount();
+	}
+	setMaxProgress(uiEntryCountAllTabs * 2);
+
+	for (IMGEditorTab *pIMGEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	{
+		pIMGEditorTab->getIMGFile()->serialize();
+
+		pIMGEditorTab->log("Saved all IMGs.");
+	}
+
+	onCompleteTask();
+}
+
+void		Tasks::closeFile(void)
+{
+	onStartTask("closeFile");
 
 	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose"))
 	{
-		if (Input::showMessage("Save file before closing?", "Auto Save?") == 1)
+		if (Input::showMessage("Save file before closing?\n\n" + getIMGTab()->getIMGFile()->getIMGFilePath(), "Auto Save?") == 1)
 		{
 			saveAllOpenFiles(false);
 		}
 	}
 	m_pMainWindow->getIMGEditor()->removeActiveFile();
-	m_pTaskManager->onCompleteTask();
+
+	onCompleteTask();
+}
+
+void		Tasks::closeAllFiles(void)
+{
+	onStartTask("closeAllFiles");
+
+	bool bConfirmOnClose = getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose");
+
+	vector<IMGEditorTab*> vecIMGTabs = m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries();
+	for (IMGEditorTab *pIMGEditorTab : vecIMGTabs)
+	{
+		if (bConfirmOnClose)
+		{
+			if (Input::showMessage("Save file before closing?\n\n" + pIMGEditorTab->getIMGFile()->getIMGFilePath(), "Auto Save?") == 1)
+			{
+				saveAllOpenFiles(false);
+			}
+		}
+		m_pMainWindow->getIMGEditor()->removeFile(pIMGEditorTab);
+	}
+
+	onCompleteTask();
 }
 
 void		Tasks::importByFiles(void)
@@ -8039,9 +8117,9 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	{
 		openFile(getIMGF()->getLastUsedValueManager()->getLastUsedValue_Open2_IMGPath());
 	}
-	else if (strFeatureName == "closeActiveFile")
+	else if (strFeatureName == "closeFile")
 	{
-		closeActiveFile();
+		closeFile();
 	}
 	else if (strFeatureName == "onRequestCloseAll")
 	{
