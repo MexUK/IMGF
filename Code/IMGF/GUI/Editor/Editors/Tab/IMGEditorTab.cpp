@@ -160,7 +160,7 @@ void					IMGEditorTab::onFileLoaded(void)
 	string strDBFilePath = Path::replaceFileExtension(getIMGFile()->getFilePath(), "db");
 	if (File::doesFileExist(strDBFilePath))
 	{
-		m_pDBFile = DBManager::get()->parseViaFile(strDBFilePath);
+		m_pDBFile = DBManager::get()->unserializeFile(strDBFilePath);
 
 		if (m_pDBFile->doesHaveError())
 		{
@@ -742,7 +742,19 @@ void					IMGEditorTab::removeEntry(IMGEntry *pIMGEntry)
 {
 	getIMGFile()->removeEntry(pIMGEntry);
 	updateEntryCountText();
-	updateIMGText();
+}
+
+void					IMGEditorTab::removeSelectedEntries(void)
+{
+	for (GridRow *pRow : getEntryGrid()->getSelectedRows())
+	{
+		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
+
+		removeEntry(pIMGEntry);
+		Events::trigger(TASK_PROGRESS);
+	}
+
+	updateEntryCountText();
 }
 
 void					IMGEditorTab::removeAllEntries(void)
@@ -1285,53 +1297,17 @@ uint32			IMGEditorTab::merge(string strPath, vector<string>& vecImportedEntryNam
 {
 	return getIMGFile()->merge(strPath, vecImportedEntryNames);
 }
-void					IMGEditorTab::splitSelectedEntries(string strPath, EIMGVersion EIMGVersion, bool bDeleteFromSource, vector<string>& vecSplitEntryNames)
+
+void					IMGEditorTab::splitSelectedEntries(string strNewFilePath, EIMGVersion uiNewIMGVersion, bool bDeleteFromSource)
 {
-	/*
-	todo
-	vector<IMGEntry*> vecIMGEntries;
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	IMGEntry *pIMGEntry = nullptr;
-	if (pos == NULL)
-	{
-		return;
-	}
-
-	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(pListControl->GetSelectedCount() * (bDeleteFromSource ? 2 : 1));
-
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-		vecIMGEntries.push_back(pIMGEntry);
-		vecSplitEntryNames.push_back(pIMGEntry->getEntryName());
-
-		if (bDeleteFromSource)
-		{
-			pListControl->DeleteItem(nItem);
-
-			pos = pListControl->GetFirstSelectedItemPosition();
-		}
-
-		getIMGF()->getTaskManager()->onTaskProgressTick();
-	}
-
-	getIMGFile()->split(vecIMGEntries, strPath, EIMGVersion);
+	getIMGFile()->split(getSelectedEntries(), strNewFilePath, uiNewIMGVersion);
 
 	if (bDeleteFromSource)
 	{
-		for (auto pIMGEntry : vecIMGEntries)
-		{
-			removeEntry(pIMGEntry);
-
-			getIMGF()->getTaskManager()->onTaskProgressTick();
-		}
+		removeSelectedEntries();
 	}
-
-	log(LocalizationManager::get()->getTranslatedFormattedText("Log_128", vecIMGEntries.size(), Path::getFileName(strPath).c_str()));
-	*/
 }
+
 void					IMGEditorTab::replace(vector<string>& vecPaths, vector<string>& vecReplacedEntryNames)
 {
 	vector<IMGEntry*> vecReplacedEntries;
@@ -1692,28 +1668,13 @@ void				IMGEditorTab::reassignEntryIds(void)
 
 vector<IMGEntry*>	IMGEditorTab::getSelectedEntries(void)
 {
-	/*
-	todo
 	vector<IMGEntry*> vecIMGEntries;
-
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	if (pos == NULL)
+	for (GridRow *pGridRow : m_pEntryGrid->getEntries())
 	{
-		return vecIMGEntries;
+		if (pGridRow->isSelected())
+		{
+			vecIMGEntries.push_back((IMGEntry*)pGridRow->getUserData());
+		}
 	}
-
-	IMGEntry *pIMGEntry;
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-		vecIMGEntries.push_back(pIMGEntry);
-	}
-
-	return vecIMGEntries;
-	*/
-	vector<IMGEntry*> vecIMGEntries;
 	return vecIMGEntries;
 }

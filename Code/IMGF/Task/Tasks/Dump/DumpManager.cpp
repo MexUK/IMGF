@@ -145,7 +145,7 @@ void		DumpManager::process(void)
 		}
 		string strDATPath = pDumpDialogData->m_strGameDirectoryPath + DATLoaderManager::getDefaultGameDATSubPath(EPlatformedGameValue);
 
-		DATLoaderFormat *pDATFile = DATLoaderManager::get()->parseViaFile(strDATPath);
+		DATLoaderFormat *pDATFile = DATLoaderManager::get()->unserializeFile(strDATPath);
 		if (!pDATFile->doesHaveError())
 		{
 			vecIMGFormats = pDATFile->parseIMGFiles(pDumpDialogData->m_strGameDirectoryPath);
@@ -160,7 +160,7 @@ void		DumpManager::process(void)
 			string strIMGPath = pDumpDialogData->m_strGameDirectoryPath + strIMGRelativePath;
 			if (File::doesFileExist(strIMGPath))
 			{
-				IMGFormat *pIMGFile = IMGManager::get()->parseViaFile(strIMGPath);
+				IMGFormat *pIMGFile = IMGManager::get()->unserializeFile(strIMGPath);
 				if(!pIMGFile->doesHaveError())
 				{
 					vecIMGFormats.push_back(pIMGFile);
@@ -196,7 +196,7 @@ void		DumpManager::process(void)
 			string strIMGPath = pDumpDialogData->m_strGameDirectoryPath + strIMGRelativePath;
 			if (File::doesFileExist(strIMGPath))
 			{
-				IMGFormat *pIMGFile = IMGManager::get()->parseViaFile(strIMGPath);
+				IMGFormat *pIMGFile = IMGManager::get()->unserializeFile(strIMGPath);
 				if(!pIMGFile->doesHaveError())
 				{
 					vecIMGFormats.push_back(pIMGFile);
@@ -285,7 +285,7 @@ void		DumpManager::process(void)
 						vecTooLargeTXDs.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TXD_MaxSize", pIMGEntry->getEntryName().c_str()));
 					}
 
-					TXDFormat *pTXDFile = TXDManager::get()->parseViaMemory(strTXDData);
+					TXDFormat *pTXDFile = TXDManager::get()->unserializeMemory(strTXDData);
 					if (pTXDFile->doesHaveError())
 					{
 						vecCorruptTXDs.push_back(pIMGEntry->getEntryName());
@@ -338,7 +338,7 @@ void		DumpManager::process(void)
 						{
 							vecTooLargeTXDs.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TXD_MaxSize", pIMGEntry->getEntryName().c_str()));
 						}
-						TXDFormat *pTXDFile = TXDManager::get()->parseViaMemory(strTXDData);
+						TXDFormat *pTXDFile = TXDManager::get()->unserializeMemory(strTXDData);
 						if (pTXDFile->doesHaveError())
 						{
 							vecCorruptTXDs.push_back(pIMGEntry->getEntryName());
@@ -589,7 +589,7 @@ void		DumpManager::process(void)
 					}
 					else if (strEntryExtensionUpper == "WTD")
 					{
-						WTDFormat *pWTDFile = WTDManager::get()->parseViaMemory(pIMGEntry->getEntryData());
+						WTDFormat *pWTDFile = WTDManager::get()->unserializeMemory(pIMGEntry->getEntryData());
 						
 						if (pWTDFile->doesHaveError())
 						{

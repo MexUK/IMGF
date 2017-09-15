@@ -378,7 +378,7 @@ void		SortManager::onClickMenuItem(uint16 usMenuHandle)
 			{
 				getIMGF()->setLastUsedDirectory("SORT_IDE", Path::getDirectory(vecPaths[0]));
 
-				IDEFormat *pIDEFile = IDEManager::get()->parseViaFile(vecPaths[0]);
+				IDEFormat *pIDEFile = IDEManager::get()->unserializeFile(vecPaths[0]);
 				if(!pIDEFile->doesHaveError())
 				{
 					vector<string> vecModelNames = pIDEFile->getModelNames();
@@ -404,7 +404,7 @@ void		SortManager::onClickMenuItem(uint16 usMenuHandle)
 			{
 				getIMGF()->setLastUsedDirectory("SORT_COL", Path::getDirectory(vecPaths[0]));
 
-				COLFormat *pCOLFile = COLManager::get()->parseViaFile(vecPaths[0]);
+				COLFormat *pCOLFile = COLManager::get()->unserializeFile(vecPaths[0]);
 				if(!pCOLFile->doesHaveError())
 				{
 					vector<string> vecEntryNames = StdVector::toUpperCase(pCOLFile->getModelNames());

@@ -120,7 +120,7 @@ DWORD WINAPI		TextureViewer::onThreadStarted(LPVOID lpParam)
 	bool bNotCorrupt = false;
 	if (pTextureViewer->getIMGEntry()->isCollisionFile())
 	{
-		COLFormat *pCOLFile = COLManager::get()->parseViaMemory(pEntryViewerManager->getIMGEntry()->getEntryData());
+		COLFormat *pCOLFile = COLManager::get()->unserializeMemory(pEntryViewerManager->getIMGEntry()->getEntryData());
 		//delete pCOLFile;
 		if (pCOLFile->doesHaveError())
 		{
@@ -183,7 +183,7 @@ void				TextureViewer::prepareRenderData(void)
 
 void				TextureViewer::prepareRenderData_TXD(void)
 {
-	TXDFormat *pTXDFile = TXDManager::get()->parseViaMemory(getIMGEntry()->getEntryData());
+	TXDFormat *pTXDFile = TXDManager::get()->unserializeMemory(getIMGEntry()->getEntryData());
 	if (pTXDFile->doesHaveError())
 	{
 		//string a = pTXDFile->getCorruptReason();
@@ -324,7 +324,7 @@ void				TextureViewer::prepareRenderData_TXD(void)
 
 void				TextureViewer::prepareRenderData_WTD(void)
 {
-	WTDFormat *pWTDFile = WTDManager::get()->parseViaMemory(getIMGEntry()->getEntryData());
+	WTDFormat *pWTDFile = WTDManager::get()->unserializeMemory(getIMGEntry()->getEntryData());
 	if (pWTDFile->doesHaveError())
 	{
 		setEntityDataIsCorrupt(true);

@@ -148,7 +148,7 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 			Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_29", strCOLPath.c_str()), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 			return;
 		}
-		COLFormat *pCOLFile = COLManager::get()->parseViaFile(strCOLPath);
+		COLFormat *pCOLFile = COLManager::get()->unserializeFile(strCOLPath);
 		if(!pCOLFile->doesHaveError())
 		{
 			string strSourceFolderPath = "";

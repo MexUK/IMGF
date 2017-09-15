@@ -95,6 +95,7 @@ public:
 	void						addOrReplaceEntryViaFileAndSettings(std::string strEntryFilePath, std::string strEntryName = ""); // entry is added or replaced depending on settings.
 	void						addOrReplaceEntryViaDataAndSettings(std::string strEntryName, std::string strEntryData); // entry is added or replaced depending on settings.
 	void						removeEntry(bxgi::IMGEntry *pIMGEntry);
+	void						removeSelectedEntries(void);
 	void						removeAllEntries(void);
 
 	void						addGridHeaders(void);
@@ -110,7 +111,7 @@ public:
 
 	void						rebuild(std::string strIMGPath = "", bool bLog = true);
 	uint32						merge(std::string strPath, std::vector<std::string>& vecImportedEntryNames);
-	void						splitSelectedEntries(std::string strPath, bxgi::EIMGVersion EIMGVersion, bool bDeleteFromSource, std::vector<std::string>& vecSplitEntryNames);
+	void						splitSelectedEntries(std::string strNewFilePath, bxgi::EIMGVersion uiNewIMGVersion, bool bDeleteFromSource);
 	void						replace(std::vector<std::string>& vecPaths, std::vector<std::string>& vecReplacedEntryNames);
 	void						searchText(void);
 
