@@ -1274,7 +1274,7 @@ vector<IMGEntry*>		IMGEditorTab::getEntriesByStringMultiOptionValues(uint32 uiEn
 void					IMGEditorTab::rebuild(string strIMGPath, bool bLog)
 {
 	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(getIMGFile()->getEntryCount() * 3);
-	getIMGFile()->serializeViaFile(strIMGPath == "" ? getIMGFile()->getFilePath() : strIMGPath);
+	getIMGFile()->serialize(strIMGPath == "" ? getIMGFile()->getFilePath() : strIMGPath);
 	setIMGModifiedSinceRebuild(false);
 	if (bLog)
 	{

@@ -218,7 +218,7 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 					// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_43"));
 				}
 			}
-			pCOLFile->serializeViaFile();
+			pCOLFile->serialize();
 			pCOLFile->unload();
 		}
 		pCOLFile->unload();

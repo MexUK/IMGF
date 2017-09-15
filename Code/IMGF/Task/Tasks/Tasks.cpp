@@ -6814,7 +6814,7 @@ void		Tasks::onRequestSaveIMGSignature(void)
 	DBFormat *pDBFile = DBManager::get()->createDBFileFromIMGFile(pIMGFile);
 	//DBFormat *pDBFile = getIMGF()->getEntryListTab()->m_pDBFile;
 	string strDBPath = Path::replaceFileExtension(pIMGFile->getFilePath(), "db");
-	pDBFile->storeViaFile(strDBPath);
+	pDBFile->serialize(strDBPath);
 
 	if (getIMGF()->getEntryListTab()->m_pDBFile != nullptr)
 	{
@@ -8986,7 +8986,7 @@ void			Tasks::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 			}
 		}
 
-		pCOLFile->serializeViaFile();
+		pCOLFile->serialize();
 
 		pCOLFile->unload();
 		delete pCOLFile;
@@ -10494,7 +10494,7 @@ void						Tasks::onRequestRemoveOrphanTexturesFromModel(void)
 		}
 
 		IMGEntry *pIMGEntry = vecIMGEntries[i];
-		pIMGEntry->setEntryData(pDFFFile->storeViaMemory());
+		pIMGEntry->setEntryData(pDFFFile->serialize());
 		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 
 		if (bRemovedSection)
@@ -10678,7 +10678,7 @@ void				Tasks::onRequestSortIDEAndIPLFilesByObjectId(void)
 	for (IDEFormat *pIDEFile : veIDEFormats)
 	{
 		pIDEFile->sortAllSectionsByObjectId();
-		pIDEFile->storeViaFile(strOutputFolderPath + Path::getFileName(pIDEFile->getFilePath()));
+		pIDEFile->serialize(strOutputFolderPath + Path::getFileName(pIDEFile->getFilePath()));
 
 		pIDEFile->unload();
 		delete pIDEFile;
@@ -10690,7 +10690,7 @@ void				Tasks::onRequestSortIDEAndIPLFilesByObjectId(void)
 	for (IPLFormat *pIPLFile : veIPLFormats)
 	{
 		pIPLFile->sortAllSectionsByObjectId();
-		pIPLFile->storeViaFile(strOutputFolderPath + Path::getFileName(pIPLFile->getFilePath()));
+		pIPLFile->serialize(strOutputFolderPath + Path::getFileName(pIPLFile->getFilePath()));
 
 		pIPLFile->unload();
 		delete pIPLFile;
@@ -10835,7 +10835,7 @@ void				Tasks::onRequestExtractDVCAndNVColoursIntoDFFs(void)
 			}
 		}
 
-		pDFFFile_Model->storeViaFile(strOutputFolderPath + strDFFFilename_Colours);
+		pDFFFile_Model->serialize(strOutputFolderPath + strDFFFilename_Colours);
 
 		pDFFFile_Model->unload();
 		delete pDFFFile_Model;
@@ -10944,7 +10944,7 @@ void				Tasks::onRequestExtract2DFXIntoDFFs(void)
 
 		pDFFFile_Model->set2dEffects(vec2dEffects);
 
-		pDFFFile_Model->storeViaFile(strOutputFolderPath + strDFFFilename_2DFX);
+		pDFFFile_Model->serialize(strOutputFolderPath + strDFFFilename_2DFX);
 
 		pDFFFile_2DFX->unload();
 		delete pDFFFile_2DFX;
