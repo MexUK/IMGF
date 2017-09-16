@@ -186,16 +186,19 @@ void					IMGEditorTab::addControls(void)
 	int32
 		x, y, w, h, w2;
 	uint32
-		uiButtonHeight = 37;
+		uiButtonHeight, uiLogWidth;
 	string
 		strStyleGroup;
+
+	uiButtonHeight = 37;
+	uiLogWidth = 335;
 
 	// grid
 	Grid *pBlankGrid = m_pEditor->getEntryGrid();
 
 	x = 139 + 139;
 	y = 162 + 30;
-	w = m_pWindow->getSize().x - x;
+	w = m_pWindow->getSize().x - x - uiLogWidth;
 	h = m_pWindow->getSize().y - y;
 
 	m_pEntryGrid = addGrid(x, y, w, h);
@@ -208,7 +211,7 @@ void					IMGEditorTab::addControls(void)
 	// filter - entry type
 	w = 140;
 	w2 = w;
-	x = (m_pWindow->getSize().x - w) - w2;
+	x = m_pWindow->getSize().x - w - w2 - uiLogWidth - 10;
 	y = uiButtonHeight + 82;
 	h = 24;
 	strStyleGroup = "filter";
@@ -218,7 +221,7 @@ void					IMGEditorTab::addControls(void)
 
 	// filter - entry version
 	w = w2;
-	x = m_pWindow->getSize().x - w;
+	x = m_pWindow->getSize().x - w - uiLogWidth - 10;
 
 	m_pEntryVersionFilter = addDropDown(x, y, w, h, "Entry Version", strStyleGroup, -1, -50);
 	m_pEntryVersionFilter->addItem("No file is open", false, false);
@@ -257,10 +260,13 @@ void					IMGEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	Vec2i point;
 	Vec2u size, newSize;
 	int32 iNewX, iNewWidth, iNewHeight;
+	uint32 uiLogWidth;
+
+	uiLogWidth = 335;
 
 	// grid
 	size = m_pEntryGrid->getSize();
-	iNewWidth = m_pWindow->getSize().x - m_pEntryGrid->getPosition().x;
+	iNewWidth = m_pWindow->getSize().x - m_pEntryGrid->getPosition().x - uiLogWidth;
 	iNewHeight = m_pWindow->getSize().y - m_pEntryGrid->getPosition().y;
 	newSize = Vec2u(iNewWidth, iNewHeight);
 	newSize.x -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(VERTICAL)->getBackgroundBarSize().x;
@@ -269,12 +275,12 @@ void					IMGEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 
 	// filter - entry type
 	point = m_pEntryTypeFilter->getPosition();
-	iNewX = (m_pWindow->getSize().x - m_pEntryTypeFilter->getSize().x) - m_pEntryVersionFilter->getSize().x;
+	iNewX = m_pWindow->getSize().x - m_pEntryTypeFilter->getSize().x - m_pEntryVersionFilter->getSize().x - uiLogWidth - 10;
 	m_pEntryTypeFilter->setPosition(Vec2i(iNewX, point.y));
 
 	// filter - entry version
 	point = m_pEntryVersionFilter->getPosition();
-	iNewX = m_pWindow->getSize().x - m_pEntryVersionFilter->getSize().x;
+	iNewX = m_pWindow->getSize().x - m_pEntryVersionFilter->getSize().x - uiLogWidth - 10;
 	m_pEntryVersionFilter->setPosition(Vec2i(iNewX, point.y));
 }
 
@@ -959,7 +965,7 @@ uint32			IMGEditorTab::getMainListViewItemIndexByItemData(IMGEntry *pIMGEntry)
 
 void					IMGEditorTab::updateEntryCountText(void)
 {
-	updateTabText();
+	m_pEditor->setFileInfoText(this);
 
 	/*
 	todo
@@ -979,12 +985,7 @@ void					IMGEditorTab::updateEntryCountText(void)
 
 void					IMGEditorTab::updateTabText(void)
 {
-	string strTabText = Path::getFileName(m_pIMGFile->getFilePath());
-	if (String::toUpperCase(Path::getFileExtension(strTabText)) == "DIR")
-	{
-		strTabText = Path::replaceFileExtensionWithCase(strTabText, "IMG");
-	}
-	strTabText += " (" + String::toString(getFile()->m_uiEntryCount) + ")";
+	string strTabText = Path::getFileName(m_pIMGFile->getIMGFilePath());
 	m_pTab->setText(strTabText);
 }
 

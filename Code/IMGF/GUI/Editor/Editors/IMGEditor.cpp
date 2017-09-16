@@ -83,14 +83,11 @@ IMGEditorTab*				IMGEditor::addFile(string& strFilePath)
 {
 	IMGFormat *img = new IMGFormat(strFilePath);
 
-	IMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img);
+	IMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img, false);
 	if (!imgEditorTab)
 	{
-		img->close();
 		return nullptr;
 	}
-
-	img->close();
 
 	string strFileName = Path::getFileName(img->getFilePath());
 	imgEditorTab->logf("Opened %s", strFileName.c_str());
@@ -104,7 +101,11 @@ IMGEditorTab*				IMGEditor::addBlankFile(string strIMGPath, EIMGVersion EIMGVers
 	img->setFilePath(strIMGPath);
 	img->setVersion(EIMGVersionValue);
 
-	IMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img);
+	IMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img, true);
+	if (!imgEditorTab)
+	{
+		return nullptr;
+	}
 
 	string strFileName = Path::getFileName(img->getFilePath());
 	imgEditorTab->logf("Created %s", strFileName.c_str());
@@ -112,7 +113,7 @@ IMGEditorTab*				IMGEditor::addBlankFile(string strIMGPath, EIMGVersion EIMGVers
 	return imgEditorTab;
 }
 
-IMGEditorTab*				IMGEditor::addTabObjectAndTabControl(IMGFormat *img)
+IMGEditorTab*				IMGEditor::addTabObjectAndTabControl(IMGFormat *img, bool bNewFile)
 {
 	IMGEditorTab *imgEditorTab = m_pWindow->addLayer<IMGEditorTab>(-1, true, -50);
 
@@ -134,13 +135,15 @@ IMGEditorTab*				IMGEditor::addTabObjectAndTabControl(IMGFormat *img)
 	Editor::addFile(imgEditorTab);
 	imgEditorTab->init();
 
-	if (!imgEditorTab->unserializeFile())
+	if (!bNewFile && !imgEditorTab->unserializeFile())
 	{
 		removeFile(imgEditorTab);
 		return nullptr;
 	}
 
 	imgEditorTab->onFileLoaded();
+
+	setActiveFile(imgEditorTab);
 
 	return imgEditorTab;
 }
@@ -187,30 +190,24 @@ void						IMGEditor::removeActiveFile(void)
 // file info text
 void						IMGEditor::setFileInfoText(EditorTab *pEditorFile)
 {
+	IMGEditorTab *pIMGEditorTab = (IMGEditorTab *) pEditorFile;
+
 	MainLayer *pMainLayer = m_pMainWindow->getMainLayer();
 
-	//Debug::log("setFileInfoText start");
-
-	pMainLayer->m_pText_Game->setText(string("A"));
-	pMainLayer->m_pText_GameValidity->setText(string("-"));
-	pMainLayer->m_pText_GameLocation->setText(string("A"));
-	pMainLayer->m_pText_FilEGame->setText(string("A"));
-	pMainLayer->m_pText_FileValidity->setText(string("-"));
-	pMainLayer->m_pText_FileLocation->setText(getResolvedFilePath(pEditorFile->getFile()->getFilePath()));
-
-	//Debug::log("setFileInfoText end");
+	pMainLayer->m_pText_FilePath->setText(pIMGEditorTab->getIMGFile()->getFilePath());
+	pMainLayer->m_pText_FileVersion->setText(IMGManager::getVersionText(pIMGEditorTab->getIMGFile()->getVersion(), pIMGEditorTab->getIMGFile()->isEncrypted()));
+	pMainLayer->m_pText_FileGame->setText(IMGManager::getVersionGames(pIMGEditorTab->getIMGFile()->getVersion()));
+	pMainLayer->m_pText_FileEntryCount->setText(String::toString(pIMGEditorTab->getIMGFile()->getEntryCount()));
 }
 
 void						IMGEditor::clearFileInfoText(void)
 {
 	MainLayer *pMainLayer = m_pMainWindow->getMainLayer();
 
-	pMainLayer->m_pText_Game->setText(string("No file is open"));
-	pMainLayer->m_pText_GameValidity->setText(string("-"));
-	pMainLayer->m_pText_GameLocation->setText(string("-"));
-	pMainLayer->m_pText_FilEGame->setText(string("-"));
-	pMainLayer->m_pText_FileValidity->setText(string("-"));
-	pMainLayer->m_pText_FileLocation->setText(string("-"));
+	pMainLayer->m_pText_FilePath->setText(string("No file is open"));
+	pMainLayer->m_pText_FileVersion->setText(string("-"));
+	pMainLayer->m_pText_FileGame->setText(string("-"));
+	pMainLayer->m_pText_FileEntryCount->setText(string("-"));
 }
 
 
@@ -1056,16 +1053,20 @@ void		IMGEditor::addControls(void)
 	int32
 		x, y, w, h, w2;
 	uint32
+		uiLogWidth;
+	uint32
 		uiButtonHeight = 37;
 	Colour
 		borderColour(50, 50, 50);
 	string
 		strStyleGroup;
 
-	// main editor component - IMG entry list
+	uiLogWidth = 335;
+
+	// grid
 	x = 139 + 139;
 	y = 162 + 30;
-	w = m_pWindow->getSize().x - x;
+	w = m_pWindow->getSize().x - x - uiLogWidth;
 	h = m_pWindow->getSize().y - y;
 	strStyleGroup = "imgEditor_grid";
 
@@ -1078,7 +1079,7 @@ void		IMGEditor::addControls(void)
 	// filter - entry type
 	w = 140;
 	w2 = w;
-	x = (m_pWindow->getSize().x - w) - w2;
+	x = m_pWindow->getSize().x - w - w2 - uiLogWidth - 10;
 	y = uiButtonHeight + 82;
 	h = 24;
 	strStyleGroup = "filter";
@@ -1088,7 +1089,7 @@ void		IMGEditor::addControls(void)
 
 	// filter - entry version
 	w = w2;
-	x = m_pWindow->getSize().x - w;
+	x = m_pWindow->getSize().x - w - uiLogWidth - 10;
 
 	m_pEntryVersionFilter = addDropDown(x, y, w, h, "Entry Version", strStyleGroup, -1, -50);
 	m_pEntryVersionFilter->addItem("No file is open", false, false);
@@ -1107,10 +1108,13 @@ void		IMGEditor::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	Vec2i point;
 	Vec2u size, newSize;
 	int32 iNewX, iNewWidth, iNewHeight;
+	uint32 uiLogWidth;
+
+	uiLogWidth = 335;
 
 	// grid
 	size = m_pEntryGrid->getSize();
-	iNewWidth = m_pWindow->getSize().x - m_pEntryGrid->getPosition().x;
+	iNewWidth = m_pWindow->getSize().x - m_pEntryGrid->getPosition().x - uiLogWidth;
 	iNewHeight = m_pWindow->getSize().y - m_pEntryGrid->getPosition().y;
 	newSize = Vec2u(iNewWidth, iNewHeight);
 	newSize.x -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(VERTICAL)->getBackgroundBarSize().x;
@@ -1119,12 +1123,12 @@ void		IMGEditor::repositionAndResizeControls(Vec2i& vecSizeDifference)
 
 	// filter - entry type
 	point = m_pEntryTypeFilter->getPosition();
-	iNewX = (m_pWindow->getSize().x - m_pEntryTypeFilter->getSize().x) - m_pEntryVersionFilter->getSize().x;
+	iNewX = (m_pWindow->getSize().x - m_pEntryTypeFilter->getSize().x) - m_pEntryVersionFilter->getSize().x - uiLogWidth - 10;
 	m_pEntryTypeFilter->setPosition(Vec2i(iNewX, point.y));
 
 	// filter - entry version
 	point = m_pEntryVersionFilter->getPosition();
-	iNewX = m_pWindow->getSize().x - m_pEntryVersionFilter->getSize().x;
+	iNewX = m_pWindow->getSize().x - m_pEntryVersionFilter->getSize().x - uiLogWidth - 10;
 	m_pEntryVersionFilter->setPosition(Vec2i(iNewX, point.y));
 }
 

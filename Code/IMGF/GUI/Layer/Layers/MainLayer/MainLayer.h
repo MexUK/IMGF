@@ -43,10 +43,8 @@ public:
 	bxgx::Line*					m_pSettingsButtonLine2;
 	bxgx::Line*					m_pSettingsButtonLine3;
 
-	bxgx::Text*					m_pText_Game;
-	bxgx::Text*					m_pText_GameValidity;
-	bxgx::Text*					m_pText_GameLocation;
-	bxgx::Text*					m_pText_FilEGame;
-	bxgx::Text*					m_pText_FileValidity;
-	bxgx::Text*					m_pText_FileLocation;
+	bxgx::Text*					m_pText_FilePath;
+	bxgx::Text*					m_pText_FileVersion;
+	bxgx::Text*					m_pText_FileGame;
+	bxgx::Text*					m_pText_FileEntryCount;
 };

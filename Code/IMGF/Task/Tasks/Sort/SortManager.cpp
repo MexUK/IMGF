@@ -449,6 +449,6 @@ void		SortManager::onClickMenuItem(uint16 usMenuHandle)
 
 	if (!bCancel)
 	{
-		getIMGF()->getTaskManager()->getDispatch()->onRequestSortEntries();
+		// todo getIMGF()->getTaskManager()->getDispatch()->onRequestSortEntries();
 	}
 }

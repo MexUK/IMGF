@@ -61,6 +61,8 @@ void							TaskManager::onCompleteTask(void)
 	m_pTaskDurationManager->onCompleteTask(strTaskName);
 
 	// auto save
+	/*
+	todo
 	if (getIMGF()->getSettingsManager()->getSettingBool("AutoSave"))
 	{
 		if (strTaskName != "onRequestOpen" &&
@@ -81,6 +83,7 @@ void							TaskManager::onCompleteTask(void)
 			getIMGF()->getTaskManager()->getDispatch()->onRequestRebuild();
 		}
 	}
+	*/
 
 	// clean up
 	m_vecActiveTaskNames.pop_back();

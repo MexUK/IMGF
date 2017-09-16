@@ -61,6 +61,7 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case ANIMATIONS:								return animations();
 	case RADAR:										return radar();
 
+	case NEW_FILE:									return _newFile();
 	case OPEN_FILES:								return openFiles();
 	case OPEN_FOLDER:								return openFolder();
 	case OPEN_FOLDER_RECURSIVELY:					return openFolderRecursively();
@@ -73,6 +74,7 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case IMPORT_BY_FILES:							return importByFiles();
 	case IMPORT_BY_SINGLE_FOLDER:					return importBySingleFolder();
 	case IMPORT_BY_FOLDER_RECURSIVELY:				return importByFolderRecursively();
+	case IMPORT_BY_IDE:								return importByIDE();
 
 	case EXPORT_SELECTED:							return exportSelected();
 	case EXPORT_ALL:								return exportAll();
@@ -195,6 +197,11 @@ void					InputManager::radar(void)
 }
 
 // button press - file menu
+void					InputManager::_newFile(void)
+{
+	m_pTasks->_newFile();
+}
+
 void					InputManager::openFiles(void)
 {
 	m_pTasks->chooseFilesToOpen();
@@ -250,6 +257,11 @@ void					InputManager::importBySingleFolder(void)
 void					InputManager::importByFolderRecursively(void)
 {
 	m_pTasks->importByFolderRecursively();
+}
+
+void					InputManager::importByIDE(void)
+{
+	m_pTasks->importByIDE();
 }
 
 // export

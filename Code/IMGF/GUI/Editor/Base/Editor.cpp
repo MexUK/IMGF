@@ -39,7 +39,6 @@ void								Editor::addFile(EditorTab *pEditorFile)
 {
 	// store file object
 	m_vecTabs.addEntry(pEditorFile);
-	setActiveFile(pEditorFile);
 }
 
 void								Editor::removeFile(EditorTab *pEditorFile)

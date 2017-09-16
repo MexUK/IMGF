@@ -45,6 +45,7 @@ public:
 	void						init(void);
 	void						uninit(void);
 
+	void						_newFile(void);
 	void						chooseFilesToOpen(void); // todo - remove all "onRequest" from start of function names and change first characters to lowercase.
 	void						_openFile(std::string& strFilePath); // todo - rename to openFile eventually after IO windows renamed to showOpenFileWindow() etc
 	void						chooseFolderToOpen(void);
@@ -62,6 +63,7 @@ public:
 	void						importByFiles(void);
 	void						importBySingleFolder(void);
 	void						importByFolderRecursively(void);
+	void						importByIDE(void);
 
 	void						exportSelected(void);
 	void						exportAll(void);

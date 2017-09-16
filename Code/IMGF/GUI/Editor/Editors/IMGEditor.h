@@ -27,7 +27,7 @@ public:
 	
 	IMGEditorTab*				addFile(std::string& strFilePath);
 	IMGEditorTab*				addBlankFile(std::string strIMGPath, bxgi::EIMGVersion EIMGVersionValue);
-	IMGEditorTab*				addTabObjectAndTabControl(bxgi::IMGFormat *img);
+	IMGEditorTab*				addTabObjectAndTabControl(bxgi::IMGFormat *img, bool bNewFile);
 
 	void						removeFile(IMGEditorTab *pIMGEditorFile);
 	void						removeActiveFile(void);

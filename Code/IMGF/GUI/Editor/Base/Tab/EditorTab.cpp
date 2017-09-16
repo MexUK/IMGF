@@ -37,10 +37,11 @@ uint32						EditorTab::getTabIndex(void)
 void						EditorTab::addControls(void)
 {
 	int32 x, y;
-	uint32 w, h, w2, h2, uiTitleBarHeight, uiButtonHeight;
+	uint32 w, h, w2, h2, uiTitleBarHeight, uiButtonHeight, uiLogWidth;
 
 	uiTitleBarHeight = m_pWindow->getTitleBarHeight();
 	uiButtonHeight = 37;
+	uiLogWidth = 335;
 
 	// log
 	TextBox *pBlankLog = getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->getLog();
@@ -57,7 +58,7 @@ void						EditorTab::addControls(void)
 	w2 = 139;
 	x = 139 + 139 + (4 * w2);
 	y = uiTitleBarHeight;
-	w = (m_pWindow->getSize().x - x) - (uiButtonHeight + 1);
+	w = m_pWindow->getSize().x - x - (uiButtonHeight + 1);
 	h = uiButtonHeight;
 
 	m_pSearchBox = addTextBox(x, y, w, h, "Search", false, "filter");
@@ -66,7 +67,7 @@ void						EditorTab::addControls(void)
 	w = 150;
 	w2 = 10;
 	h2 = uiButtonHeight + 10;
-	x = (m_pWindow->getSize().x - w2) - w;
+	x = m_pWindow->getSize().x - w2 - w - uiLogWidth;
 	y = uiTitleBarHeight + h2;
 	h = 5;
 
@@ -91,13 +92,14 @@ void						EditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	Vec2i point;
 	Vec2u size;
 	int32 iNewX, iNewWidth;
-	uint32 uiButtonHeight;
+	uint32 uiButtonHeight, uiLogWidth;
 
 	uiButtonHeight = 37;
+	uiLogWidth = 335;
 
 	// progress bar
 	point = m_pProgressBar->getPosition();
-	iNewX = (m_pWindow->getSize().x - m_pProgressBar->getSize().x) - 10;
+	iNewX = m_pWindow->getSize().x - m_pProgressBar->getSize().x - uiLogWidth - 10;
 	m_pProgressBar->setPosition(Vec2i(iNewX, point.y));
 
 	// search box

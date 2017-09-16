@@ -55,14 +55,17 @@ void		MainLayer::addControls(void)
 	int32
 		x, y, y2, w, h, w2, h2, h3;
 	uint32
-		uiTitleBarHeight = getWindow()->getTitleBarHeight(),
-		uiButtonHeight = 37;
+		uiTitleBarHeight, uiButtonHeight, uiLogWidth;
 	Menu
 		*pMenu1, *pMenu2, *pMenu3, *pMenu4;
 	MenuItem
 		*pMenuItem1, *pMenuItem2, *pMenuItem3;
 	string
 		strStyleGroup;
+
+	uiTitleBarHeight = getWindow()->getTitleBarHeight();
+	uiButtonHeight = 37;
+	uiLogWidth = 335;
 
 	// top left menu
 	x = 0;
@@ -77,55 +80,34 @@ void		MainLayer::addControls(void)
 
 	// game information headers
 	x = 149 + 139;
-	y = (uiTitleBarHeight - 1) + uiButtonHeight + 6;
+	y = (uiTitleBarHeight - 1) + uiButtonHeight + 10;
 	y2 = y;
-	w = 150;
+	w = 80;
 	h = 20;
-	h2 = 15;
+	h2 = 20;
 	strStyleGroup = "gameInfoText";
 
+	addText(x, y, w, h, "Path", strStyleGroup, -1, -150);
+	y += h2;
+	addText(x, y, w, h, "Version", strStyleGroup, -1, -150);
+	y += h2;
 	addText(x, y, w, h, "Game", strStyleGroup, -1, -150);
 	y += h2;
-	addText(x, y, w, h, "Game Validity", strStyleGroup, -1, -150);
-	y += h2;
-	addText(x, y, w, h, "Game Location", strStyleGroup, -1, -150);
-	y += h2;
-	addText(x, y, w, h, "File Game", strStyleGroup, -1, -150);
-	y += h2;
-	addText(x, y, w, h, "File Validity", strStyleGroup, -1, -150);
-	y += h2;
-	addText(x, y, w, h, "File Location", strStyleGroup, -1, -150);
+	addText(x, y, w, h, "Entries", strStyleGroup, -1, -150);
 
 	// game information values
-	x += 149;
+	x += 90;
 	y = y2;
-	w = 657;
-	w2 = 350;
+	w = 500;
+	w2 = 200;
 
-	/*
-	addText(x, y, w, h, "GTA Vice City (PC, 1.0)", strStyleGroup);
+	m_pText_FilePath = addText(x, y, w, h, "No file is open", strStyleGroup, -1, -150);
 	y += h2;
-	addText(x, y, w, h, "Launchable", strStyleGroup);
+	m_pText_FileVersion = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
 	y += h2;
-	addText(x, y, w, h, "C:/Program Files (x86)/Rockstar Games/Grand Theft Auto Vice City", strStyleGroup);
+	m_pText_FileGame = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
 	y += h2;
-	addText(x, y, w, h, "GTA Vice City (PC, RW 11.22.33.44)", strStyleGroup);
-	y += h2;
-	addText(x, y, w, h, "Valid", strStyleGroup);
-	y += h2;
-	addText(x, y, w, h, "C:/Program Files (x86)/Rockstar Games/Grand Theft Auto Vice City/DATA/maps/a.txd", strStyleGroup);
-	*/
-	m_pText_Game = addText(x, y, w2, h, "No file is open", strStyleGroup, -1, -150);
-	y += h2;
-	m_pText_GameValidity = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
-	y += h2;
-	m_pText_GameLocation = addText(x, y, w, h, "-", strStyleGroup, -1, -150);
-	y += h2;
-	m_pText_FilEGame = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
-	y += h2;
-	m_pText_FileValidity = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
-	y += h2;
-	m_pText_FileLocation = addText(x, y, w, h, "-", strStyleGroup, -1, -150);
+	m_pText_FileEntryCount = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
 
 	// top menu - buttons
 	x = 139 + 139;
@@ -136,7 +118,7 @@ void		MainLayer::addControls(void)
 	strStyleGroup = "topMenu";
 
 	pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, -1, -200);
-	pMenu1->addMenuItem("New", NEW);
+	pMenu1->addMenuItem("New", NEW_FILE);
 
 	pMenuItem1 = pMenu1->addMenuItem("Open", OPEN_FILES);
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);
@@ -172,7 +154,7 @@ void		MainLayer::addControls(void)
 	// files tab bar
 	x = 139 + 139;
 	y = 162;
-	w = m_pWindow->getSize().x - x;
+	w = m_pWindow->getSize().x - x - uiLogWidth;
 	h = 30;
 	strStyleGroup = "fileTabBar";
 
@@ -205,11 +187,14 @@ void		MainLayer::addControls(void)
 
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Import by File(s)", IMPORT_BY_FILES);
-	pMenuItem2 = pMenu2->addMenuItem("Import by Folder(s)");
 
+	pMenuItem2 = pMenu2->addMenuItem("Import by Folder(s)");
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Import by Single Folder", IMPORT_BY_SINGLE_FOLDER);
 	pMenu3->addMenuItem("Import by Folder Recursively", IMPORT_BY_FOLDER_RECURSIVELY);
+
+	pMenu2->addMenuItem("Import by IDE", IMPORT_BY_IDE);
+
 
 	// export
 	pMenuItem1 = pMenu1->addMenuItem("Export");
@@ -282,7 +267,11 @@ void		MainLayer::addControls(void)
 	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
 	// split
-	pMenu1->addMenuItem("Split", SPLIT);
+	pMenu1->addMenuItem("Split");
+
+	pMenu2 = pMenuItem1->addMenu();
+	pMenuItem2 = pMenu2->addMenuItem("Split Selection", SPLIT);
+	pMenuItem2 = pMenu2->addMenuItem("Split by IDE");
 
 	// convert
 	pMenuItem1 = pMenu1->addMenuItem("Convert");
@@ -369,6 +358,24 @@ void		MainLayer::addControls(void)
 	// LST
 	pMenu1->addMenuItem("LST", LST);
 
+	// entry
+	pMenu1->addMenuItem("Entry");
+
+	// missing entries
+	pMenu1->addMenuItem("Missing Entries");
+
+	// orphan entries
+	pMenu1->addMenuItem("Orphan Entries");
+
+	// tools
+	pMenu1->addMenuItem("Tools");
+
+	// other
+	pMenu1->addMenuItem("Other");
+
+
+
+
 
 
 
@@ -397,11 +404,14 @@ void		MainLayer::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	Vec2i point;
 	Vec2u size;
 	int32 x, y, iNewX, iNewWidth;
-	uint32 uiButtonHeight = 37;
+	uint32 uiButtonHeight, uiLogWidth;
+
+	uiButtonHeight = 37;
+	uiLogWidth = 335;
 
 	// tab bar
 	size = m_pTabBar->getSize();
-	iNewWidth = pWindow->getSize().x - m_pTabBar->getPosition().x;
+	iNewWidth = pWindow->getSize().x - m_pTabBar->getPosition().x - uiLogWidth;
 	m_pTabBar->setSize(Vec2u(iNewWidth, size.y));
 
 	// settings icon

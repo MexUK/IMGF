@@ -36,6 +36,7 @@ private:
 	void					animations(void);
 	void					radar(void);
 
+	void					_newFile(void);
 	void					openFiles(void);
 	void					openFolder(void);
 	void					openFolderRecursively(void);
@@ -48,6 +49,7 @@ private:
 	void					importByFiles(void);
 	void					importBySingleFolder(void);
 	void					importByFolderRecursively(void);
+	void					importByIDE(void);
 
 	void					exportSelected(void);
 	void					exportAll(void);

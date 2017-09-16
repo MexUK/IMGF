@@ -379,8 +379,7 @@ EditorTab*			IMGF::getActiveTab(void)
 IMGEditor*			IMGF::getIMGEditor(void)
 {
 	MainWindow *pIMGFWindow = (MainWindow*) BXGX::get()->getEntryByIndex(0);
-	IMGEditor *pIMGEditor = (IMGEditor*) pIMGFWindow->getEntryByIndex(0);
-	return pIMGEditor;
+	return pIMGFWindow->m_pIMGEditor;
 }
 
 IMGEditorTab*		IMGF::getEntryListTab(void)
