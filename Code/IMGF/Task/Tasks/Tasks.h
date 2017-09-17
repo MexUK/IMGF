@@ -45,20 +45,29 @@ public:
 	void						init(void);
 	void						uninit(void);
 
-	void						_newFile(void);
-	void						chooseFilesToOpen(void); // todo - remove all "onRequest" from start of function names and change first characters to lowercase.
+	void						newFile(void);
+	void						newWindow(void);
+
+	void						chooseFilesToOpen(void); // todo - different level function
 	void						_openFile(std::string& strFilePath); // todo - rename to openFile eventually after IO windows renamed to showOpenFileWindow() etc
-	void						chooseFolderToOpen(void);
+	void						chooseFolderToOpen(void); // todo - rename to openFolder eventually after IO windows renamed to showOpenFileWindow() etc
 	void						openFolderRecursively(void);
+	void						reopenFile(void);
+	void						openLastClosedFile(void);
+	void						openFileFolderInExplorer(void);
 
 	void						_saveFile(void); // todo - rename to saveFile eventually after IO windows renamed to showSaveFileWindow() etc
 	void						saveFileAs(void);
 	void						saveAllFiles(void);
+	bool						saveAllOpenFiles(bool bCloseAll); // todo - remove parameter? // todo - different level function
+	void						saveLogs(void);
+	void						saveLogsAllTabs(void);
+	void						clearLogs(void);
+	void						clearLogsAllTabs(void);
 
 	void						closeFile(void);
 	void						closeAllFiles(void);
-
-	bool						saveAllOpenFiles(bool bCloseAll); // todo - remove parameter?
+	void						exitTool(void);
 
 	void						importByFiles(void);
 	void						importBySingleFolder(void);
@@ -98,7 +107,8 @@ public:
 
 	void						merge(void);
 
-	void						split(void);
+	void						splitSelected(void);
+	void						splitByIDE(void);
 
 	void						convertIMGVersion(void);
 
@@ -177,7 +187,7 @@ public:
 	void						onRequestVersion(void);
 	void						onRequestTextureList(void);
 	void						onRequestAssociateIMGExtension(void);
-	std::string					onRequestSaveLog(bool bActiveTab, bool bNormalFormat);
+	
 	void						onRequestSaveSession(void);
 	void						onRequestOrphanDFFEntriesNotInCOL(void);
 	void						onRequestOrphanIDEEntriesNotInCOL(void);

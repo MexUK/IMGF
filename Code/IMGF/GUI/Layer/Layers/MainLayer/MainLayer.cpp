@@ -118,24 +118,36 @@ void		MainLayer::addControls(void)
 	strStyleGroup = "topMenu";
 
 	pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, -1, -200);
-	pMenu1->addMenuItem("New", NEW_FILE);
+	
+	pMenuItem1 = pMenu1->addMenuItem("New", NEW_FILE);
+	pMenu2 = pMenuItem1->addMenu(VERTICAL);
+	pMenu2->addMenuItem("New File", NEW_FILE);
+	pMenu2->addMenuItem("New Window", NEW_WINDOW);
 
 	pMenuItem1 = pMenu1->addMenuItem("Open", OPEN_FILES);
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);
 	pMenu2->addMenuItem("Open File(s)", OPEN_FILES);
 	pMenu2->addMenuItem("Open Folder", OPEN_FOLDER);
 	pMenu2->addMenuItem("Open Folder Recursively", OPEN_FOLDER_RECURSIVELY);
+	pMenu2->addMenuItem("Reopen", REOPEN_FILE);
+	pMenu2->addMenuItem("Open Last Closed File", OPEN_LAST_CLOSED_FILE);
+	pMenu2->addMenuItem("Open File Folder in Explorer", OPEN_FILE_FOLDER_IN_EXPLORER);
 
 	pMenuItem1 = pMenu1->addMenuItem("Save", SAVE_FILE);
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);
 	pMenu2->addMenuItem("Save File", SAVE_FILE);
 	pMenu2->addMenuItem("Save As", SAVE_FILE_AS);
 	pMenu2->addMenuItem("Save All", SAVE_ALL_FILES);
+	pMenu2->addMenuItem("Save Logs", SAVE_LOGS);
+	pMenu2->addMenuItem("Save Logs for All Tabs", SAVE_LOGS_ALL_TABS);
+	pMenu2->addMenuItem("Clear Logs", CLEAR_LOGS);
+	pMenu2->addMenuItem("Clear Logs for All Tabs", CLEAR_LOGS_ALL_TABS);
 
 	pMenuItem1 = pMenu1->addMenuItem("Close", CLOSE_FILE);
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);
 	pMenu2->addMenuItem("Close File", CLOSE_FILE);
 	pMenu2->addMenuItem("Close All", CLOSE_ALL_FILES);
+	pMenu2->addMenuItem("Exit Tool", EXIT_TOOL);
 
 	// settings icon
 	x += w;
@@ -267,11 +279,11 @@ void		MainLayer::addControls(void)
 	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
 	// split
-	pMenu1->addMenuItem("Split");
+	pMenuItem1 = pMenu1->addMenuItem("Split");
 
 	pMenu2 = pMenuItem1->addMenu();
-	pMenuItem2 = pMenu2->addMenuItem("Split Selection", SPLIT);
-	pMenuItem2 = pMenu2->addMenuItem("Split by IDE");
+	pMenuItem2 = pMenu2->addMenuItem("Split Selection", SPLIT_SELECTED);
+	pMenuItem2 = pMenu2->addMenuItem("Split by IDE", SPLIT_BY_IDE);
 
 	// convert
 	pMenuItem1 = pMenu1->addMenuItem("Convert");

@@ -36,15 +36,27 @@ private:
 	void					animations(void);
 	void					radar(void);
 
-	void					_newFile(void);
+	void					newFile(void);
+	void					newWindow(void);
+
 	void					openFiles(void);
 	void					openFolder(void);
 	void					openFolderRecursively(void);
-	void					closeFile(void);
-	void					closeAllFiles(void);
+	void					reopenFile(void);
+	void					openLastClosedFile(void);
+	void					openFileFolderInExplorer(void);
+
 	void					saveFile(void);
 	void					saveFileAs(void);
 	void					saveAllFiles(void);
+	void					saveLogs(void);
+	void					saveLogsAllTabs(void);
+	void					clearLogs(void);
+	void					clearLogsAllTabs(void);
+
+	void					closeFile(void);
+	void					closeAllFiles(void);
+	void					exitTool(void);
 
 	void					importByFiles(void);
 	void					importBySingleFolder(void);
@@ -85,7 +97,9 @@ private:
 	void					removeByIDE(void);
 
 	void					merge(void);
-	void					split(void);
+
+	void					splitSelected(void);
+	void					splitByIDE(void);
 
 	void					convertIMGVersion(void);
 

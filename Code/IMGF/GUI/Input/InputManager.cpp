@@ -61,15 +61,27 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case ANIMATIONS:								return animations();
 	case RADAR:										return radar();
 
-	case NEW_FILE:									return _newFile();
+	case NEW_FILE:									return newFile();
+	case NEW_WINDOW:								return newWindow();
+
 	case OPEN_FILES:								return openFiles();
 	case OPEN_FOLDER:								return openFolder();
 	case OPEN_FOLDER_RECURSIVELY:					return openFolderRecursively();
+	case REOPEN_FILE:								return reopenFile();
+	case OPEN_LAST_CLOSED_FILE:						return openLastClosedFile();
+	case OPEN_FILE_FOLDER_IN_EXPLORER:				return openFileFolderInExplorer();
+
 	case CLOSE_FILE:								return closeFile();
 	case CLOSE_ALL_FILES:							return closeAllFiles();
+	case EXIT_TOOL:									return exitTool();
+
 	case SAVE_FILE:									return saveFile();
 	case SAVE_FILE_AS:								return saveFileAs();
 	case SAVE_ALL_FILES:							return saveAllFiles();
+	case SAVE_LOGS:									return saveLogs();
+	case SAVE_LOGS_ALL_TABS:						return saveLogsAllTabs();
+	case CLEAR_LOGS:								return clearLogs();
+	case CLEAR_LOGS_ALL_TABS:						return clearLogsAllTabs();
 
 	case IMPORT_BY_FILES:							return importByFiles();
 	case IMPORT_BY_SINGLE_FOLDER:					return importBySingleFolder();
@@ -108,7 +120,9 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case REMOVE_BY_IDE:								return removeByIDE();
 
 	case MERGE:										return merge();
-	case SPLIT:										return split();
+
+	case SPLIT_SELECTED:							return splitSelected();
+	case SPLIT_BY_IDE:								return splitByIDE();
 
 	case CONVERT_IMG_VERSION:						return convertIMGVersion();
 
@@ -197,11 +211,18 @@ void					InputManager::radar(void)
 }
 
 // button press - file menu
-void					InputManager::_newFile(void)
+// new
+void					InputManager::newFile(void)
 {
-	m_pTasks->_newFile();
+	m_pTasks->newFile();
 }
 
+void					InputManager::newWindow(void)
+{
+	m_pTasks->newWindow();
+}
+
+// open
 void					InputManager::openFiles(void)
 {
 	m_pTasks->chooseFilesToOpen();
@@ -217,16 +238,22 @@ void					InputManager::openFolderRecursively(void)
 	m_pTasks->openFolderRecursively();
 }
 
-void					InputManager::closeFile(void)
+void					InputManager::reopenFile(void)
 {
-	m_pTasks->closeFile();
+	m_pTasks->reopenFile();
 }
 
-void					InputManager::closeAllFiles(void)
+void					InputManager::openLastClosedFile(void)
 {
-	m_pTasks->closeAllFiles();
+	m_pTasks->openLastClosedFile();
 }
 
+void					InputManager::openFileFolderInExplorer(void)
+{
+	m_pTasks->openFileFolderInExplorer();
+}
+
+// save
 void					InputManager::saveFile(void)
 {
 	m_pTasks->_saveFile();
@@ -240,6 +267,42 @@ void					InputManager::saveFileAs(void)
 void					InputManager::saveAllFiles(void)
 {
 	m_pTasks->saveAllFiles();
+}
+
+void					InputManager::saveLogs(void)
+{
+	m_pTasks->saveLogs();
+}
+
+void					InputManager::saveLogsAllTabs(void)
+{
+	m_pTasks->saveLogsAllTabs();
+}
+
+void					InputManager::clearLogs(void)
+{
+	m_pTasks->clearLogs();
+}
+
+void					InputManager::clearLogsAllTabs(void)
+{
+	m_pTasks->clearLogsAllTabs();
+}
+
+// close
+void					InputManager::closeFile(void)
+{
+	m_pTasks->closeFile();
+}
+
+void					InputManager::closeAllFiles(void)
+{
+	m_pTasks->closeAllFiles();
+}
+
+void					InputManager::exitTool(void)
+{
+	m_pTasks->exitTool();
 }
 
 // button press - action menu
@@ -415,9 +478,14 @@ void					InputManager::merge(void)
 }
 
 // split
-void					InputManager::split(void)
+void					InputManager::splitSelected(void)
 {
-	m_pTasks->split();
+	m_pTasks->splitSelected();
+}
+
+void					InputManager::splitByIDE(void)
+{
+	m_pTasks->splitByIDE();
 }
 
 // convert

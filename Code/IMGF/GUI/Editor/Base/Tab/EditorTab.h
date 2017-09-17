@@ -59,11 +59,11 @@ public:
 protected:
 	bxgx::TextBox*						m_pSearchBox;
 	bxgx::Tab*							m_pTab;
+	bxgx::TextBox*						m_pLog;
 
 private:
 	Editor*								m_pEditor;
 	bxcf::Format*						m_pFile;
-	bxgx::TextBox*						m_pLog;
 	bxgx::ProgressBar*					m_pProgressBar;
 	bxcf::VectorPool<RenderItem*>		m_vecRenderItems;
 	bxcf::VectorPool<std::string>		m_vecLogLines;

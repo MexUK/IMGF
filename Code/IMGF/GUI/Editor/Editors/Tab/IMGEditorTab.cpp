@@ -438,16 +438,11 @@ void					IMGEditorTab::log(string strText, bool bExtendedModeOnly)
 
 void					IMGEditorTab::clearLogs(void)
 {
+	m_pLog->setText("");
+
 	getLogLinesGUI().clear();
 	getLogLinesBasic().clear();
 	getLogLinesExtended().clear();
-
-	/*
-	todo
-	CEdit *pEdit = ((CEdit*)getIMGF()->getDialog()->GetDlgItem(14));
-	pEdit->SetWindowTextW(L"");
-	pEdit->LineScroll(0);
-	*/
 }
 
 void					IMGEditorTab::checkToApplyCompression(IMGEntry *pIMGEntry)
