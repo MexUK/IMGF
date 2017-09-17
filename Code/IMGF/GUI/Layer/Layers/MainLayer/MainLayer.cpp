@@ -371,7 +371,37 @@ void		MainLayer::addControls(void)
 	pMenu1->addMenuItem("LST", LST);
 
 	// entry
-	pMenu1->addMenuItem("Entry");
+	pMenuItem1 = pMenu1->addMenuItem("Entry");
+	pMenu2 = pMenuItem1->addMenu();
+	
+	pMenuItem2 = pMenu2->addMenuItem("Entry Name Case");
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("lower case", NAME_CASE_LOWER);
+	pMenu3->addMenuItem("UPPER CASE", NAME_CASE_UPPER);
+	pMenu3->addMenuItem("Title Case", NAME_CASE_TITLE);
+
+	pMenuItem2 = pMenu2->addMenuItem("Copy Entry Data");
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("Copy Entry Index", COPY_ENTRY_INDEX);
+	pMenu3->addMenuItem("Copy Entry Type", COPY_ENTRY_TYPE);
+	pMenu3->addMenuItem("Copy Entry Name", COPY_ENTRY_NAME);
+	pMenu3->addMenuItem("Copy Entry Offset", COPY_ENTRY_OFFSET);
+	pMenu3->addMenuItem("Copy Entry Size", COPY_ENTRY_SIZE);
+	pMenu3->addMenuItem("Copy Entry Version", COPY_ENTRY_VERSION);
+	pMenu3->addMenuItem("Copy Entry Row Data", COPY_ENTRY_ROW_DATA);
+
+	pMenuItem2 = pMenu2->addMenuItem("Shift Entry");
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("Shift Entry Up 1 Row", SHIFT_ENTRY_UP_1_ROW);
+	pMenu3->addMenuItem("Shift Entry Up 5 Rows", SHIFT_ENTRY_UP_5_ROWS);
+	pMenu3->addMenuItem("Shift Entry Up 10 Rows", SHIFT_ENTRY_UP_10_ROWS);
+	pMenu3->addMenuItem("Shift Entry Up 100 Rows", SHIFT_ENTRY_UP_100_ROWS);
+	pMenu3->addMenuItem("Shift Entry Up 1000 Rows", SHIFT_ENTRY_UP_1000_ROWS);
+	pMenu3->addMenuItem("Shift Entry Down 1 Row", SHIFT_ENTRY_DOWN_1_ROW);
+	pMenu3->addMenuItem("Shift Entry Down 5 Rows", SHIFT_ENTRY_DOWN_5_ROWS);
+	pMenu3->addMenuItem("Shift Entry Down 10 Rows", SHIFT_ENTRY_DOWN_10_ROWS);
+	pMenu3->addMenuItem("Shift Entry Down 100 Rows", SHIFT_ENTRY_DOWN_100_ROWS);
+	pMenu3->addMenuItem("Shift Entry Down 1000 Rows", SHIFT_ENTRY_DOWN_1000_ROWS);
 
 	// missing entries
 	pMenu1->addMenuItem("Missing Entries");

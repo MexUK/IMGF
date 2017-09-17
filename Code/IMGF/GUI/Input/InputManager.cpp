@@ -159,6 +159,29 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case SORT_BY_VERSION_NEW_OLD:					return sortByVersionNewOld();
 
 	case LST:										return lst();
+
+	case NAME_CASE_LOWER:							return nameCaseLower();
+	case NAME_CASE_UPPER:							return nameCaseUpper();
+	case NAME_CASE_TITLE:							return nameCaseTitle();
+
+	case COPY_ENTRY_INDEX:							return copyEntryIndex();
+	case COPY_ENTRY_TYPE:							return copyEntryType();
+	case COPY_ENTRY_NAME:							return copyEntryName();
+	case COPY_ENTRY_OFFSET:							return copyEntryOffset();
+	case COPY_ENTRY_SIZE:							return copyEntrySize();
+	case COPY_ENTRY_VERSION:						return copyEntryVersion();
+	case COPY_ENTRY_ROW_DATA:						return copyEntryRowData();
+
+	case SHIFT_ENTRY_UP_1_ROW:						return shiftEntryUp1Row();
+	case SHIFT_ENTRY_UP_5_ROWS:						return shiftEntryUp5Rows();
+	case SHIFT_ENTRY_UP_10_ROWS:					return shiftEntryUp10Rows();
+	case SHIFT_ENTRY_UP_100_ROWS:					return shiftEntryUp100Rows();
+	case SHIFT_ENTRY_UP_1000_ROWS:					return shiftEntryUp1000Rows();
+	case SHIFT_ENTRY_DOWN_1_ROW:					return shiftEntryDown1Row();
+	case SHIFT_ENTRY_DOWN_5_ROWS:					return shiftEntryDown5Rows();
+	case SHIFT_ENTRY_DOWN_10_ROWS:					return shiftEntryDown10Rows();
+	case SHIFT_ENTRY_DOWN_100_ROWS:					return shiftEntryDown100Rows();
+	case SHIFT_ENTRY_DOWN_1000_ROWS:				return shiftEntryDown1000Rows();
 	}
 }
 
@@ -645,6 +668,110 @@ void					InputManager::sortByVersionNewOld(void)
 {
 	m_pTasks->sortByVersionNewOld();
 }
+
+// entry
+void					InputManager::nameCaseLower(void)
+{
+	m_pTasks->nameCaseLower();
+}
+
+void					InputManager::nameCaseUpper(void)
+{
+	m_pTasks->nameCaseUpper();
+}
+
+void					InputManager::nameCaseTitle(void)
+{
+	m_pTasks->nameCaseTitle();
+}
+
+
+void					InputManager::copyEntryIndex(void)
+{
+	m_pTasks->copyEntryIndex();
+}
+
+void					InputManager::copyEntryType(void)
+{
+	m_pTasks->copyEntryType();
+}
+
+void					InputManager::copyEntryName(void)
+{
+	m_pTasks->copyEntryName();
+}
+
+void					InputManager::copyEntryOffset(void)
+{
+	m_pTasks->copyEntryOffset();
+}
+
+void					InputManager::copyEntrySize(void)
+{
+	m_pTasks->copyEntrySize();
+}
+
+void					InputManager::copyEntryVersion(void)
+{
+	m_pTasks->copyEntryVersion();
+}
+
+void					InputManager::copyEntryRowData(void)
+{
+	m_pTasks->copyEntryRowData();
+}
+
+
+void					InputManager::shiftEntryUp1Row(void)
+{
+	m_pTasks->shiftEntryUp1Row();
+}
+
+void					InputManager::shiftEntryUp5Rows(void)
+{
+	m_pTasks->shiftEntryUp5Rows();
+}
+
+void					InputManager::shiftEntryUp10Rows(void)
+{
+	m_pTasks->shiftEntryUp10Rows();
+}
+
+void					InputManager::shiftEntryUp100Rows(void)
+{
+	m_pTasks->shiftEntryUp100Rows();
+}
+
+void					InputManager::shiftEntryUp1000Rows(void)
+{
+	m_pTasks->shiftEntryUp1000Rows();
+}
+
+void					InputManager::shiftEntryDown1Row(void)
+{
+	m_pTasks->shiftEntryDown1Row();
+}
+
+void					InputManager::shiftEntryDown5Rows(void)
+{
+	m_pTasks->shiftEntryDown5Rows();
+}
+
+void					InputManager::shiftEntryDown10Rows(void)
+{
+	m_pTasks->shiftEntryDown10Rows();
+}
+
+void					InputManager::shiftEntryDown100Rows(void)
+{
+	m_pTasks->shiftEntryDown100Rows();
+}
+
+void					InputManager::shiftEntryDown1000Rows(void)
+{
+	m_pTasks->shiftEntryDown1000Rows();
+}
+
 
 // LST
 void					InputManager::lst(void)

@@ -2881,6 +2881,106 @@ void		Tasks::lst(void)
 	onCompleteTask();
 }
 
+// entry
+void						Tasks::nameCaseLower(void)
+{
+	onStartTask("nameCaseLower");
+
+	getIMGTab()->setSelectedEntriesNameCase(0);
+	getIMGTab()->logf("Set name to lower case for %u entries.", getIMGTab()->getSelectedEntryCount());
+
+	onCompleteTask();
+}
+
+void						Tasks::nameCaseUpper(void)
+{
+	onStartTask("nameCaseLower");
+
+	getIMGTab()->setSelectedEntriesNameCase(1);
+	getIMGTab()->logf("Set name to UPPER CASE for %u entries.", getIMGTab()->getSelectedEntryCount());
+
+	onCompleteTask();
+}
+
+void						Tasks::nameCaseTitle(void)
+{
+	onStartTask("nameCaseLower");
+
+	getIMGTab()->setSelectedEntriesNameCase(2);
+	getIMGTab()->logf("Set name to Title Case for %u entries.", getIMGTab()->getSelectedEntryCount());
+
+	onCompleteTask();
+}
+
+void						Tasks::copyEntryIndex(void)
+{
+}
+
+void						Tasks::copyEntryType(void)
+{
+}
+
+void						Tasks::copyEntryName(void)
+{
+}
+
+void						Tasks::copyEntryOffset(void)
+{
+}
+
+void						Tasks::copyEntrySize(void)
+{
+}
+
+void						Tasks::copyEntryVersion(void)
+{
+}
+
+void						Tasks::copyEntryRowData(void)
+{
+}
+
+void						Tasks::shiftEntryUp1Row(void)
+{
+}
+
+void						Tasks::shiftEntryUp5Rows(void)
+{
+}
+
+void						Tasks::shiftEntryUp10Rows(void)
+{
+}
+
+void						Tasks::shiftEntryUp100Rows(void)
+{
+}
+
+void						Tasks::shiftEntryUp1000Rows(void)
+{
+}
+
+void						Tasks::shiftEntryDown1Row(void)
+{
+}
+
+void						Tasks::shiftEntryDown5Rows(void)
+{
+}
+
+void						Tasks::shiftEntryDown10Rows(void)
+{
+}
+
+void						Tasks::shiftEntryDown100Rows(void)
+{
+}
+
+void						Tasks::shiftEntryDown1000Rows(void)
+{
+}
+
+
 
 
 
@@ -7928,96 +8028,6 @@ int CALLBACK		Tasks::sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lPa
 	return nRetVal;
 	*/
 	return 0;
-}
-
-bool sortViaColumn_Type(IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) // todo - namespace
-{
-	int32 iResult = strcmp(String::toUpperCase(Path::getFileExtension(pIMGEntry1->getEntryName())).c_str(), String::toUpperCase(Path::getFileExtension(pIMGEntry2->getEntryName())).c_str());
-	if (bSortDirectionIsAscending)
-	{
-		return iResult < 0;
-	}
-	else
-	{
-		return iResult > 0;
-	}
-}
-bool sortViaColumn_Name(IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) // todo - namespace
-{
-	int32 iResult = strcmp(pIMGEntry1->getEntryName().c_str(), pIMGEntry2->getEntryName().c_str());
-	if (bSortDirectionIsAscending)
-	{
-		return iResult < 0;
-	}
-	else
-	{
-		return iResult > 0;
-	}
-}
-bool sortViaColumn_Offset(IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) // todo - namespace
-{
-	if (bSortDirectionIsAscending)
-	{
-		return pIMGEntry1->getEntryOffset() < pIMGEntry2->getEntryOffset();
-	}
-	else
-	{
-		return pIMGEntry1->getEntryOffset() > pIMGEntry2->getEntryOffset();
-	}
-}
-bool sortViaColumn_Size(IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) // todo - namespace
-{
-	if (bSortDirectionIsAscending)
-	{
-		return pIMGEntry1->getEntrySize() < pIMGEntry2->getEntrySize();
-	}
-	else
-	{
-		return pIMGEntry1->getEntrySize() > pIMGEntry2->getEntrySize();
-	}
-}
-bool sortViaColumn_ExtraInfo(IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) // todo - namespace
-{
-	return false;// strcmp(pIMGEntry1->getEntryName().c_str(), pIMGEntry2->getEntryName().c_str());
-}
-
-void			Tasks::onRequestSortViaColumn(uint32 uiColumnIndex)
-{
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestSortViaColumn");
-	if (uiColumnIndex == uiSortPreviousColumnIndex)
-	{
-		bSortDirectionIsAscending = !bSortDirectionIsAscending;
-	}
-	CListCtrl *pListCtrl = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37);
-	IMGFormat *pIMGFile = getIMGF()->getEntryListTab()->getIMGFile();
-	if (uiColumnIndex == 1) // Type
-	{
-		std::sort(pIMGFile->getEntries().begin(), pIMGFile->getEntries().end(), sortViaColumn_Type);
-	}
-	else if (uiColumnIndex == 2) // Name
-	{
-		std::sort(pIMGFile->getEntries().begin(), pIMGFile->getEntries().end(), sortViaColumn_Name);
-	}
-	else if (uiColumnIndex == 3) // Offset
-	{
-		std::sort(pIMGFile->getEntries().begin(), pIMGFile->getEntries().end(), sortViaColumn_Offset);
-	}
-	else if (uiColumnIndex == 4) // Size
-	{
-		std::sort(pIMGFile->getEntries().begin(), pIMGFile->getEntries().end(), sortViaColumn_Size);
-	}
-	else if (uiColumnIndex == 5) // Extra Info
-	{
-		//std::sort(pIMGFile->getEntries().begin(), pIMGFile->getEntries().end(), sortViaColumn_ExtraInfo);
-	}
-	pListCtrl->SortItems(sortMainListView, uiColumnIndex);
-	getIMGF()->getEntryListTab()->reassignEntryIds();
-	uiSortPreviousColumnIndex = uiColumnIndex;
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestSortViaColumn");
-	*/
 }
 
 void			Tasks::onRequestCenterCOLCollisionMeshes(void)

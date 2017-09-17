@@ -135,6 +135,29 @@ private:
 	void					sortByVersionOldNew(void);
 	void					sortByVersionNewOld(void);
 
+	void					nameCaseLower(void);
+	void					nameCaseUpper(void);
+	void					nameCaseTitle(void);
+
+	void					copyEntryIndex(void);
+	void					copyEntryType(void);
+	void					copyEntryName(void);
+	void					copyEntryOffset(void);
+	void					copyEntrySize(void);
+	void					copyEntryVersion(void);
+	void					copyEntryRowData(void);
+
+	void					shiftEntryUp1Row(void);
+	void					shiftEntryUp5Rows(void);
+	void					shiftEntryUp10Rows(void);
+	void					shiftEntryUp100Rows(void);
+	void					shiftEntryUp1000Rows(void);
+	void					shiftEntryDown1Row(void);
+	void					shiftEntryDown5Rows(void);
+	void					shiftEntryDown10Rows(void);
+	void					shiftEntryDown100Rows(void);
+	void					shiftEntryDown1000Rows(void);
+
 	void					lst(void);
 
 	void					settings(void);
