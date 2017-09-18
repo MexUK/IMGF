@@ -49,6 +49,7 @@ private:
 	void					saveFile(void);
 	void					saveFileAs(void);
 	void					saveAllFiles(void);
+	void					cloneFile(void);
 	void					saveLogs(void);
 	void					saveLogsAllTabs(void);
 	void					clearLogs(void);

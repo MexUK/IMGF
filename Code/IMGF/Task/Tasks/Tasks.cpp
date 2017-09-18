@@ -501,6 +501,26 @@ void		Tasks::saveAllFiles(void)
 	onCompleteTask();
 }
 
+void		Tasks::cloneFile(void)
+{
+	onStartTask("cloneFile");
+
+	IMGFormat *pIMGFile = getIMGTab()->getIMGFile();
+
+	string strIMGFileExtension = Path::getFileExtension(pIMGFile->getIMGFilePath());
+	string strClonedIMGPath = Path::getDirectory(pIMGFile->getIMGFilePath()) + Path::removeFileExtension(Path::getFileName(pIMGFile->getIMGFilePath())) + "-cloned." + strIMGFileExtension;
+	strClonedIMGPath = File::getNextIncrementingFileName(strClonedIMGPath);
+
+	pIMGFile->serialize(strClonedIMGPath);
+
+	getIMGTab()->logf("Cloned into %s.", Path::getFileName(strClonedIMGPath).c_str());
+
+	setMaxProgress(pIMGFile->getEntryCount() * 2);
+	m_pMainWindow->getIMGEditor()->addFile(strClonedIMGPath);
+
+	onCompleteTask();
+}
+
 void		Tasks::saveLogs(void)
 {
 	onStartTask("saveLogs");
@@ -2887,97 +2907,199 @@ void						Tasks::nameCaseLower(void)
 	onStartTask("nameCaseLower");
 
 	getIMGTab()->setSelectedEntriesNameCase(0);
-	getIMGTab()->logf("Set name to lower case for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getIMGTab()->logf("Set entry name to lower case for %u entries.", getIMGTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
 
 void						Tasks::nameCaseUpper(void)
 {
-	onStartTask("nameCaseLower");
+	onStartTask("nameCaseUpper");
 
 	getIMGTab()->setSelectedEntriesNameCase(1);
-	getIMGTab()->logf("Set name to UPPER CASE for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getIMGTab()->logf("Set entry name to UPPER CASE for %u entries.", getIMGTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
 
 void						Tasks::nameCaseTitle(void)
 {
-	onStartTask("nameCaseLower");
+	onStartTask("nameCaseTitle");
 
 	getIMGTab()->setSelectedEntriesNameCase(2);
-	getIMGTab()->logf("Set name to Title Case for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getIMGTab()->logf("Set entry name to Title Case for %u entries.", getIMGTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
 
 void						Tasks::copyEntryIndex(void)
 {
+	onStartTask("copyEntryIndex");
+
+	getIMGTab()->copySelectedEntryData(0);
+	getIMGTab()->logf("Copied entry index for %u entries.", getIMGTab()->getSelectedEntryCount());
+
+	onCompleteTask();
 }
 
 void						Tasks::copyEntryType(void)
 {
+	onStartTask("copyEntryType");
+
+	getIMGTab()->copySelectedEntryData(1);
+	getIMGTab()->logf("Copied entry type for %u entries.", getIMGTab()->getSelectedEntryCount());
+
+	onCompleteTask();
 }
 
 void						Tasks::copyEntryName(void)
 {
+	onStartTask("copyEntryName");
+
+	getIMGTab()->copySelectedEntryData(2);
+	getIMGTab()->logf("Copied entry name for %u entries.", getIMGTab()->getSelectedEntryCount());
+
+	onCompleteTask();
 }
 
 void						Tasks::copyEntryOffset(void)
 {
+	onStartTask("copyEntryOffset");
+
+	getIMGTab()->copySelectedEntryData(3);
+	getIMGTab()->logf("Copied entry offset for %u entries.", getIMGTab()->getSelectedEntryCount());
+
+	onCompleteTask();
 }
 
 void						Tasks::copyEntrySize(void)
 {
+	onStartTask("copyEntrySize");
+
+	getIMGTab()->copySelectedEntryData(4);
+	getIMGTab()->logf("Copied entry size for %u entries.", getIMGTab()->getSelectedEntryCount());
+
+	onCompleteTask();
 }
 
 void						Tasks::copyEntryVersion(void)
 {
+	onStartTask("copyEntryVersion");
+
+	getIMGTab()->copySelectedEntryData(5);
+	getIMGTab()->logf("Copied entry version for %u entries.", getIMGTab()->getSelectedEntryCount());
+
+	onCompleteTask();
 }
 
 void						Tasks::copyEntryRowData(void)
 {
+	onStartTask("copyEntryRowData");
+
+	getIMGTab()->copySelectedEntryData(6);
+	getIMGTab()->logf("Copied row data for %u entries.", getIMGTab()->getSelectedEntryCount());
+
+	onCompleteTask();
 }
 
 void						Tasks::shiftEntryUp1Row(void)
 {
+	onStartTask("shiftEntryUp1Row");
+
+	getIMGTab()->shiftSelectedEntries(-1);
+	getIMGTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 1);
+
+	onCompleteTask();
 }
 
 void						Tasks::shiftEntryUp5Rows(void)
 {
+	onStartTask("shiftEntryUp5Rows");
+
+	getIMGTab()->shiftSelectedEntries(-5);
+	getIMGTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 5);
+
+	onCompleteTask();
 }
 
 void						Tasks::shiftEntryUp10Rows(void)
 {
+	onStartTask("shiftEntryUp10Rows");
+
+	getIMGTab()->shiftSelectedEntries(-10);
+	getIMGTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 10);
+
+	onCompleteTask();
 }
 
 void						Tasks::shiftEntryUp100Rows(void)
 {
+	onStartTask("shiftEntryUp100Rows");
+
+	getIMGTab()->shiftSelectedEntries(-100);
+	getIMGTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 100);
+
+	onCompleteTask();
 }
 
 void						Tasks::shiftEntryUp1000Rows(void)
 {
+	onStartTask("shiftEntryUp1000Rows");
+
+	getIMGTab()->shiftSelectedEntries(-1000);
+	getIMGTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 1000);
+
+	onCompleteTask();
 }
 
 void						Tasks::shiftEntryDown1Row(void)
 {
+	onStartTask("shiftEntryDown1Row");
+
+	getIMGTab()->shiftSelectedEntries(1);
+	getIMGTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 1);
+
+	onCompleteTask();
 }
 
 void						Tasks::shiftEntryDown5Rows(void)
 {
+	onStartTask("shiftEntryDown5Rows");
+
+	getIMGTab()->shiftSelectedEntries(5);
+	getIMGTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 5);
+
+	onCompleteTask();
 }
 
 void						Tasks::shiftEntryDown10Rows(void)
 {
+	onStartTask("shiftEntryDown10Rows");
+
+	getIMGTab()->shiftSelectedEntries(10);
+	getIMGTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 10);
+
+	onCompleteTask();
 }
 
 void						Tasks::shiftEntryDown100Rows(void)
 {
+	onStartTask("shiftEntryDown100Rows");
+
+	getIMGTab()->shiftSelectedEntries(100);
+	getIMGTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 100);
+
+	onCompleteTask();
 }
 
 void						Tasks::shiftEntryDown1000Rows(void)
 {
+	onStartTask("shiftEntryDown1000Rows");
+
+	getIMGTab()->shiftSelectedEntries(1000);
+	getIMGTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 1000);
+
+	onCompleteTask();
 }
 
 
@@ -3468,226 +3590,7 @@ void		Tasks::onRequestStats(void)
 	getIMGF()->getTaskManager()->onResumeTask();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestStats");
 }
-void		Tasks::onRequestNameCase(uint8 ucCaseType, uint8 ucFilenameType)
-{
-	/*
-	todo
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_NameCase_CaseType(ucCaseType);
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_NameCase_FilenameType(ucFilenameType);
-	getIMGF()->getTaskManager()->onStartTask("onRequestNameCase");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestNameCase", true);
-		return;
-	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	IMGEntry *pIMGEntry;
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestNameCase", true);
-		return;
-	}
-	setMaxProgress(pListControl->GetSelectedCount());
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-
-		if (ucCaseType == 0)
-		{
-			if (ucFilenameType == 0)
-			{
-				pIMGEntry->setEntryName(String::toLowerCase(pIMGEntry->getEntryName()));
-			}
-			else if (ucFilenameType == 1)
-			{
-				pIMGEntry->setEntryName(String::toLowerCase(Path::removeFileExtension(pIMGEntry->getEntryName())) + "." + Path::getFileExtension(pIMGEntry->getEntryName()));
-			}
-			else if (ucFilenameType == 2)
-			{
-				pIMGEntry->setEntryName(Path::removeFileExtension(pIMGEntry->getEntryName()) + "." + String::toLowerCase(Path::getFileExtension(pIMGEntry->getEntryName())));
-			}
-		}
-		else if (ucCaseType == 1)
-		{
-			if (ucFilenameType == 0)
-			{
-				pIMGEntry->setEntryName(String::toUpperCase(pIMGEntry->getEntryName()));
-			}
-			else if (ucFilenameType == 1)
-			{
-				pIMGEntry->setEntryName(String::toUpperCase(Path::removeFileExtension(pIMGEntry->getEntryName())) + "." + Path::getFileExtension(pIMGEntry->getEntryName()));
-			}
-			else if (ucFilenameType == 2)
-			{
-				pIMGEntry->setEntryName(Path::removeFileExtension(pIMGEntry->getEntryName()) + "." + String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName())));
-			}
-		}
-		else if (ucCaseType == 2)
-		{
-			if (ucFilenameType == 0)
-			{
-				pIMGEntry->setEntryName(String::toTitleCase(pIMGEntry->getEntryName()));
-			}
-			else if (ucFilenameType == 1)
-			{
-				pIMGEntry->setEntryName(String::toTitleCase(Path::removeFileExtension(pIMGEntry->getEntryName())) + "." + Path::getFileExtension(pIMGEntry->getEntryName()));
-			}
-			else if (ucFilenameType == 2)
-			{
-				pIMGEntry->setEntryName(Path::removeFileExtension(pIMGEntry->getEntryName()) + "." + String::toTitleCase(Path::getFileExtension(pIMGEntry->getEntryName())));
-			}
-		}
-
-		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-
-		increaseProgress();
-	}
-
-	getIMGF()->getEntryListTab()->searchText();
-
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestNameCase");
-	*/
-}
-void		Tasks::onRequestCopyEntryData(EIMGEntryProperty EIMGEntryProperty)
-{
-	/*
-	todo
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Copy_IMGEntryProperty(EIMGEntryProperty);
-	getIMGF()->getTaskManager()->onStartTask("onRequestCopyEntryData");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestCopyEntryData", true);
-		return;
-	}
-
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	IMGEntry *pIMGEntry;
-	vector<string> vecCopyLines;
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestCopyEntryData", true);
-		return;
-	}
-	setMaxProgress(pListControl->GetSelectedCount());
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-
-		switch (EIMGEntryProperty)
-		{
-		case IMG_ENTRY_ID:
-			vecCopyLines.push_back(String::toString(getIMGF()->getEntryListTab()->getIMGFile()->getIndexByEntry(pIMGEntry) + 1));
-			break;
-		case IMG_ENTRY_NAME:
-			vecCopyLines.push_back(pIMGEntry->getEntryName());
-			break;
-		case IMG_ENTRY_OFFSET:
-			vecCopyLines.push_back(String::toString(pIMGEntry->getEntryOffsetInSectors() * 2048));
-			break;
-		case IMG_ENTRY_RESOURCETYPE:
-			vecCopyLines.push_back(pIMGEntry->getRageResourceType()->getResourceName());
-			break;
-		case IMG_ENTRY_RWVERSION:
-			vecCopyLines.push_back(pIMGEntry->getRWVersion()->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pIMGEntry->getRWVersion()->getLocalizationKey()) + ")");
-			break;
-		case IMG_ENTRY_SIZE:
-			vecCopyLines.push_back(String::toString(pIMGEntry->getEntrySize()));
-			break;
-		case IMG_ENTRY_TYPE:
-			vecCopyLines.push_back(String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName())));
-			break;
-		}
-
-		increaseProgress();
-	}
-
-	String::setClipboardText(String::join(vecCopyLines, "\r\n"));
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestCopyEntryData");
-	*/
-}
-void		Tasks::onRequestShift(uint8 ucDirection)
-{
-	/*
-	todo
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Shift_Direction(ucDirection);
-	getIMGF()->getTaskManager()->onStartTask("onRequestShift");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestShift", true);
-		return;
-	}
-
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	IMGEntry *pIMGEntry = nullptr;
-	int nItem;
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestShift", true);
-		return;
-	}
-	while (pos)
-	{
-		nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-		break;
-	}
-
-	if (ucDirection == 0) // up
-	{
-		if (nItem == 0)
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestShift", true);
-			return;
-		}
-	}
-	else if (ucDirection == 1) // down
-	{
-		if (nItem == (pListControl->GetItemCount() - 1))
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestShift", true);
-			return;
-		}
-	}
-
-	IMGEntry *pIMGEntry2;
-	uint32 uiIMGEntry1Index = nItem;
-	uint32 uiIMGEntry2Index;
-	if (ucDirection == 0) // up
-	{
-		uiIMGEntry2Index = nItem - 1;
-	}
-	else if (ucDirection == 1) // down
-	{
-		uiIMGEntry2Index = nItem + 1;
-	}
-
-	setMaxProgress(4);
-
-	pIMGEntry2 = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByIndex(uiIMGEntry2Index);
-	getIMGF()->getEntryListTab()->getIMGFile()->swapEntries(pIMGEntry, pIMGEntry2);
-	increaseProgress();
-
-	pListControl->SetItemData(uiIMGEntry1Index, (DWORD)pIMGEntry2);
-	pListControl->SetItemData(uiIMGEntry2Index, (DWORD)pIMGEntry);
-	increaseProgress();
-
-	getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry2);
-	increaseProgress();
-
-	getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-	increaseProgress();
-
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestShift");
-	*/
-}
 void		Tasks::onRequestQuickExport(void)
 {
 	/*
@@ -3751,40 +3654,6 @@ void		Tasks::onRequestQuickExport(void)
 	*/
 }
 
-void		Tasks::onRequestSelectViaRWVersion(RWVersion *pRWVersion)
-{
-	/*
-	todo
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Select_RWVersion(pRWVersion);
-	getIMGF()->getTaskManager()->onStartTask("onRequestSelectViaRWVersion");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaRWVersion", true);
-		return;
-	}
-
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	uint32 uiSelectedEntryCount = 0;
-	setMaxProgress(pListControl->GetItemCount());
-	for (uint32 i = 0; i < (uint32)pListControl->GetItemCount(); i++)
-	{
-		RWVersion *pEntryRWVersion = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByIndex(i)->getRWVersion();
-		if (pRWVersion == pEntryRWVersion || (pRWVersion->getVersionCC() == 0x0 && pEntryRWVersion == nullptr))
-		{
-			uiSelectedEntryCount++;
-			pListControl->SetItemState(i, LVIS_SELECTED, LVIS_SELECTED);
-			pListControl->SetSelectionMark(i);
-		}
-		increaseProgress();
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_90", uiSelectedEntryCount));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_91", (pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()), true);
-
-	pListControl->SetFocus();
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestSelectViaRWVersion");
-	*/
-}
 void		Tasks::onRequestVersion(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestVersion");
@@ -4589,26 +4458,7 @@ void		Tasks::onRequestSettings(void)
 		exit(EXIT_SUCCESS);
 	}
 }
-void		Tasks::onRequestReopen(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestReopen");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestReopen", true);
-		return;
-	}
 
-	string strIMGPath = getIMGF()->getEntryListTab()->getIMGFile()->getFilePath();
-	if (saveAllOpenFiles(false) == true)
-	{
-		// cancelled
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestReopen", true);
-		return;
-	}
-	getIMGF()->getIMGEditor()->removeTab(getIMGF()->getEntryListTab());
-	openFile(strIMGPath);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestReopen");
-}
 void		Tasks::onRequestConvertDFFToRWVersion(RWVersion *pRWVersion)
 {
 	/*
@@ -7594,10 +7444,6 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	{
 		onRequestSelectViaFileExtension();
 	}
-	else if (strFeatureName == "onRequestSelectViaRWVersion")
-	{
-		onRequestSelectViaRWVersion(getIMGF()->getLastUsedValueManager()->getLastUsedValue_Select_RWVersion());
-	}
 	else if (strFeatureName == "onRequestVersion")
 	{
 		onRequestVersion();
@@ -9540,56 +9386,6 @@ void						Tasks::onRequestFindDFFMissingFromIMGFoundInIDE(void)
 	getIMGF()->getTaskManager()->onResumeTask();
 	
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIMGFoundInIDE");
-}
-
-void						Tasks::onRequestCloneIMG(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestCloneIMG");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestCloneIMG", true);
-		return;
-	}
-
-	IMGFormat *pIMGFile = getIMGF()->getEntryListTab()->getIMGFile();
-	
-	string strIMGFileExtension = Path::getFileExtension(pIMGFile->getFilePath());
-	string strClonedIMGPath = Path::getDirectory(pIMGFile->getFilePath()) + Path::removeFileExtension(Path::getFileName(pIMGFile->getFilePath())) + "-cloned." + strIMGFileExtension;
-
-	IMGFormat *pClonedIMGFile = pIMGFile->clone(strClonedIMGPath);
-	if (!pClonedIMGFile)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestCloneIMG", true);
-		return;
-	}
-
-	setMaxProgress(pIMGFile->getEntryCount() * 3);
-
-	//IMGEditorTab *pNewTab = getIMGF()->getIMGEditor()->addTab(strClonedIMGPath, pIMGFile->getVersion());
-	//getIMGF()->getIMGEditor()->setActiveTab(pNewTab);
-
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestCloneIMG");
-}
-
-void						Tasks::onRequestOpenIMGFolder(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestOpenIMGFolder");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenIMGFolder", true);
-		return;
-	}
-
-	setMaxProgress(2);
-
-	IMGFormat *pIMGFile = getIMGF()->getEntryListTab()->getIMGFile();
-	string strFolderPath = Path::getDirectory(pIMGFile->getFilePath());
-	increaseProgress();
-
-	ShellExecute(NULL, NULL, String::convertStdStringToStdWString(strFolderPath).c_str(), NULL, NULL, SW_SHOWNORMAL);
-	increaseProgress();
-
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenIMGFolder");
 }
 
 void						Tasks::onRequestRemoveOrphanTexturesFromModel(void)

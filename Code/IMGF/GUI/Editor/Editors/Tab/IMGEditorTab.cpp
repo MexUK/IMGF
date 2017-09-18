@@ -911,6 +911,7 @@ void					IMGEditorTab::addGridEntry(IMGEntry *pIMGEntry, uint32 uiEntryIndex, vo
 	}
 
 	/*
+	// todo - keep?
 	if (pRow->isRowDisplayedWithinScrollRange())
 	{
 		m_pEntryGrid->renderItem();
@@ -920,27 +921,32 @@ void					IMGEditorTab::addGridEntry(IMGEntry *pIMGEntry, uint32 uiEntryIndex, vo
 
 void					IMGEditorTab::updateGridEntry(IMGEntry *pIMGEntry)
 {
-	/*
-	todo
-	uint32 uiEntryIndex = getMainListViewItemIndexByItemData(pIMGEntry);
-	if (uiEntryIndex == -1)
+	GridRow *pRow = m_pEntryGrid->getRowByUserData((uint32)pIMGEntry);
+	if (!pRow)
 	{
 		// IMG entry is not currently displayed, e.g. filter.
 		return;
 	}
-	string strExtensionUpper = String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()));
-	getListView()->SetItem(uiEntryIndex, 0, LVIF_TEXT, String::convertStdStringToStdWString(String::addNumberGrouping(String::toString(uiEntryIndex + 1))).c_str(), 0, 0, 0, 0);
-	getListView()->SetItem(uiEntryIndex, 1, LVIF_TEXT, String::convertStdStringToStdWString(strExtensionUpper).c_str(), 0, 0, 0, 0);
-	getListView()->SetItem(uiEntryIndex, 2, LVIF_TEXT, String::convertStdStringToStdWString(pIMGEntry->getEntryName()).c_str(), 0, 0, 0, 0);
-	getListView()->SetItem(uiEntryIndex, 3, LVIF_TEXT, String::convertStdStringToStdWString(String::addNumberGrouping(String::toString(pIMGEntry->getEntryOffset()))).c_str(), 0, 0, 0, 0);
-	getListView()->SetItem(uiEntryIndex, 4, LVIF_TEXT, String::convertStdStringToStdWString(String::addNumberGrouping(String::toString(pIMGEntry->getEntrySize()))).c_str(), 0, 0, 0, 0);
-	//getIMGF()->getIMGEditor()->applyVersionAndResourceTypeColumn(uiEntryIndex, getIMGF()->getEntryListTab()->getIMGFile(), pIMGEntry);
-	if (pIMGEntry->getIMGFile()->getVersion() == IMG_FASTMAN92)
+
+	uint32 uiEntryIndex = m_pEntryGrid->getIndexByEntry(pRow);
+	bool bIsFastman92IMGFormat = m_pIMGFile->getVersion() == IMG_FASTMAN92;
+
+	vector<string> vecText;
+	vecText.resize(bIsFastman92IMGFormat ? 8 : 6);
+	vecText[0] = String::addNumberGrouping(String::toString(uiEntryIndex + 1));
+	vecText[1] = pIMGEntry->getEntryExtension();
+	vecText[2] = pIMGEntry->getEntryName();
+	vecText[3] = String::addNumberGrouping(String::toString(pIMGEntry->getEntryOffset()));
+	vecText[4] = String::addNumberGrouping(String::toString(pIMGEntry->getEntrySize()));
+	vecText[5] = pIMGEntry->getVersionText();
+	if (bIsFastman92IMGFormat)
 	{
-		getListView()->SetItem(uiEntryIndex, 6, LVIF_TEXT, String::convertStdStringToStdWString(IMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId())).c_str(), 0, 0, 0, 0);
-		getListView()->SetItem(uiEntryIndex, 7, LVIF_TEXT, String::convertStdStringToStdWString(IMGManager::getEncryptionText(pIMGEntry->isEncrypted())).c_str(), 0, 0, 0, 0);
+		vecText[6] = IMGManager::getCompressionTypeText(pIMGEntry->getCompressionAlgorithmId());
+		vecText[7] = IMGManager::getEncryptionText(pIMGEntry->isEncrypted());
 	}
-	*/
+
+	pRow->getText().assign(1, vecText);
+	m_pEntryGrid->render();
 }
 
 uint32			IMGEditorTab::getMainListViewItemIndexByItemData(IMGEntry *pIMGEntry)
@@ -1673,4 +1679,107 @@ vector<IMGEntry*>	IMGEditorTab::getSelectedEntries(void)
 		}
 	}
 	return vecIMGEntries;
+}
+
+uint32				IMGEditorTab::getSelectedEntryCount(void)
+{
+	uint32 uiSelectedEntryCount = 0;
+	for (GridRow *pGridRow : m_pEntryGrid->getEntries())
+	{
+		if (pGridRow->isSelected())
+		{
+			uiSelectedEntryCount++;
+		}
+	}
+	return uiSelectedEntryCount;
+}
+
+void				IMGEditorTab::setSelectedEntriesNameCase(uint32 uiNameCaseType)
+{
+	for (GridRow *pGridRow : m_pEntryGrid->getEntries())
+	{
+		if (pGridRow->isSelected())
+		{
+			IMGEntry *pIMGEntry = (IMGEntry*)pGridRow->getUserData();
+			string strNewEntryName;
+			switch (uiNameCaseType)
+			{
+			case 0: // lower case
+				strNewEntryName = String::toLowerCase(pIMGEntry->getEntryName());
+				break;
+			case 1: // UPPER CASE
+				strNewEntryName = String::toUpperCase(pIMGEntry->getEntryName());
+				break;
+			case 2: // Title Case
+				strNewEntryName = String::toTitleCase(pIMGEntry->getEntryName());
+				break;
+			}
+			pIMGEntry->setEntryName(strNewEntryName);
+			updateGridEntry(pIMGEntry);
+		}
+	}
+
+	setIMGModifiedSinceRebuild(true);
+}
+
+void				IMGEditorTab::copySelectedEntryData(uint32 uiColumnType)
+{
+	vector<string> vecCopyLines;
+	for (GridRow *pGridRow : m_pEntryGrid->getEntries())
+	{
+		if (pGridRow->isSelected())
+		{
+			IMGEntry *pIMGEntry = (IMGEntry*)pGridRow->getUserData();
+
+			switch (uiColumnType)
+			{
+			case 0: // Index
+				vecCopyLines.push_back(String::toString(pGridRow->getRowIndex()));
+				break;
+			case 1: // Type
+				vecCopyLines.push_back(pIMGEntry->getEntryExtension());
+				break;
+			case 2: // Name
+				vecCopyLines.push_back(pIMGEntry->getEntryName());
+				break;
+			case 3: // Offset
+				vecCopyLines.push_back(String::toString(pIMGEntry->getEntryOffset()));
+				break;
+			case 4: // Size
+				vecCopyLines.push_back(String::toString(pIMGEntry->getEntrySize()));
+				break;
+			case 5: // Version
+				vecCopyLines.push_back(pIMGEntry->getVersionText());
+				break;
+			case 6: // All Row Data
+				vecCopyLines.push_back(
+					String::toString(pGridRow->getRowIndex()) + "," +
+					pIMGEntry->getEntryExtension() + "," +
+					pIMGEntry->getEntryName() + "," +
+					String::toString(pIMGEntry->getEntryOffset()) + "," +
+					String::toString(pIMGEntry->getEntrySize()) + "," +
+					pIMGEntry->getVersionText()
+				);
+				break;
+			}
+		}
+	}
+	String::setClipboardText(String::join(vecCopyLines, "\r\n"));
+}
+
+void				IMGEditorTab::shiftSelectedEntries(int32 uiRowCountOffset)
+{
+	for (GridRow *pGridRow1 : m_pEntryGrid->getSelectedRows())
+	{
+		int32 iEntry1Index = m_pEntryGrid->getIndexByEntry(pGridRow1);
+		int32 iEntry2Index = Math::limit(iEntry1Index + (int32)uiRowCountOffset, 0, (int32)m_pEntryGrid->getEntryCount());
+
+		GridRow *pGridRow2 = m_pEntryGrid->getEntryByIndex(iEntry2Index);
+
+		m_pEntryGrid->swapEntries(pGridRow1, pGridRow2);
+		updateGridEntry((IMGEntry*)pGridRow1->getUserData());
+		updateGridEntry((IMGEntry*)pGridRow2->getUserData());
+	}
+
+	setIMGModifiedSinceRebuild(true);
 }

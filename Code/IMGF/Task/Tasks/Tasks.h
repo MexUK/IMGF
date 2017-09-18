@@ -59,6 +59,7 @@ public:
 	void						_saveFile(void); // todo - rename to saveFile eventually after IO windows renamed to showSaveFileWindow() etc
 	void						saveFileAs(void);
 	void						saveAllFiles(void);
+	void						cloneFile(void);
 	bool						saveAllOpenFiles(bool bCloseAll); // todo - remove parameter? // todo - different level function
 	void						saveLogs(void);
 	void						saveLogsAllTabs(void);

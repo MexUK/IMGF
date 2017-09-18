@@ -138,6 +138,7 @@ void		MainLayer::addControls(void)
 	pMenu2->addMenuItem("Save File", SAVE_FILE);
 	pMenu2->addMenuItem("Save As", SAVE_FILE_AS);
 	pMenu2->addMenuItem("Save All", SAVE_ALL_FILES);
+	pMenu2->addMenuItem("Clone File", CLONE_FILE);
 	pMenu2->addMenuItem("Save Logs", SAVE_LOGS);
 	pMenu2->addMenuItem("Save Logs for All Tabs", SAVE_LOGS_ALL_TABS);
 	pMenu2->addMenuItem("Clear Logs", CLEAR_LOGS);
@@ -382,26 +383,26 @@ void		MainLayer::addControls(void)
 
 	pMenuItem2 = pMenu2->addMenuItem("Copy Entry Data");
 	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Copy Entry Index", COPY_ENTRY_INDEX);
-	pMenu3->addMenuItem("Copy Entry Type", COPY_ENTRY_TYPE);
-	pMenu3->addMenuItem("Copy Entry Name", COPY_ENTRY_NAME);
-	pMenu3->addMenuItem("Copy Entry Offset", COPY_ENTRY_OFFSET);
-	pMenu3->addMenuItem("Copy Entry Size", COPY_ENTRY_SIZE);
-	pMenu3->addMenuItem("Copy Entry Version", COPY_ENTRY_VERSION);
-	pMenu3->addMenuItem("Copy Entry Row Data", COPY_ENTRY_ROW_DATA);
+	pMenu3->addMenuItem("Copy Entries Index", COPY_ENTRY_INDEX);
+	pMenu3->addMenuItem("Copy Entries Type", COPY_ENTRY_TYPE);
+	pMenu3->addMenuItem("Copy Entries Name", COPY_ENTRY_NAME);
+	pMenu3->addMenuItem("Copy Entries Offset", COPY_ENTRY_OFFSET);
+	pMenu3->addMenuItem("Copy Entries Size", COPY_ENTRY_SIZE);
+	pMenu3->addMenuItem("Copy Entries Version", COPY_ENTRY_VERSION);
+	pMenu3->addMenuItem("Copy Entries Row Data", COPY_ENTRY_ROW_DATA);
 
 	pMenuItem2 = pMenu2->addMenuItem("Shift Entry");
 	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Shift Entry Up 1 Row", SHIFT_ENTRY_UP_1_ROW);
-	pMenu3->addMenuItem("Shift Entry Up 5 Rows", SHIFT_ENTRY_UP_5_ROWS);
-	pMenu3->addMenuItem("Shift Entry Up 10 Rows", SHIFT_ENTRY_UP_10_ROWS);
-	pMenu3->addMenuItem("Shift Entry Up 100 Rows", SHIFT_ENTRY_UP_100_ROWS);
-	pMenu3->addMenuItem("Shift Entry Up 1000 Rows", SHIFT_ENTRY_UP_1000_ROWS);
-	pMenu3->addMenuItem("Shift Entry Down 1 Row", SHIFT_ENTRY_DOWN_1_ROW);
-	pMenu3->addMenuItem("Shift Entry Down 5 Rows", SHIFT_ENTRY_DOWN_5_ROWS);
-	pMenu3->addMenuItem("Shift Entry Down 10 Rows", SHIFT_ENTRY_DOWN_10_ROWS);
-	pMenu3->addMenuItem("Shift Entry Down 100 Rows", SHIFT_ENTRY_DOWN_100_ROWS);
-	pMenu3->addMenuItem("Shift Entry Down 1000 Rows", SHIFT_ENTRY_DOWN_1000_ROWS);
+	pMenu3->addMenuItem("Shift Entries Up 1 Row", SHIFT_ENTRY_UP_1_ROW);
+	pMenu3->addMenuItem("Shift Entries Up 5 Rows", SHIFT_ENTRY_UP_5_ROWS);
+	pMenu3->addMenuItem("Shift Entries Up 10 Rows", SHIFT_ENTRY_UP_10_ROWS);
+	pMenu3->addMenuItem("Shift Entries Up 100 Rows", SHIFT_ENTRY_UP_100_ROWS);
+	pMenu3->addMenuItem("Shift Entries Up 1000 Rows", SHIFT_ENTRY_UP_1000_ROWS);
+	pMenu3->addMenuItem("Shift Entries Down 1 Row", SHIFT_ENTRY_DOWN_1_ROW);
+	pMenu3->addMenuItem("Shift Entries Down 5 Rows", SHIFT_ENTRY_DOWN_5_ROWS);
+	pMenu3->addMenuItem("Shift Entries Down 10 Rows", SHIFT_ENTRY_DOWN_10_ROWS);
+	pMenu3->addMenuItem("Shift Entries Down 100 Rows", SHIFT_ENTRY_DOWN_100_ROWS);
+	pMenu3->addMenuItem("Shift Entries Down 1000 Rows", SHIFT_ENTRY_DOWN_1000_ROWS);
 
 	// missing entries
 	pMenu1->addMenuItem("Missing Entries");

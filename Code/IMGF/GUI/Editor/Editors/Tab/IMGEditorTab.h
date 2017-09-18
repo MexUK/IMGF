@@ -58,7 +58,12 @@ public:
 	bxgx::DropDown*				getEntryTypeFilter(void) { return m_pEntryTypeFilter; }
 	bxgx::DropDown*				getEntryVersionFilter(void) { return m_pEntryVersionFilter; }
 
+	std::vector<bxgi::IMGEntry*>	getSelectedEntries(void);
+	uint32							getSelectedEntryCount(void);
 
+	void						setSelectedEntriesNameCase(uint32 uiNameCaseType);
+	void						copySelectedEntryData(uint32 uiColumnType);
+	void						shiftSelectedEntries(int32 uiRowCountOffset);
 
 
 
@@ -137,8 +142,6 @@ public:
 	void						unloadFilter_Version(void);
 
 	void						reassignEntryIds(void);
-
-	std::vector<bxgi::IMGEntry*>	getSelectedEntries(void);
 
 	void						setActiveFilter(std::string strFilterName, std::string strValue) { m_umapActiveFilterValues[strFilterName] = strValue; }
 	std::string					getActiveFilter(std::string strFilterName) { return m_umapActiveFilterValues[strFilterName]; }

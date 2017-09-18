@@ -78,6 +78,7 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case SAVE_FILE:									return saveFile();
 	case SAVE_FILE_AS:								return saveFileAs();
 	case SAVE_ALL_FILES:							return saveAllFiles();
+	case CLONE_FILE:								return cloneFile();
 	case SAVE_LOGS:									return saveLogs();
 	case SAVE_LOGS_ALL_TABS:						return saveLogsAllTabs();
 	case CLEAR_LOGS:								return clearLogs();
@@ -290,6 +291,11 @@ void					InputManager::saveFileAs(void)
 void					InputManager::saveAllFiles(void)
 {
 	m_pTasks->saveAllFiles();
+}
+
+void					InputManager::cloneFile(void)
+{
+	m_pTasks->cloneFile();
 }
 
 void					InputManager::saveLogs(void)

@@ -30,6 +30,7 @@ enum imgf::mainLayer::input::EInputItem
 	SAVE_FILE,
 	SAVE_FILE_AS,
 	SAVE_ALL_FILES,
+	CLONE_FILE,
 	SAVE_LOGS,
 	SAVE_LOGS_ALL_TABS,
 	CLEAR_LOGS,
