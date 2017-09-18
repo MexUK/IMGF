@@ -447,7 +447,9 @@ void		MainLayer::addControls(void)
 	pMenu1->addMenuItem("Missing Entries");
 
 	// orphan entries
-	pMenu1->addMenuItem("Orphan Entries");
+	pMenuItem1 = pMenu1->addMenuItem("Orphan Entries");
+	pMenu2 = pMenuItem1->addMenu();
+	pMenu2->addMenuItem("Remove Orphan Textures from DFF Entries", REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES);
 
 	// tools
 	pMenu1->addMenuItem("Tools");

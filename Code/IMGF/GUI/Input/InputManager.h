@@ -169,6 +169,8 @@ private:
 	void					shiftEntryDown100Rows(void);
 	void					shiftEntryDown1000Rows(void);
 
+	void					removeOrphanTexturesFromDFFEntries(void);
+
 	void					lst(void);
 
 	void					settings(void);

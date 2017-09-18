@@ -180,7 +180,7 @@ public:
 	void						shiftEntryDown100Rows(void);
 	void						shiftEntryDown1000Rows(void);
 
-
+	void						removeOrphanTexturesFromDFFEntries(void);
 	
 
 
@@ -212,10 +212,7 @@ public:
 	void						onRequestMissingTextures(void);
 	void						onRequestExportEntriesViaTextLinesFromAllTabs(void);
 	void						onRequestDuplicateEntries(void);
-	
-	void						onRequestOpenLast(void);
-	void						onRequestConvertTXDToGame(bxgi::EPlatformedGame EPlatformedGame);
-	void						onRequestConvertTXDToRWVersion(bxgi::RWVersion *pRWVersion);
+
 	void						onRequestDump(void);
 	void						onRequestSessionManager(void);
 	void						onRequestWebsite(void);
@@ -228,13 +225,11 @@ public:
 	void						onRequestSaveIMGSignature(void);
 	void						onRequestVerifyIMGSignature(void);
 	void						onRequestCompareIMG(void);
-	void						onRequestConvertTXDToTextureFormat(bxcf::RasterDataFormat *pRasterDataFormat);
 
 	void						onRequestValidateAllDFFInActiveTab(void);
 	void						onRequestValidateAllTXDInActiveTab(void);
 	void						onRequestCredits(void);
 	void						onRequestRenamer(void);
-	void						onRequestClearRecentlyOpenedList(void);
 	void						onRequestBuildTXD(void);
 	void						onRequestIMGVersionSettings(void);
 	void						onRequestFeatureByName(std::string strFeatureName);
@@ -244,15 +239,13 @@ public:
 	static int CALLBACK			sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 	void						onRequestCenterCOLCollisionMeshes(void);
 	void						onRequestAlignCOLCollisionMeshesToDFFMesh(void);
-	void						onRequestConvertDFFFileToWDRFile(void);
 	void						onRequestTXDOrganizer(void);
-	void						onRequestConvertWTDFileToTXDFile(void);
 	void						onRequestDATPathsMover(void);
 	void						onRequestMapMoverAndIDShifter(void);
 	void						onRequestDATModelList(void);
 	void						onRequestFindTXDMissingFromIMGFoundInIDE(void);
 	void						onRequestFindDFFMissingFromIMGFoundInIDE(void);
-	void						onRequestRemoveOrphanTexturesFromModel(void);
+
 	void						onRequestExtractDVCAndNVColoursIntoDFFs(void);
 	void						onRequestExtract2DFXIntoDFFs(void);
 

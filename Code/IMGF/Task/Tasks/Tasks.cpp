@@ -438,7 +438,16 @@ void		Tasks::reopenFile(void)
 
 void		Tasks::openLastClosedFile(void)
 {
-	// todo
+	onStartTask("onRequestOpenLast");
+
+	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
+	if (uiRecentlyOpenedCount > 0)
+	{
+		string strFilePath = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedCount));
+		m_pMainWindow->getIMGEditor()->addFile(strFilePath);
+	}
+	
+	onCompleteTask();
 }
 
 void		Tasks::openFileFolderInExplorer(void)
@@ -3635,7 +3644,132 @@ void						Tasks::shiftEntryDown1000Rows(void)
 	onCompleteTask();
 }
 
+// orphan entries
+void						Tasks::removeOrphanTexturesFromDFFEntries(void)
+{
+	onStartTask("removeOrphanTexturesFromDFFEntries");
 
+	vector<string> vecTXDFilePaths = openFile("txd");
+	if (vecTXDFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	// progess bar
+	uint32 uiSelectedDFFCount = 0;
+	for (IMGEntry *pIMGEntry : getIMGTab()->getSelectedEntries())
+	{
+		if (pIMGEntry->isModelFile())
+		{
+			uiSelectedDFFCount++;
+		}
+	}
+	setMaxProgress((uiSelectedDFFCount  * 2) + vecTXDFilePaths.size());
+
+	// fetch texture names from DFF files (selected IMG entries)
+	vector<string> vecDFFTextureNames;
+	vector<DFFFormat*> vecDFFFormatsInput;
+	vector<IMGEntry*> vecIMGEntries;
+	uint32 uiProgressMaxTicksDecudctionForCorruptDFFFiles = 0;
+	for (IMGEntry *pIMGEntry : getIMGTab()->getSelectedEntries())
+	{
+		if (pIMGEntry->isModelFile())
+		{
+			DFFFormat *pDFFFile = DFFManager::unserializeMemory(pIMGEntry->getEntryData());
+			if (pDFFFile->unserialize())
+			{
+				StdVector::addToVector(vecDFFTextureNames, pDFFFile->getTextureNames());
+				vecDFFFormatsInput.push_back(pDFFFile);
+				vecIMGEntries.push_back(pIMGEntry);
+			}
+			else
+			{
+				uiProgressMaxTicksDecudctionForCorruptDFFFiles++;
+				pDFFFile->unload();
+				delete pDFFFile;
+			}
+			increaseProgress();
+		}
+	}
+	setMaxProgress(getIMGF()->getTaskManager()->getTaskMaxProgressTickCount() - uiProgressMaxTicksDecudctionForCorruptDFFFiles); // for below
+
+	// fetch texture names from TXD files (files input)
+	vector<string> vecTXDTextureNames;
+	for (string& strTXDFilePath : vecTXDFilePaths)
+	{
+		TXDFormat txdFile(strTXDFilePath);
+		if (txdFile.unserialize())
+		{
+			StdVector::addToVector(vecTXDTextureNames, txdFile.getTextureNames());
+		}
+		txdFile.unload();
+		increaseProgress();
+	}
+
+	// find texture names found in DFF files but not found in TXD files
+	vecTXDTextureNames = StdVector::toUpperCase(vecTXDTextureNames);
+	unordered_map<string, bool> umapTXDTextureNames = StdVector::convertVectorToUnorderedMap(vecTXDTextureNames);
+	vecTXDTextureNames.clear();
+
+	vector<string> vecTexturesInDFFMissingFromTXD;
+	unordered_map<string, bool> umapTexturesInDFFMissingFromTXD;
+	for (string& strDFFTextureName : vecDFFTextureNames)
+	{
+		string strDFFTextureNameUpper = String::toUpperCase(strDFFTextureName);
+		if (umapTXDTextureNames.count(strDFFTextureNameUpper) == 0)
+		{
+			if (umapTexturesInDFFMissingFromTXD.count(strDFFTextureNameUpper) == 0)
+			{
+				umapTexturesInDFFMissingFromTXD[strDFFTextureNameUpper] = true;
+				vecTexturesInDFFMissingFromTXD.push_back(strDFFTextureName);
+			}
+		}
+	}
+	umapTexturesInDFFMissingFromTXD.clear();
+
+	// remove textures entries from DFF files that are not found in TXD files
+	uint32 i = 0;
+	uint32 uiDFFFileCountWithRemovedSections = 0;
+	for (DFFFormat *pDFFFile : vecDFFFormatsInput)
+	{
+		bool bRemovedSection = false;
+		for (string& strDFFTextureName : vecTexturesInDFFMissingFromTXD)
+		{
+			TextureEntry *pDFFTextureEntry = pDFFFile->getTextureByDiffuseOrAlphaName(strDFFTextureName);
+			if (pDFFTextureEntry != nullptr)
+			{
+				RWSection_Material *pMaterial = (RWSection_Material*)pDFFTextureEntry->getRWTextureSection()->getParentNode();
+				pMaterial->removeSection();
+				pDFFFile->removeTextureEntry(pDFFTextureEntry);
+				bRemovedSection = true;
+			}
+		}
+
+		IMGEntry *pIMGEntry = vecIMGEntries[i];
+		pIMGEntry->setEntryData(pDFFFile->serialize());
+		getIMGTab()->updateGridEntry(pIMGEntry);
+
+		if (bRemovedSection)
+		{
+			uiDFFFileCountWithRemovedSections++;
+		}
+
+		increaseProgress();
+
+		i++;
+	}
+
+	getIMGTab()->logf("Removed orphan txtures from %u DFF files.", uiDFFFileCountWithRemovedSections);
+
+	// clean up
+	for (DFFFormat *pDFFFile : vecDFFFormatsInput)
+	{
+		pDFFFile->unload();
+		delete pDFFFile;
+	}
+	
+	onCompleteTask();
+}
 
 
 
@@ -4924,18 +5058,6 @@ void		Tasks::onRequestDuplicateEntries(void)
 	*/
 }
 
-void		Tasks::onRequestOpenLast(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestOpenLast");
-	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
-	if (uiRecentlyOpenedCount > 0)
-	{
-		string strIMGPath = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedCount));
-		openFile(strIMGPath);
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenLast");
-}
-
 void		Tasks::onRequestDump(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestDump");
@@ -6114,13 +6236,6 @@ void			Tasks::onRequestRenamer(void)
 	delete pRenamerDialogData;
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRenamer");
 	*/
-}
-
-void		Tasks::onRequestClearRecentlyOpenedList(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestClearRecentlyOpenedList");
-	getIMGF()->getRecentlyOpenManager()->removeRecentlyOpenedEntries();
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestClearRecentlyOpenedList");
 }
 
 void		Tasks::onRequestBuildTXD(void)
@@ -8124,153 +8239,6 @@ void						Tasks::onRequestFindDFFMissingFromIMGFoundInIDE(void)
 	getIMGF()->getTaskManager()->onResumeTask();
 	
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIMGFoundInIDE");
-}
-
-void						Tasks::onRequestRemoveOrphanTexturesFromModel(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestRemoveOrphanTexturesFromModel");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveOrphanTexturesFromModel", true);
-		return;
-	}
-
-	// input - txd
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecTXDPaths = Input::openFile(getIMGF()->getLastUsedDirectory("REMOVEORPHANTEXTURESFROMMODEL_TXD"), "TXD");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecTXDPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveOrphanTexturesFromModel", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("REMOVEORPHANTEXTURESFROMMODEL_TXD", Path::getDirectory(vecTXDPaths[0]));
-
-	// progess bar
-	uint32 uiSelectedDFFCount = 0;
-	for (IMGEntry *pIMGEntry : getIMGF()->getEntryListTab()->getSelectedEntries())
-	{
-		if (pIMGEntry->isModelFile())
-		{
-			uiSelectedDFFCount++;
-		}
-	}
-	setMaxProgress((uiSelectedDFFCount  * 2) + vecTXDPaths.size());
-
-	// fetch texture names from DFF files (selected IMG entries)
-	vector<string> vecDFFTextureNames;
-	vector<DFFFormat*> vecDFFFormatsInput;
-	vector<IMGEntry*> vecIMGEntries;
-	uint32 uiProgressMaxTicksDecudctionForCorruptDFFFiles = 0;
-	for (IMGEntry *pIMGEntry : getIMGF()->getEntryListTab()->getSelectedEntries())
-	{
-		if (pIMGEntry->isModelFile())
-		{
-			DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(pIMGEntry->getEntryData());
-			if (pDFFFile->doesHaveError())
-			{
-				pDFFFile->unload();
-				delete pDFFFile;
-				increaseProgress();
-				uiProgressMaxTicksDecudctionForCorruptDFFFiles++;
-				continue;
-			}
-
-			StdVector::addToVector(vecDFFTextureNames, pDFFFile->getTextureNames());
-			vecDFFFormatsInput.push_back(pDFFFile);
-			vecIMGEntries.push_back(pIMGEntry);
-
-			increaseProgress();
-		}
-	}
-	setMaxProgress(getIMGF()->getTaskManager()->getTaskMaxProgressTickCount() - uiProgressMaxTicksDecudctionForCorruptDFFFiles); // for below
-
-	// fetch texture names from TXD files (files input)
-	vector<string> vecTXDTextureNames;
-	for (string strTXDPath : vecTXDPaths)
-	{
-		TXDFormat *pTXDFile = TXDManager::get()->unserializeFile(strTXDPath);
-		if (pTXDFile->doesHaveError())
-		{
-			pTXDFile->unload();
-			delete pTXDFile;
-			increaseProgress();
-			continue;
-		}
-
-		StdVector::addToVector(vecTXDTextureNames, pTXDFile->getTextureNames());
-
-		pTXDFile->unload();
-		delete pTXDFile;
-
-		increaseProgress();
-	}
-
-	// find texture names found in DFF files getIMGF()->getEntryListTab()but not found in TXD files
-	vecTXDTextureNames = StdVector::toUpperCase(vecTXDTextureNames);
-	unordered_map<string, bool> umapTXDTextureNames = StdVector::convertVectorToUnorderedMap(vecTXDTextureNames);
-	vecTXDTextureNames.clear();
-
-	vector<string> vecTexturesInDFFMissingFromTXD;
-	unordered_map<string, bool> umapTexturesInDFFMissingFromTXD;
-	for (string& strDFFTextureName : vecDFFTextureNames)
-	{
-		string strDFFTextureNameUpper = String::toUpperCase(strDFFTextureName);
-		if (umapTXDTextureNames.count(strDFFTextureNameUpper) == 0)
-		{
-			if (umapTexturesInDFFMissingFromTXD.count(strDFFTextureNameUpper) == 0)
-			{
-				umapTexturesInDFFMissingFromTXD[strDFFTextureNameUpper] = true;
-				vecTexturesInDFFMissingFromTXD.push_back(strDFFTextureName);
-			}
-		}
-	}
-	umapTexturesInDFFMissingFromTXD.clear();
-
-	// remove textures entries from DFF files that are not found in TXD files
-	uint32 i = 0;
-	uint32 uiDFFFileCountWithRemovedSections = 0;
-	for (DFFFormat *pDFFFile : vecDFFFormatsInput)
-	{
-		bool bRemovedSection = false;
-		for (string& strDFFTextureName : vecTexturesInDFFMissingFromTXD)
-		{
-			TextureEntry *pDFFTextureEntry = pDFFFile->getTextureByDiffuseOrAlphaName(strDFFTextureName);
-			if (pDFFTextureEntry != nullptr)
-			{
-				RWSection_Material *pMaterial = (RWSection_Material*)pDFFTextureEntry->getRWTextureSection()->getParentNode();
-				pMaterial->removeSection();
-				pDFFFile->removeTextureEntry(pDFFTextureEntry);
-				bRemovedSection = true;
-			}
-		}
-
-		IMGEntry *pIMGEntry = vecIMGEntries[i];
-		pIMGEntry->setEntryData(pDFFFile->serialize());
-		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-
-		if (bRemovedSection)
-		{
-			uiDFFFileCountWithRemovedSections++;
-		}
-
-		increaseProgress();
-
-		i++;
-	}
-
-	// log
-	// todo - getIMGF()->getEntryListTab()->log("Removed orphan textures from " + String::toString(uiDFFFileCountWithRemovedSections) + " of " + String::toString(vecDFFFormatsInput.size()) + " DFF files.");
-	// todo - getIMGF()->getEntryListTab()->log("Textures in DFF files missing from TXD files:", true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecTexturesInDFFMissingFromTXD, "\n"), true);
-
-	// clean up
-	for (auto pDFFFile : vecDFFFormatsInput)
-	{
-		pDFFFile->unload();
-		delete pDFFFile;
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveOrphanTexturesFromModel");
 }
 
 void				Tasks::onRequestExtractDVCAndNVColoursIntoDFFs(void)

@@ -151,6 +151,8 @@ enum imgf::mainLayer::input::EInputItem
 	SHIFT_ENTRY_DOWN_100_ROWS,
 	SHIFT_ENTRY_DOWN_1000_ROWS,
 
+	REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES,
+
 	// settings
 	SETTINGS
 };

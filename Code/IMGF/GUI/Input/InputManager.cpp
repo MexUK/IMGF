@@ -206,6 +206,8 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case SHIFT_ENTRY_DOWN_10_ROWS:					return shiftEntryDown10Rows();
 	case SHIFT_ENTRY_DOWN_100_ROWS:					return shiftEntryDown100Rows();
 	case SHIFT_ENTRY_DOWN_1000_ROWS:				return shiftEntryDown1000Rows();
+
+	case REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES:	return removeOrphanTexturesFromDFFEntries();
 	}
 }
 
@@ -851,6 +853,11 @@ void					InputManager::shiftEntryDown1000Rows(void)
 	m_pTasks->shiftEntryDown1000Rows();
 }
 
+// orphan entries
+void					InputManager::removeOrphanTexturesFromDFFEntries(void)
+{
+	m_pTasks->removeOrphanTexturesFromDFFEntries();
+}
 
 // LST
 void					InputManager::lst(void)
