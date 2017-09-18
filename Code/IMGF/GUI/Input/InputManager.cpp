@@ -10,7 +10,10 @@
 #include "GUI/Layer/Layers/MainMenu/EMainMenuType.h"
 #include "Task/TaskManager.h"
 #include "Task/Tasks/Tasks.h"
+#include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
+#include "GUI/Editor/Editors/IMGEditor.h"
 
+using namespace std;
 using namespace bxgx;
 using namespace bxgx::events;
 using namespace imgf;
@@ -46,6 +49,16 @@ void					InputManager::onPressButton(Button *pButton)
 // forward button press
 void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 {
+	// recently open
+	if (getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer().find(pMenuItem->getId()) != getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer().end())
+	{
+		string strRecentlyOpenFilePath = getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer()[pMenuItem->getId()];
+		getIMGF()->getRecentlyOpenManager()->moveRecentlyOpenEntryToTop(strRecentlyOpenFilePath);
+		getIMGF()->getIMGEditor()->addFile(strRecentlyOpenFilePath);
+		return;
+	}
+
+	// main
 	switch (pMenuItem->getId())
 	{
 	case EInputItem::FORMATS:						return formats();
@@ -70,6 +83,7 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case REOPEN_FILE:								return reopenFile();
 	case OPEN_LAST_CLOSED_FILE:						return openLastClosedFile();
 	case OPEN_FILE_FOLDER_IN_EXPLORER:				return openFileFolderInExplorer();
+	case CLEAR_RECENTLY_OPEN_FILES:					return clearRecentlyOpenFiles();
 
 	case CLOSE_FILE:								return closeFile();
 	case CLOSE_ALL_FILES:							return closeAllFiles();
@@ -130,9 +144,11 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case CONVERT_IMG_VERSION:						return convertIMGVersion();
 	case CONVERT_SELECTED_COL_VERSION:				return convertSelectedCOLVersion();
 	case CONVERT_SELECTED_DFF_RW_VERSION:			return convertSelectedDFFRWVersion();
+	case CONVERT_SELECTED_DFF_TO_WDR:				return convertSelectedDFFToWDR();
 	case CONVERT_SELECTED_TXD_RW_VERSION:			return convertSelectedTXDRWVersion();
 	case CONVERT_SELECTED_TXD_TO_GAME:				return convertSelectedTXDToGame();
 	case CONVERT_SELECTED_TXD_TO_TEXTURE_FORMAT:	return convertSelectedTXDToTextureFormat();
+	case CONVERT_SELECTED_WTD_TO_TXD:				return convertWTDFileToTXDFile();
 
 	case SELECT_ALL:								return selectAll();
 	case UNSELECT_ALL:								return unselectAll();
@@ -282,6 +298,11 @@ void					InputManager::openLastClosedFile(void)
 void					InputManager::openFileFolderInExplorer(void)
 {
 	m_pTasks->openFileFolderInExplorer();
+}
+
+void					InputManager::clearRecentlyOpenFiles(void)
+{
+	m_pTasks->clearRecentlyOpenFiles();
 }
 
 // save
@@ -550,6 +571,11 @@ void					InputManager::convertSelectedDFFRWVersion(void)
 	m_pTasks->convertSelectedDFFRWVersion();
 }
 
+void					InputManager::convertSelectedDFFToWDR(void)
+{
+	m_pTasks->convertSelectedDFFToWDR();
+}
+
 void					InputManager::convertSelectedTXDRWVersion(void)
 {
 	m_pTasks->convertSelectedTXDRWVersion();
@@ -563,6 +589,11 @@ void					InputManager::convertSelectedTXDToGame(void)
 void					InputManager::convertSelectedTXDToTextureFormat(void)
 {
 	m_pTasks->convertSelectedTXDToTextureFormat();
+}
+
+void					InputManager::convertWTDFileToTXDFile(void)
+{
+	m_pTasks->convertWTDFileToTXDFile();
 }
 
 // select

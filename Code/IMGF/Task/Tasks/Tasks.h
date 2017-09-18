@@ -55,6 +55,7 @@ public:
 	void						reopenFile(void);
 	void						openLastClosedFile(void);
 	void						openFileFolderInExplorer(void);
+	void						clearRecentlyOpenFiles(void);
 
 	void						_saveFile(void); // todo - rename to saveFile eventually after IO windows renamed to showSaveFileWindow() etc
 	void						saveFileAs(void);
@@ -116,9 +117,11 @@ public:
 	void						convertIMGVersion(void);
 	void						convertSelectedCOLVersion(void);
 	void						convertSelectedDFFRWVersion(void);
+	void						convertSelectedDFFToWDR(void);
 	void						convertSelectedTXDRWVersion(void);
 	void						convertSelectedTXDToGame(void);
 	void						convertSelectedTXDToTextureFormat(void);
+	void						convertWTDFileToTXDFile(void);
 
 	void						selectAll(void);
 	void						unselectAll(void);

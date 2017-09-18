@@ -13,10 +13,13 @@ class bxgx::DropDown;
 class bxgx::Button;
 class bxgx::Line;
 class bxgx::Tab;
+class bxgx::Menu;
 
 class imgf::MainLayer : public bxgx::Layer, public bxcf::EventBindable
 {
 public:
+	MainLayer(void);
+
 	void						init(void);
 
 	void						setIMGFWindow(MainWindow* pIMGFWindow) { m_pMainWindow = pIMGFWindow; }
@@ -47,4 +50,6 @@ public:
 	bxgx::Text*					m_pText_FileVersion;
 	bxgx::Text*					m_pText_FileGame;
 	bxgx::Text*					m_pText_FileEntryCount;
+
+	bxgx::Menu*					m_pRecentlyOpenMenu;
 };

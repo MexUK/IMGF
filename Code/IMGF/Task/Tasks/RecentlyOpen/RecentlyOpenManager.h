@@ -4,10 +4,11 @@
 #include "Object/Manager.h"
 #include "RecentlyOpenEntry.h"
 #include "Pool/VectorPool.h"
+#include "Event/EventBindable.h"
 #include <string>
 #include <unordered_map>
 
-class imgf::RecentlyOpenManager : public bxcf::Manager, public bxcf::VectorPool<RecentlyOpenEntry*>
+class imgf::RecentlyOpenManager : public bxcf::Manager, public bxcf::VectorPool<RecentlyOpenEntry*>, public bxcf::EventBindable
 {
 public:
 	void					init(void);

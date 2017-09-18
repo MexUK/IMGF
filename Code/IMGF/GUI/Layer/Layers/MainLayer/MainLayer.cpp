@@ -23,6 +23,21 @@ using namespace imgf;
 using namespace imgf::layers;
 using namespace imgf::mainLayer::input;
 
+MainLayer::MainLayer(void) :
+	m_pMainWindow(nullptr),
+	m_pTabBar(nullptr),
+	m_pSettingsButton(nullptr),
+	m_pSettingsButtonLine1(nullptr),
+	m_pSettingsButtonLine2(nullptr),
+	m_pSettingsButtonLine3(nullptr),
+	m_pText_FilePath(nullptr),
+	m_pText_FileVersion(nullptr),
+	m_pText_FileGame(nullptr),
+	m_pText_FileEntryCount(nullptr),
+	m_pRecentlyOpenMenu(nullptr)
+{
+}
+
 // main interface
 void		MainLayer::init(void)
 {
@@ -131,6 +146,10 @@ void		MainLayer::addControls(void)
 	pMenu2->addMenuItem("Open Folder Recursively", OPEN_FOLDER_RECURSIVELY);
 	pMenu2->addMenuItem("Reopen", REOPEN_FILE);
 	pMenu2->addMenuItem("Open Last Closed File", OPEN_LAST_CLOSED_FILE);
+	
+	pMenuItem1 = pMenu2->addMenuItem("Recently Open");
+	m_pRecentlyOpenMenu = pMenuItem1->addMenu(VERTICAL);
+
 	pMenu2->addMenuItem("Open File Folder in Explorer", OPEN_FILE_FOLDER_IN_EXPLORER);
 
 	pMenuItem1 = pMenu1->addMenuItem("Save", SAVE_FILE);
@@ -303,12 +322,17 @@ void		MainLayer::addControls(void)
 	pMenuItem2 = pMenu2->addMenuItem("DFF");
 	pMenu3 = pMenuItem2->addMenu();
 	pMenuItem3 = pMenu3->addMenuItem("Convert DFF RW Version for Selection", CONVERT_SELECTED_DFF_RW_VERSION);
-
+	pMenuItem3 = pMenu3->addMenuItem("Convert DFF to WDR for Selection", CONVERT_SELECTED_DFF_TO_WDR);
+	
 	pMenuItem2 = pMenu2->addMenuItem("TXD");
 	pMenu3 = pMenuItem2->addMenu();
 	pMenuItem3 = pMenu3->addMenuItem("Convert TXD RW Version for Selection", CONVERT_SELECTED_TXD_RW_VERSION);
 	pMenuItem3 = pMenu3->addMenuItem("Convert TXD to Game for Selection", CONVERT_SELECTED_TXD_TO_GAME);
 	pMenuItem3 = pMenu3->addMenuItem("Convert TXD to Texture Format for Selection", CONVERT_SELECTED_TXD_TO_TEXTURE_FORMAT);
+
+	pMenuItem2 = pMenu2->addMenuItem("WTD");
+	pMenu3 = pMenuItem2->addMenu();
+	pMenuItem3 = pMenu3->addMenuItem("Convert WTD to TXD for Selection", CONVERT_SELECTED_WTD_TO_TXD);
 
 	// select
 	pMenuItem1 = pMenu1->addMenuItem("Select");

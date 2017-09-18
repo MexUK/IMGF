@@ -11,15 +11,25 @@
 #include "Window/Window.h"
 #include "Format/Text/INI/INIManager.h"
 #include "Static/AppDataPath.h"
+#include "GUI/Window/WindowManager.h"
+#include "GUI/Window/Windows/MainWindow/MainWindow.h"
+#include "GUI/Layer/Layers/MainLayer/MainLayer.h"
+#include "Control/Controls/Menu.h"
+#include "Event/EInputEvent.h"
+#include "GUI/Input/EInputItem.h"
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgx;
+using namespace bxgx::events;
 using namespace imgf;
+using namespace imgf::mainLayer::input;
 
 void					RecentlyOpenManager::init(void)
 {
-	loadRecentlyOpenEntries();
+	bindEvent(BXGX_READY, &RecentlyOpenManager::loadRecentlyOpenEntries);
 }
+
 void					RecentlyOpenManager::uninit(void)
 {
 	unloadRecentlyOpenEntries();
@@ -27,27 +37,22 @@ void					RecentlyOpenManager::uninit(void)
 
 void					RecentlyOpenManager::loadRecentlyOpenEntries(void)
 {
-	/*
-	todo
-
 	removeAllEntries();
 
-	for (auto it : getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer())
-	{
-		DeleteMenu(getIMGF()->m_hSubMenu_File_OpenRecent, it.first, 0);
-	}
-	getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer().clear();
-	DeleteMenu(getIMGF()->m_hSubMenu_File_OpenRecent, 1880, 0);
-	DeleteMenu(getIMGF()->m_hSubMenu_File_OpenRecent, 1881, 0);
+	Menu *pRecentlyOpenMenu = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pRecentlyOpenMenu;
+	
+	pRecentlyOpenMenu->removeAllMenuItems();
+	m_umapRecentlyOpenedFiles.clear();
 
 	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
 	for (int32 i = uiRecentlyOpenedCount; i >= 1; i--)
 	{
 		string strIMGPath = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i));
 
-		AppendMenu(getIMGF()->m_hSubMenu_File_OpenRecent, MF_STRING, 1800 + i, String::convertStdStringToStdWString(String::toString((uiRecentlyOpenedCount - i) + 1) + ") " + strIMGPath).c_str());
+		string strMenuItemText = String::toString((uiRecentlyOpenedCount - i) + 1) + ") " + strIMGPath;
+		pRecentlyOpenMenu->addMenuItem(strMenuItemText, 1800 + i);
 
-		getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer()[1800 + i] = strIMGPath;
+		m_umapRecentlyOpenedFiles[1800 + i] = strIMGPath;
 
 		RecentlyOpenEntry *pRecentlyOpenEntry = new RecentlyOpenEntry;
 		pRecentlyOpenEntry->m_strPath = strIMGPath;
@@ -56,35 +61,49 @@ void					RecentlyOpenManager::loadRecentlyOpenEntries(void)
 
 	if (uiRecentlyOpenedCount == 0)
 	{
-		AppendMenu(getIMGF()->m_hSubMenu_File_OpenRecent, MF_STRING | MF_DISABLED, 1881, LocalizationManager::get()->getTranslatedTextW("Menu_RecentlyOpenFiles_NoFiles").c_str());
+		pRecentlyOpenMenu->addMenuItem("There are no recently open files");
 	}
 
-	AppendMenu(getIMGF()->m_hSubMenu_File_OpenRecent, MF_STRING, 1880, LocalizationManager::get()->getTranslatedTextW("Menu_RecentlyOpenFiles_Clear").c_str());
-	*/
+	pRecentlyOpenMenu->addMenuItem("Clear Recently Open Files", CLEAR_RECENTLY_OPEN_FILES);
 }
 void					RecentlyOpenManager::unloadRecentlyOpenEntries(void)
 {
 	removeAllEntries();
 }
 
-RecentlyOpenEntry*		RecentlyOpenManager::addRecentlyOpenEntry(string strPath)
+RecentlyOpenEntry*		RecentlyOpenManager::addRecentlyOpenEntry(string strFilePath)
 {
-	if (doesRecentlyOpenEntryExist(strPath))
+	if (doesRecentlyOpenEntryExist(strFilePath))
 	{
-		moveRecentlyOpenEntryToTop(strPath);
+		moveRecentlyOpenEntryToTop(strFilePath);
 		loadRecentlyOpenEntries();
-		RecentlyOpenEntry *pRecentlyOpenEntry = getRecentlyOpenEntryByPath(strPath);
+		RecentlyOpenEntry *pRecentlyOpenEntry = getRecentlyOpenEntryByPath(strFilePath);
 		return pRecentlyOpenEntry;
 	}
 
-	strPath = String::replace(strPath, "/", "\\");
+	strFilePath = String::replace(strFilePath, "/", "\\");
 
 	RecentlyOpenEntry *pRecentlyOpenEntry = new RecentlyOpenEntry;
-	pRecentlyOpenEntry->m_strPath = strPath;
+	pRecentlyOpenEntry->m_strPath = strFilePath;
 	addEntry(pRecentlyOpenEntry);
 
 	uint32 uiRecentlyOpenedMaxCount = 15;
 	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
+
+	Menu *pRecentlyOpenMenu = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pRecentlyOpenMenu;
+
+	if (uiRecentlyOpenedCount == 0)
+	{
+		pRecentlyOpenMenu->removeMenuItem(pRecentlyOpenMenu->getFirstEntry());
+	}
+
+	pRecentlyOpenMenu->removeMenuItem(pRecentlyOpenMenu->getLastEntry());
+
+	string strMenuItemText = String::toString(uiRecentlyOpenedCount + 1) + ") " + strFilePath;
+	pRecentlyOpenMenu->addMenuItem(strMenuItemText, 1800 + uiRecentlyOpenedCount + 1);
+	m_umapRecentlyOpenedFiles[1800 + uiRecentlyOpenedCount + 1] = strFilePath;
+
+	pRecentlyOpenMenu->addMenuItem("Clear Recently Open Files", CLEAR_RECENTLY_OPEN_FILES);
 
 	if (uiRecentlyOpenedCount == uiRecentlyOpenedMaxCount)
 	{
@@ -93,12 +112,12 @@ RecentlyOpenEntry*		RecentlyOpenManager::addRecentlyOpenEntry(string strPath)
 			string strIMGPath2 = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i));
 			INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i - 1), strIMGPath2);
 		}
-		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedMaxCount), strPath);
+		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedMaxCount), strFilePath);
 	}
 	else
 	{
 		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count", String::toString(uiRecentlyOpenedCount + 1));
-		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedCount + 1), strPath);
+		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedCount + 1), strFilePath);
 	}
 
 	return pRecentlyOpenEntry;
@@ -106,26 +125,24 @@ RecentlyOpenEntry*		RecentlyOpenManager::addRecentlyOpenEntry(string strPath)
 
 void					RecentlyOpenManager::removeRecentlyOpenedEntries(void)
 {
-	/*
-	todo
-	for (auto it : getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer())
-	{
-		DeleteMenu(getIMGF()->m_hSubMenu_File_OpenRecent, it.first, 0);
-	}
+	Menu *pRecentlyOpenMenu = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pRecentlyOpenMenu;
+
+	pRecentlyOpenMenu->removeAllMenuItems();
+	m_umapRecentlyOpenedFiles.clear();
+
 	getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer().clear();
 
 	removeAllEntries();
-	getIMGF()->getActiveWindow()->clearOpenLastFilename();
+	getIMGF()->getWindowManager()->getMainWindow()->clearOpenLastFilename();
 
 	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
 	for (uint32 i = 1; i <= uiRecentlyOpenedCount; i++)
 	{
 		INIManager::removeItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i));
 	}
-	INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count", 0);
+	INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count", "0");
 
 	loadRecentlyOpenEntries();
-	*/
 }
 
 void					RecentlyOpenManager::removeRecentlyOpenEntry(RecentlyOpenEntry *pRecentlyOpenEntry)

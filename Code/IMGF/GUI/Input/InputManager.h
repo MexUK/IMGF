@@ -45,6 +45,7 @@ private:
 	void					reopenFile(void);
 	void					openLastClosedFile(void);
 	void					openFileFolderInExplorer(void);
+	void					clearRecentlyOpenFiles(void);
 
 	void					saveFile(void);
 	void					saveFileAs(void);
@@ -107,9 +108,11 @@ private:
 	void					convertIMGVersion(void);
 	void					convertSelectedCOLVersion(void);
 	void					convertSelectedDFFRWVersion(void);
+	void					convertSelectedDFFToWDR(void);
 	void					convertSelectedTXDRWVersion(void);
 	void					convertSelectedTXDToGame(void);
 	void					convertSelectedTXDToTextureFormat(void);
+	void					convertWTDFileToTXDFile(void);
 
 	void					selectAll(void);
 	void					unselectAll(void);

@@ -451,6 +451,15 @@ void		Tasks::openFileFolderInExplorer(void)
 	onCompleteTask();
 }
 
+void		Tasks::clearRecentlyOpenFiles(void)
+{
+	onStartTask("clearRecentlyOpenFiles");
+
+	getIMGF()->getRecentlyOpenManager()->removeRecentlyOpenedEntries();
+
+	onCompleteTask();
+}
+
 void		Tasks::_saveFile(void)
 {
 	onStartTask("saveFile");
@@ -2293,6 +2302,53 @@ void		Tasks::convertSelectedDFFRWVersion(void)
 	onCompleteTask();
 }
 
+void			Tasks::convertSelectedDFFToWDR(void)
+{
+	onStartTask("convertSelectedDFFToWDR");
+
+	uint32 uiSelectedRowCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
+	setMaxProgress(uiSelectedRowCount);
+
+	uint32 uiConvertedEntryCount = 0;
+	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getSelectedRows())
+	{
+		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
+
+		if (pIMGEntry->isModelFile())
+		{
+			DFFFormat dffFile(pIMGEntry->getEntryData(), false);
+			if (dffFile.unserialize())
+			{
+				IntermediateModelFormat *pGeneralModelFile = dffFile.convertToIntermediateModelFormat();
+				WDRFormat *pWDRFile = WDRManager::get()->convertIntermediateModelFileToWDRFile(pGeneralModelFile);
+				pGeneralModelFile->unload();
+				delete pGeneralModelFile;
+				string strWDRFileData = pWDRFile->serialize();
+				pWDRFile->unload();
+				delete pWDRFile;
+
+				pIMGEntry->setEntryData(strWDRFileData);
+				pIMGEntry->setEntryName(Path::replaceFileExtensionWithCase(pIMGEntry->getEntryName(), "wdr"));
+				
+				getIMGTab()->updateGridEntry(pIMGEntry);
+				uiConvertedEntryCount++;
+			}
+			dffFile.unload();
+		}
+
+		increaseProgress();
+	}
+
+	if (uiSelectedRowCount > 0)
+	{
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->logf("Converted %u DFF entries to WDR entries.", uiConvertedEntryCount);
+
+	onCompleteTask();
+}
+
 void		Tasks::convertSelectedTXDRWVersion(void)
 {
 	onStartTask("convertSelectedTXDRWVersion");
@@ -2465,6 +2521,53 @@ void		Tasks::convertSelectedTXDToTextureFormat(void)
 	}
 
 	getIMGTab()->logf("Converted TXD to texture format %s for %u entries.", strNewRasterDataFormatText.c_str(), uiConvertedEntryCount);
+
+	onCompleteTask();
+}
+
+void			Tasks::convertWTDFileToTXDFile(void)
+{
+	onStartTask("convertWTDFileToTXDFile");
+
+	uint32 uiSelectedRowCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
+	setMaxProgress(uiSelectedRowCount);
+
+	uint32 uiConvertedEntryCount = 0;
+	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getSelectedRows())
+	{
+		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
+
+		if (pIMGEntry->isTextureFile() && !pIMGEntry->isRWFile())
+		{
+			WTDFormat wtdFile(pIMGEntry->getEntryData(), false);
+			if (wtdFile.unserialize())
+			{
+				IntermediateTextureFormat *pGeneralTextureFile = wtdFile.convertToIntermediateFormat();
+				TXDFormat *pTXDFile = TXDManager::get()->convertIntermediateTextureFileToTXDFile(pGeneralTextureFile);
+				pGeneralTextureFile->unload();
+				delete pGeneralTextureFile;
+				string strTXDFileData = pTXDFile->serialize();
+				pTXDFile->unload();
+				delete pTXDFile;
+
+				pIMGEntry->setEntryData(strTXDFileData);
+				pIMGEntry->setEntryName(Path::replaceFileExtensionWithCase(pIMGEntry->getEntryName(), "txd"));
+
+				getIMGTab()->updateGridEntry(pIMGEntry);
+				uiConvertedEntryCount++;
+			}
+			wtdFile.unload();
+		}
+
+		increaseProgress();
+	}
+
+	if (uiSelectedRowCount > 0)
+	{
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->logf("Converted %u WTD entries to TXD entries.", uiConvertedEntryCount);
 
 	onCompleteTask();
 }
@@ -7054,76 +7157,6 @@ void			Tasks::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestAlignCOLCollisionMeshesToDFFMesh");
 }
 
-void			Tasks::onRequestConvertDFFFileToWDRFile(void)
-{
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestConvertDFFFileToWDRFile");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFFileToWDRFile", true);
-		return;
-	}
-
-	// fetch selected entries
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFFileToWDRFile", true);
-		return;
-	}
-	uint32 uiEntryCount = 0;
-	setMaxProgress(pListControl->GetSelectedCount());
-
-	IMGEntry *pIMGEntry = nullptr;
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-
-		if (!pIMGEntry->isModelFile())
-		{
-			increaseProgress();
-			continue;
-		}
-
-		DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(pIMGEntry->getEntryData());
-		if (pDFFFile->doesHaveError())
-		{
-			pDFFFile->unload();
-			delete pDFFFile;
-			increaseProgress();
-			continue;
-		}
-
-		IntermediateModelFormat *pGeneralModelFile = pDFFFile->convertToIntermediateModelFormat();
-		WDRFormat *pWDRFile = WDRManager::get()->convertIntermediateModelFileToWDRFile(pGeneralModelFile);
-		pGeneralModelFile->unload();
-		delete pGeneralModelFile;
-		string strWDRFileData = pWDRFile->serializeViaMemory();
-		pWDRFile->unload();
-		delete pWDRFile;
-
-		pIMGEntry->setEntryName(Path::replaceFileExtension(pIMGEntry->getEntryName(), "wdr"));
-		pIMGEntry->setEntryData(strWDRFileData);
-		
-		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-		
-		pDFFFile->unload();
-		delete pDFFFile;
-		
-		increaseProgress();
-		uiEntryCount++;
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_Convert_DFF_WDR", uiEntryCount));
-
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFFileToWDRFile");
-	*/
-}
-
 void				Tasks::onRequestTXDOrganizer(void)
 {
 	/*
@@ -7314,76 +7347,6 @@ void				Tasks::onRequestTXDOrganizer(void)
 	// clean up
 	delete pTXDOrganizerDialogData;
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestTXDOrganizer");
-	*/
-}
-
-void			Tasks::onRequestConvertWTDFileToTXDFile(void)
-{
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestConvertWTDFileToTXDFile");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertWTDFileToTXDFile", true);
-		return;
-	}
-
-	// fetch selected entries
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertWTDFileToTXDFile", true);
-		return;
-	}
-	uint32 uiEntryCount = 0;
-	setMaxProgress(pListControl->GetSelectedCount());
-
-	IMGEntry *pIMGEntry = nullptr;
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-
-		if (!pIMGEntry->isTextureFile()) // WTD
-		{
-			increaseProgress();
-			continue;
-		}
-
-		string strEntryData = pIMGEntry->getEntryData();
-		WTDFormat *pWTDFile = WTDManager::get()->unserializeMemory(strEntryData);
-		if (pWTDFile->doesHaveError())
-		{
-			pWTDFile->unload();
-			delete pWTDFile;
-			increaseProgress();
-			continue;
-		}
-
-		IntermediateTextureFormat *pGeneralTextureFile = pWTDFile->convertToIntermediateFormat();
-		pWTDFile->unload();
-		delete pWTDFile;
-		TXDFormat *pTXDFile = TXDManager::get()->convertIntermediateTextureFileToTXDFile(pGeneralTextureFile);
-		pGeneralTextureFile->unload();
-		delete pGeneralTextureFile;
-		string strTXDFileData = pTXDFile->serializeViaMemory();
-		pTXDFile->unload();
-		delete pTXDFile;
-
-		pIMGEntry->setEntryName(Path::replaceFileExtension(pIMGEntry->getEntryName(), "txd"));
-		pIMGEntry->setEntryData(strTXDFileData);
-		
-		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-
-		increaseProgress();
-		uiEntryCount++;
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log("Converted " + String::toString(uiEntryCount) + " WTD file" + (uiEntryCount == 1 ? "" : "s") + " to TXD file" + (uiEntryCount == 1 ? "" : "s") + ".");
-
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertWTDFileToTXDFile");
 	*/
 }
 
