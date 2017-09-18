@@ -129,6 +129,10 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 
 	case CONVERT_IMG_VERSION:						return convertIMGVersion();
 	case CONVERT_SELECTED_COL_VERSION:				return convertSelectedCOLVersion();
+	case CONVERT_SELECTED_DFF_RW_VERSION:			return convertSelectedDFFRWVersion();
+	case CONVERT_SELECTED_TXD_RW_VERSION:			return convertSelectedTXDRWVersion();
+	case CONVERT_SELECTED_TXD_TO_GAME:				return convertSelectedTXDToGame();
+	case CONVERT_SELECTED_TXD_TO_TEXTURE_FORMAT:	return convertSelectedTXDToTextureFormat();
 
 	case SELECT_ALL:								return selectAll();
 	case UNSELECT_ALL:								return unselectAll();
@@ -539,6 +543,26 @@ void					InputManager::convertIMGVersion(void)
 void					InputManager::convertSelectedCOLVersion(void)
 {
 	m_pTasks->convertSelectedCOLVersion();
+}
+
+void					InputManager::convertSelectedDFFRWVersion(void)
+{
+	m_pTasks->convertSelectedDFFRWVersion();
+}
+
+void					InputManager::convertSelectedTXDRWVersion(void)
+{
+	m_pTasks->convertSelectedTXDRWVersion();
+}
+
+void					InputManager::convertSelectedTXDToGame(void)
+{
+	m_pTasks->convertSelectedTXDToGame();
+}
+
+void					InputManager::convertSelectedTXDToTextureFormat(void)
+{
+	m_pTasks->convertSelectedTXDToTextureFormat();
 }
 
 // select

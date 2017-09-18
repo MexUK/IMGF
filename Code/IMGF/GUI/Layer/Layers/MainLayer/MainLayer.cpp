@@ -300,6 +300,16 @@ void		MainLayer::addControls(void)
 	pMenu3 = pMenuItem2->addMenu();
 	pMenuItem3 = pMenu3->addMenuItem("Convert COL Version for Selection", CONVERT_SELECTED_COL_VERSION);
 
+	pMenuItem2 = pMenu2->addMenuItem("DFF");
+	pMenu3 = pMenuItem2->addMenu();
+	pMenuItem3 = pMenu3->addMenuItem("Convert DFF RW Version for Selection", CONVERT_SELECTED_DFF_RW_VERSION);
+
+	pMenuItem2 = pMenu2->addMenuItem("TXD");
+	pMenu3 = pMenuItem2->addMenu();
+	pMenuItem3 = pMenu3->addMenuItem("Convert TXD RW Version for Selection", CONVERT_SELECTED_TXD_RW_VERSION);
+	pMenuItem3 = pMenu3->addMenuItem("Convert TXD to Game for Selection", CONVERT_SELECTED_TXD_TO_GAME);
+	pMenuItem3 = pMenu3->addMenuItem("Convert TXD to Texture Format for Selection", CONVERT_SELECTED_TXD_TO_TEXTURE_FORMAT);
+
 	// select
 	pMenuItem1 = pMenu1->addMenuItem("Select");
 	pMenuItem1->setStyleGroups(string("thirdItemVertically"));

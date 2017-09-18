@@ -106,6 +106,10 @@ private:
 
 	void					convertIMGVersion(void);
 	void					convertSelectedCOLVersion(void);
+	void					convertSelectedDFFRWVersion(void);
+	void					convertSelectedTXDRWVersion(void);
+	void					convertSelectedTXDToGame(void);
+	void					convertSelectedTXDToTextureFormat(void);
 
 	void					selectAll(void);
 	void					unselectAll(void);

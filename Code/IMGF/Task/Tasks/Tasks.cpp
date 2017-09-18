@@ -136,6 +136,9 @@
 #include "Static/DataPath.h"
 #include "Layer/Layers/NumericMultiOptionInputLayerResult.h"
 #include "Pool/VectorPool.h"
+#include "Game/GameManager.h"
+#include "Image/ImageManager.h"
+#include "Image/RasterDataFormatManager.h"
 #include <gdiplus.h>
 #include <stdio.h>
 #include <algorithm>
@@ -2208,9 +2211,8 @@ void		Tasks::convertSelectedCOLVersion(void)
 					pCOLEntry->setCOLVersion(uiNewCOLVersion);
 				}
 
-				string strNewCOLFileData = colFile.serialize();
-				pIMGEntry->setEntryData(strNewCOLFileData);
-				pIMGEntry->setRawVersion(uiNewCOLVersion);
+				string strNewFileData = colFile.serialize();
+				pIMGEntry->setEntryData(strNewFileData);
 
 				getIMGTab()->updateGridEntry(pIMGEntry);
 				uiConvertedEntryCount++;
@@ -2227,6 +2229,242 @@ void		Tasks::convertSelectedCOLVersion(void)
 	}
 
 	getIMGTab()->logf("Converted COL version to %u for %u entries.", uiNewCOLVersion, uiConvertedEntryCount);
+
+	onCompleteTask();
+}
+
+void		Tasks::convertSelectedDFFRWVersion(void)
+{
+	onStartTask("convertSelectedDFFRWVersion");
+
+	vector<RWVersion*> vecRWVersions = RWManager::get()->getVersionManager()->getEntries();
+	vector<string> vecDropDownOptions;
+	for (RWVersion *pRWVersion : vecRWVersions)
+	{
+		vecDropDownOptions.push_back(pRWVersion->getVersionTextWithGames());
+	}
+
+	int32 iNewRWVersionOptionIndex = m_pMainWindow->showDropDownInput("New DFF RW Version", "Convert selected DFF entries to RW version", vecDropDownOptions);
+	if (iNewRWVersionOptionIndex == -1)
+	{
+		return onAbortTask();
+	}
+	RWVersion *pNewRWVersion = vecRWVersions[iNewRWVersionOptionIndex];
+	uint32 uiNewRawRWVersion = pNewRWVersion->getRawVersion();
+	string strNewRWVersionText = pNewRWVersion->getVersionTextWithGames();
+
+	uint32 uiSelectedRowCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
+	setMaxProgress(uiSelectedRowCount);
+
+	uint32 uiConvertedEntryCount = 0;
+	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getSelectedRows())
+	{
+		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
+
+		if (pIMGEntry->isModelFile())
+		{
+			DFFFormat dffFile(pIMGEntry->getEntryData(), false);
+			if (dffFile.unserialize())
+			{
+				for (RWSection *pRWSection : dffFile.getEntries())
+				{
+					pRWSection->setSectionRWVersion(uiNewRawRWVersion);
+				}
+
+				string strNewFileData = dffFile.serialize();
+				pIMGEntry->setEntryData(strNewFileData);
+
+				getIMGTab()->updateGridEntry(pIMGEntry);
+				uiConvertedEntryCount++;
+			}
+			dffFile.unload();
+		}
+
+		increaseProgress();
+	}
+
+	if (uiSelectedRowCount > 0)
+	{
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->logf("Converted DFF version to %s for %u entries.", strNewRWVersionText.c_str(), uiConvertedEntryCount);
+
+	onCompleteTask();
+}
+
+void		Tasks::convertSelectedTXDRWVersion(void)
+{
+	onStartTask("convertSelectedTXDRWVersion");
+
+	vector<RWVersion*> vecRWVersions = RWManager::get()->getVersionManager()->getEntries();
+	vector<string> vecDropDownOptions;
+	for (RWVersion *pRWVersion : vecRWVersions)
+	{
+		vecDropDownOptions.push_back(pRWVersion->getVersionTextWithGames());
+	}
+
+	int32 iNewRWVersionOptionIndex = m_pMainWindow->showDropDownInput("Convert TXD RW Version", "Convert selected TXD entries to RW version", vecDropDownOptions);
+	if (iNewRWVersionOptionIndex == -1)
+	{
+		return onAbortTask();
+	}
+	RWVersion *pNewRWVersion = vecRWVersions[iNewRWVersionOptionIndex];
+	uint32 uiNewRawRWVersion = pNewRWVersion->getRawVersion();
+	string strNewRWVersionText = pNewRWVersion->getVersionTextWithGames();
+
+	uint32 uiSelectedRowCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
+	setMaxProgress(uiSelectedRowCount);
+
+	uint32 uiConvertedEntryCount = 0;
+	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getSelectedRows())
+	{
+		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
+
+		if (pIMGEntry->isTextureFile())
+		{
+			TXDFormat txdFile(pIMGEntry->getEntryData(), false);
+			if (txdFile.unserialize())
+			{
+				for (RWSection *pRWSection : txdFile.getEntries())
+				{
+					pRWSection->setSectionRWVersion(uiNewRawRWVersion);
+				}
+
+				string strNewFileData = txdFile.serialize();
+				pIMGEntry->setEntryData(strNewFileData);
+
+				getIMGTab()->updateGridEntry(pIMGEntry);
+				uiConvertedEntryCount++;
+			}
+			txdFile.unload();
+		}
+
+		increaseProgress();
+	}
+
+	if (uiSelectedRowCount > 0)
+	{
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->logf("Converted TXD version to %s for %u entries.", strNewRWVersionText.c_str(), uiConvertedEntryCount);
+
+	onCompleteTask();
+}
+
+void		Tasks::convertSelectedTXDToGame(void)
+{
+	onStartTask("convertSelectedTXDToGame");
+
+	vector<PlatformedGame*> vecPlatformedGames = GameManager::get()->getPlatformedGames().getEntries();
+	vector<string> vecDropDownOptions;
+	for (PlatformedGame *pPlatformedGame : vecPlatformedGames)
+	{
+		vecDropDownOptions.push_back(pPlatformedGame->getText());
+	}
+
+	int32 iNewPlatformedGameOptionIndex = m_pMainWindow->showDropDownInput("Convert TXD to Game", "Convert selected TXD entries to game", vecDropDownOptions);
+	if (iNewPlatformedGameOptionIndex == -1)
+	{
+		return onAbortTask();
+	}
+	PlatformedGame *pNewPlatformedGame = vecPlatformedGames[iNewPlatformedGameOptionIndex];
+	EPlatformedGame uiNewPlatformedGame = pNewPlatformedGame->getPlatformedGameId();
+	string strNewPlatformedGameText = pNewPlatformedGame->getText();
+
+	uint32 uiSelectedRowCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
+	setMaxProgress(uiSelectedRowCount);
+
+	uint32 uiConvertedEntryCount = 0;
+	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getSelectedRows())
+	{
+		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
+
+		if (pIMGEntry->isTextureFile())
+		{
+			TXDFormat txdFile(pIMGEntry->getEntryData(), false);
+			vector<string> vecMipmapsRemoved;
+			if (txdFile.unserialize())
+			{
+				txdFile.convertToGame(uiNewPlatformedGame, vecMipmapsRemoved);
+
+				string strNewFileData = txdFile.serialize();
+				pIMGEntry->setEntryData(strNewFileData);
+
+				getIMGTab()->updateGridEntry(pIMGEntry);
+				uiConvertedEntryCount++;
+			}
+			txdFile.unload();
+		}
+
+		increaseProgress();
+	}
+
+	if (uiSelectedRowCount > 0)
+	{
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->logf("Converted TXD to game %s for %u entries.", strNewPlatformedGameText.c_str(), uiConvertedEntryCount);
+
+	onCompleteTask();
+}
+
+void		Tasks::convertSelectedTXDToTextureFormat(void)
+{
+	onStartTask("convertSelectedTXDToTextureFormat");
+
+	vector<RasterDataFormat*> vecRasterDataFormats = ImageManager::get()->getRasterDataFormatManager()->getEntries();
+	vector<string> vecDropDownOptions;
+	for (RasterDataFormat *pRasterDataFormat : vecRasterDataFormats)
+	{
+		vecDropDownOptions.push_back(pRasterDataFormat->getText());
+	}
+
+	int32 iNewTextureFormatOptionIndex = m_pMainWindow->showDropDownInput("Convert TXD to Texture Format", "Convert selected TXD entries to texture format", vecDropDownOptions);
+	if (iNewTextureFormatOptionIndex == -1)
+	{
+		return onAbortTask();
+	}
+	RasterDataFormat *pNewRasterDataFormat = vecRasterDataFormats[iNewTextureFormatOptionIndex];
+	ERasterDataFormat uiNewRasterDataFormat = pNewRasterDataFormat->getRasterDataFormatId();
+	string strNewRasterDataFormatText = pNewRasterDataFormat->getText();
+
+	uint32 uiSelectedRowCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
+	setMaxProgress(uiSelectedRowCount);
+
+	uint32 uiConvertedEntryCount = 0;
+	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getSelectedRows())
+	{
+		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
+
+		if (pIMGEntry->isTextureFile())
+		{
+			TXDFormat txdFile(pIMGEntry->getEntryData(), false);
+			vector<string> vecMipmapsRemoved;
+			if (txdFile.unserialize())
+			{
+				txdFile.convertToRasterDataFormat(pNewRasterDataFormat->getRasterDataFormatId(), vecMipmapsRemoved);
+
+				string strNewFileData = txdFile.serialize();
+				pIMGEntry->setEntryData(strNewFileData);
+
+				getIMGTab()->updateGridEntry(pIMGEntry);
+				uiConvertedEntryCount++;
+			}
+			txdFile.unload();
+		}
+
+		increaseProgress();
+	}
+
+	if (uiSelectedRowCount > 0)
+	{
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->logf("Converted TXD to texture format %s for %u entries.", strNewRasterDataFormatText.c_str(), uiConvertedEntryCount);
 
 	onCompleteTask();
 }
@@ -4183,489 +4421,6 @@ void		Tasks::onRequestSettings(void)
 	}
 }
 
-void		Tasks::onRequestConvertDFFToRWVersion(RWVersion *pRWVersion)
-{
-	/*
-	todo
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_ConvertDFF_RWVersion(pRWVersion);
-	getIMGF()->getTaskManager()->onStartTask("onRequestConvertDFFToRWVersion");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
-		return;
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	DFFConversionDialogData *pDFFConversionDialogData = getIMGF()->getPopupGUIManager()->showDFFConversionDialog();
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (!pDFFConversionDialogData->m_bConvert) // cancel button
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
-		delete pDFFConversionDialogData;
-		return;
-	}
-
-	bool bConvert2DFXFromIIIOrVCToSA = false;
-	unordered_map<string, vector<IDEEntry*>> umapIDEEntriesByModelName;
-	vector<IDEFormat*> veIDEFormats;
-	bool bSelectedDFFsContainIIIOrVC = false;
-
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
-		delete pDFFConversionDialogData;
-		return;
-	}
-	IMGEntry *pIMGEntry = nullptr;
-
-	////////////////
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-
-		if (!Path::isModelExtension(Path::getFileExtension(pIMGEntry->getEntryName())))
-		{
-			continue;
-		}
-
-		if (pIMGEntry != nullptr && (pIMGEntry->getRWVersion()->doesUsEPlatformedGame(PC_GTA_III) || pIMGEntry->getRWVersion()->doesUsEPlatformedGame(PC_GTA_VC)))
-		{
-			bSelectedDFFsContainIIIOrVC = true;
-			break;
-		}
-	}
-	//////////
-
-	if (bSelectedDFFsContainIIIOrVC && pRWVersion->doesUsEPlatformedGame(PC_GTA_SA))
-	{
-		// The selected DFFs in the active IMG tab contains at least 1 DFF IMG entry with a RW version of III or VC, and the target RW version to convert to is SA.
-		vector<uint32> vecExtendedLogLines_MissingObjectIds;
-		bool bDidCancel = false;
-		bConvert2DFXFromIIIOrVCToSA = false; // todo - getIMGF()->getPopupGUIManager()->showConfirmDialog("Do you want to also convert 2DFX sections in DFF files from GTA III/VC format to GTA SA format? (Requires IDE input)", "Convert 2DFX Too?", bDidCancel);
-		if (bDidCancel)
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
-			delete pDFFConversionDialogData;
-			return;
-		}
-
-		if (bConvert2DFXFromIIIOrVCToSA)
-		{
-			getIMGF()->getTaskManager()->onPauseTask();
-			vector<string> vecIDEPaths = Input::openFile(getIMGF()->getLastUsedDirectory("CONVERT_DFF_RWVERSION_IDE"), "IDE");
-			getIMGF()->getTaskManager()->onResumeTask();
-			if (vecIDEPaths.size() == 0)
-			{
-				getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
-				return;
-			}
-			getIMGF()->setLastUsedDirectory("CONVERT_DFF_RWVERSION_IDE", Path::getDirectory(vecIDEPaths[0]));
-
-			for (string strIDEPath : vecIDEPaths)
-			{
-				IDEFormat *pIDEFile = IDEManager::get()->unserializeFile(strIDEPath);
-				if (pIDEFile->doesHaveError())
-				{
-					pIDEFile->unload();
-					delete pIDEFile;
-					continue;
-				}
-				veIDEFormats.push_back(pIDEFile);
-
-				unordered_map<uint32, string> umapIDEModelNamesByObjectId;
-				for (auto it : pIDEFile->getSectionEntries())
-				{
-					for (IDEEntry *pIDEEntry : it.second)
-					{
-						if (pIDEEntry->getEntryType() == SECTION_LINES_ENTRY_DATA)
-						{
-							IDEEntry_Data *pIDEEntry_Data = (IDEEntry_Data*)pIDEEntry;
-							uint32 uiObjectId = pIDEEntry_Data->getObjectId();
-							if (uiObjectId != -1)
-							{
-								string strModelName = pIDEEntry_Data->getModelName();
-								if (strModelName != "")
-								{
-									umapIDEModelNamesByObjectId[uiObjectId] = strModelName;
-								}
-							}
-						}
-					}
-				}
-
-				for (IDEEntry_2DFX_Light *pIDEEntry : pIDEFile->getEntriesBySection<IDEEntry_2DFX_Light>(IDE_SECTION_2DFX, _2DFX_LIGHT))
-				{
-					if (umapIDEModelNamesByObjectId.count(pIDEEntry->getObjectId()) == 0)
-					{
-						vecExtendedLogLines_MissingObjectIds.push_back(pIDEEntry->getObjectId());
-					}
-					else
-					{
-						string strIDEModelName = umapIDEModelNamesByObjectId[pIDEEntry->getObjectId()];
-						umapIDEEntriesByModelName[String::toUpperCase(strIDEModelName)].push_back(pIDEEntry);
-					}
-				}
-				for (IDEEntry_2DFX_Particle *pIDEEntry : pIDEFile->getEntriesBySection<IDEEntry_2DFX_Particle>(IDE_SECTION_2DFX, _2DFX_PARTICLE))
-				{
-					if (umapIDEModelNamesByObjectId.count(pIDEEntry->getObjectId()) == 0)
-					{
-						vecExtendedLogLines_MissingObjectIds.push_back(pIDEEntry->getObjectId());
-					}
-					else
-					{
-						string strIDEModelName = umapIDEModelNamesByObjectId[pIDEEntry->getObjectId()];
-						umapIDEEntriesByModelName[String::toUpperCase(strIDEModelName)].push_back(pIDEEntry);
-					}
-				}
-				for (IDEEntry_2DFX_Ped *pIDEEntry : pIDEFile->getEntriesBySection<IDEEntry_2DFX_Ped>(IDE_SECTION_2DFX, _2DFX_PED))
-				{
-					if (umapIDEModelNamesByObjectId.count(pIDEEntry->getObjectId()) == 0)
-					{
-						vecExtendedLogLines_MissingObjectIds.push_back(pIDEEntry->getObjectId());
-					}
-					else
-					{
-						string strIDEModelName = umapIDEModelNamesByObjectId[pIDEEntry->getObjectId()];
-						umapIDEEntriesByModelName[String::toUpperCase(strIDEModelName)].push_back(pIDEEntry);
-					}
-				}
-				for (IDEEntry_2DFX_Unknown1 *pIDEEntry : pIDEFile->getEntriesBySection<IDEEntry_2DFX_Unknown1>(IDE_SECTION_2DFX, _2DFX_UNKNOWN_1))
-				{
-					if (umapIDEModelNamesByObjectId.count(pIDEEntry->getObjectId()) == 0)
-					{
-						vecExtendedLogLines_MissingObjectIds.push_back(pIDEEntry->getObjectId());
-					}
-					else
-					{
-						string strIDEModelName = umapIDEModelNamesByObjectId[pIDEEntry->getObjectId()];
-						umapIDEEntriesByModelName[String::toUpperCase(strIDEModelName)].push_back(pIDEEntry);
-					}
-				}
-				for (IDEEntry_2DFX_SunReflection *pIDEEntry : pIDEFile->getEntriesBySection<IDEEntry_2DFX_SunReflection>(IDE_SECTION_2DFX, _2DFX_SUN_REFLECTION))
-				{
-					if (umapIDEModelNamesByObjectId.count(pIDEEntry->getObjectId()) == 0)
-					{
-						vecExtendedLogLines_MissingObjectIds.push_back(pIDEEntry->getObjectId());
-					}
-					else
-					{
-						string strIDEModelName = umapIDEModelNamesByObjectId[pIDEEntry->getObjectId()];
-						umapIDEEntriesByModelName[String::toUpperCase(strIDEModelName)].push_back(pIDEEntry);
-					}
-				}
-
-			}
-		}
-
-		// todo - getIMGF()->getEntryListTab()->log("[Convert 2DFX from IDE (GTA III/VC) to DFF (GTA SA)] IDE 2DFX object IDs entries not having an IDE entry linked by object ID:", true);
-		vector<string> vecExtendedLogLines_MissingObjectIds2;
-		for (uint32 uiValue : vecExtendedLogLines_MissingObjectIds)
-		{
-			vecExtendedLogLines_MissingObjectIds2.push_back(String::toString(uiValue));
-		}
-		// todo - getIMGF()->getEntryListTab()->log(String::join(vecExtendedLogLines_MissingObjectIds2, "\n"), true);
-		vecExtendedLogLines_MissingObjectIds.clear();
-		vecExtendedLogLines_MissingObjectIds2.clear();
-	}
-
-	pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	pos = pListControl->GetFirstSelectedItemPosition();
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion", true);
-		delete pDFFConversionDialogData;
-		for (auto pIDEFile : veIDEFormats)
-		{
-			pIDEFile->unload();
-			delete pIDEFile;
-		}
-		return;
-	}
-
-	pIMGEntry = nullptr;
-	vector<string> vecConvertedDFFEntryNames;
-	setMaxProgress(pListControl->GetSelectedCount());
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-
-		if (!Path::isModelExtension(String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()))))
-		{
-			increaseProgress();
-			continue;
-		}
-
-		//Debugger::log("Converting DFF: " + pIMGEntry->m_strFileName);
-		string strEntryData = pIMGEntry->getEntryData();
-		DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(strEntryData);
-		if (pDFFFile->doesHaveError())
-		{
-			//Debugger::log("CORRUPT REASON: " + pDFFFile->getCorruptReason());
-			pDFFFile->unload();
-			delete pDFFFile;
-			continue;
-		}
-
-		vecConvertedDFFEntryNames.push_back(pIMGEntry->getEntryName());
-
-		pDFFFile->setRWVersion(pRWVersion);
-
-		if (pDFFConversionDialogData->m_ucPrelightningOption == 0) // keep prelightning
-		{
-		}
-		else if (pDFFConversionDialogData->m_ucPrelightningOption == 1) // remove prelightning
-		{
-			pDFFFile->removePrelightning();
-		}
-		else if (pDFFConversionDialogData->m_ucPrelightningOption == 2) // adjust prelightning
-		{
-			if (pDFFConversionDialogData->m_ucAdjustPrelightningOption == 0) // fixed colour
-			{
-				pDFFFile->setPrelightningColour(
-					pDFFConversionDialogData->m_ssAdjustColourValues[0],
-					pDFFConversionDialogData->m_ssAdjustColourValues[1],
-					pDFFConversionDialogData->m_ssAdjustColourValues[2],
-					pDFFConversionDialogData->m_ssAdjustColourValues[3]
-				);
-			}
-			else if (pDFFConversionDialogData->m_ucAdjustPrelightningOption == 1) // colour offset
-			{
-				pDFFFile->applyPrelightningColourOffset(
-					pDFFConversionDialogData->m_ssAdjustColourValues[0],
-					pDFFConversionDialogData->m_ssAdjustColourValues[1],
-					pDFFConversionDialogData->m_ssAdjustColourValues[2],
-					pDFFConversionDialogData->m_ssAdjustColourValues[3]
-				);
-			}
-		}
-
-		if (bConvert2DFXFromIIIOrVCToSA && pIMGEntry->getRWVersion() != nullptr && (pIMGEntry->getRWVersion()->doesUsEPlatformedGame(PC_GTA_III) || pIMGEntry->getRWVersion()->doesUsEPlatformedGame(PC_GTA_VC)))
-		{
-			// IDEEntry_2DFX = umapIDEModelNames[modelName]->getSectionsByType(IDE_SECTION_2DFX)[0];
-
-			string strModelNameUpper = String::toUpperCase(Path::removeFileExtension(pIMGEntry->getEntryName()));
-			int a;
-			if (umapIDEEntriesByModelName.count(strModelNameUpper) == 0)
-			{
-				// Coudn't find DFF model name (from IMG entry name) in IDE OBJS/TOBJ with any corresponding 2DFX entries.
-			}
-			else
-			{
-				vector<_2dEffect*> vec2dEffects;
-				_2dEffect *p2dEffect;
-				for (IDEEntry *pIDEEntry : umapIDEEntriesByModelName[strModelNameUpper])
-				{
-					switch (((IDEEntry_2DFX*)pIDEEntry)->get2DFXType())
-					{
-					case _2DFX_LIGHT:
-					{
-						RWEntry_2dEffect_Light					*pDFFEntry_2dEffect_Light = new RWEntry_2dEffect_Light;
-						IDEEntry_2DFX_Light					*pIDEEntry_2dEffect_Light = (IDEEntry_2DFX_Light*) pIDEEntry;
-						p2dEffect = pDFFEntry_2dEffect_Light;
-
-						uint32 uiPackedColour =
-							(pIDEEntry_2dEffect_Light->getColour().x << 24) |
-							(pIDEEntry_2dEffect_Light->getColour().y << 16) |
-							(pIDEEntry_2dEffect_Light->getColour().z << 8) |
-							0xFF;
-
-						uint32 uiNewCoronaShowMode = 0;
-						uint8 ucFlags1 = 0;
-						uint32 ucFlags2 = 0;
-						switch (pIDEEntry_2dEffect_Light->getFlare())
-						{
-						case 0: // constantly lit
-							uiNewCoronaShowMode = 0;
-							ucFlags1 |= 32 | 64;
-							break;
-						case 1: // constantly lit at night
-							uiNewCoronaShowMode = 0;
-							ucFlags1 |= 64;
-							break;
-
-
-						case 2: // occasional flicker all time
-						case 10: // random flashing
-						case 4: // ~1 second flashes
-						case 6: // ~2 seconds flashes
-						case 8: // ~3 seconds flashes
-							uiNewCoronaShowMode = 1;
-							ucFlags1 |= 32 | 64;
-							break;
-						case 3: // occasional flicker at night
-						case 5: // ~1 second flashes at night
-						case 7: // ~2 seconds flashes at night
-						case 9: // ~3 seconds flashes at night
-						case 11: // random flicker at night
-							uiNewCoronaShowMode = 1;
-							ucFlags1 |= 64;
-							break;
-
-
-						case 12: // traffic light
-							uiNewCoronaShowMode = 7;
-							break;
-						}
-
-						uint32 ucFogType = 0; // 0, 1 or 2 (0 = none)
-						if (pIDEEntry_2dEffect_Light->getIDEFlag() & 2)
-						{
-							ucFogType = 1;
-							ucFlags1 |= 2;
-						}
-						if (pIDEEntry_2dEffect_Light->getIDEFlag() & 4)
-						{
-							ucFogType = 2;
-							ucFlags1 |= 4;
-						}
-
-						bool bUpdateZPosAboveGround = true;
-						if (pIDEEntry_2dEffect_Light->getIDEFlag() & 1) // bit 0 (value 1) = disable z-test for corona
-						{
-							bUpdateZPosAboveGround = false;
-						}
-						ucFlags2 |= bUpdateZPosAboveGround ? 4 : 0;
-
-						Vec3f vecPosition = { pIDEEntry_2dEffect_Light->getPosition().x, pIDEEntry_2dEffect_Light->getPosition().y, pIDEEntry_2dEffect_Light->getPosition().z };
-
-						pDFFEntry_2dEffect_Light->set2DFXType(_2DFX_LIGHT);
-						pDFFEntry_2dEffect_Light->setDataSize(76);
-						pDFFEntry_2dEffect_Light->setPosition(vecPosition);
-
-						Vec3u8 vecLookDirection;
-						vecLookDirection.x = 0;
-						vecLookDirection.y = 0;
-						vecLookDirection.z = 0;
-
-						Vec2u8 vecPadding;
-						vecPadding.x = 0;
-						vecPadding.y = 0;
-
-						pDFFEntry_2dEffect_Light->setCoronaFarClip(pIDEEntry_2dEffect_Light->getViewDistance());
-						pDFFEntry_2dEffect_Light->setCoronaSize(pIDEEntry_2dEffect_Light->getCoronaSize());
-						pDFFEntry_2dEffect_Light->setPointlightRange(pIDEEntry_2dEffect_Light->getOuterRange());
-						pDFFEntry_2dEffect_Light->setShadowSize(1.0f); // ?
-						pDFFEntry_2dEffect_Light->setCoronaTexName(pIDEEntry_2dEffect_Light->getCoronaTexture());
-						pDFFEntry_2dEffect_Light->setShadowTexName(pIDEEntry_2dEffect_Light->getShadowTexture());
-						pDFFEntry_2dEffect_Light->setCoronaEnableReflection(1); // ?
-						pDFFEntry_2dEffect_Light->setCoronaFlareType(pIDEEntry_2dEffect_Light->getFlare());
-						pDFFEntry_2dEffect_Light->setCoronaShowMode(uiNewCoronaShowMode);
-						pDFFEntry_2dEffect_Light->setFlags1(ucFlags1); //pIDEEntry_2dEffect_Light->m_uiIDEFlag; // flags need converting..
-						pDFFEntry_2dEffect_Light->setFlags2(ucFlags2); //pIDEEntry_2dEffect_Light->m_uiIDEFlag; // flags need converting..
-						pDFFEntry_2dEffect_Light->setLookDirection(vecLookDirection); // only used if m_uiDataSize == 80, instead of 76
-						pDFFEntry_2dEffect_Light->setPadding(vecPadding);
-						pDFFEntry_2dEffect_Light->setShadowColorMultiplier(40); // ?
-						pDFFEntry_2dEffect_Light->setShadowZDistance(10); // guessed //pIDEEntry_2dEffect_Light->m_fViewDistance > 255.0f ? 255.0f : (uint8) pIDEEntry_2dEffect_Light->m_fViewDistance; // is this correct?
-						pDFFEntry_2dEffect_Light->setColor(uiPackedColour);
-						break;
-					}
-					case _2DFX_PARTICLE:
-					{
-						RWEntry_2dEffect_ParticleEffect		*pDFFEntry_2dEffect_Particle = new RWEntry_2dEffect_ParticleEffect;
-						IDEEntry_2DFX_Particle					*pIDEEntry_2dEffect_Particle = (IDEEntry_2DFX_Particle*)pIDEEntry;
-						p2dEffect = pDFFEntry_2dEffect_Particle;
-
-						Vec3f vecPosition = { pIDEEntry_2dEffect_Particle->getPosition().x, pIDEEntry_2dEffect_Particle->getPosition().y, pIDEEntry_2dEffect_Particle->getPosition().z };
-
-						pDFFEntry_2dEffect_Particle->set2DFXType(_2DFX_PARTICLE);
-						pDFFEntry_2dEffect_Particle->setDataSize(24);
-						pDFFEntry_2dEffect_Particle->setPosition(vecPosition);
-
-						//pDFFEntry_2dEffect_Particle->setParticleEffectName(pIDEEntry_2dEffect_Particle->getParticleType()); // needs convert from ID to string.. // todo
-						break;
-					}
-					case _2DFX_PED:
-					{
-						RWEntry_2dEffect_PedAttractor			*pDFFEntry_2DEffect_Ped = new RWEntry_2dEffect_PedAttractor;
-						IDEEntry_2DFX_Ped						*pIDEEntry_2dEffect_Ped = (IDEEntry_2DFX_Ped*)pIDEEntry;
-						p2dEffect = pDFFEntry_2DEffect_Ped;
-
-						Vec3f vecPosition = { pIDEEntry_2dEffect_Ped->getPosition().x, pIDEEntry_2dEffect_Ped->getPosition().y, pIDEEntry_2dEffect_Ped->getPosition().z };
-
-						pDFFEntry_2DEffect_Ped->set2DFXType(_2DFX_PED_ATTRACTOR);
-						pDFFEntry_2DEffect_Ped->setDataSize(56);
-						pDFFEntry_2DEffect_Ped->setPosition(vecPosition);
-
-						string strExternalScriptName = "";
-						Vec3f
-							vecRotation1 = { pIDEEntry_2dEffect_Ped->getPedRotation().x, pIDEEntry_2dEffect_Ped->getPedRotation().y, pIDEEntry_2dEffect_Ped->getPedRotation().z },
-							vecRotation2 = { 0.0f, 0.0f, 0.0f },
-							vecRotation3 = { 0.0f, 0.0f, 0.0f };
-
-						pDFFEntry_2DEffect_Ped->setPedExistingProbability(pIDEEntry_2dEffect_Ped->getBehaviour()); // is this correct?
-						pDFFEntry_2DEffect_Ped->setType(0); // ?
-						pDFFEntry_2DEffect_Ped->setExternalScriptName(strExternalScriptName); // ?
-						pDFFEntry_2DEffect_Ped->setNotUsed1(0);
-						pDFFEntry_2DEffect_Ped->setNotUsed2(0);
-						pDFFEntry_2DEffect_Ped->setUnknown1(0);
-						pDFFEntry_2DEffect_Ped->setUnknown2(0);
-						pDFFEntry_2DEffect_Ped->setRotation(0, vecRotation1);
-						pDFFEntry_2DEffect_Ped->setRotation(1, vecRotation2);
-						pDFFEntry_2DEffect_Ped->setRotation(2, vecRotation3);
-						break;
-					}
-					case _2DFX_UNKNOWN_1:
-						continue;
-					case _2DFX_SUN_REFLECTION:
-					{
-						RWEntry_2dEffect_SunGlare						*pDFFEntry_2DEffect_SunGlare = new RWEntry_2dEffect_SunGlare;
-						IDEEntry_2DFX_SunReflection					*pIDEEntry_2dEffect_SunGlare = (IDEEntry_2DFX_SunReflection*)pIDEEntry;
-						p2dEffect = pDFFEntry_2DEffect_SunGlare;
-
-						Vec3f vecPosition = { pIDEEntry_2dEffect_SunGlare->getPosition().x, pIDEEntry_2dEffect_SunGlare->getPosition().y, pIDEEntry_2dEffect_SunGlare->getPosition().z };
-
-						pDFFEntry_2DEffect_SunGlare->set2DFXType(_2DFX_SUN_GLARE);
-						pDFFEntry_2DEffect_SunGlare->setDataSize(0);
-						pDFFEntry_2DEffect_SunGlare->setPosition(vecPosition);
-						break;
-					}
-					default:
-						continue;
-					}
-					vec2dEffects.push_back(p2dEffect);
-				}
-				pDFFFile->set2dEffects(vec2dEffects);
-			}
-		}
-
-		string strFileData = pDFFFile->storeViaMemory();
-		pDFFFile->unload();
-		delete pDFFFile;
-
-		pIMGEntry->setEntrySize(strFileData.length());
-		pIMGEntry->setRWVersion(pRWVersion);
-		
-		pIMGEntry->setEntryData(strFileData);
-
-		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-
-		increaseProgress();
-	}
-	
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_95", vecConvertedDFFEntryNames.size(), (pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_96"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecConvertedDFFEntryNames, "\n"), true);
-
-	if (pIMGEntry != nullptr)
-	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
-	}
-
-	getIMGF()->getEntryListTab()->checkForUnknownRWVersionEntries();
-
-	delete pDFFConversionDialogData;
-	for (auto pIDEFile : veIDEFormats)
-	{
-		pIDEFile->unload();
-		delete pIDEFile;
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertDFFToRWVersion");
-	*/
-}
 void		Tasks::onRequestMissingTextures(void)
 {
 	/*
@@ -5077,151 +4832,7 @@ void		Tasks::onRequestOpenLast(void)
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenLast");
 }
-void		Tasks::onRequestConvertTXDToGame(EPlatformedGame EPlatformedGame)
-{
-	/*
-	todo
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_ConvertTXD_Game(EPlatformedGame);
-	getIMGF()->getTaskManager()->onStartTask("onRequestConvertTXDToGame");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToGame", true);
-		return;
-	}
 
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToGame", true);
-		return;
-	}
-
-	IMGEntry *pIMGEntry = nullptr;
-	uint32 uiConvertedTXDCount = 0;
-	vector<string>
-		vecConvertedTXDNames,
-		vecMipmapsRemoved;
-	setMaxProgress(pListControl->GetSelectedCount());
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-
-		if (String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName())) != "TXD")
-		{
-			increaseProgress();
-			continue;
-		}
-
-		TXDFormat *pTXDFile = TXDManager::get()->unserializeMemory(pIMGEntry->getEntryData());
-		if (pTXDFile->doesHaveError())
-		{
-			pTXDFile->unload();
-			delete pTXDFile;
-			increaseProgress();
-			continue;
-		}
-		uiConvertedTXDCount++;
-		vecConvertedTXDNames.push_back(pIMGEntry->getEntryName());
-
-		pTXDFile->convertToGame(EPlatformedGame, vecMipmapsRemoved);
-		RWVersion *pRWVersion = pTXDFile->getRWVersion();
-		string strFileData = pTXDFile->serializeViaMemory();
-		pTXDFile->unload();
-		delete pTXDFile;
-		
-		pIMGEntry->setEntrySize(strFileData.length());
-		pIMGEntry->setRWVersion(pRWVersion);
-		
-		pIMGEntry->setEntryData(strFileData);
-
-		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-		
-		increaseProgress();
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_104", uiConvertedTXDCount, GameManager::get()->getPlatformedGameText(EPlatformedGame).c_str(), vecMipmapsRemoved.size()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_105"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecConvertedTXDNames, "\n"), true);
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("MipmapsRemoved"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecMipmapsRemoved, "\n"), true);
-
-	if (pIMGEntry != nullptr)
-	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToGame");
-	*/
-}
-void		Tasks::onRequestConvertTXDToRWVersion(RWVersion *pRWVersion)
-{
-	/*
-	todo
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_ConvertTXD_RWVersion(pRWVersion);
-	getIMGF()->getTaskManager()->onStartTask("onRequestConvertTXDToRWVersion");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToRWVersion", true);
-		return;
-	}
-
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToRWVersion", true);
-		return;
-	}
-
-	IMGEntry *pIMGEntry = nullptr;
-	vector<string> vecConvertedTXDEntryNames;
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-
-		if (String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName())) != "TXD")
-		{
-			continue;
-		}
-
-		string strEntryData = pIMGEntry->getEntryData();
-		TXDFormat *pTXDFile = TXDManager::get()->unserializeMemory(strEntryData);
-		if (pTXDFile->doesHaveError())
-		{
-			pTXDFile->unload();
-			delete pTXDFile;
-			continue;
-		}
-
-		vecConvertedTXDEntryNames.push_back(pIMGEntry->getEntryName());
-
-		pTXDFile->setRWVersion(pRWVersion);
-		string strFileData = pTXDFile->serializeViaMemory();
-		uint32 uiFileSize = strFileData.length();
-		pTXDFile->unload();
-		delete pTXDFile;
-
-		pIMGEntry->setEntrySize(uiFileSize);
-		pIMGEntry->setRWVersion(pRWVersion);
-		
-		pIMGEntry->setEntryData(strFileData);
-		
-		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_107", vecConvertedTXDEntryNames.size(), (pRWVersion->getVersionText() + " (" + LocalizationManager::get()->getTranslatedText(pRWVersion->getLocalizationKey()) + ")").c_str()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_105"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecConvertedTXDEntryNames, "\n"), true);
-
-	if (pIMGEntry != nullptr)
-	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToRWVersion");
-	*/
-}
 void		Tasks::onRequestDump(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestDump");
@@ -5858,79 +5469,6 @@ void		Tasks::onRequestCompareIMG(void)
 	pIMGFile2->unload();
 	delete pIMGFile2;
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestCompareIMG");
-}
-
-void			Tasks::onRequestConvertTXDToTextureFormat(RasterDataFormat *pRasterDataFormat)
-{
-	/*
-	todo
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_ConvertTXD_TextureFormat(pRasterDataFormat);
-	getIMGF()->getTaskManager()->onStartTask("onRequestConvertTXDToTextureFormat");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToTextureFormat", true);
-		return;
-	}
-
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToTextureFormat", true);
-		return;
-	}
-
-	IMGEntry *pIMGEntry = nullptr;
-	vector<string>
-		vecConvertedTXDEntryNames,
-		vecMipmapsRemoved;
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-
-		if (String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName())) != "TXD")
-		{
-			continue;
-		}
-
-		string strEntryData = pIMGEntry->getEntryData();
-		TXDFormat *pTXDFile = TXDManager::get()->unserializeMemory(strEntryData);
-		if (pTXDFile->doesHaveError())
-		{
-			pTXDFile->unload();
-			delete pTXDFile;
-			continue;
-		}
-
-		vecConvertedTXDEntryNames.push_back(pIMGEntry->getEntryName());
-
-		//pTXDFile->convertToTextureFormat(pTextureFormat, vecMipmapsRemoved);
-		pTXDFile->convertToRasterDataFormat(pRasterDataFormat->getRasterDataFormatId(), vecMipmapsRemoved);
-
-		string strFileData = pTXDFile->serializeViaMemory();
-		uint32 uiFileSize = strFileData.length();
-		pTXDFile->unload();
-		delete pTXDFile;
-
-		pIMGEntry->setEntrySize(uiFileSize);
-		pIMGEntry->setEntryData(strFileData);
-
-		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_115", vecConvertedTXDEntryNames.size(), LocalizationManager::get()->getTranslatedText(pRasterDataFormat->getLocalizationKey()).c_str(), vecMipmapsRemoved.size()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_105"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecConvertedTXDEntryNames, "\n"), true);
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("MipmapsRemoved"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecMipmapsRemoved, "\n"), true);
-
-	if (pIMGEntry != nullptr)
-	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertTXDToTextureFormat");
-	*/
 }
 
 void			Tasks::onRequestValidateAllDFFInActiveTab(void)

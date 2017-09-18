@@ -115,6 +115,10 @@ public:
 
 	void						convertIMGVersion(void);
 	void						convertSelectedCOLVersion(void);
+	void						convertSelectedDFFRWVersion(void);
+	void						convertSelectedTXDRWVersion(void);
+	void						convertSelectedTXDToGame(void);
+	void						convertSelectedTXDToTextureFormat(void);
 
 	void						selectAll(void);
 	void						unselectAll(void);
@@ -201,7 +205,7 @@ public:
 	void						onRequestOrphanIMGEntriesNotInIDE(void);
 	void						onRequestOrphanIDEEntriesNotInIMG(void);
 	void						onRequestSettings(void);
-	void						onRequestConvertDFFToRWVersion(bxgi::RWVersion *pRWVersion);
+	
 	void						onRequestMissingTextures(void);
 	void						onRequestExportEntriesViaTextLinesFromAllTabs(void);
 	void						onRequestDuplicateEntries(void);
