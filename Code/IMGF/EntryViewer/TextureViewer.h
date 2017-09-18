@@ -33,7 +33,7 @@ public:
 	TextureViewerTextureData*	getActiveEntry(void) { return m_pActiveEntry; }
 
 	void						setDisplayType(EEntryViewerDisplayType EEntryViewerDisplayTypeValue);
-	EEntryViewerDisplayType		getDisplayType(void) { return m_EEntryViewerDisplayType; }
+	EEntryViewerDisplayType		getDisplayType(void) { return m_uiEntryViewerDisplayType; }
 	void						initDisplayType(void);
 	void						uninitDisplayType(void);
 
@@ -82,7 +82,7 @@ private:
 	HWND						m_hwndEntryViewerWindow;
 	TextureViewerTextureData*	m_pActiveEntry;
 	float32						m_fZoomLevel;
-	EEntryViewerDisplayType		m_EEntryViewerDisplayType;
+	EEntryViewerDisplayType		m_uiEntryViewerDisplayType;
 	HMENU						m_hViewMenu;
 	HMENU						m_hDisplayTypeMenu;
 	uint32						m_uiWindowScrollbarMaxRange;

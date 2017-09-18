@@ -51,7 +51,7 @@ void				updateMinorBuildNumber(void)
 			{
 				uiMinorBuildVersion = String::toNumber(String::trim(strFileLine.substr(strFileLine.find(strUpdateLinesContaining) + strUpdateLinesContaining.length())));
 				uiNewMinorBuildVersion = uiMinorBuildVersion + 1;
-				printf("Minor Build Version: %u", uiNewMinorBuildVersion);
+				printf("Build: %u", uiNewMinorBuildVersion);
 			}
 			
 			vecNewFileLines[uiLineIndex] = String::replace(strFileLine, String::toString(uiMinorBuildVersion), String::toString(uiNewMinorBuildVersion));

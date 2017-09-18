@@ -6508,7 +6508,7 @@ void		Tasks::onRequestIMGVersionSettings(void)
 	vector<string> vecEntryNames;
 	for (auto pIMGEntry : vecIMGEntries)
 	{
-		pIMGEntry->applyCompression(pIMGVersionSettingsDialogData->m_ECompressionAlgorithm, pIMGVersionSettingsDialogData->m_uiCompressionLevel);
+		pIMGEntry->applyCompression(pIMGVersionSettingsDialogData->m_uiCompressionAlgorithm, pIMGVersionSettingsDialogData->m_uiCompressionLevel);
 		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
 		vecEntryNames.push_back(pIMGEntry->getEntryName());
 
@@ -6520,7 +6520,7 @@ void		Tasks::onRequestIMGVersionSettings(void)
 
 	// log
 	// todo rename getCompressionTypeText to alrogrfirmtm
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_121", IMGManager::getCompressionTypeText(pIMGVersionSettingsDialogData->m_ECompressionAlgorithm).c_str(), vecIMGEntries.size()));
+	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_121", IMGManager::getCompressionTypeText(pIMGVersionSettingsDialogData->m_uiCompressionAlgorithm).c_str(), vecIMGEntries.size()));
 	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_122"), true);
 	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNames, "\n"), true);
 
