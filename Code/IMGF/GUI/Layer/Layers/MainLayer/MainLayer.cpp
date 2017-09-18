@@ -234,8 +234,10 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Export all entries from all tabs", EXPORT_ALL_FROM_ALL_TABS);
 	pMenu3->addMenuItem("Export all entries from all tabs into grouped folders by type", EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE);
 	pMenu3->addMenuItem("Export selection from all tabs", EXPORT_SELECTION_FROM_ALL_TABS);
+	pMenu3->addMenuItem("Export by IDE from All Tabs", EXPORT_BY_IDE_FROM_ALL_TABS);
 
 	pMenu2->addMenuItem("Export by IDE", EXPORT_BY_IDE);
+	pMenu2->addMenuItem("Export by DAT", EXPORT_BY_DAT);
 
 	// quick export
 	pMenu1->addMenuItem("Quick Export");
@@ -288,12 +290,15 @@ void		MainLayer::addControls(void)
 
 	// convert
 	pMenuItem1 = pMenu1->addMenuItem("Convert");
-
 	pMenu2 = pMenuItem1->addMenu();
-	pMenuItem2 = pMenu2->addMenuItem("IMG");
 
+	pMenuItem2 = pMenu2->addMenuItem("IMG");
 	pMenu3 = pMenuItem2->addMenu();
 	pMenuItem3 = pMenu3->addMenuItem("Convert IMG Version", CONVERT_IMG_VERSION);
+
+	pMenuItem2 = pMenu2->addMenuItem("COL");
+	pMenu3 = pMenuItem2->addMenu();
+	pMenuItem3 = pMenu3->addMenuItem("Convert COL Version for Selection", CONVERT_SELECTED_COL_VERSION);
 
 	// select
 	pMenuItem1 = pMenu1->addMenuItem("Select");

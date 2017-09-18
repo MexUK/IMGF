@@ -1247,6 +1247,145 @@ void		Tasks::exportByIDE(void)
 	onCompleteTask();
 }
 
+void		Tasks::exportByIDEFromAllTabs(void)
+{
+	onStartTask("exportByIDEFromAllTabs");
+
+	IDEInputWindowResult ideInputWindowResult = getIMGF()->getWindowManager()->showIDEInputWindow("Export from all IMG tabs by IDE", "Choose IDE items to export from the IMGs:");
+	if (getIMGF()->getWindowManager()->m_bWindow2Cancelled)
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecIDEFilePaths = openFile("ide");
+	if (vecIDEFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	string strExportFolderPath = openFolder("Choose a folder to export the files to.");
+	if (strExportFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	// fetch chosen IDE sections from input window
+	vector<EIDESection>
+		vecModelSections,
+		vecTextureSections;
+	ideInputWindowResult.getIDESections(vecModelSections, vecTextureSections);
+
+	// fetch model and TXD names from IDE file
+	setMaxProgress(vecIDEFilePaths.size() * 3);
+
+	set<string>
+		stModelNames,
+		stTextureSetNames;
+	IDEManager::getModelAndTextureSetNamesFromFiles(vecIDEFilePaths, stModelNames, stTextureSetNames, vecModelSections, vecTextureSections);
+
+	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount()); // todo - should take into account all IMG files
+
+	uint32 uiIMGEntryExportCount = 0;
+	for (IMGEditorTab *pIMGEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	{
+		// fetch model and TXD names from DFF/TXD files inside all opened IMG files
+		unordered_map<IMGEntry*, vector<string>>
+			umapIMGModelNames,
+			umapIMGTextureSetNames;
+		pIMGEditorTab->getIMGFile()->getModelAndTextureSetNamesFromEntries(umapIMGModelNames, umapIMGTextureSetNames);
+
+		// choose IMG entries that have a model name or TXD name found in IDE file
+		vector<IMGEntry*> vecIMGEntries = StdVector::getKeysWithMatchingEntries(umapIMGModelNames, stModelNames);
+		StdVector::addToVector(vecIMGEntries, StdVector::getKeysWithMatchingEntries(umapIMGTextureSetNames, stTextureSetNames));
+
+		// export the IMG entries
+		setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount() + vecIMGEntries.size());
+		getIMGTab()->getIMGFile()->exportMultiple(vecIMGEntries, strExportFolderPath);
+
+		uiIMGEntryExportCount += vecIMGEntries.size();
+	}
+
+	getIMGTab()->logf("Exported %u entries from all tabs by %u IDE files.", uiIMGEntryExportCount, vecIDEFilePaths.size());
+
+	onCompleteTask();
+}
+
+void			Tasks::exportByDAT(void)
+{
+	onStartTask("exportByDAT");
+
+	IDEInputWindowResult ideInputWindowResult = getIMGF()->getWindowManager()->showIDEInputWindow("Export from all IMG tabs by IDE", "Choose IDE items to export from the IMGs:");
+	if (getIMGF()->getWindowManager()->m_bWindow2Cancelled)
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecDATFilePaths = openFile("dat");
+	if (vecDATFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	string strGameFolderPath = openFolder("Choose the game folder.");
+	if (strGameFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	// fetch IDE paths from DAT files
+	vector<string> vecIDEFilePaths = DATLoaderManager::getIDEFilePaths(strGameFolderPath, vecDATFilePaths);
+
+	// choose input IDE files to export entries from
+	/*
+	todo
+	string strIDEFilePaths = m_pMainWindow->showTextBoxWindow("Choose IDE files to export IMG entries from:", String::join(vecIDEFilePaths, "\n"));
+	if (strIDEFilePaths == "")
+	{
+		return onAbortTask();
+	}
+	vecIDEFilePaths = String::split(strIDEFilePaths, "\n");
+	*/
+
+	// choose output folder
+	string strOutputFolderPath = openFolder("Choose a folder to export the entries to.");
+	if (strOutputFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	// fetch chosen IDE sections from input window
+	vector<EIDESection>
+		vecModelSections,
+		vecTextureSections;
+	ideInputWindowResult.getIDESections(vecModelSections, vecTextureSections);
+
+	// fetch model and TXD names from IDE file
+	set<string>
+		stModelNames,
+		stTextureSetNames;
+	IDEManager::getModelAndTextureSetNamesFromFiles(vecIDEFilePaths, stModelNames, stTextureSetNames, vecModelSections, vecTextureSections);
+
+	// fetch model and TXD names from DFF/TXD files inside IMG file
+	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount());
+
+	unordered_map<IMGEntry*, vector<string>>
+		umapIMGModelNames,
+		umapIMGTextureSetNames;
+	getIMGTab()->getIMGFile()->getModelAndTextureSetNamesFromEntries(umapIMGModelNames, umapIMGTextureSetNames);
+
+	// choose IMG entries that have a model name or TXD name found in IDE file
+	vector<IMGEntry*> vecIMGEntries = StdVector::getKeysWithMatchingEntries(umapIMGModelNames, stModelNames);
+	StdVector::addToVector(vecIMGEntries, StdVector::getKeysWithMatchingEntries(umapIMGTextureSetNames, stTextureSetNames));
+
+	// export the IMG entries
+	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount() + vecIMGEntries.size());
+	getIMGTab()->getIMGFile()->exportMultiple(vecIMGEntries, strOutputFolderPath);
+
+	getIMGTab()->logf("Exported %u entries by %u DAT files.", vecIMGEntries.size(), vecDATFilePaths.size());
+
+	onCompleteTask();
+}
+
 void		Tasks::rename(void)
 {
 	onStartTask("rename");
@@ -2035,6 +2174,59 @@ void		Tasks::convertIMGVersion(void)
 
 	// log
 	getIMGTab()->logf("Converted IMG file to version %s.", IMGManager::getVersionText(uiNewIMGVersion, false).c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::convertSelectedCOLVersion(void)
+{
+	onStartTask("convertSelectedCOLVersion");
+
+	vector<string> vecDropDownOptions = { "COL 1", "COL 2", "COL 3", "COL 4" };
+	int32 iNewCOLVersionOptionIndex = m_pMainWindow->showDropDownInput("New COL Version", "Convert selected COL entries to version", vecDropDownOptions);
+	if (iNewCOLVersionOptionIndex == -1)
+	{
+		return onAbortTask();
+	}
+	ECOLVersion uiNewCOLVersion = (ECOLVersion)(iNewCOLVersionOptionIndex + 1);
+
+	uint32 uiSelectedRowCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
+	setMaxProgress(uiSelectedRowCount);
+
+	uint32 uiConvertedEntryCount = 0;
+	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getSelectedRows())
+	{
+		IMGEntry *pIMGEntry = (IMGEntry*) pRow->getUserData();
+
+		if (pIMGEntry->isCollisionFile())
+		{
+			COLFormat colFile(pIMGEntry->getEntryData(), false);
+			if (colFile.unserialize())
+			{
+				for (COLEntry *pCOLEntry : colFile.getEntries())
+				{
+					pCOLEntry->setCOLVersion(uiNewCOLVersion);
+				}
+
+				string strNewCOLFileData = colFile.serialize();
+				pIMGEntry->setEntryData(strNewCOLFileData);
+				pIMGEntry->setRawVersion(uiNewCOLVersion);
+
+				getIMGTab()->updateGridEntry(pIMGEntry);
+				uiConvertedEntryCount++;
+			}
+			colFile.unload();
+		}
+
+		increaseProgress();
+	}
+
+	if (uiSelectedRowCount > 0)
+	{
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->logf("Converted COL version to %u for %u entries.", uiNewCOLVersion, uiConvertedEntryCount);
 
 	onCompleteTask();
 }
@@ -3825,335 +4017,10 @@ void		Tasks::onRequestSaveSession(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveSession");
 	*/
 }
-void		Tasks::onRequestOrphanDFFEntriesNotInCOL(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanDFFEntriesNotInCOL");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInCOL", true);
-		return;
-	}
-
-	// fetch DFF model names
-	/*
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecDFFPaths = Input::openFile(getIMGF()->getLastUsedDirectory("ORPHAN_DFF_COL__DFF"), "DFF,BSP");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecDFFPaths.size() == 0)
-	{
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInCOL", true);
-	return;
-	}
-	getIMGF()->setLastUsedDirectory("ORPHAN_DFF_COL__DFF", Path::getDirectory(vecDFFPaths[0]));
-	*/
 
 
-	vector<string> vecDFFEntryNamesWithoutExtension;
-	/*
-	todo
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	for (uint32 i = 0, j = pListControl->GetItemCount(); i < j; i++)
-	{
-		IMGEntry *pIMGEntry = (IMGEntry*)pListControl->GetItemData(i);
 
-		if (String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName())) == "DFF")
-		{
-			vecDFFEntryNamesWithoutExtension.push_back(Path::removeFileExtension(pIMGEntry->getEntryName()));
-		}
-	}
-	*/
 
-	// choose COL files
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecCOLPaths = Input::openFile(getIMGF()->getLastUsedDirectory("ORPHAN_DFF_COL__COL"), "COL");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecCOLPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInCOL", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("ORPHAN_DFF_COL__COL", Path::getDirectory(vecCOLPaths[0]));
-
-	// fetch COL model names
-	vector<string> vecCOLEntryNamesWithoutExtension;
-	for (auto strCOLPath : vecCOLPaths)
-	{
-		COLFormat *pCOLFile = COLManager::get()->unserializeFile(strCOLPath);
-		if (!pCOLFile->doesHaveError())
-		{
-			vector<string> vecModelNames = pCOLFile->getModelNames();
-			vecCOLEntryNamesWithoutExtension = StdVector::combineVectors(vecCOLEntryNamesWithoutExtension, StdVector::toUpperCase(vecModelNames));
-		}
-		pCOLFile->unload();
-		delete pCOLFile;
-	}
-	vecCOLEntryNamesWithoutExtension = StdVector::removeDuplicates(vecCOLEntryNamesWithoutExtension);
-
-	vector<string>
-		vecEntryNamesMissingFromCOL,
-		vecEntryNamesMissingFromCOLUpper;
-	setMaxProgress(vecDFFEntryNamesWithoutExtension.size());
-	for (auto strDFFEntryNameWithoutExtension : vecDFFEntryNamesWithoutExtension)
-	{
-		if (std::find(vecCOLEntryNamesWithoutExtension.begin(), vecCOLEntryNamesWithoutExtension.end(), strDFFEntryNameWithoutExtension) == vecCOLEntryNamesWithoutExtension.end())
-		{
-			vecEntryNamesMissingFromCOL.push_back(strDFFEntryNameWithoutExtension);
-			vecEntryNamesMissingFromCOLUpper.push_back(String::toUpperCase(strDFFEntryNameWithoutExtension));
-		}
-		increaseProgress();
-	}
-
-	if (getIMGF()->getIMGEditor()->getTabs().getEntryCount() > 0)
-	{
-		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_125", vecEntryNamesMissingFromCOL.size()));
-		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-		// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromCOL, "\n"), true);
-	}
-	else
-	{
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedFormattedText("Log_125", vecEntryNamesMissingFromCOL.size()));
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String::join(vecEntryNamesMissingFromCOL, "\n"), true);
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	// todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromCOL, "DFF Entries missing from COL:");
-	getIMGF()->getTaskManager()->onResumeTask();
-
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInCOL");
-}
-void		Tasks::onRequestOrphanIDEEntriesNotInCOL(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanIDEEntriesNotInCOL");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL", true);
-		return;
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecIDEPaths = Input::openFile(getIMGF()->getLastUsedDirectory("ORPHAN_IDE_COL__IDE"), "IDE");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecIDEPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("ORPHAN_IDE_COL__IDE", Path::getDirectory(vecIDEPaths[0]));
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecCOLPaths = Input::openFile(getIMGF()->getLastUsedDirectory("ORPHAN_IDE_COL__COL"), "COL");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecCOLPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("ORPHAN_IDE_COL__COL", Path::getDirectory(vecCOLPaths[0]));
-
-	vector<string> vecIDEEntryNamesWithoutExtension = IDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, true, false);
-	vecIDEEntryNamesWithoutExtension = StdVector::toUpperCase(vecIDEEntryNamesWithoutExtension);
-
-	vector<string> vecCOLEntryNamesWithoutExtension;
-	for (auto strCOLPath : vecCOLPaths)
-	{
-		COLFormat *pCOLFile = COLManager::get()->unserializeFile(strCOLPath);
-		if (pCOLFile->doesHaveError())
-		{
-			pCOLFile->unload();
-			delete pCOLFile;
-			continue;
-		}
-		vector<string> vecModelNames = pCOLFile->getModelNames();
-		vecCOLEntryNamesWithoutExtension = StdVector::combineVectors(vecCOLEntryNamesWithoutExtension, StdVector::toUpperCase(vecModelNames));
-		pCOLFile->unload();
-		delete pCOLFile;
-	}
-	vecCOLEntryNamesWithoutExtension = StdVector::removeDuplicates(vecCOLEntryNamesWithoutExtension);
-
-	vector<string> vecEntryNamesMissingFromCOL;
-	setMaxProgress(vecIDEEntryNamesWithoutExtension.size());
-	for (auto strIDEEntryNameWithoutExtension : vecIDEEntryNamesWithoutExtension)
-	{
-		if (std::find(vecCOLEntryNamesWithoutExtension.begin(), vecCOLEntryNamesWithoutExtension.end(), strIDEEntryNameWithoutExtension) == vecCOLEntryNamesWithoutExtension.end())
-		{
-			vecEntryNamesMissingFromCOL.push_back(strIDEEntryNameWithoutExtension);
-		}
-		increaseProgress();
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_112", vecEntryNamesMissingFromCOL.size()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromCOL, "\n"), true);
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	bool bImportEntries = false; // todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromCOL, "IDE Entries missing from COL:", "Import into IMG");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (bImportEntries)
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		string strFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_17"), getIMGF()->getLastUsedDirectory("ORPHAN_IDE_COL__IMPORT"));
-		getIMGF()->getTaskManager()->onResumeTask();
-		if (strFolderPath == "")
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL", true);
-			return;
-		}
-		strFolderPath = Path::addSlashToEnd(strFolderPath);
-		getIMGF()->setLastUsedDirectory("ORPHAN_IDE_COL__IMPORT", strFolderPath);
-
-		uint32 uiImportedFileCount = 0;
-		for (auto strEntryNameMissingFromCOL : vecEntryNamesMissingFromCOL)
-		{
-			string strEntryFilePath = strFolderPath + File::getFileNameFromNameWithoutExtension(strFolderPath, strEntryNameMissingFromCOL);
-			if (File::doesFileExist(strEntryFilePath))
-			{
-				getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strEntryFilePath);
-				uiImportedFileCount++;
-			}
-		}
-
-		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_84", uiImportedFileCount, vecEntryNamesMissingFromCOL.size()));
-
-		if (uiImportedFileCount > 0)
-		{
-			getIMGTab()->setIMGModifiedSinceRebuild(true);
-		}
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInCOL");
-}
-void		Tasks::onRequestOrphanDFFEntriesNotInIDE(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanDFFEntriesNotInIDE");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInIDE", true);
-		return;
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecIDEPaths = Input::openFile(getIMGF()->getLastUsedDirectory("ORPHAN_DFF_IDE__IDE"), "IDE");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecIDEPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInIDE", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("ORPHAN_DFF_IDE__IDE", Path::getDirectory(vecIDEPaths[0]));
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecDFFPaths = Input::openFile(getIMGF()->getLastUsedDirectory("ORPHAN_DFF_IDE__DFF"), "DFF");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecDFFPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInIDE", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("ORPHAN_DFF_IDE__DFF", Path::getDirectory(vecDFFPaths[0]));
-
-	vector<string> vecIDEEntryNamesWithoutExtension = IDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, true, false);
-	vecIDEEntryNamesWithoutExtension = StdVector::toUpperCase(vecIDEEntryNamesWithoutExtension);
-
-	vector<string> vecDFFEntryNamesWithoutExtension;
-	for (auto strDFFPath : vecDFFPaths)
-	{
-		DFFFormat *pDFFFile = DFFManager::get()->unserializeFile(strDFFPath);
-		if (!pDFFFile->doesHaveError())
-		{
-			vector<string> vecTextureNames = pDFFFile->getTextureNames();
-			vecDFFEntryNamesWithoutExtension = StdVector::combineVectors(vecDFFEntryNamesWithoutExtension, StdVector::toUpperCase(vecTextureNames));
-		}
-		pDFFFile->unload();
-		delete pDFFFile;
-	}
-	vecDFFEntryNamesWithoutExtension = StdVector::removeDuplicates(vecDFFEntryNamesWithoutExtension);
-
-	vector<string> vecEntryNamesMissingFromIDE;
-	setMaxProgress(vecDFFEntryNamesWithoutExtension.size());
-	for (auto strDFFEntryNameWithoutExtension : vecDFFEntryNamesWithoutExtension)
-	{
-		if (std::find(vecIDEEntryNamesWithoutExtension.begin(), vecIDEEntryNamesWithoutExtension.end(), strDFFEntryNameWithoutExtension) == vecIDEEntryNamesWithoutExtension.end())
-		{
-			vecEntryNamesMissingFromIDE.push_back(strDFFEntryNameWithoutExtension);
-		}
-		increaseProgress();
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_126", vecEntryNamesMissingFromIDE.size()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	// todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "DFF Entries missing from IDE:");
-	getIMGF()->getTaskManager()->onResumeTask();
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanDFFEntriesNotInIDE");
-}
-void		Tasks::onRequestOrphanCOLEntriesNotInIDE(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanCOLEntriesNotInIDE");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanCOLEntriesNotInIDE", true);
-		return;
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecIDEPaths = Input::openFile(getIMGF()->getLastUsedDirectory("ORPHAN_COL_IDE__IDE"), "IDE");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecIDEPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanCOLEntriesNotInIDE", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("ORPHAN_COL_IDE__IDE", Path::getDirectory(vecIDEPaths[0]));
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecCOLPaths = Input::openFile(getIMGF()->getLastUsedDirectory("ORPHAN_COL_IDE__COL"), "COL");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecCOLPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanCOLEntriesNotInIDE", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("ORPHAN_COL_IDE__COL", Path::getDirectory(vecCOLPaths[0]));
-
-	vector<string> vecIDEEntryNamesWithoutExtension = IDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, true, false);
-	vecIDEEntryNamesWithoutExtension = StdVector::toUpperCase(vecIDEEntryNamesWithoutExtension);
-
-	vector<string> vecCOLEntryNamesWithoutExtension;
-	for (auto strCOLPath : vecCOLPaths)
-	{
-		COLFormat *pCOLFile = COLManager::get()->unserializeFile(strCOLPath);
-		if (!pCOLFile->doesHaveError())
-		{
-			vector<string> vecModelNames = pCOLFile->getModelNames();
-			vecCOLEntryNamesWithoutExtension = StdVector::combineVectors(vecCOLEntryNamesWithoutExtension, StdVector::toUpperCase(vecModelNames));
-		}
-		pCOLFile->unload();
-		delete pCOLFile;
-	}
-	vecCOLEntryNamesWithoutExtension = StdVector::removeDuplicates(vecCOLEntryNamesWithoutExtension);
-
-	vector<string> vecEntryNamesMissingFromIDE;
-	setMaxProgress(vecCOLEntryNamesWithoutExtension.size());
-	for (auto strCOLEntryNameWithoutExtension : vecCOLEntryNamesWithoutExtension)
-	{
-		if (std::find(vecIDEEntryNamesWithoutExtension.begin(), vecIDEEntryNamesWithoutExtension.end(), strCOLEntryNameWithoutExtension) == vecIDEEntryNamesWithoutExtension.end())
-		{
-			vecEntryNamesMissingFromIDE.push_back(strCOLEntryNameWithoutExtension);
-		}
-		increaseProgress();
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_113", vecEntryNamesMissingFromIDE.size()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	// todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "COL Entries missing from IDE:");
-	getIMGF()->getTaskManager()->onResumeTask();
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanCOLEntriesNotInIDE");
-}
 void		Tasks::onRequestOrphanIMGEntriesNotInIDE(void)
 {
 	/*
@@ -4220,150 +4087,7 @@ void		Tasks::onRequestOrphanIMGEntriesNotInIDE(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIMGEntriesNotInIDE");
 	*/
 }
-void		Tasks::onRequestOrphanIPLEntriesNotInIDE(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanIPLEntriesNotInIDE");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIPLEntriesNotInIDE", true);
-		return;
-	}
 
-	// IDE files input
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecIDEPaths = Input::openFile(getIMGF()->getLastUsedDirectory("ORPHAN_IPL_IDE__IDE"), "IDE");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecIDEPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIPLEntriesNotInIDE", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("ORPHAN_IPL_IDE__IDE", Path::getDirectory(vecIDEPaths[0]));
-
-	// IPL files input
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecIPLPaths = Input::openFile(getIMGF()->getLastUsedDirectory("ORPHAN_IPL_IDE__IPL"), "IPL");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecIPLPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIPLEntriesNotInIDE", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("ORPHAN_IPL_IDE__IPL", Path::getDirectory(vecIPLPaths[0]));
-
-	// fetch DFF names in IDE files
-	vector<string> vecDFFNamesWithoutExtensionInIDE = IDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, true, false);
-	vecDFFNamesWithoutExtensionInIDE = StdVector::toUpperCase(vecDFFNamesWithoutExtensionInIDE);
-	unordered_map<string, bool> umapDFFNamesWithoutExtensionInIDE = StdVector::convertVectorToUnorderedMap(vecDFFNamesWithoutExtensionInIDE);
-	vecDFFNamesWithoutExtensionInIDE.clear();
-
-	// fetch DFF names in IPL files
-	vector<string> vecDFFNamesWithoutExtensionInIPL;
-	for (string& strIPLPath : vecIPLPaths)
-	{
-		IPLFormat *pIPLFile = IPLManager::get()->unserializeFile(strIPLPath);
-
-		if (!pIPLFile->doesHaveError())
-		{
-			StdVector::addToVector(vecDFFNamesWithoutExtensionInIPL, pIPLFile->getModelNames());
-		}
-
-		pIPLFile->unload();
-		delete pIPLFile;
-	}
-
-	// find DFF names in IPL files but not found in IDE files
-	vector<string> vecEntryNamesMissingFromIDE;
-	setMaxProgress(vecDFFNamesWithoutExtensionInIPL.size());
-	for (auto strDFFEntryNameWithoutExtension : vecDFFNamesWithoutExtensionInIPL)
-	{
-		string strDFFEntryNameWithoutExtensionUpper = String::toUpperCase(strDFFEntryNameWithoutExtension);
-		if (umapDFFNamesWithoutExtensionInIDE.count(strDFFEntryNameWithoutExtensionUpper) == 0)
-		{
-			vecEntryNamesMissingFromIDE.push_back(strDFFEntryNameWithoutExtension);
-		}
-		increaseProgress();
-	}
-
-	// log
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_141", vecEntryNamesMissingFromIDE.size()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
-
-	// popup
-	getIMGF()->getTaskManager()->onPauseTask();
-	// todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "IPL Entries missing from IDE:");
-	getIMGF()->getTaskManager()->onResumeTask();
-
-	// end
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIPLEntriesNotInIDE");
-}
-void		Tasks::onRequestOrphanTXDEntriesNotInIDE(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanTXDEntriesNotInIDE");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanTXDEntriesNotInIDE", true);
-		return;
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecIDEPaths = Input::openFile(getIMGF()->getLastUsedDirectory("ORPHAN_TXD_IDE__IDE"), "IDE");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecIDEPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanTXDEntriesNotInIDE", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("ORPHAN_TXD_IDE__IDE", Path::getDirectory(vecIDEPaths[0]));
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecTXDPaths = Input::openFile(getIMGF()->getLastUsedDirectory("ORPHAN_TXD_IDE__TXD"), "TXD");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecTXDPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanTXDEntriesNotInIDE", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("ORPHAN_TXD_IDE__TXD", Path::getDirectory(vecTXDPaths[0]));
-
-	vector<string> vecIDEEntryNamesWithoutExtension = IDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, false, true);
-	vecIDEEntryNamesWithoutExtension = StdVector::toUpperCase(vecIDEEntryNamesWithoutExtension);
-
-	vector<string> vecTXDEntryNamesWithoutExtension;
-	for (auto strTXDPath : vecTXDPaths)
-	{
-		TXDFormat *pTXDFile = TXDManager::get()->unserializeFile(strTXDPath);
-		if (!pTXDFile->doesHaveError())
-		{
-			vector<string> vecTextureNames = pTXDFile->getTextureNames();
-			vecTXDEntryNamesWithoutExtension = StdVector::combineVectors(vecTXDEntryNamesWithoutExtension, StdVector::toUpperCase(vecTextureNames));
-		}
-		pTXDFile->unload();
-		delete pTXDFile;
-	}
-	vecTXDEntryNamesWithoutExtension = StdVector::removeDuplicates(vecTXDEntryNamesWithoutExtension);
-
-	vector<string> vecEntryNamesMissingFromIDE;
-	setMaxProgress(vecTXDEntryNamesWithoutExtension.size());
-	for (auto strTXDEntryNameWithoutExtension : vecTXDEntryNamesWithoutExtension)
-	{
-		if (std::find(vecIDEEntryNamesWithoutExtension.begin(), vecIDEEntryNamesWithoutExtension.end(), strTXDEntryNameWithoutExtension) == vecIDEEntryNamesWithoutExtension.end())
-		{
-			vecEntryNamesMissingFromIDE.push_back(strTXDEntryNameWithoutExtension);
-		}
-		increaseProgress();
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_140", vecEntryNamesMissingFromIDE.size()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	// todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "TXD Entries missing from IDE:");
-	getIMGF()->getTaskManager()->onResumeTask();
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanTXDEntriesNotInIDE");
-}
 void		Tasks::onRequestOrphanIDEEntriesNotInIMG(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanIDEEntriesNotInIMG");
@@ -5076,74 +4800,6 @@ void		Tasks::onRequestMissingTextures(void)
 	*/
 }
 
-void		Tasks::onRequestExportEntriesViaIDEFileFromAllTabs(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestExportEntriesViaIDEFileFromAllTabs");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaIDEFileFromAllTabs", true);
-		return;
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecPaths = Input::openFile(getIMGF()->getLastUsedDirectory("EXPORT_IDE_ALL__IDE"), "IDE");
-	getIMGF()->getTaskManager()->onResumeTask(); 
-	if (vecPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaIDEFileFromAllTabs", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("EXPORT_IDE_ALL__IDE", Path::getDirectory(vecPaths[0]));
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORT_IDE_ALL__DEST"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strPath == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaIDEFileFromAllTabs", true);
-		return;
-	}
-	strPath = Path::addSlashToEnd(strPath);
-	getIMGF()->setLastUsedDirectory("EXPORT_IDE_ALL__DEST", strPath);
-
-	vector<string> vecEntryNamesWithoutExtension = IDEManager::getIDEEntryNamesWithoutExtension(vecPaths);
-	vecEntryNamesWithoutExtension = StdVector::toUpperCase(vecEntryNamesWithoutExtension);
-	
-	uint32 uiTotalEntryCount = 0;
-	for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
-	{
-		uiTotalEntryCount += ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
-	}
-	setMaxProgress(uiTotalEntryCount);
-
-	uint32 uiTotalEntryExportedCount = 0;
-	vector<string> vecIMGPaths;
-	for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
-	{
-		vecIMGPaths.push_back(((IMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
-
-		vector<IMGEntry*> vecIMGEntries;
-		for (auto pIMGEntry : ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntries())
-		{
-			string strEntryNameWithoutExtension = String::toUpperCase(Path::removeFileExtension(pIMGEntry->getEntryName()));
-			auto it = std::find(vecEntryNamesWithoutExtension.begin(), vecEntryNamesWithoutExtension.end(), strEntryNameWithoutExtension);
-			if (it != vecEntryNamesWithoutExtension.end())
-			{
-				uiTotalEntryExportedCount++;
-				vecIMGEntries.push_back(pIMGEntry);
-			}
-
-			increaseProgress();
-		}
-
-		((IMGEditorTab*)pEditorTab)->getIMGFile()->exportMultiple(vecIMGEntries, strPath);
-	}
-
-	getIMGF()->getIMGEditor()->logAllTabs(LocalizationManager::get()->getTranslatedFormattedText("Log_108", uiTotalEntryExportedCount, getIMGF()->getIMGEditor()->getTabs().getEntryCount()));
-	getIMGF()->getIMGEditor()->logAllTabs(LocalizationManager::get()->getTranslatedText("LogAllTabs_7"), true);
-	getIMGF()->getIMGEditor()->logAllTabs(String::join(vecIMGPaths, "\n"), true);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportEntriesViaIDEFileFromAllTabs");
-}
 void		Tasks::onRequestExportEntriesViaTextLinesFromAllTabs(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestExportEntriesViaTextLinesFromAllTabs");
@@ -6399,149 +6055,6 @@ void			Tasks::onRequestCredits(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestCredits");
 }
 
-void			Tasks::onRequestEntryViewer(bool bDontOpenWindow)
-{
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestEntryViewer");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
-		return;
-	}
-
-	// fetch selected IMG entry
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
-		return;
-	}
-	int nItem = pListControl->GetNextSelectedItem(pos);
-	IMGEntry *pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-
-	// check the entry type
-	if (pIMGEntry->isTextureFile())
-	{
-		TextureViewer *pTextureViewer = getIMGF()->getEntryViewerManager()->getTextureViewer();
-
-		if (bDontOpenWindow && !pTextureViewer->isWindowOpen())
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
-			return;
-		}
-
-		pTextureViewer->reset();
-		pTextureViewer->setIMGEntry(pIMGEntry);
-		pTextureViewer->setWindowTitle(LocalizationManager::get()->getTranslatedFormattedText("Window_TextureViewer_TitleWithEntryName", pIMGEntry->getEntryName().c_str()));
-		pTextureViewer->prepareRenderData();
-
-		if (pTextureViewer->isEntityDataCorrupt())
-		{
-			if (!bDontOpenWindow)
-			{
-				Input::showMessage(LocalizationManager::get()->getTranslatedText(pIMGEntry->isTXDFile() ? "TXDReadError" : "WTDReadError"), LocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
-			}
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
-			return;
-		}
-
-		if (pTextureViewer->isWindowOpen())
-		{
-			pTextureViewer->applyWindowTitle();
-		}
-		else
-		{
-			if (!bDontOpenWindow)
-			{
-				pTextureViewer->loadThreadAndWindow();
-			}
-		}
-
-		pTextureViewer->forceRender();
-	}
-	*/
-
-
-
-	/*
-	else if (pIMGEntry->isCollisionFile())
-	{
-		CollisionViewer *pCollisionViewer = getIMGF()->getEntryViewerManager()->getCollisionViewer();
-
-		if (pCollisionViewer->isWindowOpening())
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
-			return;
-		}
-
-		if (bDontOpenWindow && !pCollisionViewer->isWindowOpen())
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
-			return;
-		}
-
-		COLFormat *pCOLFile = COLManager::get()->unserializeMemory(pIMGEntry->getEntryData());
-		if (pCOLFile->doesHaveError())
-		{
-			if (!bDontOpenWindow)
-			{
-				Input::showMessage(LocalizationManager::get()->getTranslatedText("COLReadError"), LocalizationManager::get()->getTranslatedText("TextPopup_Title52"), MB_OK);
-			}
-			pCOLFile->unload();
-			delete pCOLFile;
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
-			return;
-		}
-
-		if (pCollisionViewer->isWindowOpen())
-		{
-			if(!bDontOpenWindow)
-			{
-				pCollisionViewer->unloadThreadAndWindow();
-			}
-		}
-
-		pCollisionViewer->setEntryChanging(true);
-		pCollisionViewer->reset();
-		pCollisionViewer->setCOLFile(pCOLFile);
-		pCollisionViewer->setWindowTitle(LocalizationManager::get()->getTranslatedFormattedText("Window_CollisionViewer_TitleWithEntryName", pIMGEntry->getEntryName().c_str()));
-		//pCollisionViewer->setCOLFileName(pIMGEntry->getEntryName());
-		pCollisionViewer->prepareRenderData();
-		pCollisionViewer->setEntryChanging(false);
-
-		if (pCollisionViewer->isWindowOpen())
-		{
-			pCollisionViewer->applyWindowTitle();
-		}
-		else
-		{
-			if (!bDontOpenWindow)
-			{
-				pCollisionViewer->loadThreadAndWindow();
-			}
-		}
-	}
-	*/
-
-
-	/*
-	todo
-	else if (pIMGEntry->isModelFile())
-	{
-	}
-	else
-	{
-		// entry viewer does not support the type of file
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer", true);
-		return;
-	}
-
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestEntryViewer");
-	*/
-}
-
 void			Tasks::onRequestRenamer(void)
 {
 	/*
@@ -7749,74 +7262,6 @@ void		Tasks::onRequestLastFeatureUsed(void)
 	onRequestFeatureByName(strPreviousTaskName);
 }
 
-void		Tasks::onRequestConvertCOLtoCOLVersion(COLVersion *pCOLVersion)
-{
-	/*
-	todo
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_ConvertCOL_COLVersion(pCOLVersion);
-	getIMGF()->getTaskManager()->onStartTask("onRequestConvertCOLtoCOLVersion");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertCOLtoCOLVersion", true);
-		return;
-	}
-
-	// fetch selected entries
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertCOLtoCOLVersion", true);
-		return;
-	}
-	uint32 uiEntryCount = 0;
-	setMaxProgress(pListControl->GetItemCount());
-
-	IMGEntry *pIMGEntry = nullptr;
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-
-		if (String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName())) != "COL")
-		{
-			increaseProgress();
-			continue;
-		}
-
-		COLFormat *pCOLFile = COLManager::get()->unserializeMemory(pIMGEntry->getEntryData());
-		if (pCOLFile->doesHaveError())
-		{
-			pCOLFile->unload();
-			delete pCOLFile;
-			increaseProgress();
-			continue;
-		}
-		for (auto pCOLEntry : pCOLFile->getEntries())
-		{
-			pCOLEntry->setCOLVersion(pCOLVersion->getVersionId());
-		}
-
-		string strNewEntryData = pCOLFile->storeViaMemory();
-		pCOLFile->unload();
-		delete pCOLFile;
-
-		pIMGEntry->setEntryData(strNewEntryData);
-
-		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-
-		increaseProgress();
-		uiEntryCount++;
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_123", uiEntryCount, pCOLVersion->getText().c_str()));
-
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
-
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestConvertCOLtoCOLVersion");
-	*/
-}
-
 void			Tasks::onRequestReportIssueOrIdea(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestReportIssueOrIdea");
@@ -8668,137 +8113,6 @@ void			Tasks::onRequestDATPathsMover(void)
 	*/
 }
 
-void			Tasks::onRequestExportViaDATFile(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestExportViaDATFile");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
-		return;
-	}
-
-	// choose input DAT GTA files
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecDATPaths = Input::openFile(getIMGF()->getLastUsedDirectory("EXPORTVIADAT_DAT"), "DAT", true);
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecDATPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("EXPORTVIADAT_DAT", Path::getDirectory(vecDATPaths[0]));
-
-	// choose input game folder
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strGameFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("EXPORTVIADAT_GAME"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecDATPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
-		return;
-	}
-	strGameFolderPath = Path::addSlashToEnd(strGameFolderPath);
-	getIMGF()->setLastUsedDirectory("EXPORTVIADAT_GAME", strGameFolderPath);
-
-	// fetch IDE paths from DAT files
-	vector<string> vecIDEPaths;
-	for (string strDATPath : vecDATPaths)
-	{
-		DATLoaderFormat *pDATFile = DATLoaderManager::get()->unserializeFile(strDATPath);
-		if(!pDATFile->doesHaveError())
-		{
-			vector<string> vecRelativeIDEPaths = pDATFile->getRelativeIDEPaths();
-			for (string strRelativeIDEPath : vecRelativeIDEPaths)
-			{
-				vecIDEPaths.push_back(strGameFolderPath + strRelativeIDEPath);
-			}
-		}
-		pDATFile->unload();
-		delete pDATFile;
-	}
-
-	// choose input IDE files to export entries from
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strData = ""; // todo - getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("Window_TextArea_8_Title"), LocalizationManager::get()->getTranslatedText("Window_TextArea_8_Message"), String::join(vecIDEPaths, "\r\n"));
-	if (strData == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
-		return;
-	}
-	getIMGF()->getTaskManager()->onResumeTask();
-
-	// choose output folder
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strOutputFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_12"), getIMGF()->getLastUsedDirectory("EXPORTVIADAT_OUTPUT"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strOutputFolderPath == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile", true);
-		return;
-	}
-	strOutputFolderPath = Path::addSlashToEnd(strOutputFolderPath);
-	getIMGF()->setLastUsedDirectory("EXPORTVIADAT_OUTPUT", strOutputFolderPath);
-
-	// generate input IDE file objects
-	vector<string> vecEntryNames;
-	vector<string> vecLines = String::split(strData, "\r\n");
-	vector<IDEFormat*> veIDEFormats;
-	for (auto strLine : vecLines)
-	{
-		strLine = String::trim(strLine);
-		if (strLine == "")
-		{
-			continue;
-		}
-
-		vecEntryNames.push_back(strLine);
-		IDEFormat *pIDEFile = IDEManager::get()->unserializeFile(strLine);
-		if(!pIDEFile->doesHaveError())
-		{
-			veIDEFormats.push_back(pIDEFile);
-		}
-	}
-	vecEntryNames = StdVector::toUpperCase(vecEntryNames);
-
-	// fetch IDE entry names
-	unordered_map<string, IDEEntry*> umapIDEEntryNamesUpper;
-	for (auto pIDEFile : veIDEFormats)
-	{ // todo - make it work with all IDE sections
-		for (auto pIDEEntry : pIDEFile->getEntriesBySection<IDEEntry_OBJS>(IDE_SECTION_OBJS))
-		{
-			umapIDEEntryNamesUpper[String::toUpperCase(pIDEEntry->getModelName())] = pIDEEntry;
-			umapIDEEntryNamesUpper[String::toUpperCase(pIDEEntry->getTXDName())] = pIDEEntry;
-		}
-	}
-
-	vector<IMGEntry*> vecIMGEntriesToExport;
-	vector<string> vecExportedEntryNames;
-	for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
-	{
-		string strEntryNameUpperWithoutExtension = String::toUpperCase(Path::removeFileExtension(pIMGEntry->getEntryName()));
-
-		if (umapIDEEntryNamesUpper.find(strEntryNameUpperWithoutExtension) != umapIDEEntryNamesUpper.end())
-		{
-			vecIMGEntriesToExport.push_back(pIMGEntry);
-			vecExportedEntryNames.push_back(pIMGEntry->getEntryName());
-		}
-	}
-
-	setMaxProgress(vecIMGEntriesToExport.size());
-	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntriesToExport, strOutputFolderPath);
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_Export_DAT", vecIMGEntriesToExport.size()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_77"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecExportedEntryNames, "\n"), true);
-	
-	for (auto pIDEFile : veIDEFormats)
-	{
-		pIDEFile->unload();
-		delete pIDEFile;
-	}
-	
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestExportViaDATFile");
-}
-
 void						Tasks::onRequestMapMoverAndIDShifter(void)
 {
 	/*
@@ -9247,84 +8561,7 @@ void						Tasks::onRequestFindTXDMissingFromIMGFoundInIDE(void)
 	getIMGF()->getTaskManager()->onResumeTask();
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindTXDMissingFromIMGFoundInIDE");
 }
-void						Tasks::onRequestFindCOLMissingFromCOLFoundInIDE(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestFindCOLMissingFromCOLFoundInIDE");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestFindCOLMissingFromCOLFoundInIDE", true);
-		return;
-	}
 
-	// fetch DFF names in IDE files (these DFF names will be compared with COL names)
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecIDEPaths = Input::openFile(getIMGF()->getLastUsedDirectory("MISSINGENTRIES_IDE_COL_COL__IDE"), "IDE");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecIDEPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestFindCOLMissingFromCOLFoundInIDE", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("MISSINGENTRIES_IDE_COL_COL__IDE", Path::getDirectory(vecIDEPaths[0]));
-
-	vector<string> vecDFFNamesWithoutExtensionInIDE = IDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, true, false);
-
-	// fetch COL names in COL file
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecCOLPaths = Input::openFile(getIMGF()->getLastUsedDirectory("MISSINGENTRIES_IDE_COL_COL__COL"), "COL");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecCOLPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestMissingCOLEntriesInIDE", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("MISSINGENTRIES_IDE_COL_COL__COL", Path::getDirectory(vecCOLPaths[0]));
-
-	vector<string> vecCOLNamesWithoutExtensionInCOL;
-	for (string& strCOLPath : vecCOLPaths)
-	{
-		COLFormat *pCOLFile = COLManager::get()->unserializeFile(strCOLPath);
-		if (!pCOLFile->doesHaveError())
-		{
-			for (COLEntry *pCOLEntry : pCOLFile->getEntries())
-			{
-				vecCOLNamesWithoutExtensionInCOL.push_back(pCOLEntry->getModelName());
-			}
-		}
-		pCOLFile->unload();
-		delete pCOLFile;
-	}
-
-	vecCOLNamesWithoutExtensionInCOL = StdVector::toUpperCase(vecCOLNamesWithoutExtensionInCOL);
-	unordered_map<string, bool> umapCOLNamesWithoutExtensionInCOL = StdVector::convertVectorToUnorderedMap(vecCOLNamesWithoutExtensionInCOL);
-	vecCOLNamesWithoutExtensionInCOL.clear();
-
-	// find COL names found in IDE but not found in COL
-	vector<string> vecCOLNamesWithoutExtensionMissingFromIMG;
-	setMaxProgress(vecDFFNamesWithoutExtensionInIDE.size());
-	for (string& strDFFName : vecDFFNamesWithoutExtensionInIDE)
-	{
-		if (umapCOLNamesWithoutExtensionInCOL.count(String::toUpperCase(strDFFName)) == 0)
-		{
-			vecCOLNamesWithoutExtensionMissingFromIMG.push_back(strDFFName);
-		}
-		increaseProgress();
-	}
-
-	// log
-	string strIMGFileName = Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath());
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_133", vecCOLNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_135"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecCOLNamesWithoutExtensionMissingFromIMG, "\n"), true);
-
-	// popup
-	string strInitialFilename = LocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", Path::replaceFileExtension(Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
-	string strTitle = LocalizationManager::get()->getTranslatedFormattedText("Log_133", vecCOLNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str());
-	getIMGF()->getTaskManager()->onPauseTask();
-	// todo - getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecCOLNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
-	getIMGF()->getTaskManager()->onResumeTask();
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindCOLMissingFromCOLFoundInIDE");
-}
 void						Tasks::onRequestFindDFFMissingFromIMGFoundInIDE(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestFindDFFMissingFromIMGFoundInIDE");
@@ -9533,184 +8770,6 @@ void						Tasks::onRequestRemoveOrphanTexturesFromModel(void)
 		delete pDFFFile;
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestRemoveOrphanTexturesFromModel");
-}
-
-void						Tasks::onRequestFindDFFMissingFromIDEFoundInIPL(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestFindDFFMissingFromIDEFoundInIPL");
-
-	// fetch DFF names in IDE files
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecIDEPaths = Input::openFile(getIMGF()->getLastUsedDirectory("MISSINGENTRIES_IPL_IDE_DFF__IDE"), "IDE");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecIDEPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIDEFoundInIPL", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("MISSINGENTRIES_IPL_IDE_DFF__IDE", Path::getDirectory(vecIDEPaths[0]));
-
-	vector<string> vecDFFNamesWithoutExtensionInIDE = IDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, true, false);
-
-	// fetch DFF names in IPL files
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecIPLPaths = Input::openFile(getIMGF()->getLastUsedDirectory("MISSINGENTRIES_IPL_IDE_DFF__IPL"), "IPL");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecIDEPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIDEFoundInIPL", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("MISSINGENTRIES_IPL_IDE_DFF__IPL", Path::getDirectory(vecIPLPaths[0]));
-
-	vector<string> vecDFFNamesWithoutExtensionInIPL;
-	for (string& strIPLPath : vecIPLPaths)
-	{
-		IPLFormat *pIPLFile = IPLManager::get()->unserializeFile(strIPLPath);
-
-		if (!pIPLFile->doesHaveError())
-		{
-			StdVector::addToVector(vecDFFNamesWithoutExtensionInIPL, pIPLFile->getModelNames());
-		}
-
-		pIPLFile->unload();
-		delete pIPLFile;
-	}
-	
-	vecDFFNamesWithoutExtensionInIDE = StdVector::toUpperCase(vecDFFNamesWithoutExtensionInIDE);
-	unordered_map<string, bool> umapDFFNamesWithoutExtensionInIDE = StdVector::convertVectorToUnorderedMap(vecDFFNamesWithoutExtensionInIDE);
-	vecDFFNamesWithoutExtensionInIDE.clear();
-
-	// find DFF names found in IPL but not found in IDE
-	vector<string> vecDFFNamesWithoutExtensionMissingFromIDE;
-	setMaxProgress(vecDFFNamesWithoutExtensionInIDE.size());
-	for (string& strDFFName : vecDFFNamesWithoutExtensionInIPL)
-	{
-		if (umapDFFNamesWithoutExtensionInIDE.count(String::toUpperCase(strDFFName)) == 0)
-		{
-			vecDFFNamesWithoutExtensionMissingFromIDE.push_back(strDFFName);
-		}
-		increaseProgress();
-	}
-
-	// log
-	if (getIMGF()->getEntryListTab())
-	{
-		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_136", vecDFFNamesWithoutExtensionMissingFromIDE.size()));
-		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_135"), true);
-		// todo - getIMGF()->getEntryListTab()->log(String::join(vecDFFNamesWithoutExtensionMissingFromIDE, "\n"), true);
-	}
-	else
-	{
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedFormattedText("Log_136", vecDFFNamesWithoutExtensionMissingFromIDE.size()));
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_135"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String::join(vecDFFNamesWithoutExtensionMissingFromIDE, "\n"), true);
-	}
-
-	// popup
-	string strInitialFilename = LocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", "DFF not in IDE found in IPL");
-	string strTitle = LocalizationManager::get()->getTranslatedFormattedText("Log_136", vecDFFNamesWithoutExtensionMissingFromIDE.size());
-	getIMGF()->getTaskManager()->onPauseTask();
-	// todo - getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecDFFNamesWithoutExtensionMissingFromIDE, strInitialFilename, "MISSINGENTRIES");
-	getIMGF()->getTaskManager()->onResumeTask();
-
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIDEFoundInIPL");
-}
-
-void				Tasks::onRequestSortIDEAndIPLFilesByObjectId(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestSortIDEAndIPLFilesByObjectId");
-
-	// choose DAT file
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecDATPaths = Input::openFile(getIMGF()->getLastUsedDirectory("SORTIDEANDIPL_OBJECTID_DAT"), "DAT", false);
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecDATPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("SORTIDEANDIPL_OBJECTID_DAT", Path::getDirectory(vecDATPaths[0]));
-	string strDATFilePath = vecDATPaths[0];
-
-	// choose game folder
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strGameDirectoryPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("SORTIDEANDIPL_OBJECTID_GAME"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strGameDirectoryPath == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId", true);
-		return;
-	}
-	strGameDirectoryPath = Path::addSlashToEnd(strGameDirectoryPath);
-	getIMGF()->setLastUsedDirectory("SORTIDEANDIPL_OBJECTID_GAME", strGameDirectoryPath);
-
-	// choose output folder
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strOutputFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_23"), getIMGF()->getLastUsedDirectory("SORTIDEANDIPL_OBJECTID_OUTPUT"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strOutputFolderPath == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId", true);
-		return;
-	}
-	strOutputFolderPath = Path::addSlashToEnd(strOutputFolderPath);
-	getIMGF()->setLastUsedDirectory("SORTIDEANDIPL_OBJECTID_OUTPUT", strOutputFolderPath);
-
-	// parse DAT file
-	DATLoaderFormat *pDATFile_GTA = DATLoaderManager::get()->unserializeFile(strDATFilePath);
-	if (pDATFile_GTA->doesHaveError())
-	{
-		pDATFile_GTA->unload();
-		delete pDATFile_GTA;
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId", true);
-		return;
-	}
-
-	// parse IDE and IPL files listed in DAT file
-	vector<IDEFormat*> veIDEFormats = pDATFile_GTA->parseIDEFiles(strGameDirectoryPath);
-	vector<IPLFormat*> veIPLFormats = pDATFile_GTA->parseIPLFiles(strGameDirectoryPath);
-
-	pDATFile_GTA->unload();
-	delete pDATFile_GTA;
-
-	setMaxProgress(veIDEFormats.size() + veIPLFormats.size());
-
-	// sort and store IDE files
-	for (IDEFormat *pIDEFile : veIDEFormats)
-	{
-		pIDEFile->sortAllSectionsByObjectId();
-		pIDEFile->serialize(strOutputFolderPath + Path::getFileName(pIDEFile->getFilePath()));
-
-		pIDEFile->unload();
-		delete pIDEFile;
-
-		increaseProgress();
-	}
-
-	// sort and store IPL files
-	for (IPLFormat *pIPLFile : veIPLFormats)
-	{
-		pIPLFile->sortAllSectionsByObjectId();
-		pIPLFile->serialize(strOutputFolderPath + Path::getFileName(pIPLFile->getFilePath()));
-
-		pIPLFile->unload();
-		delete pIPLFile;
-
-		increaseProgress();
-	}
-
-	// log
-	if (getIMGF()->getEntryListTab())
-	{
-		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_137", veIDEFormats.size(), veIPLFormats.size(), Path::getFileName(strDATFilePath).c_str()));
-	}
-	else
-	{
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedFormattedText("Log_137", veIDEFormats.size(), veIPLFormats.size(), Path::getFileName(strDATFilePath).c_str()));
-	}
-
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestSortIDEAndIPLFilesByObjectId");
 }
 
 void				Tasks::onRequestExtractDVCAndNVColoursIntoDFFs(void)

@@ -77,6 +77,8 @@ private:
 	void					exportAllFromAllTabsIntoGroupedFoldersByType(void);
 	void					exportSelectionFromAllTabs(void);
 	void					exportByIDE(void);
+	void					exportByIDEFromAllTabs(void);
+	void					exportByDAT(void);
 
 	void					quickExport(void);
 	
@@ -103,6 +105,7 @@ private:
 	void					splitByIDE(void);
 
 	void					convertIMGVersion(void);
+	void					convertSelectedCOLVersion(void);
 
 	void					selectAll(void);
 	void					unselectAll(void);

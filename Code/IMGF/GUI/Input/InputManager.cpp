@@ -102,6 +102,8 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE:		return exportAllFromAllTabsIntoGroupedFoldersByType();
 	case EXPORT_SELECTION_FROM_ALL_TABS:			return exportSelectionFromAllTabs();
 	case EXPORT_BY_IDE:								return exportByIDE();
+	case EXPORT_BY_IDE_FROM_ALL_TABS:				return exportByIDEFromAllTabs();
+	case EXPORT_BY_DAT:								return exportByDAT();
 
 	case RENAME:									return rename();
 
@@ -126,6 +128,7 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case SPLIT_BY_IDE:								return splitByIDE();
 
 	case CONVERT_IMG_VERSION:						return convertIMGVersion();
+	case CONVERT_SELECTED_COL_VERSION:				return convertSelectedCOLVersion();
 
 	case SELECT_ALL:								return selectAll();
 	case UNSELECT_ALL:								return unselectAll();
@@ -422,6 +425,16 @@ void					InputManager::exportByIDE(void)
 	m_pTasks->exportByIDE();
 }
 
+void					InputManager::exportByIDEFromAllTabs(void)
+{
+	m_pTasks->exportByIDEFromAllTabs();
+}
+
+void					InputManager::exportByDAT(void)
+{
+	m_pTasks->exportByDAT();
+}
+
 // quick export
 void					InputManager::quickExport(void)
 {
@@ -521,6 +534,11 @@ void					InputManager::splitByIDE(void)
 void					InputManager::convertIMGVersion(void)
 {
 	m_pTasks->convertIMGVersion();
+}
+
+void					InputManager::convertSelectedCOLVersion(void)
+{
+	m_pTasks->convertSelectedCOLVersion();
 }
 
 // select
