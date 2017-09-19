@@ -75,6 +75,8 @@ namespace imgf
 
 	class IDEInputLayer;
 	struct IDEInputWindowResult;
+	class IPLInputLayer;
+	struct IPLInputWindowResult;
 
 	class WindowManager;
 

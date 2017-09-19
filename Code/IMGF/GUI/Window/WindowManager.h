@@ -4,6 +4,7 @@
 #include "nsbxgx.h"
 #include "Object/Manager.h"
 #include "GUI/Layer/Layers/IDEInputWindow/IDEInputWindowResult.h"
+#include "GUI/Layer/Layers/IPLInputWindow/IPLInputWindowResult.h"
 #include "Event/EventBindable.h"
 
 class imgf::MainWindow;
@@ -23,6 +24,7 @@ public:
 	MainWindow*				getMainWindow(void) { return m_pMainWindow; }
 
 	IDEInputWindowResult	showIDEInputWindow(std::string strWindowTitle, std::string strDisplayedText);
+	IPLInputWindowResult	showIPLInputWindow(std::string strWindowTitle, std::string strDisplayedText);
 	void					onPressButton_IDEInputWindow(bxgx::Button *pButton);
 
 public:

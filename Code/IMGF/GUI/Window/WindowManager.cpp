@@ -5,6 +5,7 @@
 #include "GUI/Editor/Editors/IMGEditor.h"
 #include "../../Compiler/Projects/IMGF/resource.h"
 #include "GUI/Layer/Layers/IDEInputWindow/IDEInputLayer.h"
+#include "GUI/Layer/Layers/IPLInputWindow/IPLInputLayer.h"
 #include "Control/Controls/Button.h"
 #include "Control/Controls/CheckBox.h"
 #include "Control/Controls/Text.h"
@@ -152,4 +153,28 @@ IDEInputWindowResult	WindowManager::showIDEInputWindow(string strWindowTitle, st
 	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_IDEInputWindow);
 
 	return m_ideInputWindowResult;
+}
+
+IPLInputWindowResult	WindowManager::showIPLInputWindow(string strWindowTitle, string strDisplayedText)
+{
+	// todo - function needed?
+	m_bWindow2Cancelled = true;
+
+	Window *pWindow = BXGX::get()->addWindow(500, 460);
+	IPLInputLayer *pLayer = pWindow->addLayer<IPLInputLayer>();
+	pLayer->init();
+
+	pWindow->addTitleBar(strWindowTitle);
+	pLayer->m_pText->setText(strDisplayedText);
+
+	pWindow->render();
+
+	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_IDEInputWindow);
+	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
+	{
+		BXGX::get()->process2ndThreadOnce();
+	}
+	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_IDEInputWindow);
+
+	return IPLInputWindowResult();
 }

@@ -226,7 +226,7 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Import by Folder Recursively", IMPORT_BY_FOLDER_RECURSIVELY);
 
 	pMenu2->addMenuItem("Import by IDE", IMPORT_BY_IDE);
-
+	pMenu2->addMenuItem("Import by Entry Names", IMPORT_BY_ENTRY_NAMES);
 
 	// export
 	pMenuItem1 = pMenu1->addMenuItem("Export");
@@ -254,9 +254,12 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Export all entries from all tabs into grouped folders by type", EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE);
 	pMenu3->addMenuItem("Export selection from all tabs", EXPORT_SELECTION_FROM_ALL_TABS);
 	pMenu3->addMenuItem("Export by IDE from All Tabs", EXPORT_BY_IDE_FROM_ALL_TABS);
+	pMenu3->addMenuItem("Export by Entry Names from All Tabs", EXPORT_BY_ENTRY_NAMES_FROM_ALL_TABS);
 
 	pMenu2->addMenuItem("Export by IDE", EXPORT_BY_IDE);
+	pMenu2->addMenuItem("Export by IPL", EXPORT_BY_IPL);
 	pMenu2->addMenuItem("Export by DAT", EXPORT_BY_DAT);
+	pMenu2->addMenuItem("Export by Entry Names", EXPORT_BY_ENTRY_NAMES);
 
 	// quick export
 	pMenu1->addMenuItem("Quick Export");
@@ -295,6 +298,7 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Remove by Version", REMOVE_BY_VERSION);
 	
 	pMenu2->addMenuItem("Remove by IDE", REMOVE_BY_IDE);
+	pMenu2->addMenuItem("Remove by Entry Names", REMOVE_BY_ENTRY_NAMES);
 
 	// merge
 	pMenuItem1 = pMenu1->addMenuItem("Merge", MERGE);
@@ -306,6 +310,7 @@ void		MainLayer::addControls(void)
 	pMenu2 = pMenuItem1->addMenu();
 	pMenuItem2 = pMenu2->addMenuItem("Split Selection", SPLIT_SELECTED);
 	pMenuItem2 = pMenu2->addMenuItem("Split by IDE", SPLIT_BY_IDE);
+	pMenuItem2 = pMenu2->addMenuItem("Split by Entry Names", SPLIT_BY_ENTRY_NAMES);
 
 	// convert
 	pMenuItem1 = pMenu1->addMenuItem("Convert");

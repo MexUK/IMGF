@@ -102,6 +102,7 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case IMPORT_BY_SINGLE_FOLDER:					return importBySingleFolder();
 	case IMPORT_BY_FOLDER_RECURSIVELY:				return importByFolderRecursively();
 	case IMPORT_BY_IDE:								return importByIDE();
+	case IMPORT_BY_ENTRY_NAMES:						return importByEntryNames();
 
 	case EXPORT_SELECTED:							return exportSelected();
 	case EXPORT_ALL:								return exportAll();
@@ -117,7 +118,10 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case EXPORT_SELECTION_FROM_ALL_TABS:			return exportSelectionFromAllTabs();
 	case EXPORT_BY_IDE:								return exportByIDE();
 	case EXPORT_BY_IDE_FROM_ALL_TABS:				return exportByIDEFromAllTabs();
+	case EXPORT_BY_IPL:								return exportByIPL();
 	case EXPORT_BY_DAT:								return exportByDAT();
+	case EXPORT_BY_ENTRY_NAMES:						return exportByEntryNames();
+	case EXPORT_BY_ENTRY_NAMES_FROM_ALL_TABS:		return exportByEntryNamesFromAllTabs();
 
 	case RENAME:									return rename();
 
@@ -135,11 +139,13 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case REMOVE_BY_TYPE:							return removeByType();
 	case REMOVE_BY_VERSION:							return removeByVersion();
 	case REMOVE_BY_IDE:								return removeByIDE();
+	case REMOVE_BY_ENTRY_NAMES:						return removeByEntryNames();
 
 	case MERGE:										return merge();
 
 	case SPLIT_SELECTED:							return splitSelected();
 	case SPLIT_BY_IDE:								return splitByIDE();
+	case SPLIT_BY_ENTRY_NAMES:						return splitByEntryNames();
 
 	case CONVERT_IMG_VERSION:						return convertIMGVersion();
 	case CONVERT_SELECTED_COL_VERSION:				return convertSelectedCOLVersion();
@@ -386,6 +392,11 @@ void					InputManager::importByIDE(void)
 	m_pTasks->importByIDE();
 }
 
+void					InputManager::importByEntryNames(void)
+{
+	m_pTasks->importByEntryNames();
+}
+
 // export
 void					InputManager::exportSelected(void)
 {
@@ -452,6 +463,11 @@ void					InputManager::exportByIDE(void)
 	m_pTasks->exportByIDE();
 }
 
+void					InputManager::exportByIPL(void)
+{
+	m_pTasks->exportByIPL();
+}
+
 void					InputManager::exportByIDEFromAllTabs(void)
 {
 	m_pTasks->exportByIDEFromAllTabs();
@@ -460,6 +476,16 @@ void					InputManager::exportByIDEFromAllTabs(void)
 void					InputManager::exportByDAT(void)
 {
 	m_pTasks->exportByDAT();
+}
+
+void					InputManager::exportByEntryNames(void)
+{
+	m_pTasks->exportByEntryNames();
+}
+
+void					InputManager::exportByEntryNamesFromAllTabs(void)
+{
+	m_pTasks->exportByEntryNamesFromAllTabs();
 }
 
 // quick export
@@ -540,6 +566,11 @@ void					InputManager::removeByIDE(void)
 	m_pTasks->removeByIDE();
 }
 
+void					InputManager::removeByEntryNames(void)
+{
+	m_pTasks->removeByEntryNames();
+}
+
 // merge
 void					InputManager::merge(void)
 {
@@ -555,6 +586,11 @@ void					InputManager::splitSelected(void)
 void					InputManager::splitByIDE(void)
 {
 	m_pTasks->splitByIDE();
+}
+
+void					InputManager::splitByEntryNames(void)
+{
+	m_pTasks->splitByEntryNames();
 }
 
 // convert

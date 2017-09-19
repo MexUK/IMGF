@@ -64,6 +64,7 @@ private:
 	void					importBySingleFolder(void);
 	void					importByFolderRecursively(void);
 	void					importByIDE(void);
+	void					importByEntryNames(void);
 
 	void					exportSelected(void);
 	void					exportAll(void);
@@ -79,7 +80,10 @@ private:
 	void					exportSelectionFromAllTabs(void);
 	void					exportByIDE(void);
 	void					exportByIDEFromAllTabs(void);
+	void					exportByIPL(void);
 	void					exportByDAT(void);
+	void					exportByEntryNames(void);
+	void					exportByEntryNamesFromAllTabs(void);
 
 	void					quickExport(void);
 	
@@ -99,11 +103,13 @@ private:
 	void					removeByType(void);
 	void					removeByVersion(void);
 	void					removeByIDE(void);
+	void					removeByEntryNames(void);
 
 	void					merge(void);
 
 	void					splitSelected(void);
 	void					splitByIDE(void);
+	void					splitByEntryNames(void);
 
 	void					convertIMGVersion(void);
 	void					convertSelectedCOLVersion(void);

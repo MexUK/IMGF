@@ -241,6 +241,12 @@
     <Filter Include="Header Files\GUI\Layer\Layers\IDEInputWindow">
       <UniqueIdentifier>{be2a17f6-74dc-44be-8b0a-50a23a647535}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GUI\Layer\Layers\IPLInputWindow">
+      <UniqueIdentifier>{0e1826a5-d0c0-47e8-aee0-03a35edd4a01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layer\Layers\IPLInputWindow">
+      <UniqueIdentifier>{efc69e3a-8aaf-40f9-8dcf-70c60035610c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\IMGF\Globals.cpp">
@@ -389,6 +395,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\IDEInputWindow\IDEInputLayer.cpp">
       <Filter>Source Files\GUI\Layer\Layers\IDEInputWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\IPLInputWindow\IPLInputLayer.cpp">
+      <Filter>Source Files\GUI\Layer\Layers\IPLInputWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -598,6 +607,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\IDEInputWindow\IDEInputLayer.h">
       <Filter>Header Files\GUI\Layer\Layers\IDEInputWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\IPLInputWindow\IPLInputLayer.h">
+      <Filter>Header Files\GUI\Layer\Layers\IPLInputWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\IPLInputWindow\IPLInputWindowResult.h">
+      <Filter>Header Files\GUI\Layer\Layers\IPLInputWindow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
