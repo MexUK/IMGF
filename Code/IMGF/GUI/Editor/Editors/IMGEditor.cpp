@@ -89,7 +89,7 @@ IMGEditorTab*				IMGEditor::addFile(string& strFilePath)
 		return nullptr;
 	}
 
-	string strFileName = Path::getFileName(img->getFilePath());
+	string strFileName = Path::getFileName(img->getIMGFilePath());
 	imgEditorTab->logf("Opened %s", strFileName.c_str());
 
 	return imgEditorTab;
@@ -107,7 +107,7 @@ IMGEditorTab*				IMGEditor::addBlankFile(string strIMGPath, EIMGVersion EIMGVers
 		return nullptr;
 	}
 
-	string strFileName = Path::getFileName(img->getFilePath());
+	string strFileName = Path::getFileName(img->getIMGFilePath());
 	imgEditorTab->logf("Created %s", strFileName.c_str());
 
 	return imgEditorTab;
@@ -194,7 +194,7 @@ void						IMGEditor::setFileInfoText(EditorTab *pEditorFile)
 
 	MainLayer *pMainLayer = m_pMainWindow->getMainLayer();
 
-	pMainLayer->m_pText_FilePath->setText(pIMGEditorTab->getIMGFile()->getFilePath());
+	pMainLayer->m_pText_FilePath->setText(pIMGEditorTab->getIMGFile()->getIMGFilePath());
 	pMainLayer->m_pText_FileVersion->setText(IMGManager::getVersionText(pIMGEditorTab->getIMGFile()->getVersion(), pIMGEditorTab->getIMGFile()->isEncrypted()));
 	pMainLayer->m_pText_FileGame->setText(IMGManager::getVersionGames(pIMGEditorTab->getIMGFile()->getVersion()));
 	pMainLayer->m_pText_FileEntryCount->setText(String::toString(pIMGEditorTab->getIMGFile()->getEntryCount()));

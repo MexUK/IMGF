@@ -106,6 +106,11 @@ void						EditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	size = m_pSearchBox->getSize();
 	iNewWidth = (m_pWindow->getSize().x - m_pSearchBox->getPosition().x) - (uiButtonHeight + 1);
 	m_pSearchBox->setSize(Vec2u(iNewWidth, size.y));
+
+	// log
+	point = m_pLog->getPosition();
+	iNewX = m_pWindow->getSize().x - uiLogWidth;
+	m_pLog->setPosition(Vec2i(iNewX, point.y));
 }
 
 // progress bar

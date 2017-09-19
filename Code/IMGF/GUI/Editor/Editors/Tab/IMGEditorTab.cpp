@@ -307,7 +307,12 @@ bool					IMGEditorTab::unserializeFile(void)
 	{
 		return false;
 	}
-	img->readMetaData(); // for progress bar tick count
+	if (!img->readMetaData()) // here for progress bar tick count
+	{
+		Input::showMessage(Format::getErrorReason(img->getErrorCode()) + "\r\n\r\n" + img->getFilePath(), "Can't Open IMG File");
+		delete img;
+		return false;
+	}
 
 	uint32
 		uiProgressBarMaxMultiplier = 3,

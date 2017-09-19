@@ -113,7 +113,7 @@ void		MainLayer::addControls(void)
 	// game information values
 	x += 90;
 	y = y2;
-	w = 500;
+	w = 415;
 	w2 = 200;
 
 	m_pText_FilePath = addText(x, y, w, h, "No file is open", strStyleGroup, -1, -150);
