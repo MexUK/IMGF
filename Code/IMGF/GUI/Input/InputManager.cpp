@@ -234,6 +234,7 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case SHIFT_ENTRY_DOWN_1000_ROWS:				return shiftEntryDown1000Rows();
 
 	case REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES:	return removeOrphanTexturesFromDFFEntries();
+	case FIND_ORPHAN_IMG_ENTRIES_NOT_IN_IDE:		return findOrphanIMGEntriesNotInIDE();
 
 	// top right menu
 	case SETTINGS:									return settings();
@@ -935,6 +936,11 @@ void					InputManager::shiftEntryDown1000Rows(void)
 void					InputManager::removeOrphanTexturesFromDFFEntries(void)
 {
 	m_pTasks->removeOrphanTexturesFromDFFEntries();
+}
+
+void					InputManager::findOrphanIMGEntriesNotInIDE(void)
+{
+	m_pTasks->findOrphanIMGEntriesNotInIDE();
 }
 
 // LST

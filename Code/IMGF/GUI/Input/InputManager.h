@@ -179,6 +179,7 @@ private:
 	void					shiftEntryDown1000Rows(void);
 
 	void					removeOrphanTexturesFromDFFEntries(void);
+	void					findOrphanIMGEntriesNotInIDE(void);
 
 	void					lst(void);
 

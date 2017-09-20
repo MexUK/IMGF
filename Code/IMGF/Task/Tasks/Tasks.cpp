@@ -481,6 +481,13 @@ void		Tasks::openTodaysLogsFile(void)
 	}
 
 	string strLogsFilePath = strLogsFolderPath + String::getDateTextForFolder() + ".txt";
+
+	if (!File::doesFileExist(strLogsFilePath))
+	{
+		Input::showMessage("File does not exist:\n\n" + strLogsFilePath, "File Doesn't Exist", MB_OK);
+		return onAbortTask();
+	}
+
 	Process::openTextFile(strLogsFilePath);
 
 	onCompleteTask();
@@ -494,6 +501,12 @@ void		Tasks::openLogsFolder(void)
 	if (strLogsFolderPath == "")
 	{
 		Input::showMessage("The folder for saving logs to file is not set, please choose this in Settings first.", "Save Logs Folder Not Set", MB_OK);
+		return onAbortTask();
+	}
+
+	if (!File::doesFolderExist(strLogsFolderPath))
+	{
+		Input::showMessage("Folder does not exist:\n\n" + strLogsFolderPath, "Folder Doesn't Exist", MB_OK);
 		return onAbortTask();
 	}
 
@@ -4139,7 +4152,7 @@ void		Tasks::findOrphanIMGEntriesNotInIDE(void)
 
 	vector<string> vecOrphanEntryNames = StdVector::getUniqueEntries(vecIMGEntryNames, vecEntryNamesWithoutExtension);
 
-	bool bRemoveEntriesFromIMG = true;// m_pMainWindow->showGridWindow("Orphan IMG Entries not in IDE", vecOrphanEntryNames, "Remove Entries from IMG");
+	bool bRemoveEntriesFromIMG = m_pMainWindow->showGridWindow("Orphan IMG Entries not in IDE", "Orphan IMG Entries not in IDE:", vector<string>({ "Orphan Entry Name" }), StdVector::swap2D(vector<vector<string>>({ vecOrphanEntryNames })), "Remove Entries from IMG");
 	
 	if(bRemoveEntriesFromIMG)
 	{
@@ -4152,6 +4165,7 @@ void		Tasks::findOrphanIMGEntriesNotInIDE(void)
 
 		if (vecOrphanEntries.size() > 0)
 		{
+			getIMGTab()->readdGridEntries();
 			getIMGTab()->setIMGModifiedSinceRebuild(true);
 		}
 

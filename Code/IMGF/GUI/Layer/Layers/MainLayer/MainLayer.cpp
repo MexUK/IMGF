@@ -462,6 +462,7 @@ void		MainLayer::addControls(void)
 	pMenuItem1 = pMenu1->addMenuItem("Orphan Entries");
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Remove Orphan Textures from DFF Entries", REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES);
+	pMenu2->addMenuItem("Find Orphan IMG Entries not in IDE", FIND_ORPHAN_IMG_ENTRIES_NOT_IN_IDE);
 
 	// tools
 	pMenu1->addMenuItem("Tools");
