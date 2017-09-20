@@ -77,6 +77,10 @@ namespace imgf
 	struct IDEInputWindowResult;
 	class IPLInputLayer;
 	struct IPLInputWindowResult;
+	class SettingsWindowLayer;
+	class FormatsWindowLayer;
+	class WebsitesWindowLayer;
+	class AboutWindowLayer;
 
 	class WindowManager;
 

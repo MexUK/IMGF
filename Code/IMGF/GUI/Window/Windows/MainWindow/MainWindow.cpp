@@ -21,6 +21,7 @@
 #include "Control/Controls/Menu.h"
 #include "Control/Entries/MenuItem.h"
 #include "Program/BuildVersion.h"
+#include "GUI/Input/EInputItem.h"
 
 using namespace std;
 using namespace bxcf;
@@ -29,9 +30,10 @@ using namespace bxgx::events;
 using namespace imgf;
 using namespace imgf::mainLayer::mainMenuType;
 using namespace imgf::layers;
+using namespace imgf::mainLayer::input;
 
 MainWindow::MainWindow(void) :
-	m_uiMainMenuType(FORMATS),
+	m_uiMainMenuType(EMainMenuType::FORMATS),
 	m_pMainLayer(nullptr),
 	m_pMainLayerNoTabsOpen(nullptr),
 	m_pIMGEditor(nullptr)
@@ -147,21 +149,11 @@ void					MainWindow::initSettingsMenuLayer(void)
 	h2 = h;
 	strStyleGroup = "settingsMenu";
 
-	//m_vecSettingsMenuButtons.resize(4);
-
 	m_pSettingsMenu = pSettingsMenuLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -100);
-	m_pSettingsMenu->addMenuItems(4, "Settings", "Websites", "Formats", "About");
-
-	/*
-	m_vecSettingsMenuButtons[0] = pSettingsMenuLayer->addButton(x, y, w, h, "Settings", strStyleGroup + " firstItemVertically");
-	y += h2;
-	m_vecSettingsMenuButtons[1] = pSettingsMenuLayer->addButton(x, y, w, h, "Websites", strStyleGroup);
-	y += h2;
-	m_vecSettingsMenuButtons[2] = pSettingsMenuLayer->addButton(x, y, w, h, "Formats", strStyleGroup);
-	y += h2;
-	m_vecSettingsMenuButtons[3] = pSettingsMenuLayer->addButton(x, y, w, h, "About", strStyleGroup);
-	y += h2;
-	*/
+	m_pSettingsMenu->addMenuItem("Settings", SETTINGS);
+	m_pSettingsMenu->addMenuItem("Formats", FORMATS2);
+	m_pSettingsMenu->addMenuItem("Websites", WEBSITES);
+	m_pSettingsMenu->addMenuItem("About", ABOUT);
 }
 
 void					MainWindow::initEditors(void)

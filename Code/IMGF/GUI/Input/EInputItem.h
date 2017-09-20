@@ -159,6 +159,9 @@ enum imgf::mainLayer::input::EInputItem
 
 	REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES,
 
-	// settings
-	SETTINGS
+	// top right menu
+	SETTINGS,
+	WEBSITES,
+	FORMATS2,
+	ABOUT
 };

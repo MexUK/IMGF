@@ -202,9 +202,6 @@
     <Filter Include="Source Files\GUI\Window\Windows">
       <UniqueIdentifier>{4e253473-55bd-4c05-92cb-6d78b8871be6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GUI\Window\Windows\MainWindow">
-      <UniqueIdentifier>{18bd246d-39d3-4362-840e-3664327b7664}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GUI\Window\Windows">
       <UniqueIdentifier>{ce7ea86c-fbbc-4c45-add9-e716e894ed1b}</UniqueIdentifier>
     </Filter>
@@ -246,6 +243,33 @@
     </Filter>
     <Filter Include="Header Files\GUI\Layer\Layers\IPLInputWindow">
       <UniqueIdentifier>{efc69e3a-8aaf-40f9-8dcf-70c60035610c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layer\Layers\AboutWindow">
+      <UniqueIdentifier>{62256ccd-289a-4222-a1bf-953be0d6284b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Window\Windows\MainWindow">
+      <UniqueIdentifier>{0d27507a-78c6-450b-9e3e-d6881b784122}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layer\Layers\AboutWindow">
+      <UniqueIdentifier>{97b57ad1-ce7d-41f5-b506-581fb5d1513e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layer\Layers\FormatsWindow">
+      <UniqueIdentifier>{0b3f755a-8e5c-4698-80ea-5722be69fce6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layer\Layers\SettingsWindow">
+      <UniqueIdentifier>{5688946c-07d2-4ac5-aa0c-a3fceca0590e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layer\Layers\WebsitesWindow">
+      <UniqueIdentifier>{722308c1-2b0a-423d-93d5-57a098468c8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layer\Layers\FormatsWindow">
+      <UniqueIdentifier>{312d767a-9179-4074-bada-78793326fefe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layer\Layers\SettingsWindow">
+      <UniqueIdentifier>{38294c59-d4c3-4c79-ad7e-c7baf2e054b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layer\Layers\WebsitesWindow">
+      <UniqueIdentifier>{8f94d08f-89bc-409d-8562-bbf84477813c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -375,9 +399,6 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayer.cpp">
       <Filter>Source Files\GUI\Layer\Layers\MainLayer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\Windows\MainWindow\MainWindow.cpp">
-      <Filter>Source Files\GUI\Window\Windows\MainWindow</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\IMGEditorTab.cpp">
       <Filter>Source Files\GUI\Editor\Editors\Tab</Filter>
     </ClCompile>
@@ -398,6 +419,21 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\IPLInputWindow\IPLInputLayer.cpp">
       <Filter>Source Files\GUI\Layer\Layers\IPLInputWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\Windows\MainWindow\MainWindow.cpp">
+      <Filter>Source Files\GUI\Window\Windows\MainWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\AboutWindow\AboutWindowLayer.cpp">
+      <Filter>Source Files\GUI\Layer\Layers\AboutWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\WebsitesWindow\WebsitesWindowLayer.cpp">
+      <Filter>Source Files\GUI\Layer\Layers\WebsitesWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\SettingsWindow\SettingsWindowLayer.cpp">
+      <Filter>Source Files\GUI\Layer\Layers\SettingsWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\FormatsWindow\FormatsWindowLayer.cpp">
+      <Filter>Source Files\GUI\Layer\Layers\FormatsWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -613,6 +649,18 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\IPLInputWindow\IPLInputWindowResult.h">
       <Filter>Header Files\GUI\Layer\Layers\IPLInputWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\AboutWindow\AboutWindowLayer.h">
+      <Filter>Header Files\GUI\Layer\Layers\AboutWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\FormatsWindow\FormatsWindowLayer.h">
+      <Filter>Header Files\GUI\Layer\Layers\FormatsWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\SettingsWindow\SettingsWindowLayer.h">
+      <Filter>Header Files\GUI\Layer\Layers\SettingsWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\WebsitesWindow\WebsitesWindowLayer.h">
+      <Filter>Header Files\GUI\Layer\Layers\WebsitesWindow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,10 @@
 #include "../../Compiler/Projects/IMGF/resource.h"
 #include "GUI/Layer/Layers/IDEInputWindow/IDEInputLayer.h"
 #include "GUI/Layer/Layers/IPLInputWindow/IPLInputLayer.h"
+#include "GUI/Layer/Layers/FormatsWindow/FormatsWindowLayer.h"
+#include "GUI/Layer/Layers/AboutWindow/AboutWindowLayer.h"
+#include "GUI/Layer/Layers/WebsitesWindow/WebsitesWindowLayer.h"
+#include "GUI/Layer/Layers/SettingsWindow/SettingsWindowLayer.h"
 #include "Control/Controls/Button.h"
 #include "Control/Controls/CheckBox.h"
 #include "Control/Controls/Text.h"
@@ -177,4 +181,98 @@ IPLInputWindowResult	WindowManager::showIPLInputWindow(string strWindowTitle, st
 	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_IDEInputWindow);
 
 	return IPLInputWindowResult();
+}
+
+// top right menu windows
+void					WindowManager::showSettingsWindow(void)
+{
+	m_bWindow2Cancelled = true;
+
+	Window *pWindow = BXGX::get()->addWindow(650, 510);
+	SettingsWindowLayer *pLayer = pWindow->addLayer<SettingsWindowLayer>();
+
+	pWindow->addTitleBar("Settings");
+	pLayer->init();
+
+	pWindow->render();
+
+	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
+	{
+		BXGX::get()->process2ndThreadOnce();
+	}
+	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+}
+
+void					WindowManager::showFormatsWindow(void)
+{
+	m_bWindow2Cancelled = true;
+
+	Window *pWindow = BXGX::get()->addWindow(650, 510);
+	FormatsWindowLayer *pLayer = pWindow->addLayer<FormatsWindowLayer>();
+	
+	pWindow->addTitleBar("Formats");
+	pLayer->init();
+
+	pWindow->render();
+
+	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
+	{
+		BXGX::get()->process2ndThreadOnce();
+	}
+	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+}
+
+void					WindowManager::showWebsitesWindow(void)
+{
+	m_bWindow2Cancelled = true;
+
+	Window *pWindow = BXGX::get()->addWindow(650, 300);
+	WebsitesWindowLayer *pLayer = pWindow->addLayer<WebsitesWindowLayer>();
+
+	pWindow->addTitleBar("Websites");
+	pLayer->init();
+
+	pWindow->render();
+
+	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
+	{
+		BXGX::get()->process2ndThreadOnce();
+	}
+	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+}
+
+void					WindowManager::showAboutWindow(void)
+{
+	m_bWindow2Cancelled = true;
+
+	Window *pWindow = BXGX::get()->addWindow(650, 480);
+	AboutWindowLayer *pLayer = pWindow->addLayer<AboutWindowLayer>();
+
+	pWindow->addTitleBar("About");
+	pLayer->init();
+
+	pWindow->render();
+
+	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
+	{
+		BXGX::get()->process2ndThreadOnce();
+	}
+	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+}
+
+// top right menu window input
+void					WindowManager::onPressButton_TopRightMenuWindow(Button *pButton)
+{
+	Window
+		*pWindow1 = BXGX::get()->getEntryByIndex(0),
+		*pWindow2 = BXGX::get()->getEntryByIndex(1);
+
+	if (pButton->getId() == 200)
+	{
+		BXGX::get()->m_vecWindowsToDestroy.push_back(pWindow2);
+	}
 }

@@ -42,7 +42,7 @@ void					InputManager::onPressButton(Button *pButton)
 {
 	switch (pButton->getId())
 	{
-	case SETTINGS:			return settings();
+	case SETTINGS:			return settingsMenu();
 	}
 }
 
@@ -214,6 +214,12 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case SHIFT_ENTRY_DOWN_1000_ROWS:				return shiftEntryDown1000Rows();
 
 	case REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES:	return removeOrphanTexturesFromDFFEntries();
+
+	// top right menu
+	case SETTINGS:									return settings();
+	case WEBSITES:									return websites();
+	case FORMATS2:									return formats2();
+	case ABOUT:										return about();
 	}
 }
 
@@ -903,8 +909,29 @@ void					InputManager::lst(void)
 
 // button press - top right menu
 // settings
-void					InputManager::settings(void)
+void					InputManager::settingsMenu(void)
 {
 	Layer *pLayer = m_pMainWindow->getLayerById(SETTINGS_MENU);
 	pLayer->setEnabled(!pLayer->isEnabled());
+}
+
+// menu item press - top right menu
+void					InputManager::settings(void)
+{
+	getIMGF()->getWindowManager()->showSettingsWindow();
+}
+
+void					InputManager::websites(void)
+{
+	getIMGF()->getWindowManager()->showWebsitesWindow();
+}
+
+void					InputManager::formats2(void)
+{
+	getIMGF()->getWindowManager()->showFormatsWindow();
+}
+
+void					InputManager::about(void)
+{
+	getIMGF()->getWindowManager()->showAboutWindow();
 }

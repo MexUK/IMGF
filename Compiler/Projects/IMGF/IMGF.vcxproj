@@ -125,10 +125,14 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\IMGEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\IMGEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Input\InputManager.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\AboutWindow\AboutWindowLayer.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\FormatsWindow\FormatsWindowLayer.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\IDEInputWindow\IDEInputLayer.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\IPLInputWindow\IPLInputLayer.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayer.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayerNoTabsOpen.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\SettingsWindow\SettingsWindowLayer.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\WebsitesWindow\WebsitesWindowLayer.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\Windows\MainWindow\MainWindow.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\IMGF.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DragDrop.cpp" />
@@ -180,7 +184,9 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\TextureEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\InputManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\EInputItem.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\AboutWindow\AboutWindowLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\ELayer.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\FormatsWindow\FormatsWindowLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\IDEInputWindow\IDEInputLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\IDEInputWindow\IDEInputWindowResult.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\IPLInputWindow\IPLInputLayer.h" />
@@ -188,6 +194,8 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayerNoTabsOpen.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainMenu\EMainMenuType.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\SettingsWindow\SettingsWindowLayer.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\WebsitesWindow\WebsitesWindowLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\Windows\MainWindow\MainWindow.h" />
     <ClInclude Include="..\..\..\Code\IMGF\IMGF.h" />
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\DragDrop.h" />

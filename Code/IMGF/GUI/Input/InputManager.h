@@ -179,7 +179,12 @@ private:
 
 	void					lst(void);
 
+	void					settingsMenu(void);
+
 	void					settings(void);
+	void					websites(void);
+	void					formats2(void);
+	void					about(void);
 
 private:
 	MainWindow*				m_pMainWindow;

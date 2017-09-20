@@ -25,7 +25,15 @@ public:
 
 	IDEInputWindowResult	showIDEInputWindow(std::string strWindowTitle, std::string strDisplayedText);
 	IPLInputWindowResult	showIPLInputWindow(std::string strWindowTitle, std::string strDisplayedText);
+	
 	void					onPressButton_IDEInputWindow(bxgx::Button *pButton);
+
+	void					showSettingsWindow(void);
+	void					showFormatsWindow(void);
+	void					showWebsitesWindow(void);
+	void					showAboutWindow(void);
+
+	void					onPressButton_TopRightMenuWindow(bxgx::Button *pButton);
 
 public:
 	bool					m_bWindow2Cancelled;
