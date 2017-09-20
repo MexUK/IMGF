@@ -4,11 +4,12 @@
 #include "Object/Manager.h"
 #include "Session.h"
 #include "Pool/VectorPool.h"
+#include "Event/EventBindable.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
 
-class imgf::SessionManager : public bxcf::Manager, public bxcf::VectorPool<Session*>
+class imgf::SessionManager : public bxcf::Manager, public bxcf::VectorPool<Session*>, public bxcf::EventBindable
 {
 public:
 	void			init(void);

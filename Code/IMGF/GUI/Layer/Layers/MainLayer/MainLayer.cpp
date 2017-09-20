@@ -34,7 +34,8 @@ MainLayer::MainLayer(void) :
 	m_pText_FileVersion(nullptr),
 	m_pText_FileGame(nullptr),
 	m_pText_FileEntryCount(nullptr),
-	m_pRecentlyOpenMenu(nullptr)
+	m_pRecentlyOpenMenu(nullptr),
+	m_pFileGroupMenu(nullptr)
 {
 }
 
@@ -150,7 +151,12 @@ void		MainLayer::addControls(void)
 	pMenuItem1 = pMenu2->addMenuItem("Recently Open");
 	m_pRecentlyOpenMenu = pMenuItem1->addMenu(VERTICAL);
 
+	pMenuItem1 = pMenu2->addMenuItem("Open File Group");
+	m_pFileGroupMenu = pMenuItem1->addMenu(VERTICAL);
+
 	pMenu2->addMenuItem("Open File Folder in Explorer", OPEN_FILE_FOLDER_IN_EXPLORER);
+	pMenu2->addMenuItem("Open Today's Logs File", OPEN_TODAYS_LOGS_FILE);
+	pMenu2->addMenuItem("Open Logs Folder", OPEN_LOGS_FOLDER);
 
 	pMenuItem1 = pMenu1->addMenuItem("Save", SAVE_FILE);
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);
@@ -158,6 +164,7 @@ void		MainLayer::addControls(void)
 	pMenu2->addMenuItem("Save As", SAVE_FILE_AS);
 	pMenu2->addMenuItem("Save All", SAVE_ALL_FILES);
 	pMenu2->addMenuItem("Clone File", CLONE_FILE);
+	pMenu2->addMenuItem("Save File Group", SAVE_FILE_GROUP);
 	pMenu2->addMenuItem("Save Logs", SAVE_LOGS);
 	pMenu2->addMenuItem("Save Logs for All Tabs", SAVE_LOGS_ALL_TABS);
 	pMenu2->addMenuItem("Clear Logs", CLEAR_LOGS);
@@ -262,7 +269,7 @@ void		MainLayer::addControls(void)
 	pMenu2->addMenuItem("Export by Entry Names", EXPORT_BY_ENTRY_NAMES);
 
 	// quick export
-	pMenu1->addMenuItem("Quick Export");
+	pMenu1->addMenuItem("Quick Export", QUICK_EXPORT);
 
 	// rename
 	pMenuItem1 = pMenu1->addMenuItem("Rename", RENAME);

@@ -469,6 +469,39 @@ void		Tasks::clearRecentlyOpenFiles(void)
 	onCompleteTask();
 }
 
+void		Tasks::openTodaysLogsFile(void)
+{
+	onStartTask("openTodaysLogsFile");
+
+	string strLogsFolderPath = getIMGF()->getSettingsManager()->getSetting("LogsFolderPath");
+	if (strLogsFolderPath == "")
+	{
+		Input::showMessage("The folder for saving logs to file is not set, please choose this in Settings first.", "Save Logs Folder Not Set", MB_OK);
+		return onAbortTask();
+	}
+
+	string strLogsFilePath = strLogsFolderPath + String::getDateTextForFolder() + ".txt";
+	Process::openTextFile(strLogsFilePath);
+
+	onCompleteTask();
+}
+
+void		Tasks::openLogsFolder(void)
+{
+	onStartTask("openLogsFolder");
+
+	string strLogsFolderPath = getIMGF()->getSettingsManager()->getSetting("LogsFolderPath");
+	if (strLogsFolderPath == "")
+	{
+		Input::showMessage("The folder for saving logs to file is not set, please choose this in Settings first.", "Save Logs Folder Not Set", MB_OK);
+		return onAbortTask();
+	}
+
+	Process::openFolder(strLogsFolderPath);
+
+	onCompleteTask();
+}
+
 void		Tasks::_saveFile(void)
 {
 	onStartTask("saveFile");
@@ -538,6 +571,38 @@ void		Tasks::cloneFile(void)
 
 	setMaxProgress(pIMGFile->getEntryCount() * 2);
 	m_pMainWindow->getIMGEditor()->addFile(strClonedIMGPath);
+
+	onCompleteTask();
+}
+
+void		Tasks::saveFileGroup(void)
+{
+	onStartTask("saveFileGroup");
+
+	string strFileGroupName = m_pMainWindow->showSingleLineTextBoxWindow("Choose File Group Name", "Choose a name for the file group.");
+	if (strFileGroupName == "")
+	{
+		return onAbortTask();
+	}
+	else if (String::isIn(strFileGroupName, ";"))
+	{
+		Input::showMessage("The file group name cannot contain a semi colon (;).", "Invalid File Group Name", MB_OK);
+		return onAbortTask();
+	}
+
+	vector<string> vecIMGFilePaths;
+	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	{
+		vecIMGFilePaths.push_back(pEditorTab->getIMGFile()->getIMGFilePath());
+	}
+
+	getIMGF()->getSessionManager()->addSession(strFileGroupName, vecIMGFilePaths); // todo - rename SessionManager to FileGroupManager
+	getIMGF()->getSessionManager()->loadSessions();
+
+	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	{
+		pEditorTab->logf("Saved file group %s", strFileGroupName.c_str());
+	}
 
 	onCompleteTask();
 }
@@ -1570,6 +1635,27 @@ void		Tasks::exportByEntryNamesFromAllTabs(void)
 	{
 		pEditorTab->logf("Exported %u entries by entry names from all tabs.", uiEntryExportCount);
 	}
+
+	onCompleteTask();
+}
+
+void		Tasks::quickExport(void)
+{
+	onStartTask("quickExport");
+
+	string strQuickExportFolderPath = getIMGF()->getSettingsManager()->getSetting("QuickExportFolderPath");
+	if (strQuickExportFolderPath == "")
+	{
+		Input::showMessage("The Quick Export folder is not set, please choose this in Settings first.", "Quick Export Folder Not Set", MB_OK);
+		return;
+	}
+
+	uint32 uiSelectedEntryCount = getIMGTab()->getSelectedEntryCount();
+	setMaxProgress(uiSelectedEntryCount);
+
+	getIMGTab()->getIMGFile()->exportMultiple(getIMGTab()->getSelectedEntries(), strQuickExportFolderPath);
+
+	getIMGTab()->logf("Quick exported %u entries.", uiSelectedEntryCount);
 
 	onCompleteTask();
 }
@@ -4033,6 +4119,48 @@ void						Tasks::removeOrphanTexturesFromDFFEntries(void)
 	onCompleteTask();
 }
 
+void		Tasks::findOrphanIMGEntriesNotInIDE(void)
+{
+	onStartTask("findOrphanIMGEntriesNotInIDE");
+
+	vector<string> vecIDEFilePaths = openFile("ide");
+	if (vecIDEFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecEntryNamesWithoutExtension = IDEManager::getIDEEntryNamesWithoutExtension(vecIDEFilePaths);
+	
+	vector<string> vecIMGEntryNames = getIMGTab()->getIMGFile()->getEntryNames(); // todo - getEntryNamesWithoutExtension
+	for (string& strIMGEntryNames : vecIMGEntryNames)
+	{
+		strIMGEntryNames = Path::removeFileExtension(strIMGEntryNames);
+	}
+
+	vector<string> vecOrphanEntryNames = StdVector::getUniqueEntries(vecIMGEntryNames, vecEntryNamesWithoutExtension);
+
+	bool bRemoveEntriesFromIMG = true;// m_pMainWindow->showGridWindow("Orphan IMG Entries not in IDE", vecOrphanEntryNames, "Remove Entries from IMG");
+	
+	if(bRemoveEntriesFromIMG)
+	{
+		vector<IMGEntry*> vecOrphanEntries = getIMGTab()->getIMGFile()->getEntriesByNames(vecOrphanEntryNames);
+
+		for (IMGEntry *pIMGEntry : vecOrphanEntries)
+		{
+			getIMGTab()->removeEntry(pIMGEntry);
+		}
+
+		if (vecOrphanEntries.size() > 0)
+		{
+			getIMGTab()->setIMGModifiedSinceRebuild(true);
+		}
+
+		getIMGTab()->logf("Removed %u orphan entries in IMG missing from IDE.", vecOrphanEntries.size());
+	}
+	
+	onCompleteTask();
+}
+
 
 
 
@@ -4193,69 +4321,6 @@ void		Tasks::onRequestStats(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestStats");
 }
 
-void		Tasks::onRequestQuickExport(void)
-{
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestQuickExport");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestQuickExport", true);
-		return;
-	}
-
-	if (getIMGF()->getSettingsManager()->getSettingString("QuickExportPath") == "")
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		string strQuickExportPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_1"), getIMGF()->getLastUsedDirectory("QUICK_EXPORT"));
-		getIMGF()->getTaskManager()->onResumeTask();
-	
-		if (strQuickExportPath == "")
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestQuickExport", true);
-			return;
-		}
-		
-		getIMGF()->setLastUsedDirectory("QUICK_EXPORT", strQuickExportPath);
-		getIMGF()->getSettingsManager()->setSettingString("QuickExportPath", strQuickExportPath);
-	}
-
-	vector<IMGEntry*> vecIMGEntries;
-	vector<string> vecExportedEntryNames;
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	setMaxProgress(pListControl->GetSelectedCount());
-	IMGEntry *pIMGEntry = nullptr;
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestQuickExport", true);
-		return;
-	}
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-		vecIMGEntries.push_back(pIMGEntry);
-		vecExportedEntryNames.push_back(pIMGEntry->getEntryName());
-
-		increaseProgress();
-	}
-
-	getIMGF()->getEntryListTab()->getIMGFile()->exportMultiple(vecIMGEntries, getIMGF()->getSettingsManager()->getSettingString("QuickExportPath"));
-	if (vecIMGEntries.size() == 1)
-	{
-		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_86", vecIMGEntries[0]->getEntryName().c_str(), vecIMGEntries[0]->getEntrySize()));
-	}
-	else
-	{
-		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_87", vecIMGEntries.size()));
-	}
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_88"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecExportedEntryNames, "\n"), true);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestQuickExport");
-	*/
-}
-
 void		Tasks::onRequestTextureList(void)
 {
 	/*
@@ -4373,125 +4438,6 @@ void		Tasks::onRequestAssociateIMGExtension(void)
 	//Registry::assoicateFileExtension("img", String::convertStdWStringToStdString(szExePath));
 }
 
-void		Tasks::onRequestSaveSession(void)
-{
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestSaveSession");
-	if (getIMGF()->getIMGEditor()->getEntryCount() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveSession", true);
-		return;
-	}
-
-	string strSessionName;
-	bool bSemiColonFound;
-	do
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		strSessionName = ""; // todo - getIMGF()->getPopupGUIManager()->showTextInputDialog(LocalizationManager::get()->getTranslatedText("SessionName"), LocalizationManager::get()->getTranslatedFormattedText("Window_TextInput_5_Message", getIMGF()->getIMGEditor()->getEntryCount()));
-		getIMGF()->getTaskManager()->onResumeTask();
-		if (strSessionName == "")
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveSession", true);
-			return;
-		}
-
-		bSemiColonFound = String::isIn(strSessionName, ";");
-		if (bSemiColonFound)
-		{
-			getIMGF()->getTaskManager()->onPauseTask();
-			Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_37"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_37"), MB_OK);
-			getIMGF()->getTaskManager()->onResumeTask();
-		}
-	} while (bSemiColonFound);
-
-	vector<string> vecPaths;
-	for (auto pEditorTab : getIMGF()->getIMGEditor()->getEntries())
-	{
-		vecPaths.push_back(((IMGEditorTab*)pEditorTab)->getIMGFile()->getFilePath());
-	}
-
-	getIMGF()->getSessionManager()->addSession(strSessionName, vecPaths);
-	getIMGF()->getSessionManager()->loadSessions();
-
-	getIMGF()->getIMGEditor()->logAllTabs(LocalizationManager::get()->getTranslatedFormattedText("LogAllTabs_4", getIMGF()->getIMGEditor()->getEntryCount(), strSessionName));
-	getIMGF()->getIMGEditor()->logAllTabs(LocalizationManager::get()->getTranslatedText("LogAllTabs_5"), true);
-	getIMGF()->getIMGEditor()->logAllTabs(String::join(vecPaths, "\n"), true);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveSession");
-	*/
-}
-
-
-
-
-void		Tasks::onRequestOrphanIMGEntriesNotInIDE(void)
-{
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanIMGEntriesNotInIDE");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIMGEntriesNotInIDE", true);
-		return;
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecPaths = Input::openFile(getIMGF()->getLastUsedDirectory("ORPHAN_IMG_IDE__IDE"), "IDE");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIMGEntriesNotInIDE", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("ORPHAN_IMG_IDE__IDE", Path::getDirectory(vecPaths[0]));
-
-	vector<string> vecEntryNamesWithoutExtension = IDEManager::getIDEEntryNamesWithoutExtension(vecPaths);
-	vecEntryNamesWithoutExtension = StdVector::toUpperCase(vecEntryNamesWithoutExtension);
-
-	vector<string> vecEntryNamesMissingFromIDE;
-	setMaxProgress(getIMGF()->getEntryListTab()->getIMGFile()->getEntries().size());
-	for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
-	{
-		if (std::find(vecEntryNamesWithoutExtension.begin(), vecEntryNamesWithoutExtension.end(), String::toUpperCase(Path::removeFileExtension(pIMGEntry->getEntryName()))) == vecEntryNamesWithoutExtension.end())
-		{
-			vecEntryNamesMissingFromIDE.push_back(pIMGEntry->getEntryName());
-		}
-		increaseProgress();
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_92", vecEntryNamesMissingFromIDE.size()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIDE, "\n"), true);
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	bool bRemoveEntries = getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIDE, "IMG Entries missing from IDE:", "Remove from IMG");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (bRemoveEntries)
-	{
-		CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-		for (auto strEntryNameMissingFromIDE : vecEntryNamesMissingFromIDE)
-		{
-			IMGEntry *pIMGEntry = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByName(strEntryNameMissingFromIDE);
-			int nItem = getIMGF()->getEntryListTab()->getIMGFile()->getIndexByEntry(pIMGEntry);
-			pListControl->DeleteItem(nItem);
-
-			getIMGF()->getEntryListTab()->removeEntry(pIMGEntry);
-		}
-
-		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_53", vecEntryNamesMissingFromIDE.size()));
-
-		if (vecEntryNamesMissingFromIDE.size() > 0)
-		{
-			getIMGTab()->setIMGModifiedSinceRebuild(true);
-		}
-
-		getIMGF()->getEntryListTab()->searchText();
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIMGEntriesNotInIDE");
-	*/
-}
-
 void		Tasks::onRequestOrphanIDEEntriesNotInIMG(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanIDEEntriesNotInIMG");
@@ -4565,26 +4511,6 @@ void		Tasks::onRequestOrphanIDEEntriesNotInIMG(void)
 		}
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInIMG");
-}
-void		Tasks::onRequestSettings(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestSettings");
-	getIMGF()->getTaskManager()->onPauseTask();
-	bool bSave = false; // todo - getIMGF()->getPopupGUIManager()->showSettingsDialog();
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (!bSave)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestSettings", true);
-		return;
-	}
-
-	getIMGF()->getSettingsManager()->reloadSettings();
-	
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestSettings");
-	if (getIMGF()->getSettingsManager()->getSettingBool("NewLanguageApplied"))
-	{
-		exit(EXIT_SUCCESS);
-	}
 }
 
 void		Tasks::onRequestMissingTextures(void)
@@ -4975,31 +4901,6 @@ void		Tasks::onRequestSessionManager(void)
 	} while (bReopenWindow);
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestSessionManager");
 	*/
-}
-void		Tasks::onRequestWebsite(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestWebsite");
-	//ShellExecute(NULL, L"open", L"http://imgfactory.mvec.io/", NULL, NULL, SW_SHOWNORMAL);
-	ShellExecute(NULL, L"open", L"http://mvec.io/", NULL, NULL, SW_SHOWNORMAL);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestWebsite");
-}
-void		Tasks::onRequestOpenLogBasic(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestOpenLogBasic");
-	ShellExecute(NULL, NULL, String::convertStdStringToStdWString(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath") + String::getDateTextForFolder() + " / " + LocalizationManager::get()->getTranslatedText("LogFilename_Basic")).c_str(), NULL, NULL, SW_SHOWNORMAL);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenLogBasic");
-}
-void		Tasks::onRequestOpenLogExtended(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestOpenLogExtended");
-	ShellExecute(NULL, NULL, String::convertStdStringToStdWString(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath") + String::getDateTextForFolder() + " / " + LocalizationManager::get()->getTranslatedText("LogFilename_Extended")).c_str(), NULL, NULL, SW_SHOWNORMAL);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenLogExtended");
-}
-void		Tasks::onRequestOpenLogFolder(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestOpenLogFolder");
-	ShellExecute(NULL, NULL, String::convertStdStringToStdWString(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath")).c_str(), NULL, NULL, SW_SHOWNORMAL);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestOpenLogFolder");
 }
 
 void		Tasks::onRequestUpdate(void)
@@ -6788,13 +6689,6 @@ void		Tasks::onRequestLastFeatureUsed(void)
 	}
 
 	onRequestFeatureByName(strPreviousTaskName);
-}
-
-void			Tasks::onRequestReportIssueOrIdea(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestReportIssueOrIdea");
-	ShellExecute(NULL, L"open", L"http://mvec.io/todo/project/4", NULL, NULL, SW_SHOWNORMAL);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestReportIssueOrIdea");
 }
 
 uint32 uiSortPreviousColumnIndex; // todo - namespace

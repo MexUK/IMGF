@@ -9,6 +9,9 @@
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
 #include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 #include "Task/TaskManager.h"
+#include "Settings/SettingsManager.h"
+#include "Static/File.h"
+#include "Static/Path.h"
 #include <stdarg.h>
 
 using namespace std;
@@ -122,8 +125,19 @@ void						EditorTab::onTaskProgress(void)
 // log
 void						EditorTab::log(string strText)
 {
-	//getLogLines().addEntry(strText);
 	m_pLog->addText(strText);
+
+	SettingsManager *pSettingsManager = getIMGF()->getSettingsManager();
+	bool bSaveLogsToFolder = pSettingsManager->getSetting("SaveLogsToFolder") == "1";
+	if (bSaveLogsToFolder)
+	{
+		string strLogsFolderPath = pSettingsManager->getSetting("LogsFolderPath");
+		if (strLogsFolderPath != "")
+		{
+			string strLogsFilePath = Path::addSlashToEnd(strLogsFolderPath) + String::getDateTextForFolder() + ".txt";
+			File::addToTextFile(strLogsFilePath, strText + "\n");
+		}
+	}
 }
 
 void						EditorTab::logf(string strFormatText, ...)

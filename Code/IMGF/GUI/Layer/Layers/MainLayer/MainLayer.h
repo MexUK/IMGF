@@ -52,4 +52,5 @@ public:
 	bxgx::Text*					m_pText_FileEntryCount;
 
 	bxgx::Menu*					m_pRecentlyOpenMenu;
+	bxgx::Menu*					m_pFileGroupMenu;
 };

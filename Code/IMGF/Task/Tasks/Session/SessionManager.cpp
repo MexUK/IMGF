@@ -8,33 +8,37 @@
 #include "Localization/LocalizationManager.h"
 #include "Format/Text/INI/INIManager.h"
 #include "Static/AppDataPath.h"
+#include "GUI/Window/WindowManager.h"
+#include "GUI/Window/Windows/MainWindow/MainWindow.h"
+#include "GUI/Layer/Layers/MainLayer/MainLayer.h"
+#include "Control/Controls/Menu.h"
+#include "Event/EInputEvent.h"
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgx;
+using namespace bxgx::events;
 using namespace imgf;
 
+// initialization
 void		SessionManager::init(void)
 {
-	loadSessions();
+	bindEvent(BXGX_READY, &SessionManager::loadSessions);
 }
 void		SessionManager::uninit(void)
 {
 	unloadSessions();
 }
 
+// load/unload file group
 void		SessionManager::loadSessions(void)
 {
-	// todo 
-	return;
-
 	removeAllEntries();
 
-	for (auto it : getIMGF()->getSessionManager()->getSessionsContainer())
-	{
-		// todo DeleteMenu(getIMGF()->m_hSubMenu_File_Sessions, it.first, 0);
-	}
+	Menu *pMenu = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pFileGroupMenu;
+
+	pMenu->removeAllMenuItems();
 	getIMGF()->getSessionManager()->getSessionsContainer().clear();
-	// todo DeleteMenu(getIMGF()->m_hSubMenu_File_Sessions, 1981, 0);
 
 	uint32 uiSessionCount = String::toUint32(INIManager::getItem(AppDataPath::getSessionsPath(), "Sessions", "Count"));
 	for (int32 i = uiSessionCount; i >= 1; i--)
@@ -51,7 +55,9 @@ void		SessionManager::loadSessions(void)
 			vecIMGPaths.push_back(deqIMGPaths[i2]);
 			deqIMGPaths[i2] = Path::getFileName(deqIMGPaths[i2]);
 		}
-		// todo AppendMenu(getIMGF()->m_hSubMenu_File_Sessions, MF_STRING, 1900 + i, String::convertStdStringToStdWString(String::toString((uiSessionCount - i) + 1) + ") " + String::escapeMenuText(strSessionName) + " (" + String::toString(j2) + " tab" + (j2 == 1 ? "" : "s") + ")").c_str());
+
+		string strMenuItemText = String::toString((uiSessionCount - i) + 1) + ") " + strSessionName + " (" + String::toString(j2) + " tab" + (j2 == 1 ? "" : "s") + ")";
+		pMenu->addMenuItem(strMenuItemText, 1900 + i);
 
 		getIMGF()->getSessionManager()->getSessionsContainer()[1900 + i] = strIMGPaths;
 
@@ -63,14 +69,16 @@ void		SessionManager::loadSessions(void)
 
 	if (uiSessionCount == 0)
 	{
-		// todo AppendMenu(getIMGF()->m_hSubMenu_File_Sessions, MF_STRING | MF_DISABLED, 1981, LocalizationManager::get()->getTranslatedTextW("Menu_Sessions_NoSessions").c_str());
+		pMenu->addMenuItem("There are currently no file groups.", 1981);
 	}
 }
+
 void		SessionManager::unloadSessions(void)
 {
 	removeAllEntries();
 }
 
+// add/remove file group
 Session*	SessionManager::addSession(string strSessionName, vector<string>& vecPaths)
 {
 	uint32 uiSessionIndex = getEntryCount() + 1;
@@ -81,7 +89,7 @@ Session*	SessionManager::addSession(string strSessionName, vector<string>& vecPa
 	addEntry(pSession);
 
 	INIManager::setItem(AppDataPath::getSessionsPath(), "Sessions", "Count", String::toString(uiSessionIndex));
-	INIManager::setItem(AppDataPath::getSessionsPath(), "Sessions", uiSessionIndex, pSession->serialize());
+	INIManager::setItem(AppDataPath::getSessionsPath(), "Sessions", String::toString(uiSessionIndex), pSession->serialize());
 	
 	return pSession;
 }
@@ -110,6 +118,7 @@ void		SessionManager::removeSession(Session *pSession)
 	INIManager::setItem(AppDataPath::getSessionsPath(), "Sessions", "Count", String::toString(uiSessionCount - 1));
 }
 
+// fetch file group
 Session*		SessionManager::getSessionByName(string strSessionName)
 {
 	for(auto pSession : getEntries())

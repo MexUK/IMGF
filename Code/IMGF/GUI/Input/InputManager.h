@@ -46,11 +46,14 @@ private:
 	void					openLastClosedFile(void);
 	void					openFileFolderInExplorer(void);
 	void					clearRecentlyOpenFiles(void);
+	void					openTodaysLogsFile(void);
+	void					openLogsFolder(void);
 
 	void					saveFile(void);
 	void					saveFileAs(void);
 	void					saveAllFiles(void);
 	void					cloneFile(void);
+	void					saveFileGroup(void);
 	void					saveLogs(void);
 	void					saveLogsAllTabs(void);
 	void					clearLogs(void);

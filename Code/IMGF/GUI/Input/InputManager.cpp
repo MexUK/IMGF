@@ -11,9 +11,12 @@
 #include "Task/TaskManager.h"
 #include "Task/Tasks/Tasks.h"
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
+#include "Task/Tasks/Session/SessionManager.h"
 #include "GUI/Editor/Editors/IMGEditor.h"
+#include "Static/String.h"
 
 using namespace std;
+using namespace bxcf;
 using namespace bxgx;
 using namespace bxgx::events;
 using namespace imgf;
@@ -58,6 +61,18 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 		return;
 	}
 
+	// file group
+	if (getIMGF()->getSessionManager()->getSessionsContainer().find(pMenuItem->getId()) != getIMGF()->getSessionManager()->getSessionsContainer().end())
+	{
+		string strFileGroupData = getIMGF()->getSessionManager()->getSessionsContainer()[pMenuItem->getId()];
+		vector<string> vecFileGroupData = String::split(strFileGroupData, "; ");
+		for (uint32 i = 1, j = vecFileGroupData.size(); i < j; i++)
+		{
+			getIMGF()->getIMGEditor()->addFile(vecFileGroupData[i]);
+		}
+		return;
+	}
+
 	// main
 	switch (pMenuItem->getId())
 	{
@@ -84,6 +99,8 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case OPEN_LAST_CLOSED_FILE:						return openLastClosedFile();
 	case OPEN_FILE_FOLDER_IN_EXPLORER:				return openFileFolderInExplorer();
 	case CLEAR_RECENTLY_OPEN_FILES:					return clearRecentlyOpenFiles();
+	case OPEN_TODAYS_LOGS_FILE:						return openTodaysLogsFile();
+	case OPEN_LOGS_FOLDER:							return openLogsFolder();
 
 	case CLOSE_FILE:								return closeFile();
 	case CLOSE_ALL_FILES:							return closeAllFiles();
@@ -93,6 +110,7 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case SAVE_FILE_AS:								return saveFileAs();
 	case SAVE_ALL_FILES:							return saveAllFiles();
 	case CLONE_FILE:								return cloneFile();
+	case SAVE_FILE_GROUP:							return saveFileGroup();
 	case SAVE_LOGS:									return saveLogs();
 	case SAVE_LOGS_ALL_TABS:						return saveLogsAllTabs();
 	case CLEAR_LOGS:								return clearLogs();
@@ -122,6 +140,8 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case EXPORT_BY_DAT:								return exportByDAT();
 	case EXPORT_BY_ENTRY_NAMES:						return exportByEntryNames();
 	case EXPORT_BY_ENTRY_NAMES_FROM_ALL_TABS:		return exportByEntryNamesFromAllTabs();
+
+	case QUICK_EXPORT:								return quickExport();
 
 	case RENAME:									return rename();
 
@@ -319,6 +339,16 @@ void					InputManager::clearRecentlyOpenFiles(void)
 	m_pTasks->clearRecentlyOpenFiles();
 }
 
+void					InputManager::openTodaysLogsFile(void)
+{
+	m_pTasks->openTodaysLogsFile();
+}
+
+void					InputManager::openLogsFolder(void)
+{
+	m_pTasks->openLogsFolder();
+}
+
 // save
 void					InputManager::saveFile(void)
 {
@@ -338,6 +368,11 @@ void					InputManager::saveAllFiles(void)
 void					InputManager::cloneFile(void)
 {
 	m_pTasks->cloneFile();
+}
+
+void					InputManager::saveFileGroup(void)
+{
+	m_pTasks->saveFileGroup();
 }
 
 void					InputManager::saveLogs(void)
@@ -497,6 +532,7 @@ void					InputManager::exportByEntryNamesFromAllTabs(void)
 // quick export
 void					InputManager::quickExport(void)
 {
+	m_pTasks->quickExport();
 }
 
 // rename

@@ -22,6 +22,7 @@
 #include "Control/Entries/MenuItem.h"
 #include "Program/BuildVersion.h"
 #include "GUI/Input/EInputItem.h"
+#include "Settings/SettingsManager.h"
 
 using namespace std;
 using namespace bxcf;
@@ -45,6 +46,15 @@ void					MainWindow::init(void)
 {
 	initWindow();
 	initLayers();
+
+	/* Settings */
+	SettingsManager *pSettingsManager = getIMGF()->getSettingsManager();
+
+	// Window Always on Top
+	if (pSettingsManager->getSetting("WindowAlwaysOnTop") == "1")
+	{
+		setTopZIndex(true);
+	}
 }
 
 // item fetching

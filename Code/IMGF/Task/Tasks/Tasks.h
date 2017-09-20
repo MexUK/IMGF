@@ -56,12 +56,15 @@ public:
 	void						openLastClosedFile(void);
 	void						openFileFolderInExplorer(void);
 	void						clearRecentlyOpenFiles(void);
+	void						openTodaysLogsFile(void);
+	void						openLogsFolder(void);
 
 	void						_saveFile(void); // todo - rename to saveFile eventually after IO windows renamed to showSaveFileWindow() etc
 	void						saveFileAs(void);
 	void						saveAllFiles(void);
 	void						cloneFile(void);
 	bool						saveAllOpenFiles(bool bCloseAll); // todo - remove parameter? // todo - different level function
+	void						saveFileGroup(void);
 	void						saveLogs(void);
 	void						saveLogsAllTabs(void);
 	void						clearLogs(void);
@@ -95,6 +98,8 @@ public:
 	void						exportByDAT(void);
 	void						exportByEntryNames(void);
 	void						exportByEntryNamesFromAllTabs(void);
+
+	void						quickExport(void);
 
 	void						rename(void);
 
@@ -187,7 +192,7 @@ public:
 	void						shiftEntryDown1000Rows(void);
 
 	void						removeOrphanTexturesFromDFFEntries(void);
-	
+	void						findOrphanIMGEntriesNotInIDE(void);
 
 
 
@@ -199,32 +204,19 @@ public:
 
 
 
-	
-	void						onRequestSplitViaTextLines(void);
-	void						onRequestRemoveViaTextLines(void);
-	void						onRequestImportViaTextLines(void);
+
 	void						onRequestStats(void);
-	void						onRequestQuickExport(void);
-	void						onRequestVersion(void);
 	void						onRequestTextureList(void);
 	void						onRequestAssociateIMGExtension(void);
-	
-	void						onRequestSaveSession(void);
-	void						onRequestOrphanIMGEntriesNotInIDE(void);
+
 	void						onRequestOrphanIDEEntriesNotInIMG(void);
-	void						onRequestSettings(void);
 	
 	void						onRequestMissingTextures(void);
-	void						onRequestExportEntriesViaTextLinesFromAllTabs(void);
 	void						onRequestDuplicateEntries(void);
 
 	void						onRequestDump(void);
 	void						onRequestSessionManager(void);
-	void						onRequestWebsite(void);
-	void						onRequestOpenLogBasic(void);
-	void						onRequestOpenLogExtended(void);
-	void						onRequestOpenLogFolder(void);
-	void						onRequestExportViaIPLFile(void);
+
 	void						onRequestUpdate(void);
 	void						onRequestAutoUpdate(void);
 	void						onRequestSaveIMGSignature(void);
@@ -233,14 +225,12 @@ public:
 
 	void						onRequestValidateAllDFFInActiveTab(void);
 	void						onRequestValidateAllTXDInActiveTab(void);
-	void						onRequestCredits(void);
 	void						onRequestRenamer(void);
 	void						onRequestBuildTXD(void);
 	void						onRequestIMGVersionSettings(void);
 	void						onRequestFeatureByName(std::string strFeatureName);
 	void						onRequestLastFeatureUsed(void);
-	
-	void						onRequestReportIssueOrIdea(void);
+
 	static int CALLBACK			sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 	void						onRequestCenterCOLCollisionMeshes(void);
 	void						onRequestAlignCOLCollisionMeshesToDFFMesh(void);
