@@ -883,7 +883,6 @@ void		Tasks::importByIDE(void)
 	if (uiImportCount > 0)
 	{
 		getIMGTab()->setIMGModifiedSinceRebuild(true);
-
 	}
 
 	getIMGTab()->logf("Imported %u entries by %u IDE files.", vecAllIDEEntryNames.size(), vecIDEFilePaths.size());
@@ -4142,7 +4141,7 @@ void		Tasks::findOrphanIMGEntriesNotInIDE(void)
 		return onAbortTask();
 	}
 
-	vector<string> vecEntryNamesWithoutExtension = IDEManager::getIDEEntryNamesWithoutExtension(vecIDEFilePaths);
+	vector<string> vecIDEEntryNames = IDEManager::getIDEEntryNamesWithoutExtension(vecIDEFilePaths);
 	
 	vector<string> vecIMGEntryNames = getIMGTab()->getIMGFile()->getEntryNames(); // todo - getEntryNamesWithoutExtension
 	for (string& strIMGEntryNames : vecIMGEntryNames)
@@ -4150,9 +4149,9 @@ void		Tasks::findOrphanIMGEntriesNotInIDE(void)
 		strIMGEntryNames = Path::removeFileExtension(strIMGEntryNames);
 	}
 
-	vector<string> vecOrphanEntryNames = StdVector::getUniqueEntries(vecIMGEntryNames, vecEntryNamesWithoutExtension);
+	vector<string> vecOrphanEntryNames = StdVector::getUniqueEntries(vecIMGEntryNames, vecIDEEntryNames);
 
-	bool bRemoveEntriesFromIMG = m_pMainWindow->showGridWindow("Orphan IMG Entries not in IDE", "Orphan IMG Entries not in IDE:", vector<string>({ "Orphan Entry Name" }), StdVector::swap2D(vector<vector<string>>({ vecOrphanEntryNames })), "Remove Entries from IMG");
+	bool bRemoveEntriesFromIMG = m_pMainWindow->showGridWindow("Orphan IMG Entries not in IDE", String::toString(vecOrphanEntryNames.size()) + " Orphan IMG Entries not in IDE:", vector<string>({ "Orphan Entry Name" }), StdVector::swap2D(vector<vector<string>>({ vecOrphanEntryNames })), "Remove Entries from IMG");
 	
 	if(bRemoveEntriesFromIMG)
 	{
@@ -4175,6 +4174,145 @@ void		Tasks::findOrphanIMGEntriesNotInIDE(void)
 	onCompleteTask();
 }
 
+void		Tasks::findOrphanIDEEntriesNotInIMG(void)
+{
+	onStartTask("findOrphanIDEEntriesNotInIMG");
+
+	vector<string> vecIDEFilePaths = openFile("ide");
+	if (vecIDEFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecIDEEntryNames = IDEManager::getIDEEntryNamesWithoutExtension(vecIDEFilePaths);
+
+	vector<string> vecIMGEntryNames = getIMGTab()->getIMGFile()->getEntryNames(); // todo - getEntryNamesWithoutExtension
+	for (string& strIMGEntryNames : vecIMGEntryNames)
+	{
+		strIMGEntryNames = Path::removeFileExtension(strIMGEntryNames);
+	}
+
+	vector<string> vecOrphanEntryNames = StdVector::getUniqueEntries(vecIDEEntryNames, vecIMGEntryNames);
+
+	bool bImportEntriesIntoIMG = m_pMainWindow->showGridWindow("Orphan IDE Entries not in IMG", String::toString(vecOrphanEntryNames.size()) + " Orphan IDE Entries not in IMG:", vector<string>({ "Orphan Entry Name" }), StdVector::swap2D(vector<vector<string>>({ vecOrphanEntryNames })), "Import Entries into IMG");
+
+	if (bImportEntriesIntoIMG)
+	{
+		string strImportFolderPath = openFolder("Choose a folder to import orphan IDE entries from:");
+		if (strImportFolderPath == "")
+		{
+			return onAbortTask();
+		}
+
+		uint32 uiImportCount = 0;
+		for (string& strIDEEntryName : vecIDEEntryNames)
+		{
+			string strEntryFilePath = strImportFolderPath + strIDEEntryName;
+			if (File::doesFileExist(strEntryFilePath))
+			{
+				uiImportCount++;
+				getIMGTab()->addFile(strEntryFilePath);
+			}
+
+			increaseProgress();
+		}
+
+		if (uiImportCount > 0)
+		{
+			getIMGTab()->setIMGModifiedSinceRebuild(true);
+		}
+
+		getIMGTab()->logf("Imported %u orphan IDE entries into IMG.", uiImportCount);
+	}
+
+	onCompleteTask();
+}
+
+void		Tasks::findOrphanTXDTexturesForDFFsInIMGByIDE(void)
+{
+	onStartTask("findOrphanTXDTexturesForDFFsInIMGByIDE");
+
+	// fetch IDE model and texture set names
+	vector<string> vecIDEFilePaths = openFile("ide");
+	if (vecIDEFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	set<string> stModelNames, stTextureSetNames;
+	IDEManager::getModelAndTextureSetNamesFromFiles(vecIDEFilePaths, stModelNames, stTextureSetNames, vector<EIDESection>(), vector<EIDESection>());
+
+	// fetch texture names for DFF and TXD entries in the IMG that are found in the IDE
+	vector<string> vecDFFTextureNames, vecTXDTextureNames;
+	for (IMGEntry *pIMGEntry : getIMGTab()->getSelectedEntries())
+	{
+		if (pIMGEntry->isModelFile())
+		{
+			if (stModelNames.find(String::toUpperCase(Path::removeFileExtension(pIMGEntry->getEntryName()))) != stModelNames.end())
+			{
+				DFFFormat dffFile(pIMGEntry->getEntryData(), false);
+				if (dffFile.unserialize())
+				{
+					StdVector::addToVector(vecDFFTextureNames, dffFile.getTextureNames());
+				}
+				dffFile.unload();
+			}
+		}
+
+		if(pIMGEntry->isTextureFile())
+		{
+			if (stTextureSetNames.find(String::toUpperCase(Path::removeFileExtension(pIMGEntry->getEntryName()))) != stTextureSetNames.end())
+			{
+				TXDFormat txdFile(pIMGEntry->getEntryData(), false);
+				if (txdFile.unserialize())
+				{
+					StdVector::addToVector(vecTXDTextureNames, txdFile.getTextureNames());
+				}
+				txdFile.unload();
+			}
+		}
+	}
+
+	vector<string> vecOrphanEntryNames = StdVector::getUniqueEntries(vecTXDTextureNames, vecDFFTextureNames);
+
+	m_pMainWindow->showGridWindow("Orphan TXD Textures for DFFs in IMG by IDE", String::toString(vecOrphanEntryNames.size()) + " Orphan TXD textures for DFFs in IMG by IDE:", vector<string>({ "Orphan Entry Name" }), StdVector::swap2D(vector<vector<string>>({ vecOrphanEntryNames })), "");
+
+	onCompleteTask();
+}
+
+// other
+void		Tasks::textureList(void)
+{
+	onStartTask("textureList");
+
+	vector<string> vecTextureNames;
+	for (IMGEntry *pIMGEntry : getIMGTab()->getSelectedEntries())
+	{
+		if (pIMGEntry->isModelFile())
+		{
+			DFFFormat dffFile(pIMGEntry->getEntryData(), false);
+			if (dffFile.unserialize())
+			{
+				StdVector::addToVector(vecTextureNames, dffFile.getTextureNames());
+			}
+			dffFile.unload();
+		}
+		else if (pIMGEntry->isTextureFile())
+		{
+			TXDFormat txdFile(pIMGEntry->getEntryData(), false);
+			if (txdFile.unserialize())
+			{
+				StdVector::addToVector(vecTextureNames, txdFile.getTextureNames());
+			}
+			txdFile.unload();
+		}
+	}
+	vecTextureNames = StdVector::removeDuplicates(vecTextureNames);
+
+	m_pMainWindow->showGridWindow("Texture List for DFFs and TXDs", String::toString(vecTextureNames.size()) + " textures in selected DFF & TXD entries:", vector<string>({ "Texture Name" }), StdVector::swap2D(vector<vector<string>>({ vecTextureNames })), "");
+
+	onCompleteTask();
+}
 
 
 
@@ -4274,42 +4412,31 @@ bool		Tasks::saveAllOpenFiles(bool bCloseAll)
 	return true;
 }
 
-void		Tasks::onRequestStats(void)
+void		Tasks::stats(void)
 {
-	getIMGF()->getTaskManager()->onStartTask("onRequestStats");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestStats", true);
-		return;
-	}
+	onStartTask("stats");
 
 	unordered_map<uint32, uint32> umapStatsRWVersions;
 	unordered_map<string, uint32> umapStatsExtensions;
 
-	for (IMGEntry *pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
+	for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->getEntries())
 	{
-		if (pIMGEntry->getRWVersion() != 0)
+		if (pIMGEntry->isRWFile())
 		{
-			if (pIMGEntry->isCollisionFile())
+			if (umapStatsRWVersions.count(pIMGEntry->getRawVersion()) == 0)
 			{
+				umapStatsRWVersions[pIMGEntry->getRawVersion()] = 1;
 			}
 			else
 			{
-				if (umapStatsRWVersions.count(pIMGEntry->getRWVersion()) == 0) // crashes when calling getVersionCC()
-				{
-					umapStatsRWVersions.insert(pair<uint32, uint32>(pIMGEntry->getRWVersion(), 1));
-				}
-				else
-				{
-					umapStatsRWVersions[pIMGEntry->getRWVersion()]++;
-				}
+				umapStatsRWVersions[pIMGEntry->getRWVersion()]++;
 			}
 		}
 
 		string strExtension = String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()));
 		if (umapStatsExtensions.count(strExtension) == 0)
 		{
-			umapStatsExtensions.insert(pair<string, uint32>(strExtension, 1));
+			umapStatsExtensions[strExtension] = 1;
 		}
 		else
 		{
@@ -4317,131 +4444,37 @@ void		Tasks::onRequestStats(void)
 		}
 	}
 
-	unordered_map<uint32, vector<string>> umapVersionNames1 = RWManager::get()->getVersionManager()->getVersionNames();
-	unordered_map<uint32, string> umapVersionNames2;
-	for(auto it : umapVersionNames1)
+	vector<vector<string>> vecTextCells;
+	for (auto it : umapStatsRWVersions)
 	{
-		uint32 uiVersionCC = it.first;
-		vector<string> vecVersionNames3 = it.second;
-		string strVersionName = vecVersionNames3[0];
-		string strLocalizationKey = vecVersionNames3[1];
-		
-		umapVersionNames2[uiVersionCC] = strVersionName + " (" + LocalizationManager::get()->getTranslatedText(strLocalizationKey) + ")";
+		vector<string> vecRowCells;
+		vecRowCells.push_back(RWVersion::unpackVersionStampAsStringWithBuild(it.first) + " (" + String::toString(it.second) + ")");
+		vecTextCells.push_back(vecRowCells);
 	}
-	
-	getIMGF()->getTaskManager()->onPauseTask();
-	// todo - getIMGF()->getPopupGUIManager()->showStatsDialog(umapStatsRWVersions, umapStatsExtensions, umapVersionNames2);
-	getIMGF()->getTaskManager()->onResumeTask();
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestStats");
+	uint32 i = 0;
+	for (auto it : umapStatsExtensions)
+	{
+		string strValue = it.first + " (" + String::toString(it.second) + ")";
+		if (i < vecTextCells.size())
+		{
+			vecTextCells[i].push_back(strValue);
+		}
+		else
+		{
+			vector<string> vecRowCells = {
+				"",
+				strValue
+			};
+			vecTextCells.push_back(vecRowCells);
+		}
+		i++;
+	}
+
+	m_pMainWindow->showGridWindow("IMG Stats", "IMG Stats:", vector<string>({ "RW Version Counts", "Extension Counts" }), vecTextCells, "");
+
+	onCompleteTask();
 }
 
-void		Tasks::onRequestTextureList(void)
-{
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestTextureList");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestTextureList", true);
-		return;
-	}
-
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	IMGEntry *pIMGEntry = nullptr;
-	int nItem;
-	vector<string> vecTextureNames;
-	uint32 uiEntryCount = 0;
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestTextureList", true);
-		return;
-	}
-	setMaxProgress(pListControl->GetSelectedCount());
-	while (pos)
-	{
-		nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-
-		string strFileData = pIMGEntry->getEntryData();
-		if (String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName())) == "TXD")
-		{
-			//Debugger::log(pIMGEntry->m_strFileName);
-			TXDFormat *pTXDFile = TXDManager::get()->unserializeMemory(strFileData);
-			if(!pTXDFile->doesHaveError())
-			{
-				for (auto pTexture : pTXDFile->getTextures())
-				{
-					if (pTexture->doesHaveDiffuse())
-					{
-						vecTextureNames.push_back(pTexture->getDiffuseName());
-					}
-					if (pTexture->doesHaveAlpha())
-					{
-						vecTextureNames.push_back(pTexture->getAlphaName());
-					}
-				}
-			}
-			pTXDFile->unload();
-			delete pTXDFile;
-			uiEntryCount++;
-		}
-		else if (Path::isModelExtension(String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()))))
-		{
-			DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(strFileData);
-			if(!pDFFFile->doesHaveError())
-			{
-				for (auto pTextureEntry : pDFFFile->getTextureEntries())
-				{
-					if (pTextureEntry->doesHaveDiffuse())
-					{
-						vecTextureNames.push_back(pTextureEntry->getDiffuseName());
-					}
-					if (pTextureEntry->doesHaveAlpha())
-					{
-						vecTextureNames.push_back(pTextureEntry->getAlphaName());
-					}
-				}
-			}
-			pDFFFile->unload();
-			delete pDFFFile;
-			uiEntryCount++;
-		}
-
-		increaseProgress();
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	TextureListDialogData *pTextureListDialogData = getIMGF()->getPopupGUIManager()->showTextureListDialog("Texture List", "Showing " + String::toString(vecTextureNames.size()) + " texture name" + (vecTextureNames.size() == 1 ? "" : "s") + " for " + String::toString(uiEntryCount) + " IMG entr" + (uiEntryCount == 1 ? "y" : "ies") + ".", "Texture Name", vecTextureNames);
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (pTextureListDialogData->m_bSaveTexturesFormat2)
-	{
-		string strData = "";
-		strData += "[TXDList]\n";
-		strData += "Count=" + String::toString(vecTextureNames.size()) + "\n\n";
-
-		for (uint32 i = 0, j = vecTextureNames.size(); i < j; i++)
-		{
-			strData += "[Texture" + String::toString(i + 1) + "]\n";
-			strData += "path=" + vecTextureNames[i] + "\n\n";
-		}
-
-		getIMGF()->getTaskManager()->onPauseTask();
-		string strFilePath = Input::saveFileDialog(getIMGF()->getLastUsedDirectory("SAVE_TEXTURE_LIST"), "TXT", LocalizationManager::get()->getTranslatedText("SaveFilePopup_2_InitialFilename"));
-		getIMGF()->getTaskManager()->onResumeTask();
-		if (strFilePath == "")
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestTextureList", true);
-			return;
-		}
-		getIMGF()->setLastUsedDirectory("SAVE_TEXTURE_LIST", strFilePath);
-
-		File::storeFile(strFilePath, strData, true, false);
-	}
-	delete pTextureListDialogData;
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestTextureList");
-	*/
-}
 void		Tasks::onRequestAssociateIMGExtension(void)
 {
 	//TCHAR szExePath[MAX_PATH];
@@ -4450,215 +4483,6 @@ void		Tasks::onRequestAssociateIMGExtension(void)
 	//Input::showMessage(NULL, szExePath, "A", MB_OK);
 
 	//Registry::assoicateFileExtension("img", String::convertStdWStringToStdString(szExePath));
-}
-
-void		Tasks::onRequestOrphanIDEEntriesNotInIMG(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestOrphanIDEEntriesNotInIMG");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInIMG", true);
-		return;
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecPaths = Input::openFile(getIMGF()->getLastUsedDirectory("ORPHAN_IDE_IMG__IDE"), "IDE");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInIMG", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("ORPHAN_IDE_IMG__IDE", Path::getDirectory(vecPaths[0]));
-
-	vector<string> vecEntryNamesWithoutExtension = IDEManager::getIDEEntryNamesWithoutExtension(vecPaths);
-	vecEntryNamesWithoutExtension = StdVector::toUpperCase(vecEntryNamesWithoutExtension);
-
-	vector<string> vecEntryNamesMissingFromIMG;
-	setMaxProgress(vecEntryNamesWithoutExtension.size());
-	for (auto strEntryNameWithoutExtension : vecEntryNamesWithoutExtension)
-	{
-		IMGEntry *pIMGEntry = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByNameWithoutExtension(strEntryNameWithoutExtension);
-		if (pIMGEntry == nullptr)
-		{
-			vecEntryNamesMissingFromIMG.push_back(strEntryNameWithoutExtension);
-		}
-		increaseProgress();
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_94", vecEntryNamesMissingFromIMG.size()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_93"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNamesMissingFromIMG, "\n"), true);
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	bool bImportEntries = false; // todo - getIMGF()->getPopupGUIManager()->showOrphanEntriesDialog(vecEntryNamesMissingFromIMG, "IDE Entries missing from IMG:", "Import into IMG");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (bImportEntries)
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		string strFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_17"), getIMGF()->getLastUsedDirectory("ORPHAN_IDE_IMG__IMPORT"));
-		getIMGF()->getTaskManager()->onResumeTask();
-		if (strFolderPath == "")
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInIMG", true);
-			return;
-		}
-		strFolderPath = Path::addSlashToEnd(strFolderPath);
-		getIMGF()->setLastUsedDirectory("ORPHAN_IDE_IMG__IMPORT", strFolderPath);
-
-		uint32 uiImportedFileCount = 0;
-		for (auto strEntryNameMissingFromIMG : vecEntryNamesMissingFromIMG)
-		{
-			string strEntryFilePath = strFolderPath + File::getFileNameFromNameWithoutExtension(strFolderPath, strEntryNameMissingFromIMG);
-			if (File::doesFileExist(strEntryFilePath))
-			{
-				getIMGF()->getEntryListTab()->addOrReplaceEntryViaFileAndSettings(strEntryFilePath);
-				uiImportedFileCount++;
-			}
-		}
-
-		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_84", uiImportedFileCount, vecEntryNamesMissingFromIMG.size()));
-
-		if (uiImportedFileCount > 0)
-		{
-			getIMGTab()->setIMGModifiedSinceRebuild(true);
-		}
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestOrphanIDEEntriesNotInIMG");
-}
-
-void		Tasks::onRequestMissingTextures(void)
-{
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestMissingTextures");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestMissingTextures", true);
-		return;
-	}
-
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestMissingTextures", true);
-		return;
-	}
-
-	vector<IMGEntry*> vecSelectedDFFs;
-	vector<string> vecSelectedDFFsFilenames;
-	IMGEntry *pIMGEntry = nullptr;
-	setMaxProgress(pListControl->GetSelectedCount());
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-
-		increaseProgress();
-		if (!Path::isModelExtension(String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()))))
-		{
-			continue;
-		}
-
-		vecSelectedDFFs.push_back(pIMGEntry);
-		vecSelectedDFFsFilenames.push_back(pIMGEntry->getEntryName());
-	}
-	if (pIMGEntry == nullptr)
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_38"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_38"), MB_OK);
-		getIMGF()->getTaskManager()->onResumeTask();
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestMissingTextures", true);
-		return;
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecPaths = Input::openFile(getIMGF()->getLastUsedDirectory("MISSING_TEXTURES_IDE"), "IDE");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestMissingTextures", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("MISSING_TEXTURES_IDE", Path::getDirectory(vecPaths[0]));
-
-	vector<string> vecTextureNames;
-	for (auto strPath : vecPaths)
-	{
-		IDEFormat *pIDEFile = IDEManager::get()->unserializeFile(strPath);
-		if(!pIDEFile->doesHaveError())
-		{
-			vecTextureNames = StdVector::combineVectors(vecTextureNames, pIDEFile->getTXDNamesFromModelNames(vecSelectedDFFsFilenames));
-		}
-		pIDEFile->unload();
-		delete pIDEFile;
-	}
-
-	vector<string> vecDFFTexturesMissingFromTXD;
-	for (uint32 i = 0; i < vecSelectedDFFs.size(); i++)
-	{
-		IMGEntry *pIMGEntry2 = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByNameWithoutExtension(vecTextureNames[i]);
-		string strTXDContent;
-		if (pIMGEntry2 == nullptr)
-		{
-			getIMGF()->getTaskManager()->onPauseTask();
-			Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_39", vecSelectedDFFsFilenames[i]), LocalizationManager::get()->getTranslatedText("TextPopupTitle_39"), MB_OK);
-			vector<string> vecPaths2 = Input::openFile(getIMGF()->getLastUsedDirectory("MISSING_TEXTURES_TXD"), "TXD", false);
-			getIMGF()->getTaskManager()->onResumeTask();
-			if (vecPaths2.size() == 0)
-			{
-				getIMGF()->getTaskManager()->onTaskEnd("onRequestMissingTextures", true);
-				return;
-			}
-			getIMGF()->setLastUsedDirectory("MISSING_TEXTURES_TXD", Path::getDirectory(vecPaths2[0]));
-
-			strTXDContent = File::getFileContent(vecPaths2[0]);
-		}
-		else
-		{
-			strTXDContent = pIMGEntry2->getEntryData();
-		}
-
-		string strDFFContent = vecSelectedDFFs[i]->getEntryData();
-
-		DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(strDFFContent);
-		vector<string> vecDFFTextureNames;
-		if(!pDFFFile->doesHaveError())
-		{
-			vecDFFTextureNames = pDFFFile->getTextureNames();
-		}
-		pDFFFile->unload();
-		delete pDFFFile;
-
-		TXDFormat *pTXDFile = TXDManager::get()->unserializeMemory(strTXDContent);
-		vector<string> vecTXDTextureNames;
-		if(!pTXDFile->doesHaveError())
-		{
-			vecTXDTextureNames = pTXDFile->getTextureNames();
-		}
-		pTXDFile->unload();
-		delete pTXDFile;
-
-		vecTXDTextureNames = StdVector::toUpperCase(vecTXDTextureNames);
-		for (auto strDFFTexture : vecDFFTextureNames)
-		{
-			if (std::find(vecTXDTextureNames.begin(), vecTXDTextureNames.end(), String::toUpperCase(strDFFTexture)) == vecTXDTextureNames.end())
-			{
-				vecDFFTexturesMissingFromTXD.push_back(strDFFTexture);
-			}
-		}
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_97", vecDFFTexturesMissingFromTXD.size()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_98"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecDFFTexturesMissingFromTXD, "\n"), true);
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Textures", "Textures missing:", "Texture Name", vecDFFTexturesMissingFromTXD, LocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_4_InitialFilename", Path::replaceFileExtension(Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str()), "MISSINGTEXTURES");
-	getIMGF()->getTaskManager()->onResumeTask();
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestMissingTextures");
-	*/
 }
 
 void		Tasks::onRequestDuplicateEntries(void)
@@ -7794,131 +7618,6 @@ void						Tasks::onRequestDATModelList(void)
 	delete pDATModelListDialogData;
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestModelListFromDAT");
 	*/
-}
-
-void						Tasks::onRequestFindTXDMissingFromIMGFoundInIDE(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestFindTXDMissingFromIMGFoundInIDE");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestFindTXDMissingFromIMGFoundInIDE", true);
-		return;
-	}
-
-	// fetch TXD names in IDE files
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecIDEPaths = Input::openFile(getIMGF()->getLastUsedDirectory("MISSINGENTRIES_IDE_IMG_TXD__IDE"), "IDE");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecIDEPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestFindTXDMissingFromIMGFoundInIDE", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("MISSINGENTRIES_IDE_IMG_TXD__IDE", Path::getDirectory(vecIDEPaths[0]));
-
-	vector<string> vecTXDNamesWithoutExtensionInIDE = IDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, false, true);
-
-	// fetch TXD names in active IMG file
-	vector<string> vecTXDNamesWithoutExtensionInIMG;
-	for (IMGEntry *pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
-	{
-		if (pIMGEntry->isTextureFile())
-		{
-			vecTXDNamesWithoutExtensionInIMG.push_back(Path::removeFileExtension(pIMGEntry->getEntryName()));
-		}
-	}
-	vecTXDNamesWithoutExtensionInIMG = StdVector::toUpperCase(vecTXDNamesWithoutExtensionInIMG);
-	unordered_map<string, bool> umapTXDNamesWithoutExtensionInIMG = StdVector::convertVectorToUnorderedMap(vecTXDNamesWithoutExtensionInIMG);
-	vecTXDNamesWithoutExtensionInIMG.clear();
-
-	// find TXD names found in IDE but not found in IMG
-	vector<string> vecTXDNamesWithoutExtensionMissingFromIMG;
-	setMaxProgress(vecTXDNamesWithoutExtensionInIDE.size());
-	for (string& strTXDName : vecTXDNamesWithoutExtensionInIDE)
-	{
-		if (umapTXDNamesWithoutExtensionInIMG.count(String::toUpperCase(strTXDName)) == 0)
-		{
-			vecTXDNamesWithoutExtensionMissingFromIMG.push_back(strTXDName);
-		}
-		increaseProgress();
-	}
-
-	// log
-	string strIMGFileName = Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath());
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_132", vecTXDNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_135"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecTXDNamesWithoutExtensionMissingFromIMG, "\n"), true);
-
-	// popup
-	string strInitialFilename = LocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", Path::replaceFileExtension(Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
-	string strTitle = LocalizationManager::get()->getTranslatedFormattedText("Log_132", vecTXDNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str());
-	getIMGF()->getTaskManager()->onPauseTask();
-	// todo - getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecTXDNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
-	getIMGF()->getTaskManager()->onResumeTask();
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindTXDMissingFromIMGFoundInIDE");
-}
-
-void						Tasks::onRequestFindDFFMissingFromIMGFoundInIDE(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestFindDFFMissingFromIMGFoundInIDE");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIMGFoundInIDE", true);
-		return;
-	}
-
-	// fetch DFF names in IDE files
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecIDEPaths = Input::openFile(getIMGF()->getLastUsedDirectory("MISSINGENTRIES_IDE_IMG_DFF__IDE"), "IDE");
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecIDEPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIMGFoundInIDE", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("MISSINGENTRIES_IDE_IMG_DFF__IDE", Path::getDirectory(vecIDEPaths[0]));
-
-	vector<string> vecDFFNamesWithoutExtensionInIDE = IDEManager::getIDEEntryNamesWithoutExtension(vecIDEPaths, true, false);
-
-	// fetch DFF names in active IMG file
-	vector<string> vecDFFNamesWithoutExtensionInIMG;
-	for (IMGEntry *pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
-	{
-		if (pIMGEntry->isModelFile())
-		{
-			vecDFFNamesWithoutExtensionInIMG.push_back(Path::removeFileExtension(pIMGEntry->getEntryName()));
-		}
-	}
-	vecDFFNamesWithoutExtensionInIMG = StdVector::toUpperCase(vecDFFNamesWithoutExtensionInIMG);
-	unordered_map<string, bool> umapDFFNamesWithoutExtensionInIMG = StdVector::convertVectorToUnorderedMap(vecDFFNamesWithoutExtensionInIMG);
-	vecDFFNamesWithoutExtensionInIMG.clear();
-
-	// find DFF names found in IDE but not found in IMG
-	vector<string> vecDFFNamesWithoutExtensionMissingFromIMG;
-	setMaxProgress(vecDFFNamesWithoutExtensionInIDE.size());
-	for (string& strDFFName : vecDFFNamesWithoutExtensionInIDE)
-	{
-		if (umapDFFNamesWithoutExtensionInIMG.count(String::toUpperCase(strDFFName)) == 0)
-		{
-			vecDFFNamesWithoutExtensionMissingFromIMG.push_back(strDFFName);
-		}
-		increaseProgress();
-	}
-
-	// log
-	string strIMGFileName = Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath());
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_134", vecDFFNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_135"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecDFFNamesWithoutExtensionMissingFromIMG, "\n"), true);
-
-	// popup
-	string strInitialFilename = LocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_9_InitialFilename", Path::replaceFileExtension(Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
-	string strTitle = LocalizationManager::get()->getTranslatedFormattedText("Log_134", vecDFFNamesWithoutExtensionMissingFromIMG.size(), strIMGFileName.c_str());
-	getIMGF()->getTaskManager()->onPauseTask();
-	// todo - getIMGF()->getPopupGUIManager()->showListViewDialog("Missing Entries", strTitle, "TXD Name", vecDFFNamesWithoutExtensionMissingFromIMG, strInitialFilename, "MISSINGENTRIES");
-	getIMGF()->getTaskManager()->onResumeTask();
-	
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestFindDFFMissingFromIMGFoundInIDE");
 }
 
 void				Tasks::onRequestExtractDVCAndNVColoursIntoDFFs(void)

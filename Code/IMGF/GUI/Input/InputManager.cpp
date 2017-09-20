@@ -235,6 +235,11 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 
 	case REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES:	return removeOrphanTexturesFromDFFEntries();
 	case FIND_ORPHAN_IMG_ENTRIES_NOT_IN_IDE:		return findOrphanIMGEntriesNotInIDE();
+	case FIND_ORPHAN_IDE_ENTRIES_NOT_IN_IMG:		return findOrphanIDEEntriesNotInIMG();
+	case FIND_ORPHAN_TXD_TEXTURES_FOR_DFFS_IN_IMG_BY_IDE:	return findOrphanTXDTexturesForDFFsInIMGByIDE();
+
+	case TEXTURE_LIST:								return textureList();
+	case STATS:										return stats();
 
 	// top right menu
 	case SETTINGS:									return settings();
@@ -941,6 +946,27 @@ void					InputManager::removeOrphanTexturesFromDFFEntries(void)
 void					InputManager::findOrphanIMGEntriesNotInIDE(void)
 {
 	m_pTasks->findOrphanIMGEntriesNotInIDE();
+}
+
+void					InputManager::findOrphanIDEEntriesNotInIMG(void)
+{
+	m_pTasks->findOrphanIDEEntriesNotInIMG();
+}
+
+void					InputManager::findOrphanTXDTexturesForDFFsInIMGByIDE(void)
+{
+	m_pTasks->findOrphanTXDTexturesForDFFsInIMGByIDE();
+}
+
+// other
+void					InputManager::textureList(void)
+{
+	m_pTasks->textureList();
+}
+
+void					InputManager::stats(void)
+{
+	m_pTasks->stats();
 }
 
 // LST

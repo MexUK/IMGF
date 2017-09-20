@@ -193,6 +193,11 @@ public:
 
 	void						removeOrphanTexturesFromDFFEntries(void);
 	void						findOrphanIMGEntriesNotInIDE(void);
+	void						findOrphanIDEEntriesNotInIMG(void);
+	void						findOrphanTXDTexturesForDFFsInIMGByIDE(void);
+
+	void						textureList(void);
+	void						stats(void);
 
 
 
@@ -201,46 +206,42 @@ public:
 
 
 
-
-
-
-
-	void						onRequestStats(void);
-	void						onRequestTextureList(void);
-	void						onRequestAssociateIMGExtension(void);
-
-	void						onRequestOrphanIDEEntriesNotInIMG(void);
-	
-	void						onRequestMissingTextures(void);
-	void						onRequestDuplicateEntries(void);
-
-	void						onRequestDump(void);
-	void						onRequestSessionManager(void);
 
 	void						onRequestUpdate(void);
-	void						onRequestAutoUpdate(void);
-	void						onRequestSaveIMGSignature(void);
-	void						onRequestVerifyIMGSignature(void);
-	void						onRequestCompareIMG(void);
-
-	void						onRequestValidateAllDFFInActiveTab(void);
-	void						onRequestValidateAllTXDInActiveTab(void);
-	void						onRequestRenamer(void);
-	void						onRequestBuildTXD(void);
-	void						onRequestIMGVersionSettings(void);
+	void						onRequestAssociateIMGExtension(void);
+	static int CALLBACK			sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 	void						onRequestFeatureByName(std::string strFeatureName);
 	void						onRequestLastFeatureUsed(void);
 
-	static int CALLBACK			sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
-	void						onRequestCenterCOLCollisionMeshes(void);
-	void						onRequestAlignCOLCollisionMeshesToDFFMesh(void);
+
+
+
+
+
+
+	void						onRequestDump(void);
+	void						onRequestSessionManager(void);
+	void						onRequestRenamer(void);
+	void						onRequestBuildTXD(void);
 	void						onRequestTXDOrganizer(void);
 	void						onRequestDATPathsMover(void);
 	void						onRequestMapMoverAndIDShifter(void);
-	void						onRequestDATModelList(void);
-	void						onRequestFindTXDMissingFromIMGFoundInIDE(void);
-	void						onRequestFindDFFMissingFromIMGFoundInIDE(void);
 
+
+
+
+	
+	void						onRequestDuplicateEntries(void);
+	void						onRequestCompareIMG(void);
+	void						onRequestAutoUpdate(void);
+	void						onRequestSaveIMGSignature(void);
+	void						onRequestVerifyIMGSignature(void);
+	void						onRequestValidateAllDFFInActiveTab(void);
+	void						onRequestValidateAllTXDInActiveTab(void);
+	void						onRequestIMGVersionSettings(void);
+	void						onRequestCenterCOLCollisionMeshes(void);
+	void						onRequestAlignCOLCollisionMeshesToDFFMesh(void);
+	void						onRequestDATModelList(void);
 	void						onRequestExtractDVCAndNVColoursIntoDFFs(void);
 	void						onRequestExtract2DFXIntoDFFs(void);
 

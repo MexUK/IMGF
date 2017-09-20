@@ -180,6 +180,11 @@ private:
 
 	void					removeOrphanTexturesFromDFFEntries(void);
 	void					findOrphanIMGEntriesNotInIDE(void);
+	void					findOrphanIDEEntriesNotInIMG(void);
+	void					findOrphanTXDTexturesForDFFsInIMGByIDE(void);
+
+	void					textureList(void);
+	void					stats(void);
 
 	void					lst(void);
 

@@ -455,21 +455,22 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Shift Entries Down 100 Rows", SHIFT_ENTRY_DOWN_100_ROWS);
 	pMenu3->addMenuItem("Shift Entries Down 1000 Rows", SHIFT_ENTRY_DOWN_1000_ROWS);
 
-	// missing entries
-	pMenu1->addMenuItem("Missing Entries");
-
 	// orphan entries
 	pMenuItem1 = pMenu1->addMenuItem("Orphan Entries");
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Remove Orphan Textures from DFF Entries", REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES);
 	pMenu2->addMenuItem("Find Orphan IMG Entries not in IDE", FIND_ORPHAN_IMG_ENTRIES_NOT_IN_IDE);
+	pMenu2->addMenuItem("Find Orphan IDE Entries not in IMG", FIND_ORPHAN_IDE_ENTRIES_NOT_IN_IMG);
+	pMenu2->addMenuItem("Find Orphan TXD Textures for DFFs in IMG by IDE", FIND_ORPHAN_TXD_TEXTURES_FOR_DFFS_IN_IMG_BY_IDE);
 
 	// tools
 	pMenu1->addMenuItem("Tools");
 
 	// other
-	pMenu1->addMenuItem("Other");
-
+	pMenuItem1 = pMenu1->addMenuItem("Other");
+	pMenu2 = pMenuItem1->addMenu();
+	pMenu2->addMenuItem("Texture List", TEXTURE_LIST);
+	pMenu2->addMenuItem("Stats", STATS);
 
 
 
