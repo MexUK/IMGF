@@ -185,6 +185,21 @@ private:
 
 	void					textureList(void);
 	void					stats(void);
+	void					findDuplicateEntriesInSelection(void);
+	void					findDuplicateEntriesInTab(void);
+	void					findDuplicateEntriesInAllTabs(void);
+	void					findDuplicateEntriesByDAT(void);
+	void					compareIMGs(void);
+	void					modelListForIDEAndIPLByDAT(void);
+	void					saveIMGSignature(void);
+	void					verifyIMGSignature(void);
+	void					validateDFFInTab(void);
+	void					validateTXDInTab(void);
+	void					centerCOLMeshesInSelection(void);
+	void					alignCOLMeshesToDFFMeshes(void);
+	void					extractDVCAndNVCIntoDFFs(void);
+	void					extract2DFXIntoDFFs(void);
+	void					imgCompression(void);
 
 	void					lst(void);
 

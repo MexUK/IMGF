@@ -1,6 +1,7 @@
 #include "DBEntry.h"
 #include "Stream/DataReader.h"
 #include "Stream/DataWriter.h"
+#include "Format/DB/DBFormat.h"
 
 using namespace std;
 using namespace bxcf;
@@ -8,10 +9,10 @@ using namespace imgf;
 
 void				DBEntry::unserialize(void)
 {
-	DataReader *pDataReader = DataReader::get();
+	DataReader *pDataReader = &m_pFormat->m_reader;
 
 	uint32 uiEntryNameLength = pDataReader->readUint32();
-	m_strEntryName = string((char*)pDataReader->readCString(uiEntryNameLength));
+	m_strEntryName = pDataReader->readString(uiEntryNameLength);
 	m_uiEntrySize = pDataReader->readUint32();
 	m_uiEntryDataCRC = pDataReader->readUint32();
 	m_uiEntryCreationDate = pDataReader->readUint32();
@@ -20,7 +21,7 @@ void				DBEntry::unserialize(void)
 
 void				DBEntry::serialize(void)
 {
-	DataWriter *pDataWriter = DataWriter::get();
+	DataWriter *pDataWriter = &m_pFormat->m_writer;
 
 	pDataWriter->writeUint32(m_strEntryName.length());
 	pDataWriter->writeStringRef(m_strEntryName);

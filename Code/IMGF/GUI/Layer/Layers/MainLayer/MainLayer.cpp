@@ -468,10 +468,29 @@ void		MainLayer::addControls(void)
 
 	// other
 	pMenuItem1 = pMenu1->addMenuItem("Other");
+	
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Texture List", TEXTURE_LIST);
 	pMenu2->addMenuItem("Stats", STATS);
 
+	pMenuItem2 = pMenu2->addMenuItem("Find Duplicate Entries");
+	pMenu3 = pMenuItem2->addMenu();
+	pMenu3->addMenuItem("Find Duplicate Entries in Selection", FIND_DUPLICATE_ENTRIES_IN_SELECTION);
+	pMenu3->addMenuItem("Find Duplicate Entries in Tab", FIND_DUPLICATE_ENTRIES_IN_TAB);
+	pMenu3->addMenuItem("Find Duplicate Entries in All Tabs", FIND_DUPLICATE_ENTRIES_IN_ALL_TABS);
+	pMenu3->addMenuItem("Find Duplicate Entries by DAT", FIND_DUPLICATE_ENTRIES_BY_DAT);
+
+	pMenu2->addMenuItem("Compare IMGs", COMPARE_IMGS);
+	pMenu2->addMenuItem("Model List for IDE/IPL by DAT", MODEL_LIST_FOR_IDE_AND_IPL_BY_DAT);
+	pMenu2->addMenuItem("Save IMG Signature", SAVE_IMG_SIGNATURE);
+	pMenu2->addMenuItem("Verify IMG Signature", VERIFY_IMG_SIGNATURE);
+	pMenu2->addMenuItem("Validate DFF in Tab", VALIDATE_DFF_IN_TAB);
+	pMenu2->addMenuItem("Validate TXD in Tab", VALIDATE_TXD_IN_TAB);
+	pMenu2->addMenuItem("Center COL Meshes in Selection", CENTER_COL_MESHES_IN_SELECTION);
+	pMenu2->addMenuItem("Align COL Meshes to DFF Meshes", ALIGN_COL_MESHES_TO_DFF_MESHES);
+	pMenu2->addMenuItem("Extract DVC and NVC into DFFs", EXTRACT_DVC_AND_NVC_INTO_DFFS);
+	pMenu2->addMenuItem("Extract 2DFX into DFFs", EXTRACT_2DFX_INTO_DFFS);
+	pMenu2->addMenuItem("IMG Compression", IMG_COMPRESSION);
 
 
 

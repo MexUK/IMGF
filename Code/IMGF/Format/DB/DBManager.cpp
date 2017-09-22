@@ -27,9 +27,10 @@ DBFormat*		DBManager::createDBFileFromIMGFile(IMGFormat *pIMGFile)
 {
 	DBFormat *pDBFile = new DBFormat;
 	pDBFile->setDBVersion(0x01);
-	for (auto pIMGEntry : pIMGFile->getEntries())
+	for (IMGEntry *pIMGEntry : pIMGFile->getEntries())
 	{
 		DBEntry *pDBEntry = new DBEntry;
+		pDBEntry->m_pFormat = pDBFile;
 		pDBEntry->setEntryName(pIMGEntry->getEntryName());
 		pDBEntry->setEntrySize(pIMGEntry->getEntrySize());
 		pDBEntry->setEntryDataCRC(String::getCRC(pIMGEntry->getEntryData()));

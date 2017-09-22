@@ -27,6 +27,9 @@ public:
 	void				setHasIssue(bool bHasIssue) { m_bHasIssue = bHasIssue; }
 	bool				doesHaveIssue(void) { return m_bHasIssue; }
 
+public:
+	DBFormat*			m_pFormat;
+
 private:
 	std::string			m_strEntryName;
 	uint32				m_uiEntrySize;

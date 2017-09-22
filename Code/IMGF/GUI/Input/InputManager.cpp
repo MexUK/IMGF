@@ -240,6 +240,21 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 
 	case TEXTURE_LIST:								return textureList();
 	case STATS:										return stats();
+	case FIND_DUPLICATE_ENTRIES_IN_SELECTION:		return findDuplicateEntriesInSelection();
+	case FIND_DUPLICATE_ENTRIES_IN_TAB:				return findDuplicateEntriesInTab();
+	case FIND_DUPLICATE_ENTRIES_IN_ALL_TABS:		return findDuplicateEntriesInAllTabs();
+	case FIND_DUPLICATE_ENTRIES_BY_DAT:				return findDuplicateEntriesByDAT();
+	case COMPARE_IMGS:								return compareIMGs();
+	case MODEL_LIST_FOR_IDE_AND_IPL_BY_DAT:			return modelListForIDEAndIPLByDAT();
+	case SAVE_IMG_SIGNATURE:						return saveIMGSignature();
+	case VERIFY_IMG_SIGNATURE:						return verifyIMGSignature();
+	case VALIDATE_DFF_IN_TAB:						return validateDFFInTab();
+	case VALIDATE_TXD_IN_TAB:						return validateTXDInTab();
+	case CENTER_COL_MESHES_IN_SELECTION:			return centerCOLMeshesInSelection();
+	case ALIGN_COL_MESHES_TO_DFF_MESHES:			return alignCOLMeshesToDFFMeshes();
+	case EXTRACT_DVC_AND_NVC_INTO_DFFS:				return extractDVCAndNVCIntoDFFs();
+	case EXTRACT_2DFX_INTO_DFFS:					return extract2DFXIntoDFFs();
+	case IMG_COMPRESSION:							return imgCompression();
 
 	// top right menu
 	case SETTINGS:									return settings();
@@ -967,6 +982,81 @@ void					InputManager::textureList(void)
 void					InputManager::stats(void)
 {
 	m_pTasks->stats();
+}
+
+void					InputManager::findDuplicateEntriesInSelection(void)
+{
+	m_pTasks->findDuplicateEntriesInSelection();
+}
+
+void					InputManager::findDuplicateEntriesInTab(void)
+{
+	m_pTasks->findDuplicateEntriesInTab();
+}
+
+void					InputManager::findDuplicateEntriesInAllTabs(void)
+{
+	m_pTasks->findDuplicateEntriesInAllTabs();
+}
+
+void					InputManager::findDuplicateEntriesByDAT(void)
+{
+	m_pTasks->findDuplicateEntriesByDAT();
+}
+
+void					InputManager::compareIMGs(void)
+{
+	m_pTasks->compareIMGs();
+}
+
+void					InputManager::modelListForIDEAndIPLByDAT(void)
+{
+	m_pTasks->modelListForIDEAndIPLByDAT();
+}
+
+void					InputManager::saveIMGSignature(void)
+{
+	m_pTasks->saveIMGSignature();
+}
+
+void					InputManager::verifyIMGSignature(void)
+{
+	m_pTasks->verifyIMGSignature();
+}
+
+void					InputManager::validateDFFInTab(void)
+{
+	m_pTasks->validateDFFInTab();
+}
+
+void					InputManager::validateTXDInTab(void)
+{
+	m_pTasks->validateTXDInTab();
+}
+
+void					InputManager::centerCOLMeshesInSelection(void)
+{
+	m_pTasks->centerCOLMeshesInSelection();
+}
+
+void					InputManager::alignCOLMeshesToDFFMeshes(void)
+{
+	m_pTasks->alignCOLMeshesToDFFMeshes();
+}
+
+void					InputManager::extractDVCAndNVCIntoDFFs(void)
+{
+	m_pTasks->extractDVCAndNVCIntoDFFs();
+}
+
+void					InputManager::extract2DFXIntoDFFs(void)
+{
+	m_pTasks->extract2DFXIntoDFFs();
+}
+
+void					InputManager::imgCompression(void)
+{
+	m_pTasks->imgCompression();
 }
 
 // LST

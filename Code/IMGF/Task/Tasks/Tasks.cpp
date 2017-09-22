@@ -4314,10 +4314,1066 @@ void		Tasks::textureList(void)
 	onCompleteTask();
 }
 
+void		Tasks::stats(void)
+{
+	onStartTask("stats");
 
+	unordered_map<uint32, uint32> umapStatsRWVersions;
+	unordered_map<string, uint32> umapStatsExtensions;
 
+	for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->getEntries())
+	{
+		if (pIMGEntry->isRWFile())
+		{
+			if (umapStatsRWVersions.count(pIMGEntry->getRawVersion()) == 0)
+			{
+				umapStatsRWVersions[pIMGEntry->getRawVersion()] = 1;
+			}
+			else
+			{
+				umapStatsRWVersions[pIMGEntry->getRWVersion()]++;
+			}
+		}
 
+		string strExtension = String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()));
+		if (umapStatsExtensions.count(strExtension) == 0)
+		{
+			umapStatsExtensions[strExtension] = 1;
+		}
+		else
+		{
+			umapStatsExtensions[strExtension]++;
+		}
+	}
 
+	vector<vector<string>> vecTextCells;
+	for (auto it : umapStatsRWVersions)
+	{
+		vector<string> vecRowCells;
+		vecRowCells.push_back(RWVersion::unpackVersionStampAsStringWithBuild(it.first) + " (" + String::toString(it.second) + ")");
+		vecTextCells.push_back(vecRowCells);
+	}
+	uint32 i = 0;
+	for (auto it : umapStatsExtensions)
+	{
+		string strValue = it.first + " (" + String::toString(it.second) + ")";
+		if (i < vecTextCells.size())
+		{
+			vecTextCells[i].push_back(strValue);
+		}
+		else
+		{
+			vector<string> vecRowCells = {
+				"",
+				strValue
+			};
+			vecTextCells.push_back(vecRowCells);
+		}
+		i++;
+	}
+
+	m_pMainWindow->showGridWindow("IMG Stats", "IMG Stats:", vector<string>({ "RW Version Counts", "Extension Counts" }), vecTextCells, "");
+
+	onCompleteTask();
+}
+
+void		Tasks::findDuplicateEntriesInSelection(void)
+{
+	onStartTask("findDuplicateEntriesInSelection");
+
+	// max progress tick
+	setMaxProgress(getIMGTab()->getSelectedEntryCount());
+
+	// fetch selected entries
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getSelectedEntries();
+
+	// store IMG entry names for checking
+	unordered_map<string, vector<IMGEntry*>> umapIMGEntries;
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		umapIMGEntries[String::toUpperCase(pIMGEntry->getEntryName())].push_back(pIMGEntry);
+
+		increaseProgress();
+	}
+
+	// find duplicate entries
+	vector<vector<string>> vecDuplicateEntries;
+	for (auto it : umapIMGEntries)
+	{
+		vector<IMGEntry*>& vecEntries = it.second;
+		if (vecEntries.size() > 1)
+		{
+			vector<string> vecEntryIMGFileNames;
+			for (IMGEntry *pIMGEntry : vecEntries)
+			{
+				vecEntryIMGFileNames.push_back(Path::getFileName(pIMGEntry->getIMGFile()->getIMGFilePath()));
+			}
+			vecDuplicateEntries.push_back({ vecEntries[0]->getEntryName(), String::join(vecEntryIMGFileNames, ", ") });
+		}
+	}
+	umapIMGEntries.clear();
+
+	// log
+	getIMGTab()->logf("Found %u dupliate entries in selection.", vecDuplicateEntries.size());
+
+	// results window
+	vector<string> vecGridHeaders = { "Entry Name", "IMG File(s)" };
+	m_pMainWindow->showGridWindow("Find Duplicate Entries in Selection", String::toString(vecDuplicateEntries.size()) + " duplicate entries found in selection:", vecGridHeaders, vecDuplicateEntries, "");
+
+	onCompleteTask();
+}
+
+void		Tasks::findDuplicateEntriesInTab(void)
+{
+	onStartTask("findDuplicateEntriesInTab");
+
+	// max progress tick
+	setMaxProgress(getIMGTab()->getIMGFile()->getEntryCount());
+
+	// fetch entries
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntries();
+
+	// store IMG entry names for checking
+	unordered_map<string, vector<IMGEntry*>> umapIMGEntries;
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		umapIMGEntries[String::toUpperCase(pIMGEntry->getEntryName())].push_back(pIMGEntry);
+
+		increaseProgress();
+	}
+
+	// find duplicate entries
+	vector<vector<string>> vecDuplicateEntries;
+	for (auto it : umapIMGEntries)
+	{
+		vector<IMGEntry*>& vecEntries = it.second;
+		if (vecEntries.size() > 1)
+		{
+			vector<string> vecEntryIMGFileNames;
+			for (IMGEntry *pIMGEntry : vecEntries)
+			{
+				vecEntryIMGFileNames.push_back(Path::getFileName(pIMGEntry->getIMGFile()->getIMGFilePath()));
+			}
+			vecDuplicateEntries.push_back({ vecEntries[0]->getEntryName(), String::join(vecEntryIMGFileNames, ", ") });
+		}
+	}
+	umapIMGEntries.clear();
+
+	// log
+	getIMGTab()->logf("Found %u dupliate entries in tab.", vecDuplicateEntries.size());
+
+	// results window
+	vector<string> vecGridHeaders = { "Entry Name", "IMG File(s)" };
+	m_pMainWindow->showGridWindow("Find Duplicate Entries in Tab", String::toString(vecDuplicateEntries.size()) + " duplicate entries found in tab:", vecGridHeaders, vecDuplicateEntries, "");
+
+	onCompleteTask();
+}
+
+void		Tasks::findDuplicateEntriesInAllTabs(void)
+{
+	onStartTask("findDuplicateEntriesInAllTabs");
+
+	// max progress tick
+	uint32 uiTickCount = 0;
+	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	{
+		uiTickCount += pEditorTab->getIMGFile()->getEntryCount();
+	}
+	setMaxProgress(uiTickCount);
+
+	// fetch entries
+	vector<IMGEntry*> vecIMGEntries;
+	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	{
+		StdVector::addToVector(vecIMGEntries, pEditorTab->getIMGFile()->getEntries());
+	}
+
+	// store IMG entry names for checking
+	unordered_map<string, vector<IMGEntry*>> umapIMGEntries;
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		umapIMGEntries[String::toUpperCase(pIMGEntry->getEntryName())].push_back(pIMGEntry);
+
+		increaseProgress();
+	}
+
+	// find duplicate entries
+	vector<vector<string>> vecDuplicateEntries;
+	for (auto it : umapIMGEntries)
+	{
+		vector<IMGEntry*>& vecEntries = it.second;
+		if (vecEntries.size() > 1)
+		{
+			vector<string> vecEntryIMGFileNames;
+			for (IMGEntry *pIMGEntry : vecEntries)
+			{
+				vecEntryIMGFileNames.push_back(Path::getFileName(pIMGEntry->getIMGFile()->getIMGFilePath()));
+			}
+			vecDuplicateEntries.push_back({ vecEntries[0]->getEntryName(), String::join(vecEntryIMGFileNames, ", ") });
+		}
+	}
+	umapIMGEntries.clear();
+
+	// log
+	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	{
+		pEditorTab->logf("Found %u dupliate entries in all tabs.", vecDuplicateEntries.size());
+	}
+
+	// results window
+	vector<string> vecGridHeaders = { "Entry Name", "IMG File(s)" };
+	m_pMainWindow->showGridWindow("Find Duplicate Entries in All Tabs", String::toString(vecDuplicateEntries.size()) + " duplicate entries found in all tabs:", vecGridHeaders, vecDuplicateEntries, "");
+
+	onCompleteTask();
+}
+
+void		Tasks::findDuplicateEntriesByDAT(void)
+{
+	onStartTask("findDuplicateEntriesByDAT");
+
+	// choose DAT file
+	vector<string> vecDATFilePaths = openFile("dat");
+	if (vecDATFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	// choose game folder
+	string strGameFolderPath = openFolder("Choose a root game folder:");
+	if (strGameFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	// parse IMG files listed inside DAT files
+	vector<IMGFormat*> vecIMGFiles;
+	for (string& strDATFilePath : vecDATFilePaths)
+	{
+		DATLoaderFormat datFile(strDATFilePath);
+		if (datFile.unserialize())
+		{
+			StdVector::addToVector(vecIMGFiles, datFile.parseIMGFiles(strGameFolderPath));
+		}
+		datFile.unload();
+	}
+
+	// fetch entries
+	vector<IMGEntry*> vecIMGEntries;
+	for (IMGFormat *pIMGFile : vecIMGFiles)
+	{
+		StdVector::addToVector(vecIMGEntries, pIMGFile->getEntries());
+	}
+
+	// store IMG entry names for checking
+	unordered_map<string, vector<IMGEntry*>> umapIMGEntries;
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		umapIMGEntries[String::toUpperCase(pIMGEntry->getEntryName())].push_back(pIMGEntry);
+
+		increaseProgress();
+	}
+
+	// find duplicate entries
+	vector<vector<string>> vecDuplicateEntries;
+	for (auto it : umapIMGEntries)
+	{
+		vector<IMGEntry*>& vecEntries = it.second;
+		if (vecEntries.size() > 1)
+		{
+			vector<string> vecEntryIMGFileNames;
+			for (IMGEntry *pIMGEntry : vecEntries)
+			{
+				vecEntryIMGFileNames.push_back(Path::getFileName(pIMGEntry->getIMGFile()->getIMGFilePath()));
+			}
+			vecDuplicateEntries.push_back({ vecEntries[0]->getEntryName(), String::join(vecEntryIMGFileNames, ", ") });
+		}
+	}
+	umapIMGEntries.clear();
+
+	// results window
+	vector<string> vecGridHeaders = { "Entry Name", "IMG File(s)" };
+	m_pMainWindow->showGridWindow("Find Duplicate Entries by DAT", String::toString(vecDuplicateEntries.size()) + " duplicate entries found by DAT:", vecGridHeaders, vecDuplicateEntries, "");
+
+	// clean up
+	for (IMGFormat *pIMGFile : vecIMGFiles)
+	{
+		pIMGFile->unload();
+		delete pIMGFile;
+	}
+
+	onCompleteTask();
+}
+
+void		Tasks::compareIMGs(void)
+{
+	onStartTask("compareIMGs");
+
+	// choose IMG files
+	vector<string> vecIMGFilePaths = openFile("img");
+	if (vecIMGFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	// store IMG objects
+	vector<IMGFormat*> vecIMGFiles = { getIMGTab()->getIMGFile() };
+	for (string& strIMGFilePath : vecIMGFilePaths)
+	{
+		IMGFormat *pIMGFile = new IMGFormat(strIMGFilePath);
+		if (pIMGFile->unserialize())
+		{
+			vecIMGFiles.push_back(pIMGFile);
+		}
+		else
+		{
+			pIMGFile->unload();
+			delete pIMGFile;
+		}
+	}
+
+	// verify there are at least 2 IMG files to compare
+	if (vecIMGFiles.size() < 2)
+	{
+		Input::showMessage("There needs to be at least 2 valid IMG files to compare.", "Not Enough Valid IMG Files", MB_OK);
+		return onAbortTask();
+	}
+
+	// stroe IMG entry names
+	unordered_map<IMGFormat*, set<string>> umapIMGFormatEntryNames;
+	for (IMGFormat *pIMGFormat : vecIMGFiles)
+	{
+		for (IMGEntry *pIMGEntry : pIMGFormat->getEntries())
+		{
+			umapIMGFormatEntryNames[pIMGFormat].insert(String::toUpperCase(pIMGEntry->getEntryName()));
+		}
+	}
+
+	// compare all IMG files
+	vector<vector<string>> vecGridCellsText, vecGridCellsText2;
+	vecGridCellsText.push_back({ "Entries missing from other IMGs:", "" });
+	vecGridCellsText2.push_back({ "Entries in all IMGs:", "" });
+
+	for (IMGFormat *pIMGFormat1 : vecIMGFiles)
+	{
+		for (IMGEntry *pIMGEntry1 : pIMGFormat1->getEntries())
+		{
+			bool bEntry1IsInAllIMGs = true;
+			string strEntryName1 = pIMGEntry1->getEntryName();
+
+			for (IMGFormat *pIMGFormat2 : vecIMGFiles)
+			{
+				if (pIMGFormat1 != pIMGFormat2)
+				{
+					string strIMGFileName2 = Path::getFileName(pIMGFormat2->getIMGFilePath());
+
+					if (umapIMGFormatEntryNames[pIMGFormat2].find(String::toUpperCase(strEntryName1)) == umapIMGFormatEntryNames[pIMGFormat2].end())
+					{
+						bEntry1IsInAllIMGs = false;
+						vecGridCellsText.push_back({ strEntryName1, strIMGFileName2 });
+					}
+				}
+			}
+			if (bEntry1IsInAllIMGs)
+			{
+				vecGridCellsText2.push_back({ strEntryName1, "" });
+			}
+		}
+	}
+	if (vecGridCellsText.size() == 1)
+	{
+		vecGridCellsText.push_back({ "(None)", "" });
+	}
+	if (vecGridCellsText2.size() == 1)
+	{
+		vecGridCellsText2.push_back({ "(None)", "" });
+	}
+	StdVector::addToVector(vecGridCellsText, vecGridCellsText2);
+
+	// show results window
+	vector<string> vecGridHeaders = { "Entry Name", "Missing from IMG" };
+	m_pMainWindow->showGridWindow("Compare IMGs", "IMG comparison results:", vecGridHeaders, vecGridCellsText, "");
+
+	// clean up
+	for (IMGFormat *pIMGFile : vecIMGFiles)
+	{
+		pIMGFile->unload();
+		delete pIMGFile;
+	}
+
+	onCompleteTask();
+}
+
+void						Tasks::modelListForIDEAndIPLByDAT(void)
+{
+	onStartTask("modelListForIDEAndIPLByDAT");
+
+	// choose DAT file paths
+	vector<string> vecDATFilePaths = openFile("dat");
+	if (vecDATFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	// choose game folder
+	string strGameFolderPath = openFolder("Choose a root game folder:");
+	if (strGameFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	// parse DAT files
+	vector<DATLoaderFormat*> vecDATFiles;
+	for (string& strDATFilePath : vecDATFilePaths)
+	{
+		DATLoaderFormat *pDATFile = new DATLoaderFormat(strDATFilePath);
+		if (pDATFile->unserialize())
+		{
+			vecDATFiles.push_back(pDATFile);
+		}
+		else
+		{
+			pDATFile->unload();
+			delete pDATFile;
+		}
+	}
+
+	// fetch model names in DAT files
+	vector<string> vecModelNames;
+	for (DATLoaderFormat *pDATFile : vecDATFiles)
+	{
+		vector<string>
+			vecRelativeIDEPaths = pDATFile->getRelativeIDEPaths(),
+			vecRelativeIPLPaths = pDATFile->getRelativeIPLPaths();
+
+		for (string& strRelativeIDEPath : vecRelativeIDEPaths)
+		{
+			IDEFormat ideFile(strGameFolderPath + strRelativeIDEPath);
+			if (ideFile.unserialize())
+			{
+				StdVector::addToVector(vecModelNames, ideFile.getModelNames());
+			}
+			ideFile.unload();
+		}
+		for (string& strRelativeIPLPath : vecRelativeIPLPaths)
+		{
+			IPLFormat iplFile(strGameFolderPath + strRelativeIPLPath);
+			if (iplFile.unserialize())
+			{
+				StdVector::addToVector(vecModelNames, iplFile.getModelNames());
+			}
+			iplFile.unload();
+		}
+	}
+	vecModelNames = StdVector::removeDuplicates(vecModelNames);
+
+	// show results window
+	vector<string> vecGridHeaders = { "Model Name" };
+	vector<vector<string>> vecGridCellsText = { vecModelNames };
+	vecGridCellsText = StdVector::swap2D(vecGridCellsText);
+	m_pMainWindow->showGridWindow("Model List for IDE/IPL by DAT", String::toString(vecModelNames.size()) + " models in IDE/IPL files in DAT files:", vecGridHeaders, vecGridCellsText, "");
+
+	// clean up
+	for (DATLoaderFormat *pDATFile : vecDATFiles)
+	{
+		pDATFile->unload();
+		delete pDATFile;
+	}
+
+	onCompleteTask();
+}
+
+void		Tasks::saveIMGSignature(void)
+{
+	onStartTask("saveIMGSignature");
+
+	IMGFormat *pIMGFile = getIMGTab()->getIMGFile();
+	DBFormat *pDBFile = DBManager::get()->createDBFileFromIMGFile(pIMGFile);
+	string strDBPath = Path::replaceFileExtension(pIMGFile->getFilePath(), "db");
+	pDBFile->serialize(strDBPath);
+
+	if (getIMGTab()->m_pDBFile != nullptr)
+	{
+		delete getIMGTab()->m_pDBFile;
+	}
+	getIMGTab()->m_pDBFile = pDBFile;
+
+	getIMGTab()->loadProtectedEntryStates();
+	getIMGTab()->readdGridEntries();
+
+	getIMGTab()->logf("Saved DB file for %s.", Path::getFileName(pIMGFile->getIMGFilePath()).c_str());
+
+	onCompleteTask();
+}
+
+void		Tasks::verifyIMGSignature(void)
+{
+	onStartTask("verifyIMGSignature");
+
+	IMGFormat *pIMGFile = getIMGTab()->getIMGFile();
+	string strDBFilePath = Path::replaceFileExtension(pIMGFile->getFilePath(), "db");
+
+	if (!File::doesFileExist(strDBFilePath))
+	{
+		Input::showMessage("DB file does not exist for " + Path::getFileName(pIMGFile->getIMGFilePath()), "DB File Doesn't Exist", MB_OK);
+		return onAbortTask();
+	}
+
+	DBFormat *pDBFileForIMGTab = DBManager::get()->createDBFileFromIMGFile(pIMGFile);
+	DBFormat *pDBFileForIMGFile = DBManager::get()->unserializeFile(strDBFilePath);
+	
+	if(!pDBFileForIMGFile)
+	{
+		delete pDBFileForIMGTab;
+		delete pDBFileForIMGFile;
+		Input::showMessage("Failed to open DB file for " + Path::getFileName(pIMGFile->getIMGFilePath()), "Failed to Open DB File", MB_OK);
+		return onAbortTask();
+	}
+	
+	bool bComparedEqual = DBManager::get()->compareDBFiles(pDBFileForIMGTab, pDBFileForIMGFile);
+	if(bComparedEqual)
+	{
+		Input::showMessage("The IMG matches the DB file.", "IMG Matches DB", MB_OK);
+	}
+	else
+	{
+		Input::showMessage("The IMG does not match the DB file.", "IMG Doesn't Match DB", MB_OK);
+	}
+
+	delete pDBFileForIMGTab;
+	delete pDBFileForIMGFile;
+	
+	onCompleteTask();
+}
+
+void			Tasks::validateDFFInTab(void)
+{
+	onStartTask("validateDFFInTab");
+
+	vector<vector<string>> vecGridCellsText;
+	for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->getEntries())
+	{
+		if (pIMGEntry->isModelFile())
+		{
+			DFFFormat dffFile(pIMGEntry->getEntryData(), false);
+			if (!dffFile.unserialize())
+			{
+				vecGridCellsText.push_back({ pIMGEntry->getEntryName(), dffFile.getErrorReason() });
+			}
+			dffFile.unload();
+		}
+	}
+
+	if (vecGridCellsText.size() == 0)
+	{
+		Input::showMessage("All DFF entries in this tab are valid.", "All DFF Valid", MB_OK);
+	}
+	else
+	{
+		vector<string> vecGridHeadersText = { "Entry Name", "Error Reason" };
+		m_pMainWindow->showGridWindow("Invalid DFF Entries", String::toString(vecGridCellsText.size()) + " invalid DFF entries:", vecGridHeadersText, vecGridCellsText, "");
+	}
+	
+	onCompleteTask();
+}
+
+void			Tasks::validateTXDInTab(void)
+{
+	onStartTask("validateTXDInTab");
+
+	vector<vector<string>> vecGridCellsText;
+	for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->getEntries())
+	{
+		if (pIMGEntry->isTextureFile())
+		{
+			string strEntryData = pIMGEntry->getEntryData();
+			TXDFormat txdFile(strEntryData, false);
+			if (!txdFile.unserialize())
+			{
+				vecGridCellsText.push_back({ pIMGEntry->getEntryName(), txdFile.getErrorReason() });
+				continue;
+			}
+
+			if (!TXDFormat::isTXDSizeValid(strEntryData.size()))
+			{
+				vecGridCellsText.push_back({ pIMGEntry->getEntryName(), "TXD size" });
+			}
+			else
+			{
+				if (!TXDFormat::isTextureCountValid(txdFile.getTextures().size(), txdFile.getPlatformedGames()))
+				{
+					vecGridCellsText.push_back({ pIMGEntry->getEntryName(), "Texture count for game" });
+				}
+				else
+				{
+					uint32 uiTextureIndex = 0;
+					for (RWSection_TextureNative *pTexture : txdFile.getTextures())
+					{
+						if (!TXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, txdFile.getPlatformedGames()))
+						{
+							vecGridCellsText.push_back({ pIMGEntry->getEntryName(), "Texture resolution: " + pTexture->getDiffuseName() + " (" + String::toString(pTexture->getImageSize().x) + " x " + String::toString(pTexture->getImageSize().y) + ")" });
+							break;
+						}
+
+						if (!TXDFormat::isTextureNameValid(pTexture->getDiffuseName()) || !TXDFormat::isTextureNameValid(pTexture->getAlphaName(), true))
+						{
+							vecGridCellsText.push_back({ pIMGEntry->getEntryName(), "Texture name for texture at index: " + String::toString(uiTextureIndex + 1) });
+							break;
+						}
+
+						uiTextureIndex++;
+					}
+				}
+			}
+
+			txdFile.unload();
+		}
+	}
+
+	if (vecGridCellsText.size() == 0)
+	{
+		Input::showMessage("All TXD entries in this tab are valid.", "All TXD Valid", MB_OK);
+	}
+	else
+	{
+		vector<string> vecGridHeadersText = { "Entry Name", "Error Reason" };
+		m_pMainWindow->showGridWindow("Invalid TXD Entries", String::toString(vecGridCellsText.size()) + " invalid DFF entries:", vecGridHeadersText, vecGridCellsText, "");
+	}
+
+	onCompleteTask();
+}
+
+void			Tasks::centerCOLMeshesInSelection(void)
+{
+	onStartTask("centerCOLMeshesInSelection");
+
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getSelectedEntries();
+	setMaxProgress(vecIMGEntries.size());
+
+	uint32 uiEntryCount = 0;
+	for(IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		if (!pIMGEntry->isCollisionFile())
+		{
+			continue;
+		}
+
+		COLFormat colFile(pIMGEntry->getEntryData(), false);
+		if (!colFile.unserialize())
+		{
+			colFile.unload();
+			continue;
+		}
+
+		for (COLEntry *pCOLEntry : colFile.getEntries())
+		{
+			if (pCOLEntry->getCollisionMeshVertexCount() > 1)
+			{
+				vector<Vec3f>& vecVertices = (vector<Vec3f>&) pCOLEntry->getCollisionMeshVertices(); // Vec3f is the same size and data types as TVertex so the cast should work.
+				Vec3f vecCollisionMeshCenter = Math::getPolygonCenter(vecVertices);
+				if (vecCollisionMeshCenter != 0.0f)
+				{
+					pCOLEntry->applyCollisionMeshVerticesOffset(-vecCollisionMeshCenter);
+				}
+			}
+		}
+
+		string strNewEntryData = colFile.serialize();
+		pIMGEntry->setEntryData(strNewEntryData);
+		
+		getIMGTab()->updateGridEntry(pIMGEntry);
+
+		colFile.unload();
+		increaseProgress();
+		uiEntryCount++;
+	}
+
+	getIMGTab()->logf("Centered meshes for %u COL files.", uiEntryCount);
+
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
+
+	onCompleteTask();
+}
+
+void			Tasks::alignCOLMeshesToDFFMeshes(void)
+{
+	onStartTask("alignCOLMeshesToDFFMeshes");
+
+	// choose COL files folder
+	string strCOLFolderPath = openFolder("Choose a folder containing COL files.");
+	if (strCOLFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	// choose DFF files folder
+	string strDFFFolderPath = openFolder("Choose a folder containing DFF files.");
+	if (strDFFFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	// initialize
+	unordered_map<string, Vec3f>
+		umapGeometryPolygonCenters;
+	vector<string>
+		vecFilePaths_DFF = File::getFileNamesByExtension(strDFFFolderPath, "dff"),
+		vecFilePaths_BSP = File::getFileNamesByExtension(strDFFFolderPath, "bsp"),
+		vecFilePaths_COL = File::getFileNamesByExtension(strCOLFolderPath, "col");
+
+	vecFilePaths_DFF = StdVector::combineVectors(vecFilePaths_DFF, vecFilePaths_BSP);
+
+	setMaxProgress(vecFilePaths_DFF.size() + vecFilePaths_COL.size());
+	
+	// fetch DFF texture names and mesh centers
+	for (string& strDFFFilePath : vecFilePaths_DFF)
+	{
+		DFFFormat dffFile(strDFFFolderPath + strDFFFilePath);
+		if(!dffFile.unserialize())
+		{
+			dffFile.unload();
+			increaseProgress();
+			continue;
+		}
+		
+		vector<RWSection*> vecDFFGeometrySections = dffFile.getSectionsByType(RW_SECTION_GEOMETRY);
+		for (RWSection *pRWSection : vecDFFGeometrySections)
+		{
+			RWSection_Geometry *pGeometry = (RWSection_Geometry*) pRWSection;
+
+			string strTextureDiffuseName = pGeometry->getTextureDiffuseName();
+			vector<Vec3f> vecVertices = pGeometry->getVertexPositions();
+			Vec3f vecPolygonCenter = Math::getPolygonCenter(vecVertices);
+			umapGeometryPolygonCenters[String::toUpperCase(strTextureDiffuseName)] = vecPolygonCenter;
+		}
+
+		dffFile.unload();
+		increaseProgress();
+	}
+
+	// check if COL mesh centers are the same as DFF mesh centers, if not then align the COLs to match DFFs
+	uint32 uiAlignedEntryCount = 0;
+	for (string& strCOLFilePath : vecFilePaths_COL)
+	{
+		COLFormat colFile(strCOLFolderPath + strCOLFilePath);
+		if(!colFile.unserialize())
+		{
+			colFile.unload();
+			increaseProgress();
+			continue;
+		}
+		colFile.setFilePath(strCOLFilePath);
+
+		for (COLEntry *pCOLEntry : colFile.getEntries())
+		{
+			if (umapGeometryPolygonCenters.find(String::toUpperCase(pCOLEntry->getModelName())) == umapGeometryPolygonCenters.end())
+			{
+				continue;
+			}
+			Vec3f vecDFFPolygonCenter = umapGeometryPolygonCenters[String::toUpperCase(pCOLEntry->getModelName())];
+
+			if (pCOLEntry->getCollisionMeshVertexCount() > 1)
+			{
+				vector<Vec3f>& vecVertices = (vector<Vec3f>&) pCOLEntry->getCollisionMeshVertices(); // Vec3f is the same size and data types as TVertex so the cast should work.
+				Vec3f vecCollisionMeshCenter = Math::getPolygonCenter(vecVertices);
+				if (vecCollisionMeshCenter != vecDFFPolygonCenter)
+				{
+					pCOLEntry->applyCollisionMeshVerticesOffset(-(vecCollisionMeshCenter - vecDFFPolygonCenter));
+				}
+			}
+		}
+
+		colFile.serialize();
+
+		colFile.unload();
+		increaseProgress();
+	}
+	
+	Input::showMessage("Aligned " + String::toString(uiAlignedEntryCount) + " COL meshes to DFF meshes.", "Aligned COL to DFF", MB_OK);
+
+	onCompleteTask();
+}
+
+void				Tasks::extractDVCAndNVCIntoDFFs(void)
+{
+	onStartTask("extractDVCAndNVCIntoDFFs");
+
+	// choose DVC, NVC, or both
+	uint32 uiUpdateType = m_pMainWindow->show3ButtonWindow("DVC/NVC Extraction Type", "Extract DVC, NVC, or both?", "DVC", "NVC", "Both");
+	if (m_pMainWindow->m_bWindow2Cancelled)
+	{
+		return onAbortTask();
+	}
+
+	// choose DFF input folder for colours
+	string strDFFColoursFolderPath = openFolder("Choose a folder containing DFF files, to extract the colours from.");
+	if (strDFFColoursFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	// choose DFF input folder for models
+	string strDFFModelDataFolderPath = openFolder("Choose a folder containing DFF files, to extract the model data from.");
+	if (strDFFModelDataFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	// choose output folder
+	string strOutputFolderPath = openFolder("Choose a folder to put the output DFF files.");
+	if (strOutputFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	// fetch DFF file paths
+	vector<string> vecDFFInputFilenamesForColours = File::getFileNamesByExtension(strDFFColoursFolderPath, "DFF");
+	vector<string> vecDFFInputFilenamesForModels = File::getFileNamesByExtension(strDFFModelDataFolderPath, "DFF");
+
+	unordered_map<string, bool> umapDFFInputFilenamesUpperForModels = StdVector::convertVectorToUnorderedMap(StdVector::toUpperCase(vecDFFInputFilenamesForModels));
+
+	setMaxProgress(vecDFFInputFilenamesForColours.size());
+
+	// iterate around input DFFs
+	uint32 uiDFFUpdatedFileCount = 0;
+	for (string& strDFFFilename_Colours : vecDFFInputFilenamesForColours)
+	{
+		if (umapDFFInputFilenamesUpperForModels.count(String::toUpperCase(strDFFFilename_Colours)) == 0)
+		{
+			increaseProgress();
+			continue;
+		}
+		string& strDFFFilename_Model = strDFFFilename_Colours;
+
+		DFFFormat *pDFFFile_Colours = DFFManager::get()->unserializeFile(strDFFColoursFolderPath + strDFFFilename_Colours);
+		if (pDFFFile_Colours->doesHaveError())
+		{
+			pDFFFile_Colours->unload();
+			delete pDFFFile_Colours;
+			increaseProgress();
+			continue;
+		}
+
+		vector<Vec4u8> vecDFFColours_DVC;
+		vector<Vec4u8> vecDFFColours_NVC;
+		if (uiUpdateType == 1 || uiUpdateType == 3) // DVC or both
+		{
+			vecDFFColours_DVC = pDFFFile_Colours->getDVColours();
+		}
+		if (uiUpdateType == 2 || uiUpdateType == 3) // NVC or both
+		{
+			vecDFFColours_NVC = pDFFFile_Colours->getNVColours();
+			if (vecDFFColours_NVC.size() == 0)
+			{
+				vecDFFColours_NVC = vecDFFColours_DVC;
+			}
+		}
+
+		pDFFFile_Colours->unload();
+		delete pDFFFile_Colours;
+
+		//DFFFormat *pDFFFile_Model = DFFManager::get()->unserializeFile(strDFFInputFolderForModels + strDFFFilename_Model);
+		DFFFormat *pDFFFile_Model = DFFManager::get()->unserializeMemory(File::getFileContent(strDFFModelDataFolderPath + strDFFFilename_Model, true));
+		if (pDFFFile_Model->doesHaveError())
+		{
+			pDFFFile_Model->unload();
+			delete pDFFFile_Model;
+			increaseProgress();
+			continue;
+		}
+
+		if (uiUpdateType == 1 || uiUpdateType == 3) // DVC or both
+		{
+			if (vecDFFColours_DVC.size() > 0)
+			{
+				pDFFFile_Model->setDVColours(vecDFFColours_DVC);
+			}
+		}
+		if (uiUpdateType == 2 || uiUpdateType == 3) // NVC or both
+		{
+			if (vecDFFColours_NVC.size() > 0)
+			{
+				pDFFFile_Model->setNVColours(vecDFFColours_NVC);
+			}
+		}
+
+		pDFFFile_Model->serialize(strOutputFolderPath + strDFFFilename_Colours);
+
+		pDFFFile_Model->unload();
+		delete pDFFFile_Model;
+		increaseProgress();
+		uiDFFUpdatedFileCount++;
+	}
+
+	// log
+	string strLogPart1 = uiUpdateType == 1 ? "DVC" : (uiUpdateType == 2 ? "NVC" : "DVC and NVC");
+	getIMGTab()->logf("Extracted " + strLogPart1 + " into %u DFF files.", uiDFFUpdatedFileCount);
+
+	// end
+	onCompleteTask();
+}
+
+void				Tasks::extract2DFXIntoDFFs(void)
+{
+	onStartTask("extract2DFXIntoDFFs");
+
+	// choose DFF input folder for colours
+	string strDFFInputFolderFor2DFX = openFolder("Choose a folder containing DFF files, to extract the colours from.");
+	if (strDFFInputFolderFor2DFX == "")
+	{
+		return onAbortTask();
+	}
+
+	// choose DFF input folder for models
+	string strDFFInputFolderForModels = openFolder("Choose a folder containing DFF files, to extract the model data from.");
+	if (strDFFInputFolderForModels == "")
+	{
+		return onAbortTask();
+	}
+
+	// choose output folder
+	string strOutputFolderPath = openFolder("Choose a folder to put the output DFF files.");
+	if (strOutputFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	// fetch DFF file paths
+	vector<string> vecDFFInputFilenamesFor2DFX = File::getFileNamesByExtension(strDFFInputFolderFor2DFX, "DFF");
+	vector<string> vecDFFInputFilenamesForModels = File::getFileNamesByExtension(strDFFInputFolderForModels, "DFF");
+
+	unordered_map<string, bool> umapDFFInputFilenamesUpperForModels = StdVector::convertVectorToUnorderedMap(StdVector::toUpperCase(vecDFFInputFilenamesForModels));
+
+	setMaxProgress(vecDFFInputFilenamesFor2DFX.size());
+
+	// iterate around input DFFs
+	uint32 uiDFFUpdatedFileCount = 0;
+	for (string& strDFFFilename_2DFX : vecDFFInputFilenamesFor2DFX)
+	{
+		if (umapDFFInputFilenamesUpperForModels.count(String::toUpperCase(strDFFFilename_2DFX)) == 0)
+		{
+			increaseProgress();
+			continue;
+		}
+		string& strDFFFilename_Model = strDFFFilename_2DFX;
+
+		DFFFormat *pDFFFile_2DFX = DFFManager::get()->unserializeFile(strDFFInputFolderFor2DFX + strDFFFilename_2DFX);
+		if (pDFFFile_2DFX->doesHaveError())
+		{
+			pDFFFile_2DFX->unload();
+			delete pDFFFile_2DFX;
+			increaseProgress();
+			continue;
+		}
+
+		vector<vector<_2dEffect*>> vec2dEffects = pDFFFile_2DFX->get2dEffects();
+
+		DFFFormat *pDFFFile_Model = DFFManager::get()->unserializeFile(strDFFInputFolderForModels + strDFFFilename_Model);
+		if (pDFFFile_Model->doesHaveError())
+		{
+			pDFFFile_2DFX->unload();
+			delete pDFFFile_2DFX;
+			pDFFFile_Model->unload();
+			delete pDFFFile_Model;
+			increaseProgress();
+			continue;
+		}
+
+		pDFFFile_Model->set2dEffects(vec2dEffects);
+
+		pDFFFile_Model->serialize(strOutputFolderPath + strDFFFilename_2DFX);
+
+		pDFFFile_2DFX->unload();
+		delete pDFFFile_2DFX;
+		pDFFFile_Model->unload();
+		delete pDFFFile_Model;
+		increaseProgress();
+		uiDFFUpdatedFileCount++;
+	}
+
+	// log
+	getIMGTab()->logf("Extracted 2DFX into %u DFF files.", uiDFFUpdatedFileCount);
+
+	onCompleteTask();
+}
+
+void		Tasks::imgCompression(void)
+{
+	onStartTask("imgCompression");
+
+	// ensure IMG version has settings
+	if (getIMGTab()->getIMGFile()->getVersion() != IMG_FASTMAN92)
+	{
+		Input::showMessage("IMG version must be Fastman92's IMG version for compression or encryption.", "Invalid IMG Version for Compression/Encryption", MB_OK);
+		return onAbortTask();
+	}
+
+	// choose compression status
+	uint32 uiButtonIndex = m_pMainWindow->show3ButtonWindow("Compress IMG", "Should IMG be compressed?", "Yes", "No", "");
+	if (uiButtonIndex == -1)
+	{
+		return onAbortTask();
+	}
+
+	ECompressionAlgorithm uiCompressionAlgorithm;
+	uint32 uiCompressionLevel;
+	if (uiButtonIndex == 0) // Button: Yes
+	{
+		vector<string> vecOptions = { "ZLib", "LZ4" };
+		uint32 uiOptionIndex = m_pMainWindow->showDropDownWindow("IMG Compression Algorithm", "IMG compression algorithm:", vecOptions);
+		if (uiOptionIndex == -1)
+		{
+			return onAbortTask();
+		}
+		if (uiOptionIndex == 0)
+		{
+			uiCompressionAlgorithm = COMPRESSION_ZLIB;
+		}
+		else if (uiOptionIndex == 1)
+		{
+			uiCompressionAlgorithm = COMPRESSION_LZ4;
+		}
+
+		vecOptions.clear();
+		for (uint32 i = 0; i < 10; i++)
+		{
+			vecOptions.push_back("Level " + String::toString(i + 1));
+		}
+		uiOptionIndex = m_pMainWindow->showDropDownWindow("Compression Level", "Compression level:", vecOptions);
+		if (uiOptionIndex == -1)
+		{
+			return onAbortTask();
+		}
+		uiCompressionLevel = uiOptionIndex + 1;
+	}
+	else if (uiButtonIndex == 1) // Button: No
+	{
+		uiCompressionAlgorithm = COMPRESSION_NONE;
+	}
+
+	// fetch selected entries
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getSelectedEntries();
+	
+	// apply new compression type to IMG entries
+	setMaxProgress(vecIMGEntries.size());
+	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	{
+		pIMGEntry->applyCompression(uiCompressionAlgorithm, uiCompressionLevel);
+		getIMGTab()->updateGridEntry(pIMGEntry);
+
+		increaseProgress();
+	}
+
+	// update IMG version text in main window
+	getIMGTab()->updateIMGText();
+
+	// log
+	getIMGTab()->logf("Updated IMG compression for %u entries.", vecIMGEntries.size());
+
+	// mark as modified since rebuild
+	getIMGTab()->setIMGModifiedSinceRebuild(true);
+
+	onCompleteTask();
+}
 
 
 
@@ -4412,69 +5468,6 @@ bool		Tasks::saveAllOpenFiles(bool bCloseAll)
 	return true;
 }
 
-void		Tasks::stats(void)
-{
-	onStartTask("stats");
-
-	unordered_map<uint32, uint32> umapStatsRWVersions;
-	unordered_map<string, uint32> umapStatsExtensions;
-
-	for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->getEntries())
-	{
-		if (pIMGEntry->isRWFile())
-		{
-			if (umapStatsRWVersions.count(pIMGEntry->getRawVersion()) == 0)
-			{
-				umapStatsRWVersions[pIMGEntry->getRawVersion()] = 1;
-			}
-			else
-			{
-				umapStatsRWVersions[pIMGEntry->getRWVersion()]++;
-			}
-		}
-
-		string strExtension = String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()));
-		if (umapStatsExtensions.count(strExtension) == 0)
-		{
-			umapStatsExtensions[strExtension] = 1;
-		}
-		else
-		{
-			umapStatsExtensions[strExtension]++;
-		}
-	}
-
-	vector<vector<string>> vecTextCells;
-	for (auto it : umapStatsRWVersions)
-	{
-		vector<string> vecRowCells;
-		vecRowCells.push_back(RWVersion::unpackVersionStampAsStringWithBuild(it.first) + " (" + String::toString(it.second) + ")");
-		vecTextCells.push_back(vecRowCells);
-	}
-	uint32 i = 0;
-	for (auto it : umapStatsExtensions)
-	{
-		string strValue = it.first + " (" + String::toString(it.second) + ")";
-		if (i < vecTextCells.size())
-		{
-			vecTextCells[i].push_back(strValue);
-		}
-		else
-		{
-			vector<string> vecRowCells = {
-				"",
-				strValue
-			};
-			vecTextCells.push_back(vecRowCells);
-		}
-		i++;
-	}
-
-	m_pMainWindow->showGridWindow("IMG Stats", "IMG Stats:", vector<string>({ "RW Version Counts", "Extension Counts" }), vecTextCells, "");
-
-	onCompleteTask();
-}
-
 void		Tasks::onRequestAssociateIMGExtension(void)
 {
 	//TCHAR szExePath[MAX_PATH];
@@ -4483,193 +5476,6 @@ void		Tasks::onRequestAssociateIMGExtension(void)
 	//Input::showMessage(NULL, szExePath, "A", MB_OK);
 
 	//Registry::assoicateFileExtension("img", String::convertStdWStringToStdString(szExePath));
-}
-
-void		Tasks::onRequestDuplicateEntries(void)
-{
-	/*
-	getIMGF()->getTaskManager()->onStartTask("onRequestDuplicateEntries");
-
-	// show window
-	getIMGF()->getTaskManager()->onPauseTask();
-	CDuplicateEntriesDialogData *pDuplicateEntriesDialogData = getIMGF()->getPopupGUIManager()->showDuplicateEntriesDialog();
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (!pDuplicateEntriesDialogData->m_bCheck)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries", true);
-		return;
-	}
-
-	// choose entries
-	vector<IMGFormat*> vecIMGFormats;
-	if (pDuplicateEntriesDialogData->m_ucEntriesType == 0) // all entries in active tab
-	{
-		if (getIMGF()->getEntryListTab() == nullptr)
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries", true);
-			return;
-		}
-
-		vecIMGFormats.push_back(getIMGF()->getEntryListTab()->getIMGFile());
-	}
-	else if (pDuplicateEntriesDialogData->m_ucEntriesType == 1) // selected entries in active tab
-	{
-		if (getIMGF()->getEntryListTab() == nullptr)
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries", true);
-			return;
-		}
-
-		vecIMGFormats.push_back(getIMGF()->getEntryListTab()->getIMGFile());
-	}
-	else if (pDuplicateEntriesDialogData->m_ucEntriesType == 2) // all entries in all tabs
-	{
-		if (getIMGF()->getEntryListTab() == nullptr)
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries", true);
-			return;
-		}
-
-		vecIMGFormats = getIMGF()->getIMGEditor()->getAllMainWindowTabsIMGFiles();
-	}
-	else if (pDuplicateEntriesDialogData->m_ucEntriesType == 3) // DAT file
-	{
-		EPlatformedGame EPlatformedGameValue = UNKNOWN_PLATFORMED_GAME;
-		switch (pDuplicateEntriesDialogData->m_uiDATGameIndex)
-		{
-		case 0: // GTA III
-			EPlatformedGameValue = PC_GTA_III;
-			break;
-		case 1: // GTA VC
-			EPlatformedGameValue = PC_GTA_VC;
-			break;
-		case 2: // GTA SA
-			EPlatformedGameValue = PC_GTA_SA;
-			break;
-		case 3: // SOL
-			EPlatformedGameValue = PC_SOL;
-			break;
-		case 4: // Other
-			break;
-		}
-		string strDATPath = ""; // todo - pDuplicateEntriesDialogData->m_strDATGameDirectoryPath + DATLoaderManager::getDefaultGameDATSubPath(EPlatformedGameValue);
-
-		DATLoaderFormat *pDATFile = DATLoaderManager::get()->unserializeFile(strDATPath);
-		if (!pDATFile->doesHaveError())
-		{
-			// todo - vecIMGFormats = pDATFile->parseIMGFiles(pDuplicateEntriesDialogData->m_strDATGameDirectoryPath);
-		}
-		pDATFile->unload();
-		delete pDATFile;
-
-		vector<string> vecGameIMGPaths = IMGManager::getDefaultGameIMGSubPaths(EPlatformedGameValue);
-
-		for (auto strIMGRelativePath : vecGameIMGPaths)
-		{
-			string strIMGPath = ""; // todo - pDuplicateEntriesDialogData->m_strDATGameDirectoryPath + strIMGRelativePath;
-			if (File::doesFileExist(strIMGPath))
-			{
-				IMGFormat *pIMGFile = IMGManager::get()->unserializeFile(strIMGPath);
-				if(!pIMGFile->doesHaveError())
-				{
-					vecIMGFormats.push_back(pIMGFile);
-				}
-			}
-		}
-	}
-
-	// max progress tick
-	uint32 uiTickCount = 0;
-	for (auto pIMGFile : vecIMGFormats)
-	{
-		uiTickCount += pIMGFile->getEntryCount();
-	}
-	setMaxProgress(uiTickCount);
-
-	// fetch selected entries
-	vector<IMGEntry*> vecSelectedIMGEntries;
-	if (pDuplicateEntriesDialogData->m_ucEntriesType == 1) // selected entries
-	{
-		vecSelectedIMGEntries = getIMGF()->getEntryListTab()->getSelectedEntries();
-	}
-
-	// find duplicate entries
-	unordered_map < string, vector<IMGEntry*> >
-		umapIMGEntries;
-	vector<string>
-		vecEntryDuplicateNames;
-	for (auto pIMGFile : vecIMGFormats)
-	{
-		// choose IMG entries
-		vector<IMGEntry*> vecIMGEntries;
-		if (pDuplicateEntriesDialogData->m_ucEntriesType == 1) // selected entries
-		{
-			vecIMGEntries = vecSelectedIMGEntries;
-		}
-		else
-		{
-			vecIMGEntries = pIMGFile->getEntries();
-		}
-
-		// store IMG entry name for checking
-		for (auto pIMGEntry : vecIMGEntries)
-		{
-			umapIMGEntries[String::toUpperCase(pIMGEntry->getEntryName())].push_back(pIMGEntry);
-
-			increaseProgress();
-		}
-	}
-	for (auto it : umapIMGEntries)
-	{
-		vector<IMGEntry*>& vecEntries = it.second;
-		if (vecEntries.size() > 1)
-		{
-			vector<string> vecEntryIMGFileNames;
-			for (auto pIMGEntry : vecEntries)
-			{
-				vecEntryIMGFileNames.push_back(Path::getFileName(pIMGEntry->getIMGFile()->getFilePath()));
-			}
-			vecEntryDuplicateNames.push_back(vecEntries[0]->getEntryName() + " (" + String::join(vecEntryIMGFileNames, ", ") + ")");
-		}
-	}
-
-	umapIMGEntries.clear();
-
-	// log
-	if (getIMGF()->getEntryListTab())
-	{
-		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_102", vecEntryDuplicateNames.size()));
-		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_103"), true);
-		// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryDuplicateNames, "\n"), true);
-	}
-
-	// results window
-	string strSaveFileName;
-	if (pDuplicateEntriesDialogData->m_ucEntriesType == 3) // DAT file
-	{
-		strSaveFileName = LocalizationManager::get()->getTranslatedText("SaveFilePopup_5_InitialFilename");
-	}
-	else
-	{
-		strSaveFileName = LocalizationManager::get()->getTranslatedFormattedText("SaveFilePopup_6_InitialFilename", Path::replaceFileExtension(Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()), "txt").c_str());
-	}
-	getIMGF()->getTaskManager()->onPauseTask();
-	getIMGF()->getPopupGUIManager()->showListViewDialog(LocalizationManager::get()->getTranslatedText("DuplicateEntries"), "Showing " + String::toString(vecEntryDuplicateNames.size()) + " duplicate entr" + (vecEntryDuplicateNames.size() == 1 ? "y" : "ies") + ".", LocalizationManager::get()->getTranslatedText("Window_OrphanEntries_EntryName"), vecEntryDuplicateNames, strSaveFileName, "DUPLICATEENTRIES");
-	getIMGF()->getTaskManager()->onResumeTask();
-
-	// clean up
-	vecEntryDuplicateNames.clear();
-	if (pDuplicateEntriesDialogData->m_ucEntriesType == 3) // DAT file
-	{
-		for (auto pIMGFile : vecIMGFormats)
-		{
-			pIMGFile->unload();
-			delete pIMGFile;
-		}
-	}
-	delete pDuplicateEntriesDialogData;
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestDuplicateEntries");
-	*/
 }
 
 void		Tasks::onRequestDump(void)
@@ -4994,339 +5800,6 @@ void		Tasks::onRequestAutoUpdate(void)
 		}
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestAutoUpdate");
-}
-void		Tasks::onRequestSaveIMGSignature(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestSaveIMGSignature");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveIMGSignature", true);
-		return;
-	}
-
-	IMGFormat *pIMGFile = getIMGF()->getEntryListTab()->getIMGFile();
-	DBFormat *pDBFile = DBManager::get()->createDBFileFromIMGFile(pIMGFile);
-	//DBFormat *pDBFile = getIMGF()->getEntryListTab()->m_pDBFile;
-	string strDBPath = Path::replaceFileExtension(pIMGFile->getFilePath(), "db");
-	pDBFile->serialize(strDBPath);
-
-	if (getIMGF()->getEntryListTab()->m_pDBFile != nullptr)
-	{
-		delete getIMGF()->getEntryListTab()->m_pDBFile;
-	}
-	getIMGF()->getEntryListTab()->m_pDBFile = pDBFile;
-	getIMGF()->getEntryListTab()->loadProtectedEntryStates();
-	getIMGF()->getEntryListTab()->readdGridEntries();
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_114", Path::getFileName(strDBPath).c_str()));
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestSaveIMGSignature");
-}
-void		Tasks::onRequestVerifyIMGSignature(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestVerifyIMGSignature");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestVerifyIMGSignature", true);
-		return;
-	}
-
-	IMGFormat *pIMGFile = getIMGF()->getEntryListTab()->getIMGFile();
-	DBFormat *pDBFileForIMGTab = DBManager::get()->createDBFileFromIMGFile(pIMGFile);
-
-	string strDBPath = Path::replaceFileExtension(pIMGFile->getFilePath(), "db");
-	DBFormat *pDBFileForIMGFile = DBManager::get()->unserializeFile(strDBPath);
-	
-	if(pDBFileForIMGFile->doesHaveError())
-	{
-		delete pDBFileForIMGTab;
-		delete pDBFileForIMGFile;
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestVerifyIMGSignature", true);
-		return;
-	}
-	
-	if (!File::doesFileExist(strDBPath))
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_54", Path::getFileName(strDBPath).c_str(), Path::getDirectory(strDBPath).c_str()), LocalizationManager::get()->getTranslatedText("FileNotFound"), MB_OK);
-		getIMGF()->getTaskManager()->onResumeTask();
-	}
-	else if (DBManager::get()->compareDBFiles(pDBFileForIMGTab, pDBFileForIMGFile))
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_55", Path::getFileName(pIMGFile->getFilePath()).c_str(), Path::getFileName(strDBPath).c_str()), LocalizationManager::get()->getTranslatedText("TextPopupTitle_55"), MB_OK);
-		getIMGF()->getTaskManager()->onResumeTask();
-	}
-	else
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_56", Path::getFileName(pIMGFile->getFilePath()).c_str(), Path::getFileName(strDBPath).c_str()), LocalizationManager::get()->getTranslatedText("TextPopupTitle_56"), MB_OK);
-		getIMGF()->getTaskManager()->onResumeTask();
-	}
-
-	delete pDBFileForIMGTab;
-	delete pDBFileForIMGFile;
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestVerifyIMGSignature");
-}
-void		Tasks::onRequestCompareIMG(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestCompareIMG");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
-		return;
-	}
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	vector<string> vecPaths = Input::openFile(getIMGF()->getLastUsedDirectory("COMPAREIMG"), "IMG", false);
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (vecPaths.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("COMPAREIMG", Path::getDirectory(vecPaths[0]));
-
-	IMGFormat *pIMGFile1 = getIMGF()->getEntryListTab()->getIMGFile();
-
-	EIMGVersion EIMGVersionValue = IMGManager::detectIMGVersion(vecPaths[0]);
-	/*
-	todo
-	if (uiFileResult == FILE_NOT_FOUND)
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_32"), LocalizationManager::get()->getTranslatedText("FileNotFound"), MB_OK);
-		getIMGF()->getTaskManager()->onResumeTask();
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
-		return;
-	}
-	else if (uiFileResult == FILE_BLANK)
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_33"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_33"), MB_OK);
-		getIMGF()->getTaskManager()->onResumeTask();
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
-		return;
-	}
-	else if (uiFileResult == FILE_UNKNOWN2)
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_34"), LocalizationManager::get()->getTranslatedText("UnableToOpenIMG"), MB_OK);
-		getIMGF()->getTaskManager()->onResumeTask();
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
-		return;
-	}
-	*/
-	
-	IMGFormat *pIMGFile2 = IMGManager::get()->unserializeFile(vecPaths[0]/* todo ?? -, (EIMGVersion)uiFileResult */);
-	if (pIMGFile2->doesHaveError())
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_47", Path::getFileName(vecPaths[0]).c_str()), LocalizationManager::get()->getTranslatedText("UnableToOpenIMG"), MB_OK);
-		getIMGF()->getTaskManager()->onResumeTask();
-		
-		pIMGFile2->unload();
-		delete pIMGFile2;
-		
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestCompareIMG", true);
-		return;
-	}
-
-	vector<string>
-		vecEntriesInFile1NotInFile2,
-		vecEntriesInFile2NotInFile1,
-		vecEntriesInBothFiles;
-
-	for (auto pIMGEntry : pIMGFile1->getEntries())
-	{
-		if (pIMGFile2->getEntryByName(pIMGEntry->getEntryName()) == nullptr)
-		{
-			vecEntriesInFile1NotInFile2.push_back(pIMGEntry->getEntryName());
-		}
-		else
-		{
-			vecEntriesInBothFiles.push_back(pIMGEntry->getEntryName());
-		}
-	}
-	for (auto pIMGEntry : pIMGFile2->getEntries())
-	{
-		if (pIMGFile1->getEntryByName(pIMGEntry->getEntryName()) == nullptr)
-		{
-			vecEntriesInFile2NotInFile1.push_back(pIMGEntry->getEntryName());
-		}
-	}
-	vecEntriesInFile1NotInFile2 = StdVector::removeDuplicates(vecEntriesInFile1NotInFile2);
-	vecEntriesInFile2NotInFile1 = StdVector::removeDuplicates(vecEntriesInFile2NotInFile1);
-	vecEntriesInBothFiles = StdVector::removeDuplicates(vecEntriesInBothFiles);
-
-	vector<string> vecLines;
-	uint32
-		uiEntryCountInFile1NotInFile2,
-		uiEntryCountInFile2NotInFile1,
-		uiEntryCountInBothFiles;
-	if (vecEntriesInFile1NotInFile2.size() > 0)
-	{
-		vecLines.push_back("Entries in " + Path::getFileName(pIMGFile1->getFilePath()) + " not in " + Path::getFileName(pIMGFile2->getFilePath()) + ":");
-		for (auto strEntryName : vecEntriesInFile1NotInFile2)
-		{
-			vecLines.push_back(strEntryName);
-		}
-	}
-	uiEntryCountInFile1NotInFile2 = vecEntriesInFile1NotInFile2.size();
-	vecEntriesInFile1NotInFile2.clear();
-	if (vecEntriesInFile2NotInFile1.size() > 0)
-	{
-		vecLines.push_back("Entries in " + Path::getFileName(pIMGFile2->getFilePath()) + " not in " + Path::getFileName(pIMGFile1->getFilePath()) + ":");
-		for (auto strEntryName : vecEntriesInFile2NotInFile1)
-		{
-			vecLines.push_back(strEntryName);
-		}
-	}
-	uiEntryCountInFile2NotInFile1 = vecEntriesInFile2NotInFile1.size();
-	vecEntriesInFile2NotInFile1.clear();
-
-	if (vecEntriesInBothFiles.size() > 0)
-	{
-		vecLines.push_back("Entries in " + Path::getFileName(pIMGFile1->getFilePath()) + " also in " + Path::getFileName(pIMGFile2->getFilePath()) + ":");
-		for (auto strEntryName : vecEntriesInBothFiles)
-		{
-			vecLines.push_back(strEntryName);
-		}
-	}
-	uiEntryCountInBothFiles = vecEntriesInBothFiles.size();
-	vecEntriesInBothFiles.clear();
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	/*
-	todo
-	 getIMGF()->getPopupGUIManager()->showListViewDialog(
-		"Compare IMG",
-		String::toString(uiEntryCountInFile1NotInFile2) + " entr" + (uiEntryCountInFile1NotInFile2 == 1 ? "y" : "ies") + " not in " + Path::getFileName(pIMGFile2->getFilePath()) + ", "
-		+ String::toString(uiEntryCountInFile2NotInFile1) + " entr" + (uiEntryCountInFile2NotInFile1 == 1 ? "y" : "ies") + " not in " + Path::getFileName(pIMGFile1->getFilePath()) + ", "
-		+ String::toString(uiEntryCountInBothFiles) + " entr" + (uiEntryCountInBothFiles == 1 ? "y" : "ies") + " in both files",
-		LocalizationManager::get()->getTranslatedText("Window_OrphanEntries_EntryName"),
-		vecLines,
-		LocalizationManager::get()->getTranslatedText("SaveFilePopup_7_InitialFilename"),
-		"COMPAREIMG__SAVE"
-	);
-	*/
-	getIMGF()->getTaskManager()->onResumeTask();
-
-	pIMGFile2->unload();
-	delete pIMGFile2;
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestCompareIMG");
-}
-
-void			Tasks::onRequestValidateAllDFFInActiveTab(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestValidateAllDFFInActiveTab");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestValidateAllDFFInActiveTab", true);
-		return;
-	}
-
-	vector<string> vecCorruptDFFEntryLines;
-	for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
-	{
-		if (GameFormat::isModelExtension(String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()))))
-		{
-			DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(pIMGEntry->getEntryData());
-			if (pDFFFile->doesHaveError())
-			{
-				vecCorruptDFFEntryLines.push_back(pIMGEntry->getEntryName() + " - " + pDFFFile->getErrorReason());
-			}
-			pDFFFile->unload();
-			delete pDFFFile;
-		}
-	}
-
-	if (vecCorruptDFFEntryLines.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_48"), LocalizationManager::get()->getTranslatedText("DFFValidationComplete"), MB_OK);
-		getIMGF()->getTaskManager()->onResumeTask();
-	}
-	else
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		""; // todo - getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("DFFValidationComplete"), LocalizationManager::get()->getTranslatedFormattedText("Window_TextArea_6_Message", vecCorruptDFFEntryLines.size()), String::join(vecCorruptDFFEntryLines, "\n"));
-		getIMGF()->getTaskManager()->onResumeTask();
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestValidateAllDFFInActiveTab");
-}
-
-void			Tasks::onRequestValidateAllTXDInActiveTab(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestValidateAllTXDInActiveTab");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestValidateAllTXDInActiveTab", true);
-		return;
-	}
-
-	vector<string> vecCorruptTXDEntryLines;
-	for (auto pIMGEntry : getIMGF()->getEntryListTab()->getIMGFile()->getEntries())
-	{
-		if (String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName())) == "TXD")
-		{
-			string strTXDData = pIMGEntry->getEntryData();
-			if (!TXDFormat::isTXDSizeValid(strTXDData.size()))
-			{
-				vecCorruptTXDEntryLines.push_back(pIMGEntry->getEntryName() + " - TXD size not valid");
-			}
-			else
-			{
-				TXDFormat *pTXDFile = TXDManager::get()->unserializeMemory(strTXDData);
-				if (pTXDFile->doesHaveError())
-				{
-					vecCorruptTXDEntryLines.push_back(pIMGEntry->getEntryName() + " - Failed to parse");
-				}
-				else
-				{
-					if (!TXDFormat::isTextureCountValid(pTXDFile->getTextures().size(), pTXDFile->getPlatformedGames()))
-					{
-						vecCorruptTXDEntryLines.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_InvalidTextureCount", pIMGEntry->getEntryName(), pTXDFile->getTextures().size()));
-					}
-					else
-					{
-						uint32 uiTextureIndex = 0;
-						for (auto pTexture : pTXDFile->getTextures())
-						{
-							if (!TXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getPlatformedGames()))
-							{
-								vecCorruptTXDEntryLines.push_back(pIMGEntry->getEntryName() + " - Invalid texture resolution: " + pTexture->getDiffuseName() + " (" + String::toString(pTexture->getImageSize().x) + " x " + String::toString(pTexture->getImageSize().y) + ")");
-								break;
-							}
-
-							if (!TXDFormat::isTextureNameValid(pTexture->getDiffuseName()) || !TXDFormat::isTextureNameValid(pTexture->getAlphaName(), true))
-							{
-								vecCorruptTXDEntryLines.push_back(pIMGEntry->getEntryName() + " - Invalid texture name: #" + String::toString(uiTextureIndex + 1));
-								break;
-							}
-
-							uiTextureIndex++;
-						}
-					}
-				}
-				pTXDFile->unload();
-				delete pTXDFile;
-			}
-		}
-	}
-
-	if (vecCorruptTXDEntryLines.size() == 0)
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_49"), LocalizationManager::get()->getTranslatedText("TXDValidationComplete"), MB_OK);
-		getIMGF()->getTaskManager()->onResumeTask();
-	}
-	else
-	{
-		getIMGF()->getTaskManager()->onPauseTask();
-		""; // todo - getIMGF()->getPopupGUIManager()->showTextAreaDialog(LocalizationManager::get()->getTranslatedText("TXDValidationComplete"), LocalizationManager::get()->getTranslatedFormattedText("Window_TextArea_7_Message", vecCorruptTXDEntryLines.size()), String::join(vecCorruptTXDEntryLines, "\n"));
-		getIMGF()->getTaskManager()->onResumeTask();
-	}
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestValidateAllTXDInActiveTab");
 }
 
 void			Tasks::onRequestRenamer(void)
@@ -5967,83 +6440,6 @@ void		Tasks::onRequestBuildTXD(void)
 	*/
 }
 
-void		Tasks::onRequestIMGVersionSettings(void)
-{
-	/*
-	getIMGF()->getTaskManager()->onStartTask("onRequestIMGVersionSettings");
-
-	// ensure a tab is open
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_50"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_50"), MB_OK);
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestIMGVersionSettings", true);
-		return;
-	}
-
-	// ensure IMG version has settings
-	if (getIMGF()->getEntryListTab()->getIMGFile()->getVersion() != IMG_FASTMAN92)
-	{
-		Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_51"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_51"), MB_OK);
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestIMGVersionSettings", true);
-		return;
-	}
-
-	// show IMG Version Settings window
-	getIMGF()->getTaskManager()->onPauseTask();
-	IMGVersionSettingsDialogData *pIMGVersionSettingsDialogData = getIMGF()->getPopupGUIManager()->showIMGVersionSettingsDialog();
-	getIMGF()->getTaskManager()->onResumeTask();
-
-	if (!pIMGVersionSettingsDialogData->m_bSave)
-	{
-		delete pIMGVersionSettingsDialogData;
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestIMGVersionSettings", true);
-		return;
-	}
-
-	// fetch selected entries
-	vector<IMGEntry*> vecSelectedIMGEntries = getIMGF()->getEntryListTab()->getSelectedEntries();
-	
-	// choose IMG entries
-	vector<IMGEntry*> vecIMGEntries;
-	if (pIMGVersionSettingsDialogData->m_ucEntriesType == 0) // All entries in active tab
-	{
-		vecIMGEntries = getIMGF()->getEntryListTab()->getIMGFile()->getEntries();
-	}
-	else if (pIMGVersionSettingsDialogData->m_ucEntriesType == 1) // Selected entries in active tab
-	{
-		vecIMGEntries = vecSelectedIMGEntries;
-	}
-
-	// apply new compression type to IMG entries
-	setMaxProgress(vecIMGEntries.size());
-	vector<string> vecEntryNames;
-	for (auto pIMGEntry : vecIMGEntries)
-	{
-		pIMGEntry->applyCompression(pIMGVersionSettingsDialogData->m_uiCompressionAlgorithm, pIMGVersionSettingsDialogData->m_uiCompressionLevel);
-		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-		vecEntryNames.push_back(pIMGEntry->getEntryName());
-
-		increaseProgress();
-	}
-
-	// update IMG version text in main window
-	getIMGF()->getEntryListTab()->updateIMGText();
-
-	// log
-	// todo rename getCompressionTypeText to alrogrfirmtm
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_121", IMGManager::getCompressionTypeText(pIMGVersionSettingsDialogData->m_uiCompressionAlgorithm).c_str(), vecIMGEntries.size()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_122"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecEntryNames, "\n"), true);
-
-	// mark as modified since rebuild
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
-
-	// clean up
-	delete pIMGVersionSettingsDialogData;
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestIMGVersionSettings");
-	*/
-}
-
 void		Tasks::onRequestFeatureByName(string strFeatureName)
 {
 	/*
@@ -6579,201 +6975,6 @@ int CALLBACK		Tasks::sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lPa
 	return nRetVal;
 	*/
 	return 0;
-}
-
-void			Tasks::onRequestCenterCOLCollisionMeshes(void)
-{
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestCenterCOLCollisionMeshes");
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestCenterCOLCollisionMeshes", true);
-		return;
-	}
-
-	// fetch selected entries
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	POSITION pos = pListControl->GetFirstSelectedItemPosition();
-	if (pos == NULL)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestCenterCOLCollisionMeshes", true);
-		return;
-	}
-	uint32 uiEntryCount = 0;
-	setMaxProgress(pListControl->GetSelectedCount());
-
-	IMGEntry *pIMGEntry = nullptr;
-	while (pos)
-	{
-		int nItem = pListControl->GetNextSelectedItem(pos);
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(nItem);
-
-		if (String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName())) != "COL")
-		{
-			increaseProgress();
-			continue;
-		}
-
-		COLFormat *pCOLFile = COLManager::get()->unserializeMemory(pIMGEntry->getEntryData());
-		if (pCOLFile->doesHaveError())
-		{
-			delete pCOLFile;
-			increaseProgress();
-			continue;
-		}
-		for (auto pCOLEntry : pCOLFile->getEntries())
-		{
-			if (pCOLEntry->getCollisionMeshVertexCount() > 1)
-			{
-				vector<Vec3f>& vecVertices = (vector<Vec3f>&) pCOLEntry->getCollisionMeshVertices(); // Vec3f is the same size and data types as TVertex so the cast should work.
-				Vec3f vecCollisionMeshCenter = Math::getPolygonCenter(vecVertices);
-				if (vecCollisionMeshCenter != 0.0f)
-				{
-					pCOLEntry->applyCollisionMeshVerticesOffset(-vecCollisionMeshCenter);
-				}
-			}
-		}
-
-		string strNewEntryData = pCOLFile->storeViaMemory();
-		pCOLFile->unload();
-		delete pCOLFile;
-
-		pIMGEntry->setEntryData(strNewEntryData);
-		
-		getIMGF()->getEntryListTab()->updateGridEntry(pIMGEntry);
-
-		increaseProgress();
-		uiEntryCount++;
-	}
-
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_124", uiEntryCount));
-
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
-
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestCenterCOLCollisionMeshes");
-	*/
-}
-
-void			Tasks::onRequestAlignCOLCollisionMeshesToDFFMesh(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestAlignCOLCollisionMeshesToDFFMesh");
-
-	// choose DFFs folder
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strDFFFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_8"), getIMGF()->getLastUsedDirectory("ALIGNCOLMESHTODFFMESH_DFF"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strDFFFolderPath == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestAlignCOLCollisionMeshesToDFFMesh", true);
-		return;
-	}
-	strDFFFolderPath = Path::addSlashToEnd(strDFFFolderPath);
-	getIMGF()->setLastUsedDirectory("ALIGNCOLMESHTODFFMESH_DFF", strDFFFolderPath);
-
-	// choose COLs folder
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strCOLFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_7"), getIMGF()->getLastUsedDirectory("ALIGNCOLMESHTODFFMESH_COL"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strCOLFolderPath == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestAlignCOLCollisionMeshesToDFFMesh", true);
-		return;
-	}
-	strCOLFolderPath = Path::addSlashToEnd(strCOLFolderPath);
-	getIMGF()->setLastUsedDirectory("ALIGNCOLMESHTODFFMESH_COL", strCOLFolderPath);
-
-	// initialize
-	unordered_map<string, Vec3f> umapGeometryPolygonCenters;
-	vector<string>
-		vecFilePaths_DFF = File::getFileNamesByExtension(strDFFFolderPath, "dff"),
-		vecFilePaths_BSP = File::getFileNamesByExtension(strDFFFolderPath, "bsp"),
-		vecFilePaths_COL = File::getFileNamesByExtension(strCOLFolderPath, "col");
-
-	setMaxProgress(vecFilePaths_DFF.size() + vecFilePaths_COL.size());
-
-	vecFilePaths_DFF = StdVector::combineVectors(vecFilePaths_DFF, vecFilePaths_BSP);
-	
-	// fetch DFF texture names and mesh centers
-	for (string strFilePath : vecFilePaths_DFF)
-	{
-		DFFFormat *pDFFFile = DFFManager::get()->unserializeFile(strFilePath);
-		if(pDFFFile->doesHaveError())
-		{
-			pDFFFile->unload();
-			delete pDFFFile;
-			increaseProgress();
-			continue;
-		}
-		
-		vector<RWSection*> vecDFFGeometrySections = pDFFFile->getSectionsByType(RW_SECTION_GEOMETRY);
-		for (RWSection *pRWSection : vecDFFGeometrySections)
-		{
-			RWSection_Geometry *pGeometry = (RWSection_Geometry*) pRWSection;
-
-			string strTextureDiffuseName = pGeometry->getTextureDiffuseName();
-			vector<Vec3f> vecVertices = pGeometry->getVertexPositions();
-			Vec3f vecPolygonCenter = Math::getPolygonCenter(vecVertices);
-			umapGeometryPolygonCenters[String::toUpperCase(strTextureDiffuseName)] = vecPolygonCenter;
-		}
-
-		pDFFFile->unload();
-		delete pDFFFile;
-
-		increaseProgress();
-	}
-
-	// check if COL mesh centers are the same as DFF mesh centers, if not then align the COLs to match DFFs
-	for (string strFilePath : vecFilePaths_COL)
-	{
-		COLFormat *pCOLFile = COLManager::get()->unserializeFile(strFilePath);
-		if(pCOLFile->doesHaveError())
-		{
-			pCOLFile->unload();
-			delete pCOLFile;
-			increaseProgress();
-			continue;
-		}
-		pCOLFile->setFilePath(strFilePath);
-
-		for (auto pCOLEntry : pCOLFile->getEntries())
-		{
-			if (umapGeometryPolygonCenters.find(String::toUpperCase(pCOLEntry->getModelName())) == umapGeometryPolygonCenters.end())
-			{
-				continue;
-			}
-			Vec3f vecDFFPolygonCenter = umapGeometryPolygonCenters[String::toUpperCase(pCOLEntry->getModelName())];
-
-			if (pCOLEntry->getCollisionMeshVertexCount() > 1)
-			{
-				vector<Vec3f>& vecVertices = (vector<Vec3f>&) pCOLEntry->getCollisionMeshVertices(); // Vec3f is the same size and data types as TVertex so the cast should work.
-				Vec3f vecCollisionMeshCenter = Math::getPolygonCenter(vecVertices);
-				if (vecCollisionMeshCenter != vecDFFPolygonCenter)
-				{
-					pCOLEntry->applyCollisionMeshVerticesOffset(-(vecCollisionMeshCenter - vecDFFPolygonCenter));
-				}
-			}
-		}
-
-		pCOLFile->serialize();
-
-		pCOLFile->unload();
-		delete pCOLFile;
-
-		increaseProgress();
-	}
-	
-	string strLogText = LocalizationManager::get()->getTranslatedFormattedText("Log_AlignMeshes_COL_DFF", vecFilePaths_COL.size());
-	if (getIMGF()->getIMGEditor()->getTabs().getEntryCount() > 0)
-	{
-		// todo - getIMGF()->getEntryListTab()->log(strLogText);
-	}
-	else
-	{
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(strLogText);
-	}
-
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestAlignCOLCollisionMeshesToDFFMesh");
 }
 
 void				Tasks::onRequestTXDOrganizer(void)
@@ -7531,348 +7732,4 @@ void						Tasks::onRequestMapMoverAndIDShifter(void)
 	delete pMapMoverAndIDShifterDialogData;
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestMapMoverAndIDShifter");
 	*/
-}
-
-void						Tasks::onRequestDATModelList(void)
-{
-	/*
-	getIMGF()->getTaskManager()->onStartTask("onRequestModelListFromDAT");
-
-	DATModelListDialogData *pDATModelListDialogData = getIMGF()->getPopupGUIManager()->showDATModelListDialog();
-	if (!pDATModelListDialogData->m_bFetch)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestModelListFromDAT", true);
-		return;
-	}
-
-	DATLoaderFormat *pDATFile = DATLoaderManager::get()->unserializeFile(pDATModelListDialogData->m_strDATFilePath);
-	if(pDATFile->doesHaveError())
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestModelListFromDAT", true);
-		return;
-	}
-	
-	vector<string>
-		vecRelativeIDEPaths = pDATFile->getRelativeIDEPaths(),
-		vecRelativeIPLPaths = pDATFile->getRelativeIPLPaths();
-	pDATFile->unload();
-	delete pDATFile;
-
-	setMaxProgress(vecRelativeIDEPaths.size() + vecRelativeIPLPaths.size() + 1);
-
-	vector<string> vecModelNames;
-	for (string& strRelativeIDEPath : vecRelativeIDEPaths)
-	{
-		string strIDEPath = pDATModelListDialogData->m_strGameFolderPath + strRelativeIDEPath;
-
-		IDEFormat *pIDEFile = IDEManager::get()->unserializeFile(strIDEPath);
-		if(!pIDEFile->doesHaveError())
-		{
-			vecModelNames = StdVector::combineVectors(vecModelNames, pIDEFile->getModelNames());
-		}
-		pIDEFile->unload();
-		delete pIDEFile;
-
-		increaseProgress();
-	}
-
-	for (string& strRelativeIPLPath : vecRelativeIPLPaths)
-	{
-		string strIPLPath = pDATModelListDialogData->m_strGameFolderPath + strRelativeIPLPath;
-
-		IPLFormat *pIPLFile = IPLManager::get()->unserializeFile(strIPLPath);
-		if(!pIPLFile->doesHaveError())
-		{
-			vecModelNames = StdVector::combineVectors(vecModelNames, pIPLFile->getModelNames());
-		}
-		pIPLFile->unload();
-		delete pIPLFile;
-
-		increaseProgress();
-	}
-
-	vecModelNames = StdVector::removeDuplicates(vecModelNames);
-	increaseProgress();
-
-	if (getIMGF()->getEntryListTab() == nullptr)
-	{
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen("Found " + String::toString(vecModelNames.size()) + " unique model names in IDE/IPL files in " + Path::getFileName(pDATModelListDialogData->m_strDATFilePath));
-	}
-	else
-	{
-		// todo - getIMGF()->getEntryListTab()->log("Found " + String::toString(vecModelNames.size()) + " unique model names in IDE/IPL files in " + Path::getFileName(pDATModelListDialogData->m_strDATFilePath));
-	}
-
-	////////////////////////////////////////////////
-	string strFilePath = Input::saveFileDialog(getIMGF()->getLastUsedDirectory("DATMODELLIST"), "TXT", "Model Names for " + Path::removeFileExtension(Path::getFileName(strDATFilePath)) + ".txt");
-	if (strFilePath == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestModelListFromDAT", true);
-		return;
-	}
-	getIMGF()->setLastUsedDirectory("DATMODELLIST", Path::getDirectory(strFilePath));
-	//////////////////////////////////////////////
-
-	File::storeFile(pDATModelListDialogData->m_strOutputFilePath, String::join(vecModelNames, "\n"), false, false);
-
-	delete pDATModelListDialogData;
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestModelListFromDAT");
-	*/
-}
-
-void				Tasks::onRequestExtractDVCAndNVColoursIntoDFFs(void)
-{
-	// begin
-	getIMGF()->getTaskManager()->onStartTask("onRequestExtractDVCAndNVColoursIntoDFFs");
-
-	// choose DVC, NVC, or both
-	uint32 uiUpdateType = 0; // todo - getIMGF()->getPopupGUIManager()->show3ButtonDialog("DVC / NVC Action", "Extract DVC, NVC, or both?", "DVC", "NVC", "Both");
-	if (uiUpdateType == 0)
-	{
-		// user pressed cancel
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExtractDVCAndNVColoursIntoDFFs", true);
-		return;
-	}
-
-	// choose DFF input folder for colours
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strDFFInputFolderForColours = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_24"), getIMGF()->getLastUsedDirectory("EXTRACTNVCDVC_DFFCOLOURINPUT"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strDFFInputFolderForColours == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExtractDVCAndNVColoursIntoDFFs", true);
-		return;
-	}
-	strDFFInputFolderForColours = Path::addSlashToEnd(strDFFInputFolderForColours);
-	getIMGF()->setLastUsedDirectory("EXTRACTNVCDVC_DFFCOLOURINPUT", strDFFInputFolderForColours);
-
-	// choose DFF input folder for models
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strDFFInputFolderForModels = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_25"), getIMGF()->getLastUsedDirectory("EXTRACTNVCDVC_DFFMODELINPUT"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strDFFInputFolderForModels == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExtractDVCAndNVColoursIntoDFFs", true);
-		return;
-	}
-	strDFFInputFolderForModels = Path::addSlashToEnd(strDFFInputFolderForModels);
-	getIMGF()->setLastUsedDirectory("EXTRACTNVCDVC_DFFMODELINPUT", strDFFInputFolderForModels);
-
-	// choose output folder
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strOutputFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_23"), getIMGF()->getLastUsedDirectory("EXTRACTNVCDVC_OUTPUT"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strOutputFolderPath == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExtractDVCAndNVColoursIntoDFFs", true);
-		return;
-	}
-	strOutputFolderPath = Path::addSlashToEnd(strOutputFolderPath);
-	getIMGF()->setLastUsedDirectory("EXTRACTNVCDVC_OUTPUT", strOutputFolderPath);
-
-	// fetch DFF file paths
-	vector<string> vecDFFInputFilenamesForColours = File::getFileNamesByExtension(strDFFInputFolderForColours, "DFF");
-	vector<string> vecDFFInputFilenamesForModels = File::getFileNamesByExtension(strDFFInputFolderForModels, "DFF");
-	
-	//vecDFFInputFilenamesForColours = StdVector::sortAZCaseInsensitive(vecDFFInputFilenamesForColours);
-	//vecDFFInputFilenamesForModels = StdVector::sortAZCaseInsensitive(vecDFFInputFilenamesForModels);
-
-	unordered_map<string, bool> umapDFFInputFilenamesUpperForModels = StdVector::convertVectorToUnorderedMap(StdVector::toUpperCase(vecDFFInputFilenamesForModels));
-
-	setMaxProgress(vecDFFInputFilenamesForColours.size());
-
-	// iterate around input DFFs
-	uint32 uiDFFUpdatedFileCount = 0;
-	for (string& strDFFFilename_Colours : vecDFFInputFilenamesForColours)
-	{
-		if (umapDFFInputFilenamesUpperForModels.count(String::toUpperCase(strDFFFilename_Colours)) == 0)
-		{
-			increaseProgress();
-			continue;
-		}
-		string& strDFFFilename_Model = strDFFFilename_Colours;
-
-		DFFFormat *pDFFFile_Colours = DFFManager::get()->unserializeFile(strDFFInputFolderForColours + strDFFFilename_Colours);
-		if (pDFFFile_Colours->doesHaveError())
-		{
-			pDFFFile_Colours->unload();
-			delete pDFFFile_Colours;
-			increaseProgress();
-			continue;
-		}
-
-		vector<Vec4u8> vecDFFColours_DVC;
-		vector<Vec4u8> vecDFFColours_NVC;
-		if (uiUpdateType == 1 || uiUpdateType == 3) // DVC or both
-		{
-			vecDFFColours_DVC = pDFFFile_Colours->getDVColours();
-		}
-		if (uiUpdateType == 2 || uiUpdateType == 3) // NVC or both
-		{
-			vecDFFColours_NVC = pDFFFile_Colours->getNVColours();
-			if (vecDFFColours_NVC.size() == 0)
-			{
-				vecDFFColours_NVC = vecDFFColours_DVC;
-			}
-		}
-
-		pDFFFile_Colours->unload();
-		delete pDFFFile_Colours;
-
-		//DFFFormat *pDFFFile_Model = DFFManager::get()->unserializeFile(strDFFInputFolderForModels + strDFFFilename_Model);
-		DFFFormat *pDFFFile_Model = DFFManager::get()->unserializeMemory(File::getFileContent(strDFFInputFolderForModels + strDFFFilename_Model, true));
-		if (pDFFFile_Model->doesHaveError())
-		{
-			pDFFFile_Model->unload();
-			delete pDFFFile_Model;
-			increaseProgress();
-			continue;
-		}
-
-		if (uiUpdateType == 1 || uiUpdateType == 3) // DVC or both
-		{
-			if (vecDFFColours_DVC.size() > 0)
-			{
-				pDFFFile_Model->setDVColours(vecDFFColours_DVC);
-			}
-		}
-		if (uiUpdateType == 2 || uiUpdateType == 3) // NVC or both
-		{
-			if (vecDFFColours_NVC.size() > 0)
-			{
-				pDFFFile_Model->setNVColours(vecDFFColours_NVC);
-			}
-		}
-
-		pDFFFile_Model->serialize(strOutputFolderPath + strDFFFilename_Colours);
-
-		pDFFFile_Model->unload();
-		delete pDFFFile_Model;
-		increaseProgress();
-		uiDFFUpdatedFileCount++;
-	}
-
-	// log
-	if (getIMGF()->getEntryListTab())
-	{
-		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_138", uiDFFUpdatedFileCount));
-	}
-	else
-	{
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedFormattedText("Log_138", uiDFFUpdatedFileCount));
-	}
-
-	// end
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestExtractDVCAndNVColoursIntoDFFs");
-}
-
-void				Tasks::onRequestExtract2DFXIntoDFFs(void)
-{
-	// begin
-	getIMGF()->getTaskManager()->onStartTask("onRequestExtract2DFXIntoDFFs");
-
-	// choose DFF input folder for colours
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strDFFInputFolderFor2DFX = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_26"), getIMGF()->getLastUsedDirectory("EXTRACTDFF2DFX_INPUT2DFX"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strDFFInputFolderFor2DFX == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExtract2DFXIntoDFFs", true);
-		return;
-	}
-	strDFFInputFolderFor2DFX = Path::addSlashToEnd(strDFFInputFolderFor2DFX);
-	getIMGF()->setLastUsedDirectory("EXTRACTDFF2DFX_INPUT2DFX", strDFFInputFolderFor2DFX);
-
-	// choose DFF input folder for models
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strDFFInputFolderForModels = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_25"), getIMGF()->getLastUsedDirectory("EXTRACTDFF2DFX_INPUTMODEL"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strDFFInputFolderForModels == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExtract2DFXIntoDFFs", true);
-		return;
-	}
-	strDFFInputFolderForModels = Path::addSlashToEnd(strDFFInputFolderForModels);
-	getIMGF()->setLastUsedDirectory("EXTRACTDFF2DFX_INPUTMODEL", strDFFInputFolderForModels);
-
-	// choose output folder
-	getIMGF()->getTaskManager()->onPauseTask();
-	string strOutputFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_23"), getIMGF()->getLastUsedDirectory("EXTRACTDFF2DFX_OUTPUT"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (strOutputFolderPath == "")
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestExtract2DFXIntoDFFs", true);
-		return;
-	}
-	strOutputFolderPath = Path::addSlashToEnd(strOutputFolderPath);
-	getIMGF()->setLastUsedDirectory("EXTRACTDFF2DFX_OUTPUT", strOutputFolderPath);
-
-	// fetch DFF file paths
-	vector<string> vecDFFInputFilenamesFor2DFX = File::getFileNamesByExtension(strDFFInputFolderFor2DFX, "DFF");
-	vector<string> vecDFFInputFilenamesForModels = File::getFileNamesByExtension(strDFFInputFolderForModels, "DFF");
-
-	//vecDFFInputFilenamesForColours = StdVector::sortAZCaseInsensitive(vecDFFInputFilenamesForColours);
-	//vecDFFInputFilenamesForModels = StdVector::sortAZCaseInsensitive(vecDFFInputFilenamesForModels);
-
-	unordered_map<string, bool> umapDFFInputFilenamesUpperForModels = StdVector::convertVectorToUnorderedMap(StdVector::toUpperCase(vecDFFInputFilenamesForModels));
-
-	setMaxProgress(vecDFFInputFilenamesFor2DFX.size());
-
-	// iterate around input DFFs
-	uint32 uiDFFUpdatedFileCount = 0;
-	for (string& strDFFFilename_2DFX : vecDFFInputFilenamesFor2DFX)
-	{
-		if (umapDFFInputFilenamesUpperForModels.count(String::toUpperCase(strDFFFilename_2DFX)) == 0)
-		{
-			increaseProgress();
-			continue;
-		}
-		string& strDFFFilename_Model = strDFFFilename_2DFX;
-
-		DFFFormat *pDFFFile_2DFX = DFFManager::get()->unserializeFile(strDFFInputFolderFor2DFX + strDFFFilename_2DFX);
-		if (pDFFFile_2DFX->doesHaveError())
-		{
-			pDFFFile_2DFX->unload();
-			delete pDFFFile_2DFX;
-			increaseProgress();
-			continue;
-		}
-
-		vector<vector<_2dEffect*>> vec2dEffects = pDFFFile_2DFX->get2dEffects();
-
-		DFFFormat *pDFFFile_Model = DFFManager::get()->unserializeFile(strDFFInputFolderForModels + strDFFFilename_Model);
-		if (pDFFFile_Model->doesHaveError())
-		{
-			pDFFFile_2DFX->unload();
-			delete pDFFFile_2DFX;
-			pDFFFile_Model->unload();
-			delete pDFFFile_Model;
-			increaseProgress();
-			continue;
-		}
-
-		pDFFFile_Model->set2dEffects(vec2dEffects);
-
-		pDFFFile_Model->serialize(strOutputFolderPath + strDFFFilename_2DFX);
-
-		pDFFFile_2DFX->unload();
-		delete pDFFFile_2DFX;
-		pDFFFile_Model->unload();
-		delete pDFFFile_Model;
-		increaseProgress();
-		uiDFFUpdatedFileCount++;
-	}
-
-	// log
-	if (getIMGF()->getEntryListTab())
-	{
-		// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_139", uiDFFUpdatedFileCount));
-	}
-	else
-	{
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedFormattedText("Log_139", uiDFFUpdatedFileCount));
-	}
-
-	// end
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestExtract2DFXIntoDFFs");
 }

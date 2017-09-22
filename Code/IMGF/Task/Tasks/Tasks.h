@@ -198,9 +198,21 @@ public:
 
 	void						textureList(void);
 	void						stats(void);
-
-
-
+	void						findDuplicateEntriesInSelection(void);
+	void						findDuplicateEntriesInTab(void);
+	void						findDuplicateEntriesInAllTabs(void);
+	void						findDuplicateEntriesByDAT(void);
+	void						compareIMGs(void);
+	void						modelListForIDEAndIPLByDAT(void);
+	void						saveIMGSignature(void);
+	void						verifyIMGSignature(void);
+	void						validateDFFInTab(void);
+	void						validateTXDInTab(void);
+	void						centerCOLMeshesInSelection(void);
+	void						alignCOLMeshesToDFFMeshes(void);
+	void						extractDVCAndNVCIntoDFFs(void);
+	void						extract2DFXIntoDFFs(void);
+	void						imgCompression(void);
 
 
 
@@ -208,12 +220,11 @@ public:
 
 
 	void						onRequestUpdate(void);
+	void						onRequestAutoUpdate(void);
 	void						onRequestAssociateIMGExtension(void);
 	static int CALLBACK			sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 	void						onRequestFeatureByName(std::string strFeatureName);
 	void						onRequestLastFeatureUsed(void);
-
-
 
 
 
@@ -226,24 +237,6 @@ public:
 	void						onRequestTXDOrganizer(void);
 	void						onRequestDATPathsMover(void);
 	void						onRequestMapMoverAndIDShifter(void);
-
-
-
-
-	
-	void						onRequestDuplicateEntries(void);
-	void						onRequestCompareIMG(void);
-	void						onRequestAutoUpdate(void);
-	void						onRequestSaveIMGSignature(void);
-	void						onRequestVerifyIMGSignature(void);
-	void						onRequestValidateAllDFFInActiveTab(void);
-	void						onRequestValidateAllTXDInActiveTab(void);
-	void						onRequestIMGVersionSettings(void);
-	void						onRequestCenterCOLCollisionMeshes(void);
-	void						onRequestAlignCOLCollisionMeshesToDFFMesh(void);
-	void						onRequestDATModelList(void);
-	void						onRequestExtractDVCAndNVColoursIntoDFFs(void);
-	void						onRequestExtract2DFXIntoDFFs(void);
 
 private:
 	MainWindow*					m_pMainWindow;

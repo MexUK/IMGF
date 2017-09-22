@@ -19,11 +19,10 @@ void								DBFormat::unload(void)
 void								DBFormat::_unserialize(void)
 {
 	unload();
-	DataReader *pDataReader = DataReader::get();
 
 	// DB file header
-	m_uiDBVersion = pDataReader->readUint32();
-	uint32 uiEntryCount = pDataReader->readUint32();
+	m_uiDBVersion = m_reader.readUint32();
+	uint32 uiEntryCount = m_reader.readUint32();
 
 	// copy RG structs into wrapper structs - so that we can use std::string for strings in our structs rather than char arrays
 	vector<DBEntry*>& rvecDBEntries = getEntries();
@@ -35,20 +34,19 @@ void								DBFormat::_unserialize(void)
 	{
 		DBEntry *pDBEntry = pDBEntries++;
 		rvecDBEntries[i] = pDBEntry;
+		pDBEntry->m_pFormat = this;
 		pDBEntry->unserialize();
 	}
 }
 
 void								DBFormat::_serialize(void)
 {
-	DataWriter *pDataWriter = DataWriter::get();
-
 	// DB file header
-	pDataWriter->writeUint32(getDBVersion());
-	pDataWriter->writeUint32(getEntryCount());
+	m_writer.writeUint32(getDBVersion());
+	m_writer.writeUint32(getEntryCount());
 
 	// DB file entries
-	for (auto pDBEntry : getEntries())
+	for (DBEntry *pDBEntry : getEntries())
 	{
 		pDBEntry->serialize();
 	}
