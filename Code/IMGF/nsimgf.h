@@ -81,6 +81,13 @@ namespace imgf
 	class FormatsWindowLayer;
 	class WebsitesWindowLayer;
 	class AboutWindowLayer;
+	class DumpWindowLayer;
+	class SessionManagerWindowLayer;
+	class RenamerWindowLayer;
+	class TXDBuilderWindowLayer;
+	class TXDOrganizerWindowLayer;
+	class DATPathsMoverWindowLayer;
+	class MapMoverAndIDShifterWindowLayer;
 
 	class WindowManager;
 

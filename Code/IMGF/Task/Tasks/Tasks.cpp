@@ -4280,6 +4280,70 @@ void		Tasks::findOrphanTXDTexturesForDFFsInIMGByIDE(void)
 	onCompleteTask();
 }
 
+// tools
+void		Tasks::dump(void)
+{
+	onStartTask("dump");
+
+	getIMGF()->getDumpManager()->process();
+
+	onCompleteTask();
+}
+
+void		Tasks::sessionManager(void)
+{
+	onStartTask("sessionManager");
+
+	getIMGF()->getWindowManager()->showSessionManagerWindow();
+
+	onCompleteTask();
+}
+
+void		Tasks::renamer(void)
+{
+	onStartTask("renamer");
+
+	getIMGF()->getWindowManager()->showRenamerWindow();
+
+	onCompleteTask();
+}
+
+void		Tasks::txdBuilder(void)
+{
+	onStartTask("txdBuilder");
+
+	getIMGF()->getWindowManager()->showTXDBuilderWindow();
+
+	onCompleteTask();
+}
+
+void		Tasks::txdOrganizer(void)
+{
+	onStartTask("txdOrganizer");
+
+	getIMGF()->getWindowManager()->showTXDOrganizerWindow();
+
+	onCompleteTask();
+}
+
+void		Tasks::datPathsMover(void)
+{
+	onStartTask("datPathsMover");
+
+	getIMGF()->getWindowManager()->showDATPathsMoverWindow();
+
+	onCompleteTask();
+}
+
+void		Tasks::mapMoverAndIdShifter(void)
+{
+	onStartTask("mapMoverAndIdShifter");
+
+	getIMGF()->getWindowManager()->showMapMoverAndIdShifterWindow();
+
+	onCompleteTask();
+}
+
 // other
 void		Tasks::textureList(void)
 {
@@ -5375,6 +5439,13 @@ void		Tasks::imgCompression(void)
 	onCompleteTask();
 }
 
+void		Tasks::associateIMGExtension(void)
+{
+	// todo
+	Registry::assoicateFileExtension("img", Process::getEXEFilePath());
+}
+
+
 
 
 
@@ -5468,22 +5539,6 @@ bool		Tasks::saveAllOpenFiles(bool bCloseAll)
 	return true;
 }
 
-void		Tasks::onRequestAssociateIMGExtension(void)
-{
-	//TCHAR szExePath[MAX_PATH];
-	//GetModuleFileName(NULL, szExePath, MAX_PATH);
-
-	//Input::showMessage(NULL, szExePath, "A", MB_OK);
-
-	//Registry::assoicateFileExtension("img", String::convertStdWStringToStdString(szExePath));
-}
-
-void		Tasks::onRequestDump(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestDump");
-	getIMGF()->getDumpManager()->process();
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestDump");
-}
 void		Tasks::onRequestSessionManager(void)
 {
 	/*

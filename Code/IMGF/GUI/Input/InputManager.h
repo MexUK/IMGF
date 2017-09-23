@@ -183,6 +183,14 @@ private:
 	void					findOrphanIDEEntriesNotInIMG(void);
 	void					findOrphanTXDTexturesForDFFsInIMGByIDE(void);
 
+	void					dump(void);
+	void					sessionManager(void);
+	void					renamer(void);
+	void					txdBuilder(void);
+	void					txdOrganizer(void);
+	void					datPathsMover(void);
+	void					mapMoverAndIdShifter(void);
+
 	void					textureList(void);
 	void					stats(void);
 	void					findDuplicateEntriesInSelection(void);

@@ -10,6 +10,13 @@
 #include "GUI/Layer/Layers/AboutWindow/AboutWindowLayer.h"
 #include "GUI/Layer/Layers/WebsitesWindow/WebsitesWindowLayer.h"
 #include "GUI/Layer/Layers/SettingsWindow/SettingsWindowLayer.h"
+#include "GUI/Layer/Layers/DumpWindow/DumpWindowLayer.h"
+#include "GUI/Layer/Layers/SessionManagerWindow/SessionManagerWindowLayer.h"
+#include "GUI/Layer/Layers/RenamerWindow/RenamerWindowLayer.h"
+#include "GUI/Layer/Layers/TXDBuilderWindow/TXDBuilderWindowLayer.h"
+#include "GUI/Layer/Layers/TXDOrganizerWindow/TXDOrganizerWindowLayer.h"
+#include "GUI/Layer/Layers/DATPathsMoverWindow/DATPathsMoverWindowLayer.h"
+#include "GUI/Layer/Layers/MapMoverAndIDShifterWindow/MapMoverAndIDShifterWindowLayer.h"
 #include "Control/Controls/Button.h"
 #include "Control/Controls/CheckBox.h"
 #include "Control/Controls/Text.h"
@@ -275,4 +282,145 @@ void					WindowManager::onPressButton_TopRightMenuWindow(Button *pButton)
 	{
 		BXGX::get()->m_vecWindowsToDestroy.push_back(pWindow2);
 	}
+}
+
+// other task windows
+void					WindowManager::showDumpWindow(void)
+{
+	m_bWindow2Cancelled = true;
+
+	Window *pWindow = BXGX::get()->addWindow(750, 600);
+	DumpWindowLayer *pLayer = pWindow->addLayer<DumpWindowLayer>();
+
+	pWindow->addTitleBar("Dump");
+	pLayer->init();
+
+	pWindow->render();
+
+	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
+	{
+		BXGX::get()->process2ndThreadOnce();
+	}
+	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+}
+
+void					WindowManager::showSessionManagerWindow(void)
+{
+	m_bWindow2Cancelled = true;
+
+	Window *pWindow = BXGX::get()->addWindow(750, 650);
+	SessionManagerWindowLayer *pLayer = pWindow->addLayer<SessionManagerWindowLayer>();
+
+	pWindow->addTitleBar("Session Manager");
+	pLayer->init();
+
+	pWindow->render();
+
+	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
+	{
+		BXGX::get()->process2ndThreadOnce();
+	}
+	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+}
+
+void					WindowManager::showRenamerWindow(void)
+{
+	m_bWindow2Cancelled = true;
+
+	Window *pWindow = BXGX::get()->addWindow(750, 600);
+	RenamerWindowLayer *pLayer = pWindow->addLayer<RenamerWindowLayer>();
+
+	pWindow->addTitleBar("Renamer");
+	pLayer->init();
+
+	pWindow->render();
+
+	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
+	{
+		BXGX::get()->process2ndThreadOnce();
+	}
+	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+}
+
+void					WindowManager::showTXDBuilderWindow(void)
+{
+	m_bWindow2Cancelled = true;
+
+	Window *pWindow = BXGX::get()->addWindow(750, 600);
+	TXDBuilderWindowLayer *pLayer = pWindow->addLayer<TXDBuilderWindowLayer>();
+
+	pWindow->addTitleBar("TXD Builder");
+	pLayer->init();
+
+	pWindow->render();
+
+	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
+	{
+		BXGX::get()->process2ndThreadOnce();
+	}
+	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+}
+
+void					WindowManager::showTXDOrganizerWindow(void)
+{
+	m_bWindow2Cancelled = true;
+
+	Window *pWindow = BXGX::get()->addWindow(750, 600);
+	TXDOrganizerWindowLayer *pLayer = pWindow->addLayer<TXDOrganizerWindowLayer>();
+
+	pWindow->addTitleBar("TXD Organizer");
+	pLayer->init();
+
+	pWindow->render();
+
+	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
+	{
+		BXGX::get()->process2ndThreadOnce();
+	}
+	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+}
+
+void					WindowManager::showDATPathsMoverWindow(void)
+{
+	m_bWindow2Cancelled = true;
+
+	Window *pWindow = BXGX::get()->addWindow(750, 600);
+	DATPathsMoverWindowLayer *pLayer = pWindow->addLayer<DATPathsMoverWindowLayer>();
+
+	pWindow->addTitleBar("DAT Paths Mover");
+	pLayer->init();
+
+	pWindow->render();
+
+	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
+	{
+		BXGX::get()->process2ndThreadOnce();
+	}
+	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+}
+
+void					WindowManager::showMapMoverAndIdShifterWindow(void)
+{
+	m_bWindow2Cancelled = true;
+
+	Window *pWindow = BXGX::get()->addWindow(750, 600);
+	MapMoverAndIDShifterWindowLayer *pLayer = pWindow->addLayer<MapMoverAndIDShifterWindowLayer>();
+
+	pWindow->addTitleBar("Map Mover and ID Shifter");
+	pLayer->init();
+
+	pWindow->render();
+
+	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
+	{
+		BXGX::get()->process2ndThreadOnce();
+	}
+	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 }

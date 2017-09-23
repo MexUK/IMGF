@@ -238,6 +238,14 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	case FIND_ORPHAN_IDE_ENTRIES_NOT_IN_IMG:		return findOrphanIDEEntriesNotInIMG();
 	case FIND_ORPHAN_TXD_TEXTURES_FOR_DFFS_IN_IMG_BY_IDE:	return findOrphanTXDTexturesForDFFsInIMGByIDE();
 
+	case DUMP:										return dump();
+	case SESSION_MANAGER:							return sessionManager();
+	case RENAMER:									return renamer();
+	case TXD_BUILDER:								return txdBuilder();
+	case TXD_ORGANIZER:								return txdOrganizer();
+	case DAT_PATHS_MOVER:							return datPathsMover();
+	case MAP_MOVER_AND_ID_SHIFTER:					return mapMoverAndIdShifter();
+
 	case TEXTURE_LIST:								return textureList();
 	case STATS:										return stats();
 	case FIND_DUPLICATE_ENTRIES_IN_SELECTION:		return findDuplicateEntriesInSelection();
@@ -971,6 +979,42 @@ void					InputManager::findOrphanIDEEntriesNotInIMG(void)
 void					InputManager::findOrphanTXDTexturesForDFFsInIMGByIDE(void)
 {
 	m_pTasks->findOrphanTXDTexturesForDFFsInIMGByIDE();
+}
+
+// tools
+void					InputManager::dump(void)
+{
+	m_pTasks->dump();
+}
+
+void					InputManager::sessionManager(void)
+{
+	m_pTasks->sessionManager();
+}
+
+void					InputManager::renamer(void)
+{
+	m_pTasks->renamer();
+}
+
+void					InputManager::txdBuilder(void)
+{
+	m_pTasks->txdBuilder();
+}
+
+void					InputManager::txdOrganizer(void)
+{
+	m_pTasks->txdOrganizer();
+}
+
+void					InputManager::datPathsMover(void)
+{
+	m_pTasks->datPathsMover();
+}
+
+void					InputManager::mapMoverAndIdShifter(void)
+{
+	m_pTasks->mapMoverAndIdShifter();
 }
 
 // other

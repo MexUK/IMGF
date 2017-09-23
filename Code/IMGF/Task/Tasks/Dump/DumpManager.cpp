@@ -36,6 +36,7 @@
 #include "Format/Image/DDS/DDSFormat.h"
 #include "Localization/LocalizationManager.h"
 #include "Settings/SettingsManager.h"
+#include "GUI/Window/WindowManager.h"
 #include <gdiplus.h>
 
 using namespace std;
@@ -79,6 +80,8 @@ int GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
 
 void		DumpManager::process(void)
 {
+	getIMGF()->getWindowManager()->showDumpWindow();
+
 	/*
 	getIMGF()->getTaskManager()->onPauseTask();
 	CDumpDialogData *pDumpDialogData = nullptr; // todo - getIMGF()->getPopupGUIManager()->showDumpDialog(getIMGF()->getLastUsedDirectory("DUMP__DAT"), getIMGF()->getLastUsedDirectory("DUMP__Destination"));

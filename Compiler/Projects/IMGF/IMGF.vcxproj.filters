@@ -271,6 +271,48 @@
     <Filter Include="Header Files\GUI\Layer\Layers\WebsitesWindow">
       <UniqueIdentifier>{8f94d08f-89bc-409d-8562-bbf84477813c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GUI\Layer\Layers\DumpWindow">
+      <UniqueIdentifier>{ec9d3c71-38ad-4b78-a990-c0652a201be3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layer\Layers\DumpWindow">
+      <UniqueIdentifier>{a5c0176f-a912-4760-9f92-405a9cd12486}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layer\Layers\DATPathsMoverWindow">
+      <UniqueIdentifier>{45c16704-0bd7-4917-b14b-84c9d0ad69bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layer\Layers\MapMoverAndIDShifterWindow">
+      <UniqueIdentifier>{d611cb0b-0fba-47b3-a072-5098e48a1f1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layer\Layers\RenamerWindow">
+      <UniqueIdentifier>{b37a6cad-5b1a-4594-9fcd-e96a7f2ec50e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layer\Layers\SessionManagerWindow">
+      <UniqueIdentifier>{4ff6d026-6727-4425-b386-d569511725a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layer\Layers\TXDBuilderWindow">
+      <UniqueIdentifier>{fa0972a8-55c6-4734-ae2a-d70cc0b29a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Layer\Layers\TXDOrganizerWindow">
+      <UniqueIdentifier>{3f76b1a8-2199-420b-8f0c-fc16b5d93ad9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layer\Layers\DATPathsMoverWindow">
+      <UniqueIdentifier>{143401f0-360e-4d51-9808-12c720aad2d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layer\Layers\MapMoverAndIDShifterWindow">
+      <UniqueIdentifier>{abf32f08-5130-40c1-b596-1b1a0148e61f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layer\Layers\RenamerWindow">
+      <UniqueIdentifier>{ffc39696-2ad0-4c75-9efb-b7016c8584e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layer\Layers\SessionManagerWindow">
+      <UniqueIdentifier>{487c61bb-c73f-4f59-88a6-fc93ffac7b23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layer\Layers\TXDBuilderWindow">
+      <UniqueIdentifier>{326915d0-c05f-42bf-8ef2-51a5bb2df4e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Layer\Layers\TXDOrganizerWindow">
+      <UniqueIdentifier>{4890f297-2157-4283-96e9-bead25d08855}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\IMGF\Globals.cpp">
@@ -434,6 +476,27 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\FormatsWindow\FormatsWindowLayer.cpp">
       <Filter>Source Files\GUI\Layer\Layers\FormatsWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\DumpWindow\DumpWindowLayer.cpp">
+      <Filter>Source Files\GUI\Layer\Layers\DumpWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\DATPathsMoverWindow\DATPathsMoverWindowLayer.cpp">
+      <Filter>Source Files\GUI\Layer\Layers\DATPathsMoverWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MapMoverAndIDShifterWindow\MapMoverAndIDShifterWindowLayer.cpp">
+      <Filter>Source Files\GUI\Layer\Layers\MapMoverAndIDShifterWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\RenamerWindow\RenamerWindowLayer.cpp">
+      <Filter>Source Files\GUI\Layer\Layers\RenamerWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\SessionManagerWindow\SessionManagerWindowLayer.cpp">
+      <Filter>Source Files\GUI\Layer\Layers\SessionManagerWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\TXDBuilderWindow\TXDBuilderWindowLayer.cpp">
+      <Filter>Source Files\GUI\Layer\Layers\TXDBuilderWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\TXDOrganizerWindow\TXDOrganizerWindowLayer.cpp">
+      <Filter>Source Files\GUI\Layer\Layers\TXDOrganizerWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -661,6 +724,27 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\WebsitesWindow\WebsitesWindowLayer.h">
       <Filter>Header Files\GUI\Layer\Layers\WebsitesWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\DumpWindow\DumpWindowLayer.h">
+      <Filter>Header Files\GUI\Layer\Layers\DumpWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\DATPathsMoverWindow\DATPathsMoverWindowLayer.h">
+      <Filter>Header Files\GUI\Layer\Layers\DATPathsMoverWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MapMoverAndIDShifterWindow\MapMoverAndIDShifterWindowLayer.h">
+      <Filter>Header Files\GUI\Layer\Layers\MapMoverAndIDShifterWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\RenamerWindow\RenamerWindowLayer.h">
+      <Filter>Header Files\GUI\Layer\Layers\RenamerWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\SessionManagerWindow\SessionManagerWindowLayer.h">
+      <Filter>Header Files\GUI\Layer\Layers\SessionManagerWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\TXDBuilderWindow\TXDBuilderWindowLayer.h">
+      <Filter>Header Files\GUI\Layer\Layers\TXDBuilderWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\TXDOrganizerWindow\TXDOrganizerWindowLayer.h">
+      <Filter>Header Files\GUI\Layer\Layers\TXDOrganizerWindow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

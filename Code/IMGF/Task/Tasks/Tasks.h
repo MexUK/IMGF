@@ -196,6 +196,14 @@ public:
 	void						findOrphanIDEEntriesNotInIMG(void);
 	void						findOrphanTXDTexturesForDFFsInIMGByIDE(void);
 
+	void						dump(void);
+	void						sessionManager(void);
+	void						renamer(void);
+	void						txdBuilder(void);
+	void						txdOrganizer(void);
+	void						datPathsMover(void);
+	void						mapMoverAndIdShifter(void);
+
 	void						textureList(void);
 	void						stats(void);
 	void						findDuplicateEntriesInSelection(void);
@@ -213,6 +221,7 @@ public:
 	void						extractDVCAndNVCIntoDFFs(void);
 	void						extract2DFXIntoDFFs(void);
 	void						imgCompression(void);
+	void						associateIMGExtension(void);
 
 
 
@@ -221,7 +230,6 @@ public:
 
 	void						onRequestUpdate(void);
 	void						onRequestAutoUpdate(void);
-	void						onRequestAssociateIMGExtension(void);
 	static int CALLBACK			sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 	void						onRequestFeatureByName(std::string strFeatureName);
 	void						onRequestLastFeatureUsed(void);
@@ -230,7 +238,6 @@ public:
 
 
 
-	void						onRequestDump(void);
 	void						onRequestSessionManager(void);
 	void						onRequestRenamer(void);
 	void						onRequestBuildTXD(void);

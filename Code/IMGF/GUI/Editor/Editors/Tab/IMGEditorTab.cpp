@@ -269,8 +269,8 @@ void					IMGEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	iNewWidth = m_pWindow->getSize().x - m_pEntryGrid->getPosition().x - uiLogWidth;
 	iNewHeight = m_pWindow->getSize().y - m_pEntryGrid->getPosition().y;
 	newSize = Vec2u(iNewWidth, iNewHeight);
-	newSize.x -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(VERTICAL)->getBackgroundBarSize().x;
-	newSize.y -= m_pEntryGrid->getScrolls()->getScrollBarByOrientation(HORIZONTAL)->getBackgroundBarSize().y;
+	newSize.x -= m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(VERTICAL)->getBackgroundBarSize().x;
+	newSize.y -= m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(HORIZONTAL)->getBackgroundBarSize().y;
 	m_pEntryGrid->setSize(newSize);
 
 	// filter - entry type

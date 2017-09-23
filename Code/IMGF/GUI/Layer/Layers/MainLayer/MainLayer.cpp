@@ -464,7 +464,16 @@ void		MainLayer::addControls(void)
 	pMenu2->addMenuItem("Find Orphan TXD Textures for DFFs in IMG by IDE", FIND_ORPHAN_TXD_TEXTURES_FOR_DFFS_IN_IMG_BY_IDE);
 
 	// tools
-	pMenu1->addMenuItem("Tools");
+	pMenuItem1 = pMenu1->addMenuItem("Tools");
+
+	pMenu2 = pMenuItem1->addMenu();
+	pMenu2->addMenuItem("Dump", DUMP);
+	pMenu2->addMenuItem("Session Manager", SESSION_MANAGER);
+	pMenu2->addMenuItem("Renamer", RENAMER);
+	pMenu2->addMenuItem("TXD Builder", TXD_BUILDER);
+	pMenu2->addMenuItem("TXD Organizer", TXD_ORGANIZER);
+	pMenu2->addMenuItem("DAT Paths Mover", DAT_PATHS_MOVER);
+	pMenu2->addMenuItem("Map Mover and ID Shifter", MAP_MOVER_AND_ID_SHIFTER);
 
 	// other
 	pMenuItem1 = pMenu1->addMenuItem("Other");

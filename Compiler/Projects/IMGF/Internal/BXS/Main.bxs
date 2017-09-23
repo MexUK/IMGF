@@ -307,6 +307,9 @@ fill 0 0 0
 .window2_checkBox
 line 0 0 0
 
+.window2_radioButton:icon
+line 0 0 0
+
 .window2_grid .background_fill_1
 
 .window2_grid:headerRow
