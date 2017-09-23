@@ -73,7 +73,7 @@ IMGEditorTab::IMGEditorTab(void) :
 IMGEditorTab::~IMGEditorTab(void)
 {
 	unbindEvent(RESIZE_WINDOW, &IMGEditorTab::repositionAndResizeControls);
-	unbindEvent(SELECT_DROP_ENTRY, &IMGEditorTab::onSelectDropEntry);
+	unbindEvent(SELECT_DROP_DOWN_ITEM, &IMGEditorTab::onSelectDropEntry);
 	unbindEvent(CHANGE_TEXT_BOX, &IMGEditorTab::onChangeTextBox);
 	unbindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
 }
@@ -233,7 +233,7 @@ void					IMGEditorTab::initControls(void)
 	bindEvent(RESIZE_WINDOW, &IMGEditorTab::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));
 
-	bindEvent(SELECT_DROP_ENTRY, &IMGEditorTab::onSelectDropEntry);
+	bindEvent(SELECT_DROP_DOWN_ITEM, &IMGEditorTab::onSelectDropEntry);
 	bindEvent(CHANGE_TEXT_BOX, &IMGEditorTab::onChangeTextBox);
 
 	bindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);

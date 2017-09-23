@@ -21,9 +21,9 @@ SettingsWindowLayer::SettingsWindowLayer(void)
 SettingsWindowLayer::~SettingsWindowLayer(void)
 {
 	unbindEvent(PRESS_BUTTON, &SettingsWindowLayer::onPressButton);
-	unbindEvent(MARK_CHECKBOX, &SettingsWindowLayer::onMarkCheckBox);
-	unbindEvent(UNMARK_CHECKBOX, &SettingsWindowLayer::onUnmarkCheckBox);
-	unbindEvent(SELECT_DROP_ENTRY, &SettingsWindowLayer::onSelectDropDownItem);
+	unbindEvent(CHECK_CHECK_BOX, &SettingsWindowLayer::onMarkCheckBox);
+	unbindEvent(UNCHECK_CHECK_BOX, &SettingsWindowLayer::onUnmarkCheckBox);
+	unbindEvent(SELECT_DROP_DOWN_ITEM, &SettingsWindowLayer::onSelectDropDownItem);
 }
 
 // initialization
@@ -65,9 +65,9 @@ void					SettingsWindowLayer::init(void)
 	y += yGap2;
 
 	bindEvent(PRESS_BUTTON, &SettingsWindowLayer::onPressButton);
-	bindEvent(MARK_CHECKBOX, &SettingsWindowLayer::onMarkCheckBox);
-	bindEvent(UNMARK_CHECKBOX, &SettingsWindowLayer::onUnmarkCheckBox);
-	bindEvent(SELECT_DROP_ENTRY, &SettingsWindowLayer::onSelectDropDownItem);
+	bindEvent(CHECK_CHECK_BOX, &SettingsWindowLayer::onMarkCheckBox);
+	bindEvent(UNCHECK_CHECK_BOX, &SettingsWindowLayer::onUnmarkCheckBox);
+	bindEvent(SELECT_DROP_DOWN_ITEM, &SettingsWindowLayer::onSelectDropDownItem);
 }
 
 // events
