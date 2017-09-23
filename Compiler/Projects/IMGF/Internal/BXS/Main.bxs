@@ -304,11 +304,17 @@ fill 0 0 0
 .window2_dropDown:arrow:hover
 fill 0 0 0
 
-.window2_checkBox
+.window2_checkBox:icon
 line 0 0 0
+
+.window2_checkBox:icon:active
+fill 67 143 235
 
 .window2_radioButton:icon
 line 0 0 0
+
+.window2_radioButton:icon:active
+fill 67 143 235
 
 .window2_grid .background_fill_1
 
