@@ -57,6 +57,8 @@ MainWindow*				WindowManager::openWindow(void)
 		return nullptr;
 	}
 
+	Input::setParentWindowHwnd(m_pMainWindow->getWindowHandle());
+
 	return m_pMainWindow;
 }
 
@@ -255,7 +257,7 @@ void					WindowManager::showAboutWindow(void)
 {
 	m_bWindow2Cancelled = true;
 
-	Window *pWindow = BXGX::get()->addWindow(650, 480);
+	Window *pWindow = BXGX::get()->addWindow(650, 510);
 	AboutWindowLayer *pLayer = pWindow->addLayer<AboutWindowLayer>();
 
 	pWindow->addTitleBar("About");

@@ -259,6 +259,24 @@ fill 118 194 255
 .window2_text
 text 0 0 0
 
+.textAlignTopLeft
+text left top
+
+.window2_textBoxMultiLine .textAlignTopLeft
+line 0 0 0
+fill 255 255 255
+spacing x 5
+
+.window2_textBoxMultiLine:caret .textAlignTopLeft
+line 0 0 0
+fill 255 255 255
+spacing x 5
+
+.window2_textBoxMultiLine:active .textAlignTopLeft
+line 0 0 0
+fill 255 255 255
+spacing x 5
+
 .window2_textBox .main_textAlign
 line 0 0 0
 fill 255 255 255

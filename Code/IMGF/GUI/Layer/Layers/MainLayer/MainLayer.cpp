@@ -148,15 +148,18 @@ void		MainLayer::addControls(void)
 	pMenu2->addMenuItem("Reopen", REOPEN_FILE);
 	pMenu2->addMenuItem("Open Last Closed File", OPEN_LAST_CLOSED_FILE);
 	
-	pMenuItem1 = pMenu2->addMenuItem("Recently Open");
-	m_pRecentlyOpenMenu = pMenuItem1->addMenu(VERTICAL);
+	pMenuItem2 = pMenu2->addMenuItem("Recently Open");
+	m_pRecentlyOpenMenu = pMenuItem2->addMenu(VERTICAL);
 
-	pMenuItem1 = pMenu2->addMenuItem("Open File Group");
-	m_pFileGroupMenu = pMenuItem1->addMenu(VERTICAL);
+	pMenuItem2 = pMenu2->addMenuItem("Open File Group");
+	m_pFileGroupMenu = pMenuItem2->addMenu(VERTICAL);
 
 	pMenu2->addMenuItem("Open File Folder in Explorer", OPEN_FILE_FOLDER_IN_EXPLORER);
-	pMenu2->addMenuItem("Open Today's Logs File", OPEN_TODAYS_LOGS_FILE);
-	pMenu2->addMenuItem("Open Logs Folder", OPEN_LOGS_FOLDER);
+
+	pMenuItem2 = pMenu2->addMenuItem("Logs");
+	pMenu3 = pMenuItem2->addMenu(VERTICAL);
+	pMenu3->addMenuItem("Open Today's Logs File", OPEN_TODAYS_LOGS_FILE);
+	pMenu3->addMenuItem("Open Logs Folder", OPEN_LOGS_FOLDER);
 
 	pMenuItem1 = pMenu1->addMenuItem("Save", SAVE_FILE);
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);
@@ -165,10 +168,13 @@ void		MainLayer::addControls(void)
 	pMenu2->addMenuItem("Save All", SAVE_ALL_FILES);
 	pMenu2->addMenuItem("Clone File", CLONE_FILE);
 	pMenu2->addMenuItem("Save File Group", SAVE_FILE_GROUP);
-	pMenu2->addMenuItem("Save Logs", SAVE_LOGS);
-	pMenu2->addMenuItem("Save Logs for All Tabs", SAVE_LOGS_ALL_TABS);
-	pMenu2->addMenuItem("Clear Logs", CLEAR_LOGS);
-	pMenu2->addMenuItem("Clear Logs for All Tabs", CLEAR_LOGS_ALL_TABS);
+
+	pMenuItem2 = pMenu2->addMenuItem("Logs");
+	pMenu3 = pMenuItem2->addMenu(VERTICAL);
+	pMenu3->addMenuItem("Save Logs", SAVE_LOGS);
+	pMenu3->addMenuItem("Save Logs for All Tabs", SAVE_LOGS_ALL_TABS);
+	pMenu3->addMenuItem("Clear Logs", CLEAR_LOGS);
+	pMenu3->addMenuItem("Clear Logs for All Tabs", CLEAR_LOGS_ALL_TABS);
 
 	pMenuItem1 = pMenu1->addMenuItem("Close", CLOSE_FILE);
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);

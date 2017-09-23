@@ -9,7 +9,7 @@ AboutWindowLayer::AboutWindowLayer(void)
 // initialization
 void					AboutWindowLayer::init(void)
 {
-	addButton(50, 420, 100, 20, "Close", "window2_button", 200);
+	addButton(50, 460, 100, 20, "Close", "window2_button", 200);
 
 	addText(50, 50, 500, 350, "Version: 2.0\n\
 \n\
@@ -29,11 +29,15 @@ Credits:\n\
 Mex (Programmer)\n\
 X-Seti (Feature Planning)\n\
 \n\
-gtamodding.com (Format Documentation)\n\
-gtamodding.ru (Format Documentation)\n\
-\n\
 cj2000 (Rare Format Documentation)\n\
 \n\
 IgorX (Tester)\n\
-dkluin (Tester)");
+dkluin (Tester)\n\
+\n\
+gtamodding.com (Format Documentation)\n\
+gtamodding.ru (Format Documentation)\n\
+\n\
+Spark IV Source Code (.WTD Format)\n\
+\n\
+Third Party Code: CRC, LZ4, LZO, ZLib, AES, CIniFile, STB, Squish DXT, happyhttp");
 }
