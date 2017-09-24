@@ -80,10 +80,10 @@ void					WindowManager::onPressButton_IDEInputWindow(Button *pButton)
 		// Select all
 		for (uint32 uiCheckBoxId = 300; uiCheckBoxId <= 500; uiCheckBoxId++)
 		{
-			LayerItem *pLayerItem = pWindow2->getItemById(uiCheckBoxId);
-			if (pLayerItem)
+			RenderItem *pRenderItem = pWindow2->getItemById(uiCheckBoxId);
+			if (pRenderItem)
 			{
-				CheckBox *pCheckBox = (CheckBox*)pLayerItem;
+				CheckBox *pCheckBox = (CheckBox*)pRenderItem;
 				pCheckBox->setMarked(true);
 			}
 		}
@@ -94,10 +94,10 @@ void					WindowManager::onPressButton_IDEInputWindow(Button *pButton)
 		// Unselect all
 		for (uint32 uiCheckBoxId = 300; uiCheckBoxId <= 500; uiCheckBoxId++)
 		{
-			LayerItem *pLayerItem = pWindow2->getItemById(uiCheckBoxId);
-			if (pLayerItem)
+			RenderItem *pRenderItem = pWindow2->getItemById(uiCheckBoxId);
+			if (pRenderItem)
 			{
-				CheckBox *pCheckBox = (CheckBox*)pLayerItem;
+				CheckBox *pCheckBox = (CheckBox*)pRenderItem;
 				pCheckBox->setMarked(false);
 			}
 		}
@@ -109,10 +109,10 @@ void					WindowManager::onPressButton_IDEInputWindow(Button *pButton)
 		bool bAtLeastOneCheckBoxIsMarked = false;
 		for (uint32 uiCheckBoxId = 300; uiCheckBoxId <= 500; uiCheckBoxId++)
 		{
-			LayerItem *pLayerItem = pWindow2->getItemById(uiCheckBoxId);
-			if (pLayerItem)
+			RenderItem *pRenderItem = pWindow2->getItemById(uiCheckBoxId);
+			if (pRenderItem)
 			{
-				CheckBox *pCheckBox = (CheckBox*)pLayerItem;
+				CheckBox *pCheckBox = (CheckBox*)pRenderItem;
 				if (pCheckBox->isMarked())
 				{
 					bAtLeastOneCheckBoxIsMarked = true;
@@ -131,10 +131,10 @@ void					WindowManager::onPressButton_IDEInputWindow(Button *pButton)
 
 			for (uint32 uiCheckBoxId = 300; uiCheckBoxId <= 500; uiCheckBoxId++)
 			{
-				LayerItem *pLayerItem = pWindow2->getItemById(uiCheckBoxId);
-				if(pLayerItem)
+				RenderItem *pRenderItem = pWindow2->getItemById(uiCheckBoxId);
+				if(pRenderItem)
 				{
-					CheckBox *pCheckBox = (CheckBox*)pLayerItem;
+					CheckBox *pCheckBox = (CheckBox*)pRenderItem;
 					m_ideInputWindowResult.m_umapCheckBoxStatuses[uiCheckBoxId] = pCheckBox->isMarked();
 				}
 			}

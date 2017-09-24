@@ -134,20 +134,20 @@ void		MainLayer::addControls(void)
 	strStyleGroup = "topMenu";
 
 	pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, -1, -200);
-	
-	pMenuItem1 = pMenu1->addMenuItem("New", NEW_FILE);
+
+	pMenuItem1 = pMenu1->addMenuItem("New");
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);
 	pMenu2->addMenuItem("New File", NEW_FILE);
 	pMenu2->addMenuItem("New Window", NEW_WINDOW);
 
-	pMenuItem1 = pMenu1->addMenuItem("Open", OPEN_FILES);
+	pMenuItem1 = pMenu1->addMenuItem("Open");
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);
 	pMenu2->addMenuItem("Open File(s)", OPEN_FILES);
 	pMenu2->addMenuItem("Open Folder", OPEN_FOLDER);
 	pMenu2->addMenuItem("Open Folder Recursively", OPEN_FOLDER_RECURSIVELY);
 	pMenu2->addMenuItem("Reopen", REOPEN_FILE);
 	pMenu2->addMenuItem("Open Last Closed File", OPEN_LAST_CLOSED_FILE);
-	
+
 	pMenuItem2 = pMenu2->addMenuItem("Recently Open");
 	m_pRecentlyOpenMenu = pMenuItem2->addMenu(VERTICAL);
 
@@ -161,7 +161,7 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Open Today's Logs File", OPEN_TODAYS_LOGS_FILE);
 	pMenu3->addMenuItem("Open Logs Folder", OPEN_LOGS_FOLDER);
 
-	pMenuItem1 = pMenu1->addMenuItem("Save", SAVE_FILE);
+	pMenuItem1 = pMenu1->addMenuItem("Save", SAVE_MENU);
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);
 	pMenu2->addMenuItem("Save File", SAVE_FILE);
 	pMenu2->addMenuItem("Save As", SAVE_FILE_AS);
@@ -169,14 +169,14 @@ void		MainLayer::addControls(void)
 	pMenu2->addMenuItem("Clone File", CLONE_FILE);
 	pMenu2->addMenuItem("Save File Group", SAVE_FILE_GROUP);
 
-	pMenuItem2 = pMenu2->addMenuItem("Logs");
+	pMenuItem2 = pMenu2->addMenuItem("Logs", SAVE_LOGS_MENU);
 	pMenu3 = pMenuItem2->addMenu(VERTICAL);
 	pMenu3->addMenuItem("Save Logs", SAVE_LOGS);
 	pMenu3->addMenuItem("Save Logs for All Tabs", SAVE_LOGS_ALL_TABS);
 	pMenu3->addMenuItem("Clear Logs", CLEAR_LOGS);
 	pMenu3->addMenuItem("Clear Logs for All Tabs", CLEAR_LOGS_ALL_TABS);
 
-	pMenuItem1 = pMenu1->addMenuItem("Close", CLOSE_FILE);
+	pMenuItem1 = pMenu1->addMenuItem("Close");
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);
 	pMenu2->addMenuItem("Close File", CLOSE_FILE);
 	pMenu2->addMenuItem("Close All", CLOSE_ALL_FILES);
@@ -228,12 +228,12 @@ void		MainLayer::addControls(void)
 	pMenu1 = addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -200);
 
 	// import
-	pMenuItem1 = pMenu1->addMenuItem("Import");
+	pMenuItem1 = pMenu1->addMenuItem("Import", IMPORT_MENU);
 
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Import by File(s)", IMPORT_BY_FILES);
 
-	pMenuItem2 = pMenu2->addMenuItem("Import by Folder(s)");
+	pMenuItem2 = pMenu2->addMenuItem("Import by Folder(s)", IMPORT_BY_FOLDERS_MENU);
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Import by Single Folder", IMPORT_BY_SINGLE_FOLDER);
 	pMenu3->addMenuItem("Import by Folder Recursively", IMPORT_BY_FOLDER_RECURSIVELY);
@@ -242,13 +242,13 @@ void		MainLayer::addControls(void)
 	pMenu2->addMenuItem("Import by Entry Names", IMPORT_BY_ENTRY_NAMES);
 
 	// export
-	pMenuItem1 = pMenu1->addMenuItem("Export");
+	pMenuItem1 = pMenu1->addMenuItem("Export", EXPORT_MENU);
 
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Export Selection", EXPORT_SELECTED);
 	pMenu2->addMenuItem("Export All Entries", EXPORT_ALL);
 
-	pMenuItem2 = pMenu2->addMenuItem("Export by Column..");
+	pMenuItem2 = pMenu2->addMenuItem("Export by Column..", EXPORT_BY_COLUMN_MENU);
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Export by Index", EXPORT_BY_INDEX);
 	pMenu3->addMenuItem("Export by Name", EXPORT_BY_NAME);
@@ -257,11 +257,11 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Export by Type", EXPORT_BY_TYPE);
 	pMenu3->addMenuItem("Export by Version", EXPORT_BY_VERSION);
 
-	pMenuItem2 = pMenu2->addMenuItem("Export All Entries into..");
+	pMenuItem2 = pMenu2->addMenuItem("Export All Entries into..", EXPORT_ALL_ENTRIES_INTO_MENU);
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Export all entries into Grouped Folders by Type", EXPORT_ALL_INTO_GROUPED_FOLDERS_BY_TYPE);
 
-	pMenuItem2 = pMenu2->addMenuItem("Export All Tabs..");
+	pMenuItem2 = pMenu2->addMenuItem("Export All Tabs..", EXPORT_ALL_TABS_MENU);
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Export all entries from all tabs", EXPORT_ALL_FROM_ALL_TABS);
 	pMenu3->addMenuItem("Export all entries from all tabs into grouped folders by type", EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE);
@@ -282,11 +282,11 @@ void		MainLayer::addControls(void)
 	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
 	// replace
-	pMenuItem1 = pMenu1->addMenuItem("Replace");
+	pMenuItem1 = pMenu1->addMenuItem("Replace", REPLACE_MENU);
 
 	pMenu2 = pMenuItem1->addMenu();
 	pMenuItem2 = pMenu2->addMenuItem("Replace by File(s)", REPLACE_BY_FILES);
-	pMenuItem2 = pMenu2->addMenuItem("Replace by Folder..");
+	pMenuItem2 = pMenu2->addMenuItem("Replace by Folder..", REPLACE_BY_FOLDER_MENU);
 
 	pMenu3 = pMenuItem2->addMenu();
 	pMenuItem3 = pMenu3->addMenuItem("Replace by Single Folder", REPLACE_BY_SINGLE_FOLDER);
@@ -295,12 +295,12 @@ void		MainLayer::addControls(void)
 	pMenuItem2 = pMenu2->addMenuItem("Replace by IDE", REPLACE_BY_IDE);
 
 	// remove
-	pMenuItem1 = pMenu1->addMenuItem("Remove");
+	pMenuItem1 = pMenu1->addMenuItem("Remove", REMOVE_MENU);
 
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Remove Selection", REMOVE_SELECTED);
 	pMenu2->addMenuItem("Remove All Entries", REMOVE_ALL);
-	pMenuItem2 = pMenu2->addMenuItem("Remove by Column..");
+	pMenuItem2 = pMenu2->addMenuItem("Remove by Column..", REMOVE_BY_COLUMN_MENU);
 
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Remove by Index", REMOVE_BY_INDEX);
@@ -309,7 +309,7 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Remove by Size", REMOVE_BY_SIZE);
 	pMenu3->addMenuItem("Remove by Type", REMOVE_BY_TYPE);
 	pMenu3->addMenuItem("Remove by Version", REMOVE_BY_VERSION);
-	
+
 	pMenu2->addMenuItem("Remove by IDE", REMOVE_BY_IDE);
 	pMenu2->addMenuItem("Remove by Entry Names", REMOVE_BY_ENTRY_NAMES);
 
@@ -318,7 +318,7 @@ void		MainLayer::addControls(void)
 	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
 	// split
-	pMenuItem1 = pMenu1->addMenuItem("Split");
+	pMenuItem1 = pMenu1->addMenuItem("Split", SPLIT_MENU);
 
 	pMenu2 = pMenuItem1->addMenu();
 	pMenuItem2 = pMenu2->addMenuItem("Split Selection", SPLIT_SELECTED);
@@ -326,41 +326,41 @@ void		MainLayer::addControls(void)
 	pMenuItem2 = pMenu2->addMenuItem("Split by Entry Names", SPLIT_BY_ENTRY_NAMES);
 
 	// convert
-	pMenuItem1 = pMenu1->addMenuItem("Convert");
+	pMenuItem1 = pMenu1->addMenuItem("Convert", CONVERT_MENU);
 	pMenu2 = pMenuItem1->addMenu();
 
-	pMenuItem2 = pMenu2->addMenuItem("IMG");
+	pMenuItem2 = pMenu2->addMenuItem("IMG", CONVERT_IMG_MENU);
 	pMenu3 = pMenuItem2->addMenu();
 	pMenuItem3 = pMenu3->addMenuItem("Convert IMG Version", CONVERT_IMG_VERSION);
 
-	pMenuItem2 = pMenu2->addMenuItem("COL");
+	pMenuItem2 = pMenu2->addMenuItem("COL", CONVERT_COL_MENU);
 	pMenu3 = pMenuItem2->addMenu();
 	pMenuItem3 = pMenu3->addMenuItem("Convert COL Version for Selection", CONVERT_SELECTED_COL_VERSION);
 
-	pMenuItem2 = pMenu2->addMenuItem("DFF");
+	pMenuItem2 = pMenu2->addMenuItem("DFF", CONVERT_DFF_MENU);
 	pMenu3 = pMenuItem2->addMenu();
 	pMenuItem3 = pMenu3->addMenuItem("Convert DFF RW Version for Selection", CONVERT_SELECTED_DFF_RW_VERSION);
 	pMenuItem3 = pMenu3->addMenuItem("Convert DFF to WDR for Selection", CONVERT_SELECTED_DFF_TO_WDR);
-	
-	pMenuItem2 = pMenu2->addMenuItem("TXD");
+
+	pMenuItem2 = pMenu2->addMenuItem("TXD", CONVERT_TXD_MENU);
 	pMenu3 = pMenuItem2->addMenu();
 	pMenuItem3 = pMenu3->addMenuItem("Convert TXD RW Version for Selection", CONVERT_SELECTED_TXD_RW_VERSION);
 	pMenuItem3 = pMenu3->addMenuItem("Convert TXD to Game for Selection", CONVERT_SELECTED_TXD_TO_GAME);
 	pMenuItem3 = pMenu3->addMenuItem("Convert TXD to Texture Format for Selection", CONVERT_SELECTED_TXD_TO_TEXTURE_FORMAT);
 
-	pMenuItem2 = pMenu2->addMenuItem("WTD");
+	pMenuItem2 = pMenu2->addMenuItem("WTD", CONVERT_WTD_MENU);
 	pMenu3 = pMenuItem2->addMenu();
 	pMenuItem3 = pMenu3->addMenuItem("Convert WTD to TXD for Selection", CONVERT_SELECTED_WTD_TO_TXD);
 
 	// select
-	pMenuItem1 = pMenu1->addMenuItem("Select");
+	pMenuItem1 = pMenu1->addMenuItem("Select", SELECT_MENU);
 	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Select All Entries", SELECT_ALL);
 	pMenu2->addMenuItem("Unselect All Entries", UNSELECT_ALL);
 	pMenu2->addMenuItem("Select Inverse", SELECT_INVERSE);
-	pMenuItem2 = pMenu2->addMenuItem("Select by Column..");
+	pMenuItem2 = pMenu2->addMenuItem("Select by Column..", SELECT_BY_COLUMN_MENU);
 
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Select by Index", SELECT_BY_INDEX);
@@ -372,7 +372,7 @@ void		MainLayer::addControls(void)
 
 	pMenu2->addMenuItem("Select by IDE", SELECT_BY_IDE);
 
-	pMenuItem2 = pMenu2->addMenuItem("Unselect by Column..");
+	pMenuItem2 = pMenu2->addMenuItem("Unselect by Column..", UNSELECT_BY_COLUMN_MENU);
 
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Unselect by Index", UNSELECT_BY_INDEX);
@@ -381,19 +381,19 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Unselect by Size", UNSELECT_BY_SIZE);
 	pMenu3->addMenuItem("Unselect by Type", UNSELECT_BY_TYPE);
 	pMenu3->addMenuItem("Unselect by Version", UNSELECT_BY_VERSION);
-	
+
 	pMenu2->addMenuItem("Unselect by IDE", UNSELECT_BY_IDE);
 
 	// sort
-	pMenuItem1 = pMenu1->addMenuItem("Sort");
+	pMenuItem1 = pMenu1->addMenuItem("Sort", SORT_MENU);
 
 	pMenu2 = pMenuItem1->addMenu();
-	pMenuItem2 = pMenu2->addMenuItem("Sort by Index..");
+	pMenuItem2 = pMenu2->addMenuItem("Sort by Index..", SORT_BY_INDEX_MENU);
 
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Sort by Index (Reverse)", SORT_BY_INDEX_REVERSE);
 
-	pMenuItem2 = pMenu2->addMenuItem("Sort by Name..");
+	pMenuItem2 = pMenu2->addMenuItem("Sort by Name..", SORT_BY_NAME_MENU);
 
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Sort by Name Ascending (0-9, A-Z)", SORT_BY_NAME_ASCENDING_09AZ);
@@ -401,25 +401,25 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Sort by Name Descending (Z-A, 9-0)", SORT_BY_NAME_DESCENDING_ZA90);
 	//pMenu3->addMenuItem("Sort by Name Descending (9-0, Z-A)", SORT_BY_NAME_DESCENDING_90ZA);
 
-	pMenuItem2 = pMenu2->addMenuItem("Sort by Offset..");
+	pMenuItem2 = pMenu2->addMenuItem("Sort by Offset..", SORT_BY_OFFSET_MENU);
 
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Sort by Offset (Low-High)", SORT_BY_OFFSET_LOW_HIGH);
 	pMenu3->addMenuItem("Sort by Offset (High-Low)", SORT_BY_OFFSET_HIGH_LOW);
 
-	pMenuItem2 = pMenu2->addMenuItem("Sort by Size..");
+	pMenuItem2 = pMenu2->addMenuItem("Sort by Size..", SORT_BY_SIZE_MENU);
 
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Sort by Size (Small-Big)", SORT_BY_SIZE_SMALL_BIG);
 	pMenu3->addMenuItem("Sort by Size (Big-Small)", SORT_BY_SIZE_BIG_SMALL);
 
-	pMenuItem2 = pMenu2->addMenuItem("Sort by Type..");
+	pMenuItem2 = pMenu2->addMenuItem("Sort by Type..", SORT_BY_TYPE_MENU);
 
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Sort by Type (A-Z)", SORT_BY_TYPE_AZ);
 	pMenu3->addMenuItem("Sort by Type (Z-A)", SORT_BY_TYPE_ZA);
 
-	pMenuItem2 = pMenu2->addMenuItem("Sort by Version..");
+	pMenuItem2 = pMenu2->addMenuItem("Sort by Version..", SORT_BY_VERSION_MENU);
 
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Sort by Version (Old-New)", SORT_BY_VERSION_OLD_NEW);
@@ -429,16 +429,16 @@ void		MainLayer::addControls(void)
 	pMenu1->addMenuItem("LST", LST);
 
 	// entry
-	pMenuItem1 = pMenu1->addMenuItem("Entry");
+	pMenuItem1 = pMenu1->addMenuItem("Entry", ENTRY_MENU);
 	pMenu2 = pMenuItem1->addMenu();
-	
-	pMenuItem2 = pMenu2->addMenuItem("Entry Name Case");
+
+	pMenuItem2 = pMenu2->addMenuItem("Entry Name Case", ENTRY_NAME_CASE_MENU);
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("lower case", NAME_CASE_LOWER);
 	pMenu3->addMenuItem("UPPER CASE", NAME_CASE_UPPER);
 	pMenu3->addMenuItem("Title Case", NAME_CASE_TITLE);
 
-	pMenuItem2 = pMenu2->addMenuItem("Copy Entry Data");
+	pMenuItem2 = pMenu2->addMenuItem("Copy Entry Data", ENTRY_COPY_DATA_MENU);
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Copy Entries Index", COPY_ENTRY_INDEX);
 	pMenu3->addMenuItem("Copy Entries Type", COPY_ENTRY_TYPE);
@@ -448,7 +448,7 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Copy Entries Version", COPY_ENTRY_VERSION);
 	pMenu3->addMenuItem("Copy Entries Row Data", COPY_ENTRY_ROW_DATA);
 
-	pMenuItem2 = pMenu2->addMenuItem("Shift Entry");
+	pMenuItem2 = pMenu2->addMenuItem("Shift Entry", ENTRY_SHIFT_MENU);
 	pMenu3 = pMenuItem2->addMenu();
 	pMenu3->addMenuItem("Shift Entries Up 1 Row", SHIFT_ENTRY_UP_1_ROW);
 	pMenu3->addMenuItem("Shift Entries Up 5 Rows", SHIFT_ENTRY_UP_5_ROWS);
@@ -462,7 +462,7 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Shift Entries Down 1000 Rows", SHIFT_ENTRY_DOWN_1000_ROWS);
 
 	// orphan entries
-	pMenuItem1 = pMenu1->addMenuItem("Orphan Entries");
+	pMenuItem1 = pMenu1->addMenuItem("Orphan Entries", ORPHAN_ENTRIES_MENU);
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Remove Orphan Textures from DFF Entries", REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES);
 	pMenu2->addMenuItem("Find Orphan IMG Entries not in IDE", FIND_ORPHAN_IMG_ENTRIES_NOT_IN_IDE);
@@ -483,7 +483,7 @@ void		MainLayer::addControls(void)
 
 	// other
 	pMenuItem1 = pMenu1->addMenuItem("Other");
-	
+
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Texture List", TEXTURE_LIST);
 	pMenu2->addMenuItem("Stats", STATS);
@@ -507,6 +507,8 @@ void		MainLayer::addControls(void)
 	pMenu2->addMenuItem("Extract 2DFX into DFFs", EXTRACT_2DFX_INTO_DFFS);
 	pMenu2->addMenuItem("IMG Compression", IMG_COMPRESSION);
 
+	// set certain items enabled
+	setCertainMenuItemsEnabled(false);
 
 
 
@@ -518,6 +520,207 @@ void		MainLayer::addControls(void)
 	h = 0;
 
 	addImage(x, y, "Internal/Images/Logo.png", w, h);
+}
+
+void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
+{
+	// disable certain menu items
+	vector<EInputItem> vecMenuItemIds = {
+		// second left and top menus
+		SAVE_MENU,
+		SAVE_LOGS_MENU,
+		IMPORT_MENU,
+		IMPORT_BY_FOLDERS_MENU,
+		EXPORT_MENU,
+		EXPORT_BY_COLUMN_MENU,
+		EXPORT_ALL_ENTRIES_INTO_MENU,
+		EXPORT_ALL_TABS_MENU,
+		REPLACE_MENU,
+		REPLACE_BY_FOLDER_MENU,
+		REMOVE_MENU,
+		REMOVE_BY_COLUMN_MENU,
+		SPLIT_MENU,
+		CONVERT_MENU,
+		CONVERT_IMG_MENU,
+		CONVERT_COL_MENU,
+		CONVERT_DFF_MENU,
+		CONVERT_TXD_MENU,
+		CONVERT_WTD_MENU,
+		SELECT_MENU,
+		SELECT_BY_COLUMN_MENU,
+		UNSELECT_BY_COLUMN_MENU,
+		SORT_MENU,
+		SORT_BY_INDEX_MENU,
+		SORT_BY_NAME_MENU,
+		SORT_BY_OFFSET_MENU,
+		SORT_BY_SIZE_MENU,
+		SORT_BY_TYPE_MENU,
+		SORT_BY_VERSION_MENU,
+		ENTRY_MENU,
+		ENTRY_NAME_CASE_MENU,
+		ENTRY_COPY_DATA_MENU,
+		ENTRY_SHIFT_MENU,
+		ORPHAN_ENTRIES_MENU,
+
+		// top menu items
+		REOPEN_FILE,
+		OPEN_FILE_FOLDER_IN_EXPLORER,
+
+		SAVE_FILE,
+		SAVE_FILE_AS,
+		SAVE_ALL_FILES,
+		CLONE_FILE,
+		SAVE_FILE_GROUP,
+		SAVE_LOGS,
+		SAVE_LOGS_ALL_TABS,
+		CLEAR_LOGS,
+		CLEAR_LOGS_ALL_TABS,
+
+		CLOSE_FILE,
+		CLOSE_ALL_FILES,
+
+		// second left menu items
+		IMPORT_BY_FILES,
+		IMPORT_BY_SINGLE_FOLDER,
+		IMPORT_BY_FOLDER_RECURSIVELY,
+		IMPORT_BY_IDE,
+		IMPORT_BY_ENTRY_NAMES,
+
+		EXPORT_SELECTED,
+		EXPORT_ALL,
+		EXPORT_BY_INDEX,
+		EXPORT_BY_NAME,
+		EXPORT_BY_OFFSET,
+		EXPORT_BY_SIZE,
+		EXPORT_BY_TYPE,
+		EXPORT_BY_VERSION,
+		EXPORT_ALL_INTO_GROUPED_FOLDERS_BY_TYPE,
+		EXPORT_ALL_FROM_ALL_TABS,
+		EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE,
+		EXPORT_SELECTION_FROM_ALL_TABS,
+		EXPORT_BY_IDE,
+		EXPORT_BY_IDE_FROM_ALL_TABS,
+		EXPORT_BY_IPL,
+		EXPORT_BY_DAT,
+		EXPORT_BY_ENTRY_NAMES,
+		EXPORT_BY_ENTRY_NAMES_FROM_ALL_TABS,
+
+		QUICK_EXPORT,
+
+		RENAME,
+
+		REPLACE_BY_FILES,
+		REPLACE_BY_SINGLE_FOLDER,
+		REPLACE_BY_FOLDER_RECURSIVELY,
+		REPLACE_BY_IDE,
+
+		REMOVE_SELECTED,
+		REMOVE_ALL,
+		REMOVE_BY_INDEX,
+		REMOVE_BY_NAME,
+		REMOVE_BY_OFFSET,
+		REMOVE_BY_SIZE,
+		REMOVE_BY_TYPE,
+		REMOVE_BY_VERSION,
+		REMOVE_BY_IDE,
+		REMOVE_BY_ENTRY_NAMES,
+
+		MERGE,
+
+		SPLIT_SELECTED,
+		SPLIT_BY_IDE,
+		SPLIT_BY_ENTRY_NAMES,
+
+		CONVERT_IMG_VERSION,
+		CONVERT_SELECTED_COL_VERSION,
+		CONVERT_SELECTED_DFF_RW_VERSION,
+		CONVERT_SELECTED_DFF_TO_WDR,
+		CONVERT_SELECTED_TXD_RW_VERSION,
+		CONVERT_SELECTED_TXD_TO_GAME,
+		CONVERT_SELECTED_TXD_TO_TEXTURE_FORMAT,
+		CONVERT_SELECTED_WTD_TO_TXD,
+
+		SELECT_ALL,
+		UNSELECT_ALL,
+		SELECT_INVERSE,
+		SELECT_BY_INDEX,
+		SELECT_BY_NAME,
+		SELECT_BY_OFFSET,
+		SELECT_BY_SIZE,
+		SELECT_BY_TYPE,
+		SELECT_BY_VERSION,
+		SELECT_BY_IDE,
+		UNSELECT_BY_INDEX,
+		UNSELECT_BY_NAME,
+		UNSELECT_BY_OFFSET,
+		UNSELECT_BY_SIZE,
+		UNSELECT_BY_TYPE,
+		UNSELECT_BY_VERSION,
+		UNSELECT_BY_IDE,
+
+		SORT_BY_INDEX_REVERSE,
+		SORT_BY_NAME_ASCENDING_09AZ,
+		SORT_BY_NAME_ASCENDING_AZ09,
+		SORT_BY_NAME_DESCENDING_ZA90,
+		SORT_BY_NAME_DESCENDING_90ZA,
+		SORT_BY_OFFSET_LOW_HIGH,
+		SORT_BY_OFFSET_HIGH_LOW,
+		SORT_BY_SIZE_SMALL_BIG,
+		SORT_BY_SIZE_BIG_SMALL,
+		SORT_BY_TYPE_AZ,
+		SORT_BY_TYPE_ZA,
+		SORT_BY_VERSION_OLD_NEW,
+		SORT_BY_VERSION_NEW_OLD,
+
+		NAME_CASE_LOWER,
+		NAME_CASE_UPPER,
+		NAME_CASE_TITLE,
+
+		COPY_ENTRY_INDEX,
+		COPY_ENTRY_TYPE,
+		COPY_ENTRY_NAME,
+		COPY_ENTRY_OFFSET,
+		COPY_ENTRY_SIZE,
+		COPY_ENTRY_VERSION,
+		COPY_ENTRY_ROW_DATA,
+
+		SHIFT_ENTRY_UP_1_ROW,
+		SHIFT_ENTRY_UP_5_ROWS,
+		SHIFT_ENTRY_UP_10_ROWS,
+		SHIFT_ENTRY_UP_100_ROWS,
+		SHIFT_ENTRY_UP_1000_ROWS,
+		SHIFT_ENTRY_DOWN_1_ROW,
+		SHIFT_ENTRY_DOWN_5_ROWS,
+		SHIFT_ENTRY_DOWN_10_ROWS,
+		SHIFT_ENTRY_DOWN_100_ROWS,
+		SHIFT_ENTRY_DOWN_1000_ROWS,
+
+		REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES,
+		FIND_ORPHAN_IMG_ENTRIES_NOT_IN_IDE,
+		FIND_ORPHAN_IDE_ENTRIES_NOT_IN_IMG,
+		FIND_ORPHAN_TXD_TEXTURES_FOR_DFFS_IN_IMG_BY_IDE,
+
+		TEXTURE_LIST,
+		STATS,
+		FIND_DUPLICATE_ENTRIES_IN_SELECTION,
+		FIND_DUPLICATE_ENTRIES_IN_TAB,
+		FIND_DUPLICATE_ENTRIES_IN_ALL_TABS,
+		COMPARE_IMGS,
+		SAVE_IMG_SIGNATURE,
+		VERIFY_IMG_SIGNATURE,
+		VALIDATE_DFF_IN_TAB,
+		VALIDATE_TXD_IN_TAB,
+		CENTER_COL_MESHES_IN_SELECTION,
+		IMG_COMPRESSION
+	};
+	for (EInputItem uiMenuItemId : vecMenuItemIds)
+	{
+		MenuItem *pMenuItem = (MenuItem*) m_pWindow->getItemById(uiMenuItemId);
+		if (pMenuItem)
+		{
+			pMenuItem->setEnabled(bEnabled);
+		}
+	}
 }
 
 void		MainLayer::initControls(void)

@@ -826,6 +826,12 @@ void		Tasks::importByIDE(void)
 {
 	onStartTask("importByIDE");
 
+	IDEInputWindowResult ideInputWindowResult = getIMGF()->getWindowManager()->showIDEInputWindow("Import into IMG by IDE", "Choose IDE items to import into the IMG:");
+	if (getIMGF()->getWindowManager()->m_bWindow2Cancelled)
+	{
+		return onAbortTask();
+	}
+
 	vector<string> vecIDEFilePaths = openFile("IDE");
 	if (vecIDEFilePaths.size() == 0)
 	{
@@ -838,31 +844,26 @@ void		Tasks::importByIDE(void)
 		return onAbortTask();
 	}
 
+	// fetch chosen IDE sections from input window
+	vector<EIDESection>
+		vecModelSections,
+		vecTextureSections;
+	ideInputWindowResult.getIDESections(vecModelSections, vecTextureSections);
+
+	set<string>
+		stModelNames,
+		stTextureSetNames;
+	IDEManager::getModelAndTextureSetNamesFromFiles(vecIDEFilePaths, stModelNames, stTextureSetNames, vecModelSections, vecTextureSections);
+
 	vector<string> vecAllIDEEntryNames;
-	for (string& strIDEFilePath : vecIDEFilePaths)
+	for (const string& strModelName : stModelNames)
 	{
-		IDEFormat ideFile(strIDEFilePath);
-		if (!ideFile.unserialize())
-		{
-			continue;
-		}
-
-		vector<string> vecIDEEntryNames;
-		for (string& strModelName : ideFile.getModelNames())
-		{
-			strModelName += ".DFF";
-			vecIDEEntryNames.push_back(strModelName);
-		}
-		for (string& strTextureName : ideFile.getTXDNames())
-		{
-			strTextureName += ".TXD";
-			vecIDEEntryNames.push_back(strTextureName);
-		}
-		ideFile.unload();
-
-		StdVector::addToVector(vecAllIDEEntryNames, vecIDEEntryNames);
+		vecAllIDEEntryNames.push_back(strModelName + ".DFF");
 	}
-
+	for (const string& strTextureSetName : stTextureSetNames)
+	{
+		vecAllIDEEntryNames.push_back(strTextureSetName + ".TXD");
+	}
 	vecAllIDEEntryNames = StdVector::toUpperCase(vecAllIDEEntryNames);
 	vecAllIDEEntryNames = StdVector::removeDuplicates(vecAllIDEEntryNames);
 

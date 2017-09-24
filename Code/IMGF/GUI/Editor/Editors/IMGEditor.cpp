@@ -143,6 +143,8 @@ IMGEditorTab*				IMGEditor::addTabObjectAndTabControl(IMGFormat *img, bool bNewF
 
 	imgEditorTab->onFileLoaded();
 
+	m_pMainWindow->getMainLayer()->setCertainMenuItemsEnabled(true);
+
 	setActiveFile(imgEditorTab);
 
 	return imgEditorTab;
@@ -168,6 +170,7 @@ void						IMGEditor::removeFile(IMGEditorTab *pIMGEditorFile)
 	{
 		setEnabled(true);
 		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(true);
+		m_pMainWindow->getMainLayer()->setCertainMenuItemsEnabled(false);
 	}
 	else
 	{

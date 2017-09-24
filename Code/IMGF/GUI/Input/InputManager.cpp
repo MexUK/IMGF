@@ -73,8 +73,21 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 		return;
 	}
 
+	uint32 uiMenuItemId;
+
+	if (pMenuItem->getExpandableMenu() && pMenuItem->getExpandableMenu()->getEntryCount() > 0)
+	{
+		// menu item with an expandable menu - choose first item in expandable item list
+		uiMenuItemId = pMenuItem->getExpandableMenu()->getFirstEntry()->getId();
+	}
+	else
+	{
+		// menu item with no expandable menu
+		uiMenuItemId = pMenuItem->getId();
+	}
+
 	// main
-	switch (pMenuItem->getId())
+	switch (uiMenuItemId)
 	{
 	case EInputItem::FORMATS:						return formats();
 	case EInputItem::UTILITY:						return utility();

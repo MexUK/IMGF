@@ -122,6 +122,10 @@ fill 219 219 83
 .secondLeftMenu:item:hover .main_lineTop .main_textAlign .main_spacing
 fill 193 193 57
 
+.secondLeftMenu:item:disabled .main_lineTop .main_textAlign .main_spacing
+fill 244 244 108
+text 128 128 128
+
 .secondLeftMenu:itemIcon
 fill 0 0 0
 
@@ -131,14 +135,21 @@ fill 0 0 0
 .secondLeftMenu:itemIcon:hover
 fill 0 0 0
 
-.topMenu:item .main_lineLeft .main_textAlign .main_spacing
+.secondLeftMenu:itemIcon:disabled
+fill 0 0 0
+
+.topMenu:item .main_lineLeft .main_lineTop .main_textAlign .main_spacing
 fill 244 244 108
 
-.topMenu:item:active .main_lineLeft .main_textAlign .main_spacing
+.topMenu:item:active .main_lineLeft .main_lineTop .main_textAlign .main_spacing
 fill 219 219 83
 
-.topMenu:item:hover .main_lineLeft .main_textAlign .main_spacing
+.topMenu:item:hover .main_lineLeft .main_lineTop .main_textAlign .main_spacing
 fill 193 193 57
+
+.topMenu:item:disabled .main_lineLeft .main_lineTop .main_textAlign .main_spacing
+fill 244 244 108
+text 128 128 128
 
 .topMenu:itemIcon
 fill 0 0 0
@@ -147,6 +158,9 @@ fill 0 0 0
 fill 0 0 0
 
 .topMenu:itemIcon:hover
+fill 0 0 0
+
+.topMenu:itemIcon:disabled
 fill 0 0 0
 
 .settingsMenuButton
