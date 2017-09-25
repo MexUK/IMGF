@@ -32,9 +32,6 @@ public:
 	void						removeFile(IMGEditorTab *pIMGEditorFile);
 	void						removeActiveFile(void);
 
-	void						setFileInfoText(EditorTab *pEditorFile);
-	void						clearFileInfoText(void);
-	
 	bxcf::VectorPool<IMGEditorTab*>&	getIMGTabs(void) { return (bxcf::VectorPool<IMGEditorTab*>&)m_vecTabs; }
 
 

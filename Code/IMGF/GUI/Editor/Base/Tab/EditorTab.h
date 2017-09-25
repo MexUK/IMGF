@@ -29,6 +29,8 @@ public:
 
 	void								unload(void) {}
 
+	virtual void						setFileInfoText(void) {}
+
 	void								setEditor(Editor* pEditor) { m_pEditor = pEditor; }
 	Editor*								getEditor(void) { return m_pEditor; }
 

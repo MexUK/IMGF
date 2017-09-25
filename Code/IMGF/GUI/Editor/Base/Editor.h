@@ -33,10 +33,6 @@ public:
 	bxgx::TabBar*						getTabBar(void) { return m_pTabBar; }
 
 	void								updateActiveFileDisplayedInfo(void);
-	void								clearActiveFileDisplayedInfo(void);
-
-	virtual void						setFileInfoText(EditorTab *pEditorFile) = 0;
-	virtual void						clearFileInfoText(void) = 0;
 
 	virtual std::string					getResolvedFilePath(std::string& strFilePath) { return strFilePath; } // file name or file path
 

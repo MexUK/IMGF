@@ -8,7 +8,6 @@
 class imgf::MainWindow;
 class bxgx::TabBar;
 class bxgx::ProgressBar;
-class bxgx::TextBox;
 class bxgx::DropDown;
 class bxgx::Button;
 class bxgx::Line;
@@ -47,11 +46,6 @@ public:
 	bxgx::Line*					m_pSettingsButtonLine1;
 	bxgx::Line*					m_pSettingsButtonLine2;
 	bxgx::Line*					m_pSettingsButtonLine3;
-
-	bxgx::Text*					m_pText_FilePath;
-	bxgx::Text*					m_pText_FileVersion;
-	bxgx::Text*					m_pText_FileGame;
-	bxgx::Text*					m_pText_FileEntryCount;
 
 	bxgx::Menu*					m_pRecentlyOpenMenu;
 	bxgx::Menu*					m_pFileGroupMenu;

@@ -10,6 +10,7 @@
 class imgf::MainWindow;
 class bxgx::ProgressBar;
 class bxgx::TextBox;
+class bxgx::Text;
 
 class imgf::MainLayerNoTabsOpen : public bxgx::Layer, public bxcf::EventBindable
 {
@@ -28,6 +29,12 @@ public:
 	bxgx::ProgressBar*					getProgressBar(void) { return m_pProgressBar; }
 	bxgx::TextBox*						getSearchBox(void) { return m_pSearchBox; }
 	bxgx::TextBox*						getLog(void) { return m_pLog; }
+
+public:
+	bxgx::Text*							m_pText_FilePath;
+	bxgx::Text*							m_pText_FileVersion;
+	bxgx::Text*							m_pText_FileGame;
+	bxgx::Text*							m_pText_FileEntryCount;
 
 private:
 	imgf::MainWindow*					m_pMainWindow;

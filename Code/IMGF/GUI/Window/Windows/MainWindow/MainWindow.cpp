@@ -146,11 +146,20 @@ void					MainWindow::initSettingsMenuLayer(void)
 	int32
 		x, y, w, h, h2;
 	uint32
-		uiButtonHeight = 37;
+		uiButtonHeight = 37,
+		uiTitleBarHeight = getTitleBarHeight();
 	string
 		strStyleGroup;
 
-	Layer *pSettingsMenuLayer = addLayer(SETTINGS_MENU, false);
+	Layer *pSettingsMenuLayer = addLayer(ELayer::SETTINGS_MENU, false);
+
+	/*
+	x = 139 + 139 + 139;
+	y = uiTitleBarHeight;
+	w = uiButtonHeight + 1;
+	h = uiButtonHeight;
+	m_pMainLayer->addMenu(x, y, w, h, VERTICAL, "settingsMenuButton", SETTINGS, 5);
+	*/
 
 	y = getTitleBarHeight() + uiButtonHeight;
 	w = 139;
@@ -159,7 +168,7 @@ void					MainWindow::initSettingsMenuLayer(void)
 	h2 = h;
 	strStyleGroup = "settingsMenu";
 
-	m_pSettingsMenu = pSettingsMenuLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -100);
+	m_pSettingsMenu = pSettingsMenuLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, EInputItem::SETTINGS_MENU, -100);
 	m_pSettingsMenu->addMenuItem("Settings", SETTINGS);
 	m_pSettingsMenu->addMenuItem("Formats", FORMATS2);
 	m_pSettingsMenu->addMenuItem("Websites", WEBSITES);

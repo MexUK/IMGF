@@ -79,9 +79,9 @@ void						IMGEditor::init(void)
 }
 
 // add/remove file
-IMGEditorTab*				IMGEditor::addFile(string& strFilePath)
+IMGEditorTab*				IMGEditor::addFile(string& strIMGFilePath)
 {
-	IMGFormat *img = new IMGFormat(strFilePath);
+	IMGFormat *img = IMGFormat::createIMGFormat(strIMGFilePath);
 
 	IMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img, false);
 	if (!imgEditorTab)
@@ -95,10 +95,9 @@ IMGEditorTab*				IMGEditor::addFile(string& strFilePath)
 	return imgEditorTab;
 }
 
-IMGEditorTab*				IMGEditor::addBlankFile(string strIMGPath, EIMGVersion EIMGVersionValue)
+IMGEditorTab*				IMGEditor::addBlankFile(string strIMGFilePath, EIMGVersion EIMGVersionValue)
 {
-	IMGFormat *img = new IMGFormat;
-	img->setFilePath(strIMGPath);
+	IMGFormat *img = IMGFormat::createIMGFormat(strIMGFilePath);
 	img->setVersion(EIMGVersionValue);
 
 	IMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img, true);
@@ -190,34 +189,7 @@ void						IMGEditor::removeActiveFile(void)
 	removeFile((IMGEditorTab*)getActiveFile());
 }
 
-// file info text
-void						IMGEditor::setFileInfoText(EditorTab *pEditorFile)
-{
-	IMGEditorTab *pIMGEditorTab = (IMGEditorTab *) pEditorFile;
-
-	MainLayer *pMainLayer = m_pMainWindow->getMainLayer();
-
-	pMainLayer->m_pText_FilePath->setText(pIMGEditorTab->getIMGFile()->getIMGFilePath());
-	pMainLayer->m_pText_FileVersion->setText(IMGManager::getVersionText(pIMGEditorTab->getIMGFile()->getVersion(), pIMGEditorTab->getIMGFile()->isEncrypted()));
-	pMainLayer->m_pText_FileGame->setText(IMGManager::getVersionGames(pIMGEditorTab->getIMGFile()->getVersion()));
-	pMainLayer->m_pText_FileEntryCount->setText(String::toString(pIMGEditorTab->getIMGFile()->getEntryCount()));
-}
-
-void						IMGEditor::clearFileInfoText(void)
-{
-	MainLayer *pMainLayer = m_pMainWindow->getMainLayer();
-
-	pMainLayer->m_pText_FilePath->setText(string("No file is open"));
-	pMainLayer->m_pText_FileVersion->setText(string("-"));
-	pMainLayer->m_pText_FileGame->setText(string("-"));
-	pMainLayer->m_pText_FileEntryCount->setText(string("-"));
-}
-
-
-
-
-
-
+// active tab
 void						IMGEditor::setActiveTab(IMGEditorTab *pEditorTab)
 {
 	Editor::setActiveFile(pEditorTab);

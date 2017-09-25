@@ -9,13 +9,13 @@
 #include <vector>
 #include <Windows.h>
 
-class imgf::IMGEditor;
 class bxgi::IMGFormat;
 class bxgi::IMGEntry;
-class imgf::DBFormat;
+class bxgx::Text;
 class bxgx::DropDownItem;
 class bxgx::Grid;
-class bxgi::IMGFormat;
+class imgf::IMGEditor;
+class imgf::DBFormat;
 
 class imgf::IMGEditorTab : public imgf::EditorTab
 {
@@ -28,6 +28,8 @@ public:
 	void						init(void);
 
 	void						onFileLoaded(void);
+
+	void						setFileInfoText(void);
 
 	void						addControls(void);
 	void						removeControls(void);
@@ -154,6 +156,12 @@ public:
 
 private:
 	void						loadProtectedEntryState(bxgi::IMGEntry *pIMGEntry);
+
+public:
+	bxgx::Text*					m_pText_FilePath;
+	bxgx::Text*					m_pText_FileVersion;
+	bxgx::Text*					m_pText_FileGame;
+	bxgx::Text*					m_pText_FileEntryCount;
 
 private:
 	IMGEditor*					m_pEditor;

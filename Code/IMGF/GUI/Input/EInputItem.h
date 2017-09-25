@@ -19,6 +19,9 @@ enum imgf::mainLayer::input::EInputItem
 	ANIMATIONS,
 	RADAR,
 
+	// top right menu
+	SETTINGS_MENU,
+
 	// second left and top menus
 	SAVE_MENU,
 	SAVE_LOGS_MENU,

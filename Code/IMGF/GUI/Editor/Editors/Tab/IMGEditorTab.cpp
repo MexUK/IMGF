@@ -59,6 +59,10 @@ using namespace imgf;
 
 IMGEditorTab::IMGEditorTab(void) :
 	m_pEditor(nullptr),
+	m_pText_FilePath(nullptr),
+	m_pText_FileVersion(nullptr),
+	m_pText_FileGame(nullptr),
+	m_pText_FileEntryCount(nullptr),
 	m_pEntryGrid(nullptr),
 	m_pEntryTypeFilter(nullptr),
 	m_pEntryVersionFilter(nullptr),
@@ -127,10 +131,10 @@ void					IMGEditorTab::onFileLoaded(void)
 	getRenderItems().addEntry(m_pEntryTypeFilter);
 	getRenderItems().addEntry(m_pEntryVersionFilter);
 
-	//setFileInfoText();
 	addGridEntries();
 
 	/*
+	todo
 	if (m_bTabMarkedForClose)
 	{
 		return;
@@ -141,6 +145,8 @@ void					IMGEditorTab::onFileLoaded(void)
 
 	loadFilter_Type();
 	loadFilter_Version();
+
+	setFileInfoText();
 
 
 
@@ -180,16 +186,24 @@ void					IMGEditorTab::onFileLoaded(void)
 	checkForUnknownRWVersionEntries();
 }
 
+// file info text
+void					IMGEditorTab::setFileInfoText(void)
+{
+	m_pText_FilePath->setText(getIMGFile()->getIMGFilePath());
+	m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
+	m_pText_FileGame->setText(IMGManager::getVersionGames(getIMGFile()->getVersion()));
+
+	updateEntryCountText();
+}
+
 // controls
 void					IMGEditorTab::addControls(void)
 {
-	int32
-		x, y, w, h, w2;
-	uint32
-		uiButtonHeight, uiLogWidth;
-	string
-		strStyleGroup;
+	int32 x, y, w, h, y2, w2, h2;
+	uint32 uiTitleBarHeight, uiButtonHeight, uiLogWidth;
+	string strStyleGroup;
 
+	uiTitleBarHeight = m_pWindow->getTitleBarHeight();
 	uiButtonHeight = 37;
 	uiLogWidth = 335;
 
@@ -226,6 +240,37 @@ void					IMGEditorTab::addControls(void)
 	m_pEntryVersionFilter = addDropDown(x, y, w, h, "Entry Version", strStyleGroup, -1, -50);
 	m_pEntryVersionFilter->addItem("No file is open", false, false);
 	m_pEntryVersionFilter->addLinkedItem(m_pEntryTypeFilter);
+
+	// game information headers
+	x = 149 + 139;
+	y = (uiTitleBarHeight - 1) + uiButtonHeight + 10;
+	y2 = y;
+	w = 80;
+	h = 20;
+	h2 = 20;
+	strStyleGroup = "gameInfoText";
+
+	addText(x, y, w, h, "Path", strStyleGroup, -1, -150);
+	y += h2;
+	addText(x, y, w, h, "Version", strStyleGroup, -1, -150);
+	y += h2;
+	addText(x, y, w, h, "Game", strStyleGroup, -1, -150);
+	y += h2;
+	addText(x, y, w, h, "Entries", strStyleGroup, -1, -150);
+
+	// game information values
+	x += 90;
+	y = y2;
+	w = 415;
+	w2 = 200;
+
+	m_pText_FilePath = addText(x, y, w, h, "Loading..", strStyleGroup, -1, -150);
+	y += h2;
+	m_pText_FileVersion = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
+	y += h2;
+	m_pText_FileGame = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
+	y += h2;
+	m_pText_FileEntryCount = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
 }
 
 void					IMGEditorTab::initControls(void)
@@ -812,7 +857,7 @@ void					IMGEditorTab::addGridEntries(void)
 	string
 		strSearchFilterText = pSearchBoxFilter->getTextAtLine(0);
 
-	m_pEntryGrid->getEntries().resize(m_pIMGFile->getEntryCount());
+	// m_pEntryGrid->getEntries().resize(m_pIMGFile->getEntryCount()); // todo - still needed?
 
 	void **pRows = new void*[uiEntryCount];
 	GridRow *pRow;
@@ -854,6 +899,7 @@ void					IMGEditorTab::addGridEntries(void)
 		pTaskManager->onTaskProgressTick();
 
 		/*
+		todo
 		if (m_bTabMarkedForClose)
 		{
 			break;
@@ -863,12 +909,10 @@ void					IMGEditorTab::addGridEntries(void)
 
 	m_pEntryGrid->recalculateProgressFor1Item();
 	m_pEntryGrid->render();
+
+	updateEntryCountText();
 	
 	//m_bTabReadyToClose = true;
-
-	// todo
-	//updateEntryCountText();
-	//updateIMGText();
 }
 
 void					IMGEditorTab::addGridEntry(IMGEntry *pIMGEntry, uint32 uiEntryIndex, void **pRows)
@@ -912,7 +956,8 @@ void					IMGEditorTab::addGridEntry(IMGEntry *pIMGEntry, uint32 uiEntryIndex, vo
 	}
 	else
 	{
-		m_pEntryGrid->setEntryByIndex(uiEntryIndex, pRow);
+		m_pEntryGrid->addEntry(pRow);
+		// m_pEntryGrid->setEntryByIndex(uiEntryIndex, pRow); // todo - still needed?
 	}
 
 	/*
@@ -971,22 +1016,22 @@ uint32			IMGEditorTab::getMainListViewItemIndexByItemData(IMGEntry *pIMGEntry)
 
 void					IMGEditorTab::updateEntryCountText(void)
 {
-	m_pEditor->setFileInfoText(this);
-
-	/*
-	todo
 	uint32
-		uiFilteredEntryCount = getListView()->GetItemCount(),
-		uiEntryCount = getIMGFile()->getEntryCount();
-	if (isFilterActive())
+		uiDisplayedEntryCount = getEntryGrid()->getEntryCount(),
+		uiTotalEntryCount = getIMGFile()->getEntryCount();
+	string
+		strEntryCountText;
+
+	if (uiDisplayedEntryCount == uiTotalEntryCount)
 	{
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(20))->SetWindowTextW(LocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_FilteredEntryCount", uiFilteredEntryCount, uiEntryCount).c_str());
+		strEntryCountText = String::toString(uiTotalEntryCount);
 	}
 	else
 	{
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(20))->SetWindowTextW(LocalizationManager::get()->getTranslatedFormattedTextW("Window_Main_Text_EntryCount", uiEntryCount).c_str());
+		strEntryCountText = String::toString(uiDisplayedEntryCount) + " of " + String::toString(uiTotalEntryCount);
 	}
-	*/
+
+	m_pText_FileEntryCount->setText(strEntryCountText);
 }
 
 void					IMGEditorTab::updateTabText(void)

@@ -1,6 +1,7 @@
 #include "InputManager.h"
 #include "GUI/Input/EInputItem.h"
 #include "Control/Controls/Button.h"
+#include "Control/Controls/TextBox.h"
 #include "Control/Entries/MenuItem.h"
 #include "Globals.h"
 #include "IMGF.h"
@@ -14,6 +15,7 @@
 #include "Task/Tasks/Session/SessionManager.h"
 #include "GUI/Editor/Editors/IMGEditor.h"
 #include "Static/String.h"
+#include "Event/EInternalEvent.h"
 
 using namespace std;
 using namespace bxcf;
@@ -36,8 +38,68 @@ void					InputManager::init(void)
 // bind events
 void					InputManager::bindEvents(void)
 {
+	bindEvent(KEY_DOWN, &InputManager::onKeyDown);
+	bindEvent(KEY_CHAR, &InputManager::onCharDown);
+	bindEvent(MOUSE_ENTER_ITEM, &InputManager::onMouseEnterItem);
+	bindEvent(MOUSE_EXIT_ITEM, &InputManager::onMouseExitItem);
+
 	bindEvent(PRESS_BUTTON, &InputManager::onPressButton);
 	bindEvent(PRESS_MENU_ITEM, &InputManager::onPressMenuItem);
+}
+
+// key down
+void					InputManager::onKeyDown(uint16 uiKey)
+{
+	IMGEditorTab *pEditorTab = (IMGEditorTab*)m_pMainWindow->getIMGEditor()->getActiveFile();
+	if (pEditorTab && m_pMainWindow->getActiveItem() == (LayerItem*)pEditorTab->getEntryGrid())
+	{
+		pEditorTab->getSearchBox()->onKeyDown(uiKey);
+	}
+}
+
+// char down
+void					InputManager::onCharDown(uint16 uiKey)
+{
+	IMGEditorTab *pEditorTab = (IMGEditorTab*)m_pMainWindow->getIMGEditor()->getActiveFile();
+	if (pEditorTab && m_pMainWindow->getActiveItem() == (LayerItem*)pEditorTab->getEntryGrid() && String::isAsciiCharacterDisplayable((uint8)uiKey))
+	{
+		pEditorTab->getSearchBox()->onCharDown(uiKey);
+	}
+}
+
+// mouse enter item
+void					InputManager::onMouseEnterItem(RenderItem *pRenderItem)
+{
+	Button *pSettingsButton = (Button*)m_pMainWindow->getItemById(SETTINGS);
+	Layer *pLayer = m_pMainWindow->getLayerById(ELayer::SETTINGS_MENU);
+	if (pSettingsButton == pRenderItem)
+	{
+		pLayer->setEnabled(true);
+	}
+}
+
+// mouse exit item
+void					InputManager::onMouseExitItem(RenderItem *pRenderItem)
+{
+	Button *pSettingsButton = (Button*)m_pMainWindow->getItemById(SETTINGS);
+	Layer *pLayer = m_pMainWindow->getLayerById(ELayer::SETTINGS_MENU);
+	Menu *pMenu = (Menu*)m_pMainWindow->getItemById(EInputItem::SETTINGS_MENU);
+	Vec2i& vecCursorPoint = BXGX::get()->getCursorPosition();
+
+	if (pRenderItem == pSettingsButton)
+	{
+		if (!pMenu || !pMenu->isPointInBoundingRectangle(vecCursorPoint, 0))
+		{
+			pLayer->setEnabled(false);
+		}
+	}
+	else if (pRenderItem == pMenu)
+	{
+		if (!pSettingsButton->isPointInItem(vecCursorPoint))
+		{
+			pLayer->setEnabled(false);
+		}
+	}
 }
 
 // forward button press
@@ -45,7 +107,6 @@ void					InputManager::onPressButton(Button *pButton)
 {
 	switch (pButton->getId())
 	{
-	case SETTINGS:			return settingsMenu();
 	}
 }
 
@@ -1126,7 +1187,7 @@ void					InputManager::lst(void)
 // settings
 void					InputManager::settingsMenu(void)
 {
-	Layer *pLayer = m_pMainWindow->getLayerById(SETTINGS_MENU);
+	Layer *pLayer = m_pMainWindow->getLayerById(ELayer::SETTINGS_MENU);
 	pLayer->setEnabled(!pLayer->isEnabled());
 }
 

@@ -257,10 +257,10 @@ fill 0 67 159
 .imgEditor_grid:cell .main_textAlign .main_spacing .main_textColour
 
 .progressBar
-fill 67 143 235
+fill 118 194 255
 
 .progressBar:innerBar
-fill 16 92 184
+fill 93 169 255
 
 .log .main_spacing
 spacing y 8

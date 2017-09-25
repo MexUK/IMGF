@@ -86,23 +86,9 @@ void								Editor::removeActiveFile(void)
 void								Editor::setActiveFile(EditorTab *pEditorFile)
 {
 	m_pActiveFile = pEditorFile;
-
-	if (pEditorFile)
-	{
-		updateActiveFileDisplayedInfo();
-	}
-	else
-	{
-		clearActiveFileDisplayedInfo();
-	}
 }
 
 void								Editor::updateActiveFileDisplayedInfo(void)
 {
-	setFileInfoText(m_pActiveFile);
-}
-
-void								Editor::clearActiveFileDisplayedInfo(void)
-{
-	clearFileInfoText();
+	m_pActiveFile->setFileInfoText();
 }

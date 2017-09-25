@@ -19,6 +19,11 @@ private:
 	void					bindEvents(void);
 
 public:
+	void					onKeyDown(uint16 uiKey);
+	void					onCharDown(uint16 uiKey);
+	void					onMouseEnterItem(bxgx::RenderItem *pRenderItem);
+	void					onMouseExitItem(bxgx::RenderItem *pRenderItem);
+
 	void					onPressButton(bxgx::Button *pMenuItem);
 	void					onPressMenuItem(bxgx::MenuItem *pMenuItem);
 
