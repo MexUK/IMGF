@@ -926,7 +926,7 @@ void		DumpManager::process(void)
 	if (bSuccessfulResult)
 	{
 		getIMGF()->getTaskManager()->onPauseTask();
-		Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_1"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_1"));
+		Tasks::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_1"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_1"));
 		getIMGF()->getTaskManager()->onResumeTask();
 	}
 	else

@@ -231,6 +231,14 @@ string			Tasks::saveFolder(string strTitle, string strInitialDir)
 	return strFolderPath;
 }
 
+uint32			Tasks::showMessage(string strMessage, string strWindowTitle, uint32 uiButtons)
+{
+	getIMGF()->getTaskManager()->onPauseTask();
+	uint32 uiResult = Input::showMessage(strMessage, strWindowTitle, uiButtons);
+	getIMGF()->getTaskManager()->onResumeTask();
+	return uiResult;
+}
+
 // active tab
 EditorTab*		Tasks::getTab(void)
 {
@@ -264,7 +272,13 @@ void		Tasks::newFile(void)
 	onStartTask("newFile");
 
 	string strNewIMGFilePath = DataPath::getDataPath() + "New/IMG/New.img";
-	strNewIMGFilePath = File::getNextIncrementingFileName(strNewIMGFilePath);
+	string strNewIMGFilePath2 = strNewIMGFilePath;
+	uint32 uiSuffix = 2;
+	while (m_pMainWindow->getIMGEditor()->isFilePathOpen(strNewIMGFilePath) || File::doesFileExist(strNewIMGFilePath))
+	{
+		strNewIMGFilePath = Path::removeFileExtension(strNewIMGFilePath2) + String::toString(uiSuffix) + "." + Path::getFileExtension(strNewIMGFilePath2);
+		uiSuffix++;
+	}
 
 	File::createFoldersForPath(strNewIMGFilePath);
 
@@ -317,7 +331,7 @@ void		Tasks::_openFile(string& strFilePath)
 		if (uiFormat == -1)
 		{
 			unknownFormatFile.close();
-			Input::showMessage("Unable to detect file format.\r\n\r\n" + strFilePath, "Unknown File Format");
+			showMessage("Unable to detect file format.\r\n\r\n" + strFilePath, "Unknown File Format");
 			return m_pTaskManager->onAbortTask();
 		}
 
@@ -358,11 +372,11 @@ void		Tasks::_openFile(string& strFilePath)
 	{
 		if (strExtensionUpper == "")
 		{
-			Input::showMessage("File doesn't have an extension.\r\n\r\n" + strFilePath, "Format Not Detected");
+			showMessage("File doesn't have an extension.\r\n\r\n" + strFilePath, "Format Not Detected");
 		}
 		else
 		{
-			Input::showMessage(strExtensionUpper + " files are not supported.\r\n\r\n" + strFilePath, "Format Not Supported");
+			showMessage(strExtensionUpper + " files are not supported.\r\n\r\n" + strFilePath, "Format Not Supported");
 		}
 		return onAbortTask();
 	}
@@ -476,7 +490,7 @@ void		Tasks::openTodaysLogsFile(void)
 	string strLogsFolderPath = getIMGF()->getSettingsManager()->getSetting("LogsFolderPath");
 	if (strLogsFolderPath == "")
 	{
-		Input::showMessage("The folder for saving logs to file is not set, please choose this in Settings first.", "Save Logs Folder Not Set", MB_OK);
+		showMessage("The folder for saving logs to file is not set, please choose this in Settings first.", "Save Logs Folder Not Set", MB_OK);
 		return onAbortTask();
 	}
 
@@ -484,7 +498,7 @@ void		Tasks::openTodaysLogsFile(void)
 
 	if (!File::doesFileExist(strLogsFilePath))
 	{
-		Input::showMessage("File does not exist:\n\n" + strLogsFilePath, "File Doesn't Exist", MB_OK);
+		showMessage("File does not exist:\n\n" + strLogsFilePath, "File Doesn't Exist", MB_OK);
 		return onAbortTask();
 	}
 
@@ -500,13 +514,13 @@ void		Tasks::openLogsFolder(void)
 	string strLogsFolderPath = getIMGF()->getSettingsManager()->getSetting("LogsFolderPath");
 	if (strLogsFolderPath == "")
 	{
-		Input::showMessage("The folder for saving logs to file is not set, please choose this in Settings first.", "Save Logs Folder Not Set", MB_OK);
+		showMessage("The folder for saving logs to file is not set, please choose this in Settings first.", "Save Logs Folder Not Set", MB_OK);
 		return onAbortTask();
 	}
 
 	if (!File::doesFolderExist(strLogsFolderPath))
 	{
-		Input::showMessage("Folder does not exist:\n\n" + strLogsFolderPath, "Folder Doesn't Exist", MB_OK);
+		showMessage("Folder does not exist:\n\n" + strLogsFolderPath, "Folder Doesn't Exist", MB_OK);
 		return onAbortTask();
 	}
 
@@ -603,7 +617,7 @@ void		Tasks::saveFileGroup(void)
 	}
 	else if (String::isIn(strFileGroupName, ";"))
 	{
-		Input::showMessage("The file group name cannot contain a semi colon (;).", "Invalid File Group Name", MB_OK);
+		showMessage("The file group name cannot contain a semi colon (;).", "Invalid File Group Name", MB_OK);
 		return onAbortTask();
 	}
 
@@ -695,7 +709,7 @@ void		Tasks::closeFile(void)
 
 	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose"))
 	{
-		if (Input::showMessage("Save file before closing?\n\n" + getIMGTab()->getIMGFile()->getIMGFilePath(), "Auto Save?") == 1)
+		if (showMessage("Save file before closing?\n\n" + getIMGTab()->getIMGFile()->getIMGFilePath(), "Auto Save?") == 1)
 		{
 			saveAllOpenFiles(false);
 		}
@@ -716,7 +730,7 @@ void		Tasks::closeAllFiles(void)
 	{
 		if (bConfirmOnClose)
 		{
-			if (Input::showMessage("Save file before closing?\n\n" + pIMGEditorTab->getIMGFile()->getIMGFilePath(), "Auto Save?") == 1)
+			if (showMessage("Save file before closing?\n\n" + pIMGEditorTab->getIMGFile()->getIMGFilePath(), "Auto Save?") == 1)
 			{
 				saveAllOpenFiles(false);
 			}
@@ -1663,7 +1677,7 @@ void		Tasks::quickExport(void)
 	string strQuickExportFolderPath = getIMGF()->getSettingsManager()->getSetting("QuickExportFolderPath");
 	if (strQuickExportFolderPath == "")
 	{
-		Input::showMessage("The Quick Export folder is not set, please choose this in Settings first.", "Quick Export Folder Not Set", MB_OK);
+		showMessage("The Quick Export folder is not set, please choose this in Settings first.", "Quick Export Folder Not Set", MB_OK);
 		return;
 	}
 
@@ -1683,12 +1697,12 @@ void		Tasks::rename(void)
 
 	if (getIMGTab()->getEntryGrid()->getSelectedRowCount() == 0)
 	{
-		Input::showMessage("At least one IMG entry must be selected to rename.", "No Entries Selected");
+		showMessage("At least one IMG entry must be selected to rename.", "No Entries Selected");
 		return onAbortTask();
 	}
 	else if (getIMGTab()->getEntryGrid()->getSelectedRowCount() > 1)
 	{
-		Input::showMessage("Only one IMG entry can be selected to rename.", "Too Many Entries Selected");
+		showMessage("Only one IMG entry can be selected to rename.", "Too Many Entries Selected");
 		return onAbortTask();
 	}
 
@@ -2346,7 +2360,7 @@ void		Tasks::splitSelected(void)
 	uint32 uiSelectedEntryCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
 	if (uiSelectedEntryCount == 0)
 	{
-		Input::showMessage("At least one entry must be selected to split selected entries.", "Selected Entry Needed", MB_OK);
+		showMessage("At least one entry must be selected to split selected entries.", "Selected Entry Needed", MB_OK);
 		return onAbortTask();
 	}
 
@@ -2363,7 +2377,7 @@ void		Tasks::splitSelected(void)
 		uiNewIMGVersion = getIMGTab()->getIMGFile()->getVersion();
 	}
 
-	bool bDeleteSelectedEntriesFromSourceIMG = Input::showMessage("Also delete selected entries from source IMG?", "Delete Selected Entries?") == MB_OK;
+	bool bDeleteSelectedEntriesFromSourceIMG = showMessage("Also delete selected entries from source IMG?", "Delete Selected Entries?") == MB_OK;
 
 	getIMGTab()->splitSelectedEntries(strNewFilePath, uiNewIMGVersion, bDeleteSelectedEntriesFromSourceIMG);
 
@@ -2409,7 +2423,7 @@ void		Tasks::splitByIDE(void)
 		uiNewIMGVersion = getIMGTab()->getIMGFile()->getVersion();
 	}
 
-	bool bDeleteSelectedEntriesFromSourceIMG = Input::showMessage("Also delete selected entries from source IMG?", "Delete Selected Entries?") == MB_OK;
+	bool bDeleteSelectedEntriesFromSourceIMG = showMessage("Also delete selected entries from source IMG?", "Delete Selected Entries?") == MB_OK;
 
 	// fetch chosen IDE sections from input window
 	vector<EIDESection>
@@ -2493,7 +2507,7 @@ void		Tasks::splitByEntryNames(void)
 		uiNewIMGVersion = getIMGTab()->getIMGFile()->getVersion();
 	}
 
-	bool bDeleteSelectedEntriesFromSourceIMG = Input::showMessage("Also delete split entries from source IMG?", "Delete Split Entries?") == MB_OK;
+	bool bDeleteSelectedEntriesFromSourceIMG = showMessage("Also delete split entries from source IMG?", "Delete Split Entries?") == MB_OK;
 
 	getIMGTab()->getIMGFile()->split(vecIMGEntries, strNewFilePath, uiNewIMGVersion);
 
@@ -2536,7 +2550,7 @@ void		Tasks::convertIMGVersion(void)
 	if (uiCurrentIMGVersion == IMG_1)
 	{
 		// todo bool bRemoveDIRFile = getIMGTab()->getWindow()->showBoolWindow("Remove DIR file previously associated with IMG file?");
-		bool bRemoveDIRFile = Input::showMessage("Remove DIR file previously associated with IMG file?", "Remove DIR File?") == MB_OK;
+		bool bRemoveDIRFile = showMessage("Remove DIR file previously associated with IMG file?", "Remove DIR File?") == MB_OK;
 		if (bRemoveDIRFile)
 		{
 			File::removeFile(getIMGTab()->getIMGFile()->getDIRFilePath());
@@ -4706,7 +4720,7 @@ void		Tasks::compareIMGs(void)
 	// verify there are at least 2 IMG files to compare
 	if (vecIMGFiles.size() < 2)
 	{
-		Input::showMessage("There needs to be at least 2 valid IMG files to compare.", "Not Enough Valid IMG Files", MB_OK);
+		showMessage("There needs to be at least 2 valid IMG files to compare.", "Not Enough Valid IMG Files", MB_OK);
 		return onAbortTask();
 	}
 
@@ -4886,7 +4900,7 @@ void		Tasks::verifyIMGSignature(void)
 
 	if (!File::doesFileExist(strDBFilePath))
 	{
-		Input::showMessage("DB file does not exist for " + Path::getFileName(pIMGFile->getIMGFilePath()), "DB File Doesn't Exist", MB_OK);
+		showMessage("DB file does not exist for " + Path::getFileName(pIMGFile->getIMGFilePath()), "DB File Doesn't Exist", MB_OK);
 		return onAbortTask();
 	}
 
@@ -4897,18 +4911,18 @@ void		Tasks::verifyIMGSignature(void)
 	{
 		delete pDBFileForIMGTab;
 		delete pDBFileForIMGFile;
-		Input::showMessage("Failed to open DB file for " + Path::getFileName(pIMGFile->getIMGFilePath()), "Failed to Open DB File", MB_OK);
+		showMessage("Failed to open DB file for " + Path::getFileName(pIMGFile->getIMGFilePath()), "Failed to Open DB File", MB_OK);
 		return onAbortTask();
 	}
 	
 	bool bComparedEqual = DBManager::get()->compareDBFiles(pDBFileForIMGTab, pDBFileForIMGFile);
 	if(bComparedEqual)
 	{
-		Input::showMessage("The IMG matches the DB file.", "IMG Matches DB", MB_OK);
+		showMessage("The IMG matches the DB file.", "IMG Matches DB", MB_OK);
 	}
 	else
 	{
-		Input::showMessage("The IMG does not match the DB file.", "IMG Doesn't Match DB", MB_OK);
+		showMessage("The IMG does not match the DB file.", "IMG Doesn't Match DB", MB_OK);
 	}
 
 	delete pDBFileForIMGTab;
@@ -4937,7 +4951,7 @@ void			Tasks::validateDFFInTab(void)
 
 	if (vecGridCellsText.size() == 0)
 	{
-		Input::showMessage("All DFF entries in this tab are valid.", "All DFF Valid", MB_OK);
+		showMessage("All DFF entries in this tab are valid.", "All DFF Valid", MB_OK);
 	}
 	else
 	{
@@ -5003,7 +5017,7 @@ void			Tasks::validateTXDInTab(void)
 
 	if (vecGridCellsText.size() == 0)
 	{
-		Input::showMessage("All TXD entries in this tab are valid.", "All TXD Valid", MB_OK);
+		showMessage("All TXD entries in this tab are valid.", "All TXD Valid", MB_OK);
 	}
 	else
 	{
@@ -5160,7 +5174,7 @@ void			Tasks::alignCOLMeshesToDFFMeshes(void)
 		increaseProgress();
 	}
 	
-	Input::showMessage("Aligned " + String::toString(uiAlignedEntryCount) + " COL meshes to DFF meshes.", "Aligned COL to DFF", MB_OK);
+	showMessage("Aligned " + String::toString(uiAlignedEntryCount) + " COL meshes to DFF meshes.", "Aligned COL to DFF", MB_OK);
 
 	onCompleteTask();
 }
@@ -5375,7 +5389,7 @@ void		Tasks::imgCompression(void)
 	// ensure IMG version has settings
 	if (getIMGTab()->getIMGFile()->getVersion() != IMG_FASTMAN92)
 	{
-		Input::showMessage("IMG version must be Fastman92's IMG version for compression or encryption.", "Invalid IMG Version for Compression/Encryption", MB_OK);
+		showMessage("IMG version must be Fastman92's IMG version for compression or encryption.", "Invalid IMG Version for Compression/Encryption", MB_OK);
 		return onAbortTask();
 	}
 
@@ -5640,7 +5654,7 @@ void		Tasks::onRequestUpdate(void)
 		{
 			getIMGF()->getTaskManager()->onPauseTask();
 			uint32 uiMirrorCount = getIMGF()->getUpdateManager()->getUpdateConnectionManager()->getEntryCount();
-			Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_40", uiMirrorCount), LocalizationManager::get()->getTranslatedText("UnableToCheckForUpdates"), MB_OK);
+			showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_40", uiMirrorCount), LocalizationManager::get()->getTranslatedText("UnableToCheckForUpdates"), MB_OK);
 			getIMGF()->getTaskManager()->onResumeTask();
 			getIMGF()->getTaskManager()->onTaskEnd("onRequestUpdate", true);
 			return;
@@ -5656,7 +5670,7 @@ void		Tasks::onRequestUpdate(void)
 		if (uiLatestBuildNumber > 5000) // todo BUILDNUMBER)
 		{
 			getIMGF()->getTaskManager()->onPauseTask();
-			uint32 uiResult = false; // todo - Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_41", strLatestVersion.c_str(), strLatestBuildNumber.c_str(), getIMGF()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), LocalizationManager::get()->getTranslatedText("TextPopupTitle_41"), MB_OKCANCEL);
+			uint32 uiResult = false; // todo - showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_41", strLatestVersion.c_str(), strLatestBuildNumber.c_str(), getIMGF()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), LocalizationManager::get()->getTranslatedText("TextPopupTitle_41"), MB_OKCANCEL);
 			getIMGF()->getTaskManager()->onResumeTask();
 			if (uiResult == IDOK)
 			{
@@ -5687,7 +5701,7 @@ void		Tasks::onRequestUpdate(void)
 				}
 
 				getIMGF()->getTaskManager()->onPauseTask();
-				uint32 uiResult2 = Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_42"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_42"), MB_OKCANCEL);
+				uint32 uiResult2 = showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_42"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_42"), MB_OKCANCEL);
 				getIMGF()->getTaskManager()->onResumeTask();
 				if (uiResult2 == IDOK)
 				{
@@ -5704,7 +5718,7 @@ void		Tasks::onRequestUpdate(void)
 		else
 		{
 			getIMGF()->getTaskManager()->onPauseTask();
-			// todo - Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_43", getIMGF()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), LocalizationManager::get()->getTranslatedText("UpToDate"), MB_OK);
+			// todo - showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_43", getIMGF()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), LocalizationManager::get()->getTranslatedText("UpToDate"), MB_OK);
 			getIMGF()->getTaskManager()->onResumeTask();
 		}
 	}
@@ -5733,7 +5747,7 @@ void		Tasks::onRequestUpdate(void)
 		{
 			getIMGF()->getTaskManager()->onPauseTask();
 			uint32 uiMirrorCount = getIMGF()->getUpdateManager()->getUpdateConnectionManager()->getEntryCount();
-			Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_44", uiMirrorCount), LocalizationManager::get()->getTranslatedText("UnableToCheckForUpdates"), MB_OK);
+			showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_44", uiMirrorCount), LocalizationManager::get()->getTranslatedText("UnableToCheckForUpdates"), MB_OK);
 			getIMGF()->getTaskManager()->onResumeTask();
 			getIMGF()->getTaskManager()->onTaskEnd("onRequestUpdate", true);
 			return;
@@ -5748,7 +5762,7 @@ void		Tasks::onRequestUpdate(void)
 		if (fLatestVersion > getIMGF()->getBuildMeta().getCurrentVersion())
 		{
 			getIMGF()->getTaskManager()->onPauseTask();
-			uint32 uiResult = Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_45", strLatestVersion.c_str(), getIMGF()->getBuildMeta().getCurrentVersionString().c_str()), LocalizationManager::get()->getTranslatedText("TextPopupTitle_45"), MB_OKCANCEL);
+			uint32 uiResult = showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_45", strLatestVersion.c_str(), getIMGF()->getBuildMeta().getCurrentVersionString().c_str()), LocalizationManager::get()->getTranslatedText("TextPopupTitle_45"), MB_OKCANCEL);
 			getIMGF()->getTaskManager()->onResumeTask();
 			if (uiResult == IDOK)
 			{
@@ -5778,7 +5792,7 @@ void		Tasks::onRequestUpdate(void)
 				}
 
 				getIMGF()->getTaskManager()->onPauseTask();
-				uint32 uiResult2 = Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_42"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_42"), MB_OKCANCEL);
+				uint32 uiResult2 = showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_42"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_42"), MB_OKCANCEL);
 				getIMGF()->getTaskManager()->onResumeTask();
 				if (uiResult2 == IDOK)
 				{
@@ -5795,7 +5809,7 @@ void		Tasks::onRequestUpdate(void)
 		else
 		{
 			getIMGF()->getTaskManager()->onPauseTask();
-			Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_46", getIMGF()->getBuildMeta().getCurrentVersionString().c_str()), LocalizationManager::get()->getTranslatedText("UpToDate"), MB_OK);
+			showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_46", getIMGF()->getBuildMeta().getCurrentVersionString().c_str()), LocalizationManager::get()->getTranslatedText("UpToDate"), MB_OK);
 			getIMGF()->getTaskManager()->onResumeTask();
 		}
 	}
@@ -5820,7 +5834,7 @@ void		Tasks::onRequestAutoUpdate(void)
 	if (fLatestVersion > getIMGF()->getBuildMeta().getCurrentVersion())
 	{
 		getIMGF()->getTaskManager()->onPauseTask();
-		uint32 uiResult = Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_45", strLatestVersion.c_str(), getIMGF()->getBuildMeta().getCurrentVersionString().c_str()), LocalizationManager::get()->getTranslatedText("TextPopupTitle_45"), MB_OKCANCEL);
+		uint32 uiResult = showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_45", strLatestVersion.c_str(), getIMGF()->getBuildMeta().getCurrentVersionString().c_str()), LocalizationManager::get()->getTranslatedText("TextPopupTitle_45"), MB_OKCANCEL);
 		getIMGF()->getTaskManager()->onResumeTask();
 		if (uiResult == IDOK)
 		{
@@ -5847,7 +5861,7 @@ void		Tasks::onRequestAutoUpdate(void)
 			}
 
 			getIMGF()->getTaskManager()->onPauseTask();
-			uint32 uiResult2 = Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_42"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_42"), MB_OKCANCEL);
+			uint32 uiResult2 = showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_42"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_42"), MB_OKCANCEL);
 			getIMGF()->getTaskManager()->onResumeTask();
 			if (uiResult2 == IDOK)
 			{
@@ -5884,7 +5898,7 @@ void			Tasks::onRequestRenamer(void)
 	// ensure a tab is open
 	if (getIMGF()->getEntryListTab() == nullptr)
 	{
-		Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_50"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_50"), MB_OK);
+		showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_50"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_50"), MB_OK);
 		delete pRenamerDialogData;
 		getIMGF()->getTaskManager()->onTaskEnd("onRequestRenamer", true);
 		return;

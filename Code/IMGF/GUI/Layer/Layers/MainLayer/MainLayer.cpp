@@ -98,7 +98,7 @@ void		MainLayer::addControls(void)
 	w2 = w;
 	strStyleGroup = "topMenu";
 
-	pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, -1, -200);
+	pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, TOP_MENU, -200);
 
 	pMenuItem1 = pMenu1->addMenuItem("New");
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);
@@ -190,7 +190,7 @@ void		MainLayer::addControls(void)
 
 
 
-	pMenu1 = addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -200);
+	pMenu1 = addMenu(x, y, w, h, VERTICAL, strStyleGroup, SECOND_LEFT_MENU, -200);
 
 	// import
 	pMenuItem1 = pMenu1->addMenuItem("Import", IMPORT_MENU);
@@ -678,6 +678,7 @@ void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
 		CENTER_COL_MESHES_IN_SELECTION,
 		IMG_COMPRESSION
 	};
+	
 	for (EInputItem uiMenuItemId : vecMenuItemIds)
 	{
 		MenuItem *pMenuItem = (MenuItem*) m_pWindow->getItemById(uiMenuItemId);
@@ -686,6 +687,14 @@ void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
 			pMenuItem->setEnabled(bEnabled);
 		}
 	}
+
+	Menu *pMenu;
+
+	pMenu = (Menu*)m_pWindow->getItemById(TOP_MENU);
+	pMenu->render();
+
+	pMenu = (Menu*)m_pWindow->getItemById(SECOND_LEFT_MENU);
+	pMenu->render();
 }
 
 void		MainLayer::initControls(void)

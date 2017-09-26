@@ -34,6 +34,8 @@ public:
 
 	void								updateActiveFileDisplayedInfo(void);
 
+	bool								isFilePathOpen(std::string& strFilePath);
+
 	virtual std::string					getResolvedFilePath(std::string& strFilePath) { return strFilePath; } // file name or file path
 
 protected:

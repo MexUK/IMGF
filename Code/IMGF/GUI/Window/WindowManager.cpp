@@ -21,6 +21,7 @@
 #include "Control/Controls/CheckBox.h"
 #include "Control/Controls/Text.h"
 #include "Static/Input.h"
+#include "Task/Tasks/Tasks.h"
 #include <string>
 
 using namespace std;
@@ -122,7 +123,7 @@ void					WindowManager::onPressButton_IDEInputWindow(Button *pButton)
 		}
 		if (!bAtLeastOneCheckBoxIsMarked)
 		{
-			Input::showMessage("At least one check box must be marked.", "Input Error", MB_OK);
+			Tasks::showMessage("At least one check box must be marked.", "Input Error", MB_OK);
 			return;
 		}
 		else

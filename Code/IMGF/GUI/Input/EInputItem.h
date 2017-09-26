@@ -4,8 +4,12 @@
 
 enum imgf::mainLayer::input::EInputItem
 {
+	// main menus
+	TOP_MENU = 1000,
+	SECOND_LEFT_MENU,
+
 	// top left menu items
-	FORMATS = 1000,
+	FORMATS,
 	UTILITY,
 
 	// left menu items

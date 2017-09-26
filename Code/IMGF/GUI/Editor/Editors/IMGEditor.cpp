@@ -84,7 +84,7 @@ IMGEditorTab*				IMGEditor::addFile(string& strIMGFilePath)
 	IMGFormat *img = IMGFormat::createIMGFormat(strIMGFilePath);
 	if (!img)
 	{
-		Input::showMessage("Failed to read meta data.\r\n\r\n" + strIMGFilePath, "Can't Open IMG File");
+		Tasks::showMessage("Failed to read meta data.\r\n\r\n" + strIMGFilePath, "Can't Open IMG File");
 		return nullptr;
 	}
 

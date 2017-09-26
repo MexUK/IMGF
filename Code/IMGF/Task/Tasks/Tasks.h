@@ -22,6 +22,8 @@ class imgf::Tasks : public bxcf::Manager, public bxcf::EventBindable
 public:
 	Tasks(void);
 
+	static uint32				showMessage(std::string strMessage, std::string strWindowTitle, uint32 uiButtons = MB_OKCANCEL);
+
 private:
 	std::string&				getTaskName(void);
 
@@ -29,7 +31,7 @@ private:
 	std::string					saveFile(std::string strExtensionFilters = "", std::string strDefaultFileName = "");
 	std::string					openFolder(std::string strTitle, std::string strInitialDir = "");
 	std::string					saveFolder(std::string strTitle, std::string strInitialDir = "");
-
+	
 	void						onStartTask(std::string strTaskName);
 	void						onCompleteTask(void);
 	void						onAbortTask(void);
@@ -40,7 +42,7 @@ private:
 
 	void						setMaxProgress(uint32 uiMaxProgress, bool bResetCurrent = true);
 	void						increaseProgress(void);
-
+	
 public:
 	void						init(void);
 	void						uninit(void);

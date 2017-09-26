@@ -48,7 +48,7 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 		strGTARootFolderPath = Input::openFolder(LocalizationManager::get()->getTranslatedText("ChooseFolderPopup_3"), getIMGF()->getLastUsedDirectory("LST_GAME"));
 		if (strGTARootFolderPath == "")
 		{
-			Input::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_60"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_60"), MB_OK);
+			Tasks::showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_60"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_60"), MB_OK);
 			return;
 		}
 		strGTARootFolderPath = Path::addSlashToEnd(strGTARootFolderPath);
@@ -63,14 +63,14 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 	{
 		if (!pLSTFile->getEntryByName("cdimages")->doesEntryExistByName("gamepath"))
 		{
-			Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "cdimages"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+			Tasks::showMessage(LocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "cdimages"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 			return;
 		}
 
 		string strIMGPath = strGTARootFolderPath + pLSTFile->getEntryByName("cdimages")->getEntryByName("gamepath")->getValuesLine();
 		if (!File::doesFileExist(strIMGPath))
 		{
-			Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_27", strIMGPath.c_str()), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+			Tasks::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_27", strIMGPath.c_str()), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 			return;
 		}
 		getIMGF()->getTaskManager()->getDispatch()->_openFile(strIMGPath);
@@ -88,7 +88,7 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 			{
 				if (strSourceFolderPath == "")
 				{
-					Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "cdimages"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+					Tasks::showMessage(LocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "cdimages"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 					return;
 				}
 
@@ -138,14 +138,14 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 	{
 		if (!pLSTFile->getEntryByName("collisions")->doesEntryExistByName("gamepath"))
 		{
-			Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "collisions"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+			Tasks::showMessage(LocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "collisions"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 			return;
 		}
 
 		string strCOLPath = strGTARootFolderPath + pLSTFile->getEntryByName("collisions")->getEntryByName("gamepath")->getValuesLine();
 		if (!File::doesFileExist(strCOLPath))
 		{
-			Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_29", strCOLPath.c_str()), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+			Tasks::showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_29", strCOLPath.c_str()), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 			return;
 		}
 		COLFormat *pCOLFile = COLManager::get()->unserializeFile(strCOLPath);
@@ -179,7 +179,7 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 				{
 					if (strSourceFolderPath == "")
 					{
-						Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "collisions"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+						Tasks::showMessage(LocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "collisions"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 						return;
 					}
 
@@ -245,13 +245,13 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 			{
 				if (strSourceFolderPath == "")
 				{
-					Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "other"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+					Tasks::showMessage(LocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "other"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 					return;
 				}
 
 				if (strGamePathFolderPath == "")
 				{
-					Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "other"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+					Tasks::showMessage(LocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "other"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 					return;
 				}
 
@@ -282,13 +282,13 @@ void		LSTProcessingManager::process(LSTFormat *pLSTFile)
 			{
 				if (strSourceFolderPath == "")
 				{
-					Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "other"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+					Tasks::showMessage(LocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "source", "other"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 					return;
 				}
 
 				if (strGamePathFolderPath == "")
 				{
-					Input::showMessage(LocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "other"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
+					Tasks::showMessage(LocalizationManager::get()->getTranslatedFormattedText("LSTEntryMissing", "gamepath", "other"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_LSTFileError"), MB_OK);
 					return;
 				}
 

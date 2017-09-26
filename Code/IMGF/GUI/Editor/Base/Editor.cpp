@@ -88,7 +88,21 @@ void								Editor::setActiveFile(EditorTab *pEditorFile)
 	m_pActiveFile = pEditorFile;
 }
 
+// displayed info
 void								Editor::updateActiveFileDisplayedInfo(void)
 {
 	m_pActiveFile->setFileInfoText();
+}
+
+// file path checking
+bool								Editor::isFilePathOpen(string& strFilePath)
+{
+	for (EditorTab *pEditorTab : m_vecTabs.getEntries())
+	{
+		if (Path::comparePaths(strFilePath, pEditorTab->getFile()->getFilePath()))
+		{
+			return true;
+		}
+	}
+	return false;
 }

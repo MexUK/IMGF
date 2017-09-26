@@ -46,6 +46,7 @@
 #include "Event/EInputEvent.h"
 #include "../BXGI/Event/EEvent.h"
 #include "Exception/EExceptionCode.h"
+#include "Task/Tasks/Tasks.h"
 #include <map>
 #include <algorithm>
 
@@ -344,7 +345,7 @@ bool					IMGEditorTab::unserializeFile(void)
 	}
 	if (!img->readMetaData()) // here for progress bar tick count
 	{
-		Input::showMessage(Format::getErrorReason(img->getErrorCode()) + "\r\n\r\n" + img->getFilePath(), "Can't Open IMG File");
+		Tasks::showMessage(Format::getErrorReason(img->getErrorCode()) + "\r\n\r\n" + img->getFilePath(), "Can't Open IMG File");
 		delete img;
 		return false;
 	}
@@ -356,7 +357,7 @@ bool					IMGEditorTab::unserializeFile(void)
 
 	if (!img->unserialize())
 	{
-		Input::showMessage(Format::getErrorReason(img->getErrorCode()) + "\r\n\r\n" + img->getFilePath(), "Can't Open IMG File");
+		Tasks::showMessage(Format::getErrorReason(img->getErrorCode()) + "\r\n\r\n" + img->getFilePath(), "Can't Open IMG File");
 		delete img;
 		return false;
 	}
