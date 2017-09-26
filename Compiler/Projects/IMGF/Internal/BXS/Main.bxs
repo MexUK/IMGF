@@ -20,9 +20,17 @@ line 230 230 230
 
 .titleBarIcon:hover
 fill 25 25 25
+line left false
+line right false
+line top false
+line bottom false
 
 .titleBarIcon:hover2
 fill 80 0 0
+line left false
+line right false
+line top false
+line bottom false
 
 
 

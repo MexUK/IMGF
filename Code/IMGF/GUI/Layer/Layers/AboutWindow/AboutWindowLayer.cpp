@@ -1,5 +1,7 @@
 #include "AboutWindowLayer.h"
+#include "Program/BuildVersion.h"
 
+using namespace std;
 using namespace imgf;
 
 AboutWindowLayer::AboutWindowLayer(void)
@@ -11,7 +13,7 @@ void					AboutWindowLayer::init(void)
 {
 	addButton(50, 570, 100, 20, "Close", "window2_button", 200);
 
-	addText(50, 50, 550, 500, "Version: 2.0\n\
+	addText(50, 50, 550, 500, "Version: 2.0 (Build " + IMGF_MINOR_BUILD_VERSION_STRING + ")\n\
 \n\
 \n\
 \n\

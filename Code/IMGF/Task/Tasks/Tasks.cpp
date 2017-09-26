@@ -2540,8 +2540,11 @@ void		Tasks::convertIMGVersion(void)
 	}
 
 	// set new IMG version
-	getIMGTab()->getIMGFile()->setVersion(uiNewIMGVersion);
-
+	IMGFormat *pOldIMGFormat = getIMGTab()->getIMGFile();
+	IMGFormat *pNewIMGFormat = getIMGTab()->getIMGFile()->setVersion(uiNewIMGVersion);
+	getIMGTab()->setIMGFile(pNewIMGFormat);
+	delete pOldIMGFormat;
+	
 	// check to rebuild
 	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildOnConvert"))
 	{

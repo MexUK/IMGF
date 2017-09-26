@@ -98,7 +98,6 @@ IMGEditorTab*				IMGEditor::addFile(string& strIMGFilePath)
 IMGEditorTab*				IMGEditor::addBlankFile(string strIMGFilePath, EIMGVersion EIMGVersionValue)
 {
 	IMGFormat *img = IMGFormat::createIMGFormat(strIMGFilePath);
-	img->setVersion(EIMGVersionValue);
 
 	IMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img, true);
 	if (!imgEditorTab)
@@ -317,26 +316,26 @@ void					IMGEditor::readdColumnsToMainListView(EIMGVersion EIMGVersionValue)
 }
 void					IMGEditor::addColumnsToMainListView(EIMGVersion EIMGVersionValue)
 {
-	m_pEntryGrid->addHeader("Index" /* todo LocalizationManager::get()->getTranslatedText("Window_Main_ListView_ColumnTitle_ID")*/, 45);
-	m_pEntryGrid->addHeader("Type" /* LocalizationManager::get()->getTranslatedText("Window_Main_ListView_ColumnTitle_Type")*/, 40);
-	m_pEntryGrid->addHeader("Name" /* LocalizationManager::get()->getTranslatedText("Window_Main_ListView_ColumnTitle_Name")*/, 150);
-	m_pEntryGrid->addHeader("Offset" /* LocalizationManager::get()->getTranslatedText("Offset")*/, 85);
-	m_pEntryGrid->addHeader("Size" /* LocalizationManager::get()->getTranslatedText("Size")*/, 70);
+	m_pEntryGrid->addHeader("Index", 50);
+	m_pEntryGrid->addHeader("Type", 40);
+	m_pEntryGrid->addHeader("Name", 160);
+	m_pEntryGrid->addHeader("Offset", 95);
+	m_pEntryGrid->addHeader("Size", 70);
 
 	switch (EIMGVersionValue)
 	{
 	case IMG_UNKNOWN:
 	case IMG_1:
 	case IMG_2:
-		m_pEntryGrid->addHeader("Version" /* LocalizationManager::get()->getTranslatedText("Version")*/, 125);
+		m_pEntryGrid->addHeader("Version", 170);
 		break;
 	case IMG_3:
-		m_pEntryGrid->addHeader("Resource Type" /* LocalizationManager::get()->getTranslatedText("ResourceType")*/, 125);
+		m_pEntryGrid->addHeader("Resource Type", 125);
 		break;
 	case IMG_FASTMAN92:
-		m_pEntryGrid->addHeader("Version" /* LocalizationManager::get()->getTranslatedText("Version")*/, 125);
-		m_pEntryGrid->addHeader("Compression" /* LocalizationManager::get()->getTranslatedText("Compression")*/, 125);
-		m_pEntryGrid->addHeader("Encryption" /* LocalizationManager::get()->getTranslatedText("Encryption")*/, 125);
+		m_pEntryGrid->addHeader("Version", 170);
+		m_pEntryGrid->addHeader("Compression", 125);
+		m_pEntryGrid->addHeader("Encryption", 125);
 		break;
 	}
 }
