@@ -89,78 +89,52 @@ text 0 0 0
 .topLeftMenu:item .main_lineLeft .main_textAlign .main_spacing
 fill 67 143 235
 
-.topLeftMenu:item:active .main_lineLeft .main_textAlign .main_spacing
+.topLeftMenu:item:active
 fill 42 118 210
 
-.topLeftMenu:item:hover .main_lineLeft .main_textAlign .main_spacing
+.topLeftMenu:item:hover
 fill 16 92 184
 
 .leftMenu:item .main_lineTop .main_textAlign .main_spacing
 fill 67 143 235
 
-.leftMenu:item:active .main_lineTop .main_textAlign .main_spacing
+.leftMenu:item:active
 fill 42 118 210
 
-.leftMenu:item:hover .main_lineTop .main_textAlign .main_spacing
+.leftMenu:item:hover
 fill 16 92 184
 
 .leftMenu:itemIcon
 fill 0 0 0
 
-.leftMenu:itemIcon:active
-fill 0 0 0
-
-.leftMenu:itemIcon:hover
-fill 0 0 0
-
 .secondLeftMenu:item .main_lineTop .main_textAlign .main_spacing
 fill 244 244 108
 
-.secondLeftMenu:item:active .main_lineTop .main_textAlign .main_spacing
+.secondLeftMenu:item:active
 fill 219 219 83
 
-.secondLeftMenu:item:hover .main_lineTop .main_textAlign .main_spacing
+.secondLeftMenu:item:hover
 fill 193 193 57
 
-.secondLeftMenu:item:disabled .main_lineTop .main_textAlign .main_spacing
-fill 244 244 108
+.secondLeftMenu:item:disabled
 text 128 128 128
 
 .secondLeftMenu:itemIcon
 fill 0 0 0
 
-.secondLeftMenu:itemIcon:active
-fill 0 0 0
-
-.secondLeftMenu:itemIcon:hover
-fill 0 0 0
-
-.secondLeftMenu:itemIcon:disabled
-fill 0 0 0
-
 .topMenu:item .main_lineLeft .main_lineTop .main_textAlign .main_spacing
 fill 244 244 108
 
-.topMenu:item:active .main_lineLeft .main_lineTop .main_textAlign .main_spacing
+.topMenu:item:active
 fill 219 219 83
 
-.topMenu:item:hover .main_lineLeft .main_lineTop .main_textAlign .main_spacing
+.topMenu:item:hover
 fill 193 193 57
 
-.topMenu:item:disabled .main_lineLeft .main_lineTop .main_textAlign .main_spacing
-fill 244 244 108
+.topMenu:item:disabled
 text 128 128 128
 
 .topMenu:itemIcon
-fill 0 0 0
-
-.topMenu:itemIcon:active
-fill 0 0 0
-
-.topMenu:itemIcon:hover
-fill 0 0 0
-
-.topMenu:itemIcon:disabled
 fill 0 0 0
 
 .settingsMenuButton
@@ -172,7 +146,7 @@ fill 219 219 83
 .settingsMenu:item .main_lineTop .main_textAlign .main_spacing
 fill 244 244 108
 
-.settingsMenu:item:hover .main_lineTop .main_textAlign .main_spacing
+.settingsMenu:item:hover
 fill 219 219 83
 
 .settingsMenuLine
@@ -183,13 +157,10 @@ line 0 0 0
 .filter .main_lineLeft .main_textAlign .main_textColour .main_spacing
 fill 67 143 235
 
-.filter:hover .main_lineLeft .main_textAlign .main_textColour .main_spacing
+.filter:hover
 fill 16 92 184
 
 .filter:arrow
-fill 0 0 0
-
-.filter:arrow:hover
 fill 0 0 0
 
 .filter:list .main_spacing
@@ -197,7 +168,7 @@ fill 67 143 235
 
 .filter:listRow .main_textAlign .main_spacing .main_textColour
 
-.filter:listRow:hover .main_textAlign .main_spacing .main_textColour
+.filter:listRow:hover
 fill 16 92 184
 
 .filter:caret .main_textAlign .main_spacing
@@ -220,9 +191,6 @@ fill 67 143 235
 fill 67 143 235
 
 .scrollBar:itemIcon
-fill 0 0 0
-
-.scrollBar:itemIcon:hover
 fill 0 0 0
 
 .scrollBar:seekBar
@@ -281,14 +249,7 @@ line 0 0 0
 fill 255 255 255
 spacing x 5
 
-.window2_textBoxMultiLine:caret .textAlignTopLeft
-line 0 0 0
-fill 255 255 255
-spacing x 5
-
-.window2_textBoxMultiLine:active .textAlignTopLeft
-line 0 0 0
-fill 255 255 255
+.window2_textBoxMultiLine:caret
 spacing x 5
 
 .window2_textBox .main_textAlign
@@ -296,44 +257,32 @@ line 0 0 0
 fill 255 255 255
 spacing x 5
 
-.window2_textBox:caret .main_textAlign
-line 0 0 0
-fill 255 255 255
-spacing x 5
-
-.window2_textBox:active .main_textAlign
-line 0 0 0
-fill 255 255 255
+.window2_textBox:caret
 spacing x 5
 
 .window2_button .main_fill_2
 text center center
 
 .window2_button:hover .main_fill_1
-text center center
 
 .window2_button:active .main_fill_1
-text center center
 
 .window2_dropDown .main_fill_2 .main_textAlign .main_spacing
 
-.window2_dropDown:hover .main_textAlign .main_spacing .main_textColour
+.window2_dropDown:hover
 fill 198 198 198
 
-.window2_dropDown:active .main_textAlign .main_spacing .main_textColour
+.window2_dropDown:active
 fill 198 198 198
 
 .window2_dropDown:list .main_fill_2
 
 .window2_dropDown:listRow .main_textAlign .main_spacing .main_textColour
 
-.window2_dropDown:listRow:hover .main_textAlign .main_spacing .main_textColour
+.window2_dropDown:listRow:hover
 fill 198 198 198
 
 .window2_dropDown:arrow
-fill 0 0 0
-
-.window2_dropDown:arrow:hover
 fill 0 0 0
 
 .window2_checkBox:icon

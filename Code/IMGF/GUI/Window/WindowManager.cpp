@@ -257,7 +257,7 @@ void					WindowManager::showAboutWindow(void)
 {
 	m_bWindow2Cancelled = true;
 
-	Window *pWindow = BXGX::get()->addWindow(650, 510);
+	Window *pWindow = BXGX::get()->addWindow(650, 620);
 	AboutWindowLayer *pLayer = pWindow->addLayer<AboutWindowLayer>();
 
 	pWindow->addTitleBar("About");

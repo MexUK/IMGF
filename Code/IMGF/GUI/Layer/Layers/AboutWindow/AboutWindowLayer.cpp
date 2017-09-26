@@ -9,9 +9,9 @@ AboutWindowLayer::AboutWindowLayer(void)
 // initialization
 void					AboutWindowLayer::init(void)
 {
-	addButton(50, 460, 100, 20, "Close", "window2_button", 200);
+	addButton(50, 570, 100, 20, "Close", "window2_button", 200);
 
-	addText(50, 50, 500, 350, "Version: 2.0\n\
+	addText(50, 50, 550, 500, "Version: 2.0\n\
 \n\
 \n\
 \n\

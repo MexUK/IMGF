@@ -11,7 +11,7 @@ void					FormatsWindowLayer::init(void)
 {
 	addButton(50, 450, 100, 20, "Close", "window2_button", 200);
 
-	addText(50, 50, 500, 350, "Game Formats Supported:\n\
+	addText(50, 50, 500, 370, "Game Formats Supported:\n\
 \n\
 COL\n\
 GTA III (PC), GTA VC (PC), GTA SA (PC)\n\
