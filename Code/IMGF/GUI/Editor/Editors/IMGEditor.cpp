@@ -82,6 +82,11 @@ void						IMGEditor::init(void)
 IMGEditorTab*				IMGEditor::addFile(string& strIMGFilePath)
 {
 	IMGFormat *img = IMGFormat::createIMGFormat(strIMGFilePath);
+	if (!img)
+	{
+		Input::showMessage("Failed to read meta data.\r\n\r\n" + strIMGFilePath, "Can't Open IMG File");
+		return nullptr;
+	}
 
 	IMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img, false);
 	if (!imgEditorTab)
@@ -95,9 +100,10 @@ IMGEditorTab*				IMGEditor::addFile(string& strIMGFilePath)
 	return imgEditorTab;
 }
 
-IMGEditorTab*				IMGEditor::addBlankFile(string strIMGFilePath, EIMGVersion EIMGVersionValue)
+IMGEditorTab*				IMGEditor::addBlankFile(string strIMGFilePath, EIMGVersion uiIMGVersion)
 {
-	IMGFormat *img = IMGFormat::createIMGFormat(strIMGFilePath);
+	IMGFormat *img = IMGFormat::createIMGFormat(uiIMGVersion);
+	img->setFilePath(strIMGFilePath);
 
 	IMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img, true);
 	if (!imgEditorTab)

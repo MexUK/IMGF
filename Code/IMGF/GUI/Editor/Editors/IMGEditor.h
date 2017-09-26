@@ -26,7 +26,7 @@ public:
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 	
 	IMGEditorTab*				addFile(std::string& strFilePath);
-	IMGEditorTab*				addBlankFile(std::string strIMGPath, bxgi::EIMGVersion EIMGVersionValue);
+	IMGEditorTab*				addBlankFile(std::string strIMGPath, bxgi::EIMGVersion uiIMGVersion);
 	IMGEditorTab*				addTabObjectAndTabControl(bxgi::IMGFormat *img, bool bNewFile);
 
 	void						removeFile(IMGEditorTab *pIMGEditorFile);
