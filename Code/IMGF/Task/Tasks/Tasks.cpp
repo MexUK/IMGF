@@ -542,6 +542,10 @@ void		Tasks::saveFileAs(void)
 
 	getIMGTab()->getIMGFile()->serialize(strNewFilePath);
 
+	getIMGTab()->getIMGFile()->setFilePath(strNewFilePath);
+	getIMGTab()->setFileInfoText();
+	getIMGTab()->updateTabText();
+
 	getIMGTab()->logf("Saved as %s.", Path::getFileName(strNewFilePath).c_str());
 
 	onCompleteTask();

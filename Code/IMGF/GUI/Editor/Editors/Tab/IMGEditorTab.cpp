@@ -186,16 +186,6 @@ void					IMGEditorTab::onFileLoaded(void)
 	checkForUnknownRWVersionEntries();
 }
 
-// file info text
-void					IMGEditorTab::setFileInfoText(void)
-{
-	m_pText_FilePath->setText(getIMGFile()->getIMGFilePath());
-	m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
-	m_pText_FileGame->setText(IMGManager::getVersionGames(getIMGFile()->getVersion()));
-
-	updateEntryCountText();
-}
-
 // controls
 void					IMGEditorTab::addControls(void)
 {
@@ -1012,6 +1002,16 @@ uint32			IMGEditorTab::getMainListViewItemIndexByItemData(IMGEntry *pIMGEntry)
 	}
 	*/
 	return -1;
+}
+
+// file info text
+void					IMGEditorTab::setFileInfoText(void)
+{
+	m_pText_FilePath->setText(getIMGFile()->getIMGFilePath());
+	m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
+	m_pText_FileGame->setText(IMGManager::getVersionGames(getIMGFile()->getVersion()));
+
+	updateEntryCountText();
 }
 
 void					IMGEditorTab::updateEntryCountText(void)
