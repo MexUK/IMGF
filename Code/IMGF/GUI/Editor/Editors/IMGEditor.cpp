@@ -81,6 +81,12 @@ void						IMGEditor::init(void)
 // add/remove file
 IMGEditorTab*				IMGEditor::addFile(string& strIMGFilePath)
 {
+	if (isFilePathOpen(strIMGFilePath))
+	{
+		setActiveFile(getEditorTabByFilePath(strIMGFilePath));
+		return nullptr;
+	}
+
 	IMGFormat *img = IMGFormat::createIMGFormat(strIMGFilePath);
 	if (!img)
 	{

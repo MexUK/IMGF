@@ -42,6 +42,7 @@ public:
 
 	void						onSelectDropEntry(bxgx::DropDownItem *pDropEntry);
 	void						onChangeTextBox(bxgx::TextBox *pTextBox);
+	void						onSortGridByColumn(bxgx::Grid *pGrid);
 
 	void						setIMGEditor(IMGEditor *pEditor) { m_pEditor = pEditor; }
 	IMGEditor*					getIMGEditor(void) { return m_pEditor; }

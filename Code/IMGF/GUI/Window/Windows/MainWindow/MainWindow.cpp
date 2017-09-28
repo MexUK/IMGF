@@ -71,7 +71,7 @@ TabBar*			MainWindow::getTabBar(void)
 // window initialization
 void					MainWindow::initWindow(void)
 {
-	addTitleBar("IMG Factory 2.0 - Build " + IMGF_BUILD_VERSION_STRING + " - Development Version!");
+	addTitleBar("IMG Factory 2.0 - ALPHA Development Version!");
 }
 
 void					MainWindow::initLayers(void)

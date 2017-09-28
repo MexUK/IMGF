@@ -86,6 +86,7 @@ void								Editor::removeActiveFile(void)
 void								Editor::setActiveFile(EditorTab *pEditorFile)
 {
 	m_pActiveFile = pEditorFile;
+	m_pTabBar->setActiveTab(m_pTabBar->getEntryByIndex(m_pActiveFile->getTabIndex()));
 }
 
 // displayed info
@@ -94,7 +95,7 @@ void								Editor::updateActiveFileDisplayedInfo(void)
 	m_pActiveFile->setFileInfoText();
 }
 
-// file path checking
+// file path
 bool								Editor::isFilePathOpen(string& strFilePath)
 {
 	for (EditorTab *pEditorTab : m_vecTabs.getEntries())
@@ -105,4 +106,16 @@ bool								Editor::isFilePathOpen(string& strFilePath)
 		}
 	}
 	return false;
+}
+
+EditorTab*							Editor::getEditorTabByFilePath(string& strFilePath)
+{
+	for (EditorTab *pEditorTab : m_vecTabs.getEntries())
+	{
+		if (Path::comparePaths(strFilePath, pEditorTab->getFile()->getFilePath()))
+		{
+			return pEditorTab;
+		}
+	}
+	return nullptr;
 }

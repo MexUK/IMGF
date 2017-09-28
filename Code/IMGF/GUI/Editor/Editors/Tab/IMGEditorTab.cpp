@@ -111,9 +111,11 @@ void					IMGEditorTab::init(void)
 	strTabText += " (Loading..)";
 
 	// add tab to tab bar
+	mutexRendering.lock();
 	TabBar *pTabBar = m_pEditor->getTabBar();
 	m_pTab = pTabBar->addTab(strTabText, true);
 	pTabBar->bindTabLayer(m_pTab, this);
+	mutexRendering.unlock();
 }
 
 // on file loaded
@@ -273,6 +275,8 @@ void					IMGEditorTab::initControls(void)
 	bindEvent(CHANGE_TEXT_BOX, &IMGEditorTab::onChangeTextBox);
 
 	bindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
+	
+	bindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
 }
 
 void					IMGEditorTab::onUnserializeEntry(IMGFormat *img)
@@ -379,6 +383,14 @@ void					IMGEditorTab::onChangeTextBox(TextBox *pTextBox)
 	if(pTextBox == m_pSearchBox)
 	{
 		readdGridEntries();
+	}
+}
+
+void					IMGEditorTab::onSortGridByColumn(Grid *pGrid)
+{
+	if (pGrid == m_pEntryGrid)
+	{
+		reassignEntryIds();
 	}
 }
 
@@ -1709,14 +1721,11 @@ void				IMGEditorTab::unloadFilter_Version(void)
 
 void				IMGEditorTab::reassignEntryIds(void)
 {
-	/*
-	todo
-	CListCtrl *pListControl = (CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37);
-	for (uint32 i = 0, j = pListControl->GetItemCount(); i < j; i++)
+	uint32 i = 1;
+	for (GridRow *pRow : m_pEntryGrid->getEntries())
 	{
-		pListControl->SetItem(i, 0, LVIF_TEXT, String::convertStdStringToStdWString(String::toString(i + 1)).c_str(), 0, 0, 0, 0);
+		pRow->getText()[0][0] = String::addNumberGrouping(String::toString(i++));
 	}
-	*/
 }
 
 vector<IMGEntry*>	IMGEditorTab::getSelectedEntries(void)
