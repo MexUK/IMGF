@@ -610,7 +610,9 @@ void		Tasks::saveFileGroup(void)
 {
 	onStartTask("saveFileGroup");
 
+	m_pTaskManager->onPauseTask();
 	string strFileGroupName = m_pMainWindow->showSingleLineTextBoxWindow("Choose File Group Name", "Choose a name for the file group.");
+	m_pTaskManager->onResumeTask();
 	if (strFileGroupName == "")
 	{
 		return onAbortTask();
@@ -913,7 +915,9 @@ void		Tasks::importByEntryNames(void)
 {
 	onStartTask("importByEntryNames");
 
+	m_pTaskManager->onPauseTask();
 	string strInputEntryNames = m_pMainWindow->showMultiLineTextBoxWindow("Import by Entry Names", "Choose entry names to import, 1 per line.");
+	m_pTaskManager->onResumeTask();
 	if (strInputEntryNames == "")
 	{
 		return onAbortTask();
@@ -1011,7 +1015,9 @@ void		Tasks::exportByIndex(void)
 {
 	onStartTask("exportByIndex");
 
+	m_pTaskManager->onPauseTask();
 	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionWindow("Export Entries by Index", "Export entries with an index"); // todo - rename nmoir
+	m_pTaskManager->onResumeTask();
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -1044,7 +1050,9 @@ void		Tasks::exportByName(void)
 {
 	onStartTask("exportByName");
 
+	m_pTaskManager->onPauseTask();
 	string strEntryNameInput = m_pMainWindow->showSingleLineTextBoxWindow("Export Entries by Name", "Export entries with a name that includes:");
+	m_pTaskManager->onResumeTask();
 	if (strEntryNameInput == "")
 	{
 		return onAbortTask();
@@ -1077,7 +1085,9 @@ void		Tasks::exportByOffset(void)
 {
 	onStartTask("exportByOffset");
 
+	m_pTaskManager->onPauseTask();
 	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionWindow("Export Entries by Offset", "Export entries with an offset");
+	m_pTaskManager->onResumeTask();
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -1110,7 +1120,9 @@ void		Tasks::exportBySize(void)
 {
 	onStartTask("exportBySize");
 
+	m_pTaskManager->onPauseTask();
 	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionWindow("Export Entries by Size", "Export entries with a size");
+	m_pTaskManager->onResumeTask();
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -1143,7 +1155,9 @@ void		Tasks::exportByType(void)
 {
 	onStartTask("exportByType");
 
+	m_pTaskManager->onPauseTask();
 	string strEntryTypeInput = m_pMainWindow->showSingleLineTextBoxWindow("Export Entries by Type", "Export entries with a type that includes:");
+	m_pTaskManager->onResumeTask();
 	if (strEntryTypeInput == "")
 	{
 		return onAbortTask();
@@ -1178,7 +1192,9 @@ void		Tasks::exportByVersion(void)
 
 	DropDown *pVersionFilter = getIMGTab()->getEntryVersionFilter();
 	vector<string> vecVersionOptions = pVersionFilter->getItems();
+	m_pTaskManager->onPauseTask();
 	int32 iVersionOptionIndex = m_pMainWindow->showDropDownWindow("Export Entries by Version", "Export entries with version", vecVersionOptions);
+	m_pTaskManager->onResumeTask();
 	if (iVersionOptionIndex == -1)
 	{
 		return onAbortTask();
@@ -1601,7 +1617,9 @@ void		Tasks::exportByEntryNames(void)
 {
 	onStartTask("exportByEntryNames");
 
+	m_pTaskManager->onPauseTask();
 	string strInputEntryNames = m_pMainWindow->showMultiLineTextBoxWindow("Export by Entry Names", "Choose entry names to export, 1 per line.");
+	m_pTaskManager->onResumeTask();
 	if (strInputEntryNames == "")
 	{
 		return onAbortTask();
@@ -1633,7 +1651,9 @@ void		Tasks::exportByEntryNamesFromAllTabs(void)
 {
 	onStartTask("exportByEntryNamesFromAllTabs");
 
+	m_pTaskManager->onPauseTask();
 	string strInputEntryNames = m_pMainWindow->showMultiLineTextBoxWindow("Export by Entry Names From All Tabs", "Choose entry names to export from all tabs, 1 per line.");
+	m_pTaskManager->onResumeTask();
 	if (strInputEntryNames == "")
 	{
 		return onAbortTask();
@@ -1708,7 +1728,9 @@ void		Tasks::rename(void)
 
 	IMGEntry *pIMGEntry = (IMGEntry*)getIMGTab()->getEntryGrid()->getSelectedRows()[0]->getUserData();
 
+	m_pTaskManager->onPauseTask();
 	string strNewEntryName = getIMGTab()->getWindow()->showSingleLineTextBoxWindow("New IMG Entry Name", "Choose a new name for the IMG entry:", pIMGEntry->getEntryName());
+	m_pTaskManager->onResumeTask();
 	if (strNewEntryName == "")
 	{
 		return onAbortTask();
@@ -2001,7 +2023,9 @@ void		Tasks::removeByIndex(void)
 {
 	onStartTask("removeByIndex");
 
+	m_pTaskManager->onPauseTask();
 	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionWindow("Remove Entries by Index", "Remove entries with an index");
+	m_pTaskManager->onResumeTask();
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -2036,7 +2060,9 @@ void		Tasks::removeByName(void)
 {
 	onStartTask("removeByName");
 
+	m_pTaskManager->onPauseTask();
 	string strEntryNameInput = m_pMainWindow->showSingleLineTextBoxWindow("Remove Entries by Name", "Remove entries with a name that includes:");
+	m_pTaskManager->onResumeTask();
 	if (strEntryNameInput == "")
 	{
 		return onAbortTask();
@@ -2071,7 +2097,9 @@ void		Tasks::removeByOffset(void)
 {
 	onStartTask("removeByOffset");
 
+	m_pTaskManager->onPauseTask();
 	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionWindow("Remove Entries by Offset", "Remove entries with an offset");
+	m_pTaskManager->onResumeTask();
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -2106,7 +2134,9 @@ void		Tasks::removeBySize(void)
 {
 	onStartTask("removeBySize");
 
+	m_pTaskManager->onPauseTask();
 	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionWindow("Remove Entries by Size", "Remove entries with a size");
+	m_pTaskManager->onResumeTask();
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -2141,7 +2171,9 @@ void		Tasks::removeByType(void)
 {
 	onStartTask("removeByType");
 
+	m_pTaskManager->onPauseTask();
 	string strEntryTypeInput = m_pMainWindow->showSingleLineTextBoxWindow("Remove Entries by Type", "Remove entries with a type that includes:");
+	m_pTaskManager->onResumeTask();
 	if (strEntryTypeInput == "")
 	{
 		return onAbortTask();
@@ -2178,7 +2210,9 @@ void		Tasks::removeByVersion(void)
 
 	DropDown *pVersionFilter = getIMGTab()->getEntryVersionFilter();
 	vector<string> vecVersionOptions = pVersionFilter->getItems();
+	m_pTaskManager->onPauseTask();
 	int32 iVersionOptionIndex = m_pMainWindow->showDropDownWindow("Remove Entries by Version", "Remove entries with version", vecVersionOptions);
+	m_pTaskManager->onResumeTask();
 	if (iVersionOptionIndex == -1)
 	{
 		return onAbortTask();
@@ -2283,7 +2317,9 @@ void		Tasks::removeByEntryNames(void)
 {
 	onStartTask("removeByEntryNames");
 
+	m_pTaskManager->onPauseTask();
 	string strInputEntryNames = m_pMainWindow->showMultiLineTextBoxWindow("Remove by Entry Names", "Choose entry names to remove, 1 per line.");
+	m_pTaskManager->onResumeTask();
 	if (strInputEntryNames == "")
 	{
 		return onAbortTask();
@@ -2370,7 +2406,9 @@ void		Tasks::splitSelected(void)
 		return onAbortTask();
 	}
 
+	m_pTaskManager->onPauseTask();
 	int32 iNewIMGVersionOptionIndex = getIMGTab()->getWindow()->showDropDownWindow("Choose Output IMG Version", "Create output IMG with version (cancel for same version)", IMGManager::getVersionsText());
+	m_pTaskManager->onResumeTask();
 	EIMGVersion uiNewIMGVersion = IMGManager::getVersionFromVersionIndex(iNewIMGVersionOptionIndex);
 	if (uiNewIMGVersion == IMG_UNKNOWN)
 	{
@@ -2416,7 +2454,9 @@ void		Tasks::splitByIDE(void)
 		return onAbortTask();
 	}
 
+	m_pTaskManager->onPauseTask();
 	int32 iNewIMGVersionOptionIndex = getIMGTab()->getWindow()->showDropDownWindow("Choose Output IMG Version", "Create output IMG with version (cancel for same version)", IMGManager::getVersionsText());
+	m_pTaskManager->onResumeTask();
 	EIMGVersion uiNewIMGVersion = IMGManager::getVersionFromVersionIndex(iNewIMGVersionOptionIndex);
 	if (uiNewIMGVersion == IMG_UNKNOWN)
 	{
@@ -2480,7 +2520,9 @@ void		Tasks::splitByEntryNames(void)
 {
 	onStartTask("splitByEntryNames");
 
+	m_pTaskManager->onPauseTask();
 	string strInputEntryNames = m_pMainWindow->showMultiLineTextBoxWindow("Split by Entry Names", "Choose entry names to split, 1 per line.");
+	m_pTaskManager->onResumeTask();
 	if (strInputEntryNames == "")
 	{
 		return onAbortTask();
@@ -2500,7 +2542,9 @@ void		Tasks::splitByEntryNames(void)
 
 	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByNames(vecInputEntryNames);
 
+	m_pTaskManager->onPauseTask();
 	int32 iNewIMGVersionOptionIndex = getIMGTab()->getWindow()->showDropDownWindow("Choose Output IMG Version", "Create output IMG with version (cancel for same version)", IMGManager::getVersionsText());
+	m_pTaskManager->onResumeTask();
 	EIMGVersion uiNewIMGVersion = IMGManager::getVersionFromVersionIndex(iNewIMGVersionOptionIndex);
 	if (uiNewIMGVersion == IMG_UNKNOWN)
 	{
@@ -2539,7 +2583,9 @@ void		Tasks::convertIMGVersion(void)
 	EIMGVersion uiCurrentIMGVersion = getIMGTab()->getIMGFile()->getVersion();
 
 	// show new version selection window
+	m_pTaskManager->onPauseTask();
 	int32 iNewIMGVersionOptionIndex = getIMGTab()->getWindow()->showDropDownWindow("Convert IMG Version", "Convert IMG to version", IMGManager::getVersionsText());
+	m_pTaskManager->onResumeTask();
 	if (iNewIMGVersionOptionIndex == -1)
 	{
 		return onAbortTask();
@@ -2586,7 +2632,9 @@ void		Tasks::convertSelectedCOLVersion(void)
 	onStartTask("convertSelectedCOLVersion");
 
 	vector<string> vecDropDownOptions = { "COL 1", "COL 2", "COL 3", "COL 4" };
+	m_pTaskManager->onPauseTask();
 	int32 iNewCOLVersionOptionIndex = m_pMainWindow->showDropDownWindow("New COL Version", "Convert selected COL entries to version", vecDropDownOptions);
+	m_pTaskManager->onResumeTask();
 	if (iNewCOLVersionOptionIndex == -1)
 	{
 		return onAbortTask();
@@ -2644,7 +2692,9 @@ void		Tasks::convertSelectedDFFRWVersion(void)
 		vecDropDownOptions.push_back(pRWVersion->getVersionTextWithGames());
 	}
 
+	m_pTaskManager->onPauseTask();
 	int32 iNewRWVersionOptionIndex = m_pMainWindow->showDropDownWindow("New DFF RW Version", "Convert selected DFF entries to RW version", vecDropDownOptions);
+	m_pTaskManager->onResumeTask();
 	if (iNewRWVersionOptionIndex == -1)
 	{
 		return onAbortTask();
@@ -2751,7 +2801,9 @@ void		Tasks::convertSelectedTXDRWVersion(void)
 		vecDropDownOptions.push_back(pRWVersion->getVersionTextWithGames());
 	}
 
+	m_pTaskManager->onPauseTask();
 	int32 iNewRWVersionOptionIndex = m_pMainWindow->showDropDownWindow("Convert TXD RW Version", "Convert selected TXD entries to RW version", vecDropDownOptions);
+	m_pTaskManager->onResumeTask();
 	if (iNewRWVersionOptionIndex == -1)
 	{
 		return onAbortTask();
@@ -2811,7 +2863,9 @@ void		Tasks::convertSelectedTXDToGame(void)
 		vecDropDownOptions.push_back(pPlatformedGame->getText());
 	}
 
+	m_pTaskManager->onPauseTask();
 	int32 iNewPlatformedGameOptionIndex = m_pMainWindow->showDropDownWindow("Convert TXD to Game", "Convert selected TXD entries to game", vecDropDownOptions);
+	m_pTaskManager->onResumeTask();
 	if (iNewPlatformedGameOptionIndex == -1)
 	{
 		return onAbortTask();
@@ -2869,7 +2923,9 @@ void		Tasks::convertSelectedTXDToTextureFormat(void)
 		vecDropDownOptions.push_back(pRasterDataFormat->getText());
 	}
 
+	m_pTaskManager->onPauseTask();
 	int32 iNewTextureFormatOptionIndex = m_pMainWindow->showDropDownWindow("Convert TXD to Texture Format", "Convert selected TXD entries to texture format", vecDropDownOptions);
+	m_pTaskManager->onResumeTask();
 	if (iNewTextureFormatOptionIndex == -1)
 	{
 		return onAbortTask();
@@ -3012,7 +3068,9 @@ void		Tasks::selectByIndex(void)
 {
 	onStartTask("selectByIndex");
 
+	m_pTaskManager->onPauseTask();
 	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionWindow("Select Entries by Index", "Select entries with an index");
+	m_pTaskManager->onResumeTask();
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -3039,7 +3097,9 @@ void		Tasks::selectByName(void)
 {
 	onStartTask("selectByName");
 
+	m_pTaskManager->onPauseTask();
 	string strEntryNameInput = m_pMainWindow->showSingleLineTextBoxWindow("Select Entries by Name", "Select entries with a name that includes:");
+	m_pTaskManager->onResumeTask();
 	if (strEntryNameInput == "")
 	{
 		return onAbortTask();
@@ -3066,7 +3126,9 @@ void		Tasks::selectByOffset(void)
 {
 	onStartTask("selectByOffset");
 
+	m_pTaskManager->onPauseTask();
 	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionWindow("Select Entries by Offset", "Select entries with an offset");
+	m_pTaskManager->onResumeTask();
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -3093,7 +3155,9 @@ void		Tasks::selectBySize(void)
 {
 	onStartTask("selectBySize");
 
+	m_pTaskManager->onPauseTask();
 	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionWindow("Select Entries by Size", "Select entries with a size");
+	m_pTaskManager->onResumeTask();
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -3120,7 +3184,9 @@ void		Tasks::selectByType(void)
 {
 	onStartTask("selectByType");
 
+	m_pTaskManager->onPauseTask();
 	string strEntryTypeInput = m_pMainWindow->showSingleLineTextBoxWindow("Select Entries by Type", "Select entries with a type that includes:");
+	m_pTaskManager->onResumeTask();
 	if (strEntryTypeInput == "")
 	{
 		return onAbortTask();
@@ -3149,7 +3215,9 @@ void		Tasks::selectByVersion(void)
 
 	DropDown *pVersionFilter = getIMGTab()->getEntryVersionFilter();
 	vector<string> vecVersionOptions = pVersionFilter->getItems();
+	m_pTaskManager->onPauseTask();
 	int32 iVersionOptionIndex = m_pMainWindow->showDropDownWindow("Select Entries by Version", "Select entries with version", vecVersionOptions);
+	m_pTaskManager->onResumeTask();
 	if (iVersionOptionIndex == -1)
 	{
 		return onAbortTask();
@@ -3238,7 +3306,9 @@ void		Tasks::unselectByIndex(void)
 {
 	onStartTask("unselectByIndex");
 
+	m_pTaskManager->onPauseTask();
 	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionWindow("Unselect Entries by Index", "Unselect entries with an index");
+	m_pTaskManager->onResumeTask();
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -3265,7 +3335,9 @@ void		Tasks::unselectByName(void)
 {
 	onStartTask("unselectByName");
 
+	m_pTaskManager->onPauseTask();
 	string strEntryNameInput = m_pMainWindow->showSingleLineTextBoxWindow("Unselect Entries by Name", "Unselect entries with a name that includes:");
+	m_pTaskManager->onResumeTask();
 	if (strEntryNameInput == "")
 	{
 		return onAbortTask();
@@ -3292,7 +3364,9 @@ void		Tasks::unselectByOffset(void)
 {
 	onStartTask("unselectByOffset");
 
+	m_pTaskManager->onPauseTask();
 	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionWindow("Unselect Entries by Offset", "Unselect entries with an offset");
+	m_pTaskManager->onResumeTask();
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -3319,7 +3393,9 @@ void		Tasks::unselectBySize(void)
 {
 	onStartTask("unselectBySize");
 
+	m_pTaskManager->onPauseTask();
 	NumericMultiOptionInputLayerResult nmoir = m_pMainWindow->showNumericMultiOptionWindow("Unselect Entries by Size", "Unselect entries with a size");
+	m_pTaskManager->onResumeTask();
 	if (nmoir.m_bCancelled)
 	{
 		return onAbortTask();
@@ -3346,7 +3422,9 @@ void		Tasks::unselectByType(void)
 {
 	onStartTask("unselectByType");
 
+	m_pTaskManager->onPauseTask();
 	string strEntryTypeInput = m_pMainWindow->showSingleLineTextBoxWindow("Unselect Entries by Type", "Unselect entries with a type that includes:");
+	m_pTaskManager->onResumeTask();
 	if (strEntryTypeInput == "")
 	{
 		return onAbortTask();
@@ -3375,7 +3453,9 @@ void		Tasks::unselectByVersion(void)
 
 	DropDown *pVersionFilter = getIMGTab()->getEntryVersionFilter();
 	vector<string> vecVersionOptions = pVersionFilter->getItems();
+	m_pTaskManager->onPauseTask();
 	int32 iVersionOptionIndex = m_pMainWindow->showDropDownWindow("Unselect Entries by Version", "Unselect entries with version", vecVersionOptions);
+	m_pTaskManager->onResumeTask();
 	if (iVersionOptionIndex == -1)
 	{
 		return onAbortTask();
@@ -4173,8 +4253,10 @@ void		Tasks::findOrphanIMGEntriesNotInIDE(void)
 
 	vector<string> vecOrphanEntryNames = StdVector::getUniqueEntries(vecIMGEntryNames, vecIDEEntryNames);
 
+	m_pTaskManager->onPauseTask();
 	bool bRemoveEntriesFromIMG = m_pMainWindow->showGridWindow("Orphan IMG Entries not in IDE", String::toString(vecOrphanEntryNames.size()) + " Orphan IMG Entries not in IDE:", vector<string>({ "Orphan Entry Name" }), StdVector::swap2D(vector<vector<string>>({ vecOrphanEntryNames })), "Remove Entries from IMG");
-	
+	m_pTaskManager->onResumeTask();
+
 	if(bRemoveEntriesFromIMG)
 	{
 		vector<IMGEntry*> vecOrphanEntries = getIMGTab()->getIMGFile()->getEntriesByNames(vecOrphanEntryNames);
@@ -4216,7 +4298,9 @@ void		Tasks::findOrphanIDEEntriesNotInIMG(void)
 
 	vector<string> vecOrphanEntryNames = StdVector::getUniqueEntries(vecIDEEntryNames, vecIMGEntryNames);
 
+	m_pTaskManager->onPauseTask();
 	bool bImportEntriesIntoIMG = m_pMainWindow->showGridWindow("Orphan IDE Entries not in IMG", String::toString(vecOrphanEntryNames.size()) + " Orphan IDE Entries not in IMG:", vector<string>({ "Orphan Entry Name" }), StdVector::swap2D(vector<vector<string>>({ vecOrphanEntryNames })), "Import Entries into IMG");
+	m_pTaskManager->onResumeTask();
 
 	if (bImportEntriesIntoIMG)
 	{
@@ -4297,7 +4381,9 @@ void		Tasks::findOrphanTXDTexturesForDFFsInIMGByIDE(void)
 
 	vector<string> vecOrphanEntryNames = StdVector::getUniqueEntries(vecTXDTextureNames, vecDFFTextureNames);
 
+	m_pTaskManager->onPauseTask();
 	m_pMainWindow->showGridWindow("Orphan TXD Textures for DFFs in IMG by IDE", String::toString(vecOrphanEntryNames.size()) + " Orphan TXD textures for DFFs in IMG by IDE:", vector<string>({ "Orphan Entry Name" }), StdVector::swap2D(vector<vector<string>>({ vecOrphanEntryNames })), "");
+	m_pTaskManager->onResumeTask();
 
 	onCompleteTask();
 }
@@ -4395,7 +4481,9 @@ void		Tasks::textureList(void)
 	}
 	vecTextureNames = StdVector::removeDuplicates(vecTextureNames);
 
+	m_pTaskManager->onPauseTask();
 	m_pMainWindow->showGridWindow("Texture List for DFFs and TXDs", String::toString(vecTextureNames.size()) + " textures in selected DFF & TXD entries:", vector<string>({ "Texture Name" }), StdVector::swap2D(vector<vector<string>>({ vecTextureNames })), "");
+	m_pTaskManager->onResumeTask();
 
 	onCompleteTask();
 }
@@ -4458,7 +4546,9 @@ void		Tasks::stats(void)
 		i++;
 	}
 
+	m_pTaskManager->onPauseTask();
 	m_pMainWindow->showGridWindow("IMG Stats", "IMG Stats:", vector<string>({ "RW Version Counts", "Extension Counts" }), vecTextCells, "");
+	m_pTaskManager->onResumeTask();
 
 	onCompleteTask();
 }
@@ -4504,7 +4594,9 @@ void		Tasks::findDuplicateEntriesInSelection(void)
 
 	// results window
 	vector<string> vecGridHeaders = { "Entry Name", "IMG File(s)" };
+	m_pTaskManager->onPauseTask();
 	m_pMainWindow->showGridWindow("Find Duplicate Entries in Selection", String::toString(vecDuplicateEntries.size()) + " duplicate entries found in selection:", vecGridHeaders, vecDuplicateEntries, "");
+	m_pTaskManager->onResumeTask();
 
 	onCompleteTask();
 }
@@ -4550,7 +4642,9 @@ void		Tasks::findDuplicateEntriesInTab(void)
 
 	// results window
 	vector<string> vecGridHeaders = { "Entry Name", "IMG File(s)" };
+	m_pTaskManager->onPauseTask();
 	m_pMainWindow->showGridWindow("Find Duplicate Entries in Tab", String::toString(vecDuplicateEntries.size()) + " duplicate entries found in tab:", vecGridHeaders, vecDuplicateEntries, "");
+	m_pTaskManager->onResumeTask();
 
 	onCompleteTask();
 }
@@ -4608,7 +4702,9 @@ void		Tasks::findDuplicateEntriesInAllTabs(void)
 
 	// results window
 	vector<string> vecGridHeaders = { "Entry Name", "IMG File(s)" };
+	m_pTaskManager->onPauseTask();
 	m_pMainWindow->showGridWindow("Find Duplicate Entries in All Tabs", String::toString(vecDuplicateEntries.size()) + " duplicate entries found in all tabs:", vecGridHeaders, vecDuplicateEntries, "");
+	m_pTaskManager->onResumeTask();
 
 	onCompleteTask();
 }
@@ -4678,7 +4774,9 @@ void		Tasks::findDuplicateEntriesByDAT(void)
 
 	// results window
 	vector<string> vecGridHeaders = { "Entry Name", "IMG File(s)" };
+	m_pTaskManager->onPauseTask();
 	m_pMainWindow->showGridWindow("Find Duplicate Entries by DAT", String::toString(vecDuplicateEntries.size()) + " duplicate entries found by DAT:", vecGridHeaders, vecDuplicateEntries, "");
+	m_pTaskManager->onResumeTask();
 
 	// clean up
 	for (IMGFormat *pIMGFile : vecIMGFiles)
@@ -4777,7 +4875,9 @@ void		Tasks::compareIMGs(void)
 
 	// show results window
 	vector<string> vecGridHeaders = { "Entry Name", "Missing from IMG" };
+	m_pTaskManager->onPauseTask();
 	m_pMainWindow->showGridWindow("Compare IMGs", "IMG comparison results:", vecGridHeaders, vecGridCellsText, "");
+	m_pTaskManager->onResumeTask();
 
 	// clean up
 	for (IMGFormat *pIMGFile : vecIMGFiles)
@@ -4856,7 +4956,9 @@ void						Tasks::modelListForIDEAndIPLByDAT(void)
 	vector<string> vecGridHeaders = { "Model Name" };
 	vector<vector<string>> vecGridCellsText = { vecModelNames };
 	vecGridCellsText = StdVector::swap2D(vecGridCellsText);
+	m_pTaskManager->onPauseTask();
 	m_pMainWindow->showGridWindow("Model List for IDE/IPL by DAT", String::toString(vecModelNames.size()) + " models in IDE/IPL files in DAT files:", vecGridHeaders, vecGridCellsText, "");
+	m_pTaskManager->onResumeTask();
 
 	// clean up
 	for (DATLoaderFormat *pDATFile : vecDATFiles)
@@ -4956,7 +5058,9 @@ void			Tasks::validateDFFInTab(void)
 	else
 	{
 		vector<string> vecGridHeadersText = { "Entry Name", "Error Reason" };
+		m_pTaskManager->onPauseTask();
 		m_pMainWindow->showGridWindow("Invalid DFF Entries", String::toString(vecGridCellsText.size()) + " invalid DFF entries:", vecGridHeadersText, vecGridCellsText, "");
+		m_pTaskManager->onResumeTask();
 	}
 	
 	onCompleteTask();
@@ -5022,7 +5126,9 @@ void			Tasks::validateTXDInTab(void)
 	else
 	{
 		vector<string> vecGridHeadersText = { "Entry Name", "Error Reason" };
+		m_pTaskManager->onPauseTask();
 		m_pMainWindow->showGridWindow("Invalid TXD Entries", String::toString(vecGridCellsText.size()) + " invalid DFF entries:", vecGridHeadersText, vecGridCellsText, "");
+		m_pTaskManager->onResumeTask();
 	}
 
 	onCompleteTask();
@@ -5184,7 +5290,9 @@ void				Tasks::extractDVCAndNVCIntoDFFs(void)
 	onStartTask("extractDVCAndNVCIntoDFFs");
 
 	// choose DVC, NVC, or both
+	m_pTaskManager->onPauseTask();
 	uint32 uiUpdateType = m_pMainWindow->show3ButtonWindow("DVC/NVC Extraction Type", "Extract DVC, NVC, or both?", "DVC", "NVC", "Both");
+	m_pTaskManager->onResumeTask();
 	if (m_pMainWindow->m_bWindow2Cancelled)
 	{
 		return onAbortTask();
@@ -5394,7 +5502,9 @@ void		Tasks::imgCompression(void)
 	}
 
 	// choose compression status
+	m_pTaskManager->onPauseTask();
 	uint32 uiButtonIndex = m_pMainWindow->show3ButtonWindow("Compress IMG", "Should IMG be compressed?", "Yes", "No", "");
+	m_pTaskManager->onResumeTask();
 	if (uiButtonIndex == -1)
 	{
 		return onAbortTask();
@@ -5405,7 +5515,9 @@ void		Tasks::imgCompression(void)
 	if (uiButtonIndex == 0) // Button: Yes
 	{
 		vector<string> vecOptions = { "ZLib", "LZ4" };
+		m_pTaskManager->onPauseTask();
 		uint32 uiOptionIndex = m_pMainWindow->showDropDownWindow("IMG Compression Algorithm", "IMG compression algorithm:", vecOptions);
+		m_pTaskManager->onResumeTask();
 		if (uiOptionIndex == -1)
 		{
 			return onAbortTask();
@@ -5424,7 +5536,9 @@ void		Tasks::imgCompression(void)
 		{
 			vecOptions.push_back("Level " + String::toString(i + 1));
 		}
+		m_pTaskManager->onPauseTask();
 		uiOptionIndex = m_pMainWindow->showDropDownWindow("Compression Level", "Compression level:", vecOptions);
+		m_pTaskManager->onResumeTask();
 		if (uiOptionIndex == -1)
 		{
 			return onAbortTask();
