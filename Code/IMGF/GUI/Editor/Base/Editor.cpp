@@ -86,7 +86,10 @@ void								Editor::removeActiveFile(void)
 void								Editor::setActiveFile(EditorTab *pEditorFile)
 {
 	m_pActiveFile = pEditorFile;
-	m_pTabBar->setActiveTab(m_pTabBar->getEntryByIndex(m_pActiveFile->getTabIndex()));
+	if (m_pActiveFile)
+	{
+		m_pTabBar->setActiveTab(m_pTabBar->getEntryByIndex(m_pActiveFile->getTabIndex()));
+	}
 }
 
 // displayed info

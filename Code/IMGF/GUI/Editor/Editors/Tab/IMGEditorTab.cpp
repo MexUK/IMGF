@@ -390,6 +390,17 @@ void					IMGEditorTab::onSortGridByColumn(Grid *pGrid)
 {
 	if (pGrid == m_pEntryGrid)
 	{
+		unordered_map<GridRow*, IMGEntry*> umapGridEntries;
+		for (GridRow *pRow : pGrid->getEntries())
+		{
+			umapGridEntries[pRow] = (IMGEntry*)pRow->getUserData();
+		}
+		uint32 i = 0;
+		for (GridRow *pRow : pGrid->getEntries())
+		{
+			getIMGFile()->setEntryByIndex(i++, umapGridEntries[pRow]);
+		}
+
 		reassignEntryIds();
 	}
 }
