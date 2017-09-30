@@ -1421,6 +1421,8 @@ void		Tasks::exportByIDE(void)
 	vector<IMGEntry*> vecIMGEntries = StdVector::getKeysWithMatchingEntries(umapIMGModelNames, stModelNames);
 	StdVector::addToVector(vecIMGEntries, StdVector::getKeysWithMatchingEntries(umapIMGTextureSetNames, stTextureSetNames));
 
+	vecIMGEntries = StdVector::removeDuplicates(vecIMGEntries);
+
 	// export the IMG entries
 	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount() + vecIMGEntries.size());
 	getIMGTab()->getIMGFile()->exportMultiple(vecIMGEntries, strFolderPath);
@@ -1480,6 +1482,8 @@ void		Tasks::exportByIDEFromAllTabs(void)
 		// choose IMG entries that have a model name or TXD name found in IDE file
 		vector<IMGEntry*> vecIMGEntries = StdVector::getKeysWithMatchingEntries(umapIMGModelNames, stModelNames);
 		StdVector::addToVector(vecIMGEntries, StdVector::getKeysWithMatchingEntries(umapIMGTextureSetNames, stTextureSetNames));
+
+		vecIMGEntries = StdVector::removeDuplicates(vecIMGEntries);
 
 		// export the IMG entries
 		setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount() + vecIMGEntries.size());
@@ -1937,6 +1941,8 @@ void		Tasks::replaceByIDE(void)
 	vector<IMGEntry*> vecIMGEntries = StdVector::getKeysWithMatchingEntries(umapIMGModelNames, stModelNames);
 	StdVector::addToVector(vecIMGEntries, StdVector::getKeysWithMatchingEntries(umapIMGTextureSetNames, stTextureSetNames));
 
+	vecIMGEntries = StdVector::removeDuplicates(vecIMGEntries);
+
 	// export the IMG entries
 	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount() + vecFilePaths.size());
 
@@ -2291,6 +2297,8 @@ void		Tasks::removeByIDE(void)
 	vector<IMGEntry*> vecIMGEntries = StdVector::getKeysWithMatchingEntries(umapIMGModelNames, stModelNames);
 	StdVector::addToVector(vecIMGEntries, StdVector::getKeysWithMatchingEntries(umapIMGTextureSetNames, stTextureSetNames));
 
+	vecIMGEntries = StdVector::removeDuplicates(vecIMGEntries);
+
 	// export the IMG entries
 	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount() + vecIMGEntries.size());
 	for (IMGEntry *pIMGEntry : vecIMGEntries)
@@ -2494,6 +2502,8 @@ void		Tasks::splitByIDE(void)
 	// split the IMG
 	setMaxProgress(vecIMGEntries.size() * (bDeleteSelectedEntriesFromSourceIMG ? 2 : 1));
 	getIMGTab()->getIMGFile()->split(vecIMGEntries, strNewFilePath, uiNewIMGVersion);
+
+	vecIMGEntries = StdVector::removeDuplicates(vecIMGEntries);
 
 	// delete source entries
 	if (bDeleteSelectedEntriesFromSourceIMG)
@@ -3288,6 +3298,8 @@ void		Tasks::selectByIDE(void)
 	vector<IMGEntry*> vecIMGEntries = StdVector::getKeysWithMatchingEntries(umapIMGModelNames, stModelNames);
 	StdVector::addToVector(vecIMGEntries, StdVector::getKeysWithMatchingEntries(umapIMGTextureSetNames, stTextureSetNames));
 
+	vecIMGEntries = StdVector::removeDuplicates(vecIMGEntries);
+
 	// export the IMG entries
 	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount() + vecIMGEntries.size());
 	for (IMGEntry *pIMGEntry : vecIMGEntries)
@@ -3525,6 +3537,8 @@ void		Tasks::unselectByIDE(void)
 	// choose IMG entries that have a model name or TXD name found in IDE file
 	vector<IMGEntry*> vecIMGEntries = StdVector::getKeysWithMatchingEntries(umapIMGModelNames, stModelNames);
 	StdVector::addToVector(vecIMGEntries, StdVector::getKeysWithMatchingEntries(umapIMGTextureSetNames, stTextureSetNames));
+
+	vecIMGEntries = StdVector::removeDuplicates(vecIMGEntries);
 
 	// export the IMG entries
 	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount() + vecIMGEntries.size());
@@ -4460,6 +4474,7 @@ void		Tasks::textureList(void)
 	vector<string> vecTextureNames;
 	for (IMGEntry *pIMGEntry : getIMGTab()->getSelectedEntries())
 	{
+		//Debug::log("pIMGEntry = " + pIMGEntry->getEntryName());
 		if (pIMGEntry->isModelFile())
 		{
 			DFFFormat dffFile(pIMGEntry->getEntryData(), false);
