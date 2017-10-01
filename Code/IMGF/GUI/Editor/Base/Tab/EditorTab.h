@@ -21,11 +21,7 @@ class imgf::EditorTab : public bxgx::Layer, public bxcf::EventBindable
 {
 public:
 	EditorTab(void);
-	virtual ~EditorTab(void)
-	{
-		unbindEvent(bxgx::events::EInputEvent::RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
-		unbindEvent(bxcf::EEvent::TASK_PROGRESS, &EditorTab::onTaskProgress);
-	}
+	virtual ~EditorTab(void);
 
 	void								unload(void) {}
 

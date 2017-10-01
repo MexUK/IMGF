@@ -39,7 +39,7 @@ void					SettingsWindowLayer::init(void)
 
 	addText(50, y, 500, 20, "Text");
 	y += yGap1;
-	addText(50, y, 50, 50, "Language:");
+	addText(50, y, 83, 50, "Language:");
 	DropDown *pLanguageDropDown = addDropDown(135, y - 2, 150, 20, "Choose..", "window2_dropDown", 300);
 	pLanguageDropDown->addItems(vector<string>({ "English" }));
 	y += yGap2;
@@ -48,20 +48,20 @@ void					SettingsWindowLayer::init(void)
 	y += yGap1;
 	addCheckBox(50, y, 20, 20, "Window Always on Top", "window2_checkBox", 400);
 	y += yGap1;
-	addText(50, y, 500, 20, "Tab Colours:");
+	addText(50, y, 85, 20, "Tab Colours:");
 	addButton(135, y - 2, 100, 20, "Choose..", "window2_button", 410);
 	y += yGap2;
 
 	addText(50, y, 500, 20, "Tasks");
 	y += yGap1;
-	addText(50, y, 500, 20, "Quick Export Folder:");
-	addButton(180, y - 2, 100, 20, "Choose..", "window2_button", 500);
+	addText(50, y, 144, 20, "Quick Export Folder:");
+	addButton(200, y - 2, 100, 20, "Choose..", "window2_button", 500);
 	y += yGap1;
-	addText(50, y, 500, 20, "Rebuild After Feature:");
-	addButton(190, y - 2, 100, 20, "Choose..", "window2_button", 510);
+	addText(50, y, 150, 20, "Rebuild After Feature:");
+	addButton(210, y - 2, 100, 20, "Choose..", "window2_button", 510);
 	y += yGap1;
 	addCheckBox(50, y, 20, 20, "Save Logs to Folder:", "window2_checkBox", 520);
-	addButton(210, y - 2, 100, 20, "Choose..", "window2_button", 530);
+	addButton(225, y - 2, 100, 20, "Choose..", "window2_button", 530);
 	y += yGap2;
 
 	bindEvent(PRESS_BUTTON, &SettingsWindowLayer::onPressButton);

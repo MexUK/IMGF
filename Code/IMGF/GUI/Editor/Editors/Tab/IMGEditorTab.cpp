@@ -111,11 +111,9 @@ void					IMGEditorTab::init(void)
 	strTabText += " (Loading..)";
 
 	// add tab to tab bar
-	mutexRendering.lock();
 	TabBar *pTabBar = m_pEditor->getTabBar();
 	m_pTab = pTabBar->addTab(strTabText, true);
 	pTabBar->bindTabLayer(m_pTab, this);
-	mutexRendering.unlock();
 }
 
 // on file loaded
@@ -547,6 +545,7 @@ void					IMGEditorTab::addFile(string strEntryFilePath, string strEntryName)
 	checkToApplyCompression(pIMGEntry);
 
 	addGridEntry(pIMGEntry);
+	m_pEntryGrid->render();
 
 	updateEntryCountText();
 	updateIMGText();
@@ -964,6 +963,7 @@ void					IMGEditorTab::addGridEntry(IMGEntry *pIMGEntry, uint32 uiEntryIndex, vo
 	}
 
 	pRow->getText().assign(1, vecText);
+
 	if (pRows == nullptr)
 	{
 		m_pEntryGrid->addEntry(pRow);
@@ -973,6 +973,8 @@ void					IMGEditorTab::addGridEntry(IMGEntry *pIMGEntry, uint32 uiEntryIndex, vo
 		m_pEntryGrid->addEntry(pRow);
 		// m_pEntryGrid->setEntryByIndex(uiEntryIndex, pRow); // todo - still needed?
 	}
+
+	pRow->setShown(true);
 
 	/*
 	// todo - keep?
@@ -1744,7 +1746,7 @@ vector<IMGEntry*>	IMGEditorTab::getSelectedEntries(void)
 	vector<IMGEntry*> vecIMGEntries;
 	for (GridRow *pGridRow : m_pEntryGrid->getEntries())
 	{
-		if (pGridRow->isSelected())
+		if (pGridRow->isShown() && pGridRow->isSelected())
 		{
 			vecIMGEntries.push_back((IMGEntry*)pGridRow->getUserData());
 		}

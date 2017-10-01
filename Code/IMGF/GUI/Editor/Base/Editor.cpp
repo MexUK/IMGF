@@ -73,6 +73,7 @@ void								Editor::removeFile(EditorTab *pEditorFile)
 void								Editor::removeActiveFile(void)
 {
 	/*
+	todo
 	if (getTabs().getEntryCount() == 0)
 	{
 		return;
@@ -88,7 +89,11 @@ void								Editor::setActiveFile(EditorTab *pEditorFile)
 	m_pActiveFile = pEditorFile;
 	if (m_pActiveFile)
 	{
-		m_pTabBar->setActiveTab(m_pTabBar->getEntryByIndex(m_pActiveFile->getTabIndex()));
+		uint32 uiTabIndex = m_pActiveFile->getTabIndex();
+		mutexTabs.lock();
+		Tab *pTab = m_pTabBar->getEntryByIndex(uiTabIndex);
+		mutexTabs.unlock();
+		m_pTabBar->setActiveTab(pTab);
 	}
 }
 

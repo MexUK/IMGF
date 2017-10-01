@@ -144,6 +144,7 @@ IMGEditorTab*				IMGEditor::addTabObjectAndTabControl(IMGFormat *img, bool bNewF
 
 	Editor::addFile(imgEditorTab);
 	imgEditorTab->init();
+	setActiveFile(imgEditorTab);
 
 	if (!bNewFile && !imgEditorTab->unserializeFile())
 	{
@@ -154,8 +155,6 @@ IMGEditorTab*				IMGEditor::addTabObjectAndTabControl(IMGFormat *img, bool bNewF
 	imgEditorTab->onFileLoaded();
 
 	m_pMainWindow->getMainLayer()->setCertainMenuItemsEnabled(true);
-
-	setActiveFile(imgEditorTab);
 
 	return imgEditorTab;
 }

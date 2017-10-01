@@ -30,6 +30,12 @@ EditorTab::EditorTab(void) :
 {
 }
 
+EditorTab::~EditorTab(void)
+{
+	unbindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
+	unbindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
+}
+
 // tab index
 uint32						EditorTab::getTabIndex(void)
 {
@@ -82,12 +88,13 @@ void						EditorTab::initControls(void)
 	bindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));
 
-	static bool bTaskProgressEventBound = false;
-	if (!bTaskProgressEventBound)
-	{
+	// todo
+	//static bool bTaskProgressEventBound = false;
+	//if (!bTaskProgressEventBound)
+	//{
 		bindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
-		bTaskProgressEventBound = true;
-	}
+		//bTaskProgressEventBound = true;
+	//}
 }
 
 void						EditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
