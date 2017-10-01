@@ -2,6 +2,7 @@
 #include "GUI/Input/EInputItem.h"
 #include "Control/Controls/Button.h"
 #include "Control/Controls/TextBox.h"
+#include "Control/Controls/Grid.h"
 #include "Control/Entries/MenuItem.h"
 #include "Globals.h"
 #include "IMGF.h"
@@ -51,9 +52,16 @@ void					InputManager::bindEvents(void)
 void					InputManager::onKeyDown(uint16 uiKey)
 {
 	IMGEditorTab *pEditorTab = (IMGEditorTab*)m_pMainWindow->getIMGEditor()->getActiveFile();
-	if (pEditorTab && m_pMainWindow->getActiveItem() == (LayerItem*)pEditorTab->getEntryGrid() && !(uiKey >= 37 && uiKey <= 40) && (String::isAsciiCharacterDisplayable((uint8)uiKey) || uiKey == VK_BACK || uiKey == VK_DELETE))
+	if (pEditorTab && m_pMainWindow->getActiveItem() == (LayerItem*)pEditorTab->getEntryGrid())
 	{
-		pEditorTab->getSearchBox()->onKeyDown(uiKey);
+		if (uiKey == VK_DELETE && pEditorTab->getEntryGrid()->isAnyRowSelected())
+		{
+			m_pTasks->removeSelected();
+		}
+		else if (!(uiKey >= 37 && uiKey <= 40) && (String::isAsciiCharacterDisplayable((uint8)uiKey) || uiKey == VK_BACK || uiKey == VK_DELETE))
+		{
+			pEditorTab->getSearchBox()->onKeyDown(uiKey);
+		}
 	}
 }
 
