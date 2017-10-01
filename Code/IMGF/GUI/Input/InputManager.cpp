@@ -51,7 +51,7 @@ void					InputManager::bindEvents(void)
 void					InputManager::onKeyDown(uint16 uiKey)
 {
 	IMGEditorTab *pEditorTab = (IMGEditorTab*)m_pMainWindow->getIMGEditor()->getActiveFile();
-	if (pEditorTab && m_pMainWindow->getActiveItem() == (LayerItem*)pEditorTab->getEntryGrid())
+	if (pEditorTab && m_pMainWindow->getActiveItem() == (LayerItem*)pEditorTab->getEntryGrid() && !(uiKey >= 37 && uiKey <= 40) && (String::isAsciiCharacterDisplayable((uint8)uiKey) || uiKey == VK_BACK || uiKey == VK_DELETE))
 	{
 		pEditorTab->getSearchBox()->onKeyDown(uiKey);
 	}

@@ -81,6 +81,7 @@ IMGEditorTab::~IMGEditorTab(void)
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &IMGEditorTab::onSelectDropEntry);
 	unbindEvent(CHANGE_TEXT_BOX, &IMGEditorTab::onChangeTextBox);
 	unbindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
+	unbindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
 }
 
 // load/unload
