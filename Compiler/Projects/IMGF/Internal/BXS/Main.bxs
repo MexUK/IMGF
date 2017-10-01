@@ -9,7 +9,7 @@ fill 234 234 234
 // window
 
 .window .background_fill_1
-line 230 6 6
+line 42 118 210
 
 .titleBar
 fill 50 50 50
