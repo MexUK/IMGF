@@ -124,7 +124,7 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	EditorTab *pActiveEditorTab = m_pMainWindow->getIMGEditor()->getActiveFile();
 
 	uint32 uiMenuItemId = pMenuItem->getId();
-	if (uiMenuItemId == -1 && pMenuItem->getExpandableMenu()->getEntryCount() > 0)
+	if (uiMenuItemId == -1 && pMenuItem->getExpandableMenu() && pMenuItem->getExpandableMenu()->getEntryCount() > 0)
 	{
 		uiMenuItemId = pMenuItem->getExpandableMenu()->getFirstEntry()->getId();
 	}

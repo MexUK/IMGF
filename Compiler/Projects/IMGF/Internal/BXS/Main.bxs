@@ -21,6 +21,9 @@ fill 255 255 255
 .darkgreyFill
 fill 45 45 45
 
+.midgreyFill
+fill 140 140 140
+
 
 
 
@@ -53,6 +56,12 @@ fill lighten 40%
 
 .orangeLine
 line 255 156 8
+
+.blackLine
+line 0 0 0
+
+.whiteLine
+line 255 255 255
 
 
 
@@ -97,17 +106,16 @@ fill 0 0 0
 
 // control styles
 
-text .orangeText
+text .blackText
 
 
 
 
 // window
 
-.window .background_fill_1
-line 42 118 210
+.window .whiteFill .blackLine
 
-.titleBar .blackFill .orangeText
+.titleBar .blackFill .whiteText
 
 .titleBarIcon
 line 230 230 230
@@ -126,13 +134,6 @@ line right false
 line top false
 line bottom false
 
-
-
-
-// layer
-
-.mainLayer
-fill 255 0 0
 
 
 
@@ -174,184 +175,65 @@ text left center
 .main_spacing
 spacing x 8
 
-.main_fill_1
-fill 201 201 201
 
-.main_fill_2
-fill 220 220 220
 
-.main_textColour
-text 0 0 0
+
+// controls
+menu:item .main_lineLeft .main_textAlign .main_spacing .blackFill .whiteText
+menu:item:active .lightenFillTwenty .blackText
+menu:item:hover .lightenFillFourty .blackText
+menu:item:disabled .disabledText
+menu:itemIcon .whiteFill
+menu:itemIcon:disabled .darkgreyFill
+
+button .whiteFill
+button:hover .darkenFillTwenty
+
+tabBar .whiteFill
+tabBar:defaultText .blackText
+tabBar:tab .main_lineLeft .main_textAlign .main_spacing .blackFill .whiteText
+tabBar:tab:active .lightenFillTwenty
+
+scrollBar .whiteFill
+scrollBar:hover .lightenFillFourty
+scrollBar:itemIcon .blackFill
+scrollBar:seekBar .blackFill
+scrollBar:seekBar:hover .lightenFillFourty
+
+text .whiteFill .blackText
+
+grid .whiteFill
+grid:headerRow .blackFill
+grid:headerCell .main_textAlign .main_spacing .whiteText
+grid:row:n1 .blackFill
+grid:row:n2 .darkgreyFill
+grid:row:selected .lightenFillTwenty
+grid:row:mainSelected .lightenFillFourty
+grid:cell .main_textAlign .main_spacing .whiteText
+
+progressBar .midgreyFill
+progressBar:innerBar .blackFill
+
+dropDown .blackFill .whiteText .main_lineLeft .main_textAlign .main_spacing
+dropDown:hover .lightenFillTwenty
+dropDown:arrow .whiteFill
+dropDown:listRow .whiteFill .blackText .main_textAlign .main_spacing .blackText
+dropDown:listRow:hover .lightenFillTwenty
+
+textBox .blackFill .whiteText .main_spacing
+textBox:caret .main_textAlign .main_spacing .whiteLine
+
+checkBox:icon .blackLine
+checkBox:icon:active .whiteFill
+
+radioButton:icon .blackLine
+radioButton:icon:active .whiteFill
 
 
 
 
 // main layer
-
-.topLeftMenu:item .main_lineLeft .main_textAlign .main_spacing .darkredFill .lightgreyText
-.topLeftMenu:item:active .lightenFillTwenty
-.topLeftMenu:item:hover .lightenFillFourty
-
-.leftMenu:item .main_lineTop .main_textAlign .main_spacing .darkredFill .lightgreyText
-.leftMenu:item:active .lightenFillTwenty
-.leftMenu:item:hover .lightenFillFourty
-.leftMenu:itemIcon .blackFill
-
-.secondLeftMenu:item .main_lineTop .main_textAlign .main_spacing .darkblueFill .yellowText
-.secondLeftMenu:item:active .lightenFillTwenty
-.secondLeftMenu:item:hover .lightenFillFourty
-.secondLeftMenu:item:disabled .disabledText
-.secondLeftMenu:itemIcon .blackFill
-
-.topMenu:item .main_lineLeft .main_lineTop .main_textAlign .main_spacing .darkgreenFill .yellowText
-.topMenu:item:active .lightenFillTwenty
-.topMenu:item:hover .lightenFillFourty
-.topMenu:item:disabled .disabledText
-.topMenu:itemIcon .blackFill
-
-.settingsMenuButton .darkblueFill
-.settingsMenuButton:hover .lightenFillFourty
-
-.settingsMenu:item .main_lineTop .main_textAlign .main_spacing .darkblueFill .lightgreyText
-.settingsMenu:item:hover .lightenFillFourty
-
-.settingsMenuLine .orangeLine
-
-.fileTabBar .blackFill
-.fileTabBar:defaultText .orangeText
-.fileTabBar:tab .main_lineLeft .main_textAlign .main_spacing .darkblueFill .orangeText
-.fileTabBar:tab:active .lightenFillTwenty
-
-.scrollBar .darkblueFill
-.scrollBar:hover .lightenFillFourty
-.scrollBar:itemIcon .blackFill
-.scrollBar:seekBar .darkblueFill
-.scrollBar:seekBar:hover .lightenFillFourty
+.settingsMenuLine .blackLine
 
 
 
-// img editor layer
-
-.imgEditor_grid .background_fill_1
-.imgEditor_grid:headerRow .darkgreenFill
-.imgEditor_grid:headerCell .main_textAlign .main_spacing .yellowText
-.imgEditor_grid:row:n1 .blackFill
-.imgEditor_grid:row:n2 .darkgreyFill
-.imgEditor_grid:row:selected .darkgreenFill
-.imgEditor_grid:row:mainSelected .darkblueFill
-.imgEditor_grid:cell .main_textAlign .main_spacing .lightblueText
-
-.progressBar
-fill 50 50 50
-
-.progressBar:innerBar .orangeFill
-
-.log .main_spacing .darkgreenFill .yellowText
-spacing y 8
-
-.gameInfoText .orangeText .blackFill
-
-.filter .main_lineLeft .main_textAlign .main_spacing .yellowText
-
-.filter:hover
-fill 16 92 184
-
-.filter:arrow
-fill 0 0 0
-
-.filter:list .main_spacing
-fill 67 143 235
-
-.filter:listRow .main_textAlign .main_spacing .main_textColour
-
-.filter:listRow:hover
-fill 16 92 184
-
-.filter:caret .main_textAlign .main_spacing
-line 0 0 0
-
-.filterSearchBox .darkblueFill
-.filterDropDown .darkblueFill
-
-
-
-// single line text box window
-.window2_text
-text 0 0 0
-
-.textAlignTopLeft
-text left top
-
-.window2_textBoxMultiLine .textAlignTopLeft
-line 0 0 0
-fill 255 255 255
-spacing x 5
-
-.window2_textBoxMultiLine:caret
-spacing x 5
-
-.window2_textBox .main_textAlign
-line 0 0 0
-fill 255 255 255
-spacing x 5
-
-.window2_textBox:caret
-spacing x 5
-
-.window2_button .main_fill_2
-text center center
-
-.window2_button:hover .main_fill_1
-
-.window2_button:active .main_fill_1
-
-.window2_dropDown .main_fill_2 .main_textAlign .main_spacing
-
-.window2_dropDown:hover
-fill 198 198 198
-
-.window2_dropDown:active
-fill 198 198 198
-
-.window2_dropDown:list .main_fill_2
-
-.window2_dropDown:listRow .main_textAlign .main_spacing .main_textColour
-
-.window2_dropDown:listRow:hover
-fill 198 198 198
-
-.window2_dropDown:arrow
-fill 0 0 0
-
-.window2_checkBox:icon
-line 0 0 0
-
-.window2_checkBox:icon:active
-fill 67 143 235
-
-.window2_radioButton:icon
-line 0 0 0
-
-.window2_radioButton:icon:active
-fill 67 143 235
-
-.window2_grid .background_fill_1
-
-.window2_grid:headerRow
-fill 67 143 235
-
-.window2_grid:headerCell .main_textAlign .main_spacing .main_textColour
-
-.window2_grid:row:n1
-fill 118 194 255
-
-.window2_grid:row:n2
-fill 93 169 255
-
-.window2_grid:row:selected
-fill 16 92 184
-
-.window2_grid:row:mainSelected
-fill 0 67 159
-
-.window2_grid:cell .main_textAlign .main_spacing .main_textColour

@@ -1,0 +1,357 @@
+// main colours
+
+.darkredFill
+fill 62 0 0
+
+.darkgreenFill
+fill 10 62 0
+
+.darkblueFill
+fill 0 51 62
+
+.blackFill
+fill 0 0 0
+
+.orangeFill
+fill 255 156 8
+
+.whiteFill
+fill 255 255 255
+
+.darkgreyFill
+fill 45 45 45
+
+
+
+
+.darkenFillTen
+fill darken 10%
+
+.darkenFillTwenty
+fill darken 20%
+
+.darkenFillThirty
+fill darken 30%
+
+.darkenFillFourty
+fill darken 40%
+
+.lightenFillTen
+fill lighten 10%
+
+.lightenFillTwenty
+fill lighten 20%
+
+.lightenFillThirty
+fill lighten 30%
+
+.lightenFillFourty
+fill lighten 40%
+
+
+
+
+.orangeLine
+line 255 156 8
+
+
+
+
+.darkredText
+text 62 0 0
+
+.darkgreenText
+text 10 62 0
+
+.darkblueText
+text 0 51 62
+
+.lightblueText
+text 0 179 217
+
+.blackText
+text 0 0 0
+
+.orangeText
+text 255 156 8
+
+.whiteText
+text 255 255 255
+
+.lightgreyText
+text 205 205 205
+
+.yellowText
+text 242 242 0
+
+.disabledText
+text 75 75 75
+
+
+
+
+.background_fill_1
+fill 0 0 0
+
+
+
+// control styles
+
+text .orangeText
+
+
+
+
+// window
+
+.window .background_fill_1
+line 42 118 210
+
+.titleBar .blackFill .orangeText
+
+.titleBarIcon
+line 230 230 230
+
+.titleBarIcon:hover
+fill 25 25 25
+line left false
+line right false
+line top false
+line bottom false
+
+.titleBarIcon:hover2
+fill 80 0 0
+line left false
+line right false
+line top false
+line bottom false
+
+
+
+
+// layer
+
+.mainLayer
+fill 255 0 0
+
+
+
+
+// utility
+
+.noLeftLine
+line left false
+
+.noTopLine
+line top false
+
+.firstItemHorizontally .noLeftLine
+.firstItemHorizontally:tab .noLeftLine
+
+.firstItemVertically .noTopLine
+
+.thirdItemVertically
+line top 0 0 0
+
+.thirdItemVertically:item
+line top 0 0 0
+
+.thirdItemVertically:item:active
+line top 0 0 0
+
+.thirdItemVertically:item:hover
+line top 0 0 0
+
+.main_lineLeft
+line left 49 49 49
+
+.main_lineTop
+line top 49 49 49
+
+.main_textAlign
+text left center
+
+.main_spacing
+spacing x 8
+
+.main_fill_1
+fill 201 201 201
+
+.main_fill_2
+fill 220 220 220
+
+.main_textColour
+text 0 0 0
+
+
+
+
+// main layer
+
+.topLeftMenu:item .main_lineLeft .main_textAlign .main_spacing .darkredFill .lightgreyText
+.topLeftMenu:item:active .lightenFillTwenty
+.topLeftMenu:item:hover .lightenFillFourty
+
+.leftMenu:item .main_lineTop .main_textAlign .main_spacing .darkredFill .lightgreyText
+.leftMenu:item:active .lightenFillTwenty
+.leftMenu:item:hover .lightenFillFourty
+.leftMenu:itemIcon .blackFill
+
+.secondLeftMenu:item .main_lineTop .main_textAlign .main_spacing .darkblueFill .yellowText
+.secondLeftMenu:item:active .lightenFillTwenty
+.secondLeftMenu:item:hover .lightenFillFourty
+.secondLeftMenu:item:disabled .disabledText
+.secondLeftMenu:itemIcon .blackFill
+
+.topMenu:item .main_lineLeft .main_lineTop .main_textAlign .main_spacing .darkgreenFill .yellowText
+.topMenu:item:active .lightenFillTwenty
+.topMenu:item:hover .lightenFillFourty
+.topMenu:item:disabled .disabledText
+.topMenu:itemIcon .blackFill
+
+.settingsMenuButton .darkblueFill
+.settingsMenuButton:hover .lightenFillFourty
+
+.settingsMenu:item .main_lineTop .main_textAlign .main_spacing .darkblueFill .lightgreyText
+.settingsMenu:item:hover .lightenFillFourty
+
+.settingsMenuLine .orangeLine
+
+.fileTabBar .blackFill
+.fileTabBar:defaultText .orangeText
+.fileTabBar:tab .main_lineLeft .main_textAlign .main_spacing .darkblueFill .orangeText
+.fileTabBar:tab:active .lightenFillTwenty
+
+.scrollBar .darkblueFill
+.scrollBar:hover .lightenFillFourty
+.scrollBar:itemIcon .blackFill
+.scrollBar:seekBar .darkblueFill
+.scrollBar:seekBar:hover .lightenFillFourty
+
+
+
+// img editor layer
+
+.imgEditor_grid .background_fill_1
+.imgEditor_grid:headerRow .darkgreenFill
+.imgEditor_grid:headerCell .main_textAlign .main_spacing .yellowText
+.imgEditor_grid:row:n1 .blackFill
+.imgEditor_grid:row:n2 .darkgreyFill
+.imgEditor_grid:row:selected .darkgreenFill
+.imgEditor_grid:row:mainSelected .darkblueFill
+.imgEditor_grid:cell .main_textAlign .main_spacing .lightblueText
+
+.progressBar
+fill 50 50 50
+
+.progressBar:innerBar .orangeFill
+
+.log .main_spacing .darkgreenFill .yellowText
+spacing y 8
+
+.gameInfoText .orangeText .blackFill
+
+.filter .main_lineLeft .main_textAlign .main_spacing .yellowText
+
+.filter:hover
+fill 16 92 184
+
+.filter:arrow
+fill 0 0 0
+
+.filter:list .main_spacing
+fill 67 143 235
+
+.filter:listRow .main_textAlign .main_spacing .main_textColour
+
+.filter:listRow:hover
+fill 16 92 184
+
+.filter:caret .main_textAlign .main_spacing
+line 255 255 0
+
+.filterSearchBox .darkblueFill
+.filterDropDown .darkblueFill
+
+
+
+// single line text box window
+.window2_text
+text 0 0 0
+
+.textAlignTopLeft
+text left top
+
+.window2_textBoxMultiLine .textAlignTopLeft
+line 0 0 0
+fill 255 255 255
+spacing x 5
+
+.window2_textBoxMultiLine:caret
+spacing x 5
+
+.window2_textBox .main_textAlign
+line 0 0 0
+fill 255 255 255
+spacing x 5
+
+.window2_textBox:caret
+spacing x 5
+
+.window2_button .main_fill_2
+text center center
+
+.window2_button:hover .main_fill_1
+
+.window2_button:active .main_fill_1
+
+.window2_dropDown .main_fill_2 .main_textAlign .main_spacing
+
+.window2_dropDown:hover
+fill 198 198 198
+
+.window2_dropDown:active
+fill 198 198 198
+
+.window2_dropDown:list .main_fill_2
+
+.window2_dropDown:listRow .main_textAlign .main_spacing .main_textColour
+
+.window2_dropDown:listRow:hover
+fill 198 198 198
+
+.window2_dropDown:arrow
+fill 0 0 0
+
+.window2_checkBox:icon
+line 0 0 0
+
+.window2_checkBox:icon:active
+fill 67 143 235
+
+.window2_radioButton:icon
+line 0 0 0
+
+.window2_radioButton:icon:active
+fill 67 143 235
+
+.window2_grid .background_fill_1
+
+.window2_grid:headerRow
+fill 67 143 235
+
+.window2_grid:headerCell .main_textAlign .main_spacing .main_textColour
+
+.window2_grid:row:n1
+fill 118 194 255
+
+.window2_grid:row:n2
+fill 93 169 255
+
+.window2_grid:row:selected
+fill 16 92 184
+
+.window2_grid:row:mainSelected
+fill 0 67 159
+
+.window2_grid:cell .main_textAlign .main_spacing .main_textColour
