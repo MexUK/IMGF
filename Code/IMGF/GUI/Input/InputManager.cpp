@@ -121,6 +121,26 @@ void					InputManager::onPressButton(Button *pButton)
 // forward button press
 void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 {
+	EditorTab *pActiveEditorTab = m_pMainWindow->getIMGEditor()->getActiveFile();
+
+	uint32 uiMenuItemId = pMenuItem->getId();
+	if (uiMenuItemId == -1 && pMenuItem->getExpandableMenu()->getEntryCount() > 0)
+	{
+		uiMenuItemId = pMenuItem->getExpandableMenu()->getFirstEntry()->getId();
+	}
+
+	if (pActiveEditorTab && uiMenuItemId != CLOSE_FILE && uiMenuItemId != CLOSE_ALL_FILES)
+	{
+		pActiveEditorTab->getMenuItemsPressed().push_back(pMenuItem);
+	}
+	else
+	{
+		processMenuItemPress(pMenuItem);
+	}
+}
+
+void					InputManager::processMenuItemPress(MenuItem *pMenuItem)
+{
 	// recently open
 	if (getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer().find(pMenuItem->getId()) != getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer().end())
 	{

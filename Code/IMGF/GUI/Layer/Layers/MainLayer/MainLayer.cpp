@@ -395,6 +395,8 @@ void		MainLayer::addControls(void)
 
 	// entry
 	pMenuItem1 = pMenu1->addMenuItem("Entry", ENTRY_MENU);
+	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
+
 	pMenu2 = pMenuItem1->addMenu();
 
 	pMenuItem2 = pMenu2->addMenuItem("Entry Name Case", ENTRY_NAME_CASE_MENU);
@@ -436,6 +438,7 @@ void		MainLayer::addControls(void)
 
 	// tools
 	pMenuItem1 = pMenu1->addMenuItem("Tools");
+	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Dump", DUMP);

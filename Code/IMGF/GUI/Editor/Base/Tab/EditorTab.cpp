@@ -5,6 +5,7 @@
 #include "Control/Controls/ProgressBar.h"
 #include "Control/Entries/Tab.h"
 #include "IMGF.h"
+#include "GUI/Input/InputManager.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
 #include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
@@ -21,6 +22,8 @@ using namespace bxgx::events;
 using namespace imgf;
 
 EditorTab::EditorTab(void) :
+	m_bMarkedToClose(false),
+	m_bThreadHasTerminated(false),
 	m_pEditor(nullptr),
 	m_pFile(nullptr),
 	m_pTab(nullptr),
@@ -34,6 +37,52 @@ EditorTab::~EditorTab(void)
 {
 	unbindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
 	unbindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
+}
+
+// initialization
+void						EditorTab::init(void)
+{
+	addControls();
+	initControls();
+
+	m_thread = thread([&]() { processThread(); });
+}
+
+// tab processing
+void						EditorTab::processThread(void)
+{
+	while (!m_bMarkedToClose)
+	{
+		processThreadOnce();
+	}
+
+	m_bThreadHasTerminated = true;
+}
+
+void						EditorTab::processThreadOnce(void)
+{
+	// todo mutexControlInput.lock();
+	vector<Button*> vecButtonsPressed = m_vecButtonsPressed;
+	vector<MenuItem*> vecMenuItemsPressed = m_vecMenuItemsPressed;
+	m_vecButtonsPressed.clear();
+	m_vecMenuItemsPressed.clear();
+	//mutexControlInput.unlock();
+
+	for (Button *pButtonPressed : vecButtonsPressed)
+	{
+		Events::trigger(bxgx::events::PRESS_BUTTON, pButtonPressed);
+	}
+
+	for (MenuItem *pMenuItem : vecMenuItemsPressed)
+	{
+		getIMGF()->getInputManager()->processMenuItemPress(pMenuItem);
+	}
+
+	if (vecButtonsPressed.size() > 0 || vecMenuItemsPressed.size() > 0)
+	{
+		// check to render each window or window items
+		BXGX::get()->render();
+	}
 }
 
 // tab index

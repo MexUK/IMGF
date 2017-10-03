@@ -52,6 +52,7 @@ public:
 	IMGEditor*					getIMGEditor(void);
 	IMGEditorTab*				getEntryListTab(void); // todo
 	
+	InputManager*				getInputManager(void) { return m_pInputManager; }
 	DumpManager*				getDumpManager(void) { return m_pDumpManager; }
 	EntryViewerManager*			getEntryViewerManager(void) { return m_pEntryViewerManager; }
 	LanguageManager*			getLanguageManager(void) { return m_pLanguageManager; }

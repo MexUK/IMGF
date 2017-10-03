@@ -68,6 +68,7 @@ public:
 	void						copySelectedEntryData(uint32 uiColumnType);
 	void						shiftSelectedEntries(int32 uiRowCountOffset);
 
+	
 
 
 

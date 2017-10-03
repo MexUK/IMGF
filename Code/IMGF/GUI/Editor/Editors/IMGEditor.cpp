@@ -161,8 +161,12 @@ IMGEditorTab*				IMGEditor::addTabObjectAndTabControl(IMGFormat *img, bool bNewF
 
 void						IMGEditor::removeFile(IMGEditorTab *pIMGEditorFile)
 {
-	//pIMGEditorFile->setTabMarkedForClose(true);
-	//while (!pIMGEditorFile->isTabReadyToClose());
+	pIMGEditorFile->setMarkedToClose(true);
+	while (!pIMGEditorFile->hasThreadTerminated())
+	{
+		Sleep(10);
+	}
+	pIMGEditorFile->getThread().join();
 
 	Editor::removeFile(pIMGEditorFile);
 
@@ -1069,14 +1073,14 @@ void		IMGEditor::addControls(void)
 	h = 24;
 	strStyleGroup = "filter filterDropDown";
 
-	m_pEntryTypeFilter = addDropDown(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally", -1, -50);
+	m_pEntryTypeFilter = addDropDown(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally", -1, -100);
 	m_pEntryTypeFilter->addItem("No file is open", false, false);
 
 	// filter - entry version
 	w = w2;
 	x = m_pWindow->getSize().x - w - uiLogWidth - 10;
 
-	m_pEntryVersionFilter = addDropDown(x, y, w, h, "Entry Version", strStyleGroup, -1, -50);
+	m_pEntryVersionFilter = addDropDown(x, y, w, h, "Entry Version", strStyleGroup, -1, -100);
 	m_pEntryVersionFilter->addItem("No file is open", false, false);
 }
 

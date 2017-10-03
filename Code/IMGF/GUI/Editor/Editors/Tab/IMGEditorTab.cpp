@@ -97,8 +97,7 @@ void					IMGEditorTab::unload(void)
 void					IMGEditorTab::init(void)
 {
 	// add controls to tab layer
-	EditorTab::addControls();
-	EditorTab::initControls();
+	EditorTab::init();
 
 	addControls();
 	initControls();
@@ -222,14 +221,14 @@ void					IMGEditorTab::addControls(void)
 	h = 24;
 	strStyleGroup = "filter filterDropDown";
 
-	m_pEntryTypeFilter = addDropDown(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally", -1, -50);
+	m_pEntryTypeFilter = addDropDown(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally", -1, -100);
 	m_pEntryTypeFilter->addItem("No file is open", false, false);
 
 	// filter - entry version
 	w = w2;
 	x = m_pWindow->getSize().x - w - uiLogWidth - 10;
 
-	m_pEntryVersionFilter = addDropDown(x, y, w, h, "Entry Version", strStyleGroup, -1, -50);
+	m_pEntryVersionFilter = addDropDown(x, y, w, h, "Entry Version", strStyleGroup, -1, -100);
 	m_pEntryVersionFilter->addItem("No file is open", false, false);
 	m_pEntryVersionFilter->addLinkedItem(m_pEntryTypeFilter);
 

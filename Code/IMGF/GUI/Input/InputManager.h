@@ -27,6 +27,8 @@ public:
 	void					onPressButton(bxgx::Button *pMenuItem);
 	void					onPressMenuItem(bxgx::MenuItem *pMenuItem);
 
+	void					processMenuItemPress(bxgx::MenuItem *pMenuItem);
+
 private:
 	void					formats(void);
 	void					utility(void);

@@ -10,6 +10,8 @@
 #include "Event/EInputEvent.h"
 #include "../BXCF/Event/EEvent.h"
 #include <string>
+#include <vector>
+#include <thread>
 
 class imgf::Editor;
 class bxcf::Format;
@@ -23,7 +25,12 @@ public:
 	EditorTab(void);
 	virtual ~EditorTab(void);
 
+	void								init(void);
+
 	void								unload(void) {}
+
+	void								processThread(void);
+	void								processThreadOnce(void);
 
 	virtual void						setFileInfoText(void) {}
 
@@ -37,6 +44,14 @@ public:
 
 	void								setFile(bxcf::Format *pFile) { m_pFile = pFile; }
 	bxcf::Format*						getFile(void) { return m_pFile; }
+
+	void								setMarkedToClose(bool bMarkedToClose) { m_bMarkedToClose = bMarkedToClose; }
+	bool								isMarkedToClose(void) { return m_bMarkedToClose; }
+
+	void								setThreadHasTerminated(bool bThreadHasTerminated) { m_bThreadHasTerminated = bThreadHasTerminated; }
+	bool								hasThreadTerminated(void) { return m_bThreadHasTerminated; }
+
+	std::thread&						getThread(void) { return m_thread; }
 
 	void								addControls(void);
 	void								initControls(void);
@@ -54,15 +69,24 @@ public:
 	bxgx::TextBox*						getSearchBox(void) { return m_pSearchBox; }
 	bxgx::TextBox*						getLog(void) { return m_pLog; }
 
+	std::vector<bxgx::Button*>&			getButtonsPressedPending(void) { return m_vecButtonsPressedPending; }
+	std::vector<bxgx::MenuItem*>&		getMenuItemsPressed(void) { return m_vecMenuItemsPressed; }
+
 protected:
 	bxgx::TextBox*						m_pSearchBox;
 	bxgx::Tab*							m_pTab;
 	bxgx::TextBox*						m_pLog;
 
 private:
+	std::thread							m_thread;
+	bool								m_bMarkedToClose;
+	bool								m_bThreadHasTerminated;
 	Editor*								m_pEditor;
 	bxcf::Format*						m_pFile;
 	bxgx::ProgressBar*					m_pProgressBar;
 	bxcf::VectorPool<RenderItem*>		m_vecRenderItems;
 	bxcf::VectorPool<std::string>		m_vecLogLines;
+	std::vector<bxgx::Button*>			m_vecButtonsPressed;
+	std::vector<bxgx::Button*>			m_vecButtonsPressedPending;
+	std::vector<bxgx::MenuItem*>		m_vecMenuItemsPressed;
 };
