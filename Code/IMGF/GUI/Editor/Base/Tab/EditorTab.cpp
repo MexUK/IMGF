@@ -70,7 +70,7 @@ void						EditorTab::addControls(void)
 	w = m_pWindow->getSize().x - x - (uiButtonHeight + 1);
 	h = uiButtonHeight;
 
-	m_pSearchBox = addTextBox(x, y, w, h, "Search", false, "filter");
+	m_pSearchBox = addTextBox(x, y, w, h, "Search", false, "filter filterSearchBox");
 
 	// progress bar
 	w = 150;

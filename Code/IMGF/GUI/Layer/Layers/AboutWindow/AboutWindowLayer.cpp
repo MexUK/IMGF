@@ -32,9 +32,9 @@ Mex (Programmer)\n\
 X-Seti (Feature Planning)\n\
 \n\
 cj2000 (Rare Format Documentation)\n\
-\n\
-IgorX (Tester)\n\
 dkluin (Tester)\n\
+IgorX (Tester)\n\
+Leaf (Logo & Icon)\n\
 \n\
 gtamodding.com (Format Documentation)\n\
 gtamodding.ru (Format Documentation)\n\

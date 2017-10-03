@@ -220,7 +220,7 @@ void					IMGEditorTab::addControls(void)
 	x = m_pWindow->getSize().x - w - w2 - uiLogWidth - 10;
 	y = uiButtonHeight + 82;
 	h = 24;
-	strStyleGroup = "filter";
+	strStyleGroup = "filter filterDropDown";
 
 	m_pEntryTypeFilter = addDropDown(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally", -1, -50);
 	m_pEntryTypeFilter->addItem("No file is open", false, false);
@@ -305,12 +305,27 @@ void					IMGEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 
 	// grid
 	size = m_pEntryGrid->getSize();
-	iNewWidth = m_pWindow->getSize().x - m_pEntryGrid->getPosition().x - uiLogWidth;
-	iNewHeight = m_pWindow->getSize().y - m_pEntryGrid->getPosition().y;
-	newSize = Vec2u(iNewWidth, iNewHeight);
-	newSize.x -= m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(VERTICAL)->getBackgroundBarSize().x;
-	newSize.y -= m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(HORIZONTAL)->getBackgroundBarSize().y;
-	m_pEntryGrid->setSize(newSize);
+	iNewWidth = (int32)m_pWindow->getSize().x - m_pEntryGrid->getPosition().x - (int32)uiLogWidth;
+	iNewHeight = (int32)m_pWindow->getSize().y - m_pEntryGrid->getPosition().y;
+	Vec2i vecNewSize2 = Vec2i(iNewWidth, iNewHeight);
+	if (vecNewSize2.x < 20)
+	{
+		vecNewSize2.x = 20;
+	}
+	else if (vecNewSize2.x >= m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(VERTICAL)->getBackgroundBarSize().x)
+	{
+		vecNewSize2.x -= m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(VERTICAL)->getBackgroundBarSize().x;
+	}
+	if (vecNewSize2.y < 20)
+	{
+		vecNewSize2.y = 20;
+	}
+	else if (vecNewSize2.y > m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(HORIZONTAL)->getBackgroundBarSize().y)
+	{
+		vecNewSize2.y -= m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(HORIZONTAL)->getBackgroundBarSize().y;
+	}
+	Vec2u vecNewSize = Vec2u(vecNewSize2.x, vecNewSize2.y);
+	m_pEntryGrid->setSize(vecNewSize);
 
 	// filter - entry type
 	point = m_pEntryTypeFilter->getPosition();

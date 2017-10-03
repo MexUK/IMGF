@@ -95,13 +95,6 @@ fill 0 0 0
 
 
 
-// control styles
-
-text .orangeText
-
-
-
-
 // window
 
 .window .background_fill_1

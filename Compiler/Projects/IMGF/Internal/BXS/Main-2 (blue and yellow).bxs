@@ -1,0 +1,327 @@
+// main fill colours
+
+.background_fill_1
+fill 234 234 234
+
+
+
+
+// window
+
+.window .background_fill_1
+line 42 118 210
+
+.titleBar
+fill 50 50 50
+text 234 234 234
+
+.titleBarIcon
+line 230 230 230
+
+.titleBarIcon:hover
+fill 25 25 25
+line left false
+line right false
+line top false
+line bottom false
+
+.titleBarIcon:hover2
+fill 80 0 0
+line left false
+line right false
+line top false
+line bottom false
+
+
+
+
+// layer
+
+.mainLayer
+fill 255 0 0
+
+
+
+
+// utility
+
+.noLeftLine
+line left false
+
+.noTopLine
+line top false
+
+.firstItemHorizontally .noLeftLine
+.firstItemHorizontally:tab .noLeftLine
+
+.firstItemVertically .noTopLine
+
+.thirdItemVertically
+line top 0 0 0
+
+.thirdItemVertically:item
+line top 0 0 0
+
+.thirdItemVertically:item:active
+line top 0 0 0
+
+.thirdItemVertically:item:hover
+line top 0 0 0
+
+.main_lineLeft
+line left 49 49 49
+
+.main_lineTop
+line top 49 49 49
+
+.main_textAlign
+text left center
+
+.main_spacing
+spacing x 8
+
+.main_fill_1
+fill 201 201 201
+
+.main_fill_2
+fill 220 220 220
+
+.main_textColour
+text 0 0 0
+
+
+
+
+// main layer
+
+.topLeftMenu:item .main_lineLeft .main_textAlign .main_spacing
+fill 67 143 235
+
+.topLeftMenu:item:active
+fill 42 118 210
+
+.topLeftMenu:item:hover
+fill 16 92 184
+
+.leftMenu:item .main_lineTop .main_textAlign .main_spacing
+fill 67 143 235
+
+.leftMenu:item:active
+fill 42 118 210
+
+.leftMenu:item:hover
+fill 16 92 184
+
+.leftMenu:itemIcon
+fill 0 0 0
+
+.secondLeftMenu:item .main_lineTop .main_textAlign .main_spacing
+fill 244 244 108
+
+.secondLeftMenu:item:active
+fill 219 219 83
+
+.secondLeftMenu:item:hover
+fill 193 193 57
+
+.secondLeftMenu:item:disabled
+text 128 128 128
+
+.secondLeftMenu:itemIcon
+fill 0 0 0
+
+.topMenu:item .main_lineLeft .main_lineTop .main_textAlign .main_spacing
+fill 244 244 108
+
+.topMenu:item:active
+fill 219 219 83
+
+.topMenu:item:hover
+fill 193 193 57
+
+.topMenu:item:disabled
+text 128 128 128
+
+.topMenu:itemIcon
+fill 0 0 0
+
+.settingsMenuButton
+fill 244 244 108
+
+.settingsMenuButton:hover
+fill 219 219 83
+
+.settingsMenu:item .main_lineTop .main_textAlign .main_spacing
+fill 244 244 108
+
+.settingsMenu:item:hover
+fill 219 219 83
+
+.settingsMenuLine
+line 0 0 0
+
+.gameInfoText .main_textColour .background_fill_1
+
+.filter .main_lineLeft .main_textAlign .main_textColour .main_spacing
+fill 67 143 235
+
+.filter:hover
+fill 16 92 184
+
+.filter:arrow
+fill 0 0 0
+
+.filter:list .main_spacing
+fill 67 143 235
+
+.filter:listRow .main_textAlign .main_spacing .main_textColour
+
+.filter:listRow:hover
+fill 16 92 184
+
+.filter:caret .main_textAlign .main_spacing
+line 0 0 0
+
+.fileTabBar .background_fill_1
+
+.fileTabBar:defaultText .main_textColour
+
+.fileTabBar:tab .main_lineLeft .main_textAlign .main_spacing
+fill 67 143 235
+
+.fileTabBar:tab:active
+fill 42 118 210
+
+.scrollBar
+fill 67 143 235
+
+.scrollBar:hover
+fill 67 143 235
+
+.scrollBar:itemIcon
+fill 0 0 0
+
+.scrollBar:seekBar
+fill 42 118 210
+
+.scrollBar:seekBar:hover
+fill 16 92 184
+
+
+
+// img editor layer
+
+.imgEditor_grid .background_fill_1
+
+.imgEditor_grid:headerRow
+fill 67 143 235
+
+.imgEditor_grid:headerCell .main_textAlign .main_spacing .main_textColour
+
+.imgEditor_grid:row:n1
+fill 118 194 255
+
+.imgEditor_grid:row:n2
+fill 93 169 255
+
+.imgEditor_grid:row:selected
+fill 16 92 184
+
+.imgEditor_grid:row:mainSelected
+fill 0 67 159
+
+.imgEditor_grid:cell .main_textAlign .main_spacing .main_textColour
+
+.progressBar
+fill 118 194 255
+
+.progressBar:innerBar
+fill 50 50 50
+
+.log .main_spacing
+spacing y 8
+fill 118 194 255
+
+
+
+
+// single line text box window
+.window2_text
+text 0 0 0
+
+.textAlignTopLeft
+text left top
+
+.window2_textBoxMultiLine .textAlignTopLeft
+line 0 0 0
+fill 255 255 255
+spacing x 5
+
+.window2_textBoxMultiLine:caret
+spacing x 5
+
+.window2_textBox .main_textAlign
+line 0 0 0
+fill 255 255 255
+spacing x 5
+
+.window2_textBox:caret
+spacing x 5
+
+.window2_button .main_fill_2
+text center center
+
+.window2_button:hover .main_fill_1
+
+.window2_button:active .main_fill_1
+
+.window2_dropDown .main_fill_2 .main_textAlign .main_spacing
+
+.window2_dropDown:hover
+fill 198 198 198
+
+.window2_dropDown:active
+fill 198 198 198
+
+.window2_dropDown:list .main_fill_2
+
+.window2_dropDown:listRow .main_textAlign .main_spacing .main_textColour
+
+.window2_dropDown:listRow:hover
+fill 198 198 198
+
+.window2_dropDown:arrow
+fill 0 0 0
+
+.window2_checkBox:icon
+line 0 0 0
+
+.window2_checkBox:icon:active
+fill 67 143 235
+
+.window2_radioButton:icon
+line 0 0 0
+
+.window2_radioButton:icon:active
+fill 67 143 235
+
+.window2_grid .background_fill_1
+
+.window2_grid:headerRow
+fill 67 143 235
+
+.window2_grid:headerCell .main_textAlign .main_spacing .main_textColour
+
+.window2_grid:row:n1
+fill 118 194 255
+
+.window2_grid:row:n2
+fill 93 169 255
+
+.window2_grid:row:selected
+fill 16 92 184
+
+.window2_grid:row:mainSelected
+fill 0 67 159
+
+.window2_grid:cell .main_textAlign .main_spacing .main_textColour
