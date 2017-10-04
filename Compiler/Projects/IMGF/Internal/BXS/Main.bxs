@@ -172,6 +172,12 @@ line top 49 49 49
 .main_textAlign
 text left center
 
+.main_textAlignLeft
+text left top
+
+.main_textAlignCenter
+text center center
+
 .main_spacing
 spacing x 8
 
@@ -186,13 +192,13 @@ menu:item:disabled .disabledText
 menu:itemIcon .whiteFill
 menu:itemIcon:disabled .darkgreyFill
 
-button .whiteFill
+button .blackFill .whiteText .main_textAlignCenter
 button:hover .darkenFillTwenty
 
 tabBar .whiteFill
 tabBar:defaultText .blackText
-tabBar:tab .main_lineLeft .main_textAlign .main_spacing .blackFill .whiteText
-tabBar:tab:active .lightenFillTwenty
+tabBar:tab .main_textAlignCenter .main_spacing .blackFill .whiteText
+tabBar:tab:active .lightenFillTen .blackText
 
 scrollBar .whiteFill
 scrollBar:hover .lightenFillFourty
@@ -220,14 +226,14 @@ dropDown:arrow .whiteFill
 dropDown:listRow .whiteFill .blackText .main_textAlign .main_spacing .blackText
 dropDown:listRow:hover .lightenFillTwenty
 
-textBox .blackFill .whiteText .main_spacing
+textBox .blackFill .whiteText .main_textAlign .main_spacing
 textBox:caret .main_textAlign .main_spacing .whiteLine
 
 checkBox:icon .blackLine
-checkBox:icon:active .whiteFill
+checkBox:icon:active .blackFill
 
 radioButton:icon .blackLine
-radioButton:icon:active .whiteFill
+radioButton:icon:active .blackFill
 
 
 
@@ -235,5 +241,7 @@ radioButton:icon:active .whiteFill
 // main layer
 .settingsMenuLine .blackLine
 
+.settingsMenuButton .whiteFill
 
+.log .main_textAlignLeft
 

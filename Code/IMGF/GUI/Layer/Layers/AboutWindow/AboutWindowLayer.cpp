@@ -1,7 +1,9 @@
 #include "AboutWindowLayer.h"
 #include "Program/BuildVersion.h"
+#include "Static/String.h"
 
 using namespace std;
+using namespace bxcf;
 using namespace imgf;
 
 AboutWindowLayer::AboutWindowLayer(void)
@@ -13,7 +15,7 @@ void					AboutWindowLayer::init(void)
 {
 	addButton(50, 570, 100, 20, "Close", "window2_button", 200);
 
-	addText(50, 50, 550, 500, "Version: 2.0 (Build " + IMGF_MINOR_BUILD_VERSION_STRING + ")\n\
+	addText(50, 50, 550, 500, "Version: 2.0 (Build " + String::addNumberGrouping(IMGF_MINOR_BUILD_VERSION_STRING) + ")\n\
 \n\
 \n\
 \n\
@@ -33,7 +35,7 @@ X-Seti (Feature Planning)\n\
 \n\
 cj2000 (Rare Format Documentation)\n\
 dkluin (Tester)\n\
-IgorX (Tester)\n\
+IgorX (Initial Texture Window Design & Tester)\n\
 Leaf (Logo & Icon)\n\
 \n\
 gtamodding.com (Format Documentation)\n\

@@ -2,6 +2,7 @@
 #include "Control/Controls/DropDown.h"
 #include "Control/Controls/Button.h"
 #include "Control/Controls/CheckBox.h"
+#include "GUI/Window/Windows/MainWindow/MainWindow.h"
 #include "Static/Input.h"
 #include "Settings/SettingsManager.h"
 #include "IMGF.h"
@@ -140,8 +141,9 @@ void					DumpWindowLayer::init(void)
 // window events
 void					DumpWindowLayer::onPressButton(Button *pButton)
 {
+	MainWindow
+		*pWindow1 = (MainWindow*)BXGX::get()->getEntryByIndex(0);
 	Window
-		*pWindow1 = BXGX::get()->getEntryByIndex(0),
 		*pWindow2 = BXGX::get()->getEntryByIndex(1);
 	string
 		strFolderPath;
@@ -168,7 +170,7 @@ void					DumpWindowLayer::onPressButton(Button *pButton)
 		{
 			return;
 		}
-		//pWindow1->m_dumpWindowData.m_strGameFolderPath = strFolderPath;
+		pWindow1->m_dumpWindowResult.m_strGameFolderPath = strFolderPath;
 		break;
 
 	case 510:

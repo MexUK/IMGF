@@ -194,6 +194,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\AboutWindow\AboutWindowLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\DATPathsMoverWindow\DATPathsMoverWindowLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\DumpWindow\DumpWindowLayer.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\DumpWindow\DumpWindowResult.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\ELayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\FormatsWindow\FormatsWindowLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\IDEInputWindow\IDEInputLayer.h" />

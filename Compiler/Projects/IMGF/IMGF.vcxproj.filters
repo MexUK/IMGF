@@ -746,6 +746,9 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\TXDOrganizerWindow\TXDOrganizerWindowLayer.h">
       <Filter>Header Files\GUI\Layer\Layers\TXDOrganizerWindow</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\DumpWindow\DumpWindowResult.h">
+      <Filter>Header Files\GUI\Layer\Layers\DumpWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IMGF.rc">

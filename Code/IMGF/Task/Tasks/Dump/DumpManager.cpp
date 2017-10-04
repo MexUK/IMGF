@@ -80,7 +80,9 @@ int GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
 
 void		DumpManager::process(void)
 {
+	getIMGF()->getTaskManager()->onPauseTask();
 	getIMGF()->getWindowManager()->showDumpWindow();
+	getIMGF()->getTaskManager()->onResumeTask();
 
 	/*
 	getIMGF()->getTaskManager()->onPauseTask();

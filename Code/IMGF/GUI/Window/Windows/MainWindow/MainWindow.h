@@ -3,6 +3,7 @@
 #include "nsimgf.h"
 #include "nsbxgx.h"
 #include "Window/Window.h"
+#include "GUI/Layer/Layers/DumpWindow/DumpWindowResult.h"
 #include <string>
 #include <vector>
 
@@ -46,6 +47,7 @@ public:
 	MainLayerNoTabsOpen*	m_pMainLayerNoTabsOpen;
 	IMGEditor*				m_pIMGEditor;
 	bxgx::Menu*				m_pSettingsMenu;
+	DumpWindowResult		m_dumpWindowResult;
 
 private:
 	imgf::mainLayer::mainMenuType::EMainMenuType	m_uiMainMenuType;
