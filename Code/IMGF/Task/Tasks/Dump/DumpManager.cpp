@@ -37,6 +37,7 @@
 #include "Localization/LocalizationManager.h"
 #include "Settings/SettingsManager.h"
 #include "GUI/Window/WindowManager.h"
+#include "GUI/Layer/Layers/DumpWindow/DumpWindowResult.h"
 #include <gdiplus.h>
 
 using namespace std;
@@ -78,140 +79,68 @@ int GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
 	return -1;  // Failure
 }
 
-void		DumpManager::process(void)
+bool		DumpManager::process(void)
 {
 	getIMGF()->getTaskManager()->onPauseTask();
-	getIMGF()->getWindowManager()->showDumpWindow();
+	DumpWindowResult dumpWindowResult = getIMGF()->getWindowManager()->showDumpWindow();
 	getIMGF()->getTaskManager()->onResumeTask();
 
-	/*
-	getIMGF()->getTaskManager()->onPauseTask();
-	CDumpDialogData *pDumpDialogData = nullptr; // todo - getIMGF()->getPopupGUIManager()->showDumpDialog(getIMGF()->getLastUsedDirectory("DUMP__DAT"), getIMGF()->getLastUsedDirectory("DUMP__Destination"));
-	getIMGF()->getTaskManager()->onResumeTask();
-	if (!pDumpDialogData->m_bResult)
+	if (!dumpWindowResult.m_bCancelled)
 	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestDump", true);
-		delete pDumpDialogData;
-		return;
+		return false;
 	}
-	if (pDumpDialogData->m_uiDumpType == 2)
-	{
-		getIMGF()->setLastUsedDirectory("DUMP__DAT", pDumpDialogData->m_strDATPath);
-	}
-	getIMGF()->setLastUsedDirectory("DUMP__Destination", pDumpDialogData->m_strDumpDestinationFolderPath);
 
 	// choose img files
 	vector<IMGFormat*> vecIMGFormats;
-	if (pDumpDialogData->m_uiDumpType == 0) // All entries in active tab
+	if (dumpWindowResult.m_uiDumpType == 0) // All entries in active tab
 	{
 		if (getIMGF()->getEntryListTab() == nullptr)
 		{
-			delete pDumpDialogData;
 			getIMGF()->getTaskManager()->onTaskEnd("onRequestDump", true);
-			return;
+			return false;
 		}
 
 		vecIMGFormats.push_back(getIMGF()->getEntryListTab()->getIMGFile());
 	}
-	else if (pDumpDialogData->m_uiDumpType == 4) // Selected entries in active tab
+	else if (dumpWindowResult.m_uiDumpType == 1) // Selected entries in active tab
 	{
 		if (getIMGF()->getEntryListTab() == nullptr)
 		{
-			delete pDumpDialogData;
 			getIMGF()->getTaskManager()->onTaskEnd("onRequestDump", true);
-			return;
+			return false;
 		}
 
 		vecIMGFormats.push_back(getIMGF()->getEntryListTab()->getIMGFile());
 	}
-	else if (pDumpDialogData->m_uiDumpType == 1) // All entries in all tabs
+	else if (dumpWindowResult.m_uiDumpType == 2) // All entries in all tabs
 	{
 		vecIMGFormats = getIMGF()->getIMGEditor()->getAllMainWindowTabsIMGFiles();
 	}
-	else if (pDumpDialogData->m_uiDumpType == 2) // DAT file
+	else if (dumpWindowResult.m_uiDumpType == 3) // DAT file
 	{
-		EPlatformedGame EPlatformedGameValue = UNKNOWN_PLATFORMED_GAME;
-		switch (pDumpDialogData->m_uiDATOptionIndex)
+		vector<string> vecDATFilePaths = dumpWindowResult.m_vecDATFilePaths;
+		for (string& strDATFilePath : vecDATFilePaths)
 		{
-		case 0: // GTA III
-			EPlatformedGameValue = PC_GTA_III;
-			break;
-		case 1: // GTA VC
-			EPlatformedGameValue = PC_GTA_VC;
-			break;
-		case 2: // GTA SA
-			EPlatformedGameValue = PC_GTA_SA;
-			break;
-		case 3: // SOL
-			EPlatformedGameValue = PC_SOL;
-			break;
-		case 4: // Other
-			break;
-		}
-		string strDATPath = pDumpDialogData->m_strGameDirectoryPath + DATLoaderManager::getDefaultGameDATSubPath(EPlatformedGameValue);
-
-		DATLoaderFormat *pDATFile = DATLoaderManager::get()->unserializeFile(strDATPath);
-		if (!pDATFile->doesHaveError())
-		{
-			vecIMGFormats = pDATFile->parseIMGFiles(pDumpDialogData->m_strGameDirectoryPath);
-		}
-		pDATFile->unload();
-		delete pDATFile;
-
-		vector<string> vecGameIMGPaths = IMGManager::getDefaultGameIMGSubPaths(EPlatformedGameValue);
-
-		for (auto strIMGRelativePath : vecGameIMGPaths)
-		{
-			string strIMGPath = pDumpDialogData->m_strGameDirectoryPath + strIMGRelativePath;
-			if (File::doesFileExist(strIMGPath))
+			DATLoaderFormat datFile(strDATFilePath);
+			if (!datFile.unserialize())
 			{
-				IMGFormat *pIMGFile = IMGManager::get()->unserializeFile(strIMGPath);
-				if(!pIMGFile->doesHaveError())
-				{
-					vecIMGFormats.push_back(pIMGFile);
-				}
+				StdVector::addToVector(vecIMGFormats, datFile.parseIMGFiles(dumpWindowResult.m_strGameFolderPath));
+			}
+			datFile.unload();
+		}
+	}
+	else if (dumpWindowResult.m_uiDumpType == 4) // Game IMGs
+	{
+		vector<string> vecIMGFilePaths = File::getFilePaths(dumpWindowResult.m_strGameFolderPath, true, false, "IMG,DIR", true);
+		for (string& strIMGFilePath : vecIMGFilePaths)
+		{
+			IMGFormat *pIMGFile = IMGManager::unserializeFile(strIMGFilePath);
+			if(pIMGFile)
+			{
+				vecIMGFormats.push_back(pIMGFile);
 			}
 		}
 	}
-	else if (pDumpDialogData->m_uiDumpType == 3) // Game IMGs
-	{
-		EPlatformedGame EPlatformedGameValue2 = UNKNOWN_PLATFORMED_GAME;
-		switch (pDumpDialogData->m_uiDATOptionIndex)
-		{
-		case 0: // GTA III
-			EPlatformedGameValue2 = PC_GTA_III;
-			break;
-		case 1: // GTA VC
-			EPlatformedGameValue2 = PC_GTA_VC;
-			break;
-		case 2: // GTA SA
-			EPlatformedGameValue2 = PC_GTA_SA;
-			break;
-		case 3: // SOL
-			EPlatformedGameValue2 = PC_SOL;
-			break;
-		case 4: // Other
-			break;
-		}
-
-		vector<string> vecGameIMGPaths = IMGManager::getDefaultGameIMGSubPaths(EPlatformedGameValue2);
-
-		for (auto strIMGRelativePath : vecGameIMGPaths)
-		{
-			string strIMGPath = pDumpDialogData->m_strGameDirectoryPath + strIMGRelativePath;
-			if (File::doesFileExist(strIMGPath))
-			{
-				IMGFormat *pIMGFile = IMGManager::get()->unserializeFile(strIMGPath);
-				if(!pIMGFile->doesHaveError())
-				{
-					vecIMGFormats.push_back(pIMGFile);
-				}
-			}
-		}
-	}
-
-	// dump folder path
-	pDumpDialogData->m_strDumpDestinationFolderPath = Path::addSlashToEnd(pDumpDialogData->m_strDumpDestinationFolderPath);
 
 	// progress bar
 	uint32 uiProgressMaxTicks = 0;
@@ -236,11 +165,11 @@ void		DumpManager::process(void)
 		uiDumpedTextureCount = 0;
 		//uiMipmapSkippedCount = 0;
 
-	for (auto pIMGFile : vecIMGFormats)
+	for (IMGFormat *pIMGFile : vecIMGFormats)
 	{
 		// choose IMG entries to dump
 		vector<IMGEntry*> vecIMGEntries;
-		if (pDumpDialogData->m_uiDumpType == 4) // selected entries
+		if (dumpWindowResult.m_uiDumpType == 4) // selected entries
 		{
 			vecIMGEntries = getIMGF()->getEntryListTab()->getSelectedEntries();
 		}
@@ -250,39 +179,39 @@ void		DumpManager::process(void)
 		}
 
 		// dump IMG entries
-		for (auto pIMGEntry : vecIMGEntries)
+		for (IMGEntry *pIMGEntry : vecIMGEntries)
 		{
 			string strExtension = String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()));
 			if (strExtension == "COL" || strExtension == "WBN" || strExtension == "WBD")
 			{
-				if (std::find(pDumpDialogData->m_vecDumpExtensions.begin(), pDumpDialogData->m_vecDumpExtensions.end(), "COL") != pDumpDialogData->m_vecDumpExtensions.end())
+				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "COL") != dumpWindowResult.m_vecEntryTypes.end())
 				{
 					vecDumpedEntryNames.push_back(pIMGEntry->getEntryName());
-					pIMGFile->exportSingle(pIMGEntry, pDumpDialogData->m_strDumpDestinationFolderPath + strExtension + "/");
+					pIMGFile->exportSingle(pIMGEntry, dumpWindowResult.m_strOutputFolderPath + strExtension + "/");
 				}
 			}
 			else if (strExtension == "DFF" || strExtension == "BSP" || strExtension == "MDL" || strExtension == "WDR" || strExtension == "WDD")
 			{
-				if (std::find(pDumpDialogData->m_vecDumpExtensions.begin(), pDumpDialogData->m_vecDumpExtensions.end(), "DFF") != pDumpDialogData->m_vecDumpExtensions.end())
+				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "DFF") != dumpWindowResult.m_vecEntryTypes.end())
 				{
 					vecDumpedEntryNames.push_back(pIMGEntry->getEntryName());
-					pIMGFile->exportSingle(pIMGEntry, pDumpDialogData->m_strDumpDestinationFolderPath + strExtension + "/");
+					pIMGFile->exportSingle(pIMGEntry, dumpWindowResult.m_strOutputFolderPath + strExtension + "/");
 				}
 			}
 			else if (strExtension == "IPL" || strExtension == "WPL")
 			{
-				if (std::find(pDumpDialogData->m_vecDumpExtensions.begin(), pDumpDialogData->m_vecDumpExtensions.end(), "IPL") != pDumpDialogData->m_vecDumpExtensions.end())
+				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "IPL") != dumpWindowResult.m_vecEntryTypes.end())
 				{
 					vecDumpedEntryNames.push_back(pIMGEntry->getEntryName());
-					pIMGFile->exportSingle(pIMGEntry, pDumpDialogData->m_strDumpDestinationFolderPath + strExtension + "/");
+					pIMGFile->exportSingle(pIMGEntry, dumpWindowResult.m_strOutputFolderPath + strExtension + "/");
 				}
 			}
 			else if (strExtension == "TXD" || strExtension == "WTD")
 			{
-				if (std::find(pDumpDialogData->m_vecDumpExtensions.begin(), pDumpDialogData->m_vecDumpExtensions.end(), "TXD") != pDumpDialogData->m_vecDumpExtensions.end())
+				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "TXD") != dumpWindowResult.m_vecEntryTypes.end())
 				{
 					vecDumpedEntryNames.push_back(pIMGEntry->getEntryName());
-					pIMGFile->exportSingle(pIMGEntry, pDumpDialogData->m_strDumpDestinationFolderPath + strExtension + "/");
+					pIMGFile->exportSingle(pIMGEntry, dumpWindowResult.m_strOutputFolderPath + strExtension + "/");
 
 					string strTXDData = pIMGEntry->getEntryData();
 					if (!TXDFormat::isTXDSizeValid(strTXDData.size()))
@@ -321,11 +250,11 @@ void		DumpManager::process(void)
 					delete pTXDFile;
 				}
 
-				if (std::find(pDumpDialogData->m_vecDumpExtensions.begin(), pDumpDialogData->m_vecDumpExtensions.end(), "Texture Images") != pDumpDialogData->m_vecDumpExtensions.end())
+				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "Texture Images") != dumpWindowResult.m_vecEntryTypes.end())
 				{
 					//vector<IMGEntry*> vecIMGEntries;
 					//vecIMGEntries.push_back(pIMGEntry);
-					//IMGManager::get()->exportEntries(pIMGFile, vecIMGEntries, pDumpDialogData->m_strDumpDestinationFolderPath + strExtension + "/");
+					//IMGManager::get()->exportEntries(pIMGFile, vecIMGEntries, dumpWindowResult.m_strOutputFolderPath + strExtension + "/");
 
 					string strEntryExtensionUpper = String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()));
 					if (strEntryExtensionUpper != "TXD" && strEntryExtensionUpper != "WTD")
@@ -355,7 +284,7 @@ void		DumpManager::process(void)
 							vecTXDsContainingTooManyTextures.push_back(LocalizationManager::get()->getTranslatedFormattedText("Log_TextureCount", pIMGEntry->getEntryName().c_str(), pTXDFile->getTextures().size()));
 						}
 
-						for (auto strImageType : pDumpDialogData->m_vecDumpImageTypes)
+						for (string& strImageType : dumpWindowResult.m_vecTextureImageOutputFormats)
 						{
 							uint32 uiTextureIndex = 0;
 							for (auto pTexture : pTXDFile->getTextures())
@@ -365,13 +294,14 @@ void		DumpManager::process(void)
 									continue;
 								}
 
-								////////////////////////////////////////////////////
+								/*
+								todo
 								Debugger::log("pTexture->m_strDiffuseName: [" + pIMGEntry->getEntryName() + "] " + pTexture->getDiffuseName());
 								Debugger::log("pTexture->m_usWidth: " + String::toString(pTexture->getImageSize(true)));
 								Debugger::log("pTexture->m_usHeight: " + String::toString(pTexture->getImageSize(false)));
 								Debugger::log("pTexture->m_uiRasterFormat: " + String::toString(pTexture->getRasterFormat()));
 								Debugger::log("pTexture->m_ucBPP: " + String::toString(pTexture->getBPP()));
-								////////////////////////////////////////////////////
+								*/
 
 								if (!TXDFormat::isTextureResolutionValid((uint16)pTexture->getImageSize().x, (uint16)pTexture->getImageSize().y, pTXDFile->getPlatformedGames()))
 								{
@@ -410,7 +340,7 @@ void		DumpManager::process(void)
 
 								// choose whether to dump all mipmaps in the texture, or just the first mipmap in the texture
 								vector<RWEntry_TextureNative_MipMap*> vecTextureMipmapsToDump;
-								if (pDumpDialogData->m_bDumpAllTextureMipmaps)
+								if (dumpWindowResult.m_bDumpAllTextureMipmaps)
 								{
 									vecTextureMipmapsToDump = pTexture->getMipMaps().getEntries();
 								}
@@ -446,65 +376,65 @@ void		DumpManager::process(void)
 									if (strImageType == "BMP")
 									{
 										string strBMPFilePath;
-										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
+										if (dumpWindowResult.m_bDumpTextureImagesAsFolders)
 										{
-											strBMPFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".BMP";
+											strBMPFilePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".BMP";
 										}
 										else
 										{
-											strBMPFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".BMP";
+											strBMPFilePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".BMP";
 										}
 										strBMPFilePath = Path::getNextFileName(strBMPFilePath, uiMipmapIndex, "-Mipmap");
 
 										pBMPFile->setBMPVersion(3);
-										pBMPFile->serializeViaFile(strBMPFilePath);
+										pBMPFile->serialize(strBMPFilePath);
 									}
 									else if (strImageType == "ICO")
 									{
 										string strICOFilePath;
-										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
+										if (dumpWindowResult.m_bDumpTextureImagesAsFolders)
 										{
-											strICOFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".ICO";
+											strICOFilePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".ICO";
 										}
 										else
 										{
-											strICOFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".ICO";
+											strICOFilePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".ICO";
 										}
 										strICOFilePath = Path::getNextFileName(strICOFilePath, uiMipmapIndex, "-Mipmap");
 
 										ICOFormat *pICOFormat = ICOManager::get()->createFormatFromBMP(pBMPFile);
-										pICOFormat->serializeViaFile(strICOFilePath);
+										pICOFormat->serialize(strICOFilePath);
 										pICOFormat->unload();
 										delete pICOFormat;
 									}
 									else if (strImageType == "CUR")
 									{
 										string strCURFilePath;
-										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
+										if (dumpWindowResult.m_bDumpTextureImagesAsFolders)
 										{
-											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".CUR";
+											strCURFilePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".CUR";
 										}
 										else
 										{
-											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".CUR";
+											strCURFilePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".CUR";
 										}
 										strCURFilePath = Path::getNextFileName(strCURFilePath, uiMipmapIndex, "-Mipmap");
 										
 										CURFormat *pCURFormat = CURManager::get()->createFormatFromBMP(pBMPFile);
-										pCURFormat->serializeViaFile(strCURFilePath);
+										pCURFormat->serialize(strCURFilePath);
 										pCURFormat->unload();
 										delete pCURFormat;
 									}
 									else if (strImageType == "DDS")
 									{
 										string strDDSFilePath;
-										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
+										if (dumpWindowResult.m_bDumpTextureImagesAsFolders)
 										{
-											strDDSFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".DDS";
+											strDDSFilePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + ".DDS";
 										}
 										else
 										{
-											strDDSFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".DDS";
+											strDDSFilePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + pTexture->getDiffuseName() + ".DDS";
 										}
 										strDDSFilePath = Path::getNextFileName(strDDSFilePath, uiMipmapIndex, "-Mipmap");
 
@@ -513,27 +443,27 @@ void		DumpManager::process(void)
 										ddsFile.m_uiHeight = pMipmap->getImageSize().y;
 										//ddsFile.m_strRasterData = ImageManager::swapRowsAndColumns(ImageManager::convertBGRA32ToRGBA32(strImageDataBGRA), ddsFile.m_uiWidth, ddsFile.m_uiHeight);
 										ddsFile.m_strRasterData = ImageManager::convertBGRA32ToDXT(ImageManager::swapRowsAndColumns(strImageDataBGRA, ddsFile.m_uiWidth, ddsFile.m_uiHeight), DXT_1, ddsFile.m_uiWidth, ddsFile.m_uiHeight);
-										ddsFile.serializeViaFile(strDDSFilePath);
+										ddsFile.serialize(strDDSFilePath);
 									}
 									else if (strImageType == "TGA")
 									{
 										string
 											strTempBMPPath,
 											strImagePath;
-										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
+										if (dumpWindowResult.m_bDumpTextureImagesAsFolders)
 										{
-											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pTexture->getDiffuseName() + ".BMP";
-											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + "." + strImageType;
+											strTempBMPPath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pTexture->getDiffuseName() + ".BMP";
+											strImagePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + "." + strImageType;
 										}
 										else
 										{
-											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/__TEMP_" + pTexture->getDiffuseName() + ".BMP";
-											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + "." + strImageType;
+											strTempBMPPath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/__TEMP_" + pTexture->getDiffuseName() + ".BMP";
+											strImagePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + pTexture->getDiffuseName() + "." + strImageType;
 										}
 										strImagePath = Path::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
 
 										pBMPFile->setBMPVersion(3);
-										pBMPFile->serializeViaFile(strTempBMPPath);
+										pBMPFile->serialize(strTempBMPPath);
 
 										DHPOBitmap *pBmp = new DHPOBitmap;
 										pBmp->loadImage(String::convertStdStringToStdWString(strTempBMPPath).c_str());
@@ -548,20 +478,20 @@ void		DumpManager::process(void)
 										string
 											strTempBMPPath,
 											strImagePath;
-										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
+										if (dumpWindowResult.m_bDumpTextureImagesAsFolders)
 										{
-											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pTexture->getDiffuseName() + ".BMP";
-											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + "." + strImageType;
+											strTempBMPPath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pTexture->getDiffuseName() + ".BMP";
+											strImagePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pTexture->getDiffuseName() + "." + strImageType;
 										}
 										else
 										{
-											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/__TEMP_" + pTexture->getDiffuseName() + ".BMP";
-											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pTexture->getDiffuseName() + "." + strImageType;
+											strTempBMPPath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/__TEMP_" + pTexture->getDiffuseName() + ".BMP";
+											strImagePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + pTexture->getDiffuseName() + "." + strImageType;
 										}
 										strImagePath = Path::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
 
 										pBMPFile->setBMPVersion(3);
-										pBMPFile->serializeViaFile(strTempBMPPath);
+										pBMPFile->serialize(strTempBMPPath);
 
 										GdiplusStartupInput gdiplusStartupInput;
 										ULONG_PTR gdiplusToken;
@@ -603,10 +533,10 @@ void		DumpManager::process(void)
 							continue;
 						}
 
-						for (auto strImageType : pDumpDialogData->m_vecDumpImageTypes)
+						for (string& strImageType : dumpWindowResult.m_vecTextureImageOutputFormats)
 						{
 							uint32 uiTextureIndex = 0;
-							for (auto pWTDEntry : pWTDFile->getEntries())
+							for (WTDEntry *pWTDEntry : pWTDFile->getEntries())
 							{
 								if (pWTDEntry->getEntryName().length() == 0)
 								{
@@ -618,7 +548,7 @@ void		DumpManager::process(void)
 
 								// choose whether to dump all mipmaps in the texture, or just the first mipmap in the texture
 								vector<WTDMipmap*> vecTextureMipmapsToDump;
-								if (pDumpDialogData->m_bDumpAllTextureMipmaps)
+								if (dumpWindowResult.m_bDumpAllTextureMipmaps)
 								{
 									vecTextureMipmapsToDump = pWTDEntry->getEntries();
 								}
@@ -632,7 +562,7 @@ void		DumpManager::process(void)
 
 								// dump mipmap(s)
 								uint32 uiMipmapIndex = 0;
-								for (auto pMipmap : vecTextureMipmapsToDump)
+								for (WTDMipmap *pMipmap : vecTextureMipmapsToDump)
 								{
 									string strImageDataBGRA = pMipmap->getRasterDataBGRA32();
 									if (strImageDataBGRA == "")
@@ -654,29 +584,29 @@ void		DumpManager::process(void)
 									if (strImageType == "BMP")
 									{
 										string strBMPFilePath;
-										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
+										if (dumpWindowResult.m_bDumpTextureImagesAsFolders)
 										{
-											strBMPFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".BMP";
+											strBMPFilePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".BMP";
 										}
 										else
 										{
-											strBMPFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + ".BMP";
+											strBMPFilePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + ".BMP";
 										}
 										strBMPFilePath = Path::getNextFileName(strBMPFilePath, uiMipmapIndex, "-Mipmap");
 										
 										pBMPFile->setBMPVersion(3);
-										pBMPFile->serializeViaFile(strBMPFilePath);
+										pBMPFile->serialize(strBMPFilePath);
 									}
 									else if (strImageType == "ICO")
 									{
 										string strICOFilePath;
-										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
+										if (dumpWindowResult.m_bDumpTextureImagesAsFolders)
 										{
-											strICOFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".ICO";
+											strICOFilePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".ICO";
 										}
 										else
 										{
-											strICOFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + ".ICO";
+											strICOFilePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + ".ICO";
 										}
 										strICOFilePath = Path::getNextFileName(strICOFilePath, uiMipmapIndex, "-Mipmap");
 
@@ -695,18 +625,18 @@ void		DumpManager::process(void)
 										
 										pBMPFile->setSkipBMPFileHeaderForSerialize(true);
 										pBMPFile->setBMPVersion(3);
-										File::storeFile(strICOFilePath, strICOHeaderData + pBMPFile->serializeViaMemory(), false, true);
+										File::storeFile(strICOFilePath, strICOHeaderData + pBMPFile->serialize(), false, true);
 									}
 									else if (strImageType == "CUR")
 									{
 										string strCURFilePath;
-										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
+										if (dumpWindowResult.m_bDumpTextureImagesAsFolders)
 										{
-											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".CUR";
+											strCURFilePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".CUR";
 										}
 										else
 										{
-											strCURFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + ".CUR";
+											strCURFilePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + ".CUR";
 										}
 										strCURFilePath = Path::getNextFileName(strCURFilePath, uiMipmapIndex, "-Mipmap");
 
@@ -725,18 +655,18 @@ void		DumpManager::process(void)
 										
 										pBMPFile->setSkipBMPFileHeaderForSerialize(true);
 										pBMPFile->setBMPVersion(3);
-										File::storeFile(strCURFilePath, strCURHeaderData + pBMPFile->serializeViaMemory(), false, true);
+										File::storeFile(strCURFilePath, strCURHeaderData + pBMPFile->serialize(), false, true);
 									}
 									else if (strImageType == "DDS")
 									{
 										string strDDSFilePath;
-										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
+										if (dumpWindowResult.m_bDumpTextureImagesAsFolders)
 										{
-											strDDSFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".DDS";
+											strDDSFilePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + ".DDS";
 										}
 										else
 										{
-											strDDSFilePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + ".DDS";
+											strDDSFilePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + ".DDS";
 										}
 
 										strDDSFilePath = Path::getNextFileName(strDDSFilePath, uiMipmapIndex, "-Mipmap");
@@ -746,27 +676,27 @@ void		DumpManager::process(void)
 										ddsFile.m_uiHeight = pMipmap->getImageSize(false);
 										//ddsFile.m_strRasterData = ImageManager::swapRowsAndColumns(ImageManager::convertBGRA32ToRGBA32(strImageDataBGRA), ddsFile.m_uiWidth, ddsFile.m_uiHeight);
 										ddsFile.m_strRasterData = ImageManager::convertBGRA32ToDXT(ImageManager::swapRowsAndColumns(strImageDataBGRA, ddsFile.m_uiWidth, ddsFile.m_uiHeight), DXT_1, ddsFile.m_uiWidth, ddsFile.m_uiHeight);
-										ddsFile.serializeViaFile(strDDSFilePath);
+										ddsFile.serialize(strDDSFilePath);
 									}
 									else if (strImageType == "TGA")
 									{
 										string
 											strTempBMPPath,
 											strImagePath;
-										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
+										if (dumpWindowResult.m_bDumpTextureImagesAsFolders)
 										{
-											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
-											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + "." + strImageType;
+											strTempBMPPath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
+											strImagePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + "." + strImageType;
 										}
 										else
 										{
-											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
-											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + "." + strImageType;
+											strTempBMPPath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
+											strImagePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + "." + strImageType;
 										}
 										strImagePath = Path::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
 
 										pBMPFile->setBMPVersion(3);
-										pBMPFile->serializeViaFile(strTempBMPPath);
+										pBMPFile->serialize(strTempBMPPath);
 
 										DHPOBitmap *pBmp = new DHPOBitmap;
 										pBmp->loadImage(String::convertStdStringToStdWString(strTempBMPPath).c_str());
@@ -781,20 +711,20 @@ void		DumpManager::process(void)
 										string
 											strTempBMPPath,
 											strImagePath;
-										if (pDumpDialogData->m_bDumpTextureImagesAsFolders)
+										if (dumpWindowResult.m_bDumpTextureImagesAsFolders)
 										{
-											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
-											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + "." + strImageType;
+											strTempBMPPath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + "__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
+											strImagePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + Path::removeFileExtension(pIMGEntry->getEntryName()) + "/" + pWTDEntry->getEntryName() + "." + strImageType;
 										}
 										else
 										{
-											strTempBMPPath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
-											strImagePath = pDumpDialogData->m_strDumpDestinationFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + "." + strImageType;
+											strTempBMPPath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/__TEMP_" + pWTDEntry->getEntryName() + ".BMP";
+											strImagePath = dumpWindowResult.m_strOutputFolderPath + "Texture Images/" + pWTDEntry->getEntryName() + "." + strImageType;
 										}
 										strImagePath = Path::getNextFileName(strImagePath, uiMipmapIndex, "-Mipmap");
 										
 										pBMPFile->setBMPVersion(3);
-										pBMPFile->serializeViaFile(strTempBMPPath);
+										pBMPFile->serialize(strTempBMPPath);
 
 										GdiplusStartupInput gdiplusStartupInput;
 										ULONG_PTR gdiplusToken;
@@ -831,10 +761,10 @@ void		DumpManager::process(void)
 			}
 			else
 			{
-				if (std::find(pDumpDialogData->m_vecDumpExtensions.begin(), pDumpDialogData->m_vecDumpExtensions.end(), "Other") != pDumpDialogData->m_vecDumpExtensions.end())
+				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "Other") != dumpWindowResult.m_vecEntryTypes.end())
 				{
 					vecDumpedEntryNames.push_back(pIMGEntry->getEntryName());
-					pIMGFile->exportSingle(pIMGEntry, pDumpDialogData->m_strDumpDestinationFolderPath + "Other/");
+					pIMGFile->exportSingle(pIMGEntry, dumpWindowResult.m_strOutputFolderPath + "Other/");
 				}
 			}
 
@@ -851,12 +781,15 @@ void		DumpManager::process(void)
 	vecTXDsContainingTooManyTextures = StdVector::removeDuplicates(vecTXDsContainingTooManyTextures);
 	vecMipmapSkippedEntries = StdVector::removeDuplicates(vecMipmapSkippedEntries);
 
+	/*
+	todo
+
 	// log
 	if (getIMGF()->getEntryListTab() != nullptr)
 	{
 		uint32 uiDumpedFileCount = vecDumpedEntryNames.size() + uiDumpedTextureCount;
 		uint32 uiIMGFileCount = vecIMGFormats.size();
-		if (pDumpDialogData->m_uiDumpType == 2)
+		if (dumpWindowResult.m_uiDumpType == 2)
 		{
 			getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_10", uiDumpedFileCount, uiIMGFileCount));
 		}
@@ -884,39 +817,11 @@ void		DumpManager::process(void)
 		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_22"), true);
 		getIMGF()->getEntryListTab()->log(String::join(vecMipmapSkippedEntries, "\n"), true);
 	}
-	else
-	{
-		uint32 uiDumpedFileCount = vecDumpedEntryNames.size() + uiDumpedTextureCount;
-		uint32 uiIMGFileCount = vecIMGFormats.size();
-		if (pDumpDialogData->m_uiDumpType == 2)
-		{
-			getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedFormattedText("Log_10", uiDumpedFileCount, uiIMGFileCount));
-		}
-		else
-		{
-			getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedFormattedText("Log_11", uiDumpedFileCount, uiIMGFileCount));
-		}
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_12"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedFormattedText("Log_13", vecDumpedEntryNames.size()), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedFormattedText("Log_14", uiDumpedTextureCount), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_15"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String::join(vecCorruptTXDs, "\n"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_16"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String::join(vecTooLargeTXDs, "\n"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_17"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String::join(vecTXDsContainingTooManyTextures, "\n"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_18"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String::join(vecInvalidResolutionTXDs, "\n"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_19"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String::join(vecInvalidTextureNames, "\n"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_20"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String::join(vecDumpedEntryNames, "\n"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_21"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String::join(vecTextureNames, "\n"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(LocalizationManager::get()->getTranslatedText("Log_22"), true);
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen(String::join(vecMipmapSkippedEntries, "\n"), true);
-	}
+	*/
 
+	/*
+	todo
+	
 	// results popup
 	bool bSuccessfulResult =
 		vecCorruptTXDs.size() == 0 &&
@@ -968,9 +873,10 @@ void		DumpManager::process(void)
 
 		delete pDumpResultsDialogData;
 	}
+	*/
 
 	// clean up
-	if (pDumpDialogData->m_uiDumpType == 2 || pDumpDialogData->m_uiDumpType == 3)
+	if (dumpWindowResult.m_uiDumpType == 2 || dumpWindowResult.m_uiDumpType == 3)
 	{
 		for (auto pIMGFile : vecIMGFormats)
 		{
@@ -979,8 +885,7 @@ void		DumpManager::process(void)
 		}
 	}
 
-	delete pDumpDialogData;
-	*/
+	return true;
 }
 
 string			DumpManager::getEncoderClassIdFromImageExtension(string strFileExtension)

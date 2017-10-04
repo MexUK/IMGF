@@ -35,7 +35,7 @@ public:
 
 	void					onPressButton_TopRightMenuWindow(bxgx::Button *pButton);
 
-	void					showDumpWindow(void);
+	DumpWindowResult		showDumpWindow(void);
 	void					showSessionManagerWindow(void);
 	void					showRenamerWindow(void);
 	void					showTXDBuilderWindow(void);

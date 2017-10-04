@@ -301,7 +301,7 @@ void					WindowManager::onPressButton_TopRightMenuWindow(Button *pButton)
 }
 
 // other task windows
-void					WindowManager::showDumpWindow(void)
+DumpWindowResult		WindowManager::showDumpWindow(void)
 {
 	m_bWindow2Cancelled = true;
 
@@ -321,6 +321,8 @@ void					WindowManager::showDumpWindow(void)
 	}
 	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
+
+	return getMainWindow()->m_dumpWindowResult;
 }
 
 void					WindowManager::showSessionManagerWindow(void)

@@ -2,6 +2,7 @@
 #include "Control/Controls/DropDown.h"
 #include "Control/Controls/Button.h"
 #include "Control/Controls/CheckBox.h"
+#include "Control/Controls/RadioButton.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
 #include "Static/Input.h"
 #include "Settings/SettingsManager.h"
@@ -40,16 +41,17 @@ void					DumpWindowLayer::init(void)
 	// dump type
 	addText(50, y, 100, 20, "Dump Type");
 	y += yGap3;
+	uint32 uiTabGroupId = 0;
 
-	addRadioButton(50, y, 20, 20, "Dump all entries in active tab", "window2_radioButton");
+	addRadioButton(50, y, 20, 20, "Dump all entries in active tab", uiTabGroupId, "window2_radioButton");
 	y += yGap;
-	addRadioButton(50, y, 20, 20, "Dump selected entries in active tab", "window2_radioButton");
+	addRadioButton(50, y, 20, 20, "Dump selected entries in active tab", uiTabGroupId, "window2_radioButton");
 	y += yGap;
-	addRadioButton(50, y, 20, 20, "Dump all entries in all tabs", "window2_radioButton");
+	addRadioButton(50, y, 20, 20, "Dump all entries in all tabs", uiTabGroupId, "window2_radioButton");
 	y += yGap;
-	addRadioButton(50, y, 20, 20, "Dump entries by DAT file", "window2_radioButton");
+	addRadioButton(50, y, 20, 20, "Dump entries by DAT file", uiTabGroupId, "window2_radioButton");
 	y += yGap;
-	addRadioButton(50, y, 20, 20, "Dump entries by all IMGs for a game", "window2_radioButton");
+	addRadioButton(50, y, 20, 20, "Dump entries by all IMGs for a game", uiTabGroupId, "window2_radioButton");
 	y += yGap2;
 
 	// game folder path - for "by DAT file" and "all IMGs for a game"
@@ -133,9 +135,9 @@ void					DumpWindowLayer::init(void)
 	y += yGap3;
 
 	y2 = y;
-	addCheckBox(x, y, 20, 20, "Dump texture images as folders", "window2_checkBox");
+	addCheckBox(x, y, 20, 20, "Dump texture images as folders", "window2_checkBox", 400);
 	y += yGap;
-	addCheckBox(x, y, 20, 20, "Dump all texture mipmaps", "window2_checkBox");
+	addCheckBox(x, y, 20, 20, "Dump all texture mipmaps", "window2_checkBox", 401);
 }
 
 // window events
@@ -155,10 +157,18 @@ void					DumpWindowLayer::onPressButton(Button *pButton)
 	case 200:
 		// Dump
 		pWindow2->m_bWindow2Cancelled = false;
+
+		pWindow1->m_dumpWindowResult.m_bCancelled = false;
+		pWindow1->m_dumpWindowResult.m_uiDumpType = pWindow2->getFirstEntry()->getSelectedRadioButton(0)->getIndex();
+		pWindow1->m_dumpWindowResult.m_vecEntryTypes = pWindow2->getFirstEntry()->getSelectedCheckBoxesText(0);
+		pWindow1->m_dumpWindowResult.m_vecTextureImageOutputFormats = pWindow2->getFirstEntry()->getSelectedCheckBoxesText(1);
+		pWindow1->m_dumpWindowResult.m_bDumpAllTextureMipmaps = ((CheckBox*)pWindow2->getItemById(400))->isMarked();
+		pWindow1->m_dumpWindowResult.m_bDumpTextureImagesAsFolders = ((CheckBox*)pWindow2->getItemById(401))->isMarked();
 		break;
 
 	case 210:
 		// cancel
+		pWindow1->m_dumpWindowResult.m_bCancelled = true;
 		pWindow2->m_bWindow2Cancelled = true;
 		BXGX::get()->m_vecWindowsToDestroy.push_back(pWindow2);
 		break;
@@ -174,23 +184,23 @@ void					DumpWindowLayer::onPressButton(Button *pButton)
 		break;
 
 	case 510:
-		// choose DAT file
+		// choose DAT files
 		vecDATFilePaths = Input::openFile("dat");
 		if (vecDATFilePaths.size() == 0)
 		{
 			return;
 		}
-		//pWindow1->m_dumpWindowData.m_vecDATFilePaths = vecDATFilePaths;
+		pWindow1->m_dumpWindowResult.m_vecDATFilePaths = vecDATFilePaths;
 		break;
 
 	case 610:
-		// choose output file
+		// choose output folder
 		strFolderPath = Input::openFolder("Choose the output folder:");
 		if (strFolderPath == "")
 		{
 			return;
 		}
-		//pWindow1->m_dumpWindowData.m_strOutputFolderPath = strFolderPath;
+		pWindow1->m_dumpWindowResult.m_strOutputFolderPath = strFolderPath;
 		break;
 	}
 }

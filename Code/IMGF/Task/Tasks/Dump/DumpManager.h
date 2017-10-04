@@ -6,7 +6,7 @@
 class imgf::DumpManager
 {
 public:
-	void			process(void);
+	bool			process(void);
 
 private:
 	std::string		getEncoderClassIdFromImageExtension(std::string strFileExtension);

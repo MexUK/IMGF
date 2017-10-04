@@ -4407,9 +4407,14 @@ void		Tasks::dump(void)
 {
 	onStartTask("dump");
 
-	getIMGF()->getDumpManager()->process();
-
-	onCompleteTask();
+	if (getIMGF()->getDumpManager()->process())
+	{
+		onCompleteTask();
+	}
+	else
+	{
+		onAbortTask();
+	}
 }
 
 void		Tasks::sessionManager(void)
