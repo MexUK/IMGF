@@ -17,6 +17,7 @@
 #include "GUI/Editor/Editors/IMGEditor.h"
 #include "Static/String.h"
 #include "Event/EInternalEvent.h"
+#include "Static/Path.h"
 
 using namespace std;
 using namespace bxcf;
@@ -46,6 +47,7 @@ void					InputManager::bindEvents(void)
 
 	bindEvent(PRESS_BUTTON, &InputManager::onPressButton);
 	bindEvent(PRESS_MENU_ITEM, &InputManager::onPressMenuItem);
+	bindEvent(DROP_FILES, &InputManager::onDropFiles);
 }
 
 // key down
@@ -136,6 +138,25 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 	else
 	{
 		processMenuItemPress(pMenuItem);
+	}
+}
+
+void					InputManager::onDropFiles(vector<string> vecDroppedFilePaths)
+{
+	IMGEditorTab *pActiveEditorTab = m_pMainWindow->getIMGEditor()->getActiveTab();
+	for (string& strDroppedFilePath : vecDroppedFilePaths)
+	{
+		if (IMGF::isFileExtensionOpenable(Path::getFileExtension(strDroppedFilePath)))
+		{
+			m_pTasks->_openFile(strDroppedFilePath);
+		}
+		else
+		{
+			if (pActiveEditorTab)
+			{
+				pActiveEditorTab->addFile(strDroppedFilePath);
+			}
+		}
 	}
 }
 
@@ -1243,5 +1264,5 @@ void					InputManager::about(void)
 
 void					InputManager::update(void)
 {
-	m_pTasks->update();
+	m_pTasks->update(false);
 }

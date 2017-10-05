@@ -27,6 +27,8 @@ public:
 	void							init(void);
 	void							uninit(void);
 
+	void							checkForUpdate(void);
+
 	UpdateConnectionManager*		getUpdateConnectionManager(void) { return m_pUpdateConnectionManager; }
 	
 	void							processUpdate(void);

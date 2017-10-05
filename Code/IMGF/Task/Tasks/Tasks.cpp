@@ -5595,41 +5595,46 @@ void		Tasks::imgCompression(void)
 	onCompleteTask();
 }
 
-void		Tasks::update(void)
+void		Tasks::update(bool bOnlyShowWindowIfUpdateIsAvailable)
 {
 	onStartTask("update");
 
 	// fetch latest version number
 	string strFileContent;
+	vector<string> vecFileLines;
+	float32 fLatestVersion;
 	UpdateConnection *pActiveUpdateConnection = nullptr;
 	for (UpdateConnection *pUpdateConnection : getIMGF()->getUpdateManager()->getUpdateConnectionManager()->getEntries())
 	{
 		pActiveUpdateConnection = pUpdateConnection;
+
 		strFileContent = HTTP::get()->getFileContent(pUpdateConnection->getLatestVersionURL());
-		if (strFileContent != "")
+		vecFileLines = String::split(strFileContent, "\n");
+		fLatestVersion = String::toFloat32(vecFileLines[0]);
+
+		if (fLatestVersion > 0.0f)
 		{
 			break;
 		}
 	}
 
-	vector<string>
-		vecFileLines = String::split(strFileContent, "\n");
-	float32
-		fLatestVersion = String::toFloat32(vecFileLines[0]),
-		fCurrentVersion = getIMGF()->getBuildMeta().getCurrentVersion();
-	string
-		strProgramFileName = vecFileLines[1];
-
-	if (strFileContent == "" || fLatestVersion == 0.0f)
+	if (fLatestVersion == 0.0f)
 	{
-		Tasks::showMessage("Unable to fetch the latest version.", "Network Error");
+		if (!bOnlyShowWindowIfUpdateIsAvailable)
+		{
+			Tasks::showMessage("Unable to fetch the latest version.", "Network Error");
+		}
 		return;
 	}
 
 	// compare version numbers
+	float32 fCurrentVersion = getIMGF()->getBuildMeta().getCurrentVersion();
 	if (fCurrentVersion >= fLatestVersion)
 	{
-		Tasks::showMessage("You are already using the latest version, which is " + String::toString(fLatestVersion), "Already Using Latest Version", MB_OK);
+		if (!bOnlyShowWindowIfUpdateIsAvailable)
+		{
+			Tasks::showMessage("You are already using the latest version, which is " + String::toString(fLatestVersion), "Already Using Latest Version", MB_OK);
+		}
 		return onAbortTask();
 	}
 
@@ -5640,16 +5645,18 @@ void		Tasks::update(void)
 		return onAbortTask();
 	}
 
-	// update program version
-	string strNewProgramData = HTTP::get()->getFileContent(pActiveUpdateConnection->getDownloadFolderURL() + String::toString(fLatestVersion) + "/" + strProgramFileName);
+	// fetch latest version
+	string strNewProgramFileName = vecFileLines[1];
+	string strNewProgramData = HTTP::get()->getFileContent(pActiveUpdateConnection->getDownloadFolderURL() + String::toString(fLatestVersion) + "/" + strNewProgramFileName);
 
+	// update program version
 	string strRunningProgramPath = Process::getEXEFilePath();
 	string strLockedFileDirectory = Path::getDirectory(strRunningProgramPath);
-	string strNewProgramPath = strLockedFileDirectory + strProgramFileName;
+	string strNewProgramPath = File::getNextIncrementingFileName(strLockedFileDirectory + strNewProgramFileName);
 
 	File::storeFile(strNewProgramPath, strNewProgramData, false, true);
 
-	// delete previous version's exe file
+	// mark previous version to be deleted
 	if (getIMGF()->getSettingsManager()->getSettingBool("RemoveOldVersionOnUpdate"))
 	{
 		SettingsManager::setInternalSetting("DeletePreviousVersionOnNextLaunch", strRunningProgramPath);

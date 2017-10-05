@@ -161,9 +161,9 @@ void				IMGF::_init(void)
 // init tasks (occurs in different thread)
 void				IMGF::initBuildMeta(void)
 {
-	getBuildMeta().setCurrentVersion(1.3f);
+	getBuildMeta().setCurrentVersion(2.0f);
 	getBuildMeta().setIsAlphaBuild(true);
-	getBuildMeta().setCurrentVersionString("1.3" + string(getBuildMeta().isAlphaBuild() ? " Alpha" : ""));
+	getBuildMeta().setCurrentVersionString("2.0" + string(getBuildMeta().isAlphaBuild() ? " Alpha" : ""));
 }
 
 void				IMGF::initInstallationMeta(void)
@@ -398,4 +398,12 @@ void				IMGF::setLastUsedDirectory(string strHandleName, string strDirectory)
 string				IMGF::getLastUsedDirectory(string strHandleName)
 {
 	return ""; // todo - remove after Tasks is done
+}
+
+// file extension openable
+bool				IMGF::isFileExtensionOpenable(string& strFileExtension)
+{
+	string strFileExtensionUpper = String::toUpperCase(strFileExtension);
+	return strFileExtensionUpper == "IMG"
+		|| strFileExtensionUpper == "DIR";
 }

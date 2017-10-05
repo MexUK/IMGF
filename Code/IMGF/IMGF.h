@@ -66,8 +66,10 @@ public:
 	UpdateManager*				getUpdateManager(void) { return m_pUpdateManager; }
 	LastUsedValueManager*		getLastUsedValueManager(void) { return m_pLastUsedValueManager; }
 
-	void						setLastUsedDirectory(std::string strHandleName, std::string strDirectory);
-	std::string					getLastUsedDirectory(std::string strHandleName);
+	void						setLastUsedDirectory(std::string strHandleName, std::string strDirectory); // todo - still needed?
+	std::string					getLastUsedDirectory(std::string strHandleName); // todo - still needed?
+
+	static bool					isFileExtensionOpenable(std::string& strFileExtension);
 
 private:
 	void						initInitializationThread(void);

@@ -26,6 +26,7 @@ public:
 
 	void					onPressButton(bxgx::Button *pMenuItem);
 	void					onPressMenuItem(bxgx::MenuItem *pMenuItem);
+	void					onDropFiles(std::vector<std::string> vecDroppedFilePaths);
 
 	void					processMenuItemPress(bxgx::MenuItem *pMenuItem);
 

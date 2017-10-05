@@ -223,7 +223,7 @@ public:
 	void						extractDVCAndNVCIntoDFFs(void);
 	void						extract2DFXIntoDFFs(void);
 	void						imgCompression(void);
-	void						update(void);
+	void						update(bool bOnlyShowWindowIfUpdateIsAvailable);
 	void						associateIMGExtension(void);
 
 
