@@ -26,6 +26,9 @@ public:
 
 	bxcf::VectorPool<EditorTab*>&		getTabs(void) { return m_vecTabs; }
 
+	void								setMainWindow(MainWindow *pMainWindow) { m_pMainWindow = pMainWindow; }
+	MainWindow*							getMainWindow(void) { return m_pMainWindow; }
+
 	void								setActiveFile(EditorTab *pEditorFile);
 	EditorTab*							getActiveFile(void) { return m_pActiveFile; }
 
@@ -40,7 +43,8 @@ public:
 	virtual std::string					getResolvedFilePath(std::string& strFilePath) { return strFilePath; } // file name or file path
 
 protected:
-	bxgx::TabBar*						m_pTabBar;
+	MainWindow*							m_pMainWindow;
 	EditorTab*							m_pActiveFile;
+	bxgx::TabBar*						m_pTabBar;
 	bxcf::VectorPool<EditorTab*>		m_vecTabs;
 };

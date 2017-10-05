@@ -28,26 +28,26 @@ void					IDEInputLayer::init(void)
 	y += 20;
 	y2 = y;
 
-	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "2DFX", "window2_checkBox", 300 + IDE_SECTION_2DFX); y += uiCheckBoxYGap;
-	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "ANIM", "window2_checkBox", 300 + IDE_SECTION_ANIM); y += uiCheckBoxYGap;
-	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "CARS", "window2_checkBox", 300 + IDE_SECTION_CARS); y += uiCheckBoxYGap;
-	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "HAND", "window2_checkBox", 300 + IDE_SECTION_HAND); y += uiCheckBoxYGap;
-	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "HIER", "window2_checkBox", 300 + IDE_SECTION_HIER); y += uiCheckBoxYGap;
-	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "OBJS", "window2_checkBox", 300 + IDE_SECTION_OBJS); y += uiCheckBoxYGap;
-	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "PEDS", "window2_checkBox", 300 + IDE_SECTION_PEDS); y += uiCheckBoxYGap;
-	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "TOBJ", "window2_checkBox", 300 + IDE_SECTION_TOBJ); y += uiCheckBoxYGap;
-	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "WEAP", "window2_checkBox", 300 + IDE_SECTION_WEAP); y += uiCheckBoxYGap;
+	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "2DFX", -1, "window2_checkBox", 300 + IDE_SECTION_2DFX); y += uiCheckBoxYGap;
+	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "ANIM", -1, "window2_checkBox", 300 + IDE_SECTION_ANIM); y += uiCheckBoxYGap;
+	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "CARS", -1, "window2_checkBox", 300 + IDE_SECTION_CARS); y += uiCheckBoxYGap;
+	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "HAND", -1, "window2_checkBox", 300 + IDE_SECTION_HAND); y += uiCheckBoxYGap;
+	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "HIER", -1, "window2_checkBox", 300 + IDE_SECTION_HIER); y += uiCheckBoxYGap;
+	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "OBJS", -1, "window2_checkBox", 300 + IDE_SECTION_OBJS); y += uiCheckBoxYGap;
+	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "PEDS", -1, "window2_checkBox", 300 + IDE_SECTION_PEDS); y += uiCheckBoxYGap;
+	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "TOBJ", -1, "window2_checkBox", 300 + IDE_SECTION_TOBJ); y += uiCheckBoxYGap;
+	addCheckBox(x, y, uiCheckBoxLength, uiCheckBoxLength, "WEAP", -1, "window2_checkBox", 300 + IDE_SECTION_WEAP); y += uiCheckBoxYGap;
 	y = y2;
 
-	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "ANIM", "window2_checkBox", 400 + IDE_SECTION_ANIM); y += uiCheckBoxYGap;
-	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "CARS", "window2_checkBox", 400 + IDE_SECTION_CARS); y += uiCheckBoxYGap;
-	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "HAND", "window2_checkBox", 400 + IDE_SECTION_HAND); y += uiCheckBoxYGap;
-	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "HIER", "window2_checkBox", 400 + IDE_SECTION_HIER); y += uiCheckBoxYGap;
-	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "OBJS", "window2_checkBox", 400 + IDE_SECTION_OBJS); y += uiCheckBoxYGap;
-	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "PEDS", "window2_checkBox", 400 + IDE_SECTION_PEDS); y += uiCheckBoxYGap;
-	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "TOBJ", "window2_checkBox", 400 + IDE_SECTION_TOBJ); y += uiCheckBoxYGap;
-	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "TXDP", "window2_checkBox", 400 + IDE_SECTION_TXDP); y += uiCheckBoxYGap;
-	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "WEAP", "window2_checkBox", 400 + IDE_SECTION_WEAP); y += uiCheckBoxYGap;
+	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "ANIM", -1, "window2_checkBox", 400 + IDE_SECTION_ANIM); y += uiCheckBoxYGap;
+	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "CARS", -1, "window2_checkBox", 400 + IDE_SECTION_CARS); y += uiCheckBoxYGap;
+	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "HAND", -1, "window2_checkBox", 400 + IDE_SECTION_HAND); y += uiCheckBoxYGap;
+	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "HIER", -1, "window2_checkBox", 400 + IDE_SECTION_HIER); y += uiCheckBoxYGap;
+	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "OBJS", -1, "window2_checkBox", 400 + IDE_SECTION_OBJS); y += uiCheckBoxYGap;
+	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "PEDS", -1, "window2_checkBox", 400 + IDE_SECTION_PEDS); y += uiCheckBoxYGap;
+	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "TOBJ", -1, "window2_checkBox", 400 + IDE_SECTION_TOBJ); y += uiCheckBoxYGap;
+	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "TXDP", -1, "window2_checkBox", 400 + IDE_SECTION_TXDP); y += uiCheckBoxYGap;
+	addCheckBox(x2, y, uiCheckBoxLength, uiCheckBoxLength, "WEAP", -1, "window2_checkBox", 400 + IDE_SECTION_WEAP); y += uiCheckBoxYGap;
 	y += 20;
 
 	addButton(x, y, 100, 25, "OK", "window2_button", 200);

@@ -46,6 +46,7 @@ public:
 	MainLayer*				m_pMainLayer;
 	MainLayerNoTabsOpen*	m_pMainLayerNoTabsOpen;
 	IMGEditor*				m_pIMGEditor;
+	TextureEditor*			m_pTextureEditor;
 	bxgx::Menu*				m_pSettingsMenu;
 	DumpWindowResult		m_dumpWindowResult;
 

@@ -38,10 +38,13 @@
 #include "Settings/SettingsManager.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Layer/Layers/DumpWindow/DumpWindowResult.h"
+#include "Format/EFileType.h"
+#include "GUI/Window/Windows/MainWindow/MainWindow.h"
 #include <gdiplus.h>
 
 using namespace std;
 using namespace bxcf;
+using namespace bxcf::fileType;
 using namespace bxgi;
 using namespace imgf;
 using namespace Gdiplus;
@@ -85,32 +88,34 @@ bool		DumpManager::process(void)
 	DumpWindowResult dumpWindowResult = getIMGF()->getWindowManager()->showDumpWindow();
 	getIMGF()->getTaskManager()->onResumeTask();
 
-	if (!dumpWindowResult.m_bCancelled)
+	if (dumpWindowResult.m_bCancelled)
 	{
 		return false;
 	}
+
+	IMGEditorTab *pActiveEditorTab = getIMGF()->getWindowManager()->getMainWindow()->getIMGEditor()->getActiveTab();
 
 	// choose img files
 	vector<IMGFormat*> vecIMGFormats;
 	if (dumpWindowResult.m_uiDumpType == 0) // All entries in active tab
 	{
-		if (getIMGF()->getEntryListTab() == nullptr)
+		if (pActiveEditorTab == nullptr)
 		{
 			getIMGF()->getTaskManager()->onTaskEnd("onRequestDump", true);
 			return false;
 		}
 
-		vecIMGFormats.push_back(getIMGF()->getEntryListTab()->getIMGFile());
+		vecIMGFormats.push_back(pActiveEditorTab->getIMGFile());
 	}
 	else if (dumpWindowResult.m_uiDumpType == 1) // Selected entries in active tab
 	{
-		if (getIMGF()->getEntryListTab() == nullptr)
+		if (pActiveEditorTab == nullptr)
 		{
 			getIMGF()->getTaskManager()->onTaskEnd("onRequestDump", true);
 			return false;
 		}
 
-		vecIMGFormats.push_back(getIMGF()->getEntryListTab()->getIMGFile());
+		vecIMGFormats.push_back(pActiveEditorTab->getIMGFile());
 	}
 	else if (dumpWindowResult.m_uiDumpType == 2) // All entries in all tabs
 	{
@@ -171,7 +176,7 @@ bool		DumpManager::process(void)
 		vector<IMGEntry*> vecIMGEntries;
 		if (dumpWindowResult.m_uiDumpType == 4) // selected entries
 		{
-			vecIMGEntries = getIMGF()->getEntryListTab()->getSelectedEntries();
+			vecIMGEntries = pActiveEditorTab->getSelectedEntries();
 		}
 		else
 		{
@@ -182,33 +187,33 @@ bool		DumpManager::process(void)
 		for (IMGEntry *pIMGEntry : vecIMGEntries)
 		{
 			string strExtension = String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()));
-			if (strExtension == "COL" || strExtension == "WBN" || strExtension == "WBD")
+			if (pIMGEntry->getFileType() == COLLISION)
 			{
-				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "COL") != dumpWindowResult.m_vecEntryTypes.end())
+				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "Collision") != dumpWindowResult.m_vecEntryTypes.end())
 				{
 					vecDumpedEntryNames.push_back(pIMGEntry->getEntryName());
 					pIMGFile->exportSingle(pIMGEntry, dumpWindowResult.m_strOutputFolderPath + strExtension + "/");
 				}
 			}
-			else if (strExtension == "DFF" || strExtension == "BSP" || strExtension == "MDL" || strExtension == "WDR" || strExtension == "WDD")
+			else if (pIMGEntry->getFileType() == MODEL)
 			{
-				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "DFF") != dumpWindowResult.m_vecEntryTypes.end())
+				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "Model") != dumpWindowResult.m_vecEntryTypes.end())
 				{
 					vecDumpedEntryNames.push_back(pIMGEntry->getEntryName());
 					pIMGFile->exportSingle(pIMGEntry, dumpWindowResult.m_strOutputFolderPath + strExtension + "/");
 				}
 			}
-			else if (strExtension == "IPL" || strExtension == "WPL")
+			else if (pIMGEntry->getFileType() == ITEM_PLACEMENT)
 			{
-				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "IPL") != dumpWindowResult.m_vecEntryTypes.end())
+				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "Item Placement") != dumpWindowResult.m_vecEntryTypes.end())
 				{
 					vecDumpedEntryNames.push_back(pIMGEntry->getEntryName());
 					pIMGFile->exportSingle(pIMGEntry, dumpWindowResult.m_strOutputFolderPath + strExtension + "/");
 				}
 			}
-			else if (strExtension == "TXD" || strExtension == "WTD")
+			else if (pIMGEntry->getFileType() == TEXTURE) // todo - rename to TEXTURE_SET
 			{
-				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "TXD") != dumpWindowResult.m_vecEntryTypes.end())
+				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "Texture Set") != dumpWindowResult.m_vecEntryTypes.end())
 				{
 					vecDumpedEntryNames.push_back(pIMGEntry->getEntryName());
 					pIMGFile->exportSingle(pIMGEntry, dumpWindowResult.m_strOutputFolderPath + strExtension + "/");
@@ -785,37 +790,37 @@ bool		DumpManager::process(void)
 	todo
 
 	// log
-	if (getIMGF()->getEntryListTab() != nullptr)
+	if (pActiveEditorTab != nullptr)
 	{
 		uint32 uiDumpedFileCount = vecDumpedEntryNames.size() + uiDumpedTextureCount;
 		uint32 uiIMGFileCount = vecIMGFormats.size();
 		if (dumpWindowResult.m_uiDumpType == 2)
 		{
-			getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_10", uiDumpedFileCount, uiIMGFileCount));
+			pActiveEditorTab->log(LocalizationManager::get()->getTranslatedFormattedText("Log_10", uiDumpedFileCount, uiIMGFileCount));
 		}
 		else
 		{
-			getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_11", uiDumpedFileCount, uiIMGFileCount));
+			pActiveEditorTab->log(LocalizationManager::get()->getTranslatedFormattedText("Log_11", uiDumpedFileCount, uiIMGFileCount));
 		}
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_12"), true);
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_13", vecDumpedEntryNames.size()), true);
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_14", uiDumpedTextureCount), true);
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_15"), true);
-		getIMGF()->getEntryListTab()->log(String::join(vecCorruptTXDs, "\n"), true);
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_16"), true);
-		getIMGF()->getEntryListTab()->log(String::join(vecTooLargeTXDs, "\n"), true);
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_17"), true);
-		getIMGF()->getEntryListTab()->log(String::join(vecTXDsContainingTooManyTextures, "\n"), true);
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_18"), true);
-		getIMGF()->getEntryListTab()->log(String::join(vecInvalidResolutionTXDs, "\n"), true);
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_19"), true);
-		getIMGF()->getEntryListTab()->log(String::join(vecInvalidTextureNames, "\n"), true);
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_20"), true);
-		getIMGF()->getEntryListTab()->log(String::join(vecDumpedEntryNames, "\n"), true);
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_21"), true);
-		getIMGF()->getEntryListTab()->log(String::join(vecTextureNames, "\n"), true);
-		getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_22"), true);
-		getIMGF()->getEntryListTab()->log(String::join(vecMipmapSkippedEntries, "\n"), true);
+		pActiveEditorTab->log(LocalizationManager::get()->getTranslatedText("Log_12"), true);
+		pActiveEditorTab->log(LocalizationManager::get()->getTranslatedFormattedText("Log_13", vecDumpedEntryNames.size()), true);
+		pActiveEditorTab->log(LocalizationManager::get()->getTranslatedFormattedText("Log_14", uiDumpedTextureCount), true);
+		pActiveEditorTab->log(LocalizationManager::get()->getTranslatedText("Log_15"), true);
+		pActiveEditorTab->log(String::join(vecCorruptTXDs, "\n"), true);
+		pActiveEditorTab->log(LocalizationManager::get()->getTranslatedText("Log_16"), true);
+		pActiveEditorTab->log(String::join(vecTooLargeTXDs, "\n"), true);
+		pActiveEditorTab->log(LocalizationManager::get()->getTranslatedText("Log_17"), true);
+		pActiveEditorTab->log(String::join(vecTXDsContainingTooManyTextures, "\n"), true);
+		pActiveEditorTab->log(LocalizationManager::get()->getTranslatedText("Log_18"), true);
+		pActiveEditorTab->log(String::join(vecInvalidResolutionTXDs, "\n"), true);
+		pActiveEditorTab->log(LocalizationManager::get()->getTranslatedText("Log_19"), true);
+		pActiveEditorTab->log(String::join(vecInvalidTextureNames, "\n"), true);
+		pActiveEditorTab->log(LocalizationManager::get()->getTranslatedText("Log_20"), true);
+		pActiveEditorTab->log(String::join(vecDumpedEntryNames, "\n"), true);
+		pActiveEditorTab->log(LocalizationManager::get()->getTranslatedText("Log_21"), true);
+		pActiveEditorTab->log(String::join(vecTextureNames, "\n"), true);
+		pActiveEditorTab->log(LocalizationManager::get()->getTranslatedText("Log_22"), true);
+		pActiveEditorTab->log(String::join(vecMipmapSkippedEntries, "\n"), true);
 	}
 	*/
 

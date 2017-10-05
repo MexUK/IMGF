@@ -6,4 +6,7 @@
 
 class imgf::TextureEditor : public Editor
 {
+public:
+	void						init(void);
+	void						render(void);
 };

@@ -498,6 +498,9 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\TXDOrganizerWindow\TXDOrganizerWindowLayer.cpp">
       <Filter>Source Files\GUI\Layer\Layers\TXDOrganizerWindow</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\TextureEditor.cpp">
+      <Filter>Source Files\GUI\Editor\Editors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\IMGF\Globals.h">

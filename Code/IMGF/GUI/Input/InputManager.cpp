@@ -371,6 +371,7 @@ void					InputManager::processMenuItemPress(MenuItem *pMenuItem)
 	case WEBSITES:									return websites();
 	case FORMATS2:									return formats2();
 	case ABOUT:										return about();
+	case UPDATE:									return update();
 	}
 }
 
@@ -1238,4 +1239,9 @@ void					InputManager::formats2(void)
 void					InputManager::about(void)
 {
 	getIMGF()->getWindowManager()->showAboutWindow();
+}
+
+void					InputManager::update(void)
+{
+	m_pTasks->update();
 }

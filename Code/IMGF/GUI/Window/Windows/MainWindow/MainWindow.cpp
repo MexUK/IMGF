@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "Event/EInputEvent.h"
 #include "GUI/Editor/Editors/IMGEditor.h"
+#include "GUI/Editor/Editors/TextureEditor.h"
 #include "Control/Controls/Button.h"
 #include "Control/Controls/Grid.h"
 #include "GUI/Window/WindowManager.h"
@@ -37,7 +38,8 @@ MainWindow::MainWindow(void) :
 	m_uiMainMenuType(EMainMenuType::FORMATS),
 	m_pMainLayer(nullptr),
 	m_pMainLayerNoTabsOpen(nullptr),
-	m_pIMGEditor(nullptr)
+	m_pIMGEditor(nullptr),
+	m_pTextureEditor(nullptr)
 {
 }
 
@@ -125,7 +127,7 @@ void					MainWindow::initMainMenuLayers(void)
 
 	pMenu = pFormatsLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -100);
 	vector<MenuItem*> vecMenuItems = pMenu->addMenuItems(9, "DAT", "IMG", "Item Definition", "Item Placement", "Models", "Collisions", "Textures", "Animations", "Radar");
-	pMenu->setActiveMenuItem(vecMenuItems[1]);
+	pMenu->setActiveMenuItem(vecMenuItems[6]);
 
 	// utility menu
 	Layer *pUtilityLayer = addLayer(UTILITY_MENU, false);
@@ -173,18 +175,19 @@ void					MainWindow::initSettingsMenuLayer(void)
 	m_pSettingsMenu->addMenuItem("Formats", FORMATS2);
 	m_pSettingsMenu->addMenuItem("Websites", WEBSITES);
 	m_pSettingsMenu->addMenuItem("About", ABOUT);
+	m_pSettingsMenu->addMenuItem("Update", UPDATE);
 }
 
 void					MainWindow::initEditors(void)
 {
-	//m_pDATEditor = addLayer<DATEditor>(-1, false);
-	m_pIMGEditor = addLayer<IMGEditor>(-1, true);
+	m_pIMGEditor = addLayer<IMGEditor>(-1, false);
+	m_pTextureEditor = addLayer<TextureEditor>(-1, true);
 
-	//m_pDATEditor->setMainWindow(this);
 	m_pIMGEditor->setMainWindow(this);
+	m_pTextureEditor->setMainWindow(this);
 
-	//m_pDATEditor->init();
 	m_pIMGEditor->init();
+	m_pTextureEditor->init();
 }
 
 // layer repositioning and resizing

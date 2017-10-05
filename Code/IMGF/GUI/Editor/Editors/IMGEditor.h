@@ -59,9 +59,6 @@ public:
 
 	std::vector<bxgi::IMGFormat*>	getAllMainWindowTabsIMGFiles(void);
 
-	void						setMainWindow(MainWindow *pMainWindow) { m_pMainWindow = pMainWindow; }
-	MainWindow*					getMainWindow(void) { return m_pMainWindow; }
-
 	void						setSelectedEntryCount(uint32 uiSelectedEntryCount) { m_uiSelectedEntryCount = uiSelectedEntryCount; }
 	uint32						getSelectedEntryCount(void) { return m_uiSelectedEntryCount; }
 
@@ -93,7 +90,6 @@ public:
 	bxgx::DropDown*				m_pEntryVersionFilter;
 
 private:
-	MainWindow*					m_pMainWindow;
 	uint32						m_uiSelectedEntryCount;
 	uint32						m_uiSearchHitCount;
 	uint32						m_uiSearchFileCount;

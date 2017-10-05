@@ -224,6 +224,7 @@ private:
 	void					websites(void);
 	void					formats2(void);
 	void					about(void);
+	void					update(void);
 
 private:
 	MainWindow*				m_pMainWindow;

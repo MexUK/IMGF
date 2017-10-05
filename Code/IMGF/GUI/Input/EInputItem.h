@@ -244,5 +244,6 @@ enum imgf::mainLayer::input::EInputItem
 	SETTINGS,
 	WEBSITES,
 	FORMATS2,
-	ABOUT
+	ABOUT,
+	UPDATE
 };

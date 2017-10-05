@@ -46,7 +46,7 @@ void					SettingsWindowLayer::init(void)
 
 	addText(50, y, 500, 20, "Graphics");
 	y += yGap1;
-	addCheckBox(50, y, 20, 20, "Window Always on Top", "window2_checkBox", 400);
+	addCheckBox(50, y, 20, 20, "Window Always on Top", -1, "window2_checkBox", 400);
 	y += yGap1;
 	addText(50, y, 85, 20, "Tab Colours:");
 	addButton(135, y - 2, 100, 20, "Choose..", "window2_button", 410);
@@ -60,7 +60,7 @@ void					SettingsWindowLayer::init(void)
 	addText(50, y, 150, 20, "Rebuild After Feature:");
 	addButton(210, y - 2, 100, 20, "Choose..", "window2_button", 510);
 	y += yGap1;
-	addCheckBox(50, y, 20, 20, "Save Logs to Folder:", "window2_checkBox", 520);
+	addCheckBox(50, y, 20, 20, "Save Logs to Folder:", -1, "window2_checkBox", 520);
 	addButton(225, y - 2, 100, 20, "Choose..", "window2_button", 530);
 	y += yGap2;
 

@@ -56,7 +56,6 @@ using namespace imgf;
 using namespace imgf::editor::items;
 
 IMGEditor::IMGEditor(void) :
-	m_pMainWindow(nullptr),
 	m_pEntryGrid(nullptr),
 	m_pEntryTypeFilter(nullptr),
 	m_pEntryVersionFilter(nullptr),

@@ -317,7 +317,7 @@ DumpWindowResult		WindowManager::showDumpWindow(void)
 	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
 	{
-		BXGX::get()->process2ndThreadOnce();
+		getMainWindow()->getIMGEditor()->getActiveTab()->processThreadOnce();
 	}
 	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	getIMGF()->getTaskManager()->onResumeTask();

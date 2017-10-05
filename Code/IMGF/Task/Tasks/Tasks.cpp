@@ -2622,7 +2622,7 @@ void		Tasks::convertIMGVersion(void)
 	// check to rebuild
 	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildOnConvert"))
 	{
-		getIMGF()->getEntryListTab()->rebuild();
+		getIMGTab()->rebuild();
 	}
 
 	// render
@@ -5595,6 +5595,78 @@ void		Tasks::imgCompression(void)
 	onCompleteTask();
 }
 
+void		Tasks::update(void)
+{
+	onStartTask("update");
+
+	// fetch latest version number
+	string strFileContent;
+	UpdateConnection *pActiveUpdateConnection = nullptr;
+	for (UpdateConnection *pUpdateConnection : getIMGF()->getUpdateManager()->getUpdateConnectionManager()->getEntries())
+	{
+		pActiveUpdateConnection = pUpdateConnection;
+		strFileContent = HTTP::get()->getFileContent(pUpdateConnection->getLatestVersionURL());
+		if (strFileContent != "")
+		{
+			break;
+		}
+	}
+
+	vector<string>
+		vecFileLines = String::split(strFileContent, "\n");
+	float32
+		fLatestVersion = String::toFloat32(vecFileLines[0]),
+		fCurrentVersion = getIMGF()->getBuildMeta().getCurrentVersion();
+	string
+		strProgramFileName = vecFileLines[1];
+
+	if (strFileContent == "" || fLatestVersion == 0.0f)
+	{
+		Tasks::showMessage("Unable to fetch the latest version.", "Network Error");
+		return;
+	}
+
+	// compare version numbers
+	if (fCurrentVersion >= fLatestVersion)
+	{
+		Tasks::showMessage("You are already using the latest version, which is " + String::toString(fLatestVersion), "Already Using Latest Version", MB_OK);
+		return onAbortTask();
+	}
+
+	// ask to update now
+	uint32 uiUpdateWindowResult = Tasks::showMessage("Version " + String::toString(fLatestVersion) + " is available, currently using " + String::toString(fCurrentVersion) + "\n\nUpdate now?", "Update Now?", MB_YESNOCANCEL);
+	if (uiUpdateWindowResult != IDYES)
+	{
+		return onAbortTask();
+	}
+
+	// update program version
+	string strNewProgramData = HTTP::get()->getFileContent(pActiveUpdateConnection->getDownloadFolderURL() + String::toString(fLatestVersion) + "/" + strProgramFileName);
+
+	string strRunningProgramPath = Process::getEXEFilePath();
+	string strLockedFileDirectory = Path::getDirectory(strRunningProgramPath);
+	string strNewProgramPath = strLockedFileDirectory + strProgramFileName;
+
+	File::storeFile(strNewProgramPath, strNewProgramData, false, true);
+
+	// delete previous version's exe file
+	if (getIMGF()->getSettingsManager()->getSettingBool("RemoveOldVersionOnUpdate"))
+	{
+		SettingsManager::setInternalSetting("DeletePreviousVersionOnNextLaunch", strRunningProgramPath);
+	}
+
+	// open new version
+	if (Tasks::showMessage("Update complete, open version " + String::toString(fLatestVersion) + " now?", "Open New Version Now?", MB_YESNO) == IDYES)
+	{
+		Process::startProcess(strNewProgramPath);
+		onCompleteTask();
+		ExitProcess(0);
+		return;
+	}
+
+	onCompleteTask();
+}
+
 void		Tasks::associateIMGExtension(void)
 {
 	// todo
@@ -5650,9 +5722,9 @@ bool		Tasks::saveAllOpenFiles(bool bCloseAll)
 	}
 	else
 	{
-		if (getIMGF()->getEntryListTab()->getIMGModifiedSinceRebuild())
+		if (getIMGTab()->getIMGModifiedSinceRebuild())
 		{
-			strText = LocalizationManager::get()->getTranslatedFormattedText("Window_Confirm_4_Message", Path::getFileName(getIMGF()->getEntryListTab()->getIMGFile()->getFilePath()).c_str());
+			strText = LocalizationManager::get()->getTranslatedFormattedText("Window_Confirm_4_Message", Path::getFileName(getIMGTab()->getIMGFile()->getFilePath()).c_str());
 		}
 	}
 
@@ -5689,7 +5761,7 @@ bool		Tasks::saveAllOpenFiles(bool bCloseAll)
 	}
 	else
 	{
-		getIMGF()->getEntryListTab()->rebuild();
+		getIMGTab()->rebuild();
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestClose2");
 	return true;
@@ -5758,198 +5830,7 @@ void		Tasks::onRequestSessionManager(void)
 	*/
 }
 
-void		Tasks::onRequestUpdate(void)
-{
-	getIMGF()->getTaskManager()->onStartTask("onRequestUpdate");
 
-	//vector<UpdateConnection*> vecUpdateConnections;
-	if (getIMGF()->getBuildMeta().isAlphaBuild())
-	{
-		// alpha version
-		string strFileContent;
-		UpdateConnection *pActiveUpdateConnection = nullptr;
-		for (auto pUpdateConnection : getIMGF()->getUpdateManager()->getUpdateConnectionManager()->getEntries())
-		{
-			if (!pUpdateConnection->isAlpha())
-			{
-				continue;
-			}
-
-			pActiveUpdateConnection = pUpdateConnection;
-			strFileContent = HTTP::get()->getFileContent(pUpdateConnection->getLatestVersionURL());
-			if (strFileContent == "")
-			{
-				continue;
-			}
-
-			break;
-		}
-		if (strFileContent == "")
-		{
-			getIMGF()->getTaskManager()->onPauseTask();
-			uint32 uiMirrorCount = getIMGF()->getUpdateManager()->getUpdateConnectionManager()->getEntryCount();
-			showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_40", uiMirrorCount), LocalizationManager::get()->getTranslatedText("UnableToCheckForUpdates"), MB_OK);
-			getIMGF()->getTaskManager()->onResumeTask();
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestUpdate", true);
-			return;
-		}
-
-		vector<string> vecData = String::split(strFileContent, "\n");
-		string strLatestVersion = vecData[0];
-		string strLatestVersionFileName = vecData[1];
-		string strLatestBuildNumber = vecData[2];
-
-		uint32 uiLatestBuildNumber = String::toUint32(strLatestBuildNumber);
-
-		if (uiLatestBuildNumber > 5000) // todo BUILDNUMBER)
-		{
-			getIMGF()->getTaskManager()->onPauseTask();
-			uint32 uiResult = false; // todo - showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_41", strLatestVersion.c_str(), strLatestBuildNumber.c_str(), getIMGF()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), LocalizationManager::get()->getTranslatedText("TextPopupTitle_41"), MB_OKCANCEL);
-			getIMGF()->getTaskManager()->onResumeTask();
-			if (uiResult == IDOK)
-			{
-				string strNewProgramData = HTTP::get()->getFileContent(pActiveUpdateConnection->getDownloadFolderURL() + strLatestVersionFileName);
-
-				TCHAR szFilename[MAX_PATH];
-				GetModuleFileName(NULL, szFilename, MAX_PATH);
-				string strRunningProgramPath = String::convertStdWStringToStdString(szFilename);
-
-				//File::overwriteLockedFileViaContent(strRunningProgramPath, strLatestVersionFileName, strNewProgramData);
-
-				string strLockedFileDirectory = Path::getDirectory(strRunningProgramPath);
-				string strNewProgramPath = strLockedFileDirectory + strLatestVersionFileName;
-				//rename(strRunningProgramPath.c_str(), (strLockedFileDirectory + "Temp File").c_str());
-				strNewProgramPath = File::getNextIncrementingFileName(strNewProgramPath);
-				File::storeFile(strNewProgramPath, strNewProgramData, false, true);
-
-				// delete previous version's exe file
-				if (getIMGF()->getSettingsManager()->getSettingBool("RemoveOldVersionOnUpdate"))
-				{
-					TCHAR szModuleName[MAX_PATH];
-					GetModuleFileName(NULL, szModuleName, MAX_PATH);
-					string strExePath = String::convertStdWStringToStdString(szModuleName);
-					if (strNewProgramPath != strExePath)
-					{
-						SettingsManager::setInternalSetting("DeletePreviousVersionOnNextLaunch", strExePath);
-					}
-				}
-
-				getIMGF()->getTaskManager()->onPauseTask();
-				uint32 uiResult2 = showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_42"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_42"), MB_OKCANCEL);
-				getIMGF()->getTaskManager()->onResumeTask();
-				if (uiResult2 == IDOK)
-				{
-					ShellExecute(NULL, NULL, String::convertStdStringToStdWString(strNewProgramPath).c_str(), NULL, NULL, SW_SHOWNORMAL);
-				}
-
-				if (uiResult2 == IDOK)
-				{
-					getIMGF()->getTaskManager()->onTaskEnd("onRequestUpdate");
-					ExitProcess(0);
-				}
-			}
-		}
-		else
-		{
-			getIMGF()->getTaskManager()->onPauseTask();
-			// todo - showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_43", getIMGF()->getBuildMeta().getCurrentVersionString().c_str(), BUILDNUMBER_STR), LocalizationManager::get()->getTranslatedText("UpToDate"), MB_OK);
-			getIMGF()->getTaskManager()->onResumeTask();
-		}
-	}
-	else
-	{
-		// non-alpha version
-		string strFileContent;
-		UpdateConnection *pActiveUpdateConnection = nullptr;
-		for (auto pUpdateConnection : getIMGF()->getUpdateManager()->getUpdateConnectionManager()->getEntries())
-		{
-			if (pUpdateConnection->isAlpha())
-			{
-				continue;
-			}
-
-			pActiveUpdateConnection = pUpdateConnection;
-			strFileContent = HTTP::get()->getFileContent(pUpdateConnection->getLatestVersionURL());
-			if (strFileContent == "")
-			{
-				continue;
-			}
-
-			break;
-		}
-		if (strFileContent == "")
-		{
-			getIMGF()->getTaskManager()->onPauseTask();
-			uint32 uiMirrorCount = getIMGF()->getUpdateManager()->getUpdateConnectionManager()->getEntryCount();
-			showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_44", uiMirrorCount), LocalizationManager::get()->getTranslatedText("UnableToCheckForUpdates"), MB_OK);
-			getIMGF()->getTaskManager()->onResumeTask();
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestUpdate", true);
-			return;
-		}
-
-		vector<string> vecData = String::split(HTTP::get()->getFileContent(pActiveUpdateConnection->getLatestVersionURL()), "\n");
-		string strLatestVersion = vecData[0];
-		string strLatestVersionFileName = vecData[1];
-
-		float32 fLatestVersion = String::toFloat32(vecData[0]);
-
-		if (fLatestVersion > getIMGF()->getBuildMeta().getCurrentVersion())
-		{
-			getIMGF()->getTaskManager()->onPauseTask();
-			uint32 uiResult = showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_45", strLatestVersion.c_str(), getIMGF()->getBuildMeta().getCurrentVersionString().c_str()), LocalizationManager::get()->getTranslatedText("TextPopupTitle_45"), MB_OKCANCEL);
-			getIMGF()->getTaskManager()->onResumeTask();
-			if (uiResult == IDOK)
-			{
-				string strNewProgramData = HTTP::get()->getFileContent(pActiveUpdateConnection->getDownloadFolderURL() + strLatestVersionFileName);
-
-				TCHAR szFilename[MAX_PATH];
-				GetModuleFileName(NULL, szFilename, MAX_PATH);
-				string strRunningProgramPath = String::convertStdWStringToStdString(szFilename);
-
-				//File::overwriteLockedFileViaContent(strRunningProgramPath, strLatestVersionFileName, strNewProgramData);
-
-				string strLockedFileDirectory = Path::getDirectory(strRunningProgramPath);
-				string strNewProgramPath = strLockedFileDirectory + strLatestVersionFileName;
-				//rename(strRunningProgramPath.c_str(), (strLockedFileDirectory + "Temp File").c_str());
-				File::storeFile(strNewProgramPath, strNewProgramData, false, true);
-
-				// delete previous version's exe file
-				if (getIMGF()->getSettingsManager()->getSettingBool("RemoveOldVersionOnUpdate"))
-				{
-					TCHAR szModuleName[MAX_PATH];
-					GetModuleFileName(NULL, szModuleName, MAX_PATH);
-					string strExePath = String::convertStdWStringToStdString(szModuleName);
-					if (strNewProgramPath != strExePath)
-					{
-						SettingsManager::setInternalSetting("DeletePreviousVersionOnNextLaunch", strExePath);
-					}
-				}
-
-				getIMGF()->getTaskManager()->onPauseTask();
-				uint32 uiResult2 = showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_42"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_42"), MB_OKCANCEL);
-				getIMGF()->getTaskManager()->onResumeTask();
-				if (uiResult2 == IDOK)
-				{
-					ShellExecute(NULL, NULL, String::convertStdStringToStdWString(strNewProgramPath).c_str(), NULL, NULL, SW_SHOWNORMAL);
-				}
-
-				if (uiResult2 == IDOK)
-				{
-					getIMGF()->getTaskManager()->onTaskEnd("onRequestUpdate");
-					ExitProcess(0);
-				}
-			}
-		}
-		else
-		{
-			getIMGF()->getTaskManager()->onPauseTask();
-			showMessage(LocalizationManager::get()->getTranslatedFormattedText("TextPopup_46", getIMGF()->getBuildMeta().getCurrentVersionString().c_str()), LocalizationManager::get()->getTranslatedText("UpToDate"), MB_OK);
-			getIMGF()->getTaskManager()->onResumeTask();
-		}
-	}
-
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestUpdate");
-}
 void		Tasks::onRequestAutoUpdate(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestAutoUpdate");
@@ -6030,7 +5911,7 @@ void			Tasks::onRequestRenamer(void)
 	}
 
 	// ensure a tab is open
-	if (getIMGF()->getEntryListTab() == nullptr)
+	if (getIMGTab() == nullptr)
 	{
 		showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_50"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_50"), MB_OK);
 		delete pRenamerDialogData;
@@ -6042,11 +5923,11 @@ void			Tasks::onRequestRenamer(void)
 	vector<IMGEntry*> vecIMGEntries;
 	if (pRenamerDialogData->m_ucEntriesType == 0) // all entries
 	{
-		vecIMGEntries = getIMGF()->getEntryListTab()->getIMGFile()->getEntries();
+		vecIMGEntries = getIMGTab()->getIMGFile()->getEntries();
 	}
 	else if (pRenamerDialogData->m_ucEntriesType == 1) // selected entries
 	{
-		vecIMGEntries = getIMGF()->getEntryListTab()->getSelectedEntries();
+		vecIMGEntries = getIMGTab()->getSelectedEntries();
 	}
 
 	setMaxProgress(vecIMGEntries.size() * 2); // x1 for the main loop, and x1 for the refreshing the main list view display
@@ -6241,7 +6122,7 @@ void			Tasks::onRequestRenamer(void)
 		if (pRenamerDialogData->m_bUpdateLODNamesToMatch)
 		{
 			string strLODPreviousName = "LOD" + strEntryPreviousName.substr(3);
-			IMGEntry *pIMGEntryLOD = getIMGF()->getEntryListTab()->getIMGFile()->getEntryByName(strLODPreviousName);
+			IMGEntry *pIMGEntryLOD = getIMGTab()->getIMGFile()->getEntryByName(strLODPreviousName);
 			if (pIMGEntryLOD != nullptr)
 			{
 				string strLODNewName = pIMGEntryLOD->getEntryName().substr(0, 3) + pIMGEntry->getEntryName().substr(3);
@@ -6412,9 +6293,9 @@ void			Tasks::onRequestRenamer(void)
 	}
 
 	// log
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_116", vecIMGEntriesWithNewNames.size()));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_117"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecCorruptCOLFiles, "\n"), true);
+	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_116", vecIMGEntriesWithNewNames.size()));
+	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedText("Log_117"), true);
+	// todo - getIMGTab()->log(String::join(vecCorruptCOLFiles, "\n"), true);
 
 	// mark tab as modified
 	getIMGTab()->setIMGModifiedSinceRebuild(true);
@@ -6454,15 +6335,15 @@ void		Tasks::onRequestBuildTXD(void)
 	unordered_map<DFFFormat*, string> umapDFFEntries;
 	if (pBuildTXDDialogData->m_uDFFFormatsType == 0) // All DFF entries in active tab
 	{
-		if (!getIMGF()->getEntryListTab())
+		if (!getIMGTab())
 		{
 			getIMGF()->getTaskManager()->onTaskEnd("onRequestBuildTXD", true);
 			delete pBuildTXDDialogData;
 			return;
 		}
 
-		vector<IMGEntry*> vecIMGEntries = getIMGF()->getEntryListTab()->getIMGFile()->getEntriesByExtension("DFF");
-		vector<IMGEntry*> vecIMGEntries_BSP = getIMGF()->getEntryListTab()->getIMGFile()->getEntriesByExtension("BSP");
+		vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByExtension("DFF");
+		vector<IMGEntry*> vecIMGEntries_BSP = getIMGTab()->getIMGFile()->getEntriesByExtension("BSP");
 		for (auto pIMGEntry : vecIMGEntries_BSP)
 		{
 			vecIMGEntries.push_back(pIMGEntry);
@@ -6475,14 +6356,14 @@ void		Tasks::onRequestBuildTXD(void)
 	}
 	else if (pBuildTXDDialogData->m_uDFFFormatsType == 1) // Selected DFF entries in active tab
 	{
-		if (!getIMGF()->getEntryListTab())
+		if (!getIMGTab())
 		{
 			getIMGF()->getTaskManager()->onTaskEnd("onRequestBuildTXD", true);
 			delete pBuildTXDDialogData;
 			return;
 		}
 
-		vector<IMGEntry*> vecIMGEntries = getIMGF()->getEntryListTab()->getSelectedEntries();
+		vector<IMGEntry*> vecIMGEntries = getIMGTab()->getSelectedEntries();
 		
 		for(auto pIMGEntry : vecIMGEntries)
 		{
@@ -6495,7 +6376,7 @@ void		Tasks::onRequestBuildTXD(void)
 	}
 	else if (pBuildTXDDialogData->m_uDFFFormatsType == 2) // All DFF entries in all tabs
 	{
-		if (!getIMGF()->getEntryListTab())
+		if (!getIMGTab())
 		{
 			getIMGF()->getTaskManager()->onTaskEnd("onRequestBuildTXD", true);
 			delete pBuildTXDDialogData;
@@ -6630,11 +6511,11 @@ void		Tasks::onRequestBuildTXD(void)
 	}
 
 	// log
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_118", uiTotalTXDFileCount, uiTotalTextureCountUsed));
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_119", pBuildTXDDialogData->m_strTexturesFolderPath.c_str()), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(vecTextureImagesNotFound, "\n"), true);
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedText("Log_120"), true);
-	// todo - getIMGF()->getEntryListTab()->log(String::join(veTXDFormatNames, "\n"), true);
+	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_118", uiTotalTXDFileCount, uiTotalTextureCountUsed));
+	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_119", pBuildTXDDialogData->m_strTexturesFolderPath.c_str()), true);
+	// todo - getIMGTab()->log(String::join(vecTextureImagesNotFound, "\n"), true);
+	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedText("Log_120"), true);
+	// todo - getIMGTab()->log(String::join(veTXDFormatNames, "\n"), true);
 
 	// clean up
 	//for (DFFFormat *pDFFFile : veDFFFormats)
@@ -7193,7 +7074,7 @@ void				Tasks::onRequestTXDOrganizer(void)
 	/*
 	todo
 	getIMGF()->getTaskManager()->onStartTask("onRequestTXDOrganizer");
-	if (getIMGF()->getEntryListTab() == nullptr)
+	if (getIMGTab() == nullptr)
 	{
 		getIMGF()->getTaskManager()->onTaskEnd("onRequestTXDOrganizer", true);
 		return;
@@ -7373,7 +7254,7 @@ void				Tasks::onRequestTXDOrganizer(void)
 	}
 
 	// log
-	// todo - getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_TXDOrganizer", uiEntryCount, uiTXDCount));
+	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_TXDOrganizer", uiEntryCount, uiTXDCount));
 
 	// clean up
 	delete pTXDOrganizerDialogData;
@@ -7931,13 +7812,13 @@ void						Tasks::onRequestMapMoverAndIDShifter(void)
 		increaseProgress();
 	}
 
-	if (getIMGF()->getEntryListTab() == nullptr)
+	if (getIMGTab() == nullptr)
 	{
 		getIMGF()->getIMGEditor()->logWithNoTabsOpen("Moved and ID shifted " + String::toString(vecIDEPaths.size()) + " IDE files and " + String::toString(vecIPLPaths.size()) + " IPL files (" + String::toString(uiIPLCount_Text) + " text, " + String::toString(uiIPLCount_Binary) + " binary) in " + Path::getFileName(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
 	}
 	else
 	{
-		// todo - getIMGF()->getEntryListTab()->log("Moved and ID shifted " + String::toString(vecIDEPaths.size()) + " IDE files and " + String::toString(vecIPLPaths.size()) + " IPL files in " + Path::getFileName(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
+		// todo - getIMGTab()->log("Moved and ID shifted " + String::toString(vecIDEPaths.size()) + " IDE files and " + String::toString(vecIPLPaths.size()) + " IPL files in " + Path::getFileName(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
 	}
 
 	delete pMapMoverAndIDShifterDialogData;

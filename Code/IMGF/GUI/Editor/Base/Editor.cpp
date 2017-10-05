@@ -14,6 +14,7 @@ using namespace bxgx;
 using namespace imgf;
 
 Editor::Editor(void) :
+	m_pMainWindow(nullptr),
 	m_pActiveFile(nullptr),
 	m_pTabBar(nullptr)
 {

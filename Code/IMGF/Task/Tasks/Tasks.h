@@ -223,6 +223,7 @@ public:
 	void						extractDVCAndNVCIntoDFFs(void);
 	void						extract2DFXIntoDFFs(void);
 	void						imgCompression(void);
+	void						update(void);
 	void						associateIMGExtension(void);
 
 
@@ -230,7 +231,7 @@ public:
 
 
 
-	void						onRequestUpdate(void);
+	
 	void						onRequestAutoUpdate(void);
 	static int CALLBACK			sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 	void						onRequestFeatureByName(std::string strFeatureName);
