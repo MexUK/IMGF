@@ -194,6 +194,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\EInputItem.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\AboutWindow\AboutWindowLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\DATPathsMoverWindow\DATPathsMoverWindowLayer.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\DATPathsMoverWindow\DATPathsMoverWindowResult.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\DumpWindow\DumpWindowLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\DumpWindow\DumpWindowResult.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\ELayer.h" />
@@ -206,11 +207,13 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainLayer\MainLayerNoTabsOpen.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MainMenu\EMainMenuType.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MapMoverAndIDShifterWindow\MapMoverAndIDShifterWindowLayer.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MapMoverAndIDShifterWindow\MapMoverAndIDShifterWindowResult.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\RenamerWindow\RenamerWindowLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\SessionManagerWindow\SessionManagerWindowLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\SettingsWindow\SettingsWindowLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\TXDBuilderWindow\TXDBuilderWindowLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\TXDOrganizerWindow\TXDOrganizerWindowLayer.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\TXDOrganizerWindow\TXDOrganizerWindowResult.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\WebsitesWindow\WebsitesWindowLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\Windows\MainWindow\MainWindow.h" />
     <ClInclude Include="..\..\..\Code\IMGF\IMGF.h" />

@@ -395,7 +395,7 @@ void					WindowManager::showTXDOrganizerWindow(void)
 {
 	m_bWindow2Cancelled = true;
 
-	Window *pWindow = BXGX::get()->addWindow(750, 600);
+	Window *pWindow = BXGX::get()->addWindow(850, 400);
 	TXDOrganizerWindowLayer *pLayer = pWindow->addLayer<TXDOrganizerWindowLayer>();
 
 	pWindow->addTitleBar("TXD Organizer");
@@ -404,42 +404,42 @@ void					WindowManager::showTXDOrganizerWindow(void)
 	pWindow->render();
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
 	{
 		BXGX::get()->process2ndThreadOnce();
 	}
-	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
+
+	//return m_txdORganizerWindowResult;
 }
 
-void					WindowManager::showDATPathsMoverWindow(void)
+DATPathsMoverWindowResult			WindowManager::showDATPathsMoverWindow(void)
 {
 	m_bWindow2Cancelled = true;
 
 	Window *pWindow = BXGX::get()->addWindow(750, 600);
 	DATPathsMoverWindowLayer *pLayer = pWindow->addLayer<DATPathsMoverWindowLayer>();
 
-	pWindow->addTitleBar("DAT Paths Mover");
+	pWindow->addTitleBar("DAT Paths Mover - Currently only works with fastman92's path format");
 	pLayer->init();
 
 	pWindow->render();
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
 	{
 		BXGX::get()->process2ndThreadOnce();
 	}
-	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
+
+	return m_datPathsMoverWindowResult;
 }
 
-void					WindowManager::showMapMoverAndIdShifterWindow(void)
+MapMoverAndIDShifterWindowResult					WindowManager::showMapMoverAndIdShifterWindow(void)
 {
 	m_bWindow2Cancelled = true;
 
-	Window *pWindow = BXGX::get()->addWindow(750, 600);
+	Window *pWindow = BXGX::get()->addWindow(750, 650);
 	MapMoverAndIDShifterWindowLayer *pLayer = pWindow->addLayer<MapMoverAndIDShifterWindowLayer>();
 
 	pWindow->addTitleBar("Map Mover and ID Shifter");
@@ -448,11 +448,11 @@ void					WindowManager::showMapMoverAndIdShifterWindow(void)
 	pWindow->render();
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
 	{
 		BXGX::get()->process2ndThreadOnce();
 	}
-	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
+
+	return m_mapMoverAndIDShifterWindowResult;
 }

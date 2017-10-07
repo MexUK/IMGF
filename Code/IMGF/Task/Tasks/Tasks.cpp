@@ -4457,18 +4457,556 @@ void		Tasks::datPathsMover(void)
 {
 	onStartTask("datPathsMover");
 
-	getIMGF()->getWindowManager()->showDATPathsMoverWindow();
+	getIMGF()->getTaskManager()->onPauseTask();
+	DATPathsMoverWindowResult datPathsMoverWindowResult = getIMGF()->getWindowManager()->showDATPathsMoverWindow();
+	getIMGF()->getTaskManager()->onResumeTask();
+
+	if (m_pMainWindow->m_bWindow2Cancelled)
+	{
+		return onAbortTask();
+	}
+
+	vector<string>
+		vecFileNames = File::getFileNamesByExtension(datPathsMoverWindowResult.m_strDATInputFolderPath, "DAT");
+	vector<DATPathFormat*>
+		vecDATInputFiles,
+		vecDATOutputFiles;
+	for (auto strFileName : vecFileNames)
+	{
+		uint32 uiAreaId = String::toNumber(Path::removeFileExtension(strFileName).substr(5)); // example filename: nodes0.dat, nodes1.dat, nodes63.dat
+
+		DATPathFormat *pDATFile = DATPathManager::get()->unserializeMemory(File::getFileContent(datPathsMoverWindowResult.m_strDATInputFolderPath + strFileName, true));//////, uiAreaId///////);
+		if (!pDATFile->doesHaveError())
+		{
+			vecDATInputFiles.push_back(pDATFile);
+		}
+	}
+	for (uint32 i = 0, j = DATPathManager::getTileCount(datPathsMoverWindowResult.m_vecMinOutputMapRange, datPathsMoverWindowResult.m_vecMaxOutputMapRange, datPathsMoverWindowResult.m_vecOutputTileSize); i < j; i++)
+	{
+		DATPathFormat *pDATFile = new DATPathFormat;
+		pDATFile->setPathsFormat(DAT_PATH_FASTMAN92);
+		pDATFile->m_uiFileIndex = i;
+		vecDATOutputFiles.push_back(pDATFile);
+	}
+
+	std::sort(vecDATInputFiles.begin(), vecDATInputFiles.end(), sortDATFiles);
+
+	setMaxProgress((vecDATInputFiles.size() * 2) + (vecDATOutputFiles.size() * 4));
+
+	for (DATPathFormat *pDATFile : vecDATInputFiles)
+	{
+		pDATFile->applyOffsetToPositions(datPathsMoverWindowResult.m_vecPositionOffset);
+
+		increaseProgress();
+	}
+
+	// process
+	//unordered_map<DATEntry_Paths_General_PathNode&, CNodeAddress> umapNewAddresses_PathNode;
+	for (DATPathFormat *pDATFile : vecDATInputFiles)
+	{
+		uint32 uiAreaId_SA = pDATFile->m_uiFileIndex;
+
+		for (auto& pathNode : pDATFile->m_vecPathNodes)
+		{
+			Vec2f vecPathNodePosition = { (float32)pathNode.m_vecPosition.x / 8.0f, (float32)pathNode.m_vecPosition.y / 8.0f };
+			uint32 uiNewAreaIdForPathNode = DATPathManager::getAreaIdFromPosition(vecPathNodePosition, datPathsMoverWindowResult.m_vecMinOutputMapRange, datPathsMoverWindowResult.m_vecMaxOutputMapRange, datPathsMoverWindowResult.m_vecOutputTileSize);
+
+			uint32 uiFirstLinkIndex = pathNode.m_wConnectedNodesStartId;
+			uint32 uiLinkCountForNode = pathNode.m_uiFlags & 0xF;
+			pathNode.m_wConnectedNodesStartId = (uint16)vecDATOutputFiles[uiNewAreaIdForPathNode]->m_vecLinks.size();
+
+			DATEntry_Paths_General_Link link;
+			for (uint32 i = 0; i < uiLinkCountForNode; i++)
+			{
+				link = pDATFile->m_vecLinks[uiFirstLinkIndex + i];
+				vecDATOutputFiles[uiNewAreaIdForPathNode]->addLink(link);
+			}
+			//uint32 uiNewPathNodeId = vecDATOutputFiles[uiNewAreaIdForPathNode].size();
+			vecDATOutputFiles[uiNewAreaIdForPathNode]->addPathNode(pathNode);
+
+			//umapNewAddresses_PathNode[vecDATOutputFiles[uiNewAreaIdForPathNode]->m_vecPathNodes[uiNewPathNodeId]] = { uiNewAreaIdForPathNode, uiNewPathNodeId };
+		}
+
+		uint32 i = 0;
+		for (auto& naviNode : pDATFile->m_vecNaviNodes)
+		{
+			Vec2f vecNaviNodePosition = { (float32)naviNode.m_iPosition[0] / 8.0f, (float32)naviNode.m_iPosition[1] / 8.0f };
+			uint32 uiNewAreaIdForNaviNode = DATPathManager::getAreaIdFromPosition(vecNaviNodePosition, datPathsMoverWindowResult.m_vecMinOutputMapRange, datPathsMoverWindowResult.m_vecMaxOutputMapRange, datPathsMoverWindowResult.m_vecOutputTileSize);
+
+			vecDATOutputFiles[uiNewAreaIdForNaviNode]->addNaviNode(naviNode);
+			i++;
+		}
+
+		increaseProgress();
+	}
+
+	for (DATPathFormat *pDATFile : vecDATOutputFiles)
+	{
+		std::sort(pDATFile->m_vecPathNodes.begin(), pDATFile->m_vecPathNodes.end(), sortDATPathsEntries);
+
+		increaseProgress();
+	}
+
+	for (DATPathFormat *pDATFile : vecDATOutputFiles)
+	{
+		for (auto& naviNode : pDATFile->m_vecNaviNodes)
+		{
+			// this code is in a separate loop because the new position may not have been applied yet.
+
+			auto& targetPathNode_Input = vecDATInputFiles[naviNode.m_usTargetNode_AreaId]->m_vecPathNodes[naviNode.m_usTargetNode_NodeId]; // the position has already been updated for this target node.
+
+			uint32 uiAreaId_Out;
+			uint32 uiNodeId_Out;
+			bool bFound = DATPathManager::findPathNode(vecDATOutputFiles, targetPathNode_Input, uiAreaId_Out, uiNodeId_Out);
+			if (bFound)
+			{
+				naviNode.m_usTargetNode_AreaId = (uint16)uiAreaId_Out;
+				naviNode.m_usTargetNode_NodeId = (uint16)uiNodeId_Out;
+			}
+		}
+
+		increaseProgress();
+	}
+
+	for (DATPathFormat *pDATFile : vecDATOutputFiles)
+	{
+		for (auto& link : pDATFile->m_vecLinks)
+		{
+			auto& pathNode_Input = vecDATInputFiles[link.m_usAreaId]->m_vecPathNodes[link.m_usNodeId];
+
+			uint32 uiAreaId_Out;
+			uint32 uiNodeId_Out;
+			bool bFound = DATPathManager::findPathNode(vecDATOutputFiles, pathNode_Input, uiAreaId_Out, uiNodeId_Out);
+			if (bFound)
+			{
+				link.m_usAreaId = (uint16)uiAreaId_Out;
+				link.m_usNodeId = (uint16)uiNodeId_Out;
+			}
+
+
+
+			if (link.m_usNaviAreaId == 0 && link.m_usNaviNodeId == 0)
+			{
+				// do nothing
+			}
+			else
+			{
+				auto& naviNode_Input2 = vecDATInputFiles[link.m_usNaviAreaId]->m_vecNaviNodes[link.m_usNaviNodeId];
+
+				uint32 uiAreaId_Out2;
+				uint32 uiNodeId_Out2;
+				bool bFound2 = DATPathManager::findNaviNode(vecDATOutputFiles, naviNode_Input2, uiAreaId_Out2, uiNodeId_Out2);
+				if (bFound2)
+				{
+					link.m_usNaviAreaId = (uint16)uiAreaId_Out2;
+					link.m_usNaviNodeId = (uint16)uiNodeId_Out2;
+				}
+			}
+		}
+
+		increaseProgress();
+	}
+
+	// update target nodes of navi nodes to always be the "lower" node
+	////////////////////////////////
+	for (DATPathFormat *pDATFile : vecDATOutputFiles)
+	{
+		uint32 uiNaviNodeAreaId = pDATFile->m_uiFileIndex;
+		uint32 uiNaviNodeNodeId = 0;
+		for (auto& naviNode : pDATFile->m_vecNaviNodes)
+		{
+			DATEntry_Paths_General_PathNode pathNode1 = vecDATOutputFiles[naviNode.m_usTargetNode_AreaId]->m_vecPathNodes[naviNode.m_usTargetNode_NodeId];
+			uint32 uiLinkId_Out;
+			vector<DATEntry_Paths_General_PathNode> vecTargetPathNodes = DATPathManager::getTargetPathNodesForNaviNode(vecDATOutputFiles, naviNode, uiNaviNodeAreaId, uiNaviNodeNodeId, uiLinkId_Out);
+			vecTargetPathNodes.push_back(pathNode1);
+			//if (vecTargetPathNodes.size() != 2)
+			//{
+			//	Debugger::log("vecTargetPathNodes.size(): " + String::toString(vecTargetPathNodes.size()));
+			//}
+
+			//DATEntry_Paths_General_PathNode lowestTargetPathNode = DATManager::getLowestPathNode(vecTargetPathNodes);
+			//naviNode.m_usTargetNode_AreaId = lowestTargetPathNode.m_wAreaId;
+			//naviNode.m_usTargetNode_NodeId = lowestTargetPathNode.m_wNodeId;
+
+			DATEntry_Paths_General_PathNode lowerTargetPathNode = DATPathManager::getLowestPathNode(vecTargetPathNodes);
+			DATEntry_Paths_General_PathNode higherTargetPathNode;
+			if (vecTargetPathNodes[0].m_vecPosition.x == lowerTargetPathNode.m_vecPosition.x
+				&& vecTargetPathNodes[0].m_vecPosition.y == lowerTargetPathNode.m_vecPosition.y
+				&& vecTargetPathNodes[0].m_vecPosition.z == lowerTargetPathNode.m_vecPosition.z
+				&& vecTargetPathNodes[0].m_ucPathWidth == lowerTargetPathNode.m_ucPathWidth)
+			{
+				higherTargetPathNode = vecTargetPathNodes[1];
+			}
+			else
+			{
+				higherTargetPathNode = vecTargetPathNodes[0];
+			}
+
+			auto& link = vecDATOutputFiles[vecTargetPathNodes[0].m_wAreaId]->m_vecLinks[uiLinkId_Out];
+			link.m_usNaviAreaId = higherTargetPathNode.m_wAreaId;
+			link.m_usNaviNodeId = higherTargetPathNode.m_wNodeId;
+			naviNode.m_usTargetNode_AreaId = lowerTargetPathNode.m_wAreaId;
+			naviNode.m_usTargetNode_NodeId = lowerTargetPathNode.m_wNodeId;
+
+			//
+			DATEntry_Paths_General_PathNode previousPathNode = vecTargetPathNodes[0];
+			naviNode.m_usTargetNode_AreaId = previousPathNode.m_wAreaId;
+			naviNode.m_usTargetNode_NodeId = previousPathNode.m_wNodeId;
+			naviNode.m_ucDirection[0] = -((int8)naviNode.m_ucDirection[0]);
+			naviNode.m_ucDirection[1] = -((int8)naviNode.m_ucDirection[1]);
+
+			uint32 uiLeftLaneCount = naviNode.m_uiFlags & 1792;
+			uint32 uiRightLaneCount = naviNode.m_uiFlags & 14336;
+
+			uint32 uiNewLeftLaneCount = uiRightLaneCount;
+			uint32 uiNewRightLaneCount = uiLeftLaneCount;
+
+			naviNode.m_uiFlags &= 0xFFFFF8FF;
+			naviNode.m_uiFlags |= uiNewLeftLaneCount;
+
+			naviNode.m_uiFlags &= 0xFFFFC7FF;
+			naviNode.m_uiFlags |= uiNewRightLaneCount;
+			//
+
+			uiNaviNodeNodeId++;
+		}
+	}
+	////////////////////////////////////////
+
+	// store output DAT files
+	uint32 i = 0;
+	for (DATPathFormat *pDATFile : vecDATOutputFiles)
+	{
+		File::storeFile(datPathsMoverWindowResult.m_strDATOutputFolderPath + "nodes" + String::toString(i) + ".dat", pDATFile->serialize(), false, true);
+		increaseProgress();
+		i++;
+	}
+
+	// clean up
+	for (DATPathFormat *pDATFile : vecDATInputFiles)
+	{
+		pDATFile->unload();
+		delete pDATFile;
+	}
+	for (DATPathFormat *pDATFile : vecDATOutputFiles)
+	{
+		pDATFile->unload();
+		delete pDATFile;
+	}
 
 	onCompleteTask();
 }
 
-void		Tasks::mapMoverAndIdShifter(void)
+void						Tasks::mapMoverAndIDShifter(void)
 {
-	onStartTask("mapMoverAndIdShifter");
+	onStartTask("mapMoverAndIDShifter");
 
-	getIMGF()->getWindowManager()->showMapMoverAndIdShifterWindow();
+	getIMGF()->getTaskManager()->onPauseTask();
+	MapMoverAndIDShifterWindowResult mapMoverAndIDShifterWindowResult = getIMGF()->getWindowManager()->showMapMoverAndIdShifterWindow();
+	getIMGF()->getTaskManager()->onResumeTask();
+
+	if (m_pMainWindow->m_bWindow2Cancelled)
+	{
+		return onAbortTask();
+	}
+
+	unordered_map<EPlatformedGame, vector<string>>
+		umapIgnoreDefaultObjectFileNamesVector;
+	string
+		strDefaultModelNamesFolder = DataPath::getDataPath() + "DefaultFiles/ModelNames/",
+		strModelNamesPath_PC_GTA_III = strDefaultModelNamesFolder + "ModelNames-PC-GTA-III.txt",
+		strModelNamesPath_PC_GTA_VC = strDefaultModelNamesFolder + "ModelNames-PC-GTA-VC.txt",
+		strModelNamesPath_PC_GTA_SA = strDefaultModelNamesFolder + "ModelNames-PC-GTA-SA.txt"
+	;
+	if (File::doesFileExist(strModelNamesPath_PC_GTA_III))
+	{
+		umapIgnoreDefaultObjectFileNamesVector[PC_GTA_III] = String::split(File::getFileContent(strModelNamesPath_PC_GTA_III), ", ");
+	}
+	if (File::doesFileExist(strModelNamesPath_PC_GTA_VC))
+	{
+		umapIgnoreDefaultObjectFileNamesVector[PC_GTA_VC] = String::split(File::getFileContent(strModelNamesPath_PC_GTA_VC), ", ");
+	}
+	if (File::doesFileExist(strModelNamesPath_PC_GTA_SA))
+	{
+		umapIgnoreDefaultObjectFileNamesVector[PC_GTA_SA] = String::split(File::getFileContent(strModelNamesPath_PC_GTA_SA), ", ");
+	}
+
+	unordered_map<string, bool> umapIgnoreDefaultObjectFileNames;
+	for (auto it : umapIgnoreDefaultObjectFileNamesVector)
+	{
+		for (string& strFileName : it.second)
+		{
+			umapIgnoreDefaultObjectFileNames[strFileName] = true;
+		}
+	}
+	umapIgnoreDefaultObjectFileNamesVector.clear();
+
+	DATLoaderFormat *pDATFile = DATLoaderManager::get()->unserializeFile(mapMoverAndIDShifterWindowResult.m_strDATFile);
+	if(pDATFile->doesHaveError())
+	{
+		return onAbortTask();
+	}
+	vector<string>
+		vecRelativeIDEPaths = pDATFile->getRelativeIDEPaths(),
+		vecRelativeIPLPaths = pDATFile->getRelativeIPLPaths();
+	pDATFile->unload();
+	delete pDATFile;
+
+	vector<string>
+		vecIDEPaths,
+		vecIPLPaths;
+	uint32 i;
+	vecIDEPaths.resize(vecRelativeIDEPaths.size());
+	vecIPLPaths.resize(vecRelativeIPLPaths.size());
+	i = 0;
+	for (string& strRelativeIDEPath : vecRelativeIDEPaths)
+	{
+		vecIDEPaths[i] = mapMoverAndIDShifterWindowResult.m_strGameFolder + strRelativeIDEPath;
+		i++;
+	}
+	i = 0;
+	for (string& strRelativeIPLPath : vecRelativeIPLPaths)
+	{
+		vecIPLPaths[i] = mapMoverAndIDShifterWindowResult.m_strGameFolder + strRelativeIPLPath;
+		i++;
+	}
+	vecRelativeIDEPaths.clear();
+	vecRelativeIPLPaths.clear();
+	if (mapMoverAndIDShifterWindowResult.m_bUseIDEFolder)
+	{
+		vecIDEPaths = StdVector::combineVectors(vecIDEPaths, File::getFilePaths(mapMoverAndIDShifterWindowResult.m_strIDEFolder, true, false, "IDE"));
+	}
+	if (mapMoverAndIDShifterWindowResult.m_bUseIPLFolder)
+	{
+		vecIPLPaths = StdVector::combineVectors(vecIPLPaths, File::getFilePaths(mapMoverAndIDShifterWindowResult.m_strIPLFolder, true, false, "IPL"));
+	}
+
+	setMaxProgress(vecIDEPaths.size() + vecIPLPaths.size());
+
+
+	mapMoverAndIDShifterWindowResult.m_vecIgnoreFilesForIDShifter = StdVector::toUpperCase(mapMoverAndIDShifterWindowResult.m_vecIgnoreFilesForIDShifter);
+	mapMoverAndIDShifterWindowResult.m_vecIgnoreFilesForMapMover = StdVector::toUpperCase(mapMoverAndIDShifterWindowResult.m_vecIgnoreFilesForMapMover);
+
+	uint32 uiIDEEntryNewObjectId = mapMoverAndIDShifterWindowResult.m_uiIDStart;
+	unordered_map<uint32, uint32> umapNewObjectIds;
+	uint32
+		uiIPLCount_Text = 0,
+		uiIPLCount_Binary = 0;
+	if (mapMoverAndIDShifterWindowResult.m_bUseIDStart)
+	{
+		for (string& strIDEPath : vecIDEPaths)
+		{
+			bool bIgnoreShifter = std::find(mapMoverAndIDShifterWindowResult.m_vecIgnoreFilesForIDShifter.begin(), mapMoverAndIDShifterWindowResult.m_vecIgnoreFilesForIDShifter.end(), String::toUpperCase(Path::getFileName(strIDEPath))) != mapMoverAndIDShifterWindowResult.m_vecIgnoreFilesForIDShifter.end();
+			if (bIgnoreShifter)
+			{
+				// ignore file for ID shifter
+				continue;
+			}
+			IDEFormat *pIDEFile = IDEManager::get()->unserializeFile(strIDEPath);
+			if(!pIDEFile->doesHaveError())
+			{
+				for (auto it : pIDEFile->getSectionEntries())
+				{
+					for (IDEEntry *pIDEEntry : it.second)
+					{
+						if (pIDEEntry->getEntryType() == SECTION_LINES_ENTRY_DATA)
+						{
+							IDEEntry_Data *pIDEEntry_Data = (IDEEntry_Data*)pIDEEntry;
+							umapNewObjectIds[pIDEEntry_Data->getObjectId()] = uiIDEEntryNewObjectId;
+							//pIDEEntry_Data->setObjectId(uiIDEEntryNewObjectId); // todo - must be uncommented
+							uiIDEEntryNewObjectId++;
+						}
+					}
+				}
+
+				pIDEFile->setFilePath(mapMoverAndIDShifterWindowResult.m_strOutputFolder + Path::getFileName(strIDEPath));
+				pIDEFile->serialize();
+			}
+			pIDEFile->unload();
+			delete pIDEFile;
+
+			increaseProgress();
+		}
+	}
+
+	for (string& strIPLPath : vecIPLPaths)
+	{
+		bool
+			bIgnoreShifter = !mapMoverAndIDShifterWindowResult.m_bUseIDStart,
+			bIgnoreMover = !mapMoverAndIDShifterWindowResult.m_bUsePositionOffset;
+		if (!bIgnoreShifter)
+		{
+			bIgnoreShifter = std::find(mapMoverAndIDShifterWindowResult.m_vecIgnoreFilesForIDShifter.begin(), mapMoverAndIDShifterWindowResult.m_vecIgnoreFilesForIDShifter.end(), String::toUpperCase(Path::getFileName(strIPLPath))) != mapMoverAndIDShifterWindowResult.m_vecIgnoreFilesForIDShifter.end();
+		}
+		if (!bIgnoreMover)
+		{
+			bIgnoreMover = std::find(mapMoverAndIDShifterWindowResult.m_vecIgnoreFilesForMapMover.begin(), mapMoverAndIDShifterWindowResult.m_vecIgnoreFilesForMapMover.end(), String::toUpperCase(Path::getFileName(strIPLPath))) != mapMoverAndIDShifterWindowResult.m_vecIgnoreFilesForMapMover.end();
+		}
+
+		IPLFormat *pIPLFile = IPLManager::get()->unserializeFile(strIPLPath);
+		if(!pIPLFile->doesHaveError())
+		{
+			if (pIPLFile->isBinary())
+			{
+				uiIPLCount_Binary++;
+			}
+			else
+			{
+				uiIPLCount_Text++;
+			}
+			for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_INST>(IPL_SECTION_INST))
+			{
+				if (umapNewObjectIds.find(pIPLEntry->getObjectId()) != umapNewObjectIds.end())
+				{
+					if (!bIgnoreShifter)
+					{
+						pIPLEntry->setObjectId(umapNewObjectIds[pIPLEntry->getObjectId()]);
+					}
+				}
+				if (!bIgnoreMover)
+				{
+					pIPLEntry->getPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+					pIPLEntry->getPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+					pIPLEntry->getPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+				}
+			}
+			if (!bIgnoreMover)
+			{
+				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_AUZO>(IPL_SECTION_AUZO))
+				{
+					switch (pIPLEntry->getFormatType())
+					{
+					case 0:
+						pIPLEntry->getLowerLeftPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+						pIPLEntry->getLowerLeftPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+						pIPLEntry->getLowerLeftPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+						pIPLEntry->getUpperRightPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+						pIPLEntry->getUpperRightPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+						pIPLEntry->getUpperRightPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+						break;
+					case 1:
+						pIPLEntry->getCenterPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+						pIPLEntry->getCenterPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+						pIPLEntry->getCenterPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+						break;
+					}
+				}
+				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_CARS>(IPL_SECTION_CARS))
+				{
+					pIPLEntry->getPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+					pIPLEntry->getPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+					pIPLEntry->getPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+				}
+				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_CULL>(IPL_SECTION_CULL))
+				{
+					switch (pIPLEntry->getFormatType())
+					{
+					case 1:
+						pIPLEntry->getLowerLeftPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+						pIPLEntry->getLowerLeftPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+						pIPLEntry->getLowerLeftPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+						pIPLEntry->getUpperRightPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+						pIPLEntry->getUpperRightPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+						pIPLEntry->getUpperRightPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+						// no break intended
+					case 0:
+					case 2:
+						pIPLEntry->getCenterPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+						pIPLEntry->getCenterPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+						pIPLEntry->getCenterPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+						break;
+					}
+				}
+				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_ENEX>(IPL_SECTION_ENEX))
+				{
+					pIPLEntry->getEntrancePosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+					pIPLEntry->getEntrancePosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+					pIPLEntry->getEntrancePosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+					pIPLEntry->getExitPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+					pIPLEntry->getExitPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+					pIPLEntry->getExitPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+				}
+				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_GRGE>(IPL_SECTION_GRGE))
+				{
+					pIPLEntry->getPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+					pIPLEntry->getPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+					pIPLEntry->getPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+					pIPLEntry->getLine().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+					pIPLEntry->getLine().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+					pIPLEntry->getCubePosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+					pIPLEntry->getCubePosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+					pIPLEntry->getCubePosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+				}
+				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_JUMP>(IPL_SECTION_JUMP))
+				{
+					pIPLEntry->getStartLowerPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+					pIPLEntry->getStartLowerPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+					pIPLEntry->getStartLowerPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+					pIPLEntry->getStartUpperPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+					pIPLEntry->getStartUpperPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+					pIPLEntry->getStartUpperPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+					pIPLEntry->getTargetLowerPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+					pIPLEntry->getTargetLowerPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+					pIPLEntry->getTargetLowerPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+					pIPLEntry->getTargetUpperPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+					pIPLEntry->getTargetUpperPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+					pIPLEntry->getTargetUpperPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+					pIPLEntry->getCameraPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+					pIPLEntry->getCameraPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+					pIPLEntry->getCameraPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+				}
+				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_OCCL>(IPL_SECTION_OCCL))
+				{
+					pIPLEntry->getMidPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+					pIPLEntry->getMidPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+				}
+				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_PICK>(IPL_SECTION_PICK))
+				{
+					pIPLEntry->getPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+					pIPLEntry->getPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+					pIPLEntry->getPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+				}
+				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_ZONE>(IPL_SECTION_ZONE))
+				{
+					pIPLEntry->getBottomLeftPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+					pIPLEntry->getBottomLeftPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+					pIPLEntry->getBottomLeftPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+					pIPLEntry->getTopRightPosition().x += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.x;
+					pIPLEntry->getTopRightPosition().y += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.y;
+					pIPLEntry->getTopRightPosition().z += mapMoverAndIDShifterWindowResult.m_vecPositionOffset.z;
+				}
+			}
+			
+			pIPLFile->setFilePath(mapMoverAndIDShifterWindowResult.m_strOutputFolder + Path::getFileName(strIPLPath));
+			pIPLFile->serialize();
+		}
+		
+		pIPLFile->unload();
+		delete pIPLFile;
+
+		increaseProgress();
+	}
+
+	Input::showMessage("Moved and ID shifted " + String::toString(vecIDEPaths.size()) + " IDE files and " + String::toString(vecIPLPaths.size()) + " IPL files (" + String::toString(uiIPLCount_Text) + " text, " + String::toString(uiIPLCount_Binary) + " binary) in " + Path::getFileName(mapMoverAndIDShifterWindowResult.m_strDATFile), "Result", MB_OK);
 
 	onCompleteTask();
+}
+
+bool			sortDATFiles(DATPathFormat *pDATFile_Paths1, DATPathFormat *pDATFile_Paths2) // todo - namespace
+{
+	return pDATFile_Paths1->m_uiFileIndex < pDATFile_Paths2->m_uiFileIndex;
+}
+bool			sortDATPathsEntries(DATEntry_Paths_General_PathNode &pathNode1, DATEntry_Paths_General_PathNode& pathNode2) // todo - namespace
+{
+	if (pathNode1.m_bIsVehiclePathNode && pathNode2.m_bIsVehiclePathNode)
+	{
+		return false;
+	}
+	if (pathNode1.m_bIsVehiclePathNode)
+	{
+		return true;
+	}
+	return false;
 }
 
 // other
@@ -7266,569 +7804,5 @@ void				Tasks::onRequestTXDOrganizer(void)
 	// clean up
 	delete pTXDOrganizerDialogData;
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestTXDOrganizer");
-	*/
-}
-
-bool			sortDATFiles(DATPathFormat *pDATFile_Paths1, DATPathFormat *pDATFile_Paths2) // todo - namespace
-{
-	return pDATFile_Paths1->m_uiFileIndex < pDATFile_Paths2->m_uiFileIndex;
-}
-bool			sortDATPathsEntries(DATEntry_Paths_General_PathNode &pathNode1, DATEntry_Paths_General_PathNode& pathNode2) // todo - namespace
-{
-	if (pathNode1.m_bIsVehiclePathNode && pathNode2.m_bIsVehiclePathNode)
-	{
-		return false;
-	}
-	if (pathNode1.m_bIsVehiclePathNode)
-	{
-		return true;
-	}
-	return false;
-}
-void			Tasks::onRequestDATPathsMover(void)
-{
-	/*
-	getIMGF()->getTaskManager()->onStartTask("onRequestDATPathsMover");
-	
-	getIMGF()->getTaskManager()->onPauseTask();
-	DATPathsMoverDialogData *pDATPathsMoverDialogData = getIMGF()->getPopupGUIManager()->showDATPathsMoverDialogData();
-	getIMGF()->getTaskManager()->onResumeTask();
-
-	if (!pDATPathsMoverDialogData->m_bMove)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestDATPathsMover", true);
-		return;
-	}
-
-	vector<string>
-		vecFileNames = File::getFileNamesByExtension(pDATPathsMoverDialogData->m_strInputFolderPath, "DAT");
-	vector<DATPathFormat*>
-		vecDATInputFiles,
-		vecDATOutputFiles;
-	for (auto strFileName : vecFileNames)
-	{
-		uint32 uiAreaId = String::toNumber(Path::removeFileExtension(strFileName).substr(5)); // example filename: nodes0.dat, nodes1.dat, nodes63.dat
-
-		DATPathFormat *pDATFile = DATPathManager::get()->unserializeMemory(File::getFileContent(pDATPathsMoverDialogData->m_strInputFolderPath + strFileName, true)//////, uiAreaId///////);
-		if(!pDATFile->doesHaveError())
-		{
-			vecDATInputFiles.push_back(pDATFile);
-		}
-	}
-	for (uint32 i = 0, j = DATPathManager::getTileCount(pDATPathsMoverDialogData->m_vecOutputMapRangeMin, pDATPathsMoverDialogData->m_vecOutputMapRangeMax, pDATPathsMoverDialogData->m_vecOutputTileSize); i < j; i++)
-	{
-		DATPathFormat *pDATFile = new DATPathFormat;
-		pDATFile->setPathsFormat(DAT_PATH_FASTMAN92);
-		pDATFile->m_uiFileIndex = i;
-		vecDATOutputFiles.push_back(pDATFile);
-	}
-	
-	std::sort(vecDATInputFiles.begin(), vecDATInputFiles.end(), sortDATFiles);
-
-	setMaxProgress((vecDATInputFiles.size() * 2) + (vecDATOutputFiles.size() * 4));
-
-	for (auto pDATFile : vecDATInputFiles)
-	{
-		pDATFile->applyOffsetToPositions(pDATPathsMoverDialogData->m_vecPositionOffset);
-
-		increaseProgress();
-	}
-
-	// process
-	//unordered_map<DATEntry_Paths_General_PathNode&, CNodeAddress> umapNewAddresses_PathNode;
-	for (auto pDATFile : vecDATInputFiles)
-	{
-		uint32 uiAreaId_SA = pDATFile->m_uiFileIndex;
-
-		for (auto& pathNode : pDATFile->m_vecPathNodes)
-		{
-			Vec2f vecPathNodePosition = { (float32)pathNode.m_vecPosition.x / 8.0f, (float32)pathNode.m_vecPosition.y / 8.0f };
-			uint32 uiNewAreaIdForPathNode = DATPathManager::getAreaIdFromPosition(vecPathNodePosition, pDATPathsMoverDialogData->m_vecOutputMapRangeMin, pDATPathsMoverDialogData->m_vecOutputMapRangeMax, pDATPathsMoverDialogData->m_vecOutputTileSize);
-
-			uint32 uiFirstLinkIndex = pathNode.m_wConnectedNodesStartId;
-			uint32 uiLinkCountForNode = pathNode.m_uiFlags & 0xF;
-			pathNode.m_wConnectedNodesStartId = (uint16)vecDATOutputFiles[uiNewAreaIdForPathNode]->m_vecLinks.size();
-
-			DATEntry_Paths_General_Link link;
-			for (uint32 i = 0; i < uiLinkCountForNode; i++)
-			{
-				link = pDATFile->m_vecLinks[uiFirstLinkIndex + i];
-				vecDATOutputFiles[uiNewAreaIdForPathNode]->addLink(link);
-			}
-			//uint32 uiNewPathNodeId = vecDATOutputFiles[uiNewAreaIdForPathNode].size();
-			vecDATOutputFiles[uiNewAreaIdForPathNode]->addPathNode(pathNode);
-			
-			//umapNewAddresses_PathNode[vecDATOutputFiles[uiNewAreaIdForPathNode]->m_vecPathNodes[uiNewPathNodeId]] = { uiNewAreaIdForPathNode, uiNewPathNodeId };
-		}
-
-		uint32 i = 0;
-		for (auto& naviNode : pDATFile->m_vecNaviNodes)
-		{
-			Vec2f vecNaviNodePosition = { (float32)naviNode.m_iPosition[0] / 8.0f, (float32)naviNode.m_iPosition[1] / 8.0f };
-			uint32 uiNewAreaIdForNaviNode = DATPathManager::getAreaIdFromPosition(vecNaviNodePosition, pDATPathsMoverDialogData->m_vecOutputMapRangeMin, pDATPathsMoverDialogData->m_vecOutputMapRangeMax, pDATPathsMoverDialogData->m_vecOutputTileSize);
-
-			vecDATOutputFiles[uiNewAreaIdForNaviNode]->addNaviNode(naviNode);
-			i++;
-		}
-
-		increaseProgress();
-	}
-
-	for (auto pDATFile : vecDATOutputFiles)
-	{
-		std::sort(pDATFile->m_vecPathNodes.begin(), pDATFile->m_vecPathNodes.end(), sortDATPathsEntries);
-
-		increaseProgress();
-	}
-
-	for (auto pDATFile : vecDATOutputFiles)
-	{
-		for (auto& naviNode : pDATFile->m_vecNaviNodes)
-		{
-			// this code is in a separate loop because the new position may not have been applied yet.
-			
-			auto& targetPathNode_Input = vecDATInputFiles[naviNode.m_usTargetNode_AreaId]->m_vecPathNodes[naviNode.m_usTargetNode_NodeId]; // the position has already been updated for this target node.
-
-			uint32 uiAreaId_Out;
-			uint32 uiNodeId_Out;
-			bool bFound = DATPathManager::findPathNode(vecDATOutputFiles, targetPathNode_Input, uiAreaId_Out, uiNodeId_Out);
-			if (bFound)
-			{
-				naviNode.m_usTargetNode_AreaId = (uint16)uiAreaId_Out;
-				naviNode.m_usTargetNode_NodeId = (uint16)uiNodeId_Out;
-			}
-		}
-
-		increaseProgress();
-	}
-	
-	for (auto pDATFile : vecDATOutputFiles)
-	{
-		for (auto& link : pDATFile->m_vecLinks)
-		{
-			auto& pathNode_Input = vecDATInputFiles[link.m_usAreaId]->m_vecPathNodes[link.m_usNodeId];
-
-			uint32 uiAreaId_Out;
-			uint32 uiNodeId_Out;
-			bool bFound = DATPathManager::findPathNode(vecDATOutputFiles, pathNode_Input, uiAreaId_Out, uiNodeId_Out);
-			if (bFound)
-			{
-				link.m_usAreaId = (uint16)uiAreaId_Out;
-				link.m_usNodeId = (uint16)uiNodeId_Out;
-			}
-
-
-
-			if (link.m_usNaviAreaId == 0 && link.m_usNaviNodeId == 0)
-			{
-				// do nothing
-			}
-			else
-			{
-				auto& naviNode_Input2 = vecDATInputFiles[link.m_usNaviAreaId]->m_vecNaviNodes[link.m_usNaviNodeId];
-
-				uint32 uiAreaId_Out2;
-				uint32 uiNodeId_Out2;
-				bool bFound2 = DATPathManager::findNaviNode(vecDATOutputFiles, naviNode_Input2, uiAreaId_Out2, uiNodeId_Out2);
-				if (bFound2)
-				{
-					link.m_usNaviAreaId = (uint16)uiAreaId_Out2;
-					link.m_usNaviNodeId = (uint16)uiNodeId_Out2;
-				}
-			}
-		}
-
-		increaseProgress();
-	}
-
-	// update target nodes of navi nodes to always be the "lower" node
-	////////////////////////////////
-	for (auto pDATFile : vecDATOutputFiles)
-	{
-		uint32 uiNaviNodeAreaId = pDATFile->m_uiFileIndex;
-		uint32 uiNaviNodeNodeId = 0;
-		for (auto& naviNode : pDATFile->m_vecNaviNodes)
-		{
-			DATEntry_Paths_General_PathNode pathNode1 = vecDATOutputFiles[naviNode.m_usTargetNode_AreaId]->m_vecPathNodes[naviNode.m_usTargetNode_NodeId];
-			uint32 uiLinkId_Out;
-			vector<DATEntry_Paths_General_PathNode> vecTargetPathNodes = DATManager::getTargetPathNodesForNaviNode(vecDATOutputFiles, naviNode, uiNaviNodeAreaId, uiNaviNodeNodeId, uiLinkId_Out);
-			vecTargetPathNodes.push_back(pathNode1);
-			//if (vecTargetPathNodes.size() != 2)
-			//{
-			//	Debugger::log("vecTargetPathNodes.size(): " + String::toString(vecTargetPathNodes.size()));
-			//}
-
-			//DATEntry_Paths_General_PathNode lowestTargetPathNode = DATManager::getLowestPathNode(vecTargetPathNodes);
-			//naviNode.m_usTargetNode_AreaId = lowestTargetPathNode.m_wAreaId;
-			//naviNode.m_usTargetNode_NodeId = lowestTargetPathNode.m_wNodeId;
-
-			DATEntry_Paths_General_PathNode lowerTargetPathNode = DATManager::getLowestPathNode(vecTargetPathNodes);
-			DATEntry_Paths_General_PathNode higherTargetPathNode;
-			if (vecTargetPathNodes[0].m_vecPosition.x == lowerTargetPathNode.m_vecPosition.x
-			 && vecTargetPathNodes[0].m_vecPosition.y == lowerTargetPathNode.m_vecPosition.y
-			 && vecTargetPathNodes[0].m_vecPosition.z == lowerTargetPathNode.m_vecPosition.z
-			 && vecTargetPathNodes[0].m_ucPathWidth == lowerTargetPathNode.m_ucPathWidth)
-			{
-				higherTargetPathNode = vecTargetPathNodes[1];
-			}
-			else
-			{
-				higherTargetPathNode = vecTargetPathNodes[0];
-			}
-
-			auto& link = vecDATOutputFiles[vecTargetPathNodes[0].m_wAreaId]->m_vecLinks[uiLinkId_Out];
-			link.m_usNaviAreaId = higherTargetPathNode.m_wAreaId;
-			link.m_usNaviNodeId = higherTargetPathNode.m_wNodeId;
-			naviNode.m_usTargetNode_AreaId = lowerTargetPathNode.m_wAreaId;
-			naviNode.m_usTargetNode_NodeId = lowerTargetPathNode.m_wNodeId;
-
-			//
-			DATEntry_Paths_General_PathNode previousPathNode = vecTargetPathNodes[0];
-			naviNode.m_usTargetNode_AreaId = previousPathNode.m_wAreaId;
-			naviNode.m_usTargetNode_NodeId = previousPathNode.m_wNodeId;
-			naviNode.m_ucDirection[0] = -((int8)naviNode.m_ucDirection[0]);
-			naviNode.m_ucDirection[1] = -((int8)naviNode.m_ucDirection[1]);
-			
-			uint32 uiLeftLaneCount = naviNode.m_uiFlags & 1792;
-			uint32 uiRightLaneCount = naviNode.m_uiFlags & 14336;
-			
-			uint32 uiNewLeftLaneCount = uiRightLaneCount;
-			uint32 uiNewRightLaneCount = uiLeftLaneCount;
-
-			naviNode.m_uiFlags &= 0xFFFFF8FF;
-			naviNode.m_uiFlags |= uiNewLeftLaneCount;
-
-			naviNode.m_uiFlags &= 0xFFFFC7FF;
-			naviNode.m_uiFlags |= uiNewRightLaneCount;
-			//
-
-			uiNaviNodeNodeId++;
-		}
-	}
-	////////////////////////////////////////
-
-	// store output DAT files
-	uint32 i = 0;
-	for (auto pDATFile : vecDATOutputFiles)
-	{
-		File::storeFile(pDATPathsMoverDialogData->m_strOutputFolderPath + "nodes" + String::toString(i) + ".dat", pDATFile->serializeViaMemory(), false, true);
-		increaseProgress();
-		i++;
-	}
-
-	// clean up
-	for (auto pDATFile : vecDATInputFiles)
-	{
-		pDATFile->unload();
-		delete pDATFile;
-	}
-	for (auto pDATFile : vecDATOutputFiles)
-	{
-		pDATFile->unload();
-		delete pDATFile;
-	}
-	delete pDATPathsMoverDialogData;
-
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestDATPathsMover");
-	*/
-}
-
-void						Tasks::onRequestMapMoverAndIDShifter(void)
-{
-	/*
-	getIMGF()->getTaskManager()->onStartTask("onRequestMapMoverAndIDShifter");
-
-	CMapMoverAndIDShifterDialogData *pMapMoverAndIDShifterDialogData = getIMGF()->getPopupGUIManager()->showMapMoverAndIDShifterDialog();
-	if (!pMapMoverAndIDShifterDialogData->m_bGo)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestMapMoverAndIDShifter", true);
-		return;
-	}
-
-	unordered_map<EPlatformedGame, vector<string>>
-		umapIgnoreDefaultObjectFileNamesVector;
-	string
-		strDefaultModelNamesFolder = DataPath::getDataPath() + "DefaultFiles/ModelNames/",
-		strModelNamesPath_PC_GTA_III = strDefaultModelNamesFolder + "ModelNames-PC-GTA-III.txt",
-		strModelNamesPath_PC_GTA_VC = strDefaultModelNamesFolder + "ModelNames-PC-GTA-VC.txt",
-		strModelNamesPath_PC_GTA_SA = strDefaultModelNamesFolder + "ModelNames-PC-GTA-SA.txt"
-	;
-	if (File::doesFileExist(strModelNamesPath_PC_GTA_III))
-	{
-		umapIgnoreDefaultObjectFileNamesVector[PC_GTA_III] = String::split(File::getFileContent(strModelNamesPath_PC_GTA_III), ", ");
-	}
-	if (File::doesFileExist(strModelNamesPath_PC_GTA_VC))
-	{
-		umapIgnoreDefaultObjectFileNamesVector[PC_GTA_VC] = String::split(File::getFileContent(strModelNamesPath_PC_GTA_VC), ", ");
-	}
-	if (File::doesFileExist(strModelNamesPath_PC_GTA_SA))
-	{
-		umapIgnoreDefaultObjectFileNamesVector[PC_GTA_SA] = String::split(File::getFileContent(strModelNamesPath_PC_GTA_SA), ", ");
-	}
-
-	unordered_map<string, bool> umapIgnoreDefaultObjectFileNames;
-	for (auto it : umapIgnoreDefaultObjectFileNamesVector)
-	{
-		for (string& strFileName : it.second)
-		{
-			umapIgnoreDefaultObjectFileNames[strFileName] = true;
-		}
-	}
-	umapIgnoreDefaultObjectFileNamesVector.clear();
-
-	DATLoaderFormat *pDATFile = DATLoaderManager::get()->unserializeFile(pMapMoverAndIDShifterDialogData->m_strDATFilePath);
-	if(pDATFile->doesHaveError())
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestMapMoverAndIDShifter", true);
-		return;
-	}
-	vector<string>
-		vecRelativeIDEPaths = pDATFile->getRelativeIDEPaths(),
-		vecRelativeIPLPaths = pDATFile->getRelativeIPLPaths();
-	pDATFile->unload();
-	delete pDATFile;
-
-	vector<string>
-		vecIDEPaths,
-		vecIPLPaths;
-	uint32 i;
-	vecIDEPaths.resize(vecRelativeIDEPaths.size());
-	vecIPLPaths.resize(vecRelativeIPLPaths.size());
-	i = 0;
-	for (string& strRelativeIDEPath : vecRelativeIDEPaths)
-	{
-		vecIDEPaths[i] = pMapMoverAndIDShifterDialogData->m_strGameFolderPath + strRelativeIDEPath;
-		i++;
-	}
-	i = 0;
-	for (string& strRelativeIPLPath : vecRelativeIPLPaths)
-	{
-		vecIPLPaths[i] = pMapMoverAndIDShifterDialogData->m_strGameFolderPath + strRelativeIPLPath;
-		i++;
-	}
-	vecRelativeIDEPaths.clear();
-	vecRelativeIPLPaths.clear();
-	if (pMapMoverAndIDShifterDialogData->m_bUpdateIDEInFolder)
-	{
-		vecIDEPaths = StdVector::combineVectors(vecIDEPaths, File::getFilePaths(pMapMoverAndIDShifterDialogData->m_strUpdateIDEInFolderPath, true, false, "IDE"));
-	}
-	if (pMapMoverAndIDShifterDialogData->m_bUpdateIPLInFolder)
-	{
-		vecIPLPaths = StdVector::combineVectors(vecIPLPaths, File::getFilePaths(pMapMoverAndIDShifterDialogData->m_strUpdateIPLInFolderPath, true, false, "IPL"));
-	}
-
-	setMaxProgress(vecIDEPaths.size() + vecIPLPaths.size());
-
-	uint32 uiIDEEntryNewObjectId = pMapMoverAndIDShifterDialogData->m_uiIDStart;
-	unordered_map<uint32, uint32> umapNewObjectIds;
-	uint32
-		uiIPLCount_Text = 0,
-		uiIPLCount_Binary = 0;
-	if (pMapMoverAndIDShifterDialogData->m_bShiftIds)
-	{
-		for (string& strIDEPath : vecIDEPaths)
-		{
-			bool bIgnoreShifter = pMapMoverAndIDShifterDialogData->m_umapShifterIgnoreFilenames.find(String::toUpperCase(Path::getFileName(strIDEPath))) != pMapMoverAndIDShifterDialogData->m_umapShifterIgnoreFilenames.end();
-			if (bIgnoreShifter)
-			{
-				// ignore file for ID shifter
-				continue;
-			}
-			IDEFormat *pIDEFile = IDEManager::get()->unserializeFile(strIDEPath);
-			if(!pIDEFile->doesHaveError())
-			{
-				for (auto it : pIDEFile->getSectionEntries())
-				{
-					for (IDEEntry *pIDEEntry : it.second)
-					{
-						if (pIDEEntry->getEntryType() == SECTION_LINES_ENTRY_DATA)
-						{
-							IDEEntry_Data *pIDEEntry_Data = (IDEEntry_Data*)pIDEEntry;
-							umapNewObjectIds[pIDEEntry_Data->getObjectId()] = uiIDEEntryNewObjectId;
-							//pIDEEntry_Data->setObjectId(uiIDEEntryNewObjectId); // todo - must be uncommented
-							uiIDEEntryNewObjectId++;
-						}
-					}
-				}
-
-				pIDEFile->setFilePath(pMapMoverAndIDShifterDialogData->m_strOutputFolderPath + Path::getFileName(strIDEPath));
-				pIDEFile->serializeViaFile();
-			}
-			pIDEFile->unload();
-			delete pIDEFile;
-
-			increaseProgress();
-		}
-	}
-
-	for (string& strIPLPath : vecIPLPaths)
-	{
-		bool
-			bIgnoreShifter = !pMapMoverAndIDShifterDialogData->m_bShiftIds,
-			bIgnoreMover = !pMapMoverAndIDShifterDialogData->m_bMovePosition;
-		if (!bIgnoreShifter)
-		{
-			bIgnoreShifter = pMapMoverAndIDShifterDialogData->m_umapShifterIgnoreFilenames.find(String::toUpperCase(Path::getFileName(strIPLPath))) != pMapMoverAndIDShifterDialogData->m_umapShifterIgnoreFilenames.end();
-		}
-		if (!bIgnoreMover)
-		{
-			bIgnoreMover = pMapMoverAndIDShifterDialogData->m_umapMoverIgnoreFilenames.find(String::toUpperCase(Path::getFileName(strIPLPath))) != pMapMoverAndIDShifterDialogData->m_umapMoverIgnoreFilenames.end();
-		}
-
-		IPLFormat *pIPLFile = IPLManager::get()->unserializeFile(strIPLPath);
-		if(!pIPLFile->doesHaveError())
-		{
-			if (pIPLFile->isBinary())
-			{
-				uiIPLCount_Binary++;
-			}
-			else
-			{
-				uiIPLCount_Text++;
-			}
-			for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_INST>(IPL_SECTION_INST))
-			{
-				if (umapNewObjectIds.find(pIPLEntry->getObjectId()) != umapNewObjectIds.end())
-				{
-					if (!bIgnoreShifter)
-					{
-						pIPLEntry->setObjectId(umapNewObjectIds[pIPLEntry->getObjectId()]);
-					}
-				}
-				if (!bIgnoreMover)
-				{
-					pIPLEntry->getPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-					pIPLEntry->getPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-					pIPLEntry->getPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-				}
-			}
-			if (!bIgnoreMover)
-			{
-				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_AUZO>(IPL_SECTION_AUZO))
-				{
-					switch (pIPLEntry->getFormatType())
-					{
-					case 0:
-						pIPLEntry->getLowerLeftPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-						pIPLEntry->getLowerLeftPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-						pIPLEntry->getLowerLeftPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-						pIPLEntry->getUpperRightPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-						pIPLEntry->getUpperRightPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-						pIPLEntry->getUpperRightPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-						break;
-					case 1:
-						pIPLEntry->getCenterPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-						pIPLEntry->getCenterPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-						pIPLEntry->getCenterPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-						break;
-					}
-				}
-				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_CARS>(IPL_SECTION_CARS))
-				{
-					pIPLEntry->getPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-					pIPLEntry->getPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-					pIPLEntry->getPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-				}
-				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_CULL>(IPL_SECTION_CULL))
-				{
-					switch (pIPLEntry->getFormatType())
-					{
-					case 1:
-						pIPLEntry->getLowerLeftPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-						pIPLEntry->getLowerLeftPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-						pIPLEntry->getLowerLeftPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-						pIPLEntry->getUpperRightPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-						pIPLEntry->getUpperRightPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-						pIPLEntry->getUpperRightPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-						// no break intended
-					case 0:
-					case 2:
-						pIPLEntry->getCenterPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-						pIPLEntry->getCenterPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-						pIPLEntry->getCenterPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-						break;
-					}
-				}
-				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_ENEX>(IPL_SECTION_ENEX))
-				{
-					pIPLEntry->getEntrancePosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-					pIPLEntry->getEntrancePosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-					pIPLEntry->getEntrancePosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-					pIPLEntry->getExitPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-					pIPLEntry->getExitPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-					pIPLEntry->getExitPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-				}
-				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_GRGE>(IPL_SECTION_GRGE))
-				{
-					pIPLEntry->getPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-					pIPLEntry->getPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-					pIPLEntry->getPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-					pIPLEntry->getLine().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-					pIPLEntry->getLine().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-					pIPLEntry->getCubePosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-					pIPLEntry->getCubePosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-					pIPLEntry->getCubePosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-				}
-				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_JUMP>(IPL_SECTION_JUMP))
-				{
-					pIPLEntry->getStartLowerPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-					pIPLEntry->getStartLowerPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-					pIPLEntry->getStartLowerPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-					pIPLEntry->getStartUpperPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-					pIPLEntry->getStartUpperPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-					pIPLEntry->getStartUpperPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-					pIPLEntry->getTargetLowerPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-					pIPLEntry->getTargetLowerPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-					pIPLEntry->getTargetLowerPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-					pIPLEntry->getTargetUpperPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-					pIPLEntry->getTargetUpperPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-					pIPLEntry->getTargetUpperPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-					pIPLEntry->getCameraPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-					pIPLEntry->getCameraPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-					pIPLEntry->getCameraPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-				}
-				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_OCCL>(IPL_SECTION_OCCL))
-				{
-					pIPLEntry->getMidPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-					pIPLEntry->getMidPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-				}
-				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_PICK>(IPL_SECTION_PICK))
-				{
-					pIPLEntry->getPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-					pIPLEntry->getPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-					pIPLEntry->getPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-				}
-				for (auto pIPLEntry : pIPLFile->getEntriesBySection<IPLEntry_ZONE>(IPL_SECTION_ZONE))
-				{
-					pIPLEntry->getBottomLeftPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-					pIPLEntry->getBottomLeftPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-					pIPLEntry->getBottomLeftPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-					pIPLEntry->getTopRightPosition().x += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.x;
-					pIPLEntry->getTopRightPosition().y += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.y;
-					pIPLEntry->getTopRightPosition().z += pMapMoverAndIDShifterDialogData->m_vecPositionOffset.z;
-				}
-			}
-			
-			pIPLFile->setFilePath(pMapMoverAndIDShifterDialogData->m_strOutputFolderPath + Path::getFileName(strIPLPath));
-			pIPLFile->serializeViaFile();
-		}
-		
-		pIPLFile->unload();
-		delete pIPLFile;
-
-		increaseProgress();
-	}
-
-	if (getIMGTab() == nullptr)
-	{
-		getIMGF()->getIMGEditor()->logWithNoTabsOpen("Moved and ID shifted " + String::toString(vecIDEPaths.size()) + " IDE files and " + String::toString(vecIPLPaths.size()) + " IPL files (" + String::toString(uiIPLCount_Text) + " text, " + String::toString(uiIPLCount_Binary) + " binary) in " + Path::getFileName(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
-	}
-	else
-	{
-		// todo - getIMGTab()->log("Moved and ID shifted " + String::toString(vecIDEPaths.size()) + " IDE files and " + String::toString(vecIPLPaths.size()) + " IPL files in " + Path::getFileName(pMapMoverAndIDShifterDialogData->m_strDATFilePath));
-	}
-
-	delete pMapMoverAndIDShifterDialogData;
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestMapMoverAndIDShifter");
 	*/
 }

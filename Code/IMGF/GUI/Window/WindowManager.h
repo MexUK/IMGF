@@ -5,6 +5,9 @@
 #include "Object/Manager.h"
 #include "GUI/Layer/Layers/IDEInputWindow/IDEInputWindowResult.h"
 #include "GUI/Layer/Layers/IPLInputWindow/IPLInputWindowResult.h"
+#include "GUI/Layer/Layers/DATPathsMoverWindow/DATPathsMoverWindowResult.h"
+#include "GUI/Layer/Layers/MapMoverAndIDShifterWindow/MapMoverAndIDShifterWindowResult.h"
+#include "GUI/Layer/Layers/TXDOrganizerWindow/TXDOrganizerWindowResult.h"
 #include "Event/EventBindable.h"
 
 class imgf::MainWindow;
@@ -35,18 +38,21 @@ public:
 
 	void					onPressButton_TopRightMenuWindow(bxgx::Button *pButton);
 
-	DumpWindowResult		showDumpWindow(void);
-	void					showSessionManagerWindow(void);
-	void					showRenamerWindow(void);
-	void					showTXDBuilderWindow(void);
-	void					showTXDOrganizerWindow(void);
-	void					showDATPathsMoverWindow(void);
-	void					showMapMoverAndIdShifterWindow(void);
+	DumpWindowResult					showDumpWindow(void);
+	void								showSessionManagerWindow(void);
+	void								showRenamerWindow(void);
+	void								showTXDBuilderWindow(void);
+	void								showTXDOrganizerWindow(void);
+	DATPathsMoverWindowResult			showDATPathsMoverWindow(void);
+	MapMoverAndIDShifterWindowResult	showMapMoverAndIdShifterWindow(void);
 
 public:
-	bool					m_bWindow2Cancelled;
-	IDEInputWindowResult	m_ideInputWindowResult;
+	bool								m_bWindow2Cancelled;
+	IDEInputWindowResult				m_ideInputWindowResult;
+	DATPathsMoverWindowResult			m_datPathsMoverWindowResult;
+	MapMoverAndIDShifterWindowResult	m_mapMoverAndIDShifterWindowResult;
+	TXDOrganizerWindowResult			m_txdOrganizerWindowResult;
 
 private:
-	MainWindow*				m_pMainWindow;
+	MainWindow*						m_pMainWindow;
 };

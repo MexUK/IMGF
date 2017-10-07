@@ -89,6 +89,9 @@ namespace imgf
 	class DATPathsMoverWindowLayer;
 	class MapMoverAndIDShifterWindowLayer;
 	struct DumpWindowResult;
+	struct DATPathsMoverWindowResult;
+	struct MapMoverAndIDShifterWindowResult;
+	struct TXDOrganizerWindowResult;
 
 	class WindowManager;
 

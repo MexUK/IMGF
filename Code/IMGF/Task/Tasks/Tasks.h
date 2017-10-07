@@ -2,6 +2,7 @@
 
 #include "nsimgf.h"
 #include "nsbxcf.h"
+#include "nsbxgi.h"
 #include "Object/Manager.h"
 #include "Format/IMG/Regular/EIMGEntryProperty.h"
 #include "Game/EPlatformedGame.h"
@@ -16,6 +17,10 @@ class bxgi::COLVersion;
 struct imgf::RenamedIMGEntry;
 class imgf::MainWindow;
 class imgf::TaskManager;
+class bxgi::DATPathFormat;
+
+bool			sortDATFiles(bxgi::DATPathFormat *pDATFile_Paths1, bxgi::DATPathFormat *pDATFile_Paths2); // todo - namespace
+bool			sortDATPathsEntries(bxgi::DATEntry_Paths_General_PathNode &pathNode1, bxgi::DATEntry_Paths_General_PathNode& pathNode2); // todo - namespace
 
 class imgf::Tasks : public bxcf::Manager, public bxcf::EventBindable
 {
@@ -204,7 +209,7 @@ public:
 	void						txdBuilder(void);
 	void						txdOrganizer(void);
 	void						datPathsMover(void);
-	void						mapMoverAndIdShifter(void);
+	void						mapMoverAndIDShifter(void);
 
 	void						textureList(void);
 	void						stats(void);
@@ -245,8 +250,6 @@ public:
 	void						onRequestRenamer(void);
 	void						onRequestBuildTXD(void);
 	void						onRequestTXDOrganizer(void);
-	void						onRequestDATPathsMover(void);
-	void						onRequestMapMoverAndIDShifter(void);
 
 private:
 	MainWindow*					m_pMainWindow;

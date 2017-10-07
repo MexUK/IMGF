@@ -367,7 +367,7 @@ void					InputManager::processMenuItemPress(MenuItem *pMenuItem)
 	case TXD_BUILDER:								return txdBuilder();
 	case TXD_ORGANIZER:								return txdOrganizer();
 	case DAT_PATHS_MOVER:							return datPathsMover();
-	case MAP_MOVER_AND_ID_SHIFTER:					return mapMoverAndIdShifter();
+	case MAP_MOVER_AND_ID_SHIFTER:					return mapMoverAndIDShifter();
 
 	case TEXTURE_LIST:								return textureList();
 	case STATS:										return stats();
@@ -1136,9 +1136,9 @@ void					InputManager::datPathsMover(void)
 	m_pTasks->datPathsMover();
 }
 
-void					InputManager::mapMoverAndIdShifter(void)
+void					InputManager::mapMoverAndIDShifter(void)
 {
-	m_pTasks->mapMoverAndIdShifter();
+	m_pTasks->mapMoverAndIDShifter();
 }
 
 // other

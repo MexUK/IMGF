@@ -752,6 +752,15 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\DumpWindow\DumpWindowResult.h">
       <Filter>Header Files\GUI\Layer\Layers\DumpWindow</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\DATPathsMoverWindow\DATPathsMoverWindowResult.h">
+      <Filter>Header Files\GUI\Layer\Layers\DATPathsMoverWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\MapMoverAndIDShifterWindow\MapMoverAndIDShifterWindowResult.h">
+      <Filter>Header Files\GUI\Layer\Layers\MapMoverAndIDShifterWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\TXDOrganizerWindow\TXDOrganizerWindowResult.h">
+      <Filter>Header Files\GUI\Layer\Layers\TXDOrganizerWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IMGF.rc">

@@ -8,9 +8,6 @@ class imgf::UpdateConnection
 public:
 	void						unload(void) {}
 
-	void						setIsAlpha(bool bIsAlpha) { m_bIsAlpha = bIsAlpha; }
-	bool						isAlpha(void) { return m_bIsAlpha; }
-
 	void						setLatestVersionURL(std::string strLatestVersionURL) { m_strLatestVersionURL = strLatestVersionURL; }
 	std::string					getLatestVersionURL(void) { return m_strLatestVersionURL; }
 
@@ -21,7 +18,6 @@ public:
 	std::string					getProtocol(void) { return m_strProtocol; }
 
 private:
-	bool						m_bIsAlpha;
 	std::string					m_strLatestVersionURL;
 	std::string					m_strDownloadFolderURL;
 	std::string					m_strProtocol;

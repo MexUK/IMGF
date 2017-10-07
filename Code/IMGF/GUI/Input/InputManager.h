@@ -197,7 +197,7 @@ private:
 	void					txdBuilder(void);
 	void					txdOrganizer(void);
 	void					datPathsMover(void);
-	void					mapMoverAndIdShifter(void);
+	void					mapMoverAndIDShifter(void);
 
 	void					textureList(void);
 	void					stats(void);
