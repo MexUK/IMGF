@@ -14,4 +14,7 @@ public:
 	void					init(void);
 
 	void					onPressButton(bxgx::Button *pButton);
+
+private:
+	void					reloadSessionsGrid(void);
 };

@@ -8,6 +8,8 @@
 #include "GUI/Layer/Layers/DATPathsMoverWindow/DATPathsMoverWindowResult.h"
 #include "GUI/Layer/Layers/MapMoverAndIDShifterWindow/MapMoverAndIDShifterWindowResult.h"
 #include "GUI/Layer/Layers/TXDOrganizerWindow/TXDOrganizerWindowResult.h"
+#include "GUI/Layer/Layers/TXDBuilderWindow/TXDBuilderWindowResult.h"
+#include "GUI/Layer/Layers/RenamerWindow/RenamerWindowResult.h"
 #include "Event/EventBindable.h"
 
 class imgf::MainWindow;
@@ -40,9 +42,9 @@ public:
 
 	DumpWindowResult					showDumpWindow(void);
 	void								showSessionManagerWindow(void);
-	void								showRenamerWindow(void);
-	void								showTXDBuilderWindow(void);
-	void								showTXDOrganizerWindow(void);
+	RenamerWindowResult					showRenamerWindow(void);
+	TXDBuilderWindowResult				showTXDBuilderWindow(void);
+	TXDOrganizerWindowResult			showTXDOrganizerWindow(void);
 	DATPathsMoverWindowResult			showDATPathsMoverWindow(void);
 	MapMoverAndIDShifterWindowResult	showMapMoverAndIdShifterWindow(void);
 
@@ -52,7 +54,9 @@ public:
 	DATPathsMoverWindowResult			m_datPathsMoverWindowResult;
 	MapMoverAndIDShifterWindowResult	m_mapMoverAndIDShifterWindowResult;
 	TXDOrganizerWindowResult			m_txdOrganizerWindowResult;
+	TXDBuilderWindowResult				m_txdBuilderWindowResult;
+	RenamerWindowResult					m_renamerWindowResult;
 
 private:
-	MainWindow*						m_pMainWindow;
+	MainWindow*							m_pMainWindow;
 };

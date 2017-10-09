@@ -92,6 +92,8 @@ namespace imgf
 	struct DATPathsMoverWindowResult;
 	struct MapMoverAndIDShifterWindowResult;
 	struct TXDOrganizerWindowResult;
+	struct TXDBuilderWindowResult;
+	struct RenamerWindowResult;
 
 	class WindowManager;
 

@@ -4421,7 +4421,9 @@ void		Tasks::sessionManager(void)
 {
 	onStartTask("sessionManager");
 
+	m_pTaskManager->onPauseTask();
 	getIMGF()->getWindowManager()->showSessionManagerWindow();
+	m_pTaskManager->onResumeTask();
 
 	onCompleteTask();
 }
@@ -4430,7 +4432,9 @@ void		Tasks::renamer(void)
 {
 	onStartTask("renamer");
 
+	m_pTaskManager->onPauseTask();
 	getIMGF()->getWindowManager()->showRenamerWindow();
+	m_pTaskManager->onResumeTask();
 
 	onCompleteTask();
 }
@@ -4439,8 +4443,208 @@ void		Tasks::txdBuilder(void)
 {
 	onStartTask("txdBuilder");
 
-	getIMGF()->getWindowManager()->showTXDBuilderWindow();
+	m_pTaskManager->onPauseTask();
+	TXDBuilderWindowResult txdBuilderWindowResult = getIMGF()->getWindowManager()->showTXDBuilderWindow();
+	m_pTaskManager->onResumeTask();
 
+	if (m_pMainWindow->m_bWindow2Cancelled)
+	{
+		// cancel
+		return onAbortTask();
+	}
+
+	// choose DFF files
+	//vector<DFFFormat*> veDFFFormats;
+	unordered_map<DFFFormat*, string> umapDFFEntries;
+	if (txdBuilderWindowResult.m_uiDFFFilesType == 0) // All DFF entries in active tab
+	{
+		if (!getIMGTab())
+		{
+			return onAbortTask();
+		}
+
+		vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByExtension("DFF");
+		vector<IMGEntry*> vecIMGEntries_BSP = getIMGTab()->getIMGFile()->getEntriesByExtension("BSP");
+		for (auto pIMGEntry : vecIMGEntries_BSP)
+		{
+			vecIMGEntries.push_back(pIMGEntry);
+		}
+		for (auto pIMGEntry : vecIMGEntries)
+		{
+			DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(pIMGEntry->getEntryData());
+			umapDFFEntries[pDFFFile] = Path::removeFileExtension(pIMGEntry->getEntryName());
+		}
+	}
+	else if (txdBuilderWindowResult.m_uiDFFFilesType == 1) // Selected DFF entries in active tab
+	{
+		if (!getIMGTab())
+		{
+			return onAbortTask();
+		}
+
+		vector<IMGEntry*> vecIMGEntries = getIMGTab()->getSelectedEntries();
+		
+		for(auto pIMGEntry : vecIMGEntries)
+		{
+			if (GameFormat::isModelExtension(String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()))))
+			{
+				DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(pIMGEntry->getEntryData());
+				umapDFFEntries[pDFFFile] = Path::removeFileExtension(pIMGEntry->getEntryName());
+			}
+		}
+	}
+	else if (txdBuilderWindowResult.m_uiDFFFilesType == 2) // All DFF entries in all tabs
+	{
+		if (!getIMGTab())
+		{
+			return onAbortTask();
+		}
+
+		for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
+		{
+			vector<IMGEntry*> vecIMGEntries = ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntriesByExtension("DFF");
+			vector<IMGEntry*> vecIMGEntries_BSP = ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntriesByExtension("BSP");
+			for (auto pIMGEntry : vecIMGEntries_BSP)
+			{
+				vecIMGEntries.push_back(pIMGEntry);
+			}
+			for (auto pIMGEntry : vecIMGEntries)
+			{
+				DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(pIMGEntry->getEntryData());
+				umapDFFEntries[pDFFFile] = Path::removeFileExtension(pIMGEntry->getEntryName());
+			}
+		}
+	}
+	else if (txdBuilderWindowResult.m_uiDFFFilesType == 3) // Folder containing DFF files
+	{
+		vector<string> vecFileNames = File::getFileNames(txdBuilderWindowResult.m_strDFFsFolderPath);
+
+		for (string strFileName : vecFileNames)
+		{
+			string strExtensionUpper = String::toUpperCase(Path::getFileExtension(strFileName));
+			if (GameFormat::isModelExtension(strExtensionUpper))
+			{
+				DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(txdBuilderWindowResult.m_strDFFsFolderPath + strFileName);
+				umapDFFEntries[pDFFFile] = Path::removeFileExtension(strFileName);
+			}
+		}
+	}
+	else if (txdBuilderWindowResult.m_uiDFFFilesType == 4) // IDE file referencing DFF files
+	{
+		IDEFormat *pIDEFile = IDEManager::get()->unserializeFile(txdBuilderWindowResult.m_strIDEFilePath);
+		if(!pIDEFile->doesHaveError())
+		{
+			// todo - make it work with all IDE sections
+			for (auto pIDEEntry : pIDEFile->getEntriesBySection<IDEEntry_OBJS>(IDE_SECTION_OBJS))
+			{
+				DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(txdBuilderWindowResult.m_strDFFsFolderPath + pIDEEntry->getModelName());
+				umapDFFEntries[pDFFFile] = pIDEEntry->getTXDName();
+			}
+			for (auto pIDEEntry : pIDEFile->getEntriesBySection<IDEEntry_TOBJ>(IDE_SECTION_TOBJ))
+			{
+				DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(txdBuilderWindowResult.m_strDFFsFolderPath + pIDEEntry->getModelName());
+				umapDFFEntries[pDFFFile] = pIDEEntry->getTXDName();
+			}
+		}
+		
+		pIDEFile->unload();
+		delete pIDEFile;
+	}
+
+	// process
+	//for (auto pDFFFile : veDFFFormats)
+	uint32
+		uiTotalTXDFileCount = 0,
+		uiTotalTextureCountUsed = 0;
+	vector<string>
+		vecTextureImagesNotFound,
+		veTXDFormatNames;
+	setMaxProgress(umapDFFEntries.size());
+	for (auto it : umapDFFEntries)
+	{
+		DFFFormat *pDFFFile = it.first;
+		string strOutputFileName = it.second + ".txd";
+
+		if (pDFFFile->doesHaveError())
+		{
+			increaseProgress();
+			continue;
+		}
+
+		vector<string> vecTextureNames = pDFFFile->getTextureNames();
+		vecTextureNames = StdVector::removeDuplicates(vecTextureNames);
+
+		uint32 uiTXDFileCount = txdBuilderWindowResult.m_uiTextureCountPerTXD == 0 ? 1 : (uint32) ceil((float32)vecTextureNames.size() / (float32)txdBuilderWindowResult.m_uiTextureCountPerTXD);
+		uiTotalTXDFileCount += uiTXDFileCount;
+		uint32 uiTXDFileIndex = 0;
+		for (uint32 i = 0; i < uiTXDFileCount; i++)
+		{
+			string strFilePath = txdBuilderWindowResult.m_strOutputFolderPath + strOutputFileName;
+			strFilePath = Path::getNextFileName(strFilePath, uiTXDFileIndex, "-part");
+
+			TXDFormat *pTXDFile = TXDManager::get()->createFormat();
+			pTXDFile->setRWVersion(RWManager::get()->getVersionManager()->getEntryByVersionId(txdBuilderWindowResult.m_uiRWVersion));
+			for (uint32 i2 = i * txdBuilderWindowResult.m_uiTextureCountPerTXD , j2 = i2 + (txdBuilderWindowResult.m_uiTextureCountPerTXD == 0 ? vecTextureNames.size() : txdBuilderWindowResult.m_uiTextureCountPerTXD); i2 < j2; i2++)
+			{
+				if (i2 >= vecTextureNames.size())
+				{
+					break;
+				}
+
+				string strTextureName = vecTextureNames[i2];
+				string strTextureImagePath = File::findImageFile(strTextureName, txdBuilderWindowResult.m_strTexturesBMPsFolderPath);
+
+				// check if texture file exists
+				if (strTextureImagePath != "")
+				{
+					uiTotalTextureCountUsed++;
+
+					// add texture to TXD
+					RWSection_TextureNative *pTexture = pTXDFile->addTextureViaFile(strTextureImagePath, strTextureName, strTextureName + "a");
+
+					if (pTexture != nullptr)
+					{
+						//vector<string> vecMipmapsRemoved;
+						//pTexture->convertToRasterDataFormat(pBuildTXDDialogData->m_pRasterDataFormat->getId(), vecMipmapsRemoved);
+					}
+				}
+				else
+				{
+					vecTextureImagesNotFound.push_back(strTextureName + ".BMP");
+				}
+			}
+			if (pTXDFile->getTextures().size() > 0)
+			{
+				pTXDFile->serialize(strFilePath);
+				veTXDFormatNames.push_back(Path::getFileName(strFilePath));
+				uiTXDFileIndex++;
+			}
+			
+			pTXDFile->unload();
+			delete pTXDFile;
+		}
+
+		increaseProgress();
+	}
+
+	// log
+	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_118", uiTotalTXDFileCount, uiTotalTextureCountUsed));
+	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_119", pBuildTXDDialogData->m_strTexturesFolderPath.c_str()), true);
+	// todo - getIMGTab()->log(String::join(vecTextureImagesNotFound, "\n"), true);
+	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedText("Log_120"), true);
+	// todo - getIMGTab()->log(String::join(veTXDFormatNames, "\n"), true);
+
+	// clean up
+	//for (DFFFormat *pDFFFile : veDFFFormats)
+	for (auto it : umapDFFEntries)
+	{
+		DFFFormat *pDFFFile = it.first;
+		pDFFFile->unload();
+		delete pDFFFile;
+	}
+	//veDFFFormats.clear();
+	umapDFFEntries.clear();
+	
 	onCompleteTask();
 }
 
@@ -4448,7 +4652,176 @@ void		Tasks::txdOrganizer(void)
 {
 	onStartTask("txdOrganizer");
 
-	getIMGF()->getWindowManager()->showTXDOrganizerWindow();
+	TXDOrganizerWindowResult txdOrganizerWindowResult = getIMGF()->getWindowManager()->showTXDOrganizerWindow();
+
+	if (m_pMainWindow->m_bWindow2Cancelled)
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecFilePaths;
+	if (txdOrganizerWindowResult.m_bUpdateIDE)
+	{
+		vecFilePaths = File::getFilePaths(txdOrganizerWindowResult.m_strIDEUpdateFolder, true);
+	}
+
+	setMaxProgress(getIMGTab()->getEntryGrid()->getEntryCount() + (txdOrganizerWindowResult.m_bUpdateIDE ? vecFilePaths.size() : 0));
+
+	uint32 uiTXDCount = 0;
+	TXDFormat *pTXDFile = TXDManager::get()->createFormat();
+	pTXDFile->setDeviceId(0);
+	pTXDFile->setRWVersion(RWManager::get()->getVersionManager()->getEntryByVersionId(RW_3_6_0_3));
+
+	IMGEntry *pIMGEntry = nullptr;
+	uint32
+		uiEntryCount = 0,
+		uiDFFFileCount = 0;
+	unordered_map<string, string> umapNewEntryNames;
+	unordered_map<string, bool> umapTextureNamesUsedInTXD;
+
+	for (uint32 i = 0, j = getIMGTab()->getEntryGrid()->getEntryCount(); i < j; i++)
+	{
+		pIMGEntry = (IMGEntry*)getIMGTab()->getEntryGrid()->getEntryByIndex(i)->getUserData();
+
+		if (!pIMGEntry->isModelFile())
+		{
+			increaseProgress();
+			continue;
+		}
+
+		DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(pIMGEntry->getEntryData());
+		if (pDFFFile->doesHaveError())
+		{
+			pDFFFile->unload();
+			delete pDFFFile;
+			increaseProgress();
+			continue;
+		}
+
+		vector<string> vecDFFTextureNames = pDFFFile->getTextureNames();
+		for (string strDFFTextureName : vecDFFTextureNames)
+		{
+			// check if texture is already in TXD
+			if (umapTextureNamesUsedInTXD.find(String::toUpperCase(strDFFTextureName)) != umapTextureNamesUsedInTXD.end())
+			{
+				continue;
+			}
+
+			// check if texture file exists
+			string strTextureImagePath = File::findImageFile(strDFFTextureName, txdOrganizerWindowResult.m_strTextureImportFolder);
+			if (strTextureImagePath != "")
+			{
+				// add texture to TXD
+				umapTextureNamesUsedInTXD[String::toUpperCase(strDFFTextureName)] = true;
+				RWSection_TextureNative *pTexture = pTXDFile->addTextureViaFile(strTextureImagePath, strDFFTextureName, strDFFTextureName + "a");
+
+				if (pTexture != nullptr)
+				{
+					vector<string> vecMipmapsRemoved;
+					//Debugger::log("pTXDOrganizerDialogData->m_pTextureFormat->getId(): " + String::toString(pTXDOrganizerDialogData->m_pTextureFormat->getId()));
+					pTexture->convertToRasterDataFormat(txdOrganizerWindowResult.m_pRasterDataFormat->getRasterDataFormatId(), vecMipmapsRemoved);
+				}
+			}
+		}
+
+		string strNextTXDFileName = txdOrganizerWindowResult.m_strTXDNamePrefix + ((uiTXDCount + 1) < 10 ? "0" : "") + String::toString(uiTXDCount + 1) + ".txd";
+		string strDFFFileNameWithoutExtension = Path::removeFileExtension(pIMGEntry->getEntryName());
+		string strTXDFileNameWithoutExtension = Path::removeFileExtension(strNextTXDFileName);
+		umapNewEntryNames[strDFFFileNameWithoutExtension] = strTXDFileNameWithoutExtension;
+
+		uiDFFFileCount++;
+		if (uiDFFFileCount == txdOrganizerWindowResult.m_uiEveryNDFFFiles)
+		{
+			uiTXDCount++;
+			string strTXDFileName = txdOrganizerWindowResult.m_strTXDNamePrefix + (uiTXDCount < 10 ? "0" : "") + String::toString(uiTXDCount) + ".txd";
+			pTXDFile->serialize(txdOrganizerWindowResult.m_strOutputFolder + strTXDFileName);
+			pTXDFile->unload();
+			delete pTXDFile;
+			pTXDFile = nullptr;
+			
+			uiDFFFileCount = 0;
+			umapTextureNamesUsedInTXD.clear();
+			pTXDFile = TXDManager::get()->createFormat();
+			pTXDFile->setDeviceId(0);
+			pTXDFile->setRWVersion(RWManager::get()->getVersionManager()->getEntryByVersionId(RW_3_6_0_3));
+		}
+		
+		pDFFFile->unload();
+		delete pDFFFile;
+		
+		increaseProgress();
+		uiEntryCount++;
+	}
+
+	if (uiDFFFileCount > 0)
+	{
+		uiTXDCount++;
+		string strTXDFileName = txdOrganizerWindowResult.m_strTXDNamePrefix + (uiTXDCount < 10 ? "0" : "") + String::toString(uiTXDCount) + ".txd";
+		pTXDFile->serialize(txdOrganizerWindowResult.m_strOutputFolder + strTXDFileName);
+		pTXDFile->unload();
+		delete pTXDFile;
+		pTXDFile = nullptr;
+	}
+	
+	if(pTXDFile != nullptr)
+	{
+		pTXDFile->unload();
+		delete pTXDFile;
+		pTXDFile = nullptr;
+	}
+
+	// update IDE files
+	if (txdOrganizerWindowResult.m_bUpdateIDE)
+	{
+		for (string strFilePath : vecFilePaths)
+		{
+			if (String::toUpperCase(Path::getFileExtension(strFilePath)) != "IDE")
+			{
+				continue;
+			}
+
+			IDEFormat *pIDEFile = IDEManager::get()->unserializeFile(strFilePath);
+
+			if (pIDEFile->doesHaveError())
+			{
+				increaseProgress();
+				continue;
+			}
+
+			for (auto it : umapNewEntryNames)
+			{
+				string strDFFFileName = it.first;
+				string strTXDFileName = it.second;
+				vector<IDEEntry*> vecIDEEntries = pIDEFile->getEntriesByModelName(strDFFFileName);
+
+				for (IDEEntry *pIDEEntry : vecIDEEntries)
+				{
+					switch (pIDEEntry->getSectionType())
+					{
+						// todo - make it work with all IDE sections
+					case IDE_SECTION_OBJS:
+					{
+						IDEEntry_OBJS *pIDEEntry_OBJS = (IDEEntry_OBJS*) pIDEEntry;
+						pIDEEntry_OBJS->setTXDName(strTXDFileName);
+						break;
+					}
+					case IDE_SECTION_TOBJ:
+					{
+						IDEEntry_TOBJ *pIDEEntry_TOBJ = (IDEEntry_TOBJ*)pIDEEntry;
+						pIDEEntry_TOBJ->setTXDName(strTXDFileName);
+						break;
+					}
+					}
+				}
+			}
+
+			pIDEFile->serialize();
+
+			pIDEFile->unload();
+			delete pIDEFile;
+			increaseProgress();
+		}
+	}
 
 	onCompleteTask();
 }
@@ -6859,224 +7232,6 @@ void			Tasks::onRequestRenamer(void)
 	*/
 }
 
-void		Tasks::onRequestBuildTXD(void)
-{
-	/*
-	getIMGF()->getTaskManager()->onStartTask("onRequestBuildTXD");
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	CBuildTXDDialogData *pBuildTXDDialogData = getIMGF()->getPopupGUIManager()->showBuildTXDDialog();
-	getIMGF()->getTaskManager()->onResumeTask();
-
-	if (!pBuildTXDDialogData->m_bBuild) // cancel
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestBuildTXD", true);
-		delete pBuildTXDDialogData;
-		return;
-	}
-
-	// choose DFF files
-	//vector<DFFFormat*> veDFFFormats;
-	unordered_map<DFFFormat*, string> umapDFFEntries;
-	if (pBuildTXDDialogData->m_uDFFFormatsType == 0) // All DFF entries in active tab
-	{
-		if (!getIMGTab())
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestBuildTXD", true);
-			delete pBuildTXDDialogData;
-			return;
-		}
-
-		vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByExtension("DFF");
-		vector<IMGEntry*> vecIMGEntries_BSP = getIMGTab()->getIMGFile()->getEntriesByExtension("BSP");
-		for (auto pIMGEntry : vecIMGEntries_BSP)
-		{
-			vecIMGEntries.push_back(pIMGEntry);
-		}
-		for (auto pIMGEntry : vecIMGEntries)
-		{
-			DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(pIMGEntry->getEntryData());
-			umapDFFEntries[pDFFFile] = Path::removeFileExtension(pIMGEntry->getEntryName());
-		}
-	}
-	else if (pBuildTXDDialogData->m_uDFFFormatsType == 1) // Selected DFF entries in active tab
-	{
-		if (!getIMGTab())
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestBuildTXD", true);
-			delete pBuildTXDDialogData;
-			return;
-		}
-
-		vector<IMGEntry*> vecIMGEntries = getIMGTab()->getSelectedEntries();
-		
-		for(auto pIMGEntry : vecIMGEntries)
-		{
-			if (GameFormat::isModelExtension(String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()))))
-			{
-				DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(pIMGEntry->getEntryData());
-				umapDFFEntries[pDFFFile] = Path::removeFileExtension(pIMGEntry->getEntryName());
-			}
-		}
-	}
-	else if (pBuildTXDDialogData->m_uDFFFormatsType == 2) // All DFF entries in all tabs
-	{
-		if (!getIMGTab())
-		{
-			getIMGF()->getTaskManager()->onTaskEnd("onRequestBuildTXD", true);
-			delete pBuildTXDDialogData;
-			return;
-		}
-
-		for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
-		{
-			vector<IMGEntry*> vecIMGEntries = ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntriesByExtension("DFF");
-			vector<IMGEntry*> vecIMGEntries_BSP = ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntriesByExtension("BSP");
-			for (auto pIMGEntry : vecIMGEntries_BSP)
-			{
-				vecIMGEntries.push_back(pIMGEntry);
-			}
-			for (auto pIMGEntry : vecIMGEntries)
-			{
-				DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(pIMGEntry->getEntryData());
-				umapDFFEntries[pDFFFile] = Path::removeFileExtension(pIMGEntry->getEntryName());
-			}
-		}
-	}
-	else if (pBuildTXDDialogData->m_uDFFFormatsType == 3) // Folder containing DFF files
-	{
-		vector<string> vecFileNames = File::getFileNames(pBuildTXDDialogData->m_strDFFsFolderPath);
-
-		for (string strFileName : vecFileNames)
-		{
-			string strExtensionUpper = String::toUpperCase(Path::getFileExtension(strFileName));
-			if (GameFormat::isModelExtension(strExtensionUpper))
-			{
-				DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(pBuildTXDDialogData->m_strDFFsFolderPath + strFileName);
-				umapDFFEntries[pDFFFile] = Path::removeFileExtension(strFileName);
-			}
-		}
-	}
-	else if (pBuildTXDDialogData->m_uDFFFormatsType == 4) // IDE file referencing DFF files
-	{
-		IDEFormat *pIDEFile = IDEManager::get()->unserializeFile(pBuildTXDDialogData->m_strIDEFilePath);
-		if(!pIDEFile->doesHaveError())
-		{
-			// todo - make it work with all IDE sections
-			for (auto pIDEEntry : pIDEFile->getEntriesBySection<IDEEntry_OBJS>(IDE_SECTION_OBJS))
-			{
-				DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(pBuildTXDDialogData->m_strDFFsFolderPath + pIDEEntry->getModelName());
-				umapDFFEntries[pDFFFile] = pIDEEntry->getTXDName();
-			}
-			for (auto pIDEEntry : pIDEFile->getEntriesBySection<IDEEntry_TOBJ>(IDE_SECTION_TOBJ))
-			{
-				DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(pBuildTXDDialogData->m_strDFFsFolderPath + pIDEEntry->getModelName());
-				umapDFFEntries[pDFFFile] = pIDEEntry->getTXDName();
-			}
-		}
-		
-		pIDEFile->unload();
-		delete pIDEFile;
-	}
-
-	// process
-	//for (auto pDFFFile : veDFFFormats)
-	uint32
-		uiTotalTXDFileCount = 0,
-		uiTotalTextureCountUsed = 0;
-	vector<string>
-		vecTextureImagesNotFound,
-		veTXDFormatNames;
-	setMaxProgress(umapDFFEntries.size());
-	for (auto it : umapDFFEntries)
-	{
-		DFFFormat *pDFFFile = it.first;
-		string strOutputFileName = it.second + ".txd";
-
-		if (pDFFFile->doesHaveError())
-		{
-			increaseProgress();
-			continue;
-		}
-
-		vector<string> vecTextureNames = pDFFFile->getTextureNames();
-		vecTextureNames = StdVector::removeDuplicates(vecTextureNames);
-
-		uint32 uiTXDFileCount = pBuildTXDDialogData->m_uiTextureCountPerTXD == 0 ? 1 : (uint32) ceil((float32)vecTextureNames.size() / (float32)pBuildTXDDialogData->m_uiTextureCountPerTXD);
-		uiTotalTXDFileCount += uiTXDFileCount;
-		uint32 uiTXDFileIndex = 0;
-		for (uint32 i = 0; i < uiTXDFileCount; i++)
-		{
-			string strFilePath = pBuildTXDDialogData->m_strDestinationFolderPath + strOutputFileName;
-			strFilePath = Path::getNextFileName(strFilePath, uiTXDFileIndex, "-part");
-
-			TXDFormat *pTXDFile = TXDManager::get()->createFormat();
-			pTXDFile->setRWVersion(pBuildTXDDialogData->m_pRWVersion);
-			for (uint32 i2 = i * pBuildTXDDialogData->m_uiTextureCountPerTXD, j2 = i2 + (pBuildTXDDialogData->m_uiTextureCountPerTXD == 0 ? vecTextureNames.size() : pBuildTXDDialogData->m_uiTextureCountPerTXD); i2 < j2; i2++)
-			{
-				if (i2 >= vecTextureNames.size())
-				{
-					break;
-				}
-
-				string strTextureName = vecTextureNames[i2];
-				string strTextureImagePath = File::findImageFile(strTextureName, pBuildTXDDialogData->m_strTexturesFolderPath);
-
-				// check if texture file exists
-				if (strTextureImagePath != "")
-				{
-					uiTotalTextureCountUsed++;
-
-					// add texture to TXD
-					RWSection_TextureNative *pTexture = pTXDFile->addTextureViaFile(strTextureImagePath, strTextureName, strTextureName + "a");
-
-					if (pTexture != nullptr)
-					{
-						//vector<string> vecMipmapsRemoved;
-						//pTexture->convertToRasterDataFormat(pBuildTXDDialogData->m_pRasterDataFormat->getId(), vecMipmapsRemoved);
-					}
-				}
-				else
-				{
-					vecTextureImagesNotFound.push_back(strTextureName + ".BMP");
-				}
-			}
-			if (pTXDFile->getTextures().size() > 0)
-			{
-				pTXDFile->storeViaFile(strFilePath);
-				veTXDFormatNames.push_back(Path::getFileName(strFilePath));
-				uiTXDFileIndex++;
-			}
-			
-			pTXDFile->unload();
-			delete pTXDFile;
-		}
-
-		increaseProgress();
-	}
-
-	// log
-	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_118", uiTotalTXDFileCount, uiTotalTextureCountUsed));
-	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_119", pBuildTXDDialogData->m_strTexturesFolderPath.c_str()), true);
-	// todo - getIMGTab()->log(String::join(vecTextureImagesNotFound, "\n"), true);
-	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedText("Log_120"), true);
-	// todo - getIMGTab()->log(String::join(veTXDFormatNames, "\n"), true);
-
-	// clean up
-	//for (DFFFormat *pDFFFile : veDFFFormats)
-	for (auto it : umapDFFEntries)
-	{
-		DFFFormat *pDFFFile = it.first;
-		pDFFFile->unload();
-		delete pDFFFile;
-	}
-	//veDFFFormats.clear();
-	umapDFFEntries.clear();
-	delete pBuildTXDDialogData;
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestBuildTXD");
-	*/
-}
-
 void		Tasks::onRequestFeatureByName(string strFeatureName)
 {
 	/*
@@ -7612,197 +7767,4 @@ int CALLBACK		Tasks::sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lPa
 	return nRetVal;
 	*/
 	return 0;
-}
-
-void				Tasks::onRequestTXDOrganizer(void)
-{
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestTXDOrganizer");
-	if (getIMGTab() == nullptr)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestTXDOrganizer", true);
-		return;
-	}
-
-	TXDOrganizerDialogData *pTXDOrganizerDialogData = getIMGF()->getPopupGUIManager()->showTXDOrganizerDialog();
-
-	if (!pTXDOrganizerDialogData->m_bOrganize)
-	{
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestTXDOrganizer", true);
-		return;
-	}
-
-	vector<string> vecFilePaths;
-	if (pTXDOrganizerDialogData->m_bIDEUpdate)
-	{
-		vecFilePaths = File::getFilePaths(pTXDOrganizerDialogData->m_strIDEUpdateFolderPath, true);
-	}
-
-	CListCtrl *pListControl = ((CListCtrl*)getIMGF()->getDialog()->GetDlgItem(37));
-	setMaxProgress(pListControl->GetItemCount() + (pTXDOrganizerDialogData->m_bIDEUpdate ? vecFilePaths.size() : 0));
-
-	uint32 uiTXDCount = 0;
-	TXDFormat *pTXDFile = TXDManager::get()->createFormat();
-	pTXDFile->setDeviceId(0);
-	pTXDFile->setRWVersion(RWManager::get()->getVersionManager()->getEntryByVersionId(RW_3_6_0_3));
-
-	IMGEntry *pIMGEntry = nullptr;
-	uint32
-		uiEntryCount = 0,
-		uiDFFFileCount = 0;
-	unordered_map<string, string> umapNewEntryNames;
-	unordered_map<string, bool> umapTextureNamesUsedInTXD;
-
-	for (uint32 i = 0, j = pListControl->GetItemCount(); i < j; i++)
-	{
-		pIMGEntry = (IMGEntry*)pListControl->GetItemData(i);
-
-		if (!pIMGEntry->isModelFile())
-		{
-			increaseProgress();
-			continue;
-		}
-
-		DFFFormat *pDFFFile = DFFManager::get()->unserializeMemory(pIMGEntry->getEntryData());
-		if (pDFFFile->doesHaveError())
-		{
-			pDFFFile->unload();
-			delete pDFFFile;
-			increaseProgress();
-			continue;
-		}
-
-		vector<string> vecDFFTextureNames = pDFFFile->getTextureNames();
-		for (string strDFFTextureName : vecDFFTextureNames)
-		{
-			// check if texture is already in TXD
-			if (umapTextureNamesUsedInTXD.find(String::toUpperCase(strDFFTextureName)) != umapTextureNamesUsedInTXD.end())
-			{
-				continue;
-			}
-
-			// check if texture file exists
-			string strTextureImagePath = File::findImageFile(strDFFTextureName, pTXDOrganizerDialogData->m_strTextureImportFolderPath);
-			if (strTextureImagePath != "")
-			{
-				// add texture to TXD
-				umapTextureNamesUsedInTXD[String::toUpperCase(strDFFTextureName)] = true;
-				RWSection_TextureNative *pTexture = pTXDFile->addTextureViaFile(strTextureImagePath, strDFFTextureName, strDFFTextureName + "a");
-
-				if (pTexture != nullptr)
-				{
-					vector<string> vecMipmapsRemoved;
-					//Debugger::log("pTXDOrganizerDialogData->m_pTextureFormat->getId(): " + String::toString(pTXDOrganizerDialogData->m_pTextureFormat->getId()));
-					pTexture->convertToRasterDataFormat(pTXDOrganizerDialogData->m_pRasterDataFormat->getRasterDataFormatId(), vecMipmapsRemoved);
-				}
-			}
-		}
-
-		string strNextTXDFileName = pTXDOrganizerDialogData->m_strTXDNamePrefix + ((uiTXDCount + 1) < 10 ? "0" : "") + String::toString(uiTXDCount + 1) + ".txd";
-		string strDFFFileNameWithoutExtension = Path::removeFileExtension(pIMGEntry->getEntryName());
-		string strTXDFileNameWithoutExtension = Path::removeFileExtension(strNextTXDFileName);
-		umapNewEntryNames[strDFFFileNameWithoutExtension] = strTXDFileNameWithoutExtension;
-
-		uiDFFFileCount++;
-		if (uiDFFFileCount == pTXDOrganizerDialogData->m_uiEveryNDFFFiles)
-		{
-			uiTXDCount++;
-			string strTXDFileName = pTXDOrganizerDialogData->m_strTXDNamePrefix + (uiTXDCount < 10 ? "0" : "") + String::toString(uiTXDCount) + ".txd";
-			pTXDFile->storeViaFile(pTXDOrganizerDialogData->m_strOutputFolderPath + strTXDFileName);
-			pTXDFile->unload();
-			delete pTXDFile;
-			pTXDFile = nullptr;
-			
-			uiDFFFileCount = 0;
-			umapTextureNamesUsedInTXD.clear();
-			pTXDFile = TXDManager::get()->createFormat();
-			pTXDFile->setDeviceId(0);
-			pTXDFile->setRWVersion(RWManager::get()->getVersionManager()->getEntryByVersionId(RW_3_6_0_3));
-		}
-		
-		pDFFFile->unload();
-		delete pDFFFile;
-		
-		increaseProgress();
-		uiEntryCount++;
-	}
-
-	if (uiDFFFileCount > 0)
-	{
-		uiTXDCount++;
-		string strTXDFileName = pTXDOrganizerDialogData->m_strTXDNamePrefix + (uiTXDCount < 10 ? "0" : "") + String::toString(uiTXDCount) + ".txd";
-		pTXDFile->storeViaFile(pTXDOrganizerDialogData->m_strOutputFolderPath + strTXDFileName);
-		pTXDFile->unload();
-		delete pTXDFile;
-		pTXDFile = nullptr;
-	}
-	
-	if(pTXDFile != nullptr)
-	{
-		pTXDFile->unload();
-		delete pTXDFile;
-		pTXDFile = nullptr;
-	}
-
-	// update IDE files
-	if (pTXDOrganizerDialogData->m_bIDEUpdate)
-	{
-		for (string strFilePath : vecFilePaths)
-		{
-			if (String::toUpperCase(Path::getFileExtension(strFilePath)) != "IDE")
-			{
-				continue;
-			}
-
-			IDEFormat *pIDEFile = IDEManager::get()->unserializeFile(strFilePath);
-
-			if (pIDEFile->doesHaveError())
-			{
-				increaseProgress();
-				continue;
-			}
-
-			for (auto it : umapNewEntryNames)
-			{
-				string strDFFFileName = it.first;
-				string strTXDFileName = it.second;
-				vector<IDEEntry*> vecIDEEntries = pIDEFile->getEntriesByModelName(strDFFFileName);
-
-				for (IDEEntry *pIDEEntry : vecIDEEntries)
-				{
-					switch (pIDEEntry->getSectionType())
-					{
-						// todo - make it work with all IDE sections
-					case IDE_SECTION_OBJS:
-					{
-						IDEEntry_OBJS *pIDEEntry_OBJS = (IDEEntry_OBJS*) pIDEEntry;
-						pIDEEntry_OBJS->setTXDName(strTXDFileName);
-						break;
-					}
-					case IDE_SECTION_TOBJ:
-					{
-						IDEEntry_TOBJ *pIDEEntry_TOBJ = (IDEEntry_TOBJ*)pIDEEntry;
-						pIDEEntry_TOBJ->setTXDName(strTXDFileName);
-						break;
-					}
-					}
-				}
-			}
-
-			pIDEFile->serializeViaFile();
-
-			pIDEFile->unload();
-			delete pIDEFile;
-			increaseProgress();
-		}
-	}
-
-	// log
-	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_TXDOrganizer", uiEntryCount, uiTXDCount));
-
-	// clean up
-	delete pTXDOrganizerDialogData;
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestTXDOrganizer");
-	*/
 }

@@ -10,7 +10,8 @@ struct imgf::TXDOrganizerWindowResult
 	uint32							m_uiEveryNDFFFiles;
 	std::string						m_strTXDNamePrefix;
 	std::string						m_strTextureImportFolder;
+	bool							m_bUpdateIDE;
 	std::string						m_strIDEUpdateFolder;
 	std::string						m_strOutputFolder;
-	bxcf::RasterDataFormat*			m_vecTXDTextureFormat;
+	bxcf::RasterDataFormat*			m_pRasterDataFormat;
 };

@@ -314,12 +314,10 @@ DumpWindowResult		WindowManager::showDumpWindow(void)
 	pWindow->render();
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
 	{
 		getMainWindow()->getIMGEditor()->getActiveTab()->processThreadOnce();
 	}
-	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
 
 	return getMainWindow()->m_dumpWindowResult;
@@ -338,20 +336,18 @@ void					WindowManager::showSessionManagerWindow(void)
 	pWindow->render();
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
 	{
 		BXGX::get()->process2ndThreadOnce();
 	}
-	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
 }
 
-void					WindowManager::showRenamerWindow(void)
+RenamerWindowResult				WindowManager::showRenamerWindow(void)
 {
 	m_bWindow2Cancelled = true;
 
-	Window *pWindow = BXGX::get()->addWindow(750, 600);
+	Window *pWindow = BXGX::get()->addWindow(800, 750);
 	RenamerWindowLayer *pLayer = pWindow->addLayer<RenamerWindowLayer>();
 
 	pWindow->addTitleBar("Renamer");
@@ -360,20 +356,20 @@ void					WindowManager::showRenamerWindow(void)
 	pWindow->render();
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
 	{
 		BXGX::get()->process2ndThreadOnce();
 	}
-	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
+
+	return m_renamerWindowResult;
 }
 
-void					WindowManager::showTXDBuilderWindow(void)
+TXDBuilderWindowResult			WindowManager::showTXDBuilderWindow(void)
 {
 	m_bWindow2Cancelled = true;
 
-	Window *pWindow = BXGX::get()->addWindow(750, 600);
+	Window *pWindow = BXGX::get()->addWindow(750, 750);
 	TXDBuilderWindowLayer *pLayer = pWindow->addLayer<TXDBuilderWindowLayer>();
 
 	pWindow->addTitleBar("TXD Builder");
@@ -382,16 +378,16 @@ void					WindowManager::showTXDBuilderWindow(void)
 	pWindow->render();
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
 	{
 		BXGX::get()->process2ndThreadOnce();
 	}
-	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
+
+	return m_txdBuilderWindowResult;
 }
 
-void					WindowManager::showTXDOrganizerWindow(void)
+TXDOrganizerWindowResult		WindowManager::showTXDOrganizerWindow(void)
 {
 	m_bWindow2Cancelled = true;
 
@@ -410,7 +406,7 @@ void					WindowManager::showTXDOrganizerWindow(void)
 	}
 	getIMGF()->getTaskManager()->onResumeTask();
 
-	//return m_txdORganizerWindowResult;
+	return m_txdOrganizerWindowResult;
 }
 
 DATPathsMoverWindowResult			WindowManager::showDATPathsMoverWindow(void)

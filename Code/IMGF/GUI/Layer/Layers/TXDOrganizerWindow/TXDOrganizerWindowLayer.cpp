@@ -64,7 +64,8 @@ void					TXDOrganizerWindowLayer::init(void)
 	DropDown *pDropDown = addDropDown(190, y, 500, 25, "Choose..", "", 800);
 	for (RasterDataFormat *pRasterDataFormat : ImageManager::get()->getRasterDataFormatManager()->getEntries())
 	{
-		pDropDown->addItem(pRasterDataFormat->getText());
+		DropDownItem *pItem = pDropDown->addItem(pRasterDataFormat->getText());
+		pItem->setUserdata((uint32)pRasterDataFormat);
 	}
 	y += h;
 }
@@ -81,13 +82,53 @@ void					TXDOrganizerWindowLayer::onPressButton(Button *pButton)
 	switch (pButton->getId())
 	{
 	case 200:
+	{
 		// organize
 		pWindow1->m_bWindow2Cancelled = false;
 
+		string
+			strEveryNFiles = ((TextBox*)pWindow2->getItemById(300))->getText(),
+			strTXDNamePrefix = ((TextBox*)pWindow2->getItemById(400))->getText(),
+			strTextureImportFolder = ((TextBox*)pWindow2->getItemById(500))->getText(),
+			strIDEUpdateFolder = ((TextBox*)pWindow2->getItemById(600))->getText(),
+			strOutputFolder = ((TextBox*)pWindow2->getItemById(700))->getText();
+		bool
+			bUseIDEUpdateFolder = ((CheckBox*)pWindow2->getItemById(601))->isMarked();
+		RasterDataFormat
+			*pRasterDataFormat = (RasterDataFormat*)((DropDown*)pWindow2->getItemById(800))->getActiveItem()->getUserdata();
 
+		if (!String::isPositiveInteger(strEveryNFiles))
+		{
+			Input::showMessage("Every N DFF Files must be a positive integer.", "Input Error", MB_OK);
+			return;
+		}
+		else if (strTextureImportFolder == "")
+		{
+			Input::showMessage("Texture import folder cannot be blank.", "Input Error", MB_OK);
+			return;
+		}
+		else if (bUseIDEUpdateFolder && strIDEUpdateFolder == "")
+		{
+			Input::showMessage("IDE update folder cannot be blank, as the update IDE check box has been checked.", "Input Error", MB_OK);
+			return;
+		}
+		else if (strOutputFolder == "")
+		{
+			Input::showMessage("Output folder cannot be blank.", "Input Error", MB_OK);
+			return;
+		}
+
+		pWindowManager->m_txdOrganizerWindowResult.m_uiEveryNDFFFiles = String::toUint32(strEveryNFiles);
+		pWindowManager->m_txdOrganizerWindowResult.m_strTXDNamePrefix = strTXDNamePrefix;
+		pWindowManager->m_txdOrganizerWindowResult.m_strTextureImportFolder = strTextureImportFolder;
+		pWindowManager->m_txdOrganizerWindowResult.m_bUpdateIDE = bUseIDEUpdateFolder;
+		pWindowManager->m_txdOrganizerWindowResult.m_strIDEUpdateFolder = strIDEUpdateFolder;
+		pWindowManager->m_txdOrganizerWindowResult.m_strOutputFolder = strOutputFolder;
+		pWindowManager->m_txdOrganizerWindowResult.m_pRasterDataFormat = pRasterDataFormat;
 
 		BXGX::get()->m_vecWindowsToDestroy.push_back(pWindow2);
 		break;
+	}
 
 	case 201:
 		// cancel
