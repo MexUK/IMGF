@@ -112,6 +112,7 @@ namespace imgf
 	class Tasks;
 	class TaskDurationManager;
 	class TaskManager;
+	class Task;
 
 	class DumpManager;
 	

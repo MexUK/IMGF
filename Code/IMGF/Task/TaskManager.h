@@ -2,15 +2,17 @@
 
 #include "nsimgf.h"
 #include "nsbxcf.h"
+#include "nsbxcf.h"
 #include "Type/Types.h"
 #include "Object/Manager.h"
+#include "Pool/VectorPool.h"
 #include <string>
 #include <vector>
 
 class imgf::Tasks;
 class imgf::TaskDurationManager;
 
-class imgf::TaskManager : public bxcf::Manager
+class imgf::TaskManager : public bxcf::Manager, public bxcf::VectorPool<Task*>
 {
 public:
 	TaskManager(void);
@@ -21,6 +23,9 @@ public:
 
 	Tasks*										getDispatch(void) { return m_pTasks; } // todo - rename method
 	TaskDurationManager*						getDurationManager(void) { return m_pTaskDurationManager; }
+
+	Task*										addTask(imgf::mainLayer::input::EInputItem uiTaskId, std::string strTaskName, void(imgf::Tasks::* pTaskFunction)(void));
+	std::vector<std::string>					getTaskNames(void);
 
 	void										onStartTask(std::string strTaskName);
 	void										onCompleteTask(void);

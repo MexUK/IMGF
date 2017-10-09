@@ -246,6 +246,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\Program\BuildVersion.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Settings\SettingsManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Static\AppDataPath.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Task.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Task\TaskManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Dump\DumpManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Filter\FilterOptions.h" />

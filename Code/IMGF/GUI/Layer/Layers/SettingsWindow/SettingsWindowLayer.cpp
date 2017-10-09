@@ -7,6 +7,7 @@
 #include "IMGF.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
+#include "Task/TaskManager.h"
 
 using namespace std;
 using namespace bxcf;
@@ -47,17 +48,19 @@ void					SettingsWindowLayer::init(void)
 	addText(50, y, 500, 20, "Graphics");
 	y += yGap1;
 	addCheckBox(50, y, 20, 20, "Window Always on Top", -1, "window2_checkBox", 400);
-	y += yGap1;
+	y += yGap2;
+	/*
 	addText(50, y, 85, 20, "Tab Colours:");
 	addButton(135, y - 2, 100, 20, "Choose..", "window2_button", 410);
 	y += yGap2;
+	*/
 
 	addText(50, y, 500, 20, "Tasks");
 	y += yGap1;
 	addText(50, y, 144, 20, "Quick Export Folder:");
 	addButton(200, y - 2, 100, 20, "Choose..", "window2_button", 500);
 	y += yGap1;
-	addText(50, y, 150, 20, "Rebuild After Feature:");
+	addText(50, y, 150, 20, "Save After Tasks:");
 	addButton(210, y - 2, 100, 20, "Choose..", "window2_button", 510);
 	y += yGap1;
 	addCheckBox(50, y, 20, 20, "Save Logs to Folder:", -1, "window2_checkBox", 520);
@@ -95,11 +98,22 @@ void					SettingsWindowLayer::onPressButton(Button *pButton)
 		}
 		pSettingsManager->setSetting("QuickExportFolderPath", strFolderPath);
 		break;
-	case 510:
-		// Rebuild After Feature
 
+	case 510:
+	{
+		// Rebuild After Feature
+		vector<string> vecListItems = String::split(pSettingsManager->getSetting("SaveAfterTasks"), ",");
+		vector<string> vecSaveAfterTasks = BXGX::get()->getEntryByIndex(0)->showDynamicItemListWindow("Save After Task", "Feature", getIMGF()->getTaskManager()->getTaskNames(), "Add", "Remove Selected", vecListItems);
+		if (m_pWindow->m_bWindow2Cancelled)
+		{
+			return;
+		}
+		pSettingsManager->setSetting("SaveAfterTasks", String::join(vecSaveAfterTasks, ","));
 		break;
+	}
+
 	case 530:
+	{
 		// Save Logs to Folder
 		strFolderPath = pSettingsManager->getSetting("LogsFolderPath");
 		strFolderPath = Input::openFolder("Choose a folder to save logs to.", strFolderPath);
@@ -109,6 +123,7 @@ void					SettingsWindowLayer::onPressButton(Button *pButton)
 		}
 		pSettingsManager->setSetting("LogsFolderPath", strFolderPath);
 		break;
+	}
 	}
 }
 

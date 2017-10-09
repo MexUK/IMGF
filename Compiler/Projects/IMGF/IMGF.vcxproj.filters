@@ -767,6 +767,9 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\RenamerWindow\RenamerWindowResult.h">
       <Filter>Header Files\GUI\Layer\Layers\RenamerWindow</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Task.h">
+      <Filter>Header Files\Task</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IMGF.rc">
