@@ -191,12 +191,12 @@ void					DumpWindowLayer::onPressButton(Button *pButton)
 
 	case 510:
 		// choose DAT files
-		vecDATFilePaths = Input::openFile("dat");
+		vecDATFilePaths = Input::openFile("", "dat");
 		if (vecDATFilePaths.size() == 0)
 		{
 			return;
 		}
-		((TextBox*)pWindow2->getItemById(300))->setText(strFolderPath);
+		((TextBox*)pWindow2->getItemById(300))->setText(vecDATFilePaths[0]);
 		pWindow1->m_dumpWindowResult.m_vecDATFilePaths = vecDATFilePaths;
 		break;
 

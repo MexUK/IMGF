@@ -13,6 +13,7 @@
 #include "Settings/SettingsManager.h"
 #include "Static/File.h"
 #include "Static/Path.h"
+#include "BXGX.h"
 #include <stdarg.h>
 
 using namespace std;
@@ -62,12 +63,12 @@ void						EditorTab::processThread(void)
 
 void						EditorTab::processThreadOnce(void)
 {
-	// todo mutexControlInput.lock();
+	mutexControlInput.lock();
 	vector<Button*> vecButtonsPressed = m_vecButtonsPressed;
 	vector<MenuItem*> vecMenuItemsPressed = m_vecMenuItemsPressed;
 	m_vecButtonsPressed.clear();
 	m_vecMenuItemsPressed.clear();
-	//mutexControlInput.unlock();
+	mutexControlInput.unlock();
 
 	for (Button *pButtonPressed : vecButtonsPressed)
 	{

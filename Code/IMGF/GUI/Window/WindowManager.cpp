@@ -59,8 +59,6 @@ MainWindow*				WindowManager::openWindow(void)
 		return nullptr;
 	}
 
-	Input::setParentWindowHwnd(m_pMainWindow->getWindowHandle());
-
 	return m_pMainWindow;
 }
 
@@ -316,7 +314,7 @@ DumpWindowResult		WindowManager::showDumpWindow(void)
 	getIMGF()->getTaskManager()->onPauseTask();
 	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
 	{
-		getMainWindow()->getIMGEditor()->getActiveTab()->processThreadOnce();
+		BXGX::get()->process2ndThreadOnce();
 	}
 	getIMGF()->getTaskManager()->onResumeTask();
 
