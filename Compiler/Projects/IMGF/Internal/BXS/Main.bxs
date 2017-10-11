@@ -194,7 +194,8 @@ tabBar:tab:active .lightenFillTen .blackText
 
 scrollBar .whiteFill
 scrollBar:hover .lightenFillFourty
-scrollBar:itemIcon .blackFill
+scrollBar:arrow .blackFill
+scrollBar:itemIcon .whiteFill
 scrollBar:seekBar .blackFill
 scrollBar:seekBar:hover .lightenFillFourty
 
