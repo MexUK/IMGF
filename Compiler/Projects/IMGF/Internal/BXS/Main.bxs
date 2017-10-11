@@ -1,19 +1,7 @@
 // main colours
 
-.darkredFill
-fill 62 0 0
-
-.darkgreenFill
-fill 10 62 0
-
-.darkblueFill
-fill 0 51 62
-
 .blackFill
 fill 0 0 0
-
-.orangeFill
-fill 255 156 8
 
 .whiteFill
 fill 255 255 255
@@ -54,9 +42,6 @@ fill lighten 40%
 
 
 
-.orangeLine
-line 255 156 8
-
 .blackLine
 line 0 0 0
 
@@ -66,32 +51,11 @@ line 255 255 255
 
 
 
-.darkredText
-text 62 0 0
-
-.darkgreenText
-text 10 62 0
-
-.darkblueText
-text 0 51 62
-
-.lightblueText
-text 0 179 217
-
 .blackText
 text 0 0 0
 
-.orangeText
-text 255 156 8
-
 .whiteText
 text 255 255 255
-
-.lightgreyText
-text 205 205 205
-
-.yellowText
-text 242 242 0
 
 .disabledText
 text 75 75 75
