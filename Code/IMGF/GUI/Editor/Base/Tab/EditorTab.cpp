@@ -54,6 +54,7 @@ void						EditorTab::processThread(void)
 	while (!m_bMarkedToClose)
 	{
 		processThreadOnce();
+		Sleep(1);
 	}
 
 	m_bThreadHasTerminated = true;

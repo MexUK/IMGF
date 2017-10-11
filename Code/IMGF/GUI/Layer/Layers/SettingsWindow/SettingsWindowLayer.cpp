@@ -50,6 +50,7 @@ void					SettingsWindowLayer::init(void)
 	addCheckBox(50, y, 20, 20, "Window Always on Top", -1, "window2_checkBox", 400);
 	y += yGap2;
 	/*
+	todo
 	addText(50, y, 85, 20, "Tab Colours:");
 	addButton(135, y - 2, 100, 20, "Choose..", "window2_button", 410);
 	y += yGap2;

@@ -47,7 +47,7 @@ void					DATPathsMoverWindowLayer::init(void)
 	addText(x, y, w, h, "Min X:");
 	x += 50;
 	w = 90;
-	addTextBox(x, y - 2, w, h, "", 500);
+	addTextBox(x, y - 2, w, h, "", false, "", 500);
 
 	x = x2;
 	y += 25;
@@ -55,7 +55,7 @@ void					DATPathsMoverWindowLayer::init(void)
 	addText(x, y, w, h, "Max X:");
 	x += 50;
 	w = 90;
-	addTextBox(x, y - 2, w, h, "", 510);
+	addTextBox(x, y - 2, w, h, "", false, "", 510);
 
 	x = x2;
 	y = y2;
@@ -65,7 +65,7 @@ void					DATPathsMoverWindowLayer::init(void)
 	addText(x, y, w, h, "Min Y:");
 	x += 50;
 	w = 90;
-	addTextBox(x, y - 2, w, h, "", 501);
+	addTextBox(x, y - 2, w, h, "", false, "", 501);
 
 	x = x2;
 	x += 150;
@@ -74,7 +74,7 @@ void					DATPathsMoverWindowLayer::init(void)
 	addText(x, y, w, h, "Max Y:");
 	x += 50;
 	w = 90;
-	addTextBox(x, y, w, h, "", 511);
+	addTextBox(x, y, w, h, "", false, "", 511);
 
 	// output tile size
 	x = x2;
@@ -89,14 +89,14 @@ void					DATPathsMoverWindowLayer::init(void)
 	addText(x, y, w, h, "Width:");
 	x += 50;
 	w = 90;
-	addTextBox(x, y - 2, w, h, "", 600);
+	addTextBox(x, y - 2, w, h, "", false, "", 600);
 
 	x += 130;
 	w = 50;
 	addText(x, y, w, h, "Height:");
 	x += 50;
 	w = 90;
-	addTextBox(x, y - 2, w, h, "", 601);
+	addTextBox(x, y - 2, w, h, "", false, "", 601);
 
 	// position offset
 	x = 50;
@@ -110,21 +110,21 @@ void					DATPathsMoverWindowLayer::init(void)
 	addText(x, y, w, h, "X:");
 	x += 20;
 	w = 90;
-	addTextBox(x, y - 2, w, h, "", 700);
+	addTextBox(x, y - 2, w, h, "", false, "", 700);
 
 	x += 130;
 	w = 50;
 	addText(x, y, w, h, "Y:");
 	x += 20;
 	w = 90;
-	addTextBox(x, y - 2, w, h, "", 701);
+	addTextBox(x, y - 2, w, h, "", false, "", 701);
 
 	x += 130;
 	w = 50;
 	addText(x, y, w, h, "Z:");
 	x += 20;
 	w = 90;
-	addTextBox(x, y - 2, w, h, "", 702);
+	addTextBox(x, y - 2, w, h, "", false, "", 702);
 
 	// DAT Nodes Input Folder
 	x = x2;
@@ -134,7 +134,7 @@ void					DATPathsMoverWindowLayer::init(void)
 	addText(x, y, w, h, "Input Folder: (nodes*.DAT)");
 	x += 200;
 	w = 330;
-	addTextBox(x, y, w, h, "", 800);
+	addTextBox(x, y, w, h, "", false, "", 800);
 	x += 350;
 	w = 100;
 	addButton(x, y, w, h, "Choose..", "", 801);
@@ -146,7 +146,7 @@ void					DATPathsMoverWindowLayer::init(void)
 	addText(x, y, w, h, "Output Folder: (nodes*.DAT)");
 	x += 200;
 	w = 330;
-	addTextBox(x, y, w, h, "", 900);
+	addTextBox(x, y, w, h, "", false, "", 900);
 	x += 350;
 	w = 100;
 	addButton(x, y, w, h, "Choose..", "", 901);
