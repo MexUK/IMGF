@@ -180,8 +180,8 @@ void					MainWindow::initSettingsMenuLayer(void)
 
 void					MainWindow::initEditors(void)
 {
-	m_pIMGEditor = addLayer<IMGEditor>(-1, false);
-	m_pTextureEditor = addLayer<TextureEditor>(-1, true);
+	m_pIMGEditor = addLayer<IMGEditor>(-1, true);
+	m_pTextureEditor = addLayer<TextureEditor>(-1, false);
 
 	m_pIMGEditor->setMainWindow(this);
 	m_pTextureEditor->setMainWindow(this);
