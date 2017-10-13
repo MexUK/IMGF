@@ -14,6 +14,7 @@
 #include "GUI/Input/EInputItem.h"
 #include "Control/Controls/Menu.h"
 #include "Control/Entries/MenuItem.h"
+#include "Static/DataPath.h"
 
 using namespace std;
 using namespace bxcf;
@@ -487,7 +488,7 @@ void		MainLayer::addControls(void)
 	w = 0;
 	h = 0;
 
-	addImage(x, y, "Internal/Images/Logo.png", w, h);
+	addImage(x, y, DataPath::getDataPath() + "Images/Logo.png", w, h);
 }
 
 void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
