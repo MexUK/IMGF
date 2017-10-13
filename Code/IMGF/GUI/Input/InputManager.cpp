@@ -388,6 +388,7 @@ void					InputManager::processMenuItemPress(MenuItem *pMenuItem)
 	case EXTRACT_DVC_AND_NVC_INTO_DFFS:				return extractDVCAndNVCIntoDFFs();
 	case EXTRACT_2DFX_INTO_DFFS:					return extract2DFXIntoDFFs();
 	case IMG_COMPRESSION:							return imgCompression();
+	case GENERATE_COL_FROM_DFF:						return generateCOLFromDFF();
 
 	// top right menu
 	case SETTINGS:									return settings();
@@ -1227,6 +1228,11 @@ void					InputManager::extract2DFXIntoDFFs(void)
 void					InputManager::imgCompression(void)
 {
 	m_pTasks->imgCompression();
+}
+
+void					InputManager::generateCOLFromDFF(void)
+{
+	m_pTasks->generateCOLFromDFF();
 }
 
 // LST

@@ -60,12 +60,12 @@ void					MainWindow::init(void)
 }
 
 // item fetching
-ProgressBar*		MainWindow::getProgressBar(void)
+ProgressBar*			MainWindow::getProgressBar(void)
 {
 	return m_pMainLayerNoTabsOpen->getProgressBar();
 }
 
-TabBar*			MainWindow::getTabBar(void)
+TabBar*					MainWindow::getTabBar(void)
 {
 	return m_pMainLayer->getTabBar();
 }
@@ -127,7 +127,7 @@ void					MainWindow::initMainMenuLayers(void)
 
 	pMenu = pFormatsLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -100);
 	vector<MenuItem*> vecMenuItems = pMenu->addMenuItems(9, "DAT", "IMG", "Item Definition", "Item Placement", "Models", "Collisions", "Textures", "Animations", "Radar");
-	pMenu->setActiveMenuItem(vecMenuItems[1]);
+	pMenu->setActiveMenuItem(vecMenuItems[6]);
 
 	// utility menu
 	Layer *pUtilityLayer = addLayer(UTILITY_MENU, false);
@@ -180,8 +180,8 @@ void					MainWindow::initSettingsMenuLayer(void)
 
 void					MainWindow::initEditors(void)
 {
-	m_pIMGEditor = addLayer<IMGEditor>(-1, true);
-	m_pTextureEditor = addLayer<TextureEditor>(-1, false);
+	m_pIMGEditor = addLayer<IMGEditor>(-1, false);
+	m_pTextureEditor = addLayer<TextureEditor>(-1, true);
 
 	m_pIMGEditor->setMainWindow(this);
 	m_pTextureEditor->setMainWindow(this);

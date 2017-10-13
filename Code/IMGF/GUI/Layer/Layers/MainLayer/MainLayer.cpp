@@ -475,7 +475,8 @@ void		MainLayer::addControls(void)
 	pMenu2->addMenuItem("Extract DVC and NVC into DFFs", EXTRACT_DVC_AND_NVC_INTO_DFFS);
 	pMenu2->addMenuItem("Extract 2DFX into DFFs", EXTRACT_2DFX_INTO_DFFS);
 	pMenu2->addMenuItem("IMG Compression", IMG_COMPRESSION);
-
+	pMenu2->addMenuItem("Generate COL from DFF", GENERATE_COL_FROM_DFF);
+	
 	// set certain items enabled
 	setCertainMenuItemsEnabled(false);
 

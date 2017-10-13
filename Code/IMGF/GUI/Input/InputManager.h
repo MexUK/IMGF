@@ -216,6 +216,7 @@ private:
 	void					extractDVCAndNVCIntoDFFs(void);
 	void					extract2DFXIntoDFFs(void);
 	void					imgCompression(void);
+	void					generateCOLFromDFF(void);
 
 	void					lst(void);
 

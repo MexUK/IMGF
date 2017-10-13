@@ -2,10 +2,17 @@
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
 #include "BXGX.h"
 #include "GraphicsLibrary/Base/GraphicsLibrary.h"
+#include "Style/Parts/EStyleStatus.h"
 
 using namespace bxcf;
 using namespace bxgx;
+using namespace bxgx::styles::statuses;
 using namespace imgf;
+
+TextureEditor::TextureEditor(void) :
+	m_pActiveTexture(nullptr)
+{
+}
 
 void						TextureEditor::init(void)
 {
@@ -32,17 +39,35 @@ void						TextureEditor::init(void)
 	y = starty;
 	y2 = y;
 
+	addRectangle(startx, starty, 250, uiDisplayedTextureCount * 55, "itemList");
+
+	void *pTexture;
 	for (uint32 i = 0; i < uiDisplayedTextureCount; i++)
 	{
+		pTexture = nullptr;
+		/*
+		if (pTexture == m_pActiveTexture)
+		{
+			setRenderingStyleStatus(ACTIVE);
+		}
+		else
+		{
+			setRenderingStyleStatus(DEFAULT_STYLE_STATUS);
+		}
+		*/
+
 		x = startx;
-		x2 = startx + 150;
+		x2 = startx + 250;
 
 		addLine(x, y, x2, y2);
+
+		addText(x, y + (55 / 2), 50, 25, String::toString(i + 1));
 
 		y += uiTexturePanelBoxHeight;
 		y2 += uiTexturePanelBoxHeight;
 	}
 
+	/*
 	// add vertical line for texture preview panel
 	x = startx + 150;
 	y = starty;
@@ -51,6 +76,7 @@ void						TextureEditor::init(void)
 	y2 = m_pMainWindow->getSize().y;
 
 	addLine(x, y, x2, y2);
+	*/
 }
 
 void						TextureEditor::render(void)

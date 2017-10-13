@@ -239,6 +239,7 @@ enum imgf::mainLayer::input::EInputItem
 	EXTRACT_DVC_AND_NVC_INTO_DFFS,
 	EXTRACT_2DFX_INTO_DFFS,
 	IMG_COMPRESSION,
+	GENERATE_COL_FROM_DFF,
 
 	// top right menu items
 	SETTINGS,

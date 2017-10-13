@@ -6506,6 +6506,85 @@ void		Tasks::imgCompression(void)
 	onCompleteTask();
 }
 
+void		Tasks::generateCOLFromDFF(void)
+{
+	onStartTask("generateCOLFromDFF");
+
+	// choose DFF files folder
+	string strDFFFolderPath = openFolder("Choose a folder containing DFF files.");
+	if (strDFFFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	// choose output COL files folder
+	string strOutputFolderPath = openFolder("Choose an output folder for the COL files.");
+	if (strOutputFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	// initialize
+	unordered_map<string, Vec3f>
+		umapGeometryPolygonCenters;
+	vector<string>
+		vecFilePaths_DFF = File::getFileNamesByExtension(strDFFFolderPath, "dff"),
+		vecFilePaths_BSP = File::getFileNamesByExtension(strDFFFolderPath, "bsp");
+
+	vecFilePaths_DFF = StdVector::combineVectors(vecFilePaths_DFF, vecFilePaths_BSP);
+
+	setMaxProgress(vecFilePaths_DFF.size());
+
+	// convert DFF files to COL files
+	uint32 uiGeneratedCount = 0;
+	for (string& strDFFFilePath : vecFilePaths_DFF)
+	{
+		DFFFormat dffFile(strDFFFolderPath + strDFFFilePath);
+		if (!dffFile.unserialize())
+		{
+			dffFile.unload();
+			increaseProgress();
+			continue;
+		}
+
+		COLFormat colFile;
+		colFile.setCOLVersion(COL_2);
+
+		vector<RWSection*> vecDFFGeometrySections = dffFile.getSectionsByType(RW_SECTION_GEOMETRY);
+		for (RWSection *pRWSection : vecDFFGeometrySections)
+		{
+			RWSection_Geometry *pGeometry = (RWSection_Geometry*)pRWSection;
+
+			string strTextureDiffuseName = pGeometry->getTextureDiffuseName();
+			vector<Vec3f> vecVertices = pGeometry->getVertexPositions();
+
+			vector<TVertex> vecCOLVertices;
+			for (Vec3f& vecVertex : vecVertices)
+			{
+				TVertex vertex;
+				vertex.x = vecVertex.x;
+				vertex.y = vecVertex.y;
+				vertex.z = vecVertex.z;
+				vecCOLVertices.push_back(vertex);
+			}
+			COLEntry *pCOLEntry = new COLEntry(&colFile);
+			pCOLEntry->getCollisionMeshVertices() = vecCOLVertices;
+			colFile.addEntry(pCOLEntry);
+		}
+
+		colFile.serialize(Path::replaceFileExtensionWithCase(strDFFFilePath, "COL"));
+
+		dffFile.unload();
+		increaseProgress();
+
+		uiGeneratedCount++;
+	}
+
+	showMessage("Generated " + String::toString(uiGeneratedCount) + " COL files from DFF files.", "Generated COL from DFF", MB_OK);
+
+	onCompleteTask();
+}
+
 void		Tasks::update(bool bOnlyShowWindowIfUpdateIsAvailable)
 {
 	onStartTask("update");
@@ -6685,70 +6764,6 @@ bool		Tasks::saveAllOpenFiles(bool bCloseAll)
 	return true;
 }
 
-void		Tasks::onRequestSessionManager(void)
-{
-	/*
-	getIMGF()->getTaskManager()->onStartTask("onRequestSessionManager");
-	SessionManagerDialogData *pSessionManagerDialogData = nullptr;
-	bool bReopenWindow;
-	do
-	{
-		vector<string> vecSessionsData;
-		uint32 uiSessionCount = String::toUint32(INIManager::getItem(AppDataPath::getSessionsPath(), "Sessions", "Count"));
-		for (int32 i = uiSessionCount; i >= 1; i--)
-		{
-			string strIMGPaths = INIManager::getItem(AppDataPath::getSessionsPath(), "Sessions", String::toString(i));
-			vecSessionsData.push_back(strIMGPaths);
-		}
-
-		getIMGF()->getTaskManager()->onPauseTask();
-		pSessionManagerDialogData = getIMGF()->getPopupGUIManager()->showSessionManagerDialog(vecSessionsData);
-		getIMGF()->getTaskManager()->onResumeTask();
-		bReopenWindow = pSessionManagerDialogData->m_vecSessionsToRemove.size() > 0 || pSessionManagerDialogData->m_vecSessionsToAdd.size() > 0 || pSessionManagerDialogData->m_strSessionNameToUpdate != "";
-
-		for (auto strSessionName : pSessionManagerDialogData->m_vecSessionsToRemove)
-		{
-			getIMGF()->getSessionManager()->removeSession(getIMGF()->getSessionManager()->getSessionByName(strSessionName));
-		}
-		for (auto strSessionData : pSessionManagerDialogData->m_vecSessionsToAdd)
-		{
-			deque<string> deqIMGPaths = StdVector::convertVectorToDeque(String::split(strSessionData, "; "));
-			string strSessionName = deqIMGPaths[0];
-			deqIMGPaths.pop_front();
-
-			vector<string> vecIMGPaths;
-			for (auto strIMGPath : deqIMGPaths)
-			{
-				vecIMGPaths.push_back(strIMGPath);
-			}
-
-			getIMGF()->getSessionManager()->addSession(strSessionName, vecIMGPaths);
-		}
-		if (pSessionManagerDialogData->m_strSessionNameToUpdate != "")
-		{
-			//pSessionManagerDialogData->m_strSessionDataToUpdate
-			deque<string> deqIMGPaths = StdVector::convertVectorToDeque(String::split(pSessionManagerDialogData->m_strSessionDataToUpdate, "; "));
-			string strNewSessionName = deqIMGPaths[0];
-			deqIMGPaths.pop_front();
-
-			vector<string> vecIMGPaths;
-			for (auto strIMGPath : deqIMGPaths)
-			{
-				vecIMGPaths.push_back(strIMGPath);
-			}
-
-			getIMGF()->getSessionManager()->getSessionByName(pSessionManagerDialogData->m_strSessionNameToUpdate)->setName(strNewSessionName);
-			getIMGF()->getSessionManager()->getSessionByName(pSessionManagerDialogData->m_strSessionNameToUpdate)->setPaths(vecIMGPaths);
-		}
-
-		delete pSessionManagerDialogData;
-		getIMGF()->getSessionManager()->loadSessions();
-	} while (bReopenWindow);
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestSessionManager");
-	*/
-}
-
-
 void		Tasks::onRequestAutoUpdate(void)
 {
 	getIMGF()->getTaskManager()->onStartTask("onRequestAutoUpdate");
@@ -6810,426 +6825,6 @@ void		Tasks::onRequestAutoUpdate(void)
 		}
 	}
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestAutoUpdate");
-}
-
-void			Tasks::onRequestRenamer(void)
-{
-	/*
-	todo
-	getIMGF()->getTaskManager()->onStartTask("onRequestRenamer");
-	getIMGF()->getTaskManager()->onPauseTask();
-	CRenamerDialogData *pRenamerDialogData = getIMGF()->getPopupGUIManager()->showRenamerDialog();
-	getIMGF()->getTaskManager()->onResumeTask();
-
-	if (!pRenamerDialogData->m_bRename)
-	{
-		delete pRenamerDialogData;
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestRenamer", true);
-		return;
-	}
-
-	// ensure a tab is open
-	if (getIMGTab() == nullptr)
-	{
-		showMessage(LocalizationManager::get()->getTranslatedText("TextPopup_50"), LocalizationManager::get()->getTranslatedText("TextPopupTitle_50"), MB_OK);
-		delete pRenamerDialogData;
-		getIMGF()->getTaskManager()->onTaskEnd("onRequestRenamer", true);
-		return;
-	}
-
-	// choose entries to rename
-	vector<IMGEntry*> vecIMGEntries;
-	if (pRenamerDialogData->m_ucEntriesType == 0) // all entries
-	{
-		vecIMGEntries = getIMGTab()->getIMGFile()->getEntries();
-	}
-	else if (pRenamerDialogData->m_ucEntriesType == 1) // selected entries
-	{
-		vecIMGEntries = getIMGTab()->getSelectedEntries();
-	}
-
-	setMaxProgress(vecIMGEntries.size() * 2); // x1 for the main loop, and x1 for the refreshing the main list view display
-
-	vector<RenamedIMGEntry*> vecIMGEntriesWithNewNames;
-
-	// loop around entries
-	for (auto pIMGEntry : vecIMGEntries)
-	{
-		// skip LODs if "update LOD names to match new name" is enabled, as matching LOD entries will be updated anyway
-		if (pRenamerDialogData->m_bUpdateLODNamesToMatch)
-		{
-			if (String::toUpperCase(pIMGEntry->getEntryName().substr(0, 3)) == "LOD")
-			{
-				increaseProgress();
-				continue;
-			}
-		}
-
-		string strEntryPreviousName = pIMGEntry->getEntryName();
-
-		// character adding/replacing
-		if (pRenamerDialogData->m_ucCharReplacementType == 0) // don't replace characters
-		{
-			if (pRenamerDialogData->m_strCharAdding_Front != "")
-			{
-				pIMGEntry->setEntryName(pRenamerDialogData->m_strCharAdding_Front + pIMGEntry->getEntryName());
-			}
-
-			if (pRenamerDialogData->m_strCharAdding_End != "")
-			{
-				pIMGEntry->setEntryName(pIMGEntry->getEntryName() + pRenamerDialogData->m_strCharAdding_End);
-			}
-
-			if (pRenamerDialogData->m_strCharAdding_AtPosition != "")
-			{
-				uint32
-					uiPosition = pRenamerDialogData->m_uiCharAddingAtPosition_Position;
-				if (uiPosition <= pIMGEntry->getEntryName().length())
-				{
-					string
-						strNameBefore = pIMGEntry->getEntryName().substr(0, uiPosition),
-						strNameAfter = pIMGEntry->getEntryName().substr(uiPosition);
-					pIMGEntry->setEntryName(strNameBefore + pRenamerDialogData->m_strCharAdding_AtPosition + strNameAfter);
-				}
-			}
-		}
-		else if (pRenamerDialogData->m_ucCharReplacementType == 1) // always replace characters
-		{
-			if (pRenamerDialogData->m_strCharAdding_Front != "")
-			{
-				string strNewEntryName = pRenamerDialogData->m_strCharAdding_Front + pIMGEntry->getEntryName().substr(pRenamerDialogData->m_strCharAdding_Front.length());
-				pIMGEntry->setEntryName(strNewEntryName);
-			}
-
-			if (pRenamerDialogData->m_strCharAdding_End != "")
-			{
-				string strNewEntryName = pIMGEntry->getEntryName().substr(0, pIMGEntry->getEntryName().length() - pRenamerDialogData->m_strCharAdding_End.length()) + pRenamerDialogData->m_strCharAdding_End;
-				pIMGEntry->setEntryName(strNewEntryName);
-			}
-
-			if (pRenamerDialogData->m_strCharAdding_AtPosition != "")
-			{
-				uint32
-					uiPosition = pRenamerDialogData->m_uiCharAddingAtPosition_Position;
-				if (uiPosition <= pIMGEntry->getEntryName().length())
-				{
-					string
-						strNameBefore = pIMGEntry->getEntryName().substr(0, uiPosition),
-						strNameAfter = pIMGEntry->getEntryName().substr(uiPosition + pRenamerDialogData->m_strCharAdding_AtPosition.length());
-					pIMGEntry->setEntryName(strNameBefore + pRenamerDialogData->m_strCharAdding_AtPosition + strNameAfter);
-				}
-			}
-		}
-		else if (pRenamerDialogData->m_ucCharReplacementType == 2) // only replace characters if length exceeds
-		{
-			uint32
-				uiExceedLength = pRenamerDialogData->m_uiCharReplaceConditional_Length;
-
-			if (pRenamerDialogData->m_strCharAdding_Front != "")
-			{
-				string strPrefixText = pRenamerDialogData->m_strCharAdding_Front;
-				string strEntryName = pIMGEntry->getEntryName();
-
-				string strExtension = Path::getFileExtension(pIMGEntry->getEntryName());
-				uint32 uiCharCountLeft = uiExceedLength - (strExtension.length() + 1);
-
-				string strEntryNewName = String::mergeStrings(strPrefixText, Path::removeFileExtension(strEntryName), uiExceedLength) + "." + strExtension;
-
-
-				//////////////////////////////////////
-				uint32 uiNewLength = pRenamerDialogData->m_strCharAdding_Front.length() + pIMGEntry->getEntryName().length();
-				uint32 uiNameAfterSubstrPosition = uiNewLength > uiExceedLength ? (uiNewLength - uiExceedLength) : 0;
-				//Debugger::log("pRenamerDialogData->m_strCharAdding_Front.length(): " + String::toString(pRenamerDialogData->m_strCharAdding_Front.length()));
-				//Debugger::log("pIMGEntry->getEntryName().length(): " + String::toString(pIMGEntry->getEntryName().length()));
-				//Debugger::log("uiNewLength: " + String::toString(uiNewLength));
-				//Debugger::log("uiNameAfterSubstrPosition: " + String::toString(uiNameAfterSubstrPosition));
-				string strNameAfter = pIMGEntry->getEntryName().substr(uiNameAfterSubstrPosition); // substr(12) causes crash when str.size() == 11
-				string strNewEntryName = pRenamerDialogData->m_strCharAdding_Front + strNameAfter;
-				/////////////////////////////////////
-				pIMGEntry->setEntryName(strEntryNewName);
-			}
-
-			if (pRenamerDialogData->m_strCharAdding_End != "")
-			{
-				uint32 uiNewLength = pRenamerDialogData->m_strCharAdding_End.length() + pIMGEntry->getEntryName().length();
-				uint32 uiNameBeforeSubstrLength = uiNewLength > uiExceedLength ? (pIMGEntry->getEntryName().length() - (uiNewLength - uiExceedLength)) : 0;
-				string strNameBefore = pIMGEntry->getEntryName().substr(0, uiNameBeforeSubstrLength);
-				string strNewEntryName = strNameBefore + pRenamerDialogData->m_strCharAdding_End;
-				pIMGEntry->setEntryName(strNewEntryName);
-			}
-
-			if (pRenamerDialogData->m_strCharAdding_AtPosition != "")
-			{
-				uint32
-					uiPosition = pRenamerDialogData->m_uiCharAddingAtPosition_Position;
-				if (uiPosition <= pIMGEntry->getEntryName().length())
-				{
-					uint32 uiNewLength = pRenamerDialogData->m_strCharAdding_AtPosition.length() + pIMGEntry->getEntryName().length();
-					uint32 uiNameAfterSubstrPosition = uiNewLength > uiExceedLength ? (uiPosition + (uiNewLength - uiExceedLength)) : 0;
-					string
-						strNameBefore = pIMGEntry->getEntryName().substr(0, uiPosition),
-						strNameAfter = pIMGEntry->getEntryName().substr(uiNameAfterSubstrPosition);
-					string strNewEntryName = strNameBefore + pRenamerDialogData->m_strCharAdding_AtPosition + strNameAfter;
-					pIMGEntry->setEntryName(strNewEntryName);
-				}
-			}
-		}
-
-		// character removing
-		if (pRenamerDialogData->m_uiCharRemoving_Front > 0)
-		{
-			if ((pIMGEntry->getEntryName().length() - pRenamerDialogData->m_uiCharRemoving_Front) > 0)
-			{
-				pIMGEntry->setEntryName(pIMGEntry->getEntryName().substr(pRenamerDialogData->m_uiCharRemoving_Front));
-			}
-		}
-
-		if (pRenamerDialogData->m_uiCharRemoving_End > 0)
-		{
-			if ((pIMGEntry->getEntryName().length() - pRenamerDialogData->m_uiCharRemoving_End) > 0)
-			{
-				pIMGEntry->setEntryName(pIMGEntry->getEntryName().substr(pIMGEntry->getEntryName().length() - pRenamerDialogData->m_uiCharRemoving_End));
-			}
-		}
-
-		if (pRenamerDialogData->m_uiCharRemoving_AtPosition > 0)
-		{
-			uint32
-				uiPosition = pRenamerDialogData->m_uiCharRemovingAtPosition_Position,
-				uiLength = pRenamerDialogData->m_uiCharRemoving_AtPosition;
-			if ((pIMGEntry->getEntryName().length() - uiLength) > 0)
-			{
-				string
-					strNameBefore = pIMGEntry->getEntryName().substr(0, uiPosition),
-					strNameAfter = pIMGEntry->getEntryName().substr(uiPosition + uiLength);
-				pIMGEntry->setEntryName(strNameBefore + strNameAfter);
-			}
-		}
-
-		// character case
-		if (pRenamerDialogData->m_ucCharCaseType == 0)
-		{
-			// leave untouched
-		}
-		else if (pRenamerDialogData->m_ucCharCaseType == 1)
-		{
-			// uppercase
-			pIMGEntry->setEntryName(String::toUpperCase(pIMGEntry->getEntryName()));
-		}
-		else if (pRenamerDialogData->m_ucCharCaseType == 2)
-		{
-			// lowercase
-			pIMGEntry->setEntryName(String::toLowerCase(pIMGEntry->getEntryName()));
-		}
-		else if (pRenamerDialogData->m_ucCharCaseType == 3)
-		{
-			// title case
-			pIMGEntry->setEntryName(String::toTitleCase(pIMGEntry->getEntryName()));
-		}
-
-		// mark IMG entry as renamed
-		if (strEntryPreviousName != pIMGEntry->getEntryName())
-		{
-			RenamedIMGEntry *pRenamedIMGEntry = new RenamedIMGEntry;
-			pRenamedIMGEntry->m_pIMGEntry = pIMGEntry;
-			pRenamedIMGEntry->m_strPreviousName = strEntryPreviousName;
-			vecIMGEntriesWithNewNames.push_back(pRenamedIMGEntry);
-		}
-
-		// update LOD names to match new name
-		if (pRenamerDialogData->m_bUpdateLODNamesToMatch)
-		{
-			string strLODPreviousName = "LOD" + strEntryPreviousName.substr(3);
-			IMGEntry *pIMGEntryLOD = getIMGTab()->getIMGFile()->getEntryByName(strLODPreviousName);
-			if (pIMGEntryLOD != nullptr)
-			{
-				string strLODNewName = pIMGEntryLOD->getEntryName().substr(0, 3) + pIMGEntry->getEntryName().substr(3);
-				pIMGEntryLOD->setEntryName(strLODNewName);
-
-				// mark IMG entry as renamed
-				if (strLODPreviousName != strLODNewName)
-				{
-					RenamedIMGEntry *pRenamedIMGEntry = new RenamedIMGEntry;
-					pRenamedIMGEntry->m_pIMGEntry = pIMGEntryLOD;
-					pRenamedIMGEntry->m_strPreviousName = strLODPreviousName;
-					vecIMGEntriesWithNewNames.push_back(pRenamedIMGEntry);
-				}
-			}
-		}
-
-		// progress bar
-		increaseProgress();
-	}
-
-	// matching entries
-	vector<string> vecFilePaths;
-
-	// matching entries - IDE
-	if (pRenamerDialogData->m_bMatchingState_IDE)
-	{
-		vecFilePaths = File::getFilePaths(pRenamerDialogData->m_strMatchingPath_IDE, true);
-		for (auto strFilePath : vecFilePaths)
-		{
-			if (String::toUpperCase(Path::getFileExtension(strFilePath)) == "IDE")
-			{
-				IDEFormat *pIDEFile = IDEManager::get()->unserializeFile(strFilePath);
-				
-				if(pIDEFile->doesHaveError())
-				{
-					pIDEFile->unload();
-					delete pIDEFile;
-					continue;
-				}
-				
-				for (auto pRenamedIMGEntry : vecIMGEntriesWithNewNames)
-				{
-					vector<IDEEntry*> vecIDEEntries;
-
-					// OBJS/TOBJ model name
-					vecIDEEntries = pIDEFile->getEntriesByModelName(Path::removeFileExtension(pRenamedIMGEntry->m_strPreviousName));
-					for (auto pIDEEntry : vecIDEEntries)
-					{
-						switch (pIDEEntry->getSectionType()) // todo - make work with all sections with setModelName on IDEEntry_Data and IPLEntry_Data
-						{
-						case IDE_SECTION_OBJS:
-							((IDEEntry_OBJS*)pIDEEntry)->setModelName(Path::removeFileExtension(pRenamedIMGEntry->m_pIMGEntry->getEntryName()));
-							break;
-						case IDE_SECTION_TOBJ:
-							((IDEEntry_TOBJ*)pIDEEntry)->setModelName(Path::removeFileExtension(pRenamedIMGEntry->m_pIMGEntry->getEntryName()));
-							break;
-						}
-					}
-
-					// OBJS/TOBJ texture name
-					vecIDEEntries = pIDEFile->getEntriesByTXDName(Path::removeFileExtension(pRenamedIMGEntry->m_strPreviousName));
-					for (auto pIDEEntry : vecIDEEntries)
-					{
-						switch (pIDEEntry->getSectionType()) // todo - make work with all sections with setTXDName on IDEEntry_Data and IPLEntry_Data
-						{
-						case IDE_SECTION_OBJS:
-							((IDEEntry_OBJS*)pIDEEntry)->setTXDName(Path::removeFileExtension(pRenamedIMGEntry->m_pIMGEntry->getEntryName()));
-							break;
-						case IDE_SECTION_TOBJ:
-							((IDEEntry_TOBJ*)pIDEEntry)->setTXDName(Path::removeFileExtension(pRenamedIMGEntry->m_pIMGEntry->getEntryName()));
-							break;
-						}
-					}
-				}
-
-				pIDEFile->serializeViaFile();
-				pIDEFile->unload();
-				delete pIDEFile;
-			}
-		}
-	}
-
-	// matching entries - IPL
-	if (pRenamerDialogData->m_bMatchingState_IPL)
-	{
-		vecFilePaths = File::getFilePaths(pRenamerDialogData->m_strMatchingPath_IPL, true);
-		for (auto strFilePath : vecFilePaths)
-		{
-			if (String::toUpperCase(Path::getFileExtension(strFilePath)) == "IPL")
-			{
-				IPLFormat *pIPLFile = IPLManager::get()->unserializeFile(strFilePath);
-				
-				if(pIPLFile->doesHaveError())
-				{
-					pIPLFile->unload();
-					delete pIPLFile;
-					continue;
-				}
-				
-				if (pIPLFile->isBinary()) // skip binary IPL files as they don't contain a model name
-				{
-					pIPLFile->unload();
-					delete pIPLFile;
-					continue;
-				}
-
-				for (auto pRenamedIMGEntry : vecIMGEntriesWithNewNames)
-				{
-					vector<IPLEntry*> vecIPLEntries;
-
-					// INST model name
-					vecIPLEntries = pIPLFile->getEntriesByModelName(Path::removeFileExtension(pRenamedIMGEntry->m_strPreviousName));
-					for (auto pIPLEntry : vecIPLEntries)
-					{
-						// todo - make work with all sections with setModelName on IDEEntry_Data and IPLEntry_Data
-						if (pIPLEntry->getSectionType() == IPL_SECTION_INST)
-						{
-							((IPLEntry_INST*)pIPLEntry)->setModelName(Path::removeFileExtension(pRenamedIMGEntry->m_pIMGEntry->getEntryName()));
-						}
-					}
-				}
-
-				pIPLFile->serializeViaFile();
-				pIPLFile->unload();
-				delete pIPLFile;
-			}
-		}
-	}
-
-	// matching entries - COL
-	vector<string> vecCorruptCOLFiles;
-	if (pRenamerDialogData->m_bMatchingState_COL)
-	{
-		vecFilePaths = File::getFilePaths(pRenamerDialogData->m_strMatchingPath_COL, true);
-		for (auto strFilePath : vecFilePaths)
-		{
-			if (String::toUpperCase(Path::getFileExtension(strFilePath)) == "COL")
-			{
-				//Debugger::log("strFilePath: " + strFilePath);
-				COLFormat *pCOLFile = COLManager::get()->unserializeFile(strFilePath);
-				pCOLFile->setFilePath(strFilePath);
-				if (pCOLFile->doesHaveError())
-				{
-					vecCorruptCOLFiles.push_back(Path::getFileName(pCOLFile->getFilePath()) + " - Corrupt Reason: " + pCOLFile->getErrorReason());
-					//Debugger::log(Path::getFileName(pCOLFile->getFilePath()) + " - CORRUPT REASON: " + pCOLFile->getCorruptReason());
-					pCOLFile->unload();
-					delete pCOLFile;
-					continue;
-				}
-
-				for (auto pRenamedIMGEntry : vecIMGEntriesWithNewNames)
-				{
-					vector<COLEntry*> vecCOLEntries;
-
-					// COL model name
-					vecCOLEntries = pCOLFile->getEntriesByModelName(Path::removeFileExtension(pRenamedIMGEntry->m_strPreviousName));
-					for (auto pCOLEntry : vecCOLEntries)
-					{
-						pCOLEntry->setModelName(Path::removeFileExtension(pRenamedIMGEntry->m_pIMGEntry->getEntryName()));
-					}
-				}
-
-				pCOLFile->serializeViaFile();
-				pCOLFile->unload();
-				delete pCOLFile;
-			}
-		}
-	}
-
-	// log
-	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_116", vecIMGEntriesWithNewNames.size()));
-	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedText("Log_117"), true);
-	// todo - getIMGTab()->log(String::join(vecCorruptCOLFiles, "\n"), true);
-
-	// mark tab as modified
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
-
-	// refresh tab's main list view
-	getIMGF()->getIMGEditor()->refreshActiveTab();
-
-	// clean up
-	for (auto pRenamedIMGEntry : vecIMGEntriesWithNewNames)
-	{
-		delete pRenamedIMGEntry;
-	}
-	vecIMGEntriesWithNewNames.clear();
-	delete pRenamerDialogData;
-	getIMGF()->getTaskManager()->onTaskEnd("onRequestRenamer");
-	*/
 }
 
 void		Tasks::onRequestFeatureByName(string strFeatureName)

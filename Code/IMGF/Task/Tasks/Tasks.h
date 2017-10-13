@@ -230,6 +230,7 @@ public:
 	void						imgCompression(void);
 	void						update(bool bOnlyShowWindowIfUpdateIsAvailable);
 	void						associateIMGExtension(void);
+	void						generateCOLFromDFF(void);
 
 
 
@@ -241,15 +242,6 @@ public:
 	static int CALLBACK			sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 	void						onRequestFeatureByName(std::string strFeatureName);
 	void						onRequestLastFeatureUsed(void);
-
-
-
-
-
-	void						onRequestSessionManager(void);
-	void						onRequestRenamer(void);
-	void						onRequestBuildTXD(void);
-	void						onRequestTXDOrganizer(void);
 
 private:
 	MainWindow*					m_pMainWindow;
