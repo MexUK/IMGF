@@ -30,6 +30,8 @@ SettingsWindowLayer::~SettingsWindowLayer(void)
 // initialization
 void					SettingsWindowLayer::init(void)
 {
+	SettingsManager *pSettingsManager = getIMGF()->getSettingsManager();
+
 	addButton(50, 450, 100, 20, "Close", "window2_button", 200);
 
 	int32
@@ -38,34 +40,78 @@ void					SettingsWindowLayer::init(void)
 	uint32
 		y = 50;
 
+	// text
 	addText(50, y, 500, 20, "Text");
 	y += yGap1;
+
 	addText(50, y, 83, 50, "Language:");
 	DropDown *pLanguageDropDown = addDropDown(135, y - 2, 150, 20, "Choose..", "window2_dropDown", 300);
-	pLanguageDropDown->addItems(vector<string>({ "English" }));
+	vector<string> vecLanguages = { "English" };
+	string strActiveLanguageName = "English";
+	for (string& strLanguage : vecLanguages)
+	{
+		bool bActiveItem = false;
+		if (strLanguage == strActiveLanguageName)
+		{
+			bActiveItem = true;
+		}
+		pLanguageDropDown->addItem(strLanguage, bActiveItem);
+	}
 	y += yGap2;
 
+	// graphics
 	addText(50, y, 500, 20, "Graphics");
 	y += yGap1;
-	addCheckBox(50, y, 20, 20, "Window Always on Top", -1, "window2_checkBox", 400);
+
+	CheckBox *pAlwaysOnTopCheckBox = addCheckBox(50, y, 20, 20, "Window Always on Top", -1, "window2_checkBox", 400);
+	if (BXGX::get()->getFirstEntry()->isTopZIndex())
+	{
+		pAlwaysOnTopCheckBox->setMarked(true);
+	}
+	y += yGap1;
+
+	// theme
+	addText(50, y, 83, 50, "Theme:");
+
+	DropDown *pThemesDropDown = addDropDown(135, y, 150, 20, "Choose..", "window2_checkBox", 410);
+	string& strActiveThemeName = StyleManager::get()->getThemeName();
+	for (string& strThemeName : StyleManager::get()->getThemeNames())
+	{
+		bool bActiveItem = false;
+		if (strThemeName == strActiveThemeName)
+		{
+			bActiveItem = true;
+		}
+		pThemesDropDown->addItem(strThemeName, bActiveItem);
+	}
 	y += yGap2;
+
 	/*
 	todo
 	addText(50, y, 85, 20, "Tab Colours:");
-	addButton(135, y - 2, 100, 20, "Choose..", "window2_button", 410);
+	addButton(135, y - 2, 100, 20, "Choose..", "window2_button", 420);
 	y += yGap2;
 	*/
 
+	// tasks
 	addText(50, y, 500, 20, "Tasks");
 	y += yGap1;
+
 	addText(50, y, 144, 20, "Quick Export Folder:");
 	addButton(200, y - 2, 100, 20, "Choose..", "window2_button", 500);
 	y += yGap1;
+
 	addText(50, y, 150, 20, "Save After Tasks:");
 	addButton(210, y - 2, 100, 20, "Choose..", "window2_button", 510);
 	y += yGap1;
-	addCheckBox(50, y, 20, 20, "Save Logs to Folder:", -1, "window2_checkBox", 520);
+
+	CheckBox *pSaveLogsToFolderCheckBox = addCheckBox(50, y, 20, 20, "Save Logs to Folder:", -1, "window2_checkBox", 520);
 	addButton(225, y - 2, 100, 20, "Choose..", "window2_button", 530);
+	string strSaveLogsToFolder = pSettingsManager->getSetting("SaveLogsToFolder");
+	if (strSaveLogsToFolder == "1")
+	{
+		pSaveLogsToFolderCheckBox->setMarked(true);
+	}
 	y += yGap2;
 
 	bindEvent(PRESS_BUTTON, &SettingsWindowLayer::onPressButton);
@@ -181,6 +227,13 @@ void					SettingsWindowLayer::onSelectDropDownItem(DropDownItem *pDropDownEntry)
 	case 300:
 		// Language
 		pSettingsManager->setSetting("Language", pDropDownEntry->getText());
+		break;
+	
+	/* Graphics */
+	case 410:
+		// Theme
+		pSettingsManager->setSetting("ThemeName", pDropDownEntry->getText());
+		StyleManager::get()->reloadTheme(pDropDownEntry->getText());
 		break;
 	}
 }

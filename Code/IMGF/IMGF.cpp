@@ -69,6 +69,8 @@
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
 #include "Style/StyleManager.h"
 #include "GUI/Input/InputManager.h"
+#include "Crash/CrashManager.h"
+#include "Program/BuildVersion.h"
 
 using namespace std;
 using namespace bxcf;
@@ -115,6 +117,10 @@ IMGF::~IMGF(void)
 // init/uninit (ocurs in original thread)
 void				IMGF::init(void)
 {
+	CrashManager::get()->setFilePath(DataPath::getDataPath() + "Crashes/CrashLog.txt");
+	CrashManager::get()->setExtraLogEntryText("Version: " + IMGF_MAJOR_BUILD_VERSION_STRING + ", Build: " + IMGF_MINOR_BUILD_VERSION_STRING + (getBuildMeta().isAlphaBuild() ? " ############## ALPHA BUILD ##############" : ""));
+	CrashManager::get()->init();
+
 	m_pWindowManager->init();
 	_init();
 	//initInitializationThread();

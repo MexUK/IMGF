@@ -25,7 +25,11 @@ public:
 
 	MainLayer*				getMainLayer(void) { return m_pMainLayer; }
 	MainLayerNoTabsOpen*	getMainLayerNoTabsOpen(void) { return m_pMainLayerNoTabsOpen; }
+	
 	IMGEditor*				getIMGEditor(void) { return m_pIMGEditor; }
+
+	void					setActiveEditor(Editor *pActiveEditor) { m_pActiveEditor = pActiveEditor; }
+	Editor*					getActiveEditor(void) { return m_pActiveEditor; }
 
 	bxgx::ProgressBar*		getProgressBar(void);
 	bxgx::TabBar*			getTabBar(void);
@@ -42,6 +46,9 @@ private:
 	void					initSettingsMenuLayer(void);
 	void					initEditors(void);
 
+	template <class T>
+	T*						addEditor(void);
+
 public:
 	MainLayer*				m_pMainLayer;
 	MainLayerNoTabsOpen*	m_pMainLayerNoTabsOpen;
@@ -49,7 +56,17 @@ public:
 	TextureEditor*			m_pTextureEditor;
 	bxgx::Menu*				m_pSettingsMenu;
 	DumpWindowResult		m_dumpWindowResult;
+	Editor*					m_pActiveEditor;
 
 private:
 	imgf::mainLayer::mainMenuType::EMainMenuType	m_uiMainMenuType;
 };
+
+template <class T>
+T*							imgf::MainWindow::addEditor(void)
+{
+	T *pEditor = addLayer<T>(-1, false);
+	pEditor->setMainWindow(this);
+	pEditor->init();
+	return pEditor;
+}

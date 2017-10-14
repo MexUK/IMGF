@@ -11,9 +11,11 @@
 #include "Format/IMG/Regular/IMGEntry.h"
 #include "Format/Text/INI/INIManager.h"
 #include "Localization/ELanguage.h"
+#include "Style/StyleManager.h"
 
 using namespace std;
 using namespace bxcf;
+using namespace bxgx;
 using namespace imgf;
 
 // settings for settings
@@ -28,6 +30,14 @@ void			SettingsManager::init(void)
 
 	//setUsesINIStorage(false);
 	//setRegistryKey("IMGF\\Settings");
+
+	string strThemeName = getSetting("ThemeName");
+	if (strThemeName == "")
+	{
+		strThemeName = "Main";
+	}
+	StyleManager::get()->setThemeName(strThemeName);
+	StyleManager::get()->loadTheme();
 }
 
 void			SettingsManager::uninit(void)

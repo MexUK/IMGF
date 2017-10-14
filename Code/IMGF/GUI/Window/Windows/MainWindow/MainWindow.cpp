@@ -39,7 +39,8 @@ MainWindow::MainWindow(void) :
 	m_pMainLayer(nullptr),
 	m_pMainLayerNoTabsOpen(nullptr),
 	m_pIMGEditor(nullptr),
-	m_pTextureEditor(nullptr)
+	m_pTextureEditor(nullptr),
+	m_pActiveEditor(nullptr)
 {
 }
 
@@ -127,6 +128,7 @@ void					MainWindow::initMainMenuLayers(void)
 
 	pMenu = pFormatsLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -100);
 	vector<MenuItem*> vecMenuItems = pMenu->addMenuItems(9, "DAT", "IMG", "Item Definition", "Item Placement", "Models", "Collisions", "Textures", "Animations", "Radar");
+	pMenu->setItemIds(500);
 	pMenu->setActiveMenuItem(vecMenuItems[6]);
 
 	// utility menu
@@ -180,14 +182,10 @@ void					MainWindow::initSettingsMenuLayer(void)
 
 void					MainWindow::initEditors(void)
 {
-	m_pIMGEditor = addLayer<IMGEditor>(-1, true);
-	m_pTextureEditor = addLayer<TextureEditor>(-1, false);
+	m_pIMGEditor = addEditor<IMGEditor>();
+	m_pTextureEditor = addEditor<TextureEditor>();
 
-	m_pIMGEditor->setMainWindow(this);
-	m_pTextureEditor->setMainWindow(this);
-
-	m_pIMGEditor->init();
-	m_pTextureEditor->init();
+	setActiveEditor(m_pIMGEditor);
 }
 
 // layer repositioning and resizing

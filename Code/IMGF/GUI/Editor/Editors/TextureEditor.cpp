@@ -49,6 +49,11 @@ void						TextureEditor::init(void)
 void						TextureEditor::render(void)
 {
 	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
+	
+	if (BXGX::get()->getEventWindow() != m_pMainWindow)
+	{
+		return;
+	}
 
 	int32 startx, starty, x, y, x2, y2;
 	uint32 uiLogWidth = 335;

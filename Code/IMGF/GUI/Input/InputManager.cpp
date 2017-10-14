@@ -185,6 +185,14 @@ void					InputManager::processMenuItemPress(MenuItem *pMenuItem)
 		return;
 	}
 
+	// formats menu
+	if (pMenuItem->getId() >= 500 && pMenuItem->getId() <= 520)
+	{
+		mutexRendering.lock();
+		m_pMainWindow->setActiveItem();
+		mutexRendering.unlock();
+	}
+
 	uint32 uiMenuItemId;
 
 	if (pMenuItem->getExpandableMenu() && pMenuItem->getExpandableMenu()->getEntryCount() > 0)
