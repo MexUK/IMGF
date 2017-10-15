@@ -30,8 +30,8 @@ private:
 	void					install(void);
 
 	void					createFiles(void);
-	void					addToProgramList(void);
 	void					addDesktopIcon(void);
+	void					addToStartMenu(void);
 	void					associateFileExtensions(void);
 
 	void					createFile(HMODULE hModule, int iResourceId, std::string strFilePath);
@@ -47,4 +47,6 @@ private:
 	bxgx::Button*			m_pButton2;
 	bxgx::Button*			m_pButton3_1;
 	bxgx::Button*			m_pButton3_2;
+
+	std::string				m_strIMGFFileName;
 };

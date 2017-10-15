@@ -6667,7 +6667,7 @@ void		Tasks::update(bool bOnlyShowWindowIfUpdateIsAvailable)
 void		Tasks::associateIMGExtension(void)
 {
 	// todo
-	Registry::assoicateFileExtension("img", Process::getEXEFilePath());
+	Registry::assoicateFileExtension("IMG", Process::getEXEFilePath(), "IMGFactory.2");
 }
 
 

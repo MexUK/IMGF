@@ -2,6 +2,8 @@
 #include "Static/Process.h"
 #include "Static/DataPath.h"
 #include "Static/File.h"
+#include "Static/Path.h"
+#include "Static/Registry.h"
 #include "nsbxgx.h"
 #include "BXGX.h"
 #include "Event/EInputEvent.h"
@@ -27,6 +29,8 @@ Installer::Installer(void) :
 	m_pButton3_2(nullptr)
 {
 	m_pInstallerFiles = new InstallerFiles;
+
+	m_strIMGFFileName = "IMG Factory.exe";
 }
 
 // initialization
@@ -46,6 +50,10 @@ void					Installer::initTheme(void)
 .centerText\n\
 text center center\n\
 \n\
+.textSpacing\n\
+spacing x 8\n\
+spacing y 8\n\
+\n\
 .window\n\
 fill 0 0 0\n\
 line 181 230 29\n\
@@ -58,8 +66,9 @@ text 181 230 29\n\
 line 181 230 29\n\
 text 181 230 29\n\
 \n\
-textbox .a\n\
+textbox .textSpacing\n\
 fill 96 96 96\n\
+text 181 230 29\n\
 \n\
 text .a\n\
 text 181 230 29\n\
@@ -91,11 +100,12 @@ void					Installer::openWindow(void)
 	pLayer->addText(50, 50, 200, 25, "Log:");
 	m_pLog = pLayer->addTextBox(50, 80, 430, 120, "", true);
 	m_pLog->setReadOnly(true);
+
+	pLayer = m_pWindow->addLayer(-1, false, 0);
 	m_pButton2 = pLayer->addButton(vecWindowSize.x - 100 - 20, vecWindowSize.y - 25 - 20, 100, 25, "Installing..");
 
 	pLayer = m_pWindow->addLayer(-1, false, 0);
-	pLayer->addText(50, 50, 200, 25, "Install complete.");
-	m_pButton3_1 = pLayer->addButton(vecWindowSize.x - 250 - 20, vecWindowSize.y - 25 - 20, 130, 25, "Open IMG Factory");
+	m_pButton3_1 = pLayer->addButton(vecWindowSize.x - 270 - 20, vecWindowSize.y - 25 - 20, 150, 25, "Open IMG Factory");
 	m_pButton3_2 = pLayer->addButton(vecWindowSize.x - 100 - 20, vecWindowSize.y - 25 - 20, 100, 25, "Close");
 
 	bindEvent(PRESS_BUTTON, &Installer::onPressButton);
@@ -122,16 +132,17 @@ void					Installer::onPressButton(Button *pButton)
 		// Install
 		m_pWindow->getEntryByIndex(0)->setEnabled(false);
 		m_pWindow->getEntryByIndex(1)->setEnabled(true);
+		m_pWindow->getEntryByIndex(2)->setEnabled(true);
 
 		install();
 
-		m_pWindow->getEntryByIndex(1)->setEnabled(false);
-		m_pWindow->getEntryByIndex(2)->setEnabled(true);
+		m_pWindow->getEntryByIndex(2)->setEnabled(false);
+		m_pWindow->getEntryByIndex(3)->setEnabled(true);
 	}
 	else if (pButton == m_pButton3_1)
 	{
 		// Open IMG Factory
-		Process::startProcess(DataPath::getDataPath() + "Builds/IMG Factory.exe");
+		Process::startProcess(DataPath::getDataPath() + "Builds/" + m_strIMGFFileName);
 	}
 	else if (pButton == m_pButton3_2)
 	{
@@ -144,19 +155,25 @@ void					Installer::onPressButton(Button *pButton)
 void					Installer::install(void)
 {
 	log("Starting install.");
+	log("");
+
+
 
 	log("Creating files..");
 	createFiles();
 
-	log("Adding to program list..");
-	addToProgramList();
-
 	log("Creating desktop icon..");
 	addDesktopIcon();
+
+	log("Adding to start menu..");
+	addToStartMenu();
 
 	log("Associating file extension(s)..");
 	associateFileExtensions();
 
+
+
+	log("");
 	log("Completed install.");
 }
 
@@ -166,7 +183,7 @@ void					Installer::createFiles(void)
 
 	string strIMGFDataFolderPath = DataPath::getDataPath();
 
-	createFile(hModule, IDR_RCDATA5, strIMGFDataFolderPath + "Builds/IMG Factory.exe");
+	createFile(hModule, IDR_RCDATA5, strIMGFDataFolderPath + "Builds/" + m_strIMGFFileName);
 	createFile(hModule, IDR_RCDATA1, strIMGFDataFolderPath + "Images/Logo.png");
 	createFile(hModule, IDR_RCDATA4, strIMGFDataFolderPath + "Settings/RegularSettings.ini");
 	createFile(hModule, IDR_RCDATA3, strIMGFDataFolderPath + "Styles/Main.bxs");
@@ -189,14 +206,40 @@ void					Installer::createFile(HMODULE hModule, int iResourceId, string strFileP
 	FreeResource(hResource);
 }
 
-void					Installer::addToProgramList(void)
-{
-}
-
 void					Installer::addDesktopIcon(void)
 {
+	string
+		strEXEFilePath = DataPath::getDataPath() + "Builds/" + m_strIMGFFileName,
+		strLinkFilePath = DataPath::getDesktopFolderPath() + Path::replaceFileExtensionWithCase(m_strIMGFFileName, "LNK"),
+		strLinkDescription = "IMG Factory";
+	File::createLink(strEXEFilePath, strLinkFilePath, strLinkDescription);
+}
+
+void					Installer::addToStartMenu(void)
+{
+	string
+		strEXEFilePath = DataPath::getDataPath() + "Builds/" + m_strIMGFFileName,
+		strLinkFilePath = DataPath::geStartMenuFolderPath() + Path::replaceFileExtensionWithCase(m_strIMGFFileName, "LNK"),
+		strLinkDescription = "IMG Factory";
+	File::createLink(strEXEFilePath, strLinkFilePath, strLinkDescription);
+
+	strLinkFilePath = DataPath::geStartMenuFolderPath() + "IMG Factory/" + Path::replaceFileExtensionWithCase(m_strIMGFFileName, "LNK");
+	File::createLink(strEXEFilePath, strLinkFilePath, strLinkDescription);
 }
 
 void					Installer::associateFileExtensions(void)
 {
+	string
+		strEXEFilePath = DataPath::getDataPath() + "Builds/" + m_strIMGFFileName,
+		strAppIdentifier = "IMGFactory.2";
+
+	Registry::assoicateFileExtension("DAT", strEXEFilePath, strAppIdentifier);
+	Registry::assoicateFileExtension("IMG", strEXEFilePath, strAppIdentifier);
+	Registry::assoicateFileExtension("IDE", strEXEFilePath, strAppIdentifier);
+	Registry::assoicateFileExtension("IPL", strEXEFilePath, strAppIdentifier);
+	Registry::assoicateFileExtension("DFF", strEXEFilePath, strAppIdentifier);
+	Registry::assoicateFileExtension("COL", strEXEFilePath, strAppIdentifier);
+	Registry::assoicateFileExtension("TXD", strEXEFilePath, strAppIdentifier);
+	Registry::assoicateFileExtension("IFP", strEXEFilePath, strAppIdentifier);
+	Registry::assoicateFileExtension("WDR", strEXEFilePath, strAppIdentifier);
 }
