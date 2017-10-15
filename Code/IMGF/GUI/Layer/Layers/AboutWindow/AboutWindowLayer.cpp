@@ -30,13 +30,13 @@ Mex programmed the tool, X-Seti planned the features.\n\
 \n\
 Credits:\n\
 \n\
-Mex (Programmer)\n\
-X-Seti (Feature Planning)\n\
+Mex (Programmer, Themes)\n\
+X-Seti (Feature Planning, Themes)\n\
 \n\
 cj2000 (Rare Format Documentation)\n\
 dkluin (Tester)\n\
 IgorX (Initial Texture Window Design & Tester)\n\
-Leaf (Logo & Icon)\n\
+Leaf (Logo, Icon, Themes, Format Files)\n\
 \n\
 gtamodding.com (Format Documentation)\n\
 gtamodding.ru (Format Documentation)\n\

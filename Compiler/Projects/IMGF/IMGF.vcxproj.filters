@@ -97,9 +97,6 @@
     <Filter Include="Header Files\Static">
       <UniqueIdentifier>{c3eb73c2-9385-4b47-bf07-26be30155925}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Static">
-      <UniqueIdentifier>{cd257009-e6d1-4491-b9e2-513417f33b65}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Task\Tasks">
       <UniqueIdentifier>{99c715cc-064b-48b2-a226-24145895d91a}</UniqueIdentifier>
     </Filter>
@@ -312,6 +309,9 @@
     </Filter>
     <Filter Include="Header Files\GUI\Input">
       <UniqueIdentifier>{a8c25a8d-52ee-4996-be46-b0df79e64209}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Static">
+      <UniqueIdentifier>{cd257009-e6d1-4491-b9e2-513417f33b65}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

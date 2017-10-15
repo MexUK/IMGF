@@ -137,7 +137,7 @@ void					MainWindow::initMainMenuLayers(void)
 	strStyleGroup = "leftMenu";
 
 	m_pFormatsMenu = pFormatsLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -100);
-	vector<MenuItem*> vecMenuItems = m_pFormatsMenu->addMenuItems(9, "DAT", "IMG", "Item Definition", "Item Placement", "Models", "Collisions", "Textures", "Animations", "Radar");
+	vector<MenuItem*> vecMenuItems = m_pFormatsMenu->addMenuItems(9, "DAT", "IMG", "Item Definition", "Item Placement", "Model", "Collision", "Texture", "Animation", "Radar");
 	m_pFormatsMenu->setItemIds(500);
 	m_pFormatsMenu->setActiveMenuItem(vecMenuItems[6]);
 
@@ -227,6 +227,12 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 	uint32 uiEditorIndex = m_vecEditors.getIndexByEntry(pActiveEditor);
 	MenuItem *pActiveMenuItem = m_pFormatsMenu->getEntryByIndex(uiEditorIndex);
 	m_pFormatsMenu->setActiveMenuItem(pActiveMenuItem);
+
+	string strEditorTitleNoSpaces = String::replace(pActiveMenuItem->getText(), " ", "");
+	string strWindowStyleGroup = "window windowEditorTab_" + strEditorTitleNoSpaces;
+	resetStyleGroups();
+	setStyleGroups(strWindowStyleGroup);
+	render();
 }
 
 // layer repositioning and resizing
