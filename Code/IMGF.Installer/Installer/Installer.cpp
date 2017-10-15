@@ -232,14 +232,11 @@ void					Installer::associateFileExtensions(void)
 	string
 		strEXEFilePath = DataPath::getDataPath() + "Builds/" + m_strIMGFFileName,
 		strAppIdentifier = "IMGFactory.2";
+	vector<string>
+		vecFileExtensions = { "DAT", "IMG", "DIR", "IDE", "IPL", "DFF", "COL", "TXD", "IFP", "WDR" };
 
-	Registry::assoicateFileExtension("DAT", strEXEFilePath, strAppIdentifier);
-	Registry::assoicateFileExtension("IMG", strEXEFilePath, strAppIdentifier);
-	Registry::assoicateFileExtension("IDE", strEXEFilePath, strAppIdentifier);
-	Registry::assoicateFileExtension("IPL", strEXEFilePath, strAppIdentifier);
-	Registry::assoicateFileExtension("DFF", strEXEFilePath, strAppIdentifier);
-	Registry::assoicateFileExtension("COL", strEXEFilePath, strAppIdentifier);
-	Registry::assoicateFileExtension("TXD", strEXEFilePath, strAppIdentifier);
-	Registry::assoicateFileExtension("IFP", strEXEFilePath, strAppIdentifier);
-	Registry::assoicateFileExtension("WDR", strEXEFilePath, strAppIdentifier);
+	for (string& strFileExtension : vecFileExtensions)
+	{
+		Registry::assoicateFileExtension(strFileExtension, strEXEFilePath, strAppIdentifier);
+	}
 }
