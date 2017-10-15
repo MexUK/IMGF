@@ -67,7 +67,6 @@
 #include "Format/RW/RWSection.h"
 #include "Task/Repeat/LastUsedValueManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
-#include "Style/StyleManager.h"
 #include "GUI/Input/InputManager.h"
 #include "Crash/CrashManager.h"
 #include "Program/BuildVersion.h"

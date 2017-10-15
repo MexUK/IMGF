@@ -1,0 +1,202 @@
+#include "Installer.h"
+#include "Static/Process.h"
+#include "Static/DataPath.h"
+#include "Static/File.h"
+#include "nsbxgx.h"
+#include "BXGX.h"
+#include "Event/EInputEvent.h"
+#include "Control/Controls/TextBox.h"
+#include "Control/Controls/Button.h"
+#include "InstallerFile.h"
+
+using namespace std;
+using namespace bxcf;
+using namespace bxgx;
+using namespace bxgx::events;
+
+Installer::Installer(void) :
+	m_pInstallerFiles(nullptr),
+
+	m_pWindow(nullptr),
+
+	m_pLog(nullptr),
+
+	m_pButton1(nullptr),
+	m_pButton2(nullptr),
+	m_pButton3_1(nullptr),
+	m_pButton3_2(nullptr)
+{
+	m_pInstallerFiles = new InstallerFiles;
+}
+
+// initialization
+void					Installer::init(void)
+{
+	DataPath::setAppFolderName("IMGFactory");
+
+	initTheme();
+	m_pInstallerFiles->load();
+}
+
+void					Installer::initTheme(void)
+{
+	string
+		strThemeData =
+"\n\
+.centerText\n\
+text center center\n\
+\n\
+.window\n\
+fill 0 0 0\n\
+line 181 230 29\n\
+\n\
+.titleBar\n\
+fill 80 80 80\n\
+text 181 230 29\n\
+\n\
+.titleBarIcon\n\
+line 181 230 29\n\
+text 181 230 29\n\
+\n\
+textbox .a\n\
+fill 96 96 96\n\
+\n\
+text .a\n\
+text 181 230 29\n\
+\n\
+button .centerText\n\
+fill 96 96 96\n\
+text 181 230 29\n\
+";
+	
+	StyleManager::get()->setThemeData(strThemeData);
+}
+
+// window
+void					Installer::openWindow(void)
+{
+	Vec2u vecWindowSize = Vec2u(530, 280);
+
+	m_pWindow = BXGX::get()->addWindow(vecWindowSize.x, vecWindowSize.y);
+	m_pWindow->addTitleBar("IMG Factory Installer - Version 2.0 Alpha");
+
+	Layer *pLayer;
+
+	pLayer = m_pWindow->addLayer(-1, true, 0);
+	pLayer->addText(50, 50, 200, 25, "IMG Factory Installer");
+	pLayer->addText(50, 80, 200, 25, "Version: 2.0 Alpha");
+	m_pButton1 = pLayer->addButton(vecWindowSize.x - 100 - 20, vecWindowSize.y - 25 - 20, 100, 25, "Install");
+
+	pLayer = m_pWindow->addLayer(-1, false, 0);
+	pLayer->addText(50, 50, 200, 25, "Log:");
+	m_pLog = pLayer->addTextBox(50, 80, 430, 120, "", true);
+	m_pLog->setReadOnly(true);
+	m_pButton2 = pLayer->addButton(vecWindowSize.x - 100 - 20, vecWindowSize.y - 25 - 20, 100, 25, "Installing..");
+
+	pLayer = m_pWindow->addLayer(-1, false, 0);
+	pLayer->addText(50, 50, 200, 25, "Install complete.");
+	m_pButton3_1 = pLayer->addButton(vecWindowSize.x - 250 - 20, vecWindowSize.y - 25 - 20, 130, 25, "Open IMG Factory");
+	m_pButton3_2 = pLayer->addButton(vecWindowSize.x - 100 - 20, vecWindowSize.y - 25 - 20, 100, 25, "Close");
+
+	bindEvent(PRESS_BUTTON, &Installer::onPressButton);
+}
+
+// processing
+void					Installer::process(void)
+{
+	BXGX::get()->process();
+}
+
+// log
+void					Installer::log(string strText)
+{
+	m_pLog->addText(strText + "\n");
+	m_pLog->render();
+}
+
+// events
+void					Installer::onPressButton(Button *pButton)
+{
+	if (pButton == m_pButton1)
+	{
+		// Install
+		m_pWindow->getEntryByIndex(0)->setEnabled(false);
+		m_pWindow->getEntryByIndex(1)->setEnabled(true);
+
+		install();
+
+		m_pWindow->getEntryByIndex(1)->setEnabled(false);
+		m_pWindow->getEntryByIndex(2)->setEnabled(true);
+	}
+	else if (pButton == m_pButton3_1)
+	{
+		// Open IMG Factory
+		Process::startProcess(DataPath::getDataPath() + "Builds/IMG Factory.exe");
+	}
+	else if (pButton == m_pButton3_2)
+	{
+		// Close
+		ExitProcess(0);
+	}
+}
+
+// process install
+void					Installer::install(void)
+{
+	log("Starting install.");
+
+	log("Creating files..");
+	createFiles();
+
+	log("Adding to program list..");
+	addToProgramList();
+
+	log("Creating desktop icon..");
+	addDesktopIcon();
+
+	log("Associating file extension(s)..");
+	associateFileExtensions();
+
+	log("Completed install.");
+}
+
+void					Installer::createFiles(void)
+{
+	HMODULE hModule = GetModuleHandle(NULL);
+
+	string strIMGFDataFolderPath = DataPath::getDataPath();
+
+	createFile(hModule, IDR_RCDATA5, strIMGFDataFolderPath + "Builds/IMG Factory.exe");
+	createFile(hModule, IDR_RCDATA1, strIMGFDataFolderPath + "Images/Logo.png");
+	createFile(hModule, IDR_RCDATA4, strIMGFDataFolderPath + "Settings/RegularSettings.ini");
+	createFile(hModule, IDR_RCDATA3, strIMGFDataFolderPath + "Styles/Main.bxs");
+}
+
+void					Installer::createFile(HMODULE hModule, int iResourceId, string strFilePath)
+{
+	HRSRC hResourceFindResult = FindResource(hModule, MAKEINTRESOURCE(iResourceId), RT_RCDATA);
+	if (!hResourceFindResult) return;
+
+	HGLOBAL hResource = LoadResource(hModule, hResourceFindResult);
+	if (!hResource) return;
+
+	void *pData = LockResource(hResource);
+	uint64 uiFileDataLength = SizeofResource(hModule, hResourceFindResult);
+
+	File::storeFile(strFilePath, string((char*)pData, uiFileDataLength), false, true);
+
+	UnlockResource(hResource);
+	FreeResource(hResource);
+}
+
+void					Installer::addToProgramList(void)
+{
+}
+
+void					Installer::addDesktopIcon(void)
+{
+}
+
+void					Installer::associateFileExtensions(void)
+{
+}

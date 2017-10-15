@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IMGF", "..\..\Projects\IMGF\IMGF.vcxproj", "{8685C4C3-46F7-439E-A520-9A3210A8C643}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -63,6 +63,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IMGF.BuildVersion", "..\..\
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{344E179A-1E47-4838-A148-D9B5FAE364AB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IMGF.Installer", "..\..\Projects\IMGF.Installer\IMGF.Installer.vcxproj", "{9DFD93D3-0EA4-43CF-A614-3141D670E539}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8685C4C3-46F7-439E-A520-9A3210A8C643} = {8685C4C3-46F7-439E-A520-9A3210A8C643}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -156,6 +161,14 @@ Global
 		{6FBD84F0-8530-44AD-A2E6-AFFC9A23EF67}.Release|Win32.ActiveCfg = Release|Win32
 		{6FBD84F0-8530-44AD-A2E6-AFFC9A23EF67}.Release|Win32.Build.0 = Release|Win32
 		{6FBD84F0-8530-44AD-A2E6-AFFC9A23EF67}.Release|x64.ActiveCfg = Release|Win32
+		{9DFD93D3-0EA4-43CF-A614-3141D670E539}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9DFD93D3-0EA4-43CF-A614-3141D670E539}.Debug|Win32.Build.0 = Debug|Win32
+		{9DFD93D3-0EA4-43CF-A614-3141D670E539}.Debug|x64.ActiveCfg = Debug|x64
+		{9DFD93D3-0EA4-43CF-A614-3141D670E539}.Debug|x64.Build.0 = Debug|x64
+		{9DFD93D3-0EA4-43CF-A614-3141D670E539}.Release|Win32.ActiveCfg = Release|Win32
+		{9DFD93D3-0EA4-43CF-A614-3141D670E539}.Release|Win32.Build.0 = Release|Win32
+		{9DFD93D3-0EA4-43CF-A614-3141D670E539}.Release|x64.ActiveCfg = Release|x64
+		{9DFD93D3-0EA4-43CF-A614-3141D670E539}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,5 +185,9 @@ Global
 		{FFC28EA9-BC1A-4D10-B30A-2D45A55542F2} = {69383F43-B9EC-4A7A-AD35-9ECBE9649940}
 		{E328914E-5805-4724-908D-FFFE3DC4EF68} = {5C342BE1-9982-470B-AD27-3CD384615A49}
 		{6FBD84F0-8530-44AD-A2E6-AFFC9A23EF67} = {0AE806B2-6E9C-41D6-BBC3-D48487042C0D}
+		{9DFD93D3-0EA4-43CF-A614-3141D670E539} = {0AE806B2-6E9C-41D6-BBC3-D48487042C0D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E3565924-6D9F-46A1-843E-92E8130DDD6D}
 	EndGlobalSection
 EndGlobal

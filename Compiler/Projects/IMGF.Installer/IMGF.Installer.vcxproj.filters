@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Installer">
+      <UniqueIdentifier>{8ece1425-839e-4a6b-ac51-660ecb3671b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Installer">
+      <UniqueIdentifier>{1affe4d8-b3ae-4155-9139-fc1541193b41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images">
+      <UniqueIdentifier>{4cc214c5-31ee-450d-b75e-6cf06d9e1d05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Styles">
+      <UniqueIdentifier>{0d1571dd-433f-42ef-9e11-5adc6d642b63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Settings">
+      <UniqueIdentifier>{2f0e08d6-5124-41ce-9d4a-60c9997f7cbd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Code\IMGF.Installer\Main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.Installer\Installer\Installer.h">
+      <Filter>Header Files\Installer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.Installer\Installer\InstallerFile.h">
+      <Filter>Header Files\Installer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF.Installer\Installer\InstallerFiles.h">
+      <Filter>Header Files\Installer</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Code\IMGF.Installer\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.Installer\Installer\Installer.cpp">
+      <Filter>Source Files\Installer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.Installer\Installer\InstallerFile.cpp">
+      <Filter>Source Files\Installer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF.Installer\Installer\InstallerFiles.cpp">
+      <Filter>Source Files\Installer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_blue.bxs">
+      <Filter>Resource Files\Styles</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_blueish.bxs">
+      <Filter>Resource Files\Styles</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_Green.bxs">
+      <Filter>Resource Files\Styles</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_LightGreen.bxs">
+      <Filter>Resource Files\Styles</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_orange.bxs">
+      <Filter>Resource Files\Styles</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_Purple.bxs">
+      <Filter>Resource Files\Styles</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_red.bxs">
+      <Filter>Resource Files\Styles</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main-1 (grey).bxs">
+      <Filter>Resource Files\Styles</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main-2 (blue and yellow).bxs">
+      <Filter>Resource Files\Styles</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main (dark).bxs">
+      <Filter>Resource Files\Styles</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main (orange and yellow).bxs">
+      <Filter>Resource Files\Styles</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main.bxs">
+      <Filter>Resource Files\Styles</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_black.bxs">
+      <Filter>Resource Files\Styles</Filter>
+    </None>
+    <None Include="..\..\..\..\..\IMGF Installer Extracted Files\Styles\Main.bxs" />
+    <None Include="..\..\..\..\Output\Final\IMGF\Release.Win32\IMG Factory.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main (dark) - Copy.bxs">
+      <Filter>Resource Files\Styles</Filter>
+    </Text>
+    <Text Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Settings\RegularSettings.ini">
+      <Filter>Resource Files\Settings</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Images\Logo.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\IMGF Installer Extracted Files\Images\Logo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
