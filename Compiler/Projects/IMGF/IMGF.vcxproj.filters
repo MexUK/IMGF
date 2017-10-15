@@ -770,6 +770,27 @@
     <ClInclude Include="..\..\..\Code\IMGF\Task\Task.h">
       <Filter>Header Files\Task</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ItemPlacementEditor.h">
+      <Filter>Header Files\GUI\Editor\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ModelEditor.h">
+      <Filter>Header Files\GUI\Editor\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\RadarEditor.h">
+      <Filter>Header Files\GUI\Editor\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\AnimationEditor.h">
+      <Filter>Header Files\GUI\Editor\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\CollisionEditor.h">
+      <Filter>Header Files\GUI\Editor\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\DATEditor.h">
+      <Filter>Header Files\GUI\Editor\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ItemDefinitionEditor.h">
+      <Filter>Header Files\GUI\Editor\Editors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IMGF.rc">

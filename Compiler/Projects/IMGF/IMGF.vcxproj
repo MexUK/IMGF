@@ -186,8 +186,15 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Base\Editor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Base\Tab\EditorTab.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\AnimationEditor.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\CollisionEditor.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\DATEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\EEditorItem.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\IMGEditor.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ItemDefinitionEditor.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ItemPlacementEditor.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ModelEditor.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\RadarEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\IMGEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\TextureEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\InputManager.h" />

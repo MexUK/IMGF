@@ -4,7 +4,7 @@
 #include "Type/Types.h"
 #include "GUI/Editor/Base/Editor.h"
 
-class imgf::TextureEditor : public Editor
+class imgf::TextureEditor : public imgf::Editor
 {
 public:
 	TextureEditor(void);

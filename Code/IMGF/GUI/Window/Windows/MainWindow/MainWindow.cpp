@@ -1,7 +1,5 @@
 #include "MainWindow.h"
 #include "Event/EInputEvent.h"
-#include "GUI/Editor/Editors/IMGEditor.h"
-#include "GUI/Editor/Editors/TextureEditor.h"
 #include "Control/Controls/Button.h"
 #include "Control/Controls/Grid.h"
 #include "GUI/Window/WindowManager.h"
@@ -36,10 +34,22 @@ using namespace imgf::mainLayer::input;
 
 MainWindow::MainWindow(void) :
 	m_uiMainMenuType(EMainMenuType::FORMATS),
+	
 	m_pMainLayer(nullptr),
 	m_pMainLayerNoTabsOpen(nullptr),
+
+	m_pFormatsMenu(nullptr),
+	m_pSettingsMenu(nullptr),
+
+	m_pDATEditor(nullptr),
 	m_pIMGEditor(nullptr),
-	m_pTextureEditor(nullptr),
+	m_pItemDefinitionEditor(nullptr),
+	m_pItemPlacementEditor(nullptr),
+	m_pModelEditor(nullptr),
+	m_pCollisionEditor(nullptr),
+	m_pAnimationEditor(nullptr),
+	m_pRadarEditor(nullptr),
+
 	m_pActiveEditor(nullptr)
 {
 }
@@ -126,10 +136,10 @@ void					MainWindow::initMainMenuLayers(void)
 	h2 = h;
 	strStyleGroup = "leftMenu";
 
-	pMenu = pFormatsLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -100);
-	vector<MenuItem*> vecMenuItems = pMenu->addMenuItems(9, "DAT", "IMG", "Item Definition", "Item Placement", "Models", "Collisions", "Textures", "Animations", "Radar");
-	pMenu->setItemIds(500);
-	pMenu->setActiveMenuItem(vecMenuItems[6]);
+	m_pFormatsMenu = pFormatsLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -100);
+	vector<MenuItem*> vecMenuItems = m_pFormatsMenu->addMenuItems(9, "DAT", "IMG", "Item Definition", "Item Placement", "Models", "Collisions", "Textures", "Animations", "Radar");
+	m_pFormatsMenu->setItemIds(500);
+	m_pFormatsMenu->setActiveMenuItem(vecMenuItems[6]);
 
 	// utility menu
 	Layer *pUtilityLayer = addLayer(UTILITY_MENU, false);
@@ -182,10 +192,41 @@ void					MainWindow::initSettingsMenuLayer(void)
 
 void					MainWindow::initEditors(void)
 {
-	m_pIMGEditor = addEditor<IMGEditor>();
-	m_pTextureEditor = addEditor<TextureEditor>();
+	m_pDATEditor				= addEditor<DATEditor>();
+	m_pIMGEditor				= addEditor<IMGEditor>();
+	m_pItemDefinitionEditor		= addEditor<ItemDefinitionEditor>();
+	m_pItemPlacementEditor		= addEditor<ItemPlacementEditor>();
+	m_pModelEditor				= addEditor<ModelEditor>();
+	m_pCollisionEditor			= addEditor<CollisionEditor>();
+	m_pTextureEditor			= addEditor<TextureEditor>();
+	m_pAnimationEditor			= addEditor<AnimationEditor>();
+	m_pRadarEditor				= addEditor<RadarEditor>();
 
 	setActiveEditor(m_pIMGEditor);
+}
+
+void					MainWindow::addEditor(Editor *pEditor)
+{
+	m_vecEditors.addEntry(pEditor);
+}
+
+void					MainWindow::setActiveEditor(Editor *pActiveEditor)
+{
+	if (m_pActiveEditor)
+	{
+		m_pActiveEditor->setEnabled(false);
+	}
+
+	m_pActiveEditor = pActiveEditor;
+
+	if (pActiveEditor)
+	{
+		pActiveEditor->setEnabled(true);
+	}
+
+	uint32 uiEditorIndex = m_vecEditors.getIndexByEntry(pActiveEditor);
+	MenuItem *pActiveMenuItem = m_pFormatsMenu->getEntryByIndex(uiEditorIndex);
+	m_pFormatsMenu->setActiveMenuItem(pActiveMenuItem);
 }
 
 // layer repositioning and resizing

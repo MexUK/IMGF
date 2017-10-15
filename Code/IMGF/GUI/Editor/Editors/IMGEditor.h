@@ -15,7 +15,7 @@ class bxgx::DropDown;
 class bxgi::IMGEntry;
 class bxgi::IMGFormat;
 
-class imgf::IMGEditor : public Editor
+class imgf::IMGEditor : public imgf::Editor
 {
 public:
 	IMGEditor(void);

@@ -188,8 +188,15 @@ void					InputManager::processMenuItemPress(MenuItem *pMenuItem)
 	// formats menu
 	if (pMenuItem->getId() >= 500 && pMenuItem->getId() <= 520)
 	{
+		uint32 uiEditorIndex = pMenuItem->getId() - 500;
+		Editor *pEditor = m_pMainWindow->getEditors().getEntryByIndex(uiEditorIndex);
+		if (!pEditor)
+		{
+			return;
+		}
+
 		mutexRendering.lock();
-		m_pMainWindow->setActiveItem();
+		m_pMainWindow->setActiveEditor(pEditor);
 		mutexRendering.unlock();
 	}
 

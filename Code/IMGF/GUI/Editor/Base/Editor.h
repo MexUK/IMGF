@@ -15,7 +15,7 @@ class imgf::Editor : public bxgx::Layer, public bxcf::EventBindable
 public:
 	Editor(void);
 
-	virtual void						init(void) = 0;
+	virtual void						init(void);
 
 	void								addControls(void);
 	void								initControls(void);

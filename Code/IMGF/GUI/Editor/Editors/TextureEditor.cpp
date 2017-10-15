@@ -50,7 +50,7 @@ void						TextureEditor::render(void)
 {
 	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
 	
-	if (BXGX::get()->getEventWindow() != m_pMainWindow)
+	if (m_pMainWindow->getActiveEditor() != m_pMainWindow->getTextureEditor() || BXGX::get()->getEventWindow() != m_pMainWindow)
 	{
 		return;
 	}

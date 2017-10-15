@@ -64,9 +64,17 @@ namespace imgf
 	class EditorTab;
 	class Editor;
 
-	class IMGEditorTab;
+	class DATEditor;
 	class IMGEditor;
+	class ItemDefinitionEditor;
+	class ItemPlacementEditor;
+	class ModelEditor;
+	class CollisionEditor;
 	class TextureEditor;
+	class AnimationEditor;
+	class RadarEditor;
+
+	class IMGEditorTab;
 
 	class InputManager;
 
