@@ -10,6 +10,7 @@
 #include "Control/Controls/TextBox.h"
 #include "Control/Controls/Button.h"
 #include "InstallerFile.h"
+#include "../../../Compiler/Projects/IMGF.Installer/resource.h"
 
 using namespace std;
 using namespace bxcf;
@@ -180,13 +181,27 @@ void					Installer::install(void)
 void					Installer::createFiles(void)
 {
 	HMODULE hModule = GetModuleHandle(NULL);
-
 	string strIMGFDataFolderPath = DataPath::getDataPath();
 
-	createFile(hModule, IDR_RCDATA5, strIMGFDataFolderPath + "Builds/" + m_strIMGFFileName);
-	createFile(hModule, IDR_RCDATA1, strIMGFDataFolderPath + "Images/Logo.png");
-	createFile(hModule, IDR_RCDATA4, strIMGFDataFolderPath + "Settings/RegularSettings.ini");
-	createFile(hModule, IDR_RCDATA3, strIMGFDataFolderPath + "Styles/Main.bxs");
+	createFile(hModule, IDR_RCDATA22, strIMGFDataFolderPath + "Builds/" + m_strIMGFFileName);
+	
+	createFile(hModule, IDB_PNG1, strIMGFDataFolderPath + "Images/Logo.png");
+	
+	createFile(hModule, IDR_RCDATA21, strIMGFDataFolderPath + "Settings/RegularSettings.ini");
+
+	createFile(hModule, IDR_RCDATA6, strIMGFDataFolderPath + "Styles/Main (dark).bxs");
+	createFile(hModule, IDR_RCDATA7, strIMGFDataFolderPath + "Styles/Main (orange and yellow).bxs");
+	createFile(hModule, IDR_RCDATA8, strIMGFDataFolderPath + "Styles/Main.bxs");
+	createFile(hModule, IDR_RCDATA9, strIMGFDataFolderPath + "Styles/Main_Black.bxs");
+	createFile(hModule, IDR_RCDATA10, strIMGFDataFolderPath + "Styles/Main_Blue.bxs");
+	createFile(hModule, IDR_RCDATA11, strIMGFDataFolderPath + "Styles/Main_Blueish.bxs");
+	createFile(hModule, IDR_RCDATA12, strIMGFDataFolderPath + "Styles/Main_Green.bxs");
+	createFile(hModule, IDR_RCDATA13, strIMGFDataFolderPath + "Styles/Main_LightGreen.bxs");
+	createFile(hModule, IDR_RCDATA14, strIMGFDataFolderPath + "Styles/Main_Orange.bxs");
+	createFile(hModule, IDR_RCDATA15, strIMGFDataFolderPath + "Styles/Main_Purple.bxs");
+	createFile(hModule, IDR_RCDATA16, strIMGFDataFolderPath + "Styles/Main_Red.bxs");
+	createFile(hModule, IDR_RCDATA17, strIMGFDataFolderPath + "Styles/Main-1 (grey).bxs");
+	createFile(hModule, IDR_RCDATA18, strIMGFDataFolderPath + "Styles/Main-2 (blue and yellow).bxs");
 }
 
 void					Installer::createFile(HMODULE hModule, int iResourceId, string strFilePath)

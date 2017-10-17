@@ -143,33 +143,6 @@
     <ClCompile Include="..\..\..\Code\IMGF.Installer\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\IMGF Installer Extracted Files\Styles\Main.bxs" />
-    <None Include="..\..\..\..\Output\Final\IMGF\Release.Win32\IMG Factory.exe" />
-    <Text Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Settings\RegularSettings.ini">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-    </Text>
-    <Text Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main (dark) - Copy.bxs">
-      <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-    </Text>
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main (dark).bxs" />
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main (orange and yellow).bxs" />
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main-1 (grey).bxs" />
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main-2 (blue and yellow).bxs" />
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main.bxs" />
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_black.bxs" />
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_blue.bxs" />
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_blueish.bxs" />
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_Green.bxs" />
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_LightGreen.bxs" />
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_orange.bxs" />
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_Purple.bxs" />
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_red.bxs" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="Resource.rc">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
@@ -178,13 +151,25 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Images\Logo.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
-    </Image>
-    <Image Include="..\..\..\..\..\IMGF Installer Extracted Files\Images\Logo.png" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Program\IMG Factory.exe" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Settings\RegularSettings.ini" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main (dark).bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main (orange and yellow).bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main-1 (grey).bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main-2 (blue and yellow).bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Black.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Blue.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Blueish.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Green.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_LightGreen.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Orange.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Purple.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Red.bxs" />
+    <None Include="..\..\..\..\..\imgf installer files\styles\rcdata20.bin" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\IMGF Installer Files\Images\Logo.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

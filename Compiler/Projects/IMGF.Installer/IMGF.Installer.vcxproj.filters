@@ -61,66 +61,32 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_blue.bxs">
-      <Filter>Resource Files\Styles</Filter>
-    </None>
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_blueish.bxs">
-      <Filter>Resource Files\Styles</Filter>
-    </None>
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_Green.bxs">
-      <Filter>Resource Files\Styles</Filter>
-    </None>
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_LightGreen.bxs">
-      <Filter>Resource Files\Styles</Filter>
-    </None>
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_orange.bxs">
-      <Filter>Resource Files\Styles</Filter>
-    </None>
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_Purple.bxs">
-      <Filter>Resource Files\Styles</Filter>
-    </None>
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_red.bxs">
-      <Filter>Resource Files\Styles</Filter>
-    </None>
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main-1 (grey).bxs">
-      <Filter>Resource Files\Styles</Filter>
-    </None>
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main-2 (blue and yellow).bxs">
-      <Filter>Resource Files\Styles</Filter>
-    </None>
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main (dark).bxs">
-      <Filter>Resource Files\Styles</Filter>
-    </None>
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main (orange and yellow).bxs">
-      <Filter>Resource Files\Styles</Filter>
-    </None>
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main.bxs">
-      <Filter>Resource Files\Styles</Filter>
-    </None>
-    <None Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main_black.bxs">
-      <Filter>Resource Files\Styles</Filter>
-    </None>
-    <None Include="..\..\..\..\..\IMGF Installer Extracted Files\Styles\Main.bxs" />
-    <None Include="..\..\..\..\Output\Final\IMGF\Release.Win32\IMG Factory.exe" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="Resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Styles\Main (dark) - Copy.bxs">
-      <Filter>Resource Files\Styles</Filter>
-    </Text>
-    <Text Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Settings\RegularSettings.ini">
-      <Filter>Resource Files\Settings</Filter>
-    </Text>
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main (dark).bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main (orange and yellow).bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Black.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Blue.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Blueish.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Green.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_LightGreen.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Orange.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Purple.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Red.bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main-1 (grey).bxs" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main-2 (blue and yellow).bxs" />
+    <None Include="..\..\..\..\..\imgf installer files\styles\rcdata20.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\..\IMGF Installer Files\Settings\RegularSettings.ini" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Program\IMG Factory.exe" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\..\AppData\Local\IMGFactory\Images\Logo.png">
-      <Filter>Resource Files\Images</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\IMGF Installer Extracted Files\Images\Logo.png">
+    <Image Include="..\..\..\..\..\IMGF Installer Files\Images\Logo.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
