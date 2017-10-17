@@ -18,11 +18,13 @@
 #include "Static/String.h"
 #include "Event/EInternalEvent.h"
 #include "Static/Path.h"
+#include "Format/IMG/Regular/IMGFormat.h"
 
 using namespace std;
 using namespace bxcf;
 using namespace bxgx;
 using namespace bxgx::events;
+using namespace bxgi;
 using namespace imgf;
 using namespace imgf::layers;
 using namespace imgf::mainLayer::input;
@@ -169,7 +171,7 @@ void					InputManager::processMenuItemPress(MenuItem *pMenuItem)
 	{
 		string strRecentlyOpenFilePath = getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer()[pMenuItem->getId()];
 		getIMGF()->getRecentlyOpenManager()->moveRecentlyOpenEntryToTop(strRecentlyOpenFilePath);
-		getIMGF()->getIMGEditor()->addFile(strRecentlyOpenFilePath);
+		getIMGF()->getIMGEditor()->addEditorTab(strRecentlyOpenFilePath);
 		return;
 	}
 
@@ -180,7 +182,7 @@ void					InputManager::processMenuItemPress(MenuItem *pMenuItem)
 		vector<string> vecFileGroupData = String::split(strFileGroupData, "; ");
 		for (uint32 i = 1, j = vecFileGroupData.size(); i < j; i++)
 		{
-			getIMGF()->getIMGEditor()->addFile(vecFileGroupData[i]);
+			getIMGF()->getIMGEditor()->addEditorTab(vecFileGroupData[i]);
 		}
 		return;
 	}

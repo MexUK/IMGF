@@ -27,6 +27,11 @@ public:
 
 	void								init(void);
 
+	virtual void						addControls(void);
+	virtual void						initControls(void);
+	virtual bool						unserializeFile(void) = 0;
+	virtual void						onFileLoaded(void) = 0;
+
 	void								unload(void) {}
 
 	void								processThread(void);
@@ -53,8 +58,6 @@ public:
 
 	std::thread&						getThread(void) { return m_thread; }
 
-	void								addControls(void);
-	void								initControls(void);
 	void								repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 
 	void								onTaskProgress(void);
@@ -73,6 +76,7 @@ public:
 	std::vector<bxgx::MenuItem*>&		getMenuItemsPressed(void) { return m_vecMenuItemsPressed; }
 
 protected:
+	Editor*								m_pEditor;
 	bxgx::TextBox*						m_pSearchBox;
 	bxgx::Tab*							m_pTab;
 	bxgx::TextBox*						m_pLog;
@@ -81,7 +85,7 @@ private:
 	std::thread							m_thread;
 	bool								m_bMarkedToClose;
 	bool								m_bThreadHasTerminated;
-	Editor*								m_pEditor;
+	
 	bxcf::Format*						m_pFile;
 	bxgx::ProgressBar*					m_pProgressBar;
 	bxcf::VectorPool<RenderItem*>		m_vecRenderItems;

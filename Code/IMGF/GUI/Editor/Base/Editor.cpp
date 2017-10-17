@@ -7,6 +7,7 @@
 #include "Static/String.h"
 #include "Control/Controls/TextBox.h"
 #include "Control/Controls/TabBar.h"
+#include "Task/Tasks/Tasks.h"
 
 using namespace std;
 using namespace bxcf;
@@ -35,13 +36,7 @@ void								Editor::initControls(void)
 {
 }
 
-// add/remove file
-void								Editor::addFile(EditorTab *pEditorFile)
-{
-	// store file object
-	m_vecTabs.addEntry(pEditorFile);
-}
-
+// remove editor tab
 void								Editor::removeFile(EditorTab *pEditorFile)
 {
 	// remove tab from tab bar

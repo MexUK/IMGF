@@ -25,8 +25,6 @@ public:
 
 	void						unload(void);
 
-	void						init(void);
-
 	void						onFileLoaded(void);
 
 	void						setFileInfoText(void);
@@ -44,8 +42,8 @@ public:
 	void						onChangeTextBox(bxgx::TextBox *pTextBox);
 	void						onSortGridByColumn(bxgx::Grid *pGrid);
 
-	void						setIMGEditor(IMGEditor *pEditor) { m_pEditor = pEditor; }
-	IMGEditor*					getIMGEditor(void) { return m_pEditor; }
+	void						setIMGEditor(IMGEditor *pEditor) { m_pIMGEditor = pEditor; }
+	IMGEditor*					getIMGEditor(void) { return m_pIMGEditor; }
 
 	void						setIMGFile(bxgi::IMGFormat *pIMGFile) { m_pIMGFile = pIMGFile; }
 	bxgi::IMGFormat*			getIMGFile(void) { return m_pIMGFile; }
@@ -166,7 +164,7 @@ public:
 	bxgx::Text*					m_pText_FileEntryCount;
 
 private:
-	IMGEditor*					m_pEditor;
+	IMGEditor*					m_pIMGEditor;
 
 	bxgx::Grid*					m_pEntryGrid;
 	bxgx::DropDown*				m_pEntryTypeFilter;

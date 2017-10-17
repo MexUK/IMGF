@@ -1,20 +1,32 @@
 #include "TextureEditor.h"
+#include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
+#include "GUI/Editor/Editors/Tab/TextureEditorTab.h"
+#include "GUI/Layer/Layers/MainLayer/MainLayer.h"
+#include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 #include "BXGX.h"
 #include "GraphicsLibrary/Base/GraphicsLibrary.h"
 #include "Style/Parts/EStyleStatus.h"
+#include "Format/TXD/TXDManager.h"
+#include "Format/TXD/TXDFormat.h"
+#include "Static/Path.h"
+#include "IMGF.h"
 
+using namespace std;
 using namespace bxcf;
 using namespace bxgx;
 using namespace bxgx::styles::statuses;
 using namespace bxgx::events;
+using namespace bxgi;
 using namespace imgf;
 
 TextureEditor::TextureEditor(void) :
 	m_pActiveTexture(nullptr)
 {
+	setEditorFileFormats({ "TXD" });
 }
 
+// initialization
 void						TextureEditor::init(void)
 {
 	int32 startx, starty, x, y, x2, y2;
@@ -46,6 +58,7 @@ void						TextureEditor::init(void)
 	bindEvent(RENDER, &TextureEditor::render);
 }
 
+// render
 void						TextureEditor::render(void)
 {
 	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();

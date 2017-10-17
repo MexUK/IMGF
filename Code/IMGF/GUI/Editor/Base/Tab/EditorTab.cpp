@@ -3,17 +3,20 @@
 #include "GUI/Editor/Base/Editor.h"
 #include "Control/Controls/TextBox.h"
 #include "Control/Controls/ProgressBar.h"
+#include "Control/Controls/TabBar.h"
 #include "Control/Entries/Tab.h"
 #include "IMGF.h"
 #include "GUI/Input/InputManager.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
+#include "GUI/Layer/Layers/MainLayer/MainLayer.h"
 #include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 #include "Task/TaskManager.h"
 #include "Settings/SettingsManager.h"
 #include "Static/File.h"
 #include "Static/Path.h"
 #include "BXGX.h"
+#include "Format/Format.h"
 #include <stdarg.h>
 
 using namespace std;
@@ -43,10 +46,54 @@ EditorTab::~EditorTab(void)
 // initialization
 void						EditorTab::init(void)
 {
+	/*
+	todo
+
+	// add base editor controls
+	m_pEditor->Editor::addControls();
+
+	// add derived editor controls
+	m_pEditor->addControls();
+	*/
+
+	// add base editor tab controls
+	EditorTab::addControls();
+	EditorTab::initControls();
+
+	// add derived editor tab controls
 	addControls();
 	initControls();
 
+	// add thread
 	m_thread = thread([&]() { processThread(); });
+
+	// add gui tab
+	string strTabText = Path::getFileName(m_pFile->getFilePath());
+	if (String::toUpperCase(Path::getFileExtension(strTabText)) == "DIR")
+	{
+		strTabText = Path::replaceFileExtensionWithCase(strTabText, "IMG");
+	}
+	strTabText += " (Loading..)";
+
+	TabBar *pTabBar = m_pEditor->getTabBar();
+	m_pTab = pTabBar->addTab(strTabText, true);
+	pTabBar->bindTabLayer(m_pTab, this);
+
+	// set active editor tab
+	m_pEditor->setActiveFile(this);
+
+	// unserialize file
+	unserializeFile();
+
+	// on file loaded
+	onFileLoaded();
+
+	// set certain menu items enabled
+	m_pEditor->getMainWindow()->getMainLayer()->setCertainMenuItemsEnabled(true);
+
+	// log
+	string strFileName = Path::getFileName(m_pFile->getFilePath());
+	logf("Opened %s", strFileName.c_str());
 }
 
 // tab processing

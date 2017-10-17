@@ -2,6 +2,10 @@
 #include "Globals.h"
 #include "IMGF.h"
 #include "Format/IMG/Regular/IMGManager.h"
+#include "Format/IMG/Regular/IMGFormatVersion1.h"
+#include "Format/IMG/Regular/IMGFormatVersion2.h"
+#include "Format/IMG/Regular/IMGFormatVersion3.h"
+#include "Format/IMG/Regular/IMGFormatVersionFastman92.h"
 #include "Static/String.h"
 #include "Static/Path.h"
 #include "Static/File.h"
@@ -63,6 +67,7 @@ IMGEditor::IMGEditor(void) :
 	m_uiSearchHitCount(0), // todo - rename to SearchHitEntryCount
 	m_uiSearchFileCount(0) // todo - rename to SearchHitFileCount
 {
+	setEditorFileFormats({ "IMG", "DIR" });
 }
 
 // editor initialization
@@ -77,87 +82,79 @@ void						IMGEditor::init(void)
 	initControls();
 }
 
-// add/remove file
-IMGEditorTab*				IMGEditor::addFile(string& strIMGFilePath)
+IMGEditorTab*				IMGEditor::addEditorTab(string& strFilePath)
 {
-	if (isFilePathOpen(strIMGFilePath))
-	{
-		setActiveFile(getEditorTabByFilePath(strIMGFilePath));
-		return nullptr;
-	}
-
-	IMGFormat *img = IMGFormat::createIMGFormat(strIMGFilePath);
-	if (!img)
-	{
-		Tasks::showMessage("Failed to read meta data.\r\n\r\n" + strIMGFilePath, "Can't Open IMG File");
-		return nullptr;
-	}
-
-	IMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img, false);
-	if (!imgEditorTab)
+	IMGFormat imgFormat(strFilePath);
+	if(!imgFormat.readMetaData())
 	{
 		return nullptr;
 	}
 
-	string strFileName = Path::getFileName(img->getIMGFilePath());
-	imgEditorTab->logf("Opened %s", strFileName.c_str());
+	IMGEditorTab *pIMGEditorTab;
 
-	return imgEditorTab;
+	switch (imgFormat.getVersion())
+	{
+	case IMG_1:
+		pIMGEditorTab = Editor::addEditorTab<IMGFormatVersion1, IMGEditorTab>(strFilePath);
+		break;
+	case IMG_2:
+		pIMGEditorTab = Editor::addEditorTab<IMGFormatVersion2, IMGEditorTab>(strFilePath);
+		break;
+	case IMG_3:
+		pIMGEditorTab = Editor::addEditorTab<IMGFormatVersion3, IMGEditorTab>(strFilePath);
+		break;
+	case IMG_FASTMAN92:
+		pIMGEditorTab = Editor::addEditorTab<IMGFormatVersionFastman92, IMGEditorTab>(strFilePath);
+		break;
+	default:
+		pIMGEditorTab = nullptr;
+		break;
+	}
+
+	if (pIMGEditorTab)
+	{
+		pIMGEditorTab->setIMGEditor(this);
+		pIMGEditorTab->setIMGFile((IMGFormat*)pIMGEditorTab->getFile());
+		pIMGEditorTab->init();
+	}
+	return pIMGEditorTab;
 }
 
-IMGEditorTab*				IMGEditor::addBlankFile(string strIMGFilePath, EIMGVersion uiIMGVersion)
+// add editor tab
+IMGEditorTab*				IMGEditor::addBlankEditorTab(string& strFilePath, EIMGVersion uiIMGVersion)
 {
-	IMGFormat *img = IMGFormat::createIMGFormat(uiIMGVersion);
-	img->setFilePath(strIMGFilePath);
+	IMGEditorTab *pIMGEditorTab;
 
-	IMGEditorTab *imgEditorTab = addTabObjectAndTabControl(img, true);
-	if (!imgEditorTab)
+	switch (uiIMGVersion)
 	{
-		return nullptr;
+	case IMG_1:
+		pIMGEditorTab = Editor::addEditorTab<IMGFormatVersion1, IMGEditorTab>(strFilePath, true);
+		break;
+	case IMG_2:
+		pIMGEditorTab = Editor::addEditorTab<IMGFormatVersion2, IMGEditorTab>(strFilePath, true);
+		break;
+	case IMG_3:
+		pIMGEditorTab = Editor::addEditorTab<IMGFormatVersion3, IMGEditorTab>(strFilePath, true);
+		break;
+	case IMG_FASTMAN92:
+		pIMGEditorTab = Editor::addEditorTab<IMGFormatVersionFastman92, IMGEditorTab>(strFilePath, true);
+		break;
+	default:
+		pIMGEditorTab = nullptr;
+		break;
 	}
 
-	string strFileName = Path::getFileName(img->getIMGFilePath());
-	imgEditorTab->logf("Created %s", strFileName.c_str());
-
-	return imgEditorTab;
-}
-
-IMGEditorTab*				IMGEditor::addTabObjectAndTabControl(IMGFormat *img, bool bNewFile)
-{
-	IMGEditorTab *imgEditorTab = m_pWindow->addLayer<IMGEditorTab>(-1, true, -50);
-
-	imgEditorTab->setIMGEditor(this);
-	imgEditorTab->setEditor(this);
-	imgEditorTab->setIMGFile(img);
-	imgEditorTab->setFile(img);
+	if (pIMGEditorTab)
+	{
+		pIMGEditorTab->setIMGEditor(this);
+		pIMGEditorTab->setIMGFile((IMGFormat*)pIMGEditorTab->getFile());
+		pIMGEditorTab->init();
+	}
 	
-	if (m_pActiveFile)
-	{
-		m_pActiveFile->setEnabled(false);
-	}
-	else
-	{
-		setEnabled(false);
-		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(false);
-	}
-
-	Editor::addFile(imgEditorTab);
-	imgEditorTab->init();
-	setActiveFile(imgEditorTab);
-
-	if (!bNewFile && !imgEditorTab->unserializeFile())
-	{
-		removeFile(imgEditorTab);
-		return nullptr;
-	}
-
-	imgEditorTab->onFileLoaded();
-
-	m_pMainWindow->getMainLayer()->setCertainMenuItemsEnabled(true);
-
-	return imgEditorTab;
+	return pIMGEditorTab;
 }
 
+// remove editor tab
 void						IMGEditor::removeFile(IMGEditorTab *pIMGEditorFile)
 {
 	pIMGEditorFile->setMarkedToClose(true);

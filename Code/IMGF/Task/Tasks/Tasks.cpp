@@ -194,6 +194,7 @@ void		Tasks::onProgressTask(void)
 {
 	if (getTaskName() == "exportAll")
 	{
+		// todo
 		//increaseProgress();
 	}
 }
@@ -283,7 +284,7 @@ void		Tasks::newFile(void)
 	File::createFoldersForPath(strNewIMGFilePath);
 
 	EIMGVersion uiIMGVersion = IMG_1;
-	getIMGF()->getIMGEditor()->addBlankFile(strNewIMGFilePath, uiIMGVersion);
+	getIMGF()->getIMGEditor()->addBlankEditorTab(strNewIMGFilePath, uiIMGVersion);
 
 	onCompleteTask();
 }
@@ -301,7 +302,7 @@ void		Tasks::chooseFilesToOpen(void)
 {
 	onStartTask("chooseFilesToOpen");
 
-	vector<string> vecFilePaths = openFile("img,dir");
+	vector<string> vecFilePaths = openFile(String::join(m_pMainWindow->getActiveEditor()->getEditorFileFormats(), ","));
 	if (vecFilePaths.size() == 0)
 	{
 		return m_pTaskManager->onAbortTask();
@@ -363,7 +364,14 @@ void		Tasks::_openFile(string& strFilePath)
 		}
 		*/
 
-		if (!m_pMainWindow->getIMGEditor()->addFile(strFilePath))
+		if (!m_pMainWindow->getIMGEditor()->addEditorTab(strFilePath))
+		{
+			return onAbortTask();
+		}
+	}
+	else if (strExtensionUpper == "TXD")
+	{
+		if (!m_pMainWindow->getTextureEditor()->addEditorTab<TXDFormat, TextureEditorTab>(strFilePath))
 		{
 			return onAbortTask();
 		}
@@ -445,7 +453,7 @@ void		Tasks::reopenFile(void)
 	string strFilePath = getIMGTab()->getIMGFile()->getFilePath();
 
 	m_pMainWindow->getIMGEditor()->removeActiveFile();
-	m_pMainWindow->getIMGEditor()->addFile(strFilePath);
+	m_pMainWindow->getIMGEditor()->addEditorTab(strFilePath);
 
 	onCompleteTask();
 }
@@ -458,7 +466,7 @@ void		Tasks::openLastClosedFile(void)
 	if (uiRecentlyOpenedCount > 0)
 	{
 		string strFilePath = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedCount));
-		m_pMainWindow->getIMGEditor()->addFile(strFilePath);
+		m_pMainWindow->getIMGEditor()->addEditorTab(strFilePath);
 	}
 	
 	onCompleteTask();
@@ -601,7 +609,7 @@ void		Tasks::cloneFile(void)
 	getIMGTab()->logf("Cloned into %s.", Path::getFileName(strClonedIMGPath).c_str());
 
 	setMaxProgress(pIMGFile->getEntryCount() * 2);
-	m_pMainWindow->getIMGEditor()->addFile(strClonedIMGPath);
+	m_pMainWindow->getIMGEditor()->addEditorTab(strClonedIMGPath);
 
 	onCompleteTask();
 }

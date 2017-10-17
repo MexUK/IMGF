@@ -25,9 +25,8 @@ public:
 
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 	
-	IMGEditorTab*				addFile(std::string& strFilePath);
-	IMGEditorTab*				addBlankFile(std::string strIMGPath, bxgi::EIMGVersion uiIMGVersion);
-	IMGEditorTab*				addTabObjectAndTabControl(bxgi::IMGFormat *img, bool bNewFile);
+	IMGEditorTab*				addEditorTab(std::string& strFilePath);
+	IMGEditorTab*				addBlankEditorTab(std::string& strFilePath, bxgi::EIMGVersion uiIMGVersion);
 
 	void						removeFile(IMGEditorTab *pIMGEditorFile);
 	void						removeActiveFile(void);
@@ -81,8 +80,6 @@ private:
 
 	void						initMenu(void);
 	void						loadRightClickMenu(int xPos, int yPos);
-	
-	IMGEditorTab*				_addTab(bxgi::IMGFormat *pIMGFormat);
 
 public:
 	bxgx::Grid*					m_pEntryGrid;

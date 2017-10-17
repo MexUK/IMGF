@@ -124,6 +124,7 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\Tab\EditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\IMGEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\IMGEditorTab.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\TextureEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\TextureEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Input\InputManager.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\AboutWindow\AboutWindowLayer.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ModelEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\RadarEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\IMGEditorTab.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\TextureEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\TextureEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\InputManager.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\EInputItem.h" />

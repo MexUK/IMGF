@@ -75,6 +75,7 @@ namespace imgf
 	class RadarEditor;
 
 	class IMGEditorTab;
+	class TextureEditorTab;
 
 	class InputManager;
 

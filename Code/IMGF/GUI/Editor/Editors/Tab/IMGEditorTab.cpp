@@ -59,7 +59,7 @@ using namespace bxgi;
 using namespace imgf;
 
 IMGEditorTab::IMGEditorTab(void) :
-	m_pEditor(nullptr),
+	m_pIMGEditor(nullptr),
 	m_pText_FilePath(nullptr),
 	m_pText_FileVersion(nullptr),
 	m_pText_FileGame(nullptr),
@@ -91,29 +91,6 @@ void					IMGEditorTab::unload(void)
 
 	m_pIMGFile->unload();
 	delete m_pIMGFile;
-}
-
-// initialization
-void					IMGEditorTab::init(void)
-{
-	// add controls to tab layer
-	EditorTab::init();
-
-	addControls();
-	initControls();
-
-	// choose tab text
-	string strTabText = Path::getFileName(m_pIMGFile->getFilePath());
-	if (String::toUpperCase(Path::getFileExtension(strTabText)) == "DIR")
-	{
-		strTabText = Path::replaceFileExtensionWithCase(strTabText, "IMG");
-	}
-	strTabText += " (Loading..)";
-
-	// add tab to tab bar
-	TabBar *pTabBar = m_pEditor->getTabBar();
-	m_pTab = pTabBar->addTab(strTabText, true);
-	pTabBar->bindTabLayer(m_pTab, this);
 }
 
 // on file loaded
@@ -199,7 +176,7 @@ void					IMGEditorTab::addControls(void)
 	uiLogWidth = 335;
 
 	// grid
-	Grid *pBlankGrid = m_pEditor->getEntryGrid();
+	Grid *pBlankGrid = m_pIMGEditor->getEntryGrid();
 
 	x = 139 + 139;
 	y = 162 + 30;
