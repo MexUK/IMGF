@@ -23,6 +23,9 @@ public:
 	IMGEditorTab(void);
 	~IMGEditorTab(void);
 
+	void						bindEvents(void);
+	void						unbindEvents(void);
+
 	void						unload(void);
 
 	void						onFileLoaded(void);

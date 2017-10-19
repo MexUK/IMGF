@@ -76,11 +76,6 @@ ProgressBar*			MainWindow::getProgressBar(void)
 	return m_pMainLayerNoTabsOpen->getProgressBar();
 }
 
-TabBar*					MainWindow::getTabBar(void)
-{
-	return m_pMainLayer->getTabBar();
-}
-
 // window initialization
 void					MainWindow::initWindow(void)
 {
@@ -212,16 +207,20 @@ void					MainWindow::addEditor(Editor *pEditor)
 
 void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 {
-	if (m_pActiveEditor)
+	bool bDiff = m_pActiveEditor != pActiveEditor;
+
+	if (m_pActiveEditor && bDiff && m_pActiveEditor->isEnabled())
 	{
+		m_pActiveEditor->unbindEvents();
 		m_pActiveEditor->setEnabled(false);
 	}
 
 	m_pActiveEditor = pActiveEditor;
 
-	if (pActiveEditor)
+	if (pActiveEditor && bDiff && !pActiveEditor->isEnabled())
 	{
 		pActiveEditor->setEnabled(true);
+		pActiveEditor->bindEvents();
 	}
 
 	uint32 uiEditorIndex = m_vecEditors.getIndexByEntry(pActiveEditor);

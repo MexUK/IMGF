@@ -70,6 +70,33 @@ IMGEditor::IMGEditor(void) :
 	setEditorFileFormats({ "IMG", "DIR" });
 }
 
+// events
+void						IMGEditor::bindEvents(void)
+{
+	bindEvent(RESIZE_WINDOW, &IMGEditor::repositionAndResizeControls);
+
+	Editor::bindEvents();
+	Layer::bindEvents();
+
+	if (m_pActiveFile)
+	{
+		m_pActiveFile->bindEvents();
+	}
+}
+
+void						IMGEditor::unbindEvents(void)
+{
+	unbindEvent(RESIZE_WINDOW, &IMGEditor::repositionAndResizeControls);
+
+	Editor::unbindEvents();
+	Layer::unbindEvents();
+
+	if (m_pActiveFile)
+	{
+		m_pActiveFile->unbindEvents();
+	}
+}
+
 // editor initialization
 void						IMGEditor::init(void)
 {
@@ -331,7 +358,7 @@ void					IMGEditor::addColumnsToMainListView(EIMGVersion EIMGVersionValue)
 	m_pEntryGrid->addHeader("Type", 40);
 	m_pEntryGrid->addHeader("Name", 160);
 	m_pEntryGrid->addHeader("Offset", 95);
-	m_pEntryGrid->addHeader("Size", 70);
+	m_pEntryGrid->addHeader("Size", 80);
 
 	switch (EIMGVersionValue)
 	{
@@ -1083,8 +1110,9 @@ void		IMGEditor::addControls(void)
 void		IMGEditor::initControls(void)
 {
 	addColumnsToMainListView(IMG_UNKNOWN);
-	
-	bindEvent(RESIZE_WINDOW, &IMGEditor::repositionAndResizeControls);
+
+	bindEvents();
+
 	repositionAndResizeControls(Vec2i(0, 0));
 }
 

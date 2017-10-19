@@ -51,7 +51,6 @@ public:
 	bxcf::VectorPool<imgf::Editor*>&	getEditors(void) { return m_vecEditors; }
 
 	bxgx::ProgressBar*			getProgressBar(void);
-	bxgx::TabBar*				getTabBar(void);
 
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 

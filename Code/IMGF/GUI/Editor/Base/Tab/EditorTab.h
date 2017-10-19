@@ -27,6 +27,9 @@ public:
 
 	void								init(void);
 
+	virtual void						bindEvents(void);
+	virtual void						unbindEvents(void);
+
 	virtual void						addControls(void);
 	virtual void						initControls(void);
 	virtual bool						unserializeFile(void) = 0;

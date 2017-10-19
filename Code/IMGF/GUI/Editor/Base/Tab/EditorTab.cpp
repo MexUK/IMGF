@@ -39,6 +39,18 @@ EditorTab::EditorTab(void) :
 
 EditorTab::~EditorTab(void)
 {
+	unbindEvents();
+}
+
+// events
+void						EditorTab::bindEvents(void)
+{
+	bindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
+	bindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
+}
+
+void						EditorTab::unbindEvents(void)
+{
 	unbindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
 	unbindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
 }
@@ -183,16 +195,8 @@ void						EditorTab::addControls(void)
 
 void						EditorTab::initControls(void)
 {
-	bindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
+	bindEvents();
 	repositionAndResizeControls(Vec2i(0, 0));
-
-	// todo
-	//static bool bTaskProgressEventBound = false;
-	//if (!bTaskProgressEventBound)
-	//{
-		bindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
-		//bTaskProgressEventBound = true;
-	//}
 }
 
 void						EditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)

@@ -77,11 +77,37 @@ IMGEditorTab::IMGEditorTab(void) :
 
 IMGEditorTab::~IMGEditorTab(void)
 {
+	unbindEvents();
+}
+
+// events
+void					IMGEditorTab::bindEvents(void)
+{
+	bindEvent(RESIZE_WINDOW, &IMGEditorTab::repositionAndResizeControls);
+	bindEvent(SELECT_DROP_DOWN_ITEM, &IMGEditorTab::onSelectDropEntry);
+	bindEvent(CHANGE_TEXT_BOX, &IMGEditorTab::onChangeTextBox);
+	bindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
+	bindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
+
+	EditorTab::bindEvents();
+
+	if (m_pEntryGrid)
+	{
+		m_pEntryGrid->bindEvents();
+	}
+}
+
+void					IMGEditorTab::unbindEvents(void)
+{
 	unbindEvent(RESIZE_WINDOW, &IMGEditorTab::repositionAndResizeControls);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &IMGEditorTab::onSelectDropEntry);
 	unbindEvent(CHANGE_TEXT_BOX, &IMGEditorTab::onChangeTextBox);
 	unbindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
 	unbindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
+
+	EditorTab::unbindEvents();
+
+	m_pEntryGrid->unbindEvents();
 }
 
 // load/unload
@@ -243,15 +269,8 @@ void					IMGEditorTab::addControls(void)
 
 void					IMGEditorTab::initControls(void)
 {
-	bindEvent(RESIZE_WINDOW, &IMGEditorTab::repositionAndResizeControls);
+	bindEvents();
 	repositionAndResizeControls(Vec2i(0, 0));
-
-	bindEvent(SELECT_DROP_DOWN_ITEM, &IMGEditorTab::onSelectDropEntry);
-	bindEvent(CHANGE_TEXT_BOX, &IMGEditorTab::onChangeTextBox);
-
-	bindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
-	
-	bindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
 }
 
 void					IMGEditorTab::onUnserializeEntry(IMGFormat *img)

@@ -24,8 +24,6 @@ public:
 	void						setIMGFWindow(MainWindow* pIMGFWindow) { m_pMainWindow = pIMGFWindow; }
 	MainWindow*					getIMGFWindow(void) { return m_pMainWindow; }
 
-	bxgx::TabBar*				getTabBar(void) { return m_pTabBar; }
-
 	void						onChangeTab(bxgx::TabBar *pTabBar);
 	void						onRemoveTab(bxgx::Tab *pTab);
 
@@ -39,8 +37,6 @@ private:
 
 public:
 	MainWindow*					m_pMainWindow;
-
-	bxgx::TabBar*				m_pTabBar;
 
 	bxgx::Button*				m_pSettingsButton;
 	bxgx::Line*					m_pSettingsButtonLine1;

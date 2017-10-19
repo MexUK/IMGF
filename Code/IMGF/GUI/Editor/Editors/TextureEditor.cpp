@@ -29,6 +29,8 @@ TextureEditor::TextureEditor(void) :
 // initialization
 void						TextureEditor::init(void)
 {
+	Editor::init();
+
 	int32 startx, starty, x, y, x2, y2;
 	uint32 uiLogWidth = 335;
 

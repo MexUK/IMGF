@@ -148,7 +148,7 @@ void					SettingsWindowLayer::onPressButton(Button *pButton)
 
 	case 510:
 	{
-		// Rebuild After Feature
+		// Rebuild After Task
 		vector<string> vecListItems = String::split(pSettingsManager->getSetting("SaveAfterTasks"), ",");
 		vector<string> vecSaveAfterTasks = BXGX::get()->getEntryByIndex(0)->showDynamicItemListWindow("Save After Task", "Feature", getIMGF()->getTaskManager()->getTaskNames(), "Add", "Remove Selected", vecListItems);
 		if (m_pWindow->m_bWindow2Cancelled)

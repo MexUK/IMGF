@@ -23,6 +23,9 @@ public:
 	void						init(void);
 	void						render(void);
 
+	void						bindEvents(void);
+	void						unbindEvents(void);
+
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 	
 	IMGEditorTab*				addEditorTab(std::string& strFilePath);

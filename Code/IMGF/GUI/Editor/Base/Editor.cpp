@@ -24,7 +24,38 @@ Editor::Editor(void) :
 // initialization
 void								Editor::init(void)
 {
-	m_pTabBar = ((MainWindow*)getWindow())->getTabBar();
+	int32 x, y;
+	uint32 w, h, uiLogWidth;
+	string strStyleGroup;
+
+	uiLogWidth = 335;
+
+	// files tab bar
+	x = 139 + 139;
+	y = 162;
+	w = m_pWindow->getSize().x - x - uiLogWidth;
+	h = 30;
+	strStyleGroup = "fileTabBar";
+
+	m_pTabBar = addTabBar(x, y, w, h, strStyleGroup);
+	m_pTabBar->setDefaultText("No tabs to display");
+}
+
+// events
+void								Editor::bindEvents(void)
+{
+	if (m_pTabBar)
+	{
+		//m_pTabBar->bindEvents();
+	}
+}
+
+void								Editor::unbindEvents(void)
+{
+	if (m_pTabBar)
+	{
+		//m_pTabBar->unbindEvents();
+	}
 }
 
 // controls

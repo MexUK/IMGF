@@ -18,6 +18,9 @@ public:
 
 	virtual void						init(void);
 
+	virtual void						bindEvents(void);
+	virtual void	 					unbindEvents(void);
+
 	virtual void						addControls(void);
 	virtual void						initControls(void);
 
@@ -87,7 +90,7 @@ EditorTabType*							imgf::Editor::addEditorTab(std::string& strFilePath, bool b
 	}
 	else
 	{
-		setEnabled(false);
+		//setEnabled(false);
 		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(false);
 	}
 

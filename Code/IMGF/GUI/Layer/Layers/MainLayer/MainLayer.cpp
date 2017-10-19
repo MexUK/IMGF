@@ -26,7 +26,6 @@ using namespace imgf::mainLayer::input;
 
 MainLayer::MainLayer(void) :
 	m_pMainWindow(nullptr),
-	m_pTabBar(nullptr),
 	m_pSettingsButton(nullptr),
 	m_pSettingsButtonLine1(nullptr),
 	m_pSettingsButtonLine2(nullptr),
@@ -161,23 +160,6 @@ void		MainLayer::addControls(void)
 	m_pSettingsButton->addLinkedItem(m_pSettingsButtonLine1);
 	m_pSettingsButton->addLinkedItem(m_pSettingsButtonLine2);
 	m_pSettingsButton->addLinkedItem(m_pSettingsButtonLine3);
-
-	// files tab bar
-	x = 139 + 139;
-	y = 162;
-	w = m_pWindow->getSize().x - x - uiLogWidth;
-	h = 30;
-	strStyleGroup = "fileTabBar";
-
-	m_pTabBar = addTabBar(x, y, w, h, strStyleGroup);
-	m_pTabBar->setDefaultText("No tabs to display");
-
-	/*
-	Tab * pTab;
-	pTab = m_pTabBar->addTab("gta3.img (1000)", true, "firstItemHorizontally");
-	pTab = m_pTabBar->addTab("gta3 - backup.img (1200)");
-	pTab = m_pTabBar->addTab("gta3.img (1000)");
-	*/
 
 	// 2nd left menu - actions
 	x = 139;
@@ -722,11 +704,6 @@ void		MainLayer::repositionAndResizeControls(Vec2i& vecSizeDifference)
 
 	uiButtonHeight = 37;
 	uiLogWidth = 335;
-
-	// tab bar
-	size = m_pTabBar->getSize();
-	iNewWidth = pWindow->getSize().x - m_pTabBar->getPosition().x - uiLogWidth;
-	m_pTabBar->setSize(Vec2u(iNewWidth, size.y));
 
 	// settings icon
 	point = m_pSettingsButton->getPosition();
