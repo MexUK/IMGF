@@ -207,6 +207,11 @@ void					WindowManager::showSettingsWindow(void)
 	pWindow->addTitleBar("Settings");
 	pLayer->init();
 
+	while (((Text*)pLayer->getItemById(520))->getTextWidth() == 0) // todo - waitForBlah()
+	{
+		Sleep(100);
+	}
+
 	pWindow->render();
 
 	getIMGF()->getTaskManager()->onPauseTask();
