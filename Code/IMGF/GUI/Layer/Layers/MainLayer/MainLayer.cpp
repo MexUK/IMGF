@@ -48,17 +48,17 @@ void		MainLayer::onChangeTab(TabBar *pTabBar)
 	//m_pActiveEditor->onChangeTab(pTabBar);
 	if (pTabBar->getEntryCount() == 0)
 	{
-		m_pMainWindow->getIMGEditor()->setActiveFile(nullptr);
+		m_pMainWindow->getIMGEditor()->setActiveEditorTab(nullptr);
 	}
 	else
 	{
-		m_pMainWindow->getIMGEditor()->setActiveFile(m_pMainWindow->getIMGEditor()->getTabs().getEntryByIndex(pTabBar->getActiveIndex()));
+		m_pMainWindow->getIMGEditor()->setActiveEditorTab(m_pMainWindow->getIMGEditor()->getEditorTabs().getEntryByIndex(pTabBar->getActiveIndex()));
 	}
 }
 
 void		MainLayer::onRemoveTab(Tab *pTab)
 {
-	m_pMainWindow->getIMGEditor()->removeFile((IMGEditorTab*)m_pMainWindow->getIMGEditor()->getTabs().getEntryByIndex(pTab->getIndex()));
+	m_pMainWindow->getIMGEditor()->removeEditorTab((IMGEditorTab*)m_pMainWindow->getIMGEditor()->getEditorTabs().getEntryByIndex(pTab->getIndex()));
 }
 
 // controls

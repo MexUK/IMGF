@@ -26,10 +26,10 @@ public:
 
 	template <class FormatType, class EditorTabType>
 	EditorTabType*						addEditorTab(std::string& strFilePath, bool bNewFile = false);
-	void								removeFile(EditorTab *pEditorTab);
-	void								removeActiveFile(void);
+	void								removeEditorTab(EditorTab *pEditorTab);
+	void								removeActiveEditorTab(void);
 
-	bxcf::VectorPool<EditorTab*>&		getTabs(void) { return m_vecTabs; }
+	bxcf::VectorPool<EditorTab*>&		getEditorTabs(void) { return m_vecEditorTabs; }
 
 	void								setEditorFileFormats(std::vector<std::string> vecEditorFileFormats) { m_vecEditorFileFormats = vecEditorFileFormats; }
 	std::vector<std::string>&			getEditorFileFormats(void) { return m_vecEditorFileFormats; }
@@ -37,8 +37,8 @@ public:
 	void								setMainWindow(MainWindow *pMainWindow) { m_pMainWindow = pMainWindow; }
 	MainWindow*							getMainWindow(void) { return m_pMainWindow; }
 
-	void								setActiveFile(EditorTab *pEditorFile);
-	EditorTab*							getActiveFile(void) { return m_pActiveFile; }
+	void								setActiveEditorTab(EditorTab *pEditorTab);
+	EditorTab*							getActiveEditorTab(void) { return m_pActiveEditorTab; }
 
 	void								setTabBar(bxgx::TabBar *pTabBar) { m_pTabBar = pTabBar; }
 	bxgx::TabBar*						getTabBar(void) { return m_pTabBar; }
@@ -52,10 +52,10 @@ public:
 
 protected:
 	MainWindow*							m_pMainWindow;
-	EditorTab*							m_pActiveFile;
+	EditorTab*							m_pActiveEditorTab;
 	bxgx::TabBar*						m_pTabBar;
 	std::vector<std::string>			m_vecEditorFileFormats;
-	bxcf::VectorPool<EditorTab*>		m_vecTabs;
+	bxcf::VectorPool<EditorTab*>		m_vecEditorTabs;
 };
 
 // add editor tab
@@ -65,7 +65,7 @@ EditorTabType*							imgf::Editor::addEditorTab(std::string& strFilePath, bool b
 	// check if file path is already open
 	if (isFilePathOpen(strFilePath))
 	{
-		setActiveFile(getEditorTabByFilePath(strFilePath));
+		setActiveEditorTab(getEditorTabByFilePath(strFilePath));
 		return nullptr;
 	}
 
@@ -81,12 +81,12 @@ EditorTabType*							imgf::Editor::addEditorTab(std::string& strFilePath, bool b
 
 	// add editor tab
 	EditorTabType *pEditorTab = m_pWindow->addLayer<EditorTabType>(-1, true, -50);
-	m_vecTabs.addEntry(pEditorTab);
+	m_vecEditorTabs.addEntry(pEditorTab);
 
 	// disable other layers
-	if (m_pActiveFile)
+	if (m_pActiveEditorTab)
 	{
-		m_pActiveFile->setEnabled(false);
+		m_pActiveEditorTab->setEnabled(false);
 	}
 	else
 	{

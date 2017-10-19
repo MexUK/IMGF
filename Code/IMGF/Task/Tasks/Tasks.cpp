@@ -452,7 +452,7 @@ void		Tasks::reopenFile(void)
 
 	string strFilePath = getIMGTab()->getIMGFile()->getFilePath();
 
-	m_pMainWindow->getIMGEditor()->removeActiveFile();
+	m_pMainWindow->getIMGEditor()->removeActiveEditorTab();
 	m_pMainWindow->getIMGEditor()->addEditorTab(strFilePath);
 
 	onCompleteTask();
@@ -578,13 +578,13 @@ void		Tasks::saveAllFiles(void)
 	onStartTask("saveAllFiles");
 
 	uint32 uiEntryCountAllTabs = 0;
-	for (IMGEditorTab *pIMGEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pIMGEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		uiEntryCountAllTabs += pIMGEditorTab->getIMGFile()->getEntryCount();
 	}
 	setMaxProgress(uiEntryCountAllTabs * 2);
 
-	for (IMGEditorTab *pIMGEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pIMGEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		pIMGEditorTab->getIMGFile()->serialize();
 
@@ -632,7 +632,7 @@ void		Tasks::saveFileGroup(void)
 	}
 
 	vector<string> vecIMGFilePaths;
-	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		vecIMGFilePaths.push_back(pEditorTab->getIMGFile()->getIMGFilePath());
 	}
@@ -640,7 +640,7 @@ void		Tasks::saveFileGroup(void)
 	getIMGF()->getSessionManager()->addSession(strFileGroupName, vecIMGFilePaths); // todo - rename SessionManager to FileGroupManager
 	getIMGF()->getSessionManager()->loadSessions();
 
-	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		pEditorTab->logf("Saved file group %s", strFileGroupName.c_str());
 	}
@@ -676,7 +676,7 @@ void		Tasks::saveLogsAllTabs(void)
 	}
 
 	string strAllTabsLogs = "";
-	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		strAllTabsLogs += "[[" + pEditorTab->getIMGFile()->getFilePath() + "]]\n\n" + String::join(pEditorTab->getLog()->getTextLines(), "\n") + "\n\n\n\n";
 
@@ -703,7 +703,7 @@ void			Tasks::clearLogsAllTabs(void)
 {
 	onStartTask("clearLogsAllTabs");
 
-	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		pEditorTab->clearLogs();
 
@@ -724,7 +724,7 @@ void		Tasks::closeFile(void)
 			saveAllOpenFiles(false);
 		}
 	}
-	m_pMainWindow->getIMGEditor()->removeActiveFile();
+	m_pMainWindow->getIMGEditor()->removeActiveEditorTab();
 
 	onCompleteTask();
 }
@@ -735,7 +735,7 @@ void		Tasks::closeAllFiles(void)
 
 	bool bConfirmOnClose = getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose");
 
-	vector<IMGEditorTab*> vecIMGTabs = m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries();
+	vector<IMGEditorTab*> vecIMGTabs = m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries();
 	for (IMGEditorTab *pIMGEditorTab : vecIMGTabs)
 	{
 		if (bConfirmOnClose)
@@ -745,7 +745,7 @@ void		Tasks::closeAllFiles(void)
 				saveAllOpenFiles(false);
 			}
 		}
-		m_pMainWindow->getIMGEditor()->removeFile(pIMGEditorTab);
+		m_pMainWindow->getIMGEditor()->removeEditorTab(pIMGEditorTab);
 	}
 
 	onCompleteTask();
@@ -1286,13 +1286,13 @@ void		Tasks::exportAllFromAllTabs(void)
 	}
 
 	uint32 uiTotalEntryCount = 0;
-	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		uiTotalEntryCount += pEditorTab->getIMGFile()->getEntryCount();
 	}
 	setMaxProgress(uiTotalEntryCount);
 
-	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		pEditorTab->getIMGFile()->exportAll(strFolderPath);
 	}
@@ -1313,14 +1313,14 @@ void		Tasks::exportAllFromAllTabsIntoGroupedFoldersByType(void)
 	}
 
 	uint32 uiTotalEntryCount = 0;
-	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		uiTotalEntryCount += pEditorTab->getIMGFile()->getEntryCount();
 	}
 	setMaxProgress(uiTotalEntryCount);
 
 	set<string> setExtensionsUsed;
-	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		for (GridRow *pRow : pEditorTab->getEntryGrid()->getEntries())
 		{
@@ -1357,13 +1357,13 @@ void		Tasks::exportSelectionFromAllTabs(void)
 	}
 
 	uint32 uiSelectedEntryCount = 0;
-	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		uiSelectedEntryCount += pEditorTab->getEntryGrid()->getSelectedRowCount();
 	}
 	setMaxProgress(uiSelectedEntryCount);
 
-	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		vector<IMGEntry*> vecIMGEntries;
 		for (GridRow *pRow : pEditorTab->getEntryGrid()->getSelectedRows())
@@ -1479,7 +1479,7 @@ void		Tasks::exportByIDEFromAllTabs(void)
 	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount()); // todo - should take into account all IMG files
 
 	uint32 uiIMGEntryExportCount = 0;
-	for (IMGEditorTab *pIMGEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pIMGEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		// fetch model and TXD names from DFF/TXD files inside all opened IMG files
 		unordered_map<IMGEntry*, vector<string>>
@@ -1684,7 +1684,7 @@ void		Tasks::exportByEntryNamesFromAllTabs(void)
 	}
 
 	uint32 uiEntryExportCount = 0;
-	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		vector<IMGEntry*> vecIMGEntries = pEditorTab->getIMGFile()->getEntriesByNames(vecInputEntryNames);
 
@@ -1694,7 +1694,7 @@ void		Tasks::exportByEntryNamesFromAllTabs(void)
 		uiEntryExportCount += vecIMGEntries.size();
 	}
 
-	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		pEditorTab->logf("Exported %u entries by entry names from all tabs.", uiEntryExportCount);
 	}
@@ -4508,7 +4508,7 @@ void		Tasks::txdBuilder(void)
 			return onAbortTask();
 		}
 
-		for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
+		for (auto pEditorTab : getIMGF()->getIMGEditor()->getEditorTabs().getEntries())
 		{
 			vector<IMGEntry*> vecIMGEntries = ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntriesByExtension("DFF");
 			vector<IMGEntry*> vecIMGEntries_BSP = ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntriesByExtension("BSP");
@@ -5594,7 +5594,7 @@ void		Tasks::findDuplicateEntriesInAllTabs(void)
 
 	// max progress tick
 	uint32 uiTickCount = 0;
-	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		uiTickCount += pEditorTab->getIMGFile()->getEntryCount();
 	}
@@ -5602,7 +5602,7 @@ void		Tasks::findDuplicateEntriesInAllTabs(void)
 
 	// fetch entries
 	vector<IMGEntry*> vecIMGEntries;
-	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		StdVector::addToVector(vecIMGEntries, pEditorTab->getIMGFile()->getEntries());
 	}
@@ -5634,7 +5634,7 @@ void		Tasks::findDuplicateEntriesInAllTabs(void)
 	umapIMGEntries.clear();
 
 	// log
-	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGTabs().getEntries())
+	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
 		pEditorTab->logf("Found %u dupliate entries in all tabs.", vecDuplicateEntries.size());
 	}
@@ -6713,7 +6713,7 @@ bool		Tasks::saveAllOpenFiles(bool bCloseAll)
 	if (bCloseAll)
 	{
 		uint32 uiModifiedSinceRebuildCount = 0;
-		for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
+		for (auto pEditorTab : getIMGF()->getIMGEditor()->getEditorTabs().getEntries())
 		{
 			if (((IMGEditorTab*)pEditorTab)->getIMGModifiedSinceRebuild())
 			{
@@ -6756,7 +6756,7 @@ bool		Tasks::saveAllOpenFiles(bool bCloseAll)
 
 	if (bCloseAll)
 	{
-		for (auto pEditorTab : getIMGF()->getIMGEditor()->getTabs().getEntries())
+		for (auto pEditorTab : getIMGF()->getIMGEditor()->getEditorTabs().getEntries())
 		{
 			if (((IMGEditorTab*)pEditorTab)->getIMGModifiedSinceRebuild())
 			{

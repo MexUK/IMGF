@@ -55,7 +55,7 @@ void					InputManager::bindEvents(void)
 // key down
 void					InputManager::onKeyDown(uint16 uiKey)
 {
-	IMGEditorTab *pEditorTab = (IMGEditorTab*)m_pMainWindow->getIMGEditor()->getActiveFile();
+	IMGEditorTab *pEditorTab = (IMGEditorTab*)m_pMainWindow->getIMGEditor()->getActiveEditorTab();
 	if (pEditorTab && m_pMainWindow->getActiveItem() == (LayerItem*)pEditorTab->getEntryGrid())
 	{
 		if (uiKey == VK_DELETE && pEditorTab->getEntryGrid()->isAnyRowSelected())
@@ -72,7 +72,7 @@ void					InputManager::onKeyDown(uint16 uiKey)
 // char down
 void					InputManager::onCharDown(uint16 uiKey)
 {
-	IMGEditorTab *pEditorTab = (IMGEditorTab*)m_pMainWindow->getIMGEditor()->getActiveFile();
+	IMGEditorTab *pEditorTab = (IMGEditorTab*)m_pMainWindow->getIMGEditor()->getActiveEditorTab();
 	if (pEditorTab && m_pMainWindow->getActiveItem() == (LayerItem*)pEditorTab->getEntryGrid() && String::isAsciiCharacterDisplayable((uint8)uiKey))
 	{
 		pEditorTab->getSearchBox()->onCharDown(uiKey);
@@ -125,7 +125,7 @@ void					InputManager::onPressButton(Button *pButton)
 // forward button press
 void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 {
-	EditorTab *pActiveEditorTab = m_pMainWindow->getIMGEditor()->getActiveFile();
+	EditorTab *pActiveEditorTab = m_pMainWindow->getIMGEditor()->getActiveEditorTab();
 
 	uint32 uiMenuItemId = pMenuItem->getId();
 	if (uiMenuItemId == -1 && pMenuItem->getExpandableMenu() && pMenuItem->getExpandableMenu()->getEntryCount() > 0)

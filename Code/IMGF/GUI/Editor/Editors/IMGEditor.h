@@ -31,10 +31,10 @@ public:
 	IMGEditorTab*				addEditorTab(std::string& strFilePath);
 	IMGEditorTab*				addBlankEditorTab(std::string& strFilePath, bxgi::EIMGVersion uiIMGVersion);
 
-	void						removeFile(IMGEditorTab *pIMGEditorFile);
-	void						removeActiveFile(void);
+	void						removeEditorTab(IMGEditorTab *pIMGEditorTab);
+	void						removeActiveEditorTab(void);
 
-	bxcf::VectorPool<IMGEditorTab*>&	getIMGTabs(void) { return (bxcf::VectorPool<IMGEditorTab*>&)m_vecTabs; }
+	bxcf::VectorPool<IMGEditorTab*>&	getIMGEditorTabs(void) { return (bxcf::VectorPool<IMGEditorTab*>&)m_vecEditorTabs; }
 
 
 
@@ -43,7 +43,7 @@ public:
 	void						removeTab(IMGEditorTab *pEditorTab) {}
 
 	void						refreshActiveTab(void);
-	IMGEditorTab*				getActiveTab(void) { return (IMGEditorTab*) Editor::getActiveFile(); }
+	IMGEditorTab*				getActiveTab(void) { return (IMGEditorTab*) Editor::getActiveEditorTab(); }
 	void						setActiveTab(IMGEditorTab *pActiveTab);
 
 	void						readdColumnsToMainListView(bxgi::EIMGVersion EIMGVersionValue);

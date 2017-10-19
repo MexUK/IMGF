@@ -78,9 +78,9 @@ void						IMGEditor::bindEvents(void)
 	Editor::bindEvents();
 	Layer::bindEvents();
 
-	if (m_pActiveFile)
+	if (m_pActiveEditorTab)
 	{
-		m_pActiveFile->bindEvents();
+		m_pActiveEditorTab->bindEvents();
 	}
 }
 
@@ -91,9 +91,9 @@ void						IMGEditor::unbindEvents(void)
 	Editor::unbindEvents();
 	Layer::unbindEvents();
 
-	if (m_pActiveFile)
+	if (m_pActiveEditorTab)
 	{
-		m_pActiveFile->unbindEvents();
+		m_pActiveEditorTab->unbindEvents();
 	}
 }
 
@@ -182,27 +182,27 @@ IMGEditorTab*				IMGEditor::addBlankEditorTab(string& strFilePath, EIMGVersion u
 }
 
 // remove editor tab
-void						IMGEditor::removeFile(IMGEditorTab *pIMGEditorFile)
+void						IMGEditor::removeEditorTab(IMGEditorTab *pIMGEditorTab)
 {
-	pIMGEditorFile->setMarkedToClose(true);
-	while (!pIMGEditorFile->hasThreadTerminated())
+	pIMGEditorTab->setMarkedToClose(true);
+	while (!pIMGEditorTab->hasThreadTerminated())
 	{
 		Sleep(10);
 	}
-	pIMGEditorFile->getThread().join();
+	pIMGEditorTab->getThread().join();
 
-	Editor::removeFile(pIMGEditorFile);
+	Editor::removeEditorTab(pIMGEditorTab);
 
 	mutexRenderItems.lock();
 
-	m_pWindow->removeLayer(pIMGEditorFile);
-	delete pIMGEditorFile;
+	m_pWindow->removeLayer(pIMGEditorTab);
+	delete pIMGEditorTab;
 
 	mutexRenderItems.unlock();
 
 	mutexRendering.lock();
 
-	if (getTabs().getEntryCount() == 0)
+	if (getEditorTabs().getEntryCount() == 0)
 	{
 		setEnabled(true);
 		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(true);
@@ -210,26 +210,26 @@ void						IMGEditor::removeFile(IMGEditorTab *pIMGEditorFile)
 	}
 	else
 	{
-		m_pActiveFile->setEnabled(true);
+		m_pActiveEditorTab->setEnabled(true);
 	}
 
 	mutexRendering.unlock();
 }
 
-void						IMGEditor::removeActiveFile(void)
+void						IMGEditor::removeActiveEditorTab(void)
 {
-	if (getTabs().getEntryCount() == 0)
+	if (getEditorTabs().getEntryCount() == 0)
 	{
 		return;
 	}
 
-	removeFile((IMGEditorTab*)getActiveFile());
+	removeEditorTab((IMGEditorTab*)getActiveEditorTab());
 }
 
 // active tab
 void						IMGEditor::setActiveTab(IMGEditorTab *pEditorTab)
 {
-	Editor::setActiveFile(pEditorTab);
+	Editor::setActiveEditorTab(pEditorTab);
 	
 	//pEditorTab->readdAllEntriesToMainListView();
 	
@@ -426,7 +426,7 @@ void					IMGEditor::updateSelectedEntryCountText(void)
 
 void					IMGEditor::logAllTabs(string strText, bool bExtendedModeOnly)
 {
-	for (auto pEditorTab : getTabs().getEntries())
+	for (auto pEditorTab : getEditorTabs().getEntries())
 	{
 		// todo - ((IMGEditorTab*)pEditorTab)->log(strText, bExtendedModeOnly);
 	}
@@ -483,7 +483,7 @@ void					IMGEditor::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
 uint32					IMGEditor::getEntryCountForAllTabs(void)
 {
 	uint32 uiTotalEntryCount = 0;
-	for (auto pEditorTab : getTabs().getEntries())
+	for (auto pEditorTab : getEditorTabs().getEntries())
 	{
 		uiTotalEntryCount += ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntryCount();
 	}
@@ -493,7 +493,7 @@ uint32					IMGEditor::getEntryCountForAllTabs(void)
 vector<IMGFormat*>		IMGEditor::getAllMainWindowTabsIMGFiles(void)
 {
 	vector<IMGFormat*> vecIMGFormats;
-	for (auto pEditorTab : getTabs().getEntries())
+	for (auto pEditorTab : getEditorTabs().getEntries())
 	{
 		vecIMGFormats.push_back(((IMGEditorTab*)pEditorTab)->getIMGFile());
 	}

@@ -92,7 +92,7 @@ void						EditorTab::init(void)
 	pTabBar->bindTabLayer(m_pTab, this);
 
 	// set active editor tab
-	m_pEditor->setActiveFile(this);
+	m_pEditor->setActiveEditorTab(this);
 
 	// unserialize file
 	unserializeFile();

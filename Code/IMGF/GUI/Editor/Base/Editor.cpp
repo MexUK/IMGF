@@ -16,7 +16,7 @@ using namespace imgf;
 
 Editor::Editor(void) :
 	m_pMainWindow(nullptr),
-	m_pActiveFile(nullptr),
+	m_pActiveEditorTab(nullptr),
 	m_pTabBar(nullptr)
 {
 }
@@ -68,13 +68,13 @@ void								Editor::initControls(void)
 }
 
 // remove editor tab
-void								Editor::removeFile(EditorTab *pEditorFile)
+void								Editor::removeEditorTab(EditorTab *pEditorTab)
 {
 	// remove tab from tab bar
-	m_pTabBar->removeTab(pEditorFile->getTab());
+	m_pTabBar->removeTab(pEditorTab->getTab());
 
 	// unmark items to render
-	for (RenderItem *pRenderItem : pEditorFile->getRenderItems().getEntries())
+	for (RenderItem *pRenderItem : pEditorTab->getRenderItems().getEntries())
 	{
 		if (m_pWindow->isRenderItemMarkedForRender(pRenderItem))
 		{
@@ -83,21 +83,21 @@ void								Editor::removeFile(EditorTab *pEditorFile)
 	}
 
 	// remove tab object
-	m_vecTabs.removeEntry(pEditorFile);
+	m_vecEditorTabs.removeEntry(pEditorTab);
 
 	// update active file
 	uint32 uiNewActiveFileIndex = m_pTabBar->getActiveIndex();
 	if (uiNewActiveFileIndex == -1)
 	{
-		setActiveFile(nullptr);
+		setActiveEditorTab(nullptr);
 	}
 	else
 	{
-		setActiveFile(m_vecTabs.getEntryByIndex(uiNewActiveFileIndex));
+		setActiveEditorTab(m_vecEditorTabs.getEntryByIndex(uiNewActiveFileIndex));
 	}
 }
 
-void								Editor::removeActiveFile(void)
+void								Editor::removeActiveEditorTab(void)
 {
 	/*
 	todo
@@ -111,12 +111,12 @@ void								Editor::removeActiveFile(void)
 }
 
 // set active file
-void								Editor::setActiveFile(EditorTab *pEditorFile)
+void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 {
-	m_pActiveFile = pEditorFile;
-	if (m_pActiveFile)
+	m_pActiveEditorTab = pEditorTab;
+	if (pEditorTab)
 	{
-		uint32 uiTabIndex = m_pActiveFile->getTabIndex();
+		uint32 uiTabIndex = pEditorTab->getTabIndex();
 		mutexTabs.lock();
 		Tab *pTab = m_pTabBar->getEntryByIndex(uiTabIndex);
 		mutexTabs.unlock();
@@ -127,13 +127,13 @@ void								Editor::setActiveFile(EditorTab *pEditorFile)
 // displayed info
 void								Editor::updateActiveFileDisplayedInfo(void)
 {
-	m_pActiveFile->setFileInfoText();
+	m_pActiveEditorTab->setFileInfoText();
 }
 
 // file path
 bool								Editor::isFilePathOpen(string& strFilePath)
 {
-	for (EditorTab *pEditorTab : m_vecTabs.getEntries())
+	for (EditorTab *pEditorTab : m_vecEditorTabs.getEntries())
 	{
 		if (Path::comparePaths(strFilePath, pEditorTab->getFile()->getFilePath()))
 		{
@@ -145,7 +145,7 @@ bool								Editor::isFilePathOpen(string& strFilePath)
 
 EditorTab*							Editor::getEditorTabByFilePath(string& strFilePath)
 {
-	for (EditorTab *pEditorTab : m_vecTabs.getEntries())
+	for (EditorTab *pEditorTab : m_vecEditorTabs.getEntries())
 	{
 		if (Path::comparePaths(strFilePath, pEditorTab->getFile()->getFilePath()))
 		{
