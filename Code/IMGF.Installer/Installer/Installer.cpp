@@ -202,6 +202,9 @@ void					Installer::createFiles(void)
 	createFile(hModule, IDR_RCDATA16, strIMGFDataFolderPath + "Styles/Main_Red.bxs");
 	createFile(hModule, IDR_RCDATA17, strIMGFDataFolderPath + "Styles/Main-1 (grey).bxs");
 	createFile(hModule, IDR_RCDATA18, strIMGFDataFolderPath + "Styles/Main-2 (blue and yellow).bxs");
+	createFile(hModule, IDR_RCDATA23, strIMGFDataFolderPath + "DefaultFiles/ModelNames/Model Names - PC GTA III.txt");
+	createFile(hModule, IDR_RCDATA24, strIMGFDataFolderPath + "DefaultFiles/ModelNames/Model Names - PC GTA VC.txt");
+	createFile(hModule, IDR_RCDATA25, strIMGFDataFolderPath + "DefaultFiles/ModelNames/Model Names - PC GTA SA.txt");
 }
 
 void					Installer::createFile(HMODULE hModule, int iResourceId, string strFilePath)

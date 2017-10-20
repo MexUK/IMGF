@@ -90,4 +90,9 @@
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\..\..\IMGF Installer Files\DefaultFiles\ModelNames\Model Names - PC GTA III.txt" />
+    <Text Include="..\..\..\..\..\IMGF Installer Files\DefaultFiles\ModelNames\Model Names - PC GTA SA.txt" />
+    <Text Include="..\..\..\..\..\IMGF Installer Files\DefaultFiles\ModelNames\Model Names - PC GTA VC.txt" />
+  </ItemGroup>
 </Project>

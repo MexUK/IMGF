@@ -852,11 +852,14 @@
 #define VK_F13                          0x7C
 #define WM_STYLECHANGING                0x007C
 #define LANG_MOHAWK                     0x7c
+#define IDR_RCDATA23                    124
 #define VK_F14                          0x7D
 #define WM_STYLECHANGED                 0x007D
+#define IDR_RCDATA24                    125
 #define VK_F15                          0x7E
 #define WM_DISPLAYCHANGE                0x007E
 #define LANG_BRETON                     0x7e
+#define IDR_RCDATA25                    126
 #define VK_F16                          0x7F
 #define WM_GETICON                      0x007F
 #define LANG_INVARIANT                  0x7f
@@ -1627,7 +1630,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        124
+#define _APS_NEXT_RESOURCE_VALUE        127
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101

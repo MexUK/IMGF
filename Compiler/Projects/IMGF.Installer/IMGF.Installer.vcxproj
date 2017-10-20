@@ -171,6 +171,11 @@
   <ItemGroup>
     <Image Include="..\..\..\..\..\IMGF Installer Files\Images\Logo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\..\..\IMGF Installer Files\DefaultFiles\ModelNames\Model Names - PC GTA III.txt" />
+    <Text Include="..\..\..\..\..\IMGF Installer Files\DefaultFiles\ModelNames\Model Names - PC GTA SA.txt" />
+    <Text Include="..\..\..\..\..\IMGF Installer Files\DefaultFiles\ModelNames\Model Names - PC GTA VC.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
