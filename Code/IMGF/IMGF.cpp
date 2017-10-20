@@ -42,7 +42,6 @@
 #include "Format/COL/COLManager.h"
 #include "Format/COL/COLVersionManager.h"
 #include "Format/COL/COLVersion.h"
-#include "EntryViewer/EntryViewerManager.h"
 #include "Updater/UpdateManager.h"
 #include "Compression/ECompressionAlgorithm.h"
 #include "Format/DAT/Loader/DATLoaderManager.h"
@@ -83,7 +82,7 @@ IMGF::IMGF(void)
 
 	// construct objects stored by IMGF
 	m_pInputManager			= new InputManager;
-	m_pEntryViewerManager	= new EntryViewerManager;
+	// todo m_pEntryViewerManager	= new EntryViewerManager;
 	m_pLanguageManager		= new LanguageManager;
 	m_pLSTProcessingManager	= new LSTProcessingManager;
 	m_pRecentlyOpenManager	= new RecentlyOpenManager;
@@ -208,7 +207,7 @@ void				IMGF::initStoredObjects(void)
 {
 	// initialize objects stored by IMGF
 	// Excludes: WindowManager and SortManager
-	m_pEntryViewerManager->init();
+	// todo m_pEntryViewerManager->init();
 	m_pLanguageManager->init();
 	m_pLSTProcessingManager->init();
 	m_pRecentlyOpenManager->init();

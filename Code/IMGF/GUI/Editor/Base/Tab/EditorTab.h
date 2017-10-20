@@ -79,6 +79,8 @@ public:
 	std::vector<bxgx::MenuItem*>&		getMenuItemsPressed(void) { return m_vecMenuItemsPressed; }
 
 protected:
+	bxcf::Format*						m_pFile;
+
 	Editor*								m_pEditor;
 	bxgx::TextBox*						m_pSearchBox;
 	bxgx::Tab*							m_pTab;
@@ -88,8 +90,7 @@ private:
 	std::thread							m_thread;
 	bool								m_bMarkedToClose;
 	bool								m_bThreadHasTerminated;
-	
-	bxcf::Format*						m_pFile;
+
 	bxgx::ProgressBar*					m_pProgressBar;
 	bxcf::VectorPool<RenderItem*>		m_vecRenderItems;
 	bxcf::VectorPool<std::string>		m_vecLogLines;

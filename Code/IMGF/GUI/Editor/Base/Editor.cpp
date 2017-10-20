@@ -7,7 +7,6 @@
 #include "Static/String.h"
 #include "Control/Controls/TextBox.h"
 #include "Control/Controls/TabBar.h"
-#include "Task/Tasks/Tasks.h"
 
 using namespace std;
 using namespace bxcf;

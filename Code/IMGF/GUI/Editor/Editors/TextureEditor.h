@@ -15,10 +15,7 @@ public:
 	void								init(void);
 	void								render(void);
 	
-	TextureEditorTab*					addFile(std::string& strFilePath);
-
-private:
-	TextureEditorTab*					addTabObjectAndTabControl(bxgi::TXDFormat *img, bool bNewFile);
+	TextureEditorTab*					addEditorTab(std::string& strFilePath);
 
 public:
 	void*								m_pActiveTexture;

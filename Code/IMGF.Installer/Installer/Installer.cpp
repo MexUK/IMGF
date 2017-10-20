@@ -47,7 +47,7 @@ void					Installer::initTheme(void)
 {
 	string
 		strThemeData =
-"\n\
+		"\n\
 .centerText\n\
 text center center\n\
 \n\
@@ -71,14 +71,14 @@ textbox .textSpacing\n\
 fill 96 96 96\n\
 text 181 230 29\n\
 \n\
-text .a\n\
+text\n\
 text 181 230 29\n\
 \n\
 button .centerText\n\
 fill 96 96 96\n\
 text 181 230 29\n\
 ";
-	
+
 	StyleManager::get()->setThemeData(strThemeData);
 }
 

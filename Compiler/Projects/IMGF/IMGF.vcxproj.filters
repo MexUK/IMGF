@@ -37,9 +37,6 @@
     <Filter Include="Header Files\DragDrop">
       <UniqueIdentifier>{2da4e01f-81cb-430d-a66d-e772befc50a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\EntryViewer">
-      <UniqueIdentifier>{b5d46eb4-4ad1-4395-83e9-ee576e8f2bf6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Format">
       <UniqueIdentifier>{be344ecf-bbe9-42e8-8f93-338d1c58b864}</UniqueIdentifier>
     </Filter>
@@ -51,9 +48,6 @@
     </Filter>
     <Filter Include="Source Files\DragDrop">
       <UniqueIdentifier>{7dc71615-13dd-48f2-bc40-068150e921f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\EntryViewer">
-      <UniqueIdentifier>{6cca3ddf-485b-4335-9f9e-28aa3f791c10}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Format">
       <UniqueIdentifier>{b11c09cf-842e-4f91-b33d-3249313a2f74}</UniqueIdentifier>
@@ -313,6 +307,9 @@
     <Filter Include="Source Files\Static">
       <UniqueIdentifier>{cd257009-e6d1-4491-b9e2-513417f33b65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GUI\Editor\Editors\Entry">
+      <UniqueIdentifier>{8ae3d54c-83ba-48bc-afa4-f6683bc35a94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\IMGF\Globals.cpp">
@@ -335,18 +332,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DropTarget.cpp">
       <Filter>Source Files\DragDrop</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\EntryViewer\CollisionViewer.cpp">
-      <Filter>Source Files\EntryViewer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\EntryViewer\EntryViewer.cpp">
-      <Filter>Source Files\EntryViewer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\EntryViewer\EntryViewerManager.cpp">
-      <Filter>Source Files\EntryViewer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\EntryViewer\TextureViewer.cpp">
-      <Filter>Source Files\EntryViewer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\Format\DB\DBEntry.cpp">
       <Filter>Source Files\Format\DB</Filter>
@@ -521,9 +506,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\IMGF.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\EEntryViewerDisplayType.h">
-      <Filter>Header Files\EntryViewer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Sort\ESortType.h">
       <Filter>Header Files\Task\Tasks\Sort</Filter>
     </ClInclude>
@@ -541,21 +523,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\DropTarget.h">
       <Filter>Header Files\DragDrop</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\CollisionViewer.h">
-      <Filter>Header Files\EntryViewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\EntryViewer.h">
-      <Filter>Header Files\EntryViewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\EntryViewerManager.h">
-      <Filter>Header Files\EntryViewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\TextureViewer.h">
-      <Filter>Header Files\EntryViewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\TextureViewerTextureData.h">
-      <Filter>Header Files\EntryViewer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Format\DB\DBEntry.h">
       <Filter>Header Files\Format\DB</Filter>
@@ -796,6 +763,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\TextureEditorTab.h">
       <Filter>Header Files\GUI\Editor\Editors\Tab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Entry\TextureEditorTabEntry.h">
+      <Filter>Header Files\GUI\Editor\Editors\Entry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

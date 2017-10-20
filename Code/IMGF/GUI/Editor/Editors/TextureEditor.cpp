@@ -116,4 +116,29 @@ void						TextureEditor::render(void)
 		y += uiTexturePanelBoxHeight;
 		y2 += uiTexturePanelBoxHeight;
 	}
+
+	if (m_pActiveEditorTab)
+	{
+		((TextureEditorTab*)m_pActiveEditorTab)->renderDisplayType_Single();
+	}
+}
+
+// add editor tab
+TextureEditorTab*				TextureEditor::addEditorTab(string& strFilePath)
+{
+	TXDFormat txdFormat(strFilePath);
+	if(!txdFormat.readMetaData())
+	{
+		return nullptr;
+	}
+
+	TextureEditorTab *pTextureEditorTab = Editor::addEditorTab<TXDFormat, TextureEditorTab>(strFilePath);
+
+	if (pTextureEditorTab)
+	{
+		//pTextureEditorTab->setTextureEditor(this);
+		//pTextureEditorTab->setTextureFile((TXDFormat*)pTextureEditorTab->getFile());
+		pTextureEditorTab->init();
+	}
+	return pTextureEditorTab;
 }

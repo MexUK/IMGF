@@ -148,10 +148,6 @@
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DragListCtrl.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DropSource.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DropTarget.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\EntryViewer\CollisionViewer.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\EntryViewer\EntryViewer.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\EntryViewer\EntryViewerManager.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\EntryViewer\TextureViewer.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Format\DB\DBEntry.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Format\DB\DBFormat.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Format\DB\DBManager.cpp" />
@@ -191,6 +187,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\CollisionEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\DATEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\EEditorItem.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Entry\TextureEditorTabEntry.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\IMGEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ItemDefinitionEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ItemPlacementEditor.h" />
@@ -232,12 +229,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\DragListCtrl.h" />
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\DropSource.h" />
     <ClInclude Include="..\..\..\Code\IMGF\DragDrop\DropTarget.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\CollisionViewer.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\EntryViewer.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\EntryViewerManager.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\TextureViewer.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\TextureViewerTextureData.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\EntryViewer\EEntryViewerDisplayType.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Event\EEvent.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Format\DB\DBEntry.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Format\DB\DBFormat.h" />

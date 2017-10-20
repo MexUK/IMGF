@@ -60,7 +60,6 @@
 #include "DB/DBFormat.h"
 #include "Image/RasterDataFormat.h"
 #include "Engine/RW/RWVersionManager.h"
-#include "EntryViewer/EntryViewerManager.h"
 #include "Format/IDE/IDEFormat.h"
 #include "Format/IDE/IDEEntry.h"
 #include "Format/IDE/Entry/DataEntry/IDEEntry_OBJS.h"
@@ -122,8 +121,6 @@
 #include "Intermediate/Texture/IntermediateTextureFormat.h"
 #include "Format/DAT/Path/DATPathFormat.h"
 #include "Localization/LocalizationManager.h"
-#include "EntryViewer/TextureViewer.h"
-#include "EntryViewer/CollisionViewer.h"
 #include "Game/EGame.h"
 #include "Stream/DataReader.h"
 #include "Control/Controls/ProgressBar.h"
@@ -371,7 +368,7 @@ void		Tasks::_openFile(string& strFilePath)
 	}
 	else if (strExtensionUpper == "TXD")
 	{
-		if (!m_pMainWindow->getTextureEditor()->addEditorTab<TXDFormat, TextureEditorTab>(strFilePath))
+		if (!m_pMainWindow->getTextureEditor()->addEditorTab(strFilePath))
 		{
 			return onAbortTask();
 		}

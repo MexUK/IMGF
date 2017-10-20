@@ -47,7 +47,6 @@ namespace imgf
 	class EntryViewer;
 	class EntryViewerManager;
 	class TextureViewer;
-	struct TextureViewerTextureData;
 	enum EEntryViewerDisplayType;
 
 	enum EEvent;
@@ -61,8 +60,10 @@ namespace imgf
 	class LSTManager;
 	class LSTSection;
 
-	class EditorTab;
+
+
 	class Editor;
+	class EditorTab;
 
 	class DATEditor;
 	class IMGEditor;
@@ -76,6 +77,10 @@ namespace imgf
 
 	class IMGEditorTab;
 	class TextureEditorTab;
+
+	struct TextureEditorTabEntry;
+
+
 
 	class InputManager;
 

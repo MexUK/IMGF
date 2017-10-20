@@ -6,6 +6,7 @@
 #include "GUI/Editor/Base/Tab/EditorTab.h"
 #include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 #include "Event/EventBindable.h"
+#include "Task/Tasks/Tasks.h"
 #include <string>
 
 class bxgx::TabBar;
