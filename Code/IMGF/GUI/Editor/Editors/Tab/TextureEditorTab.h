@@ -2,6 +2,7 @@
 
 #include "nsimgf.h"
 #include "nsbxgi.h"
+#include "nsbxgx.h"
 #include "GUI/Editor/Base/Tab/EditorTab.h"
 #include "Pool/VectorPool.h"
 
@@ -9,6 +10,9 @@ class imgf::TextureEditorTab : public imgf::EditorTab, public bxcf::VectorPool<i
 {
 public:
 	TextureEditorTab(void);
+
+	void						bindEvents(void);
+	void						unbindEvents(void);
 
 	bool						unserializeFile(void);
 	void						onFileLoaded(void);
@@ -23,9 +27,16 @@ public:
 	void						setFileInfoText(void);
 	void						updateEntryCountText(void);
 
+	void						onUnserializeRWSection(bxgi::RWSection *pRWSection);
+
 protected:
 	void						addControls(void);
 	void						initControls(void);
+
+	void						onSelectDropDownItem(bxgx::DropDownItem *pItem);
+	void						onLeftMouseDown(bxcf::Vec2i vecCursorPosition);
+	void						onKeyDown2(uint16 uiKey);
+	void						onMouseWheelMove2(int16 iRotationDistance);
 
 private:
 	bool						prepareRenderData_TXD(void);
@@ -34,9 +45,14 @@ private:
 	void						setActiveEntry(TextureEditorTabEntry *pTabEntry) { m_pActiveTabEntry = pTabEntry; }
 	TextureEditorTabEntry*		getActiveEntry(void) { return m_pActiveTabEntry; }
 
-	float32						getZoomLevel(void) { return 1.0f; }
+	void						setZoomLevel(float32 fZoomLevel) { m_fZoomLevel = fZoomLevel; }
+	float32						getZoomLevel(void) { return m_fZoomLevel; }
 
 private:
 	bxgi::TXDFormat*			m_pTXDFile;
 	TextureEditorTabEntry*		m_pActiveTabEntry;
+
+	bxgx::DropDown*				m_pZoomDropDown;
+
+	float32						m_fZoomLevel;
 };

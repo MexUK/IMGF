@@ -5,6 +5,7 @@
 #include "Control/Controls/ProgressBar.h"
 #include "Control/Controls/TabBar.h"
 #include "Control/Controls/Text.h"
+#include "Control/Controls/DropDown.h"
 #include "IMGF.h"
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Static/Path.h"
@@ -13,47 +14,272 @@
 #include "GUI/Editor/Editors/Entry/TextureEditorTabEntry.h"
 #include "GraphicsLibrary/Base/ImageObject.h"
 #include "Style/Parts/EStyleStatus.h"
+#include "Stream/DataReader.h"
+#include "../BXGI/Event/EEvent.h"
+#include "Event/EInputEvent.h"
 
 using namespace std;
 using namespace bxcf;
 using namespace bxgx;
+using namespace bxgx::events;
 using namespace bxgx::styles::statuses;
 using namespace bxgi;
 using namespace imgf;
 
 TextureEditorTab::TextureEditorTab(void) :
 	m_pTXDFile(nullptr),
-	m_pActiveTabEntry(nullptr)
+	m_pActiveTabEntry(nullptr),
+
+	m_pZoomDropDown(nullptr),
+
+	m_fZoomLevel(1.0f)
 {
+}
+
+// events
+void					TextureEditorTab::bindEvents(void)
+{
+	bindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
+	bindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
+	bindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
+	bindEvent(KEY_DOWN, &TextureEditorTab::onKeyDown2);
+	bindEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
+}
+
+void					TextureEditorTab::unbindEvents(void)
+{
+	unbindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
+	unbindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
+	unbindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
+	unbindEvent(KEY_DOWN, &TextureEditorTab::onKeyDown2);
+	unbindEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
 }
 
 // controls
 void					TextureEditorTab::addControls(void)
 {
+	int32 x, y;
+	uint32 w, h;
+	
+	x = 139 + 139 + 250 + 100 + 51;
+	y = ((162 + 30) - 50) - 1;
+	w = 80;
+	h = 20;
+
+	m_pZoomDropDown = addDropDown(Vec2i(x, y), Vec2u(w, h), "");
+	vector<string> vecZoomDropDownItems = { "25%", "50%", "100%", "200%", "400%", "800%", "1600%" };
+	m_pZoomDropDown->addItems(vecZoomDropDownItems);
+	m_pZoomDropDown->setActiveItem(m_pZoomDropDown->getEntryByIndex(2));
 }
 
 void					TextureEditorTab::initControls(void)
 {
 }
 
+// editor input
+void					TextureEditorTab::onSelectDropDownItem(DropDownItem *pItem)
+{
+	string strActiveZoomText = m_pZoomDropDown->getActiveItem()->getText();
+	float32 fZoomLevel = ((float32)String::toUint32(strActiveZoomText.substr(0, strActiveZoomText.length() - 1))) / 100.0f;
+	setZoomLevel(fZoomLevel);
+}
+
+void						TextureEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
+{
+	TextureEditorTabEntry *pActiveTabEntry = nullptr;
+	uint32 uiActiveImageIndex;
+	uint32 i = 0;
+	// todo y += yCurrentScroll;
+	for (TextureEditorTabEntry *pTabEntry : getEntries())
+	{
+		if (vecCursorPosition.x >= pTabEntry->m_rect.left
+			&& vecCursorPosition.y >= pTabEntry->m_rect.top
+			&& vecCursorPosition.x <= pTabEntry->m_rect.right
+			&& vecCursorPosition.y <= pTabEntry->m_rect.bottom)
+		{
+			uiActiveImageIndex = i;
+			pActiveTabEntry = pTabEntry;
+			break;
+		}
+		i++;
+	}
+	if (pActiveTabEntry != nullptr)
+	{
+		setActiveEntry(pActiveTabEntry);
+		m_pWindow->render();
+	}
+}
+
+void						TextureEditorTab::onKeyDown2(uint16 uiKey)
+{
+	int32 iNextTextureIndex;
+	int32 wScrollNotify;
+	uint32 uiMinTextureIndex = 0;
+	uint32 uiMaxTextureIndex = getEntryCount() - 1;
+	uint32 yCurrentScroll = 0;
+	TextureEditorTabEntry *pTexData;
+
+	switch (uiKey)
+	{
+	case VK_PRIOR:
+		iNextTextureIndex = getActiveEntry()->m_uiIndex - 5;
+		if (iNextTextureIndex < 0)
+		{
+			iNextTextureIndex = 0;
+		}
+		pTexData = getEntryByIndex(iNextTextureIndex);
+		setActiveEntry(pTexData);
+		if (!pTexData->isCompletelyDisplayed())
+		{
+			yCurrentScroll -= ((pTexData->m_rect.bottom - pTexData->m_rect.top) + 1) * 5;
+			if (yCurrentScroll < 0)
+			{
+				yCurrentScroll = 0;
+			}
+		}
+		m_pWindow->render();
+		break;
+
+	case VK_NEXT:
+		iNextTextureIndex = getActiveEntry()->m_uiIndex + 5;
+		if (iNextTextureIndex > (int32)uiMaxTextureIndex)
+		{
+			iNextTextureIndex = uiMaxTextureIndex;
+		}
+		pTexData = getEntryByIndex(iNextTextureIndex);
+		setActiveEntry(pTexData);
+		if (!pTexData->isCompletelyDisplayed())
+		{
+			yCurrentScroll += ((pTexData->m_rect.bottom - pTexData->m_rect.top) + 1) * 5;
+		}
+		m_pWindow->render();
+		break;
+
+	case VK_UP:
+		iNextTextureIndex = ((int32)getActiveEntry()->m_uiIndex) - 1;
+		if (iNextTextureIndex >= 0)
+		{
+			pTexData = getEntryByIndex(iNextTextureIndex);
+			setActiveEntry(pTexData);
+			if (!pTexData->isCompletelyDisplayed())
+			{
+				yCurrentScroll -= (pTexData->m_rect.bottom - pTexData->m_rect.top) + 1;
+				if (yCurrentScroll < 0)
+				{
+					yCurrentScroll = 0;
+				}
+			}
+			m_pWindow->render();
+		}
+		break;
+
+	case VK_DOWN:
+		iNextTextureIndex = getActiveEntry()->m_uiIndex + 1;
+		if (iNextTextureIndex <= (int32)uiMaxTextureIndex)
+		{
+			pTexData = getEntryByIndex(iNextTextureIndex);
+			setActiveEntry(pTexData);
+			if (!pTexData->isCompletelyDisplayed())
+			{
+				yCurrentScroll += (pTexData->m_rect.bottom - pTexData->m_rect.top) + 1;
+			}
+			m_pWindow->render();
+		}
+		break;
+
+	case VK_HOME:
+		if (getEntryCount() > 0)
+		{
+			setActiveEntry(getFirstEntry());
+			m_pWindow->render();
+		}
+		wScrollNotify = SB_TOP;
+		break;
+
+	case VK_END:
+		if (getEntryCount() > 0)
+		{
+			setActiveEntry(getLastEntry());
+			m_pWindow->render();
+		}
+		wScrollNotify = SB_BOTTOM;
+		break;
+	}
+}
+
+void					TextureEditorTab::onMouseWheelMove2(int16 iRotationDistance)
+{
+	/*
+	int xDelta = 0;
+	int yDelta;     // yDelta = new_pos - current_pos 
+	int yNewPos;    // new position 
+
+	int iDelta = iRotationDistance / WHEEL_DELTA;
+	int yCurrentScroll = 0;
+
+	yNewPos = yCurrentScroll - iDelta;
+
+	// New position must be between 0 and the screen height. 
+	yNewPos = max(0, yNewPos);
+	yNewPos = min(yMaxScroll, yNewPos);
+
+	// If the current position does not change, do not scroll.
+	if (yNewPos == yCurrentScroll)
+		break;
+
+	// Set the scroll flag to TRUE. 
+	fScroll = TRUE;
+
+	// Determine the amount scrolled (in pixels). 
+	yDelta = yNewPos - yCurrentScroll;
+
+	// Reset the current scroll position. 
+	yCurrentScroll = yNewPos;
+	if (yCurrentScroll < 0)
+	{
+		yCurrentScroll = 0;
+	}
+
+	// Scroll the window. (The system repaints most of the 
+	// client area when ScrollWindowEx is called; however, it is 
+	// necessary to call UpdateWindow in order to repaint the 
+	// rectangle of pixels that were invalidated.) 
+	//ScrollWindowEx(hwnd, -xDelta, -yDelta, (CONST RECT *) NULL,
+	//	(CONST RECT *) NULL, (HRGN)NULL, (PRECT)NULL,
+	//	SW_INVALIDATE);
+	//UpdateWindow(hwnd);
+	pTextureViewer->forceRender();
+
+	// Reset the scroll bar.
+	///////////si.cbSize = sizeof(si);
+	///////////si.fMask = SIF_POS;
+	///////////si.nPos = yCurrentScroll;
+	///////////SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
+
+	RECT rect;
+	GetClientRect(pTextureViewer->getWindowHwnd(), &rect);
+	int yNewSize = rect.bottom;
+
+	yMaxScroll = max(pTextureViewer->getWindowScrollbarMaxRange() - yNewSize, 0);
+	yCurrentScroll = min(yCurrentScroll, yMaxScroll);
+	if (yCurrentScroll < 0)
+	{
+		yCurrentScroll = 0;
+	}
+	si.cbSize = sizeof(si);
+	si.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
+	si.nMin = yMinScroll;
+	si.nMax = pTextureViewer->getWindowScrollbarMaxRange();
+	si.nPage = yNewSize;
+	si.nPos = yCurrentScroll;
+	SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
+	*/
+}
+
 // file unserialization
 bool					TextureEditorTab::unserializeFile(void)
 {
 	TXDFormat *txd = new TXDFormat;
-
-	/*
-	progress bar: 3 stages
-
-	[IMG versions 1, 2, and fastman92]
-	- parsing header
-	- parsing RW versions
-	- adding entries to grid
-
-	[IMG versions 3 (encrypted and unencrypted)]
-	- parsing header
-	- parsing entry names
-	- adding entries to grid
-	*/
 
 	if (!txd->openFile())
 	{
@@ -66,9 +292,7 @@ bool					TextureEditorTab::unserializeFile(void)
 		return false;
 	}
 
-	uint32
-		uiProgressBarMaxMultiplier = 3,
-		uiProgressBarMax = txd->m_uiEntryCount * uiProgressBarMaxMultiplier;
+	uint32 uiProgressBarMax = txd->m_reader.getSize();
 	getProgressBar()->setMax(uiProgressBarMax);
 
 	if (!txd->unserialize())
@@ -80,6 +304,12 @@ bool					TextureEditorTab::unserializeFile(void)
 
 	setTXDFile(txd);
 	return true;
+}
+
+void					TextureEditorTab::onUnserializeRWSection(RWSection *pRWSection)
+{
+	uint32 uiCurrentProgressBytes = pRWSection->getRWFormat()->m_reader.getSeek();
+	getProgressBar()->setCurrent(uiCurrentProgressBytes);
 }
 
 void					TextureEditorTab::onFileLoaded(void)
@@ -100,22 +330,6 @@ void					TextureEditorTab::onFileLoaded(void)
 
 	// render
 	m_pWindow->render();
-
-	/*
-	// store render items
-	getRenderItems().addEntry(m_pEntryGrid);
-	getRenderItems().addEntry(m_pEntryTypeFilter);
-	getRenderItems().addEntry(m_pEntryVersionFilter);
-
-	addGridEntries();
-
-	m_pEntryGrid->setActiveItem();
-
-	loadFilter_Type();
-	loadFilter_Version();
-
-	setFileInfoText();
-	*/
 }
 
 // update tab text
@@ -229,6 +443,7 @@ bool						TextureEditorTab::prepareRenderData_WTD(void)
 	return true;
 }
 
+// render editor
 void						TextureEditorTab::renderDisplayType_Single(void)
 {
 	HWND hwnd = getWindow()->getWindowHandle();
@@ -299,8 +514,8 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		uiImagePaddingBottom = 10,
 		uiEntryViewerWindowClientAreaWidth = 494;
 	uint32
-		uiImageX = x,// uiSingleDisplayTypeTopScrollbarXCurrentScroll,
-		uiImageY = y,
+		uiEntryRectX = x,// uiSingleDisplayTypeTopScrollbarXCurrentScroll,
+		uiEntryRectY = y,
 		uiHighestImageInRow = 0,
 		uiCalculatedWidth,
 		uiTextureIndex = 0;
@@ -310,20 +525,19 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		bTexturePreviewIsEnabled = false;
 	for (TextureEditorTabEntry *pImageData : getEntries())
 	{
-		uint32 uiTop = uiImageY == 0 ? 0 : (uiImageY - 5);
 		if (bTexturePreviewIsEnabled)
 		{
 			pImageData->m_rect.left = vecMainPanelPosition.x;
-			pImageData->m_rect.top = uiImageY;
+			pImageData->m_rect.top = uiEntryRectY;
 			pImageData->m_rect.right = vecMainPanelPosition.x + 250;
-			pImageData->m_rect.bottom = uiImageY + 45 + 128 + 5;
+			pImageData->m_rect.bottom = uiEntryRectY + 45 + 128 + 10;
 		}
 		else
 		{
 			pImageData->m_rect.left = vecMainPanelPosition.x;
-			pImageData->m_rect.top = uiImageY;
+			pImageData->m_rect.top = uiEntryRectY;
 			pImageData->m_rect.right = vecMainPanelPosition.x + 250;
-			pImageData->m_rect.bottom = uiImageY + 45 + 5;
+			pImageData->m_rect.bottom = uiEntryRectY + 45 + 10;
 		}
 
 		uiCalculatedWidth = 0;
@@ -367,8 +581,8 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 
 		RECT rect;
 
-		rect.left = uiImageX + 5;
-		rect.top = uiImageY + 10 - yCurrentScroll;
+		rect.left = uiEntryRectX + 5;
+		rect.top = uiEntryRectY + 13 - yCurrentScroll;
 		rect.right = 8000;
 		rect.bottom = 8000;
 		string strText = String::toString(uiTextureIndex + 1);
@@ -377,53 +591,49 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		// draw texture diffuse name
 		uint32 uiXOffset1 = 50;
 
-		rect.left = uiImageX + uiXOffset1;
-		rect.top = uiImageY - yCurrentScroll;
+		rect.left = uiEntryRectX + uiXOffset1;
+		rect.top = uiEntryRectY + 5 - yCurrentScroll;
 		rect.right = 8000;
 		rect.bottom = 8000;
 		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), pImageData->m_strDiffuseName);
-		uiImageY += 15;
+		uiEntryRectY += 15;
 
 		// draw texture alpha name
 		if (pImageData->m_strAlphaName != "")
 		{
-			rect.left = uiImageX + uiXOffset1;
-			rect.top = uiImageY - yCurrentScroll;
+			rect.left = uiEntryRectX + uiXOffset1;
+			rect.top = uiEntryRectY + 5 - yCurrentScroll;
 			rect.right = 8000;
 			rect.bottom = 8000;
 			pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), pImageData->m_strAlphaName);
-			uiImageY += 15;
 		}
+		uiEntryRectY += 15;
 
 		// draw texture size
-		rect.left = uiImageX + uiXOffset1;
-		rect.top = uiImageY - yCurrentScroll;
+		rect.left = uiEntryRectX + uiXOffset1;
+		rect.top = uiEntryRectY + 5 - yCurrentScroll;
 		rect.right = 8000;
 		rect.bottom = 8000;
 		strText = String::toString(pImageData->m_uiWidth) + " x " + String::toString(pImageData->m_uiHeight);
 		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
 
 		// draw texture BPP
-		rect.left = uiImageX + uiXOffset1 + 85;
-		rect.top = uiImageY - yCurrentScroll;
+		rect.left = uiEntryRectX + uiXOffset1 + 85;
+		rect.top = uiEntryRectY + 5 - yCurrentScroll;
 		rect.right = 8000;
 		rect.bottom = 8000;
 		strText = String::toString(pImageData->m_ucBPP) + " BPP";
 		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
 
 		// draw texture raster format
-		rect.left = uiImageX + uiXOffset1 + 85 + 55;
-		rect.top = uiImageY - yCurrentScroll;
+		rect.left = uiEntryRectX + uiXOffset1 + 85 + 55;
+		rect.top = uiEntryRectY + 5 - yCurrentScroll;
 		rect.right = 8000;
 		rect.bottom = 8000;
 		strText = pImageData->m_strTextureFormat;
 		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
 
-		uiImageY += 15;
-		if (pImageData->m_strAlphaName == "")
-		{
-			uiImageY += 15;
-		}
+		uiEntryRectY += 15;
 
 		// draw texture image preview
 		if (bTexturePreviewIsEnabled)
@@ -446,14 +656,14 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 				uiDestHeight = 128;
 			}
 			
-			pGFX->drawImage(Vec2i(uiImageX + 20, uiImageY - yCurrentScroll), pImageData->m_hBitmap, Vec2u(pActiveImageData->m_uiWidth, pActiveImageData->m_uiHeight));
-			uiImageY += 128;
+			pGFX->drawImage(Vec2i(uiEntryRectX + 20, uiEntryRectY - yCurrentScroll), pImageData->m_hBitmap, Vec2u(pActiveImageData->m_uiWidth, pActiveImageData->m_uiHeight));
+			uiEntryRectY += 128;
 		}
 
-		uiImageY += 10;
+		uiEntryRectY += 10;
 
 		// horizontal line below texture image
-		pGFX->drawLine(Vec2i(vecMainPanelPosition.x, uiImageY - (uiImagePaddingBottom / 2) - yCurrentScroll), Vec2i(vecMainPanelPosition.x + 250, uiImageY - (uiImagePaddingBottom / 2) - yCurrentScroll));
+		pGFX->drawLine(Vec2i(vecMainPanelPosition.x, uiEntryRectY - 1 - yCurrentScroll), Vec2i(vecMainPanelPosition.x + 250, uiEntryRectY - 1 - yCurrentScroll));
 
 		uiTextureIndex++;
 	}
@@ -487,7 +697,7 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 	if (false)
 	{
 		// todo
-		uint32 uiMaxXPosition = uiImageX + uiCalculatedWidth + uiImagePaddingRight;
+		uint32 uiMaxXPosition = uiEntryRectX + uiCalculatedWidth + uiImagePaddingRight;
 		if (clientRect.bottom > (int32)uiMaxXPosition)
 		{
 			uiMaxXPosition = clientRect.bottom;
