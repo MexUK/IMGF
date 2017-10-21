@@ -160,12 +160,6 @@ public:
 private:
 	void						loadProtectedEntryState(bxgi::IMGEntry *pIMGEntry);
 
-public:
-	bxgx::Text*					m_pText_FilePath;
-	bxgx::Text*					m_pText_FileVersion;
-	bxgx::Text*					m_pText_FileGame;
-	bxgx::Text*					m_pText_FileEntryCount;
-
 private:
 	IMGEditor*					m_pIMGEditor;
 

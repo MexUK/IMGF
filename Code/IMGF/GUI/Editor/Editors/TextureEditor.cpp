@@ -57,11 +57,11 @@ void						TextureEditor::init(void)
 	addLine(x, y, x2, y2);
 	*/
 
-	bindEvent(RENDER, &TextureEditor::render);
+	bindEvent(BEFORE_RENDER, &TextureEditor::renderBefore);
 }
 
 // render
-void						TextureEditor::render(void)
+void						TextureEditor::renderBefore(void)
 {
 	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
 	
@@ -70,6 +70,12 @@ void						TextureEditor::render(void)
 		return;
 	}
 
+	m_pWindow->resetRenderingStyleGroups();
+	m_pWindow->resetRenderingControlComponent();
+	m_pWindow->resetRenderingStyleFragment();
+	m_pWindow->resetRenderingStyleStatus();
+
+	/*
 	int32 startx, starty, x, y, x2, y2;
 	uint32 uiLogWidth = 335;
 
@@ -85,6 +91,7 @@ void						TextureEditor::render(void)
 	y = starty;
 	y2 = y;
 
+	
 	// draw item list
 	setRenderingStyleGroups("itemList");
 	StyleManager::get()->m_pRenderingEventUtilizer = nullptr;
@@ -116,6 +123,7 @@ void						TextureEditor::render(void)
 		y += uiTexturePanelBoxHeight;
 		y2 += uiTexturePanelBoxHeight;
 	}
+	*/
 
 	if (m_pActiveEditorTab)
 	{

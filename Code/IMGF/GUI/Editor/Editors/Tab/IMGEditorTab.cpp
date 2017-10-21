@@ -60,10 +60,6 @@ using namespace imgf;
 
 IMGEditorTab::IMGEditorTab(void) :
 	m_pIMGEditor(nullptr),
-	m_pText_FilePath(nullptr),
-	m_pText_FileVersion(nullptr),
-	m_pText_FileGame(nullptr),
-	m_pText_FileEntryCount(nullptr),
 	m_pEntryGrid(nullptr),
 	m_pEntryTypeFilter(nullptr),
 	m_pEntryVersionFilter(nullptr),
@@ -234,42 +230,11 @@ void					IMGEditorTab::addControls(void)
 	m_pEntryVersionFilter = addDropDown(x, y, w, h, "Entry Version", strStyleGroup, -1, -100);
 	m_pEntryVersionFilter->addItem("No file is open", false, false);
 	m_pEntryVersionFilter->addLinkedItem(m_pEntryTypeFilter);
-
-	// game information headers
-	x = 149 + 139;
-	y = (uiTitleBarHeight - 1) + uiButtonHeight + 10;
-	y2 = y;
-	w = 80;
-	h = 20;
-	h2 = 20;
-	strStyleGroup = "gameInfoText";
-
-	addText(x, y, w, h, "Path", strStyleGroup, -1, -150);
-	y += h2;
-	addText(x, y, w, h, "Version", strStyleGroup, -1, -150);
-	y += h2;
-	addText(x, y, w, h, "Game", strStyleGroup, -1, -150);
-	y += h2;
-	addText(x, y, w, h, "Entries", strStyleGroup, -1, -150);
-
-	// game information values
-	x += 90;
-	y = y2;
-	w = 415;
-	w2 = 200;
-
-	m_pText_FilePath = addText(x, y, w, h, "Loading..", strStyleGroup, -1, -150);
-	y += h2;
-	m_pText_FileVersion = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
-	y += h2;
-	m_pText_FileGame = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
-	y += h2;
-	m_pText_FileEntryCount = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
 }
 
 void					IMGEditorTab::initControls(void)
 {
-	bindEvents();
+	// todo bindEvents();
 	repositionAndResizeControls(Vec2i(0, 0));
 }
 

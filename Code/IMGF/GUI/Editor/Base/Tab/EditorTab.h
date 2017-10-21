@@ -80,8 +80,13 @@ public:
 
 protected:
 	bxcf::Format*						m_pFile;
-
 	Editor*								m_pEditor;
+
+	bxgx::Text*							m_pText_FilePath;
+	bxgx::Text*							m_pText_FileVersion;
+	bxgx::Text*							m_pText_FileGame;
+	bxgx::Text*							m_pText_FileEntryCount;
+
 	bxgx::TextBox*						m_pSearchBox;
 	bxgx::Tab*							m_pTab;
 	bxgx::TextBox*						m_pLog;

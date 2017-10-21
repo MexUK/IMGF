@@ -20,6 +20,9 @@ public:
 
 	void						renderDisplayType_Single(void);
 
+	void						setFileInfoText(void);
+	void						updateEntryCountText(void);
+
 protected:
 	void						addControls(void);
 	void						initControls(void);

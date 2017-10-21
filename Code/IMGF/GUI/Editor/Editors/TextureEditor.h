@@ -13,7 +13,7 @@ public:
 	TextureEditor(void);
 
 	void								init(void);
-	void								render(void);
+	void								renderBefore(void);
 	
 	TextureEditorTab*					addEditorTab(std::string& strFilePath);
 

@@ -95,10 +95,10 @@ private:
 template <class T>
 T*								imgf::MainWindow::addEditor(void)
 {
-	T *pEditor = new T;
+	T *pEditor = addLayer<T>(-1, false, 0);
 	pEditor->setWindow(this);
 	pEditor->setMainWindow(this);
-	pEditor->setEnabled(false);
+	// todo pEditor->setEnabled(false);
 	pEditor->init();
 	addEditor(pEditor);
 	return pEditor;

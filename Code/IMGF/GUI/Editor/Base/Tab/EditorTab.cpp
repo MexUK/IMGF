@@ -28,8 +28,15 @@ using namespace imgf;
 EditorTab::EditorTab(void) :
 	m_bMarkedToClose(false),
 	m_bThreadHasTerminated(false),
+
 	m_pEditor(nullptr),
 	m_pFile(nullptr),
+
+	m_pText_FilePath(nullptr),
+	m_pText_FileVersion(nullptr),
+	m_pText_FileGame(nullptr),
+	m_pText_FileEntryCount(nullptr),
+
 	m_pTab(nullptr),
 	m_pLog(nullptr),
 	m_pSearchBox(nullptr),
@@ -155,8 +162,9 @@ uint32						EditorTab::getTabIndex(void)
 // controls
 void						EditorTab::addControls(void)
 {
-	int32 x, y;
+	int32 x, y, y2;
 	uint32 w, h, w2, h2, uiTitleBarHeight, uiButtonHeight, uiLogWidth;
+	string strStyleGroup;
 
 	uiTitleBarHeight = m_pWindow->getTitleBarHeight();
 	uiButtonHeight = 37;
@@ -191,11 +199,42 @@ void						EditorTab::addControls(void)
 	h = 5;
 
 	m_pProgressBar = addProgressBar(x, y, w, h, "progressBar");
+
+	// game information headers
+	x = 149 + 139;
+	y = (uiTitleBarHeight - 1) + uiButtonHeight + 10;
+	y2 = y;
+	w = 80;
+	h = 20;
+	h2 = 20;
+	strStyleGroup = "gameInfoText";
+
+	addText(x, y, w, h, "Path", strStyleGroup, -1, -150);
+	y += h2;
+	addText(x, y, w, h, "Version", strStyleGroup, -1, -150);
+	y += h2;
+	addText(x, y, w, h, "Game", strStyleGroup, -1, -150);
+	y += h2;
+	addText(x, y, w, h, "Entries", strStyleGroup, -1, -150);
+
+	// game information values
+	x += 90;
+	y = y2;
+	w = 415;
+	w2 = 200;
+
+	m_pText_FilePath = addText(x, y, w, h, "Loading..", strStyleGroup, -1, -150);
+	y += h2;
+	m_pText_FileVersion = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
+	y += h2;
+	m_pText_FileGame = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
+	y += h2;
+	m_pText_FileEntryCount = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
 }
 
 void						EditorTab::initControls(void)
 {
-	bindEvents();
+	// todo bindEvents();
 	repositionAndResizeControls(Vec2i(0, 0));
 }
 

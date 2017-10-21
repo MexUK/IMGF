@@ -45,14 +45,14 @@ void		MainLayer::init(void)
 // tab control
 void		MainLayer::onChangeTab(TabBar *pTabBar)
 {
-	//m_pActiveEditor->onChangeTab(pTabBar);
+	// todo - move to Editor.cpp
 	if (pTabBar->getEntryCount() == 0)
 	{
-		m_pMainWindow->getIMGEditor()->setActiveEditorTab(nullptr);
+		m_pMainWindow->getActiveEditor()->setActiveEditorTab(nullptr);
 	}
 	else
 	{
-		m_pMainWindow->getIMGEditor()->setActiveEditorTab(m_pMainWindow->getIMGEditor()->getEditorTabs().getEntryByIndex(pTabBar->getActiveIndex()));
+		m_pMainWindow->getActiveEditor()->setActiveEditorTab(m_pMainWindow->getActiveEditor()->getEditorTabs().getEntryByIndex(pTabBar->getActiveIndex()));
 	}
 }
 
@@ -687,7 +687,7 @@ void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
 void		MainLayer::initControls(void)
 {
 	bindEventConst<void>(CHANGE_TAB, &MainLayer::onChangeTab);
-	bindEvent(REMOVE_TAB, &MainLayer::onRemoveTab);
+	bindEventConst<void>(REMOVE_TAB, &MainLayer::onRemoveTab);
 
 	bindEvent(RESIZE_WINDOW, &MainLayer::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));

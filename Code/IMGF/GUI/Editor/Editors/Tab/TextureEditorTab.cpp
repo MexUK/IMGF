@@ -4,16 +4,20 @@
 #include "Task/Tasks/Tasks.h"
 #include "Control/Controls/ProgressBar.h"
 #include "Control/Controls/TabBar.h"
+#include "Control/Controls/Text.h"
 #include "IMGF.h"
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Static/Path.h"
 #include "Format/TXD/TXDManager.h"
 #include "Format/RW/Sections/RWSection_TextureNative.h"
 #include "GUI/Editor/Editors/Entry/TextureEditorTabEntry.h"
+#include "GraphicsLibrary/Base/ImageObject.h"
+#include "Style/Parts/EStyleStatus.h"
 
 using namespace std;
 using namespace bxcf;
 using namespace bxgx;
+using namespace bxgx::styles::statuses;
 using namespace bxgi;
 using namespace imgf;
 
@@ -90,6 +94,12 @@ void					TextureEditorTab::onFileLoaded(void)
 
 	// prepare render data
 	prepareRenderData_TXD();
+
+	// display TXD info
+	setFileInfoText();
+
+	// render
+	m_pWindow->render();
 
 	/*
 	// store render items
@@ -229,9 +239,12 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 	RECT clientRect;
 	int width, height;
 
-	uint32 x = 139 + 139;
+	uint32 x, y;
+	Vec2i vecMainPanelPosition;
 
-	uint32 uiLeftPanelWidth = x + 250;
+	x = 139 + 139;
+	y = 162 + 30;
+	vecMainPanelPosition = Vec2i(x, y);
 
 	float32 yCurrentScroll = 0;
 
@@ -286,30 +299,30 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		uiImagePaddingBottom = 10,
 		uiEntryViewerWindowClientAreaWidth = 494;
 	uint32
-		uiImageX = 0,// uiSingleDisplayTypeTopScrollbarXCurrentScroll,
-		uiImageY = 0,
+		uiImageX = x,// uiSingleDisplayTypeTopScrollbarXCurrentScroll,
+		uiImageY = y,
 		uiHighestImageInRow = 0,
 		uiCalculatedWidth,
 		uiTextureIndex = 0;
 	TextureEditorTabEntry
 		*pActiveImageData = getActiveEntry();
 	bool
-		bTexturePreviewIsEnabled = true;
+		bTexturePreviewIsEnabled = false;
 	for (TextureEditorTabEntry *pImageData : getEntries())
 	{
 		uint32 uiTop = uiImageY == 0 ? 0 : (uiImageY - 5);
 		if (bTexturePreviewIsEnabled)
 		{
-			pImageData->m_rect.left = 0;
-			pImageData->m_rect.top = (uiImageY - 5) + 1;
-			pImageData->m_rect.right = uiLeftPanelWidth;
+			pImageData->m_rect.left = vecMainPanelPosition.x;
+			pImageData->m_rect.top = uiImageY;
+			pImageData->m_rect.right = vecMainPanelPosition.x + 250;
 			pImageData->m_rect.bottom = uiImageY + 45 + 128 + 5;
 		}
 		else
 		{
-			pImageData->m_rect.left = 0;
-			pImageData->m_rect.top = (uiImageY - 5) + 1;
-			pImageData->m_rect.right = uiLeftPanelWidth;
+			pImageData->m_rect.left = vecMainPanelPosition.x;
+			pImageData->m_rect.top = uiImageY;
+			pImageData->m_rect.right = vecMainPanelPosition.x + 250;
 			pImageData->m_rect.bottom = uiImageY + 45 + 5;
 		}
 
@@ -333,30 +346,16 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		}
 
 		// draw active texture background colour
+		RECT rect2 = pImageData->m_rect;
+
+		m_pWindow->setRenderingStyleGroups("leftEntryPanel");
 		if (pImageData == getActiveEntry())
 		{
-			RECT rect2 = pImageData->m_rect;
-			rect2.top -= yCurrentScroll;
-			rect2.bottom -= yCurrentScroll;
-			HBRUSH bkgBrush = CreateSolidBrush(RGB(255, 255, 0));
-			FillRect(hdc, &rect2, bkgBrush);
-			DeleteObject(bkgBrush);
-
-			/*
-			HDC tempHdc = CreateCompatibleDC(hdc);
-			int width = pImageData->m_rect.right - pImageData->m_rect.left;
-			int height = pImageData->m_rect.bottom - pImageData->m_rect.top;
-			HBITMAP canvas = CreateCompatibleBitmap(hdc, width, height);
-			// select new bitmap into context, don't forget to save old bitmap handle
-			HBITMAP oldBmp = (HBITMAP) SelectObject(tempHdc, canvas);
-
-			SetDCPenColor(tempHdc, RGB(255, 255, 0));
-			SetDCBrushColor(tempHdc, RGB(255, 255, 0));
-			Rectangle(tempHdc, pImageData->m_rect.left, pImageData->m_rect.top, pImageData->m_rect.right, pImageData->m_rect.bottom);
-			BLENDFUNCTION blend = { AC_SRC_OVER, 0, 127, AC_SRC_ALPHA };
-			AlphaBlend(hdc, pImageData->m_rect.left, pImageData->m_rect.top, pImageData->m_rect.right - pImageData->m_rect.left, pImageData->m_rect.bottom - pImageData->m_rect.top, tempHdc, 0, 0, pImageData->m_rect.right - pImageData->m_rect.left, pImageData->m_rect.bottom - pImageData->m_rect.top, blend);
-			*/
+			m_pWindow->setRenderingStyleStatus(EStyleStatus::ACTIVE);
 		}
+		pGFX->drawRectangle(Vec2i(rect2.left, rect2.top), Vec2u(rect2.right - rect2.left, rect2.bottom - rect2.top));
+		m_pWindow->resetRenderingStyleGroups();
+		m_pWindow->resetRenderingStyleStatus();
 
 		// draw texture number
 		HFONT hFont = CreateFont(22, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
@@ -373,20 +372,16 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		rect.right = 8000;
 		rect.bottom = 8000;
 		string strText = String::toString(uiTextureIndex + 1);
-		DrawText(hdc, String::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX);
+		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
 
 		// draw texture diffuse name
-		HFONT hFont2 = CreateFont(13, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
-			CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, VARIABLE_PITCH, TEXT("Verdana"));
-		old = SelectObject(hdc, hFont2);
-
 		uint32 uiXOffset1 = 50;
 
 		rect.left = uiImageX + uiXOffset1;
 		rect.top = uiImageY - yCurrentScroll;
 		rect.right = 8000;
 		rect.bottom = 8000;
-		DrawText(hdc, String::convertStdStringToStdWString(pImageData->m_strDiffuseName).c_str(), pImageData->m_strDiffuseName.length(), &rect, DT_NOPREFIX);
+		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), pImageData->m_strDiffuseName);
 		uiImageY += 15;
 
 		// draw texture alpha name
@@ -396,7 +391,7 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 			rect.top = uiImageY - yCurrentScroll;
 			rect.right = 8000;
 			rect.bottom = 8000;
-			DrawText(hdc, String::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &rect, DT_NOPREFIX);
+			pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), pImageData->m_strAlphaName);
 			uiImageY += 15;
 		}
 
@@ -406,7 +401,7 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		rect.right = 8000;
 		rect.bottom = 8000;
 		strText = String::toString(pImageData->m_uiWidth) + " x " + String::toString(pImageData->m_uiHeight);
-		DrawText(hdc, String::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // size
+		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
 
 		// draw texture BPP
 		rect.left = uiImageX + uiXOffset1 + 85;
@@ -414,7 +409,7 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		rect.right = 8000;
 		rect.bottom = 8000;
 		strText = String::toString(pImageData->m_ucBPP) + " BPP";
-		DrawText(hdc, String::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // BPP
+		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
 
 		// draw texture raster format
 		rect.left = uiImageX + uiXOffset1 + 85 + 55;
@@ -422,21 +417,18 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		rect.right = 8000;
 		rect.bottom = 8000;
 		strText = pImageData->m_strTextureFormat;
-		DrawText(hdc, String::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX); // raster format
+		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
 
 		uiImageY += 15;
 		if (pImageData->m_strAlphaName == "")
 		{
 			uiImageY += 15;
 		}
-		SelectObject(hdc, old);
-		DeleteObject(hFont);
-		DeleteObject(hFont2);
 
 		// draw texture image preview
 		if (bTexturePreviewIsEnabled)
 		{
-			old = (HBITMAP)SelectObject(memDC, pImageData->m_hBitmap);
+			//old = (HBITMAP)SelectObject(memDC, pImageData->m_hBitmap);
 
 			uint32 uiImageWidthWhenHeightIs128 = (uint32)(((float32)128.0f / (float32)pImageData->m_uiHeight) * (float32)pImageData->m_uiWidth);
 			uint32 uiImageHeightWhenWidthIs128 = (uint32)(((float32)128.0f / (float32)pImageData->m_uiWidth) * (float32)pImageData->m_uiHeight);
@@ -453,88 +445,42 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 				uiDestWidth = uiImageWidthWhenHeightIs128;
 				uiDestHeight = 128;
 			}
-
-			//StretchBlt(hdc, uiImageX + 20, uiImageY - yCurrentScroll, uiDestWidth, uiDestHeight, memDC, 0, 0, pImageData->m_uiWidth, pImageData->m_uiHeight, SRCCOPY);
-			uint32 uiAlpha = 255;
-			BLENDFUNCTION bf = { AC_SRC_OVER, (uint8)0,  (uint8)uiAlpha, AC_SRC_ALPHA };
-			AlphaBlend(hdc, uiImageX + 20, uiImageY - yCurrentScroll, uiDestWidth, uiDestHeight, memDC, 0, 0, pImageData->m_uiWidth, pImageData->m_uiHeight, bf);
+			
+			pGFX->drawImage(Vec2i(uiImageX + 20, uiImageY - yCurrentScroll), pImageData->m_hBitmap, Vec2u(pActiveImageData->m_uiWidth, pActiveImageData->m_uiHeight));
 			uiImageY += 128;
 		}
 
-		/*
-		pImageData->m_rect.left = uiImageX + 20;
-		pImageData->m_rect.top = uiImageY;
-		pImageData->m_rect.right = uiImageX + 20 + 128;
-		pImageData->m_rect.bottom = uiImageY + 128 + 20 + 20;
-		*/
-
 		uiImageY += 10;
 
-		//uint32 uiItemHeight = 128 + 20 + 20 + uiImagePaddingBottom;
-
-
-		// texture calculations 2
-		//uint32 uiImageDisplayedHeight = 128;
-		//uiImageY += pImageData->m_uiHeight + 20 + 20 + uiImagePaddingBottom;
-		//uiImageY += uiItemHeight;
-
-		/*
-		if (pImageData->m_uiWidth > uiLongestImageInRow)
-		{
-		uiLongestImageInRow = pImageData->m_uiWidth;
-		}
-		*/
-
 		// horizontal line below texture image
-		//Pen      pen(Color(255, 0, 0, 0));
-		pGFX->drawLine(Vec2i(0, uiImageY - (uiImagePaddingBottom / 2) - yCurrentScroll), Vec2i(uiLeftPanelWidth, uiImageY - (uiImagePaddingBottom / 2) - yCurrentScroll));
+		pGFX->drawLine(Vec2i(vecMainPanelPosition.x, uiImageY - (uiImagePaddingBottom / 2) - yCurrentScroll), Vec2i(vecMainPanelPosition.x + 250, uiImageY - (uiImagePaddingBottom / 2) - yCurrentScroll));
 
 		uiTextureIndex++;
 	}
 
 	// zoom text
-	HFONT hFont = CreateFont(15, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
-		CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, VARIABLE_PITCH, TEXT("Verdana"));
-	old = SelectObject(hdc, hFont);
-
-	SetTextColor(hdc, RGB(0, 0, 0));
-	SetBkMode(hdc, TRANSPARENT);
-
 	RECT rect;
-	rect.left = uiLeftPanelWidth + 5;
-	rect.top = 10;
+	rect.left = vecMainPanelPosition.x + 250 + 100;
+	rect.top = vecMainPanelPosition.y - 50;
 	rect.right = 8000;
 	rect.bottom = 8000;
 	string strText = "Zoom:";
-	DrawText(hdc, String::convertStdStringToStdWString(strText).c_str(), strText.length(), &rect, DT_NOPREFIX);
+	pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
 
-	// vertical line next to textures list
-	//Pen      pen(Color(255, 0, 0, 0));
-	//graphics.DrawLine(&pen, 180, 0, 180, clientRect.bottom);
-
-	// horizontal line above active image
-	pGFX->drawLine(Vec2i(uiLeftPanelWidth, 50), Vec2i(clientRect.right, 50));
+	m_pWindow->setRenderingStyleGroups("centerEntryPanel");
+	Vec2u vecRectSize;
+	vecRectSize.x = m_pWindow->getSize().x - (vecMainPanelPosition.x + 250);
+	vecRectSize.y = m_pWindow->getSize().y - vecMainPanelPosition.y;
+	pGFX->drawRectangle(Vec2i(vecMainPanelPosition.x + 250, vecMainPanelPosition.y), vecRectSize);
+	m_pWindow->resetRenderingStyleGroups();
 
 	if (pActiveImageData)
 	{
-		// active texture image
-		old = (HBITMAP)SelectObject(memDC, pActiveImageData->m_hBitmap);
-		//float32 fZoom = 4.0;
-		//uint32 uiDestinationWidth = ((float32)pActiveImageData->m_uiWidth) * fZoom;
-		//uint32 uiDestinationHeight = ((float32)pActiveImageData->m_uiHeight) * fZoom;
 		uint32 uiDestinationWidth = (uint32)((float32)pActiveImageData->m_uiWidth * getZoomLevel());
 		uint32 uiDestinationHeight = (uint32)((float32)pActiveImageData->m_uiHeight * getZoomLevel());
-
-		//BitBlt(hdc, g_uiLeftPanelWidth, 50 + 1, uiDestinationWidth, uiDestinationHeight, memDC, 0, 0, SRCCOPY);
-		//StretchBlt(hdc, g_uiLeftPanelWidth, 50 + 1, uiDestinationWidth, uiDestinationHeight, memDC, 0, 0, pActiveImageData->m_uiWidth, pActiveImageData->m_uiHeight, SRCCOPY);
-
-		uint32 uiAlpha = 255;
-		BLENDFUNCTION bf = { AC_SRC_OVER, (uint8)0, (uint8)uiAlpha, AC_SRC_ALPHA };
-		AlphaBlend(hdc, uiLeftPanelWidth, 50 + 1, uiDestinationWidth, uiDestinationHeight, memDC, 0, 0, pActiveImageData->m_uiWidth, pActiveImageData->m_uiHeight, bf);
+		
+		pGFX->drawImage(Vec2i(vecMainPanelPosition.x + 250, vecMainPanelPosition.y), pActiveImageData->m_hBitmap, Vec2u(uiDestinationWidth, uiDestinationHeight));
 	}
-
-	SelectObject(hdc, old);
-	DeleteObject(hFont);
 	
 	//getIMGF()->getEntryViewerManager()->getTextureViewer()->setWindowScrollbarMaxRange(uiImageY + 200);
 
@@ -554,4 +500,34 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 	DeleteDC(memDC);
 	
 	//EndPaint(hwnd, &ps);
+}
+
+// file info text
+void					TextureEditorTab::setFileInfoText(void)
+{
+	m_pText_FilePath->setText(getFile()->getFilePath());
+	m_pText_FileVersion->setText(getTXDFile()->getRWVersion()->getVersionText(), false);
+	m_pText_FileGame->setText(getTXDFile()->getRWVersion()->getGamesAsString());
+
+	updateEntryCountText();
+}
+
+void					TextureEditorTab::updateEntryCountText(void)
+{
+	uint32
+		uiDisplayedEntryCount = getTXDFile()->getTextures().size(),
+		uiTotalEntryCount = getEntryCount();
+	string
+		strEntryCountText;
+
+	if (uiDisplayedEntryCount == uiTotalEntryCount)
+	{
+		strEntryCountText = String::toString(uiTotalEntryCount);
+	}
+	else
+	{
+		strEntryCountText = String::toString(uiDisplayedEntryCount) + " of " + String::toString(uiTotalEntryCount);
+	}
+
+	m_pText_FileEntryCount->setText(strEntryCountText);
 }

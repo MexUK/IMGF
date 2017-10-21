@@ -29,7 +29,7 @@ void								Editor::init(void)
 
 	uiLogWidth = 335;
 
-	// files tab bar
+	// tab bar
 	x = 139 + 139;
 	y = 162;
 	w = m_pWindow->getSize().x - x - uiLogWidth;
@@ -43,18 +43,12 @@ void								Editor::init(void)
 // events
 void								Editor::bindEvents(void)
 {
-	if (m_pTabBar)
-	{
-		//m_pTabBar->bindEvents();
-	}
+	Layer::bindEvents();
 }
 
 void								Editor::unbindEvents(void)
 {
-	if (m_pTabBar)
-	{
-		//m_pTabBar->unbindEvents();
-	}
+	Layer::unbindEvents();
 }
 
 // controls
