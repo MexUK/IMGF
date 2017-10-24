@@ -3,7 +3,9 @@
 #include "Format/Format.h"
 #include "IMGF.h"
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
+#include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
+#include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 #include "Static/String.h"
 #include "Control/Controls/TextBox.h"
 #include "Control/Controls/TabBar.h"
@@ -106,14 +108,25 @@ void								Editor::removeActiveEditorTab(void)
 // set active file
 void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 {
+	// store editor tab
 	m_pActiveEditorTab = pEditorTab;
+	
 	if (pEditorTab)
 	{
+		// set active tab in tab bar
 		uint32 uiTabIndex = pEditorTab->getTabIndex();
 		mutexTabs.lock();
 		Tab *pTab = m_pTabBar->getEntryByIndex(uiTabIndex);
 		mutexTabs.unlock();
 		m_pTabBar->setActiveTab(pTab);
+
+		// hide no-tabs-open layer
+		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(false);
+	}
+	else
+	{
+		// show no-tabs-open layer
+		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(true);
 	}
 }
 

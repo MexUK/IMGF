@@ -56,8 +56,33 @@ void						TextureEditor::init(void)
 
 	addLine(x, y, x2, y2);
 	*/
+}
 
+// events
+void						TextureEditor::bindEvents(void)
+{
 	bindEvent(BEFORE_RENDER, &TextureEditor::renderBefore);
+
+	Editor::bindEvents();
+	Layer::bindEvents();
+
+	if (m_pActiveEditorTab)
+	{
+		m_pActiveEditorTab->bindEvents();
+	}
+}
+
+void						TextureEditor::unbindEvents(void)
+{
+	unbindEvent(BEFORE_RENDER, &TextureEditor::renderBefore);
+
+	Editor::unbindEvents();
+	Layer::unbindEvents();
+
+	if (m_pActiveEditorTab)
+	{
+		m_pActiveEditorTab->unbindEvents();
+	}
 }
 
 // render

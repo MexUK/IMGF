@@ -272,7 +272,6 @@ void				IMGF::initEventBinding(void)
 
 void				IMGF::initSettings(void)
 {
-	getSettingsManager()->loadSettings();
 }
 
 void				IMGF::initLocalization(void)

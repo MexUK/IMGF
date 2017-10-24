@@ -47,6 +47,7 @@ EditorTab::EditorTab(void) :
 EditorTab::~EditorTab(void)
 {
 	unbindEvents();
+	Layer::unbindEvents();
 }
 
 // events

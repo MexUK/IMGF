@@ -86,6 +86,7 @@ void					IMGEditorTab::bindEvents(void)
 	bindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
 
 	EditorTab::bindEvents();
+	Layer::bindEvents();
 
 	if (m_pEntryGrid)
 	{
@@ -102,6 +103,7 @@ void					IMGEditorTab::unbindEvents(void)
 	unbindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
 
 	EditorTab::unbindEvents();
+	Layer::unbindEvents();
 
 	m_pEntryGrid->unbindEvents();
 }

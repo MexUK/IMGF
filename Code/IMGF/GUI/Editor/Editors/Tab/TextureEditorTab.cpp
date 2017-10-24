@@ -5,6 +5,7 @@
 #include "Control/Controls/ProgressBar.h"
 #include "Control/Controls/TabBar.h"
 #include "Control/Controls/Text.h"
+#include "Control/Controls/TextBox.h"
 #include "Control/Controls/DropDown.h"
 #include "IMGF.h"
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
@@ -44,6 +45,9 @@ void					TextureEditorTab::bindEvents(void)
 	bindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
 	bindEvent(KEY_DOWN, &TextureEditorTab::onKeyDown2);
 	bindEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
+
+	EditorTab::bindEvents();
+	Layer::bindEvents();
 }
 
 void					TextureEditorTab::unbindEvents(void)
@@ -53,6 +57,9 @@ void					TextureEditorTab::unbindEvents(void)
 	unbindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
 	unbindEvent(KEY_DOWN, &TextureEditorTab::onKeyDown2);
 	unbindEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
+
+	EditorTab::unbindEvents();
+	Layer::unbindEvents();
 }
 
 // controls
@@ -463,8 +470,6 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 
 	float32 yCurrentScroll = 0;
 
-	//hdc = BeginPaint(hwnd, &ps);
-	
 	/*
 	todo
 	BOOL bPremultipledAlphaApplied = FALSE; /////
@@ -583,8 +588,6 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 
 		rect.left = uiEntryRectX + 5;
 		rect.top = uiEntryRectY + 13 - yCurrentScroll;
-		rect.right = 8000;
-		rect.bottom = 8000;
 		string strText = String::toString(uiTextureIndex + 1);
 		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
 
@@ -593,8 +596,6 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 
 		rect.left = uiEntryRectX + uiXOffset1;
 		rect.top = uiEntryRectY + 5 - yCurrentScroll;
-		rect.right = 8000;
-		rect.bottom = 8000;
 		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), pImageData->m_strDiffuseName);
 		uiEntryRectY += 15;
 
@@ -603,8 +604,6 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		{
 			rect.left = uiEntryRectX + uiXOffset1;
 			rect.top = uiEntryRectY + 5 - yCurrentScroll;
-			rect.right = 8000;
-			rect.bottom = 8000;
 			pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), pImageData->m_strAlphaName);
 		}
 		uiEntryRectY += 15;
@@ -612,24 +611,18 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		// draw texture size
 		rect.left = uiEntryRectX + uiXOffset1;
 		rect.top = uiEntryRectY + 5 - yCurrentScroll;
-		rect.right = 8000;
-		rect.bottom = 8000;
 		strText = String::toString(pImageData->m_uiWidth) + " x " + String::toString(pImageData->m_uiHeight);
 		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
 
 		// draw texture BPP
 		rect.left = uiEntryRectX + uiXOffset1 + 85;
 		rect.top = uiEntryRectY + 5 - yCurrentScroll;
-		rect.right = 8000;
-		rect.bottom = 8000;
 		strText = String::toString(pImageData->m_ucBPP) + " BPP";
 		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
 
 		// draw texture raster format
 		rect.left = uiEntryRectX + uiXOffset1 + 85 + 55;
 		rect.top = uiEntryRectY + 5 - yCurrentScroll;
-		rect.right = 8000;
-		rect.bottom = 8000;
 		strText = pImageData->m_strTextureFormat;
 		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
 
@@ -672,8 +665,6 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 	RECT rect;
 	rect.left = vecMainPanelPosition.x + 250 + 100;
 	rect.top = vecMainPanelPosition.y - 50;
-	rect.right = 8000;
-	rect.bottom = 8000;
 	string strText = "Zoom:";
 	pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
 
@@ -708,8 +699,6 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 
 	SelectObject(memDC, old);
 	DeleteDC(memDC);
-	
-	//EndPaint(hwnd, &ps);
 }
 
 // file info text

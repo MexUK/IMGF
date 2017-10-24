@@ -98,7 +98,6 @@ T*								imgf::MainWindow::addEditor(void)
 	T *pEditor = addLayer<T>(-1, false, 0);
 	pEditor->setWindow(this);
 	pEditor->setMainWindow(this);
-	// todo pEditor->setEnabled(false);
 	pEditor->init();
 	addEditor(pEditor);
 	return pEditor;

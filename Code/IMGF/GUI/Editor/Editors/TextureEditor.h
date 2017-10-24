@@ -13,6 +13,10 @@ public:
 	TextureEditor(void);
 
 	void								init(void);
+	
+	void								bindEvents(void);
+	void								unbindEvents(void);
+
 	void								renderBefore(void);
 	
 	TextureEditorTab*					addEditorTab(std::string& strFilePath);

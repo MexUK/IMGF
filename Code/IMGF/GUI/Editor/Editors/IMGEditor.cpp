@@ -434,6 +434,7 @@ void					IMGEditor::logAllTabs(string strText, bool bExtendedModeOnly)
 
 void					IMGEditor::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
 {
+	// todo - remove function?
 	string strLogEntryWithTimestampAndIMG = "[" + String::getTimestampText() + "] [" + LocalizationManager::get()->getTranslatedText("NoTabsOpen") + "] " + strText;
 
 	if (bExtendedModeOnly)
@@ -441,12 +442,12 @@ void					IMGEditor::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
 		//m_vecLogLinesExtended.push_back(strLogEntryWithTimestampAndIMG);
 
 		// automatic logging to file
-		if (getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath") != "")
+		if (getIMGF()->getSettingsManager()->getSetting("AutomaticLoggingPath") != "")
 		{
 			// extended file
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
 			{
-				string strExtendedLogPath = Path::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				string strExtendedLogPath = Path::addSlashToEnd(getIMGF()->getSettingsManager()->getSetting("AutomaticLoggingPath"));
 				strExtendedLogPath += String::getDateTextForFolder() + "/" + LocalizationManager::get()->getTranslatedText("LogFilename_Extended");
 				File::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
@@ -459,12 +460,12 @@ void					IMGEditor::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
 		//m_vecLogLinesExtended.push_back(strLogEntryWithTimestampAndIMG);
 
 		// automatic logging to file
-		if (getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath") != "")
+		if (getIMGF()->getSettingsManager()->getSetting("AutomaticLoggingPath") != "")
 		{
 			// basic file
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingBasic"))
 			{
-				string strExtendedLogPath = Path::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				string strExtendedLogPath = Path::addSlashToEnd(getIMGF()->getSettingsManager()->getSetting("AutomaticLoggingPath"));
 				strExtendedLogPath += String::getDateTextForFolder() + "/" + LocalizationManager::get()->getTranslatedText("LogFilename_Basic");
 				File::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
@@ -472,7 +473,7 @@ void					IMGEditor::logWithNoTabsOpen(string strText, bool bExtendedModeOnly)
 			// extended file
 			if (getIMGF()->getSettingsManager()->getSettingBool("AutomaticLoggingExtended"))
 			{
-				string strExtendedLogPath = Path::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
+				string strExtendedLogPath = Path::addSlashToEnd(getIMGF()->getSettingsManager()->getSetting("AutomaticLoggingPath"));
 				strExtendedLogPath += String::getDateTextForFolder() + "/" + LocalizationManager::get()->getTranslatedText("LogFilename_Extended");
 				File::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
 			}
@@ -1110,8 +1111,6 @@ void		IMGEditor::addControls(void)
 void		IMGEditor::initControls(void)
 {
 	addColumnsToMainListView(IMG_UNKNOWN);
-
-	bindEvents();
 
 	repositionAndResizeControls(Vec2i(0, 0));
 }
