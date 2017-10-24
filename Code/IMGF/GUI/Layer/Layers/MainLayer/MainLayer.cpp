@@ -373,6 +373,9 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Sort by Version (Old-New)", SORT_BY_VERSION_OLD_NEW);
 	pMenu3->addMenuItem("Sort by Version (New-Old)", SORT_BY_VERSION_NEW_OLD);
 
+	pMenu2->addMenuItem("Sort by IDE", SORT_BY_IDE);
+	pMenu2->addMenuItem("Sort by COL", SORT_BY_COL);
+
 	// LST
 	pMenu1->addMenuItem("LST", LST);
 
@@ -623,6 +626,8 @@ void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
 		SORT_BY_TYPE_ZA,
 		SORT_BY_VERSION_OLD_NEW,
 		SORT_BY_VERSION_NEW_OLD,
+		SORT_BY_IDE,
+		SORT_BY_COL,
 
 		NAME_CASE_LOWER,
 		NAME_CASE_UPPER,

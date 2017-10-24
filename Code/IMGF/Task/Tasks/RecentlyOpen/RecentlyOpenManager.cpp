@@ -25,6 +25,7 @@ using namespace bxgx::events;
 using namespace imgf;
 using namespace imgf::mainLayer::input;
 
+// initialization
 void					RecentlyOpenManager::init(void)
 {
 	bindEvent(BXGX_READY, &RecentlyOpenManager::loadRecentlyOpenEntries);
@@ -35,6 +36,7 @@ void					RecentlyOpenManager::uninit(void)
 	unloadRecentlyOpenEntries();
 }
 
+// load/unload entries
 void					RecentlyOpenManager::loadRecentlyOpenEntries(void)
 {
 	removeAllEntries();
@@ -66,11 +68,13 @@ void					RecentlyOpenManager::loadRecentlyOpenEntries(void)
 
 	pRecentlyOpenMenu->addMenuItem("Clear Recently Open Files", CLEAR_RECENTLY_OPEN_FILES);
 }
+
 void					RecentlyOpenManager::unloadRecentlyOpenEntries(void)
 {
 	removeAllEntries();
 }
 
+// add/remove entries
 RecentlyOpenEntry*		RecentlyOpenManager::addRecentlyOpenEntry(string strFilePath)
 {
 	if (doesRecentlyOpenEntryExist(strFilePath))
@@ -161,6 +165,7 @@ void					RecentlyOpenManager::removeRecentlyOpenEntry(RecentlyOpenEntry *pRecent
 	removeEntry(pRecentlyOpenEntry);
 }
 
+// entry fetching
 uint32			RecentlyOpenManager::getRecentlyOpenedFileIndex(string strIMGPath)
 {
 	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
@@ -189,11 +194,6 @@ RecentlyOpenEntry*		RecentlyOpenManager::getRecentlyOpenEntryByPath(string strPa
 	return nullptr;
 }
 
-bool					RecentlyOpenManager::doesRecentlyOpenEntryExist(string strPath)
-{
-	return getRecentlyOpenEntryByPath(strPath) != nullptr;
-}
-
 string					RecentlyOpenManager::getLastOpenEntry(void)
 {
 	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
@@ -206,6 +206,13 @@ string					RecentlyOpenManager::getLastOpenEntry(void)
 	return strIMGPath;
 }
 
+// entry testing
+bool					RecentlyOpenManager::doesRecentlyOpenEntryExist(string strPath)
+{
+	return getRecentlyOpenEntryByPath(strPath) != nullptr;
+}
+
+// entry moving
 void					RecentlyOpenManager::moveRecentlyOpenEntryToTop(string strIMGPath)
 {
 	removeRecentlyOpenEntry(getRecentlyOpenEntryByPath(strIMGPath));

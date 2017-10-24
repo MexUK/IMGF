@@ -349,6 +349,8 @@ void					InputManager::processMenuItemPress(MenuItem *pMenuItem)
 	case SORT_BY_TYPE_ZA:							return sortByTypeZA();
 	case SORT_BY_VERSION_OLD_NEW:					return sortByVersionOldNew();
 	case SORT_BY_VERSION_NEW_OLD:					return sortByVersionNewOld();
+	case SORT_BY_IDE:								return sortByIDE();
+	case SORT_BY_COL:								return sortByCOL();
 
 	case LST:										return lst();
 
@@ -999,6 +1001,16 @@ void					InputManager::sortByVersionOldNew(void)
 void					InputManager::sortByVersionNewOld(void)
 {
 	m_pTasks->sortByVersionNewOld();
+}
+
+void					InputManager::sortByIDE(void)
+{
+	m_pTasks->sortByIDE();
+}
+
+void					InputManager::sortByCOL(void)
+{
+	m_pTasks->sortByCOL();
 }
 
 // entry

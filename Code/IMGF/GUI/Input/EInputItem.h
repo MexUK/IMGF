@@ -182,6 +182,8 @@ enum imgf::mainLayer::input::EInputItem
 	SORT_BY_TYPE_ZA,
 	SORT_BY_VERSION_OLD_NEW,
 	SORT_BY_VERSION_NEW_OLD,
+	SORT_BY_IDE,
+	SORT_BY_COL,
 
 	LST,
 

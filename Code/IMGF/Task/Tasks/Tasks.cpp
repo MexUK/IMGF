@@ -3888,6 +3888,84 @@ void		Tasks::sortByVersionNewOld(void)
 	onCompleteTask();
 }
 
+void		Tasks::sortByIDE(void)
+{
+	onStartTask("sortByIDE");
+
+	vector<string> vecIDEFilePaths = openFile("ide", false);
+	if (vecIDEFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	IDEFormat ideFile(vecIDEFilePaths[0]);
+	if (!ideFile.unserialize())
+	{
+		ideFile.unload();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	VectorPool<string> vecModelNamesInIDEFile;
+	vecModelNamesInIDEFile.setEntries(StdVector::toLowerCase(ideFile.getModelNames()));
+
+	auto sortIMGEntries_IDEFile = [&](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	{
+		return vecModelNamesInIDEFile.getIndexByEntry(String::toLowerCase(pIMGEntry1->getEntryName())) < vecModelNamesInIDEFile.getIndexByEntry(String::toLowerCase(pIMGEntry2->getEntryName()));
+	};
+	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_IDEFile);
+
+	if (uiTotalEntryCount > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->log("Sorted all entries by IDE file " + Path::getFileName(vecIDEFilePaths[0]) + ".");
+
+	onCompleteTask();
+}
+
+void		Tasks::sortByCOL(void)
+{
+	onStartTask("sortByCOL");
+
+	vector<string> vecCOLFilePaths = openFile("col", false);
+	if (vecCOLFilePaths.size() == 0)
+	{
+		return onAbortTask();
+	}
+
+	COLFormat colFile(vecCOLFilePaths[0]);
+	if (!colFile.unserialize())
+	{
+		colFile.unload();
+	}
+
+	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	setMaxProgress(uiTotalEntryCount);
+
+	VectorPool<string> vecModelNamesInCOLFile;
+	vecModelNamesInCOLFile.setEntries(StdVector::toLowerCase(colFile.getModelNames()));
+
+	auto sortIMGEntries_COLFile = [&](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	{
+		return vecModelNamesInCOLFile.getIndexByEntry(String::toLowerCase(pIMGEntry1->getEntryName())) < vecModelNamesInCOLFile.getIndexByEntry(String::toLowerCase(pIMGEntry2->getEntryName()));
+	};
+	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_COLFile);
+
+	if (uiTotalEntryCount > 0)
+	{
+		getIMGTab()->readdGridEntries();
+		getIMGTab()->setIMGModifiedSinceRebuild(true);
+	}
+
+	getIMGTab()->log("Sorted all entries by COL file " + Path::getFileName(vecCOLFilePaths[0]) + ".");
+
+	onCompleteTask();
+}
+
 void		Tasks::lst(void)
 {
 	onStartTask("lst");

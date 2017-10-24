@@ -211,7 +211,7 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 
 	if (m_pActiveEditor && bDiff && m_pActiveEditor->isEnabled())
 	{
-		//m_pActiveEditor->unbindEvents();
+		m_pActiveEditor->unbindEvents();
 		m_pActiveEditor->setEnabled(false);
 
 		if (pActiveEditor->getEditorTabs().getEntryCount() == 0)
@@ -225,7 +225,7 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 	if (pActiveEditor && bDiff && !pActiveEditor->isEnabled())
 	{
 		pActiveEditor->setEnabled(true);
-		//pActiveEditor->bindEvents();
+		pActiveEditor->bindEvents();
 
 		if (pActiveEditor->getEditorTabs().getEntryCount() != 0)
 		{
