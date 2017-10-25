@@ -240,8 +240,7 @@ uint32			Tasks::showMessage(string strMessage, string strWindowTitle, uint32 uiB
 // active tab
 EditorTab*		Tasks::getTab(void)
 {
-	return nullptr;
-	// todo - return m_pMainWindow->getActiveEditor()->getActiveTab();
+	return m_pMainWindow->getActiveEditor()->getActiveEditorTab();
 }
 
 IMGEditorTab*	Tasks::getIMGTab(void)
@@ -269,19 +268,19 @@ void		Tasks::newFile(void)
 {
 	onStartTask("newFile");
 
-	string strNewIMGFilePath = DataPath::getDataPath() + "New/IMG/New.img";
-	string strNewIMGFilePath2 = strNewIMGFilePath;
+	string strEditorFileExtension = m_pMainWindow->getActiveEditor()->getEditorFileFormats()[0];
+	string strNewFilePath = DataPath::getDataPath() + "New/" + String::toUpperCase(strEditorFileExtension ) + "/New." + String::toLowerCase(strEditorFileExtension);
+	string strNewFilePath2 = strNewFilePath;
 	uint32 uiSuffix = 2;
-	while (m_pMainWindow->getIMGEditor()->isFilePathOpen(strNewIMGFilePath) || File::doesFileExist(strNewIMGFilePath))
+	while (m_pMainWindow->getActiveEditor()->isFilePathOpen(strNewFilePath) || File::doesFileExist(strNewFilePath))
 	{
-		strNewIMGFilePath = Path::removeFileExtension(strNewIMGFilePath2) + String::toString(uiSuffix) + "." + Path::getFileExtension(strNewIMGFilePath2);
+		strNewFilePath = Path::removeFileExtension(strNewFilePath2) + String::toString(uiSuffix) + "." + Path::getFileExtension(strNewFilePath2);
 		uiSuffix++;
 	}
 
-	File::createFoldersForPath(strNewIMGFilePath);
+	File::createFoldersForPath(strNewFilePath);
 
-	EIMGVersion uiIMGVersion = IMG_1;
-	getIMGF()->getIMGEditor()->addBlankEditorTab(strNewIMGFilePath, uiIMGVersion);
+	m_pMainWindow->getActiveEditor()->addBlankEditorTab(strNewFilePath);
 
 	onCompleteTask();
 }
@@ -402,8 +401,7 @@ void		Tasks::chooseFolderToOpen(void)
 	vector<string> vecFileNames = File::getFileNames(strFolderPath);
 	for (string& strFileName : vecFileNames)
 	{
-		string strFileExtension = String::toUpperCase(Path::getFileExtension(strFileName));
-		if (strFileExtension == "IMG" || strFileExtension == "DIR")
+		if (IMGF::isFileExtensionOpenable(Path::getFileExtension(strFileName)))
 		{
 			_openFile(strFolderPath + strFileName);
 		}
@@ -434,7 +432,7 @@ void		Tasks::openFolderRecursively(void)
 	getFilePathsInFolderDeep(string strExtensionFilters = "")
 	*/
 
-	vector<string> vecFilePaths = File::getFilePaths(strFolderPath, true, false, "img,dir", true);
+	vector<string> vecFilePaths = File::getFilePaths(strFolderPath, true, false, String::join(IMGF::getFileExtensionsOpenable(), ","), true);
 	for (string& strFilePath : vecFilePaths)
 	{
 		_openFile(strFilePath);
@@ -447,10 +445,10 @@ void		Tasks::reopenFile(void)
 {
 	onStartTask("reopenFile");
 
-	string strFilePath = getIMGTab()->getIMGFile()->getFilePath();
+	string strFilePath = getTab()->getFile()->getFilePath();
 
-	m_pMainWindow->getIMGEditor()->removeActiveEditorTab();
-	m_pMainWindow->getIMGEditor()->addEditorTab(strFilePath);
+	m_pMainWindow->getActiveEditor()->removeActiveEditorTab();
+	m_pMainWindow->getActiveEditor()->addEditorTab(strFilePath);
 
 	onCompleteTask();
 }
@@ -732,7 +730,7 @@ void		Tasks::closeAllFiles(void)
 
 	bool bConfirmOnClose = getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose");
 
-	vector<EditorTab*>& vecEditorTabs = m_pMainWindow->getActiveEditor()->getEditorTabs().getEntries();
+	vector<EditorTab*> vecEditorTabs = m_pMainWindow->getActiveEditor()->getEditorTabs().getEntries();
 	for (EditorTab *pEditorTab : vecEditorTabs)
 	{
 		if (bConfirmOnClose)

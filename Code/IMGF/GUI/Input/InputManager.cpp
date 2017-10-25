@@ -147,7 +147,7 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 
 void					InputManager::onDropFiles(vector<string> vecDroppedFilePaths)
 {
-	IMGEditorTab *pActiveEditorTab = m_pMainWindow->getIMGEditor()->getActiveTab();
+	EditorTab *pActiveEditorTab = m_pMainWindow->getActiveEditor()->getActiveEditorTab();
 	for (string& strDroppedFilePath : vecDroppedFilePaths)
 	{
 		if (IMGF::isFileExtensionOpenable(Path::getFileExtension(strDroppedFilePath)))

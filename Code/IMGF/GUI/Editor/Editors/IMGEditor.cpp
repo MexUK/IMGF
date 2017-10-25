@@ -146,9 +146,11 @@ IMGEditorTab*				IMGEditor::addEditorTab(string& strFilePath)
 }
 
 // add editor tab
-IMGEditorTab*				IMGEditor::addBlankEditorTab(string& strFilePath, EIMGVersion uiIMGVersion)
+IMGEditorTab*				IMGEditor::addBlankEditorTab(string& strFilePath)
 {
 	IMGEditorTab *pIMGEditorTab;
+
+	EIMGVersion uiIMGVersion = bxgi::EIMGVersion::IMG_1;
 
 	switch (uiIMGVersion)
 	{

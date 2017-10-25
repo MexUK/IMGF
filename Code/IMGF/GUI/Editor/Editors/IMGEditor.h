@@ -29,7 +29,7 @@ public:
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 	
 	IMGEditorTab*				addEditorTab(std::string& strFilePath);
-	IMGEditorTab*				addBlankEditorTab(std::string& strFilePath, bxgi::EIMGVersion uiIMGVersion);
+	IMGEditorTab*				addBlankEditorTab(std::string& strFilePath);
 
 	void						removeEditorTab(IMGEditorTab *pIMGEditorTab);
 	void						removeActiveEditorTab(void);

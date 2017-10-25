@@ -11,6 +11,8 @@
 #include "Format/TXD/TXDFormat.h"
 #include "Static/Path.h"
 #include "IMGF.h"
+#include "Engine/RW/RWManager.h"
+#include "Engine/RW/RWVersionManager.h"
 
 using namespace std;
 using namespace bxcf;
@@ -158,7 +160,7 @@ void						TextureEditor::renderBefore(void)
 TextureEditorTab*				TextureEditor::addEditorTab(string& strFilePath)
 {
 	TXDFormat txdFormat(strFilePath);
-	if(!txdFormat.readMetaData())
+	if (!txdFormat.readMetaData())
 	{
 		return nullptr;
 	}
@@ -168,7 +170,21 @@ TextureEditorTab*				TextureEditor::addEditorTab(string& strFilePath)
 	if (pTextureEditorTab)
 	{
 		//pTextureEditorTab->setTextureEditor(this);
-		//pTextureEditorTab->setTextureFile((TXDFormat*)pTextureEditorTab->getFile());
+		pTextureEditorTab->setTXDFile((TXDFormat*)pTextureEditorTab->getFile());
+		pTextureEditorTab->init();
+	}
+	return pTextureEditorTab;
+}
+
+TextureEditorTab*				TextureEditor::addBlankEditorTab(string& strFilePath)
+{
+	TextureEditorTab *pTextureEditorTab = Editor::addEditorTab<TXDFormat, TextureEditorTab>(strFilePath);
+
+	if (pTextureEditorTab)
+	{
+		//pTextureEditorTab->setTextureEditor(this);
+		pTextureEditorTab->setTXDFile((TXDFormat*)pTextureEditorTab->getFile());
+		pTextureEditorTab->getTXDFile()->setRWVersion(RWManager::get()->getVersionManager()->getEntryByVersionId(RW_3_6_0_3));
 		pTextureEditorTab->init();
 	}
 	return pTextureEditorTab;

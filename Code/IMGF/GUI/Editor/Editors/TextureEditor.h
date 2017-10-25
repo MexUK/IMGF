@@ -20,6 +20,7 @@ public:
 	void								renderBefore(void);
 	
 	TextureEditorTab*					addEditorTab(std::string& strFilePath);
+	TextureEditorTab*					addBlankEditorTab(std::string& strFilePath);
 
 public:
 	void*								m_pActiveTexture;

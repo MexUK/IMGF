@@ -36,6 +36,8 @@ public:
 	virtual bool						unserializeFile(void) = 0;
 	virtual void						onFileLoaded(void) = 0;
 
+	virtual void						addFile(std::string& strFilePath) {}
+
 	void								unload(void) {}
 
 	void								processThread(void);

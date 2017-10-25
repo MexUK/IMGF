@@ -69,7 +69,8 @@ public:
 	void						setLastUsedDirectory(std::string strHandleName, std::string strDirectory); // todo - still needed?
 	std::string					getLastUsedDirectory(std::string strHandleName); // todo - still needed?
 
-	static bool					isFileExtensionOpenable(std::string& strFileExtension);
+	static bool							isFileExtensionOpenable(std::string& strFileExtension);
+	static std::vector<std::string>		getFileExtensionsOpenable(void);
 
 private:
 	void						initInitializationThread(void);

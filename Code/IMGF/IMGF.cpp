@@ -406,7 +406,10 @@ string				IMGF::getLastUsedDirectory(string strHandleName)
 // file extension openable
 bool				IMGF::isFileExtensionOpenable(string& strFileExtension)
 {
-	string strFileExtensionUpper = String::toUpperCase(strFileExtension);
-	return strFileExtensionUpper == "IMG"
-		|| strFileExtensionUpper == "DIR";
+	return StdVector::isIn(StdVector::toUpperCase(getFileExtensionsOpenable()), String::toUpperCase(strFileExtension));
+}
+
+vector<string>		IMGF::getFileExtensionsOpenable(void)
+{
+	return { "img", "dir", "txd" };
 }

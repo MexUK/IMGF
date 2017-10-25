@@ -25,6 +25,8 @@ public:
 	virtual void						addControls(void);
 	virtual void						initControls(void);
 
+	virtual EditorTab*					addEditorTab(std::string& strFilePath) = 0;
+	virtual EditorTab*					addBlankEditorTab(std::string& strFilePath) = 0;
 	template <class FormatType, class EditorTabType>
 	EditorTabType*						addEditorTab(std::string& strFilePath, bool bNewFile = false);
 	void								removeEditorTab(EditorTab *pEditorTab);
@@ -98,6 +100,9 @@ EditorTabType*							imgf::Editor::addEditorTab(std::string& strFilePath, bool b
 	// initialize editor tab
 	pEditorTab->setEditor(this);
 	pEditorTab->setFile(pFormat);
+
+	// set active editor
+	m_pMainWindow->setActiveEditor(this);
 
 	// return editor tab
 	return pEditorTab;
