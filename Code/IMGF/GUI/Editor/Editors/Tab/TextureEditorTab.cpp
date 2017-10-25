@@ -32,6 +32,7 @@ TextureEditorTab::TextureEditorTab(void) :
 	m_pActiveTabEntry(nullptr),
 
 	m_pZoomDropDown(nullptr),
+	m_pVScrollBar(nullptr),
 
 	m_fZoomLevel(1.0f)
 {
@@ -66,17 +67,30 @@ void					TextureEditorTab::unbindEvents(void)
 void					TextureEditorTab::addControls(void)
 {
 	int32 x, y;
-	uint32 w, h;
+	uint32 w, h, uiLogWidth;
 	
+	uiLogWidth = 335;
+
 	x = 139 + 139 + 250 + 100 + 51;
 	y = ((162 + 30) - 50) - 1;
 	w = 80;
 	h = 20;
-
+	
+	// zoom dropdown
 	m_pZoomDropDown = addDropDown(Vec2i(x, y), Vec2u(w, h), "");
 	vector<string> vecZoomDropDownItems = { "25%", "50%", "100%", "200%", "400%", "800%", "1600%" };
 	m_pZoomDropDown->addItems(vecZoomDropDownItems);
 	m_pZoomDropDown->setActiveItem(m_pZoomDropDown->getEntryByIndex(2));
+
+	// vertical scroll bar
+	x = 139 + 139 + 250;
+	y = 193;
+	w = 15;
+	h = m_pWindow->getSize().y - y;
+	x -= w;
+
+	m_pVScrollBar = addScrollBar(x, y, w, h);
+	m_pVScrollBar->setScrollOrientation(VERTICAL);
 }
 
 void					TextureEditorTab::initControls(void)
@@ -93,22 +107,37 @@ void					TextureEditorTab::onSelectDropDownItem(DropDownItem *pItem)
 
 void						TextureEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 {
-	TextureEditorTabEntry *pActiveTabEntry = nullptr;
-	uint32 uiActiveImageIndex;
-	uint32 i = 0;
-	// todo y += yCurrentScroll;
-	for (TextureEditorTabEntry *pTabEntry : getEntries())
+	TextureEditorTabEntry
+		*pActiveTabEntry = nullptr;
+	uint32
+		uiActiveImageIndex,
+		uiRowHeight = 50;
+	float32
+		fVProgress = m_pVScrollBar->getProgress();
+
+	for (uint32
+			uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
+			uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
+			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount);
+		uiEntryIndex < uiEntryEndIndexExclusive;
+		uiEntryIndex++
+	)
 	{
-		if (vecCursorPosition.x >= pTabEntry->m_rect.left
-			&& vecCursorPosition.y >= pTabEntry->m_rect.top
-			&& vecCursorPosition.x <= pTabEntry->m_rect.right
-			&& vecCursorPosition.y <= pTabEntry->m_rect.bottom)
+		TextureEditorTabEntry *pImageData = getEntryByIndex(uiEntryIndex);
+		if (!pImageData)
 		{
-			uiActiveImageIndex = i;
-			pActiveTabEntry = pTabEntry;
+			continue; // in case of render() between vector.resize() and vector.setEntryAtIndex()
+		}
+
+		if (vecCursorPosition.x >= pImageData->m_rect.left
+			&& vecCursorPosition.y >= pImageData->m_rect.top
+			&& vecCursorPosition.x <= (pImageData->m_rect.right - m_pVScrollBar->getSize().x)
+			&& vecCursorPosition.y <= pImageData->m_rect.bottom)
+		{
+			uiActiveImageIndex = uiEntryIndex;
+			pActiveTabEntry = pImageData;
 			break;
 		}
-		i++;
 	}
 	if (pActiveTabEntry != nullptr)
 	{
@@ -216,71 +245,12 @@ void						TextureEditorTab::onKeyDown2(uint16 uiKey)
 
 void					TextureEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 {
-	/*
-	int xDelta = 0;
-	int yDelta;     // yDelta = new_pos - current_pos 
-	int yNewPos;    // new position 
+	int iDelta = -(iRotationDistance / WHEEL_DELTA);
+	float32 fNewProgress = m_pVScrollBar->getProgress() + (iDelta * m_pVScrollBar->getProgressFor1Item());
+	fNewProgress = Math::limit(fNewProgress, 0.0f, 1.0f);
+	m_pVScrollBar->setProgress(fNewProgress);
 
-	int iDelta = iRotationDistance / WHEEL_DELTA;
-	int yCurrentScroll = 0;
-
-	yNewPos = yCurrentScroll - iDelta;
-
-	// New position must be between 0 and the screen height. 
-	yNewPos = max(0, yNewPos);
-	yNewPos = min(yMaxScroll, yNewPos);
-
-	// If the current position does not change, do not scroll.
-	if (yNewPos == yCurrentScroll)
-		break;
-
-	// Set the scroll flag to TRUE. 
-	fScroll = TRUE;
-
-	// Determine the amount scrolled (in pixels). 
-	yDelta = yNewPos - yCurrentScroll;
-
-	// Reset the current scroll position. 
-	yCurrentScroll = yNewPos;
-	if (yCurrentScroll < 0)
-	{
-		yCurrentScroll = 0;
-	}
-
-	// Scroll the window. (The system repaints most of the 
-	// client area when ScrollWindowEx is called; however, it is 
-	// necessary to call UpdateWindow in order to repaint the 
-	// rectangle of pixels that were invalidated.) 
-	//ScrollWindowEx(hwnd, -xDelta, -yDelta, (CONST RECT *) NULL,
-	//	(CONST RECT *) NULL, (HRGN)NULL, (PRECT)NULL,
-	//	SW_INVALIDATE);
-	//UpdateWindow(hwnd);
-	pTextureViewer->forceRender();
-
-	// Reset the scroll bar.
-	///////////si.cbSize = sizeof(si);
-	///////////si.fMask = SIF_POS;
-	///////////si.nPos = yCurrentScroll;
-	///////////SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
-
-	RECT rect;
-	GetClientRect(pTextureViewer->getWindowHwnd(), &rect);
-	int yNewSize = rect.bottom;
-
-	yMaxScroll = max(pTextureViewer->getWindowScrollbarMaxRange() - yNewSize, 0);
-	yCurrentScroll = min(yCurrentScroll, yMaxScroll);
-	if (yCurrentScroll < 0)
-	{
-		yCurrentScroll = 0;
-	}
-	si.cbSize = sizeof(si);
-	si.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
-	si.nMin = yMinScroll;
-	si.nMax = pTextureViewer->getWindowScrollbarMaxRange();
-	si.nPage = yNewSize;
-	si.nPos = yCurrentScroll;
-	SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
-	*/
+	m_pWindow->render();
 }
 
 // file unserialization
@@ -350,6 +320,10 @@ void						TextureEditorTab::updateTabText(void)
 bool						TextureEditorTab::prepareRenderData_TXD(void)
 {
 	vector<RWSection_TextureNative*> vecTextures = m_pTXDFile->getTextures();
+
+	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
+	m_pVScrollBar->setItemCount(VERTICAL, vecTextures.size() * 50);
+
 	uint32 uiTextureIndex = 0;
 	for (RWSection_TextureNative *pRWSection_TextureNative : vecTextures)
 	{
@@ -388,6 +362,7 @@ bool						TextureEditorTab::prepareRenderData_TXD(void)
 		setActiveEntry(getEntryByIndex(0));
 	}
 
+	// todo
 	//setRenderDataIsReady(true);
 	return true;
 }
@@ -523,13 +498,29 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		uiEntryRectY = y,
 		uiHighestImageInRow = 0,
 		uiCalculatedWidth,
-		uiTextureIndex = 0;
+		uiTextureIndex = 0,
+		uiRowHeight = 50;
 	TextureEditorTabEntry
 		*pActiveImageData = getActiveEntry();
 	bool
 		bTexturePreviewIsEnabled = false;
-	for (TextureEditorTabEntry *pImageData : getEntries())
+	float32
+		fVProgress = m_pVScrollBar->getProgress();
+
+	for(uint32
+			uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
+			uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
+			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount);
+		uiEntryIndex < uiEntryEndIndexExclusive;
+		uiEntryIndex++
+	)
 	{
+		TextureEditorTabEntry *pImageData = getEntryByIndex(uiEntryIndex);
+		if (!pImageData)
+		{
+			continue; // in case of render() between vector.resize() and vector.setEntryAtIndex()
+		}
+
 		if (bTexturePreviewIsEnabled)
 		{
 			pImageData->m_rect.left = vecMainPanelPosition.x;
@@ -588,7 +579,7 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 
 		rect.left = uiEntryRectX + 5;
 		rect.top = uiEntryRectY + 13 - yCurrentScroll;
-		string strText = String::toString(uiTextureIndex + 1);
+		string strText = String::toString(uiEntryIndex + 1);
 		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
 
 		// draw texture diffuse name

@@ -53,6 +53,7 @@ private:
 	TextureEditorTabEntry*		m_pActiveTabEntry;
 
 	bxgx::DropDown*				m_pZoomDropDown;
+	bxgx::ScrollBar*			m_pVScrollBar;
 
 	float32						m_fZoomLevel;
 };
