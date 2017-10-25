@@ -48,7 +48,6 @@ void					TextureEditorTab::bindEvents(void)
 	bindEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
 
 	EditorTab::bindEvents();
-	Layer::bindEvents();
 }
 
 void					TextureEditorTab::unbindEvents(void)
@@ -60,7 +59,6 @@ void					TextureEditorTab::unbindEvents(void)
 	unbindEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
 
 	EditorTab::unbindEvents();
-	Layer::unbindEvents();
 }
 
 // controls

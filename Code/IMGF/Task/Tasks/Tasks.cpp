@@ -716,12 +716,12 @@ void		Tasks::closeFile(void)
 
 	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose"))
 	{
-		if (showMessage("Save file before closing?\n\n" + getIMGTab()->getIMGFile()->getIMGFilePath(), "Auto Save?") == 1)
+		if (showMessage("Save file before closing?\n\n" + getTab()->getFile()->getFilePath(), "Auto Save?") == MB_OK)
 		{
-			saveAllOpenFiles(false);
+			getTab()->getFile()->serialize();
 		}
 	}
-	m_pMainWindow->getIMGEditor()->removeActiveEditorTab();
+	m_pMainWindow->getActiveEditor()->removeActiveEditorTab();
 
 	onCompleteTask();
 }
@@ -732,17 +732,17 @@ void		Tasks::closeAllFiles(void)
 
 	bool bConfirmOnClose = getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose");
 
-	vector<IMGEditorTab*> vecIMGTabs = m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries();
-	for (IMGEditorTab *pIMGEditorTab : vecIMGTabs)
+	vector<EditorTab*>& vecEditorTabs = m_pMainWindow->getActiveEditor()->getEditorTabs().getEntries();
+	for (EditorTab *pEditorTab : vecEditorTabs)
 	{
 		if (bConfirmOnClose)
 		{
-			if (showMessage("Save file before closing?\n\n" + pIMGEditorTab->getIMGFile()->getIMGFilePath(), "Auto Save?") == 1)
+			if (showMessage("Save file before closing?\n\n" + pEditorTab->getFile()->getFilePath(), "Auto Save?") == 1)
 			{
-				saveAllOpenFiles(false);
+				pEditorTab->getFile()->serialize();
 			}
 		}
-		m_pMainWindow->getIMGEditor()->removeEditorTab(pIMGEditorTab);
+		m_pMainWindow->getActiveEditor()->removeEditorTab(pEditorTab);
 	}
 
 	onCompleteTask();

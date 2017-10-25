@@ -47,7 +47,6 @@ EditorTab::EditorTab(void) :
 EditorTab::~EditorTab(void)
 {
 	unbindEvents();
-	Layer::unbindEvents();
 }
 
 // events
@@ -55,12 +54,16 @@ void						EditorTab::bindEvents(void)
 {
 	bindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
 	bindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
+
+	Layer::bindEvents();
 }
 
 void						EditorTab::unbindEvents(void)
 {
 	unbindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
 	unbindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
+
+	Layer::unbindEvents();
 }
 
 // initialization

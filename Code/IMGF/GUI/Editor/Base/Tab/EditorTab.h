@@ -32,6 +32,7 @@ public:
 
 	virtual void						addControls(void);
 	virtual void						initControls(void);
+
 	virtual bool						unserializeFile(void) = 0;
 	virtual void						onFileLoaded(void) = 0;
 

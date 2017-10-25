@@ -78,6 +78,7 @@ void								Editor::removeEditorTab(EditorTab *pEditorTab)
 	}
 
 	// remove tab object
+	pEditorTab->unbindEvents();
 	m_vecEditorTabs.removeEntry(pEditorTab);
 
 	// update active file
@@ -94,15 +95,12 @@ void								Editor::removeEditorTab(EditorTab *pEditorTab)
 
 void								Editor::removeActiveEditorTab(void)
 {
-	/*
-	todo
-	if (getTabs().getEntryCount() == 0)
+	if (getEditorTabs().getEntryCount() == 0)
 	{
 		return;
 	}
 
-	removeFile(getActiveFile());
-	*/
+	removeEditorTab(getActiveEditorTab());
 }
 
 // set active file

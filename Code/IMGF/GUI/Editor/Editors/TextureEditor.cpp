@@ -64,7 +64,6 @@ void						TextureEditor::bindEvents(void)
 	bindEvent(BEFORE_RENDER, &TextureEditor::renderBefore);
 
 	Editor::bindEvents();
-	Layer::bindEvents();
 
 	if (m_pActiveEditorTab)
 	{
@@ -77,7 +76,6 @@ void						TextureEditor::unbindEvents(void)
 	unbindEvent(BEFORE_RENDER, &TextureEditor::renderBefore);
 
 	Editor::unbindEvents();
-	Layer::unbindEvents();
 
 	if (m_pActiveEditorTab)
 	{

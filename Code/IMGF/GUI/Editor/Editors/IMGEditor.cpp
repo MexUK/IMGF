@@ -76,7 +76,6 @@ void						IMGEditor::bindEvents(void)
 	bindEvent(RESIZE_WINDOW, &IMGEditor::repositionAndResizeControls);
 
 	Editor::bindEvents();
-	Layer::bindEvents();
 
 	if (m_pActiveEditorTab)
 	{
@@ -89,7 +88,6 @@ void						IMGEditor::unbindEvents(void)
 	unbindEvent(RESIZE_WINDOW, &IMGEditor::repositionAndResizeControls);
 
 	Editor::unbindEvents();
-	Layer::unbindEvents();
 
 	if (m_pActiveEditorTab)
 	{
