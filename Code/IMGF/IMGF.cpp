@@ -411,5 +411,5 @@ bool				IMGF::isFileExtensionOpenable(string& strFileExtension)
 
 vector<string>		IMGF::getFileExtensionsOpenable(void)
 {
-	return { "img", "dir", "txd" };
+	return { "img", "dir", "txd", "col" };
 }

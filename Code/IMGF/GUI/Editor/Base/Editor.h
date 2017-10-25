@@ -1,13 +1,28 @@
 #pragma once
 
+#include "nsbxcf.h"
+#include "nsbxgx.h"
+#include "nsbxgi.h"
 #include "nsimgf.h"
 #include "Layer/Layer.h"
 #include "Pool/VectorPool.h"
 #include "GUI/Editor/Base/Tab/EditorTab.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
+//#include "Globals.h"
+//#include "IMGF.h"
+//#include "GUI/Window/WindowManager.h"
+//#include "GUI/Window/Windows/MainWindow/MainWindow.h"
+//#include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 #include "Event/EventBindable.h"
 #include "Task/Tasks/Tasks.h"
+#include "Static/Path.h"
+#include "Window/Window.h"
+/*
+#include "GUI/Editor/Editors/Tab/IMGEditorTab.h"
+#include "GUI/Editor/Editors/Tab/TextureEditorTab.h"
+#include "GUI/Editor/Editors/Tab/CollisionEditorTab.h"
+*/
 #include <string>
+#include <vector>
 
 class bxgx::TabBar;
 class bxgx::TextBox;
@@ -25,10 +40,10 @@ public:
 	virtual void						addControls(void);
 	virtual void						initControls(void);
 
-	virtual EditorTab*					addEditorTab(std::string& strFilePath) = 0;
-	virtual EditorTab*					addBlankEditorTab(std::string& strFilePath) = 0;
+	virtual imgf::EditorTab*					addEditorTab(std::string& strFilePath) = 0;
+	virtual imgf::EditorTab*					addBlankEditorTab(std::string& strFilePath) = 0;
 	template <class FormatType, class EditorTabType>
-	EditorTabType*						addEditorTab(std::string& strFilePath, bool bNewFile = false);
+	EditorTabType*						_addEditorTab(std::string& strFilePath, bool bNewFile);
 	void								removeEditorTab(EditorTab *pEditorTab);
 	void								removeActiveEditorTab(void);
 
@@ -58,12 +73,12 @@ protected:
 	EditorTab*							m_pActiveEditorTab;
 	bxgx::TabBar*						m_pTabBar;
 	std::vector<std::string>			m_vecEditorFileFormats;
-	bxcf::VectorPool<EditorTab*>		m_vecEditorTabs;
+	bxcf::VectorPool<imgf::EditorTab*>	m_vecEditorTabs;
 };
 
 // add editor tab
 template <class FormatType, class EditorTabType>
-EditorTabType*							imgf::Editor::addEditorTab(std::string& strFilePath, bool bNewFile)
+EditorTabType*							imgf::Editor::_addEditorTab(std::string& strFilePath, bool bNewFile)
 {
 	// check if file path is already open
 	if (isFilePathOpen(strFilePath))

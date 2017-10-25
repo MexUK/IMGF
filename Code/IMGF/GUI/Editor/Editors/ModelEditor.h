@@ -2,6 +2,7 @@
 
 #include "nsimgf.h"
 #include "GUI/Editor/Base/Editor.h"
+#include <string>
 
 class imgf::ModelEditor : public imgf::Editor
 {

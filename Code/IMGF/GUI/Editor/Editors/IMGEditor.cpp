@@ -120,16 +120,16 @@ IMGEditorTab*				IMGEditor::addEditorTab(string& strFilePath)
 	switch (imgFormat.getVersion())
 	{
 	case IMG_1:
-		pIMGEditorTab = Editor::addEditorTab<IMGFormatVersion1, IMGEditorTab>(strFilePath);
+		pIMGEditorTab = Editor::_addEditorTab<IMGFormatVersion1, IMGEditorTab>(strFilePath, false);
 		break;
 	case IMG_2:
-		pIMGEditorTab = Editor::addEditorTab<IMGFormatVersion2, IMGEditorTab>(strFilePath);
+		pIMGEditorTab = Editor::_addEditorTab<IMGFormatVersion2, IMGEditorTab>(strFilePath, false);
 		break;
 	case IMG_3:
-		pIMGEditorTab = Editor::addEditorTab<IMGFormatVersion3, IMGEditorTab>(strFilePath);
+		pIMGEditorTab = Editor::_addEditorTab<IMGFormatVersion3, IMGEditorTab>(strFilePath, false);
 		break;
 	case IMG_FASTMAN92:
-		pIMGEditorTab = Editor::addEditorTab<IMGFormatVersionFastman92, IMGEditorTab>(strFilePath);
+		pIMGEditorTab = Editor::_addEditorTab<IMGFormatVersionFastman92, IMGEditorTab>(strFilePath, false);
 		break;
 	default:
 		pIMGEditorTab = nullptr;
@@ -155,16 +155,16 @@ IMGEditorTab*				IMGEditor::addBlankEditorTab(string& strFilePath)
 	switch (uiIMGVersion)
 	{
 	case IMG_1:
-		pIMGEditorTab = Editor::addEditorTab<IMGFormatVersion1, IMGEditorTab>(strFilePath, true);
+		pIMGEditorTab = Editor::_addEditorTab<IMGFormatVersion1, IMGEditorTab>(strFilePath, true);
 		break;
 	case IMG_2:
-		pIMGEditorTab = Editor::addEditorTab<IMGFormatVersion2, IMGEditorTab>(strFilePath, true);
+		pIMGEditorTab = Editor::_addEditorTab<IMGFormatVersion2, IMGEditorTab>(strFilePath, true);
 		break;
 	case IMG_3:
-		pIMGEditorTab = Editor::addEditorTab<IMGFormatVersion3, IMGEditorTab>(strFilePath, true);
+		pIMGEditorTab = Editor::_addEditorTab<IMGFormatVersion3, IMGEditorTab>(strFilePath, true);
 		break;
 	case IMG_FASTMAN92:
-		pIMGEditorTab = Editor::addEditorTab<IMGFormatVersionFastman92, IMGEditorTab>(strFilePath, true);
+		pIMGEditorTab = Editor::_addEditorTab<IMGFormatVersionFastman92, IMGEditorTab>(strFilePath, true);
 		break;
 	default:
 		pIMGEditorTab = nullptr;

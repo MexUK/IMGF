@@ -8,7 +8,6 @@
 #include "GraphicsLibrary/Base/GraphicsLibrary.h"
 #include "Style/Parts/EStyleStatus.h"
 #include "Format/TXD/TXDManager.h"
-#include "Format/TXD/TXDFormat.h"
 #include "Static/Path.h"
 #include "IMGF.h"
 #include "Engine/RW/RWManager.h"
@@ -165,7 +164,7 @@ TextureEditorTab*				TextureEditor::addEditorTab(string& strFilePath)
 		return nullptr;
 	}
 
-	TextureEditorTab *pTextureEditorTab = Editor::addEditorTab<TXDFormat, TextureEditorTab>(strFilePath);
+	TextureEditorTab *pTextureEditorTab = Editor::_addEditorTab<TXDFormat, TextureEditorTab>(strFilePath, false);
 
 	if (pTextureEditorTab)
 	{
@@ -178,7 +177,7 @@ TextureEditorTab*				TextureEditor::addEditorTab(string& strFilePath)
 
 TextureEditorTab*				TextureEditor::addBlankEditorTab(string& strFilePath)
 {
-	TextureEditorTab *pTextureEditorTab = Editor::addEditorTab<TXDFormat, TextureEditorTab>(strFilePath);
+	TextureEditorTab *pTextureEditorTab = Editor::_addEditorTab<TXDFormat, TextureEditorTab>(strFilePath, true);
 
 	if (pTextureEditorTab)
 	{

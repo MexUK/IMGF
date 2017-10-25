@@ -489,6 +489,12 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\TextureEditorTab.cpp">
       <Filter>Source Files\GUI\Editor\Editors\Tab</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\CollisionEditor.cpp">
+      <Filter>Source Files\GUI\Editor\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\CollisionEditorTab.cpp">
+      <Filter>Source Files\GUI\Editor\Editors\Tab</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\IMGF\Globals.h">
@@ -766,6 +772,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Entry\TextureEditorTabEntry.h">
       <Filter>Header Files\GUI\Editor\Editors\Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\CollisionEditorTab.h">
+      <Filter>Header Files\GUI\Editor\Editors\Tab</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

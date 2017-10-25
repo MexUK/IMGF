@@ -5,6 +5,7 @@
 #include "Type/Types.h"
 #include "GUI/Editor/Base/Editor.h"
 #include "GUI/Editor/Editors/Tab/TextureEditorTab.h"
+#include "Format/TXD/TXDFormat.h"
 #include <string>
 
 class imgf::TextureEditor : public imgf::Editor

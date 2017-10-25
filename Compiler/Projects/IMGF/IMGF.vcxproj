@@ -122,7 +122,9 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\Editor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\Tab\EditorTab.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\CollisionEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\IMGEditor.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\CollisionEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\IMGEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\TextureEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\TextureEditor.cpp" />
@@ -193,6 +195,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ItemPlacementEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ModelEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\RadarEditor.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\CollisionEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\IMGEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\TextureEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\TextureEditor.h" />

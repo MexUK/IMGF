@@ -77,6 +77,7 @@ namespace imgf
 
 	class IMGEditorTab;
 	class TextureEditorTab;
+	class CollisionEditorTab;
 
 	struct TextureEditorTabEntry;
 

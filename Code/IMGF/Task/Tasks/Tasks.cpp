@@ -372,6 +372,13 @@ void		Tasks::_openFile(string& strFilePath)
 			return onAbortTask();
 		}
 	}
+	else if (strExtensionUpper == "COL")
+	{
+		if (!m_pMainWindow->getCollisionEditor()->addEditorTab(strFilePath))
+		{
+			return onAbortTask();
+		}
+	}
 	else
 	{
 		if (strExtensionUpper == "")
