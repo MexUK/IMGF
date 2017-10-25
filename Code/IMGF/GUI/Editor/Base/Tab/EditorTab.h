@@ -25,7 +25,7 @@ public:
 	EditorTab(void);
 	virtual ~EditorTab(void);
 
-	void								init(void);
+	bool								init(void);
 
 	virtual void						bindEvents(void);
 	virtual void						unbindEvents(void);
@@ -37,6 +37,8 @@ public:
 	virtual void						onFileLoaded(void) = 0;
 
 	virtual void						addFile(std::string& strFilePath) {}
+
+	virtual void						render(void) {}
 
 	void								unload(void) {}
 

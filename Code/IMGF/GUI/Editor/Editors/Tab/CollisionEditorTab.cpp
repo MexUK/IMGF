@@ -19,11 +19,17 @@
 #include "Stream/DataReader.h"
 #include "../BXGI/Event/EEvent.h"
 #include "Event/EInputEvent.h"
+#include "GUI/Editor/Editors/CollisionEditor.h"
 
 #include <include/GLFW/glfw3.h>
 #define GLFW_EXPOSE_NATIVE_WIN32 1
 #define GLFW_EXPOSE_NATIVE_WGL 1
 #include <include/GLFW/glfw3native.h>
+
+#include <windows.h>
+#include <gl\gl.h>
+#include <gl\glu.h>
+//#include <gl\glaux.h>
 
 using namespace std;
 using namespace bxcf;
@@ -33,8 +39,8 @@ using namespace bxgx::styles::statuses;
 using namespace bxgi;
 using namespace imgf;
 
-Vec3f					vecCameraPosition; // todo - namespace
-Vec3f					vecCameraRotation; // todo - namespace
+Vec3f					vecCameraPosition = Vec3f(0.0f, 0.0f, 0.0f); // todo - namespace
+Vec3f					vecCameraRotation = Vec3f(0.0f, 0.0f, 0.0f); // todo - namespace
 
 CollisionEditorTab::CollisionEditorTab(void) :
 	m_pCOLFile(nullptr),
@@ -125,9 +131,9 @@ void					CollisionEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 		rectCOLEntry;
 
 	rectCOLEntry.left = 139 + 139;
-	rectCOLEntry.top = 193;
+	rectCOLEntry.top = 192;
 	rectCOLEntry.right = rectCOLEntry.left + 250;
-	rectCOLEntry.bottom = rectCOLEntry.top + 50;
+	rectCOLEntry.bottom = rectCOLEntry.top + 55;
 
 	for (uint32
 			uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
@@ -153,8 +159,8 @@ void					CollisionEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 			break;
 		}
 
-		rectCOLEntry.top += 50;
-		rectCOLEntry.bottom += 50;
+		rectCOLEntry.top += 55;
+		rectCOLEntry.bottom += 55;
 	}
 	if (pActiveCOLEntry != nullptr)
 	{
@@ -362,7 +368,7 @@ bool						CollisionEditorTab::prepareRenderData(void)
 }
 
 // file info text
-void					CollisionEditorTab::setFileInfoText(void)
+void						CollisionEditorTab::setFileInfoText(void)
 {
 	m_pText_FilePath->setText(getFile()->getFilePath());
 	m_pText_FileVersion->setText(COLManager::get()->getVersionManager()->getVersionText(getCOLFile()->getFirstEntry()->getCOLVersion()), false);
@@ -372,7 +378,7 @@ void					CollisionEditorTab::setFileInfoText(void)
 	updateEntryCountText();
 }
 
-void					CollisionEditorTab::updateEntryCountText(void)
+void						CollisionEditorTab::updateEntryCountText(void)
 {
 	uint32
 		uiDisplayedEntryCount = getCOLFile()->getEntryCount(),
@@ -393,20 +399,451 @@ void					CollisionEditorTab::updateEntryCountText(void)
 }
 
 // render editor
-void						CollisionEditorTab::renderDisplayType_Single(void)
+void						CollisionEditorTab::render(void)
 {
+	render3D();
+}
+
+// render editor 2d
+void						CollisionEditorTab::render2D(void)
+{
+	HWND hwnd = getWindow()->getWindowHandle();
+
+	HDC memDC, hdc = GetWindowDC(hwnd);
+	HGDIOBJ old = nullptr;
+	PAINTSTRUCT ps;
+	RECT clientRect;
+	int width, height;
+
+	uint32 x, y;
+	Vec2i vecMainPanelPosition;
+
+	x = 139 + 139;
+	y = 162 + 30;
+	vecMainPanelPosition = Vec2i(x, y);
+
+	float32 yCurrentScroll = 0;
+
+	/*
+	todo
+	BOOL bPremultipledAlphaApplied = FALSE; /////
+
+	if (!bPremultipledAlphaApplied)
+	{
+		for (auto pImageData : getIMGF()->getEntryViewerManager()->getTextureViewer()->getEntries())
+		{
+			PremultiplyBitmapAlpha(hdc, pImageData->m_hBitmap);
+		}
+		bPremultipledAlphaApplied = true;
+	}
+	*/
+
+	/*
+	todo
+	if (fSize)
+	{
+		BitBlt(ps.hdc,
+			0, 0,
+			800, getIMGF()->getEntryViewerManager()->getTextureViewer()->getWindowScrollbarMaxRange(),
+			hdcScreenCompat,
+			0, yCurrentScroll,
+			SRCCOPY);
+
+		fSize = FALSE;
+	}
+	*/
+
+	//getIMGF()->getEntryViewerManager()->getTextureViewer()->clearWindowBackground(hdc);
+
+	GetClientRect(hwnd, &clientRect);
+	width = clientRect.right - clientRect.left;
+	height = clientRect.bottom - clientRect.top;
+
+	memDC = CreateCompatibleDC(NULL);
+
+	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
+
+
+
+
+
+	// display type: Single
+	const uint32
+		uiImagePaddingRight = 10,
+		uiImagePaddingBottom = 10,
+		uiEntryViewerWindowClientAreaWidth = 494;
+	uint32
+		uiEntryRectX = x,// uiSingleDisplayTypeTopScrollbarXCurrentScroll,
+		uiEntryRectY = y,
+		uiHighestImageInRow = 0,
+		uiCalculatedWidth,
+		uiTextureIndex = 0,
+		uiRowHeight = 50;
+	COLEntry
+		*pActiveCOLEntry = getActiveEntry();
+	bool
+		bTexturePreviewIsEnabled = false;
+	float32
+		fVProgress = m_pVScrollBar->getProgress();
+	RECT
+		rectCOLEntry;
+
+	rectCOLEntry.left = 139 + 139;
+	rectCOLEntry.top = 192;
+	rectCOLEntry.right = rectCOLEntry.left + 250;
+	rectCOLEntry.bottom = rectCOLEntry.top + 55;
+
+	for(uint32
+			uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
+			uiEntryIndex = Math::getEntryStartIndex(m_pCOLFile->getEntryCount(), uiMaxEntryCount, fVProgress),
+			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(m_pCOLFile->getEntryCount(), uiEntryIndex, uiMaxEntryCount);
+		uiEntryIndex < uiEntryEndIndexExclusive;
+		uiEntryIndex++
+	)
+	{
+		COLEntry *pCOLEntry = m_pCOLFile->getEntryByIndex(uiEntryIndex);
+		if (!pCOLEntry)
+		{
+			continue; // in case of render() between vector.resize() and vector.setEntryAtIndex()
+		}
+
+		uiCalculatedWidth = 0;
+
+		// calculate max width out of: image, diffuse text and alpha text
+		SIZE textSize;
+		GetTextExtentPoint32(hdc, String::convertStdStringToStdWString(pCOLEntry->getModelName()).c_str(), pCOLEntry->getModelName().length(), &textSize);
+		uiCalculatedWidth = textSize.cx;
+
+		//if (pImageData->m_uiWidth > uiCalculatedWidth)
+		//{
+		//	uiCalculatedWidth = pImageData->m_uiWidth;
+		//}
+
+		// draw active texture background colour
+		m_pWindow->setRenderingStyleGroups("leftEntryPanel");
+		if (pCOLEntry == getActiveEntry())
+		{
+			m_pWindow->setRenderingStyleStatus(EStyleStatus::ACTIVE);
+		}
+		pGFX->drawRectangle(Vec2i(rectCOLEntry.left, rectCOLEntry.top), Vec2u(rectCOLEntry.right - rectCOLEntry.left, rectCOLEntry.bottom - rectCOLEntry.top));
+		m_pWindow->resetRenderingStyleGroups();
+		m_pWindow->resetRenderingStyleStatus();
+
+		// draw collision number
+		HFONT hFont = CreateFont(22, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
+			CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, VARIABLE_PITCH, TEXT("Verdana"));
+		old = SelectObject(hdc, hFont);
+
+		SetTextColor(hdc, RGB(0, 0, 0));
+		SetBkMode(hdc, TRANSPARENT);
+
+		RECT rect;
+
+		rect.left = uiEntryRectX + 5;
+		rect.top = uiEntryRectY + 13 - yCurrentScroll;
+		string strText = String::toString(uiEntryIndex + 1);
+		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
+
+		// draw texture name
+		uint32 uiXOffset1 = 50;
+
+		rect.left = uiEntryRectX + uiXOffset1;
+		rect.top = uiEntryRectY + 5 - yCurrentScroll;
+		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), pCOLEntry->getModelName());
+		uiEntryRectY += 15;
+		uiEntryRectY += 15;
+
+		/*
+		todo
+
+		// draw texture size
+		rect.left = uiEntryRectX + uiXOffset1;
+		rect.top = uiEntryRectY + 5 - yCurrentScroll;
+		strText = String::toString(pImageData->m_uiWidth) + " x " + String::toString(pImageData->m_uiHeight);
+		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
+
+		// draw texture BPP
+		rect.left = uiEntryRectX + uiXOffset1 + 85;
+		rect.top = uiEntryRectY + 5 - yCurrentScroll;
+		strText = String::toString(pImageData->m_ucBPP) + " BPP";
+		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
+
+		// draw texture raster format
+		rect.left = uiEntryRectX + uiXOffset1 + 85 + 55;
+		rect.top = uiEntryRectY + 5 - yCurrentScroll;
+		strText = pImageData->m_strTextureFormat;
+		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
+		*/
+		uiEntryRectY += 15;
+
+		/*
+		todo
+
+		// draw texture image preview
+		if (bTexturePreviewIsEnabled)
+		{
+			//old = (HBITMAP)SelectObject(memDC, pImageData->m_hBitmap);
+
+			uint32 uiImageWidthWhenHeightIs128 = (uint32)(((float32)128.0f / (float32)pImageData->m_uiHeight) * (float32)pImageData->m_uiWidth);
+			uint32 uiImageHeightWhenWidthIs128 = (uint32)(((float32)128.0f / (float32)pImageData->m_uiWidth) * (float32)pImageData->m_uiHeight);
+
+			uint32 uiDestWidth;
+			uint32 uiDestHeight;
+			if (uiImageWidthWhenHeightIs128 > uiImageHeightWhenWidthIs128)
+			{
+				uiDestWidth = 128;
+				uiDestHeight = uiImageHeightWhenWidthIs128;
+			}
+			else
+			{
+				uiDestWidth = uiImageWidthWhenHeightIs128;
+				uiDestHeight = 128;
+			}
+			
+			pGFX->drawImage(Vec2i(uiEntryRectX + 20, uiEntryRectY - yCurrentScroll), pImageData->m_hBitmap, Vec2u(pActiveImageData->m_uiWidth, pActiveImageData->m_uiHeight));
+			uiEntryRectY += 128;
+		}
+		*/
+
+		uiEntryRectY += 10;
+
+		// horizontal line below texture image
+		pGFX->drawLine(Vec2i(vecMainPanelPosition.x, uiEntryRectY - 1 - yCurrentScroll), Vec2i(vecMainPanelPosition.x + 250, uiEntryRectY - 1 - yCurrentScroll));
+
+		uiTextureIndex++;
+		rectCOLEntry.top += 55;
+		rectCOLEntry.bottom += 55;
+	}
+
+	// zoom text
+	RECT rect;
+	rect.left = vecMainPanelPosition.x + 250 + 100;
+	rect.top = vecMainPanelPosition.y - 50;
+	string strText = "Zoom:";
+	pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
+
+	m_pWindow->setRenderingStyleGroups("centerEntryPanel");
+	Vec2u vecRectSize;
+	vecRectSize.x = m_pWindow->getSize().x - (vecMainPanelPosition.x + 250);
+	vecRectSize.y = m_pWindow->getSize().y - vecMainPanelPosition.y;
+	pGFX->drawRectangle(Vec2i(vecMainPanelPosition.x + 250, vecMainPanelPosition.y), vecRectSize);
+	m_pWindow->resetRenderingStyleGroups();
+
+	if (pActiveCOLEntry)
+	{
+		// todo
+
+		//uint32 uiDestinationWidth = (uint32)((float32)pActiveCOLEntry->m_uiWidth * getZoomLevel());
+		//uint32 uiDestinationHeight = (uint32)((float32)pActiveCOLEntry->m_uiHeight * getZoomLevel());
+		
+		//pGFX->drawImage(Vec2i(vecMainPanelPosition.x + 250, vecMainPanelPosition.y), pActiveImageData->m_hBitmap, Vec2u(uiDestinationWidth, uiDestinationHeight));
+
+		//render3D();
+	}
+	
+	//getIMGF()->getEntryViewerManager()->getTextureViewer()->setWindowScrollbarMaxRange(uiImageY + 200);
+
+	if (false)
+	{
+		// todo
+		uint32 uiMaxXPosition = uiEntryRectX + uiCalculatedWidth + uiImagePaddingRight;
+		if (clientRect.bottom > (int32)uiMaxXPosition)
+		{
+			uiMaxXPosition = clientRect.bottom;
+		}
+		uiMaxXPosition += 100;
+		//getIMGF()->getEntryViewerManager()->getTextureViewer()->setSingleDisplayTypeTopScrollbarMaxXPosition(uiMaxXPosition);
+	}
+
+	SelectObject(memDC, old);
+	DeleteDC(memDC);
+}
+
+// render editor 3d
+void						CollisionEditorTab::render3D(void)
+{
+	static bool bInitd = false;
+	static HBITMAP hbm;
+	static HDC hdcWindow;
+	if (!bInitd)
+	{
+		bInitd = true;
+
+
+
+
+
+		//glfwInit();
+
+		//glewExperimental = GL_TRUE;
+		//GLenum err = glewInit();
+
+		
+
+
+
+
+		//hDC = GetDC(m_pWindow->getWindowHandle());
+		hdcWindow = GetDC(m_pWindow->getWindowHandle());
+		hDC = CreateCompatibleDC(hdcWindow);
+
+		hbm = CreateCompatibleBitmap(hdcWindow, 300, 250);
+
+		SelectObject(hDC, hbm);
+
+		if (!hDC)
+		{
+			MessageBox(NULL, L"ERROR 1", L"A", MB_OK);
+			return;
+		}
+
+		int bits = 32;
+		static PIXELFORMATDESCRIPTOR pfd =	// pfd Tells Windows How We Want Things To Be
+		{
+			sizeof(PIXELFORMATDESCRIPTOR),	// Size Of This Pixel Format Descriptor
+			1,								// Version Number
+			/*PFD_DRAW_TO_WINDOW |*/			// Format Must Support Window
+			PFD_DRAW_TO_BITMAP |
+			//PFD_SUPPORT_GDI
+			PFD_SUPPORT_OPENGL// |			// Format Must Support OpenGL
+			/*PFD_DOUBLEBUFFER*/,				// Must Support Double Buffering
+			PFD_TYPE_RGBA,					// Request An RGBA Format
+			bits,							// Select Our Color Depth
+			0, 0, 0, 0, 0, 0,				// Color Bits Ignored
+			0,								// No Alpha Buffer
+			0,								// Shift Bit Ignored
+			0,								// No Accumulation Buffer
+			0, 0, 0, 0,						// Accumulation Bits Ignored
+			16,								// 16Bit Z-Buffer (Depth Buffer)
+			0,								// No Stencil Buffer
+			0,								// No Auxiliary Buffer
+			PFD_MAIN_PLANE,					// Main Drawing Layer
+			0,								// Reserved
+			0, 0, 0							// Layer Masks Ignored
+		};
+
+		GLuint PixelFormat = ChoosePixelFormat(hDC, &pfd);
+		if (!PixelFormat)
+		{
+			MessageBox(NULL, L"ERROR 2", L"A", MB_OK);
+			return;
+		}
+
+		BOOL bResult = SetPixelFormat(hDC, PixelFormat, &pfd);
+		if (!bResult)
+		{
+			MessageBox(NULL, L"ERROR 3", L"A", MB_OK);
+			return;
+		}
+
+		HGLRC hRC = wglCreateContext(hDC);
+		if (!hRC)
+		{
+			MessageBox(NULL, L"ERROR 4", L"A", MB_OK);
+			return;
+		}
+
+		bResult = wglMakeCurrent(hDC, hRC);
+		if (!bResult)
+		{
+			MessageBox(NULL, L"ERROR 5", L"A", MB_OK);
+			return;
+		}
+
+
+
+
+		
+		glShadeModel(GL_SMOOTH);
+		glClearColor(1.0f, 0.5f, 0.0f, 0.0f);
+		glClearDepth(1.0f);                         // Depth Buffer Setup
+		glEnable(GL_DEPTH_TEST);                        // Enables Depth Testing
+		
+		//glDisable(GL_DEPTH_TEST);
+		//glDisable(GL_ALPHA_TEST);
+		//glDisable(GL_STENCIL_TEST);
+		//glDisable(GL_SCISSOR_TEST);
+		
+		glDepthFunc(GL_LEQUAL);                         // The Type Of Depth Test To Do
+		//glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);          // Really Nice Perspective Calculations
+
+
+		Vec3f vecCameraLookAtPosition = { 0.0f, 0.0f, 0.0f };
+		float32 fHighestDistance = 1.5f;
+		float32 fDistanceMultiplier = 2.0f;
+		vecCameraPosition = { 1.0f, -2.0f, 0.8f };
+		//vecCameraPosition = Math::getPositionInFrontOfPosition(vecCameraPosition, 45.0f, fHighestDistance * fDistanceMultiplier);
+		vecCameraRotation = { 0.0f, 0.0f, Math::getAngleBetweenPoints(vecCameraPosition, vecCameraLookAtPosition) + Math::convertDegreesToRadians(90.0f) };
+	}
+
+	mutexRendering.lock();
+	
+
+
+	//HANDLE hOld = SelectObject(hDC, hbm);
+	
+
+	
+
+	const float64 ar = ((float64)300) / ((float64)250);
+
+	int
+		x = 139 + 139 + 250,
+		y = 192,
+		w = 300,
+		h = 250;
+
+	x = 0;
+	y = 0;
+	w = 300;
+	h = 250;
+
+	glViewport(x, y, w, h);
+	//glScissor(x, y, w, h);
+	//glEnable(GL_SCISSOR_TEST);
+	//glClear(GL_DEPTH_BUFFER_BIT);
+	GLenum a = glGetError();
+	if (a != GL_NO_ERROR)
+	{
+		MessageBox(NULL, L"AAA", L"BBB", MB_OK);
+	}
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+
+	//gluPerspective(60.0, ar, 0.1, 100.0);
+	//gluPerspective(50.0, 1.0, 1.0, 50.0);
+	//perspectiveGL(45.0, ar, 1.0, 1500.0);
+
+	//glLoadMatrixf(fData);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+
 	//prepare2DRender();
 	//if (glGetError()) Input::showMessage("test1.5 error", "Error"); 
 	//renderBackground();
 
 	//if (glGetError()) Input::showMessage("test2 error", "Error");
 
-	prepare3DRender();
+	//prepare3DRender();
+	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);         // Clear The Screen And The Depth Buffer
+	//glClear(GL_COLOR_BUFFER_BIT);
+	//glLoadIdentity();
+	
 	renderCamera();
+
 	renderAxis();
-	renderBoundingSphere();
-	renderBoundingCuboid();
-	renderCollisionObjects();
+	if (getActiveEntry())
+	{
+		//renderBoundingSphere();
+		//renderBoundingCuboid();
+		//renderCollisionObjects();
+	}
 
 	//if (glGetError()) Input::showMessage("test3 error", "Error");
 
@@ -415,6 +852,32 @@ void						CollisionEditorTab::renderDisplayType_Single(void)
 	//render2DObjects();
 
 	//if (glGetError()) Input::showMessage("test4 error", "Error");
+
+	//glDisable(GL_SCISSOR_TEST);
+
+	//SwapBuffers(hDC);
+	
+
+	glFinish();
+
+
+	
+
+	BitBlt(hdcWindow, 139+139+250, 192, 300, 250, hDC, 0, 0, SRCCOPY);
+
+
+	
+
+
+
+	//SelectObject(hDC, hOld);
+	//DeleteObject(hbm);
+	//DeleteDC(hDC);
+
+
+
+
+	mutexRendering.unlock();
 }
 
 void						CollisionEditorTab::prepare3DRender(void)
@@ -426,24 +889,18 @@ void						CollisionEditorTab::prepare3DRender(void)
 	//GLFWwindow window;
 	//glfwGetWindowSize(&window, &w, &h);
 	//const float64 ar = ((float64)w) / ((float64)h);
-	const float64 ar = ((float64)m_pWindow->getSize().x) / ((float64)m_pWindow->getSize().y);
+	//const float64 ar = ((float64)m_pWindow->getSize().x) / ((float64)m_pWindow->getSize().y);
+	//const float64 ar = ((float64)300) / ((float64)300);
 
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	
+	/*
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	//gluPerspective(60.0, ar, 0.1, 100.0);
-	//gluPerspective(50.0, 1.0, 1.0, 50.0);
-	perspectiveGL(45.0, ar, 1.0, 1500.0);
-
-	//glLoadMatrixf(fData);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	
 
 	glClear(GL_DEPTH_BUFFER_BIT);
+	*/
 }
 
 void						CollisionEditorTab::renderCamera(void)
@@ -451,8 +908,10 @@ void						CollisionEditorTab::renderCamera(void)
 	// camera rotation
 	glRotatef(Math::convertRadiansToDegrees(vecCameraRotation.x), 1.0f, 0.0f, 0.0f); // Rotate our camera on the x-axis (looking up and down)
 	glRotatef(Math::convertRadiansToDegrees(vecCameraRotation.z), 0.0f, 1.0f, 0.0f); // Rotate our camera on the y-axis (looking left and right)
+	
+	vecCameraRotation.z += Math::convertDegreesToRadians(5.0f);
 
-																					 // camera position
+	// camera position
 	glTranslatef(-vecCameraPosition.x, -vecCameraPosition.z, -vecCameraPosition.y);
 }
 void						CollisionEditorTab::renderCollisionObjects(void)

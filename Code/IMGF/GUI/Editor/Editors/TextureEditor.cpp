@@ -16,8 +16,8 @@
 using namespace std;
 using namespace bxcf;
 using namespace bxgx;
-using namespace bxgx::styles::statuses;
 using namespace bxgx::events;
+using namespace bxgx::styles::statuses;
 using namespace bxgi;
 using namespace imgf;
 
@@ -170,7 +170,11 @@ TextureEditorTab*				TextureEditor::addEditorTab(string& strFilePath)
 	{
 		//pTextureEditorTab->setTextureEditor(this);
 		pTextureEditorTab->setTXDFile((TXDFormat*)pTextureEditorTab->getFile());
-		pTextureEditorTab->init();
+		if (!pTextureEditorTab->init())
+		{
+			removeEditorTab(pTextureEditorTab);
+			return nullptr;
+		}
 	}
 	return pTextureEditorTab;
 }

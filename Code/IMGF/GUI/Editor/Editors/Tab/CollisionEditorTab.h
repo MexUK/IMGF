@@ -28,7 +28,10 @@ public:
 	void						setCOLFile(bxgi::COLFormat *pCOLFile) { m_pCOLFile = pCOLFile; }
 	bxgi::COLFormat*			getCOLFile(void) { return m_pCOLFile; }
 
-	void						renderDisplayType_Single(void);
+	void						render(void);
+
+	void						render2D(void);
+	void						render3D(void);
 
 	void						setFileInfoText(void);
 	void						updateEntryCountText(void);

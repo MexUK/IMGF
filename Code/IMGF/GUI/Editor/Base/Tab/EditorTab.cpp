@@ -67,7 +67,7 @@ void						EditorTab::unbindEvents(void)
 }
 
 // initialization
-void						EditorTab::init(void)
+bool						EditorTab::init(void)
 {
 	/*
 	todo
@@ -106,7 +106,10 @@ void						EditorTab::init(void)
 	m_pEditor->setActiveEditorTab(this);
 
 	// unserialize file
-	unserializeFile();
+	if (!unserializeFile())
+	{
+		return false;
+	}
 
 	// on file loaded
 	onFileLoaded();
@@ -117,6 +120,8 @@ void						EditorTab::init(void)
 	// log
 	string strFileName = Path::getFileName(m_pFile->getFilePath());
 	logf("Opened %s", strFileName.c_str());
+
+	return true;
 }
 
 // tab processing
@@ -154,6 +159,10 @@ void						EditorTab::processThreadOnce(void)
 	{
 		// check to render each window or window items
 		BXGX::get()->render();
+	}
+	else
+	{
+		render();
 	}
 }
 

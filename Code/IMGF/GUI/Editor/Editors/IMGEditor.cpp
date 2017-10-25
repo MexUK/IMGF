@@ -140,7 +140,11 @@ IMGEditorTab*				IMGEditor::addEditorTab(string& strFilePath)
 	{
 		pIMGEditorTab->setIMGEditor(this);
 		pIMGEditorTab->setIMGFile((IMGFormat*)pIMGEditorTab->getFile());
-		pIMGEditorTab->init();
+		if (!pIMGEditorTab->init())
+		{
+			removeEditorTab(pIMGEditorTab);
+			return nullptr;
+		}
 	}
 	return pIMGEditorTab;
 }
