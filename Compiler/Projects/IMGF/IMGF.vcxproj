@@ -122,8 +122,14 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\Editor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\Tab\EditorTab.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\AnimationEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\CollisionEditor.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\DATEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\IMGEditor.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ItemDefinitionEditor.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ItemPlacementEditor.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ModelEditor.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\RadarEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\CollisionEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\IMGEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\TextureEditorTab.cpp" />

@@ -1,6 +1,8 @@
 #include "TextureEditorTab.h"
 #include "nsbxgi.h"
 #include "Format/TXD/TXDFormat.h"
+#include "Format/WTD/WTDFormat.h"
+#include "Format/WTD/WTDManager.h"
 #include "Task/Tasks/Tasks.h"
 #include "Control/Controls/ProgressBar.h"
 #include "Control/Controls/TabBar.h"
@@ -18,6 +20,7 @@
 #include "Stream/DataReader.h"
 #include "../BXGI/Event/EEvent.h"
 #include "Event/EInputEvent.h"
+#include "Image/ImageManager.h"
 
 using namespace std;
 using namespace bxcf;
@@ -28,6 +31,7 @@ using namespace bxgi;
 using namespace imgf;
 
 TextureEditorTab::TextureEditorTab(void) :
+	m_bIsTXDFile(false),
 	m_pTXDFile(nullptr),
 	m_pActiveTabEntry(nullptr),
 
@@ -254,31 +258,62 @@ void					TextureEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 // file unserialization
 bool					TextureEditorTab::unserializeFile(void)
 {
-	TXDFormat *txd = new TXDFormat;
-
-	if (!txd->openFile())
+	if (m_bIsTXDFile)
 	{
-		return false;
+		TXDFormat *txd = new TXDFormat;
+
+		if (!txd->openFile())
+		{
+			return false;
+		}
+		if (!txd->readMetaData()) // here for progress bar tick count
+		{
+			Tasks::showMessage(Format::getErrorReason(txd->getErrorCode()) + "\r\n\r\n" + txd->getFilePath(), "Can't Open TXD File");
+			delete txd;
+			return false;
+		}
+
+		uint32 uiProgressBarMax = txd->m_reader.getSize();
+		getProgressBar()->setMax(uiProgressBarMax);
+
+		if (!txd->unserialize())
+		{
+			Tasks::showMessage(Format::getErrorReason(txd->getErrorCode()) + "\r\n\r\n" + txd->getFilePath(), "Can't Open TXD File");
+			delete txd;
+			return false;
+		}
+
+		setTXDFile(txd);
+		return true;
 	}
-	if (!txd->readMetaData()) // here for progress bar tick count
+	else
 	{
-		Tasks::showMessage(Format::getErrorReason(txd->getErrorCode()) + "\r\n\r\n" + txd->getFilePath(), "Can't Open TXD File");
-		delete txd;
-		return false;
+		WTDFormat *wtd = new WTDFormat;
+
+		if (!wtd->openFile())
+		{
+			return false;
+		}
+		if (!wtd->readMetaData()) // here for progress bar tick count
+		{
+			Tasks::showMessage(Format::getErrorReason(wtd->getErrorCode()) + "\r\n\r\n" + wtd->getFilePath(), "Can't Open TXD File");
+			delete wtd;
+			return false;
+		}
+
+		uint32 uiProgressBarMax = wtd->m_reader.getSize();
+		getProgressBar()->setMax(uiProgressBarMax);
+
+		if (!wtd->unserialize())
+		{
+			Tasks::showMessage(Format::getErrorReason(wtd->getErrorCode()) + "\r\n\r\n" + wtd->getFilePath(), "Can't Open TXD File");
+			delete wtd;
+			return false;
+		}
+
+		setWTDFile(wtd);
+		return true;
 	}
-
-	uint32 uiProgressBarMax = txd->m_reader.getSize();
-	getProgressBar()->setMax(uiProgressBarMax);
-
-	if (!txd->unserialize())
-	{
-		Tasks::showMessage(Format::getErrorReason(txd->getErrorCode()) + "\r\n\r\n" + txd->getFilePath(), "Can't Open TXD File");
-		delete txd;
-		return false;
-	}
-
-	setTXDFile(txd);
-	return true;
 }
 
 void					TextureEditorTab::onUnserializeRWSection(RWSection *pRWSection)
@@ -298,7 +333,14 @@ void					TextureEditorTab::onFileLoaded(void)
 	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(strFilePath);
 
 	// prepare render data
-	prepareRenderData_TXD();
+	if (String::toUpperCase(Path::getFileExtension(strFilePath)) == "TXD")
+	{
+		prepareRenderData_TXD();
+	}
+	else if (String::toUpperCase(Path::getFileExtension(strFilePath)) == "WTD")
+	{
+		prepareRenderData_WTD();
+	}
 
 	// display TXD info
 	setFileInfoText();
@@ -317,6 +359,8 @@ void						TextureEditorTab::updateTabText(void)
 // prepare render data
 bool						TextureEditorTab::prepareRenderData_TXD(void)
 {
+	m_bIsTXDFile = true;
+
 	vector<RWSection_TextureNative*> vecTextures = m_pTXDFile->getTextures();
 
 	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
@@ -360,33 +404,30 @@ bool						TextureEditorTab::prepareRenderData_TXD(void)
 		setActiveEntry(getEntryByIndex(0));
 	}
 
-	// todo
-	//setRenderDataIsReady(true);
 	return true;
 }
 
 bool						TextureEditorTab::prepareRenderData_WTD(void)
 {
-	/*
-	WTDFormat *pWTDFile = WTDManager::get()->unserializeMemory(getIMGEntry()->getEntryData());
-	if (pWTDFile->doesHaveError())
+	m_bIsTXDFile = false;
+
+	if (!m_pWTDFile)
 	{
-		setEntityDataIsCorrupt(true);
 		return false;
 	}
 
 	uint32 uiTextureIndex = 0;
-	vector<WTDEntry*> vecWTDEntries = pWTDFile->getEntries();
+	vector<WTDEntry*> vecWTDEntries = m_pWTDFile->getEntries();
 
 	for (auto pWTDEntry : vecWTDEntries)
 	{
-		TextureViewerTextureData *pTextureData = new TextureViewerTextureData;
+		TextureEditorTabEntry *pTabEntry = new TextureEditorTabEntry;
 
 		if (pWTDEntry->getEntryCount() == 0)
 		{
 			// the texture does not have a mipmap
-			pTextureData->m_uiIndex = uiTextureIndex;
-			pTextureData->m_bTextureContainsNoMipmaps = true;
+			pTabEntry->m_uiIndex = uiTextureIndex;
+			pTabEntry->m_bTextureContainsNoMipmaps = true;
 		}
 		else
 		{
@@ -396,17 +437,17 @@ bool						TextureEditorTab::prepareRenderData_WTD(void)
 
 			HBITMAP hBitmap = CreateBitmap(pWTDEntry->getImageSize(true), pWTDEntry->getImageSize(false), 1, 32, pBmpImageData);
 
-			pTextureData->m_uiIndex = uiTextureIndex;
-			pTextureData->m_hBitmap = hBitmap;
-			pTextureData->m_uiWidth = pWTDEntry->getImageSize(true);
-			pTextureData->m_uiHeight = pWTDEntry->getImageSize(false);
-			pTextureData->m_strDiffuseName = pWTDEntry->getEntryName();
-			pTextureData->m_strAlphaName = "";
-			pTextureData->m_ucBPP = 32;
-			pTextureData->m_strTextureFormat = ImageManager::getD3DFormatText(pWTDEntry->getD3DFormat());
+			pTabEntry->m_uiIndex = uiTextureIndex;
+			pTabEntry->m_hBitmap = hBitmap;
+			pTabEntry->m_uiWidth = pWTDEntry->getImageSize(true);
+			pTabEntry->m_uiHeight = pWTDEntry->getImageSize(false);
+			pTabEntry->m_strDiffuseName = pWTDEntry->getEntryName();
+			pTabEntry->m_strAlphaName = "";
+			pTabEntry->m_ucBPP = 32;
+			pTabEntry->m_strTextureFormat = ImageManager::getD3DFormatText(pWTDEntry->getD3DFormat());
 		}
 
-		addEntry(pTextureData);
+		addEntry(pTabEntry);
 		uiTextureIndex++;
 	}
 
@@ -415,11 +456,6 @@ bool						TextureEditorTab::prepareRenderData_WTD(void)
 		setActiveEntry(getEntryByIndex(0));
 	}
 
-	pWTDFile->unload();
-	delete pWTDFile;
-
-	setRenderDataIsReady(true);
-	*/
 	return true;
 }
 
@@ -694,8 +730,16 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 void					TextureEditorTab::setFileInfoText(void)
 {
 	m_pText_FilePath->setText(getFile()->getFilePath());
-	m_pText_FileVersion->setText(getTXDFile()->getRWVersion()->getVersionText(), false);
-	m_pText_FileGame->setText(getTXDFile()->getRWVersion()->getGamesAsString());
+	if (m_bIsTXDFile)
+	{
+		m_pText_FileVersion->setText(getTXDFile()->getRWVersion()->getVersionText(), false);
+		m_pText_FileGame->setText(getTXDFile()->getRWVersion()->getGamesAsString());
+	}
+	else
+	{
+		m_pText_FileVersion->setText(string(""), false);
+		m_pText_FileGame->setText(string(""));
+	}
 
 	updateEntryCountText();
 }
@@ -703,7 +747,7 @@ void					TextureEditorTab::setFileInfoText(void)
 void					TextureEditorTab::updateEntryCountText(void)
 {
 	uint32
-		uiDisplayedEntryCount = getTXDFile()->getTextures().size(),
+		uiDisplayedEntryCount = m_bIsTXDFile ? getTXDFile()->getTextures().size() : getWTDFile()->getEntries().size(),
 		uiTotalEntryCount = getEntryCount();
 	string
 		strEntryCountText;

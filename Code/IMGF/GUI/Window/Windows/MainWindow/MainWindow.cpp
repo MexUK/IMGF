@@ -22,6 +22,7 @@
 #include "Program/BuildVersion.h"
 #include "GUI/Input/EInputItem.h"
 #include "Settings/SettingsManager.h"
+#include "Static/StdVector.h"
 
 using namespace std;
 using namespace bxcf;
@@ -239,6 +240,23 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 	resetStyleGroups();
 	setStyleGroups(strWindowStyleGroup);
 	render();
+}
+
+Editor*					MainWindow::getEditorFromFileExtension(string& strFileExtension)
+{
+	string strFileExtensionUpper = String::toUpperCase(strFileExtension);
+	if (StdVector::isIn(StdVector::toUpperCase(m_pActiveEditor->getEditorFileFormats()), strFileExtensionUpper))
+	{
+		return m_pActiveEditor;
+	}
+	for (Editor *pEditor : getEditors().getEntries())
+	{
+		if (StdVector::isIn(StdVector::toUpperCase(pEditor->getEditorFileFormats()), strFileExtensionUpper))
+		{
+			return pEditor;
+		}
+	}
+	return nullptr;
 }
 
 // layer repositioning and resizing

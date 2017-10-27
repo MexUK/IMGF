@@ -50,6 +50,8 @@ public:
 
 	bxcf::VectorPool<imgf::Editor*>&	getEditors(void) { return m_vecEditors; }
 
+	Editor*						getEditorFromFileExtension(std::string& strFileExtension);
+
 	bxgx::ProgressBar*			getProgressBar(void);
 
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);

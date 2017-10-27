@@ -19,8 +19,14 @@ public:
 
 	void						updateTabText(void);
 
+	void						setIsTXDFile(bool bIsTXDFile) { m_bIsTXDFile = bIsTXDFile; }
+	bool						isTXDFile(void) { return m_bIsTXDFile; }
+
 	void						setTXDFile(bxgi::TXDFormat *pTXDFile) { m_pTXDFile = pTXDFile; }
 	bxgi::TXDFormat*			getTXDFile(void) { return m_pTXDFile; }
+
+	void						setWTDFile(bxgi::WTDFormat *pWTDFile) { m_pWTDFile = pWTDFile; }
+	bxgi::WTDFormat*			getWTDFile(void) { return m_pWTDFile; }
 
 	void						renderDisplayType_Single(void);
 
@@ -49,7 +55,12 @@ private:
 	float32						getZoomLevel(void) { return m_fZoomLevel; }
 
 private:
-	bxgi::TXDFormat*			m_pTXDFile;
+	bool						m_bIsTXDFile;
+	union
+	{
+		bxgi::TXDFormat*			m_pTXDFile;
+		bxgi::WTDFormat*			m_pWTDFile;
+	};
 	TextureEditorTabEntry*		m_pActiveTabEntry;
 
 	bxgx::DropDown*				m_pZoomDropDown;

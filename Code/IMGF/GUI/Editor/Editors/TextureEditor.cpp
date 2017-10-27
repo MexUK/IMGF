@@ -8,6 +8,7 @@
 #include "GraphicsLibrary/Base/GraphicsLibrary.h"
 #include "Style/Parts/EStyleStatus.h"
 #include "Format/TXD/TXDManager.h"
+#include "Format/WTD/WTDManager.h"
 #include "Static/Path.h"
 #include "IMGF.h"
 #include "Engine/RW/RWManager.h"
@@ -24,7 +25,7 @@ using namespace imgf;
 TextureEditor::TextureEditor(void) :
 	m_pActiveTexture(nullptr)
 {
-	setEditorFileFormats({ "TXD" });
+	setEditorFileFormats({ "TXD", "WTD" });
 }
 
 // initialization
@@ -158,37 +159,82 @@ void						TextureEditor::renderBefore(void)
 // add editor tab
 TextureEditorTab*				TextureEditor::addEditorTab(string& strFilePath)
 {
-	TXDFormat txdFormat(strFilePath);
-	if (!txdFormat.readMetaData())
+	if (String::toUpperCase(Path::getFileExtension(strFilePath)) == "TXD")
 	{
-		return nullptr;
-	}
-
-	TextureEditorTab *pTextureEditorTab = Editor::_addEditorTab<TXDFormat, TextureEditorTab>(strFilePath, false);
-
-	if (pTextureEditorTab)
-	{
-		//pTextureEditorTab->setTextureEditor(this);
-		pTextureEditorTab->setTXDFile((TXDFormat*)pTextureEditorTab->getFile());
-		if (!pTextureEditorTab->init())
+		TXDFormat txdFormat(strFilePath);
+		if (!txdFormat.readMetaData())
 		{
-			removeEditorTab(pTextureEditorTab);
 			return nullptr;
 		}
+
+		TextureEditorTab *pTextureEditorTab = Editor::_addEditorTab<TXDFormat, TextureEditorTab>(strFilePath, false);
+
+		if (pTextureEditorTab)
+		{
+			//pTextureEditorTab->setTextureEditor(this);
+			pTextureEditorTab->setIsTXDFile(true);
+			pTextureEditorTab->setTXDFile((TXDFormat*)pTextureEditorTab->getFile());
+			if (!pTextureEditorTab->init())
+			{
+				removeEditorTab(pTextureEditorTab);
+				return nullptr;
+			}
+		}
+		return pTextureEditorTab;
 	}
-	return pTextureEditorTab;
+	else if(String::toUpperCase(Path::getFileExtension(strFilePath)) == "WTD")
+	{
+		WTDFormat wtdFormat(strFilePath);
+		if (!wtdFormat.readMetaData())
+		{
+			return nullptr;
+		}
+
+		TextureEditorTab *pTextureEditorTab = Editor::_addEditorTab<WTDFormat, TextureEditorTab>(strFilePath, false);
+
+		if (pTextureEditorTab)
+		{
+			//pTextureEditorTab->setTextureEditor(this);
+			pTextureEditorTab->setIsTXDFile(false);
+			pTextureEditorTab->setWTDFile((WTDFormat*)pTextureEditorTab->getFile());
+			if (!pTextureEditorTab->init())
+			{
+				removeEditorTab(pTextureEditorTab);
+				return nullptr;
+			}
+		}
+		return pTextureEditorTab;
+	}
 }
 
 TextureEditorTab*				TextureEditor::addBlankEditorTab(string& strFilePath)
 {
-	TextureEditorTab *pTextureEditorTab = Editor::_addEditorTab<TXDFormat, TextureEditorTab>(strFilePath, true);
-
-	if (pTextureEditorTab)
+	if (String::toUpperCase(Path::getFileExtension(strFilePath)) == "TXD")
 	{
-		//pTextureEditorTab->setTextureEditor(this);
-		pTextureEditorTab->setTXDFile((TXDFormat*)pTextureEditorTab->getFile());
-		pTextureEditorTab->getTXDFile()->setRWVersion(RWManager::get()->getVersionManager()->getEntryByVersionId(RW_3_6_0_3));
-		pTextureEditorTab->init();
+		TextureEditorTab *pTextureEditorTab = Editor::_addEditorTab<TXDFormat, TextureEditorTab>(strFilePath, true);
+
+		if (pTextureEditorTab)
+		{
+			//pTextureEditorTab->setTextureEditor(this);
+			pTextureEditorTab->setIsTXDFile(true);
+			pTextureEditorTab->setTXDFile((TXDFormat*)pTextureEditorTab->getFile());
+			pTextureEditorTab->getTXDFile()->setRWVersion(RWManager::get()->getVersionManager()->getEntryByVersionId(RW_3_6_0_3));
+			pTextureEditorTab->init();
+		}
+		return pTextureEditorTab;
 	}
-	return pTextureEditorTab;
+	else if (String::toUpperCase(Path::getFileExtension(strFilePath)) == "WTD")
+	{
+		TextureEditorTab *pTextureEditorTab = Editor::_addEditorTab<WTDFormat, TextureEditorTab>(strFilePath, true);
+
+		if (pTextureEditorTab)
+		{
+			//pTextureEditorTab->setTextureEditor(this);
+			pTextureEditorTab->setIsTXDFile(false);
+			pTextureEditorTab->setWTDFile((WTDFormat*)pTextureEditorTab->getFile());
+			// todo pTextureEditorTab->getTXDFile()->setRWVersion(RWManager::get()->getVersionManager()->getEntryByVersionId(RW_3_6_0_3));
+			pTextureEditorTab->init();
+		}
+		return pTextureEditorTab;
+	}
 }

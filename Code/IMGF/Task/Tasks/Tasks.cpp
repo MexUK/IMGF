@@ -340,57 +340,40 @@ void		Tasks::_openFile(string& strFilePath)
 	}
 	*/
 
-	if (strExtensionUpper == "IMG" || strExtensionUpper == "DIR")
+	if (strExtensionUpper == "")
 	{
-		// IMG or DIR
-		/*
-		// todo
-		DataReader reader(strFilePath);
-		IMGFormat *img = new IMGFormat(reader);
-		*/
-
-		/*
-		// todo
-		if (bUseExistingFileHandle)
-		{
-			img.setFileHandle(unknownFormatFile.getHandle());
-		}
-		else
-		{
-		}
-		*/
-
-		if (!m_pMainWindow->getIMGEditor()->addEditorTab(strFilePath))
-		{
-			return onAbortTask();
-		}
+		showMessage("File doesn't have an extension.\r\n\r\n" + strFilePath, "Format Not Detected");
+		return onAbortTask();
 	}
-	else if (strExtensionUpper == "TXD")
+
+	Editor *pEditor = m_pMainWindow->getEditorFromFileExtension(Path::getFileExtension(strFilePath));
+	if (!pEditor)
 	{
-		if (!m_pMainWindow->getTextureEditor()->addEditorTab(strFilePath))
-		{
-			return onAbortTask();
-		}
+		showMessage(strExtensionUpper + " files are not supported.\r\n\r\n" + strFilePath, "Format Not Supported");
+		return onAbortTask();
 	}
-	else if (strExtensionUpper == "COL")
+
+	if (!pEditor->addEditorTab(strFilePath))
 	{
-		if (!m_pMainWindow->getCollisionEditor()->addEditorTab(strFilePath))
-		{
-			return onAbortTask();
-		}
+		return onAbortTask();
+	}
+
+	/*
+	// todo
+	DataReader reader(strFilePath);
+	IMGFormat *img = new IMGFormat(reader);
+	*/
+
+	/*
+	// todo
+	if (bUseExistingFileHandle)
+	{
+		img.setFileHandle(unknownFormatFile.getHandle());
 	}
 	else
 	{
-		if (strExtensionUpper == "")
-		{
-			showMessage("File doesn't have an extension.\r\n\r\n" + strFilePath, "Format Not Detected");
-		}
-		else
-		{
-			showMessage(strExtensionUpper + " files are not supported.\r\n\r\n" + strFilePath, "Format Not Supported");
-		}
-		return onAbortTask();
 	}
+	*/
 
 	onCompleteTask();
 }
