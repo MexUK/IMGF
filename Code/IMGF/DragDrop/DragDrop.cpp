@@ -50,7 +50,7 @@ void					DragDrop::onDropFiles(vector<string>& vecPaths)
 		}
 		//getIMGF()->getEntryListTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_23", vecImportPaths.size()));
 
-		getIMGF()->getEntryListTab()->setIMGModifiedSinceRebuild(true);
+		getIMGF()->getEntryListTab()->setFileUnsaved(true);
 	}
 
 	for (auto strPath : vecOpenPaths)

@@ -28,6 +28,7 @@ using namespace imgf;
 EditorTab::EditorTab(void) :
 	m_bMarkedToClose(false),
 	m_bThreadHasTerminated(false),
+	m_bFileUnsaved(false),
 
 	m_pEditor(nullptr),
 	m_pFile(nullptr),
@@ -164,6 +165,20 @@ void						EditorTab::processThreadOnce(void)
 	{
 		render();
 	}
+}
+
+// logs
+void						EditorTab::clearLogs(void)
+{
+	m_pLog->setText("");
+
+	/*
+	todo
+	
+	getLogLinesGUI().clear();
+	getLogLinesBasic().clear();
+	getLogLinesExtended().clear();
+	*/
 }
 
 // tab index

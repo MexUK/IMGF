@@ -197,7 +197,7 @@ void					MainWindow::initEditors(void)
 	m_pAnimationEditor			= addEditor<AnimationEditor>();
 	m_pRadarEditor				= addEditor<RadarEditor>();
 
-	setActiveEditor(m_pTextureEditor);
+	setActiveEditor(m_pCollisionEditor);
 }
 
 void					MainWindow::addEditor(Editor *pEditor)

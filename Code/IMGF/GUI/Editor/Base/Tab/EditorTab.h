@@ -46,12 +46,15 @@ public:
 	void								processThreadOnce(void);
 
 	virtual void						setFileInfoText(void) {}
+	virtual void						updateTabText(void) {}
 
 	void								setEditor(Editor* pEditor) { m_pEditor = pEditor; }
 	Editor*								getEditor(void) { return m_pEditor; }
 
 	void								setTab(bxgx::Tab *pTab) { m_pTab = pTab; }
 	bxgx::Tab*							getTab(void) { return m_pTab; }
+
+	void								clearLogs(void);
 
 	uint32								getTabIndex(void);
 
@@ -83,6 +86,9 @@ public:
 	std::vector<bxgx::Button*>&			getButtonsPressedPending(void) { return m_vecButtonsPressedPending; }
 	std::vector<bxgx::MenuItem*>&		getMenuItemsPressed(void) { return m_vecMenuItemsPressed; }
 
+	void								setFileUnsaved(bool bFileUnsaved) { m_bFileUnsaved = bFileUnsaved; }
+	bool								isFileUnsaved(void) { return m_bFileUnsaved; }
+
 protected:
 	bxcf::Format*						m_pFile;
 	Editor*								m_pEditor;
@@ -100,6 +106,7 @@ private:
 	std::thread							m_thread;
 	bool								m_bMarkedToClose;
 	bool								m_bThreadHasTerminated;
+	bool								m_bFileUnsaved;
 
 	bxgx::ProgressBar*					m_pProgressBar;
 	bxcf::VectorPool<RenderItem*>		m_vecRenderItems;

@@ -399,7 +399,7 @@ void		Tasks::chooseFolderToOpen(void)
 {
 	onStartTask("chooseFolderToOpen");
 
-	string strFolderPath = openFolder("Choose a folder to open IMG files from.");
+	string strFolderPath = openFolder("Choose a folder to open editor files from.");
 	if (strFolderPath == "")
 	{
 		return m_pTaskManager->onAbortTask();
@@ -421,7 +421,7 @@ void		Tasks::openFolderRecursively(void)
 {
 	onStartTask("openFolderRecursively");
 
-	string strFolderPath = openFolder("Choose a folder to recursively open IMG files from.");
+	string strFolderPath = openFolder("Choose a folder to recursively open editor files from.");
 	if (strFolderPath == "")
 	{
 		return m_pTaskManager->onAbortTask();
@@ -468,7 +468,7 @@ void		Tasks::openLastClosedFile(void)
 	if (uiRecentlyOpenedCount > 0)
 	{
 		string strFilePath = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedCount));
-		m_pMainWindow->getIMGEditor()->addEditorTab(strFilePath);
+		m_pMainWindow->getActiveEditor()->addEditorTab(strFilePath);
 	}
 	
 	onCompleteTask();
@@ -478,7 +478,7 @@ void		Tasks::openFileFolderInExplorer(void)
 {
 	onStartTask("openFileFolderInExplorer");
 
-	string strFolderPath = Path::getDirectory(getIMGTab()->getIMGFile()->getFilePath());
+	string strFolderPath = Path::getDirectory(getTab()->getFile()->getFilePath());
 	Process::openFolder(strFolderPath);
 
 	onCompleteTask();
@@ -543,11 +543,11 @@ void		Tasks::_saveFile(void)
 {
 	onStartTask("saveFile");
 
-	setMaxProgress(getIMGTab()->getIMGFile()->getEntryCount() * 2);
+	setMaxProgress(getTab()->getFile()->getEntryCount() * 2);
 
-	getIMGTab()->getIMGFile()->serialize();
+	getTab()->getFile()->serialize();
 
-	getIMGTab()->logf("Saved %s.", Path::getFileName(getIMGTab()->getIMGFile()->getIMGFilePath()).c_str());
+	getTab()->logf("Saved %s.", Path::getFileName(getTab()->getFile()->getFilePath()).c_str());
 
 	onCompleteTask();
 }
@@ -556,21 +556,22 @@ void		Tasks::saveFileAs(void)
 {
 	onStartTask("saveFileAs");
 
-	string strNewFilePath = saveFile("img,dir", "New IMG Name.IMG");
+	vector<string>& vecEditorExtensions = getTab()->getEditor()->getEditorFileFormats();
+	string strNewFilePath = saveFile(String::join(vecEditorExtensions, ","), "New " + vecEditorExtensions[0] + "." + vecEditorExtensions[0]);
 	if (strNewFilePath == "")
 	{
 		return onAbortTask();
 	}
 
-	setMaxProgress(getIMGTab()->getIMGFile()->getEntryCount() * 2);
+	setMaxProgress(getTab()->getFile()->getEntryCount() * 2);
 
-	getIMGTab()->getIMGFile()->serialize(strNewFilePath);
+	getTab()->getFile()->serialize(strNewFilePath);
 
-	getIMGTab()->getIMGFile()->setFilePath(strNewFilePath);
-	getIMGTab()->setFileInfoText();
-	getIMGTab()->updateTabText();
+	getTab()->getFile()->setFilePath(strNewFilePath);
+	getTab()->setFileInfoText();
+	getTab()->updateTabText();
 
-	getIMGTab()->logf("Saved as %s.", Path::getFileName(strNewFilePath).c_str());
+	getTab()->logf("Saved as %s.", Path::getFileName(strNewFilePath).c_str());
 
 	onCompleteTask();
 }
@@ -580,17 +581,17 @@ void		Tasks::saveAllFiles(void)
 	onStartTask("saveAllFiles");
 
 	uint32 uiEntryCountAllTabs = 0;
-	for (IMGEditorTab *pIMGEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
+	for (EditorTab *pEditorTab : getTab()->getEditor()->getEditorTabs().getEntries())
 	{
-		uiEntryCountAllTabs += pIMGEditorTab->getIMGFile()->getEntryCount();
+		uiEntryCountAllTabs += pEditorTab->getFile()->getEntryCount();
 	}
 	setMaxProgress(uiEntryCountAllTabs * 2);
 
-	for (IMGEditorTab *pIMGEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
+	for (EditorTab *pEditorTab : getTab()->getEditor()->getEditorTabs().getEntries())
 	{
-		pIMGEditorTab->getIMGFile()->serialize();
+		pEditorTab->getFile()->serialize();
 
-		pIMGEditorTab->log("Saved all IMGs.");
+		pEditorTab->log("Saved all files in editor.");
 	}
 
 	onCompleteTask();
@@ -600,18 +601,18 @@ void		Tasks::cloneFile(void)
 {
 	onStartTask("cloneFile");
 
-	IMGFormat *pIMGFile = getIMGTab()->getIMGFile();
+	Format *pFile = getTab()->getFile();
 
-	string strIMGFileExtension = Path::getFileExtension(pIMGFile->getIMGFilePath());
-	string strClonedIMGPath = Path::getDirectory(pIMGFile->getIMGFilePath()) + Path::removeFileExtension(Path::getFileName(pIMGFile->getIMGFilePath())) + "-cloned." + strIMGFileExtension;
-	strClonedIMGPath = File::getNextIncrementingFileName(strClonedIMGPath);
+	string strFileExtension = Path::getFileExtension(pFile->getFilePath());
+	string strClonedPath = Path::getDirectory(pFile->getFilePath()) + Path::removeFileExtension(Path::getFileName(pFile->getFilePath())) + "-cloned." + strFileExtension;
+	strClonedPath = File::getNextIncrementingFileName(strClonedPath);
 
-	pIMGFile->serialize(strClonedIMGPath);
+	pFile->serialize(strClonedPath);
 
-	getIMGTab()->logf("Cloned into %s.", Path::getFileName(strClonedIMGPath).c_str());
+	getTab()->logf("Cloned into %s.", Path::getFileName(strClonedPath).c_str());
 
-	setMaxProgress(pIMGFile->getEntryCount() * 2);
-	m_pMainWindow->getIMGEditor()->addEditorTab(strClonedIMGPath);
+	setMaxProgress(pFile->getEntryCount() * 2);
+	m_pMainWindow->getActiveEditor()->addEditorTab(strClonedPath);
 
 	onCompleteTask();
 }
@@ -633,16 +634,16 @@ void		Tasks::saveFileGroup(void)
 		return onAbortTask();
 	}
 
-	vector<string> vecIMGFilePaths;
-	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
+	vector<string> vecEditorFilePaths;
+	for (EditorTab *pEditorTab : m_pMainWindow->getActiveEditor()->getEditorTabs().getEntries())
 	{
-		vecIMGFilePaths.push_back(pEditorTab->getIMGFile()->getIMGFilePath());
+		vecEditorFilePaths.push_back(pEditorTab->getFile()->getFilePath());
 	}
 
-	getIMGF()->getSessionManager()->addSession(strFileGroupName, vecIMGFilePaths); // todo - rename SessionManager to FileGroupManager
+	getIMGF()->getSessionManager()->addSession(strFileGroupName, vecEditorFilePaths); // todo - rename SessionManager to FileGroupManager
 	getIMGF()->getSessionManager()->loadSessions();
 
-	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
+	for (EditorTab *pEditorTab : m_pMainWindow->getActiveEditor()->getEditorTabs().getEntries())
 	{
 		pEditorTab->logf("Saved file group %s", strFileGroupName.c_str());
 	}
@@ -654,15 +655,15 @@ void		Tasks::saveLogs(void)
 {
 	onStartTask("saveLogs");
 	
-	string strLogFilePath = saveFile("txt", "Saved Logs - " + Path::removeFileExtension(Path::getFileName(getIMGTab()->getIMGFile()->getFilePath())) + ".txt");
+	string strLogFilePath = saveFile("txt", "Saved Logs - " + Path::removeFileExtension(Path::getFileName(getTab()->getFile()->getFilePath())) + ".txt");
 	if (strLogFilePath == "")
 	{
 		return onAbortTask();
 	}
 
-	File::setTextFile(strLogFilePath, String::join(getIMGTab()->getLog()->getTextLines(), "\n"));
+	File::setTextFile(strLogFilePath, String::join(getTab()->getLog()->getTextLines(), "\n"));
 
-	getIMGTab()->log("Saved logs.");
+	getTab()->log("Saved logs.");
 
 	onCompleteTask();
 }
@@ -678,9 +679,9 @@ void		Tasks::saveLogsAllTabs(void)
 	}
 
 	string strAllTabsLogs = "";
-	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
+	for (EditorTab *pEditorTab : m_pMainWindow->getActiveEditor()->getEditorTabs().getEntries())
 	{
-		strAllTabsLogs += "[[" + pEditorTab->getIMGFile()->getFilePath() + "]]\n\n" + String::join(pEditorTab->getLog()->getTextLines(), "\n") + "\n\n\n\n";
+		strAllTabsLogs += "[[" + pEditorTab->getFile()->getFilePath() + "]]\n\n" + String::join(pEditorTab->getLog()->getTextLines(), "\n") + "\n\n\n\n";
 
 		pEditorTab->log("Saved logs for all tabs.");
 	}
@@ -694,9 +695,9 @@ void			Tasks::clearLogs(void)
 {
 	onStartTask("clearLogs");
 
-	getIMGTab()->clearLogs();
+	getTab()->clearLogs();
 
-	getIMGTab()->logf("Cleared logs.");
+	getTab()->logf("Cleared logs.");
 
 	onCompleteTask();
 }
@@ -705,7 +706,7 @@ void			Tasks::clearLogsAllTabs(void)
 {
 	onStartTask("clearLogsAllTabs");
 
-	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
+	for (EditorTab *pEditorTab : m_pMainWindow->getActiveEditor()->getEditorTabs().getEntries())
 	{
 		pEditorTab->clearLogs();
 
@@ -776,20 +777,20 @@ void		Tasks::importByFiles(void)
 
 	for (string& strFilePath : vecFilePaths)
 	{
-		getIMGTab()->addFile(strFilePath);
+		getTab()->addFile(strFilePath);
 		increaseProgress();
 	}
 
 	if (vecFilePaths.size() == 1)
 	{
-		getIMGTab()->logf("Added file %s.", Path::getFileName(vecFilePaths[0]).c_str());
+		getTab()->logf("Added file %s.", Path::getFileName(vecFilePaths[0]).c_str());
 	}
 	else
 	{
-		getIMGTab()->logf("Added %u files.", vecFilePaths.size());
+		getTab()->logf("Added %u files.", vecFilePaths.size());
 	}
 
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
+	getTab()->setFileUnsaved(true);
 
 	onCompleteTask();
 }
@@ -815,7 +816,7 @@ void		Tasks::importBySingleFolder(void)
 
 	if (vecFileNames.size() > 0)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Added %u files from folder %s.", vecFileNames.size(), Path::getFolderName(strFolderPath).c_str());
@@ -844,7 +845,7 @@ void		Tasks::importByFolderRecursively(void)
 
 	if (vecFilePaths.size() > 0)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Added %u files recursively from folder %s.", vecFilePaths.size(), Path::getFolderName(strFolderPath).c_str());
@@ -913,7 +914,7 @@ void		Tasks::importByIDE(void)
 
 	if (uiImportCount > 0)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Imported %u entries by %u IDE files.", vecAllIDEEntryNames.size(), vecIDEFilePaths.size());
@@ -965,7 +966,7 @@ void		Tasks::importByEntryNames(void)
 	{
 		getIMGTab()->loadFilter_Type();
 		getIMGTab()->loadFilter_Version();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Imported %u entries by entry names.", uiImportedEntryCount);
@@ -1768,7 +1769,7 @@ void		Tasks::rename(void)
 	getIMGTab()->readdGridEntries(); // for search text
 	increaseProgress();
 
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setFileUnsaved(true);
 
 	onCompleteTask();
 }
@@ -1806,7 +1807,7 @@ void		Tasks::replaceByFiles(void)
 
 	if (uiReplacedEntryCount > 0)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 		getIMGTab()->readdGridEntries();
 	}
 
@@ -1850,7 +1851,7 @@ void		Tasks::replaceBySingleFolder(void)
 
 	if (uiReplacedEntryCount > 0)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 		getIMGTab()->readdGridEntries();
 	}
 
@@ -1894,7 +1895,7 @@ void		Tasks::replaceByFolderRecursively(void)
 
 	if (uiReplacedEntryCount > 0)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 		getIMGTab()->readdGridEntries();
 	}
 
@@ -1986,7 +1987,7 @@ void		Tasks::replaceByIDE(void)
 
 	if (uiReplacedEntryCount > 0)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 		getIMGTab()->readdGridEntries();
 	}
 
@@ -2007,7 +2008,7 @@ void		Tasks::removeSelected(void)
 	if (uiSelectedEntryCount > 0)
 	{
 		getIMGTab()->readdGridEntries();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Removed %u selected entries.", uiSelectedEntryCount);
@@ -2027,7 +2028,7 @@ void		Tasks::removeAll(void)
 	if (uiTotalEntryCount > 0)
 	{
 		getIMGTab()->readdGridEntries();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Removed all %u entries.", uiTotalEntryCount);
@@ -2064,7 +2065,7 @@ void		Tasks::removeByIndex(void)
 		getIMGTab()->readdGridEntries();
 		getIMGTab()->loadFilter_Type();
 		getIMGTab()->loadFilter_Version();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Removed %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
@@ -2101,7 +2102,7 @@ void		Tasks::removeByName(void)
 		getIMGTab()->readdGridEntries();
 		getIMGTab()->loadFilter_Type();
 		getIMGTab()->loadFilter_Version();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Removed %u entries with a name that includes %s.", vecIMGEntries.size(), strEntryNameInput.c_str());
@@ -2138,7 +2139,7 @@ void		Tasks::removeByOffset(void)
 		getIMGTab()->readdGridEntries();
 		getIMGTab()->loadFilter_Type();
 		getIMGTab()->loadFilter_Version();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Removed %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
@@ -2175,7 +2176,7 @@ void		Tasks::removeBySize(void)
 		getIMGTab()->readdGridEntries();
 		getIMGTab()->loadFilter_Type();
 		getIMGTab()->loadFilter_Version();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Removed %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
@@ -2212,7 +2213,7 @@ void		Tasks::removeByType(void)
 		getIMGTab()->readdGridEntries();
 		getIMGTab()->loadFilter_Type();
 		getIMGTab()->loadFilter_Version();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Removed %u entries with a type that includes %s.", vecIMGEntries.size(), strEntryTypeInput.c_str());
@@ -2257,7 +2258,7 @@ void		Tasks::removeByVersion(void)
 		getIMGTab()->readdGridEntries();
 		getIMGTab()->loadFilter_Type();
 		getIMGTab()->loadFilter_Version();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Removed %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
@@ -2323,7 +2324,7 @@ void		Tasks::removeByIDE(void)
 		getIMGTab()->readdGridEntries();
 		getIMGTab()->loadFilter_Type();
 		getIMGTab()->loadFilter_Version();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Removed %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
@@ -2364,7 +2365,7 @@ void		Tasks::removeByEntryNames(void)
 		getIMGTab()->readdGridEntries();
 		getIMGTab()->loadFilter_Type();
 		getIMGTab()->loadFilter_Version();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Removed %u entries by entry names.", vecIMGEntries.size());
@@ -2399,7 +2400,7 @@ void		Tasks::merge(void)
 		getIMGTab()->loadFilter_Version();
 		getIMGTab()->updateEntryCountText();
 		getIMGTab()->updateIMGText();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Merged in %u IMG files (%u entries).", vecFilePaths.size(), uiMergeEntryCount);
@@ -2439,7 +2440,7 @@ void		Tasks::splitSelected(void)
 
 	if (uiSelectedEntryCount > 0 && bDeleteSelectedEntriesFromSourceIMG)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	string
@@ -2524,7 +2525,7 @@ void		Tasks::splitByIDE(void)
 	// mark IMG as modified
 	if (vecIMGEntries.size() > 0 && bDeleteSelectedEntriesFromSourceIMG)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true); // todo - rename to setUnsavedChanges(bool)
+		getIMGTab()->setFileUnsaved(true); // todo - rename to setUnsavedChanges(bool)
 	}
 
 	// log
@@ -2585,7 +2586,7 @@ void		Tasks::splitByEntryNames(void)
 
 	if (vecIMGEntries.size() > 0 && bDeleteSelectedEntriesFromSourceIMG)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	string
@@ -2639,7 +2640,7 @@ void		Tasks::convertIMGVersion(void)
 	getIMGTab()->getIMGEditor()->refreshActiveTab();
 
 	// set modified status
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setFileUnsaved(true);
 
 	// log
 	getIMGTab()->logf("Converted IMG file to version %s.", IMGManager::getVersionText(uiNewIMGVersion, false).c_str());
@@ -2693,7 +2694,7 @@ void		Tasks::convertSelectedCOLVersion(void)
 
 	if (uiSelectedRowCount > 0)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Converted COL version to %u for %u entries.", uiNewCOLVersion, uiConvertedEntryCount);
@@ -2755,7 +2756,7 @@ void		Tasks::convertSelectedDFFRWVersion(void)
 
 	if (uiSelectedRowCount > 0)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Converted DFF version to %s for %u entries.", strNewRWVersionText.c_str(), uiConvertedEntryCount);
@@ -2802,7 +2803,7 @@ void			Tasks::convertSelectedDFFToWDR(void)
 
 	if (uiSelectedRowCount > 0)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Converted %u DFF entries to WDR entries.", uiConvertedEntryCount);
@@ -2864,7 +2865,7 @@ void		Tasks::convertSelectedTXDRWVersion(void)
 
 	if (uiSelectedRowCount > 0)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Converted TXD version to %s for %u entries.", strNewRWVersionText.c_str(), uiConvertedEntryCount);
@@ -2924,7 +2925,7 @@ void		Tasks::convertSelectedTXDToGame(void)
 
 	if (uiSelectedRowCount > 0)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Converted TXD to game %s for %u entries.", strNewPlatformedGameText.c_str(), uiConvertedEntryCount);
@@ -2984,7 +2985,7 @@ void		Tasks::convertSelectedTXDToTextureFormat(void)
 
 	if (uiSelectedRowCount > 0)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Converted TXD to texture format %s for %u entries.", strNewRasterDataFormatText.c_str(), uiConvertedEntryCount);
@@ -3031,7 +3032,7 @@ void			Tasks::convertWTDFileToTXDFile(void)
 
 	if (uiSelectedRowCount > 0)
 	{
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->logf("Converted %u WTD entries to TXD entries.", uiConvertedEntryCount);
@@ -3586,7 +3587,7 @@ void		Tasks::sortByIndexReverse(void)
 	if (uiTotalEntryCount > 0)
 	{
 		getIMGTab()->readdGridEntries();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->log("Sorted all entries by index (reverse).");
@@ -3610,7 +3611,7 @@ void		Tasks::sortByNameAscending09AZ(void)
 	if (uiTotalEntryCount > 0)
 	{
 		getIMGTab()->readdGridEntries();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->log("Sorted all entries by name (ascending 0-9 A-Z).");
@@ -3662,7 +3663,7 @@ void		Tasks::sortByNameAscendingAZ09(void)
 	if (uiTotalEntryCount > 0)
 	{
 		getIMGTab()->readdGridEntries();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->log("Sorted all entries by name (ascending A-Z 0-9).");
@@ -3688,7 +3689,7 @@ void		Tasks::sortByNameDescendingZA90(void)
 	if (uiTotalEntryCount > 0)
 	{
 		getIMGTab()->readdGridEntries();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->log("Sorted all entries by name (descending Z-A 9-0).");
@@ -3717,7 +3718,7 @@ void		Tasks::sortByOffsetLowHigh(void)
 	if (uiTotalEntryCount > 0)
 	{
 		getIMGTab()->readdGridEntries();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->log("Sorted all entries by offset (low to high).");
@@ -3741,7 +3742,7 @@ void		Tasks::sortByOffsetHighLow(void)
 	if (uiTotalEntryCount > 0)
 	{
 		getIMGTab()->readdGridEntries();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->log("Sorted all entries by offset (high to low).");
@@ -3765,7 +3766,7 @@ void		Tasks::sortBySizeSmallBig(void)
 	if (uiTotalEntryCount > 0)
 	{
 		getIMGTab()->readdGridEntries();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->log("Sorted all entries by size (small to big).");
@@ -3789,7 +3790,7 @@ void		Tasks::sortBySizeBigSmall(void)
 	if (uiTotalEntryCount > 0)
 	{
 		getIMGTab()->readdGridEntries();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->log("Sorted all entries by size (big to small).");
@@ -3813,7 +3814,7 @@ void		Tasks::sortByTypeAZ(void)
 	if (uiTotalEntryCount > 0)
 	{
 		getIMGTab()->readdGridEntries();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->log("Sorted all entries by type (ascending 0-9 A-Z).");
@@ -3837,7 +3838,7 @@ void		Tasks::sortByTypeZA(void)
 	if (uiTotalEntryCount > 0)
 	{
 		getIMGTab()->readdGridEntries();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->log("Sorted all entries by type (descending Z-A 9-0).");
@@ -3861,7 +3862,7 @@ void		Tasks::sortByVersionOldNew(void)
 	if (uiTotalEntryCount > 0)
 	{
 		getIMGTab()->readdGridEntries();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->log("Sorted all entries by version (old to new).");
@@ -3885,7 +3886,7 @@ void		Tasks::sortByVersionNewOld(void)
 	if (uiTotalEntryCount > 0)
 	{
 		getIMGTab()->readdGridEntries();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->log("Sorted all entries by version (new to old).");
@@ -3924,7 +3925,7 @@ void		Tasks::sortByIDE(void)
 	if (uiTotalEntryCount > 0)
 	{
 		getIMGTab()->readdGridEntries();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->log("Sorted all entries by IDE file " + Path::getFileName(vecIDEFilePaths[0]) + ".");
@@ -3963,7 +3964,7 @@ void		Tasks::sortByCOL(void)
 	if (uiTotalEntryCount > 0)
 	{
 		getIMGTab()->readdGridEntries();
-		getIMGTab()->setIMGModifiedSinceRebuild(true);
+		getIMGTab()->setFileUnsaved(true);
 	}
 
 	getIMGTab()->log("Sorted all entries by COL file " + Path::getFileName(vecCOLFilePaths[0]) + ".");
@@ -4371,7 +4372,7 @@ void		Tasks::findOrphanIMGEntriesNotInIDE(void)
 		if (vecOrphanEntries.size() > 0)
 		{
 			getIMGTab()->readdGridEntries();
-			getIMGTab()->setIMGModifiedSinceRebuild(true);
+			getIMGTab()->setFileUnsaved(true);
 		}
 
 		getIMGTab()->logf("Removed %u orphan entries in IMG missing from IDE.", vecOrphanEntries.size());
@@ -4427,7 +4428,7 @@ void		Tasks::findOrphanIDEEntriesNotInIMG(void)
 
 		if (uiImportCount > 0)
 		{
-			getIMGTab()->setIMGModifiedSinceRebuild(true);
+			getIMGTab()->setFileUnsaved(true);
 		}
 
 		getIMGTab()->logf("Imported %u orphan IDE entries into IMG.", uiImportCount);
@@ -6200,7 +6201,7 @@ void			Tasks::centerCOLMeshesInSelection(void)
 
 	getIMGTab()->logf("Centered meshes for %u COL files.", uiEntryCount);
 
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setFileUnsaved(true);
 
 	onCompleteTask();
 }
@@ -6589,7 +6590,7 @@ void		Tasks::imgCompression(void)
 	getIMGTab()->logf("Updated IMG compression for %u entries.", vecIMGEntries.size());
 
 	// mark as modified since rebuild
-	getIMGTab()->setIMGModifiedSinceRebuild(true);
+	getIMGTab()->setFileUnsaved(true);
 
 	onCompleteTask();
 }
@@ -6784,10 +6785,12 @@ void		Tasks::associateIMGExtension(void)
 
 
 
+/*
+todo
 
 bool		Tasks::saveAllOpenFiles(bool bCloseAll)
 {
-	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Close2_CloseAll(bCloseAll);
+	getIMGF()->getLastUsedValueManager()->setLastUsedValue_Close2_CloseAll(bCloseAll); // todo - remove?
 	getIMGF()->getTaskManager()->onStartTask("saveAllOpenFiles");
 	string strText = "";
 	if (bCloseAll)
@@ -6795,7 +6798,7 @@ bool		Tasks::saveAllOpenFiles(bool bCloseAll)
 		uint32 uiModifiedSinceRebuildCount = 0;
 		for (auto pEditorTab : getIMGF()->getIMGEditor()->getEditorTabs().getEntries())
 		{
-			if (((IMGEditorTab*)pEditorTab)->getIMGModifiedSinceRebuild())
+			if (((IMGEditorTab*)pEditorTab)->isFileUnsaved())
 			{
 				uiModifiedSinceRebuildCount++;
 			}
@@ -6807,7 +6810,7 @@ bool		Tasks::saveAllOpenFiles(bool bCloseAll)
 	}
 	else
 	{
-		if (getIMGTab()->getIMGModifiedSinceRebuild())
+		if (getIMGTab()->isFileUnsaved())
 		{
 			strText = LocalizationManager::get()->getTranslatedFormattedText("Window_Confirm_4_Message", Path::getFileName(getIMGTab()->getIMGFile()->getFilePath()).c_str());
 		}
@@ -6838,7 +6841,7 @@ bool		Tasks::saveAllOpenFiles(bool bCloseAll)
 	{
 		for (auto pEditorTab : getIMGF()->getIMGEditor()->getEditorTabs().getEntries())
 		{
-			if (((IMGEditorTab*)pEditorTab)->getIMGModifiedSinceRebuild())
+			if (((IMGEditorTab*)pEditorTab)->isFileUnsaved())
 			{
 				((IMGEditorTab*)pEditorTab)->rebuild();
 			}
@@ -6851,6 +6854,7 @@ bool		Tasks::saveAllOpenFiles(bool bCloseAll)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestClose2");
 	return true;
 }
+*/
 
 void		Tasks::onRequestAutoUpdate(void)
 {

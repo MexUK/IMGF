@@ -90,8 +90,6 @@ public:
 
 	bool						isRestoringFilterOptions(void) { return m_bRestoringFilterOptions; }
 
-	//void						log(std::string strText, bool bExtendedModeOnly = false);
-	void						clearLogs(void);
 	std::vector<std::string>&	getLogLinesGUI(void) { return m_vecLogLinesGUI; }
 	std::vector<std::string>&	getLogLinesBasic(void) { return m_vecLogLinesBasic; }
 	std::vector<std::string>&	getLogLinesExtended(void) { return m_vecLogLinesExtended; }
@@ -124,9 +122,6 @@ public:
 	void						splitSelectedEntries(std::string strNewFilePath, bxgi::EIMGVersion uiNewIMGVersion, bool bDeleteFromSource);
 	void						replace(std::vector<std::string>& vecPaths, std::vector<std::string>& vecReplacedEntryNames);
 	void						searchText(void);
-
-	void						setIMGModifiedSinceRebuild(bool bState) { m_bIMGModifiedSinceRebuild = bState; }
-	bool						getIMGModifiedSinceRebuild(void) { return m_bIMGModifiedSinceRebuild; } // todo - rename to has..Been.. instead of get
 
 	void						updateEntryCountText(void);
 	void						updateTabText(void);
@@ -174,7 +169,6 @@ private:
 	FilterOptions				m_filterOptions;
 	bool						m_bRestoringFilterOptions;
 	HWND						m_hListViewHwnd;
-	bool						m_bIMGModifiedSinceRebuild;
 	uint32						m_uiOverwriteEntryOption;
 	std::unordered_map<std::string, std::string>	m_umapActiveFilterValues;
 	std::vector<std::string>	m_vecLogLinesGUI;

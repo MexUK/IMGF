@@ -64,7 +64,6 @@ IMGEditorTab::IMGEditorTab(void) :
 	m_pEntryTypeFilter(nullptr),
 	m_pEntryVersionFilter(nullptr),
 	m_bRestoringFilterOptions(false),
-	m_bIMGModifiedSinceRebuild(false),
 	m_uiOverwriteEntryOption(0),
 	m_bTabMarkedForClose(false),
 	m_bTabReadyToClose(true)
@@ -466,15 +465,6 @@ void					IMGEditorTab::log(string strText, bool bExtendedModeOnly)
 	}
 }
 */
-
-void					IMGEditorTab::clearLogs(void)
-{
-	m_pLog->setText("");
-
-	getLogLinesGUI().clear();
-	getLogLinesBasic().clear();
-	getLogLinesExtended().clear();
-}
 
 void					IMGEditorTab::checkToApplyCompression(IMGEntry *pIMGEntry)
 {
@@ -1334,7 +1324,7 @@ void					IMGEditorTab::rebuild(string strIMGPath, bool bLog)
 {
 	getIMGF()->getTaskManager()->setTaskMaxProgressTickCount(getIMGFile()->getEntryCount() * 3);
 	getIMGFile()->serialize(strIMGPath == "" ? getIMGFile()->getFilePath() : strIMGPath);
-	setIMGModifiedSinceRebuild(false);
+	setFileUnsaved(false);
 	if (bLog)
 	{
 		log(LocalizationManager::get()->getTranslatedText("Log_127"));
@@ -1615,7 +1605,7 @@ void					IMGEditorTab::sortEntries(void)
 	readdGridEntries();
 
 	// post
-	setIMGModifiedSinceRebuild(true);
+	setFileUnsaved(true);
 }
 
 void					IMGEditorTab::onEntryChange(IMGEntry *pIMGEntry)
@@ -1761,7 +1751,7 @@ void				IMGEditorTab::setSelectedEntriesNameCase(uint32 uiNameCaseType)
 		}
 	}
 
-	setIMGModifiedSinceRebuild(true);
+	setFileUnsaved(true);
 }
 
 void				IMGEditorTab::copySelectedEntryData(uint32 uiColumnType)
@@ -1823,5 +1813,5 @@ void				IMGEditorTab::shiftSelectedEntries(int32 uiRowCountOffset)
 		updateGridEntry((IMGEntry*)pGridRow2->getUserData());
 	}
 
-	setIMGModifiedSinceRebuild(true);
+	setFileUnsaved(true);
 }

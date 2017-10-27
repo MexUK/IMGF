@@ -17,6 +17,8 @@ HDC hDC; // todo - namespace
 
 void					CollisionEditor::init(void)
 {
+	setEditorFileFormats({ "COL" });
+
 	Editor::init();
 }
 

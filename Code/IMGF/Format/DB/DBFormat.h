@@ -15,6 +15,8 @@ class bxgi::IMGEntry;
 class imgf::DBFormat : public bxcf::Format, public bxcf::VectorPool<imgf::DBEntry*>
 {
 public:
+	using bxcf::VectorPool<imgf::DBEntry*>::getEntryCount;
+
 	DBFormat(void) : bxcf::Format(true, bxcf::LITTLE_ENDIAN) {}
 	DBFormat(std::string& strFilePathOrData, bool bStringIsFilePath = true) : bxcf::Format(strFilePathOrData, bStringIsFilePath, true, bxcf::LITTLE_ENDIAN) {}
 
