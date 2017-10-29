@@ -5,8 +5,11 @@
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Static/File.h"
 #include "Control/Controls/TextBox.h"
+#include "Control/Controls/Text.h"
 
+using namespace std;
 using namespace bxcf;
+using namespace bxgi;
 using namespace imgf;
 
 ModelEditorTab::ModelEditorTab(void) :
@@ -56,7 +59,32 @@ void						ModelEditorTab::onFileLoaded(void)
 	m_pWindow->render();
 }
 
-// file info
+// file info text
 void						ModelEditorTab::setFileInfoText(void)
 {
+	m_pText_FilePath->setText(getFile()->getFilePath());
+	m_pText_FileVersion->setText(getDFFFile()->getRWVersion()->getVersionText(), false);
+	m_pText_FileGame->setText(getDFFFile()->getRWVersion()->getGamesAsString());
+
+	updateEntryCountText();
+}
+
+void						ModelEditorTab::updateEntryCountText(void)
+{
+	uint32
+		uiDisplayedEntryCount = getDFFFile()->getSectionCountByType(RW_SECTION_GEOMETRY),
+		uiTotalEntryCount = uiDisplayedEntryCount;
+	string
+		strEntryCountText;
+
+	if (uiDisplayedEntryCount == uiTotalEntryCount)
+	{
+		strEntryCountText = String::toString(uiTotalEntryCount);
+	}
+	else
+	{
+		strEntryCountText = String::toString(uiDisplayedEntryCount) + " of " + String::toString(uiTotalEntryCount);
+	}
+
+	m_pText_FileEntryCount->setText(strEntryCountText);
 }

@@ -20,10 +20,11 @@ public:
 	void						onFileLoaded(void);
 
 	void						setFileInfoText(void);
+	void						updateEntryCountText(void);
 
-	//void						setPLGFile(bxgi::PLGFormat *pPLGFile) { m_pPLGFile = pPLGFile; }
-	//bxgi::PLGFormat*			getPLGFile(void) { return m_pPLGFile; }
+	//void						setIFPFile(bxgi::IFPFormat *pIFPFile) { m_pIFPFile = pIFPFile; }
+	//bxgi::IFPFormat*			getIFPFile(void) { return m_pIFPFile; }
 
 private:
-	//bxgi::PLGFormat*			m_pPLGFile;
+	//bxgi::IFPFormat*			m_pIFPFile;
 };

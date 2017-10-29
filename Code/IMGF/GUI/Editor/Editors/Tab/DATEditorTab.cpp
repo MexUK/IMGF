@@ -5,8 +5,12 @@
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Static/File.h"
 #include "Control/Controls/TextBox.h"
+#include "Control/Controls/Text.h"
+#include "Game/GameManager.h"
 
+using namespace std;
 using namespace bxcf;
+using namespace bxgi;
 using namespace imgf;
 
 DATEditorTab::DATEditorTab(void) :
@@ -56,7 +60,32 @@ void						DATEditorTab::onFileLoaded(void)
 	m_pWindow->render();
 }
 
-// file info
+// file info text
 void						DATEditorTab::setFileInfoText(void)
 {
+	m_pText_FilePath->setText(getDATFile()->getFilePath());
+	m_pText_FileGame->setText(GameManager::get()->getGameName(getDATFile()->getGame()));
+	m_pText_FileVersion->setText(String::toString(getDATFile()->getVersion()));
+
+	updateEntryCountText();
+}
+
+void						DATEditorTab::updateEntryCountText(void)
+{
+	uint32
+		uiDisplayedEntryCount = getDATFile()->getEntryCount(),
+		uiTotalEntryCount = uiDisplayedEntryCount;
+	string
+		strEntryCountText;
+
+	if (uiDisplayedEntryCount == uiTotalEntryCount)
+	{
+		strEntryCountText = String::toString(uiTotalEntryCount);
+	}
+	else
+	{
+		strEntryCountText = String::toString(uiDisplayedEntryCount) + " of " + String::toString(uiTotalEntryCount);
+	}
+
+	m_pText_FileEntryCount->setText(strEntryCountText);
 }

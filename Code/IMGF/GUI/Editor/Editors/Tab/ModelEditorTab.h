@@ -20,6 +20,7 @@ public:
 	void						onFileLoaded(void);
 
 	void						setFileInfoText(void);
+	void						updateEntryCountText(void);
 
 	void						setDFFFile(bxgi::DFFFormat *pDFFFile) { m_pDFFFile = pDFFFile; }
 	bxgi::DFFFormat*			getDFFFile(void) { return m_pDFFFile; }

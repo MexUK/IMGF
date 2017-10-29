@@ -18,6 +18,7 @@ public:
 	void						onFileLoaded(void);
 
 	void						setFileInfoText(void);
+	void						updateEntryCountText(void);
 
 	void						setIDEFile(bxgi::IDEFormat *pIDEFile) { m_pIDEFile = pIDEFile; }
 	bxgi::IDEFormat*			getIDEFile(void) { return m_pIDEFile; }

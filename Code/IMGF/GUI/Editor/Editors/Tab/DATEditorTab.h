@@ -18,6 +18,7 @@ public:
 	void						onFileLoaded(void);
 
 	void						setFileInfoText(void);
+	void						updateEntryCountText(void);
 
 	void						setDATFile(bxgi::DATLoaderFormat *pDATFile) { m_pDATFile = pDATFile; }
 	bxgi::DATLoaderFormat*		getDATFile(void) { return m_pDATFile; }

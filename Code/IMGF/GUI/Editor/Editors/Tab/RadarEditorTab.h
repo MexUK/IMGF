@@ -20,6 +20,7 @@ public:
 	void						onFileLoaded(void);
 
 	void						setFileInfoText(void);
+	void						updateEntryCountText(void);
 
 	void						setIMGFile(bxgi::IMGFormat *pIMGFile) { m_pIMGFile = pIMGFile; }
 	bxgi::IMGFormat*			getIMGFile(void) { return m_pIMGFile; }

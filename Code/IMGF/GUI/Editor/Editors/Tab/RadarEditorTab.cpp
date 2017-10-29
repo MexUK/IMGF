@@ -6,9 +6,12 @@
 #include "Static/File.h"
 #include "Control/Controls/TextBox.h"
 #include "Format/IMG/Regular/IMGFormat.h"
+#include "Format/IMG/Regular/IMGManager.h"
 #include "Task/Tasks/Tasks.h"
 #include "Control/Controls/ProgressBar.h"
+#include "Control/Controls/Text.h"
 
+using namespace std;
 using namespace bxcf;
 using namespace bxgi;
 using namespace imgf;
@@ -99,7 +102,32 @@ void						RadarEditorTab::onFileLoaded(void)
 	m_pWindow->render();
 }
 
-// file info
+// file info text
 void						RadarEditorTab::setFileInfoText(void)
 {
+	m_pText_FilePath->setText(getIMGFile()->getIMGFilePath());
+	m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
+	m_pText_FileGame->setText(IMGManager::getVersionGames(getIMGFile()->getVersion()));
+
+	updateEntryCountText();
+}
+
+void						RadarEditorTab::updateEntryCountText(void)
+{
+	uint32
+		uiDisplayedEntryCount = getIMGFile()->getEntryCountForName(string("radar"), true, true),
+		uiTotalEntryCount = uiDisplayedEntryCount;
+	string
+		strEntryCountText;
+
+	if (uiDisplayedEntryCount == uiTotalEntryCount)
+	{
+		strEntryCountText = String::toString(uiTotalEntryCount);
+	}
+	else
+	{
+		strEntryCountText = String::toString(uiDisplayedEntryCount) + " of " + String::toString(uiTotalEntryCount);
+	}
+
+	m_pText_FileEntryCount->setText(strEntryCountText);
 }

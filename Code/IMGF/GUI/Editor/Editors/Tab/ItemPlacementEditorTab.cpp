@@ -1,12 +1,17 @@
 #include "ItemPlacementEditorTab.h"
+#include "Format/IDE/IDEManager.h"
 #include "Format/IPL/IPLFormat.h"
+#include "Format/IPL/Entry/DataEntry/IPLEntry_INST.h"
 #include "Window/Window.h"
 #include "IMGF.h"
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Static/File.h"
 #include "Control/Controls/TextBox.h"
+#include "Control/Controls/Text.h"
 
+using namespace std;
 using namespace bxcf;
+using namespace bxgi;
 using namespace imgf;
 
 ItemPlacementEditorTab::ItemPlacementEditorTab(void) :
@@ -56,7 +61,43 @@ void						ItemPlacementEditorTab::onFileLoaded(void)
 	m_pWindow->render();
 }
 
-// file info
+// file info text
 void						ItemPlacementEditorTab::setFileInfoText(void)
 {
+	m_pText_FilePath->setText(getIPLFile()->getFilePath());
+
+	if (getIPLFile()->getEntriesBySection<IPLEntry_INST>(IPL_SECTION_INST).size() == 0)
+	{
+		m_pText_FileGame->setText(string("Unknown"));
+		m_pText_FileVersion->setText(string("Unknown"));
+	}
+	else
+	{
+		uint32 uiIPLGames = ((IPLEntry_INST*)(getIPLFile()->getEntriesBySection<IPLEntry_INST>(IPL_SECTION_INST)[0]))->getFormatGames();
+
+		m_pText_FileGame->setText(IDEManager::getFormatGamesAsString(uiIPLGames));
+		m_pText_FileVersion->setText(IDEManager::getVersionText(uiIPLGames));
+	}
+
+	updateEntryCountText();
+}
+
+void						ItemPlacementEditorTab::updateEntryCountText(void)
+{
+	uint32
+		uiDisplayedEntryCount = getIPLFile()->getEntryCount(),
+		uiTotalEntryCount = uiDisplayedEntryCount;
+	string
+		strEntryCountText;
+
+	if (uiDisplayedEntryCount == uiTotalEntryCount)
+	{
+		strEntryCountText = String::toString(uiTotalEntryCount);
+	}
+	else
+	{
+		strEntryCountText = String::toString(uiDisplayedEntryCount) + " of " + String::toString(uiTotalEntryCount);
+	}
+
+	m_pText_FileEntryCount->setText(strEntryCountText);
 }

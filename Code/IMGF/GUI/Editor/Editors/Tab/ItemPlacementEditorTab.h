@@ -18,6 +18,7 @@ public:
 	void						onFileLoaded(void);
 
 	void						setFileInfoText(void);
+	void						updateEntryCountText(void);
 
 	void						setIPLFile(bxgi::IPLFormat *pIPLFile) { m_pIPLFile = pIPLFile; }
 	bxgi::IPLFormat*			getIPLFile(void) { return m_pIPLFile; }
