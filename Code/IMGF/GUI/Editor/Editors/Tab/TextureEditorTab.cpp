@@ -349,13 +349,6 @@ void					TextureEditorTab::onFileLoaded(void)
 	m_pWindow->render();
 }
 
-// update tab text
-void						TextureEditorTab::updateTabText(void)
-{
-	string strTabText = Path::getFileName(m_pFile->getFilePath());
-	m_pTab->setText(strTabText);
-}
-
 // prepare render data
 bool						TextureEditorTab::prepareRenderData_TXD(void)
 {

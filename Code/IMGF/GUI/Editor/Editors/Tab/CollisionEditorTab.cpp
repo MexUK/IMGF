@@ -309,13 +309,6 @@ void					CollisionEditorTab::onFileLoaded(void)
 	m_pWindow->render();
 }
 
-// update tab text
-void						CollisionEditorTab::updateTabText(void)
-{
-	string strTabText = Path::getFileName(m_pFile->getFilePath());
-	m_pTab->setText(strTabText);
-}
-
 // prepare render data
 bool						CollisionEditorTab::prepareRenderData(void)
 {
@@ -373,8 +366,7 @@ void						CollisionEditorTab::setFileInfoText(void)
 {
 	m_pText_FilePath->setText(getFile()->getFilePath());
 	m_pText_FileVersion->setText(COLManager::get()->getVersionManager()->getVersionText(getCOLFile()->getFirstEntry()->getCOLVersion()), false);
-	// todo m_pText_FileGame->setText(COLManager::get()->getVersionManager()->getGamesAsString(getCOLFile()->getFirstEntry()->getCOLVersion()));
-	m_pText_FileGame->setText(string("Unknown"));
+	m_pText_FileGame->setText(COLManager::get()->getVersionManager()->getGamesAsString(getCOLFile()->getFirstEntry()->getCOLVersion()));
 
 	updateEntryCountText();
 }

@@ -17,8 +17,6 @@ public:
 	bool						unserializeFile(void);
 	void						onFileLoaded(void);
 
-	void						updateTabText(void);
-
 	void						setIsTXDFile(bool bIsTXDFile) { m_bIsTXDFile = bIsTXDFile; }
 	bool						isTXDFile(void) { return m_bIsTXDFile; }
 

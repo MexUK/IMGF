@@ -23,8 +23,6 @@ public:
 	bool						unserializeFile(void);
 	void						onFileLoaded(void);
 
-	void						updateTabText(void);
-
 	void						setCOLFile(bxgi::COLFormat *pCOLFile) { m_pCOLFile = pCOLFile; }
 	bxgi::COLFormat*			getCOLFile(void) { return m_pCOLFile; }
 

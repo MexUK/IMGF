@@ -327,3 +327,10 @@ void						EditorTab::logf(string strFormatText, ...)
 
 	log(szBuffer);
 }
+
+// update tab text
+void						EditorTab::updateTabText(void)
+{
+	string strTabText = Path::getFileName(m_pFile->getFilePath());
+	m_pTab->setText(strTabText);
+}

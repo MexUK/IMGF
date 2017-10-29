@@ -75,9 +75,15 @@ namespace imgf
 	class AnimationEditor;
 	class RadarEditor;
 
+	class DATEditorTab;
 	class IMGEditorTab;
-	class TextureEditorTab;
+	class ItemDefinitionEditorTab;
+	class ItemPlacementEditorTab;
+	class ModelEditorTab;
 	class CollisionEditorTab;
+	class TextureEditorTab;
+	class AnimationEditorTab;
+	class RadarEditorTab;
 
 	struct TextureEditorTabEntry;
 

@@ -513,6 +513,24 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\AnimationEditor.cpp">
       <Filter>Source Files\GUI\Editor\Editors</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\ItemDefinitionEditorTab.cpp">
+      <Filter>Source Files\GUI\Editor\Editors\Tab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\ItemPlacementEditorTab.cpp">
+      <Filter>Source Files\GUI\Editor\Editors\Tab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\DATEditorTab.cpp">
+      <Filter>Source Files\GUI\Editor\Editors\Tab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\ModelEditorTab.cpp">
+      <Filter>Source Files\GUI\Editor\Editors\Tab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\AnimationEditorTab.cpp">
+      <Filter>Source Files\GUI\Editor\Editors\Tab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\RadarEditorTab.cpp">
+      <Filter>Source Files\GUI\Editor\Editors\Tab</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\IMGF\Globals.h">
@@ -792,6 +810,24 @@
       <Filter>Header Files\GUI\Editor\Editors\Entry</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\CollisionEditorTab.h">
+      <Filter>Header Files\GUI\Editor\Editors\Tab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\ItemDefinitionEditorTab.h">
+      <Filter>Header Files\GUI\Editor\Editors\Tab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\ItemPlacementEditorTab.h">
+      <Filter>Header Files\GUI\Editor\Editors\Tab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\DATEditorTab.h">
+      <Filter>Header Files\GUI\Editor\Editors\Tab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\ModelEditorTab.h">
+      <Filter>Header Files\GUI\Editor\Editors\Tab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\AnimationEditorTab.h">
+      <Filter>Header Files\GUI\Editor\Editors\Tab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\RadarEditorTab.h">
       <Filter>Header Files\GUI\Editor\Editors\Tab</Filter>
     </ClInclude>
   </ItemGroup>

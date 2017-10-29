@@ -46,7 +46,7 @@ public:
 	void								processThreadOnce(void);
 
 	virtual void						setFileInfoText(void) {}
-	virtual void						updateTabText(void) {}
+	virtual void						updateTabText(void);
 
 	void								setEditor(Editor* pEditor) { m_pEditor = pEditor; }
 	Editor*								getEditor(void) { return m_pEditor; }

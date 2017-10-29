@@ -250,7 +250,7 @@ void					WindowManager::showWebsitesWindow(void)
 {
 	m_bWindow2Cancelled = true;
 
-	Window *pWindow = BXGX::get()->addWindow(650, 300);
+	Window *pWindow = BXGX::get()->addWindow(700, 300);
 	WebsitesWindowLayer *pLayer = pWindow->addLayer<WebsitesWindowLayer>();
 
 	pWindow->addTitleBar("Websites");
