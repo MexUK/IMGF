@@ -58,7 +58,8 @@ void		MainLayer::onChangeTab(TabBar *pTabBar)
 
 void		MainLayer::onRemoveTab(Tab *pTab)
 {
-	m_pMainWindow->getIMGEditor()->removeEditorTab((IMGEditorTab*)m_pMainWindow->getIMGEditor()->getEditorTabs().getEntryByIndex(pTab->getIndex()));
+	// todo - move to Editor.cpp
+	m_pMainWindow->getActiveEditor()->removeEditorTab((EditorTab*)m_pMainWindow->getActiveEditor()->getEditorTabs().getEntryByIndex(pTab->getIndex()));
 }
 
 // controls
@@ -125,6 +126,8 @@ void		MainLayer::addControls(void)
 	pMenu3 = pMenuItem2->addMenu(VERTICAL);
 	pMenu3->addMenuItem("Open Today's Logs File", OPEN_TODAYS_LOGS_FILE);
 	pMenu3->addMenuItem("Open Logs Folder", OPEN_LOGS_FOLDER);
+
+	pMenu2->addMenuItem("Repeat Last Task", REPEAST_LAST_TASK);
 
 	pMenuItem1 = pMenu1->addMenuItem("Save", SAVE_MENU);
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);
@@ -692,7 +695,7 @@ void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
 void		MainLayer::initControls(void)
 {
 	bindEventConst<void>(CHANGE_TAB, &MainLayer::onChangeTab);
-	bindEventConst<void>(REMOVE_TAB, &MainLayer::onRemoveTab);
+	bindEvent(REMOVE_TAB, &MainLayer::onRemoveTab);
 
 	bindEvent(RESIZE_WINDOW, &MainLayer::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));

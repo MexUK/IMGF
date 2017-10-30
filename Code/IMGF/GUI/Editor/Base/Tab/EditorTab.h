@@ -72,6 +72,7 @@ public:
 	void								repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 
 	void								onTaskProgress(void);
+	void								onUnserializeFileProgress(bxcf::DataReader *pDataReader);
 
 	void								log(std::string strText);
 	void								logf(std::string strFormatText, ...);

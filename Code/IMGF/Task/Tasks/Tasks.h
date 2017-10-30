@@ -48,6 +48,8 @@ private:
 	void						setMaxProgress(uint32 uiMaxProgress, bool bResetCurrent = true);
 	void						increaseProgress(void);
 	
+	void						processTaskByName(std::string strTaskName);
+	
 public:
 	void						init(void);
 	void						uninit(void);
@@ -65,6 +67,7 @@ public:
 	void						clearRecentlyOpenFiles(void);
 	void						openTodaysLogsFile(void);
 	void						openLogsFolder(void);
+	void						repeatLastTask(void);
 
 	void						_saveFile(void); // todo - rename to saveFile eventually after IO windows renamed to showSaveFileWindow() etc
 	void						saveFileAs(void);
@@ -242,8 +245,6 @@ public:
 	
 	void						onRequestAutoUpdate(void);
 	static int CALLBACK			sortMainListView(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
-	void						onRequestFeatureByName(std::string strFeatureName);
-	void						onRequestLastFeatureUsed(void);
 
 private:
 	MainWindow*					m_pMainWindow;

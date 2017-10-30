@@ -30,6 +30,11 @@ using namespace imgf::layers;
 using namespace imgf::mainLayer::input;
 using namespace imgf::mainLayer::mainMenuType;
 
+InputManager::InputManager(void) :
+	m_uiLastTaskId(-1)
+{
+}
+
 // main interface
 void					InputManager::init(void)
 {
@@ -215,6 +220,16 @@ void					InputManager::processMenuItemPress(MenuItem *pMenuItem)
 		uiMenuItemId = pMenuItem->getId();
 	}
 
+	processTask(uiMenuItemId);
+}
+
+void					InputManager::processTask(uint32 uiMenuItemId)
+{
+	if (uiMenuItemId != REPEAST_LAST_TASK)
+	{
+		setLastTaskId(uiMenuItemId);
+	}
+
 	// main
 	switch (uiMenuItemId)
 	{
@@ -243,6 +258,7 @@ void					InputManager::processMenuItemPress(MenuItem *pMenuItem)
 	case CLEAR_RECENTLY_OPEN_FILES:					return clearRecentlyOpenFiles();
 	case OPEN_TODAYS_LOGS_FILE:						return openTodaysLogsFile();
 	case OPEN_LOGS_FOLDER:							return openLogsFolder();
+	case REPEAST_LAST_TASK:							return repeatLastTask();
 
 	case CLOSE_FILE:								return closeFile();
 	case CLOSE_ALL_FILES:							return closeAllFiles();
@@ -409,7 +425,7 @@ void					InputManager::processMenuItemPress(MenuItem *pMenuItem)
 	case IMG_COMPRESSION:							return imgCompression();
 	case GENERATE_COL_FROM_DFF:						return generateCOLFromDFF();
 
-	// top right menu
+		// top right menu
 	case SETTINGS:									return settings();
 	case WEBSITES:									return websites();
 	case FORMATS2:									return formats2();
@@ -522,6 +538,11 @@ void					InputManager::openTodaysLogsFile(void)
 void					InputManager::openLogsFolder(void)
 {
 	m_pTasks->openLogsFolder();
+}
+
+void					InputManager::repeatLastTask(void)
+{
+	m_pTasks->repeatLastTask();
 }
 
 // save

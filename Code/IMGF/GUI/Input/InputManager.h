@@ -13,6 +13,7 @@ class imgf::Tasks;
 class imgf::InputManager : public bxcf::EventBindable
 {
 public:
+	InputManager(void);
 	void					init(void);
 
 private:
@@ -29,6 +30,11 @@ public:
 	void					onDropFiles(std::vector<std::string> vecDroppedFilePaths);
 
 	void					processMenuItemPress(bxgx::MenuItem *pMenuItem);
+
+	void					processTask(uint32 uiMenuItemId);
+
+	void					setLastTaskId(uint32 uiLastTaskId) { m_uiLastTaskId = uiLastTaskId; }
+	uint32					getLastTaskId(void) { return m_uiLastTaskId; }
 
 private:
 	void					formats(void);
@@ -56,6 +62,7 @@ private:
 	void					clearRecentlyOpenFiles(void);
 	void					openTodaysLogsFile(void);
 	void					openLogsFolder(void);
+	void					repeatLastTask(void);
 
 	void					saveFile(void);
 	void					saveFileAs(void);
@@ -233,4 +240,5 @@ private:
 private:
 	MainWindow*				m_pMainWindow;
 	Tasks*					m_pTasks;
+	uint32					m_uiLastTaskId;
 };

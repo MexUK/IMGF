@@ -86,12 +86,12 @@ void					TextureEditorTab::addControls(void)
 
 	// vertical scroll bar
 	x = 139 + 139 + 250;
-	y = 193;
+	y = 192;
 	w = 15;
 	h = m_pWindow->getSize().y - y;
 	x -= w;
 
-	m_pVScrollBar = addScrollBar(x, y, w, h);
+	m_pVScrollBar = addScrollBar(x, y, w, h, "", -1, 50);
 	m_pVScrollBar->setScrollOrientation(VERTICAL);
 }
 

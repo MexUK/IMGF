@@ -40,7 +40,7 @@ using namespace bxgi;
 using namespace imgf;
 
 Vec3f					vecCameraPosition = Vec3f(0.0f, 0.0f, 0.0f); // todo - namespace
-Vec3f					vecCameraLookAtPosition = Vec3f(0.0f, 0.0f, 0.0001f);
+Vec3f					vecCameraLookAtPosition = Vec3f(0.0f, 0.0f, 0.0f);
 //Vec3f					vecCameraRotation = Vec3f(0.0f, 0.0f, 0.0f); // todo - namespace
 
 CollisionEditorTab::CollisionEditorTab(void) :
@@ -57,7 +57,6 @@ CollisionEditorTab::CollisionEditorTab(void) :
 // events
 void					CollisionEditorTab::bindEvents(void)
 {
-	bindEvent(UNSERIALIZE_COL_ENTRY, &CollisionEditorTab::onUnserializeCOLEntry);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	bindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	bindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
@@ -68,7 +67,6 @@ void					CollisionEditorTab::bindEvents(void)
 
 void					CollisionEditorTab::unbindEvents(void)
 {
-	unbindEvent(UNSERIALIZE_COL_ENTRY, &CollisionEditorTab::onUnserializeCOLEntry);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	unbindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
@@ -98,12 +96,12 @@ void					CollisionEditorTab::addControls(void)
 
 	// vertical scroll bar
 	x = 139 + 139 + 250;
-	y = 193;
+	y = 192;
 	w = 15;
 	h = m_pWindow->getSize().y - y;
 	x -= w;
 
-	m_pVScrollBar = addScrollBar(x, y, w, h);
+	m_pVScrollBar = addScrollBar(x, y, w, h, "", -1, 50);
 	m_pVScrollBar->setScrollOrientation(VERTICAL);
 }
 
@@ -172,74 +170,113 @@ void					CollisionEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 
 void					CollisionEditorTab::onKeyDown2(uint16 uiKey)
 {
-	int32 iNextTextureIndex;
-	int32 wScrollNotify;
-	uint32 uiMinTextureIndex = 0;
-	uint32 uiMaxTextureIndex = m_pCOLFile->getEntryCount() - 1;
-	uint32 yCurrentScroll = 0;
-	COLEntry *pCOLEntry;
-
-	switch (uiKey)
+	bool bTextureListIsActive = false;
+	if (bTextureListIsActive)
 	{
-	case VK_PRIOR:
-		iNextTextureIndex = m_pCOLFile->getIndexByEntry(getActiveEntry()) - 5;
-		if (iNextTextureIndex < 0)
-		{
-			iNextTextureIndex = 0;
-		}
-		pCOLEntry = m_pCOLFile->getEntryByIndex(iNextTextureIndex);
-		setActiveEntry(pCOLEntry);
-		m_pWindow->render();
-		break;
+		// texture list
+		int32 iNextTextureIndex;
+		int32 wScrollNotify;
+		uint32 uiMinTextureIndex = 0;
+		uint32 uiMaxTextureIndex = m_pCOLFile->getEntryCount() - 1;
+		uint32 yCurrentScroll = 0;
+		COLEntry *pCOLEntry;
 
-	case VK_NEXT:
-		iNextTextureIndex = m_pCOLFile->getIndexByEntry(getActiveEntry()) + 5;
-		if (iNextTextureIndex >(int32)uiMaxTextureIndex)
+		switch (uiKey)
 		{
-			iNextTextureIndex = uiMaxTextureIndex;
-		}
-		pCOLEntry = m_pCOLFile->getEntryByIndex(iNextTextureIndex);
-		setActiveEntry(pCOLEntry);
-		m_pWindow->render();
-		break;
-
-	case VK_UP:
-		iNextTextureIndex = ((int32) m_pCOLFile->getIndexByEntry(getActiveEntry())) - 1;
-		if (iNextTextureIndex >= 0)
-		{
+		case VK_PRIOR:
+			iNextTextureIndex = m_pCOLFile->getIndexByEntry(getActiveEntry()) - 5;
+			if (iNextTextureIndex < 0)
+			{
+				iNextTextureIndex = 0;
+			}
 			pCOLEntry = m_pCOLFile->getEntryByIndex(iNextTextureIndex);
 			setActiveEntry(pCOLEntry);
 			m_pWindow->render();
-		}
-		break;
+			break;
 
-	case VK_DOWN:
-		iNextTextureIndex = m_pCOLFile->getIndexByEntry(getActiveEntry()) + 1;
-		if (iNextTextureIndex <= (int32)uiMaxTextureIndex)
-		{
+		case VK_NEXT:
+			iNextTextureIndex = m_pCOLFile->getIndexByEntry(getActiveEntry()) + 5;
+			if (iNextTextureIndex > (int32)uiMaxTextureIndex)
+			{
+				iNextTextureIndex = uiMaxTextureIndex;
+			}
 			pCOLEntry = m_pCOLFile->getEntryByIndex(iNextTextureIndex);
 			setActiveEntry(pCOLEntry);
 			m_pWindow->render();
-		}
-		break;
+			break;
 
-	case VK_HOME:
-		if (m_pCOLFile->getEntryCount() > 0)
-		{
-			setActiveEntry(m_pCOLFile->getFirstEntry());
-			m_pWindow->render();
-		}
-		wScrollNotify = SB_TOP;
-		break;
+		case VK_UP:
+			iNextTextureIndex = ((int32)m_pCOLFile->getIndexByEntry(getActiveEntry())) - 1;
+			if (iNextTextureIndex >= 0)
+			{
+				pCOLEntry = m_pCOLFile->getEntryByIndex(iNextTextureIndex);
+				setActiveEntry(pCOLEntry);
+				m_pWindow->render();
+			}
+			break;
 
-	case VK_END:
-		if (m_pCOLFile->getEntryCount() > 0)
-		{
-			setActiveEntry(m_pCOLFile->getLastEntry());
-			m_pWindow->render();
+		case VK_DOWN:
+			iNextTextureIndex = m_pCOLFile->getIndexByEntry(getActiveEntry()) + 1;
+			if (iNextTextureIndex <= (int32)uiMaxTextureIndex)
+			{
+				pCOLEntry = m_pCOLFile->getEntryByIndex(iNextTextureIndex);
+				setActiveEntry(pCOLEntry);
+				m_pWindow->render();
+			}
+			break;
+
+		case VK_HOME:
+			if (m_pCOLFile->getEntryCount() > 0)
+			{
+				setActiveEntry(m_pCOLFile->getFirstEntry());
+				m_pWindow->render();
+			}
+			wScrollNotify = SB_TOP;
+			break;
+
+		case VK_END:
+			if (m_pCOLFile->getEntryCount() > 0)
+			{
+				setActiveEntry(m_pCOLFile->getLastEntry());
+				m_pWindow->render();
+			}
+			wScrollNotify = SB_BOTTOM;
+			break;
 		}
-		wScrollNotify = SB_BOTTOM;
-		break;
+	}
+	else
+	{
+		// 3d item
+		bool bControlKey = (GetKeyState(VK_CONTROL) & 0x8000) == 0x8000;
+		switch (uiKey)
+		{
+		case VK_DOWN:
+			if (bControlKey)
+			{
+				vecCameraPosition.z -= 0.02f;
+			}
+			else
+			{
+				moveCamera(180.0f, 0.02f);
+			}
+			break;
+		case VK_UP:
+			if (bControlKey)
+			{
+				vecCameraPosition.z += 0.02f;
+			}
+			else
+			{
+				moveCamera(0.0f, 0.02f);
+			}
+			break;
+		case VK_LEFT:
+			moveCamera(-90.0f, -0.02f);
+			break;
+		case VK_RIGHT:
+			moveCamera(-90.0f, 0.02f);
+			break;
+		}
 	}
 }
 
@@ -281,12 +318,6 @@ bool					CollisionEditorTab::unserializeFile(void)
 
 	setCOLFile(col);
 	return true;
-}
-
-void					CollisionEditorTab::onUnserializeCOLEntry(COLEntry *pCOLEntry)
-{
-	uint32 uiCurrentProgressBytes = pCOLEntry->getCOLFile()->m_reader.getSeek();
-	getProgressBar()->setCurrent(uiCurrentProgressBytes);
 }
 
 void					CollisionEditorTab::onFileLoaded(void)
@@ -765,7 +796,7 @@ void						CollisionEditorTab::render3D(void)
 
 		float32 fHighestDistance = 1.5f;
 		float32 fDistanceMultiplier = 2.0f;
-		vecCameraPosition = { 2.0f, -2.0f, 2.0f };
+		vecCameraPosition = { -2.0f, -2.0f, 2.0f };
 		//vecCameraPosition = { 0.0f, 0.0f, 0.0f };
 		//vecCameraPosition = Math::getPositionInFrontOfPosition(vecCameraPosition, Math::convertDegreesToRadians(45.0f), fHighestDistance * fDistanceMultiplier);
 		//vecCameraRotation = { 0.0f, Math::convertDegreesToRadians(45.0f + 90), 0.0f };
@@ -890,18 +921,33 @@ void						CollisionEditorTab::prepare3DRender(void)
 	*/
 }
 
+void						CollisionEditorTab::moveCamera(float32 fAngleDeg, float32 fRadius)
+{
+	vecCameraPosition = Math::getPositionInFrontOfPosition(vecCameraPosition, getCameraZRotation() + Math::convertDegreesToRadians(fAngleDeg), fRadius);
+}
+
+float32						CollisionEditorTab::getCameraZRotation(void)
+{
+	return Math::getAngleBetweenPoints(vecCameraLookAtPosition, vecCameraPosition);
+}
+
 float f = 0.0f;
 
 void						CollisionEditorTab::renderCamera(void)
 {
 	Vec3f vecCameraRotation = {
 		//Math::convertDegreesToRadians(0.0f),
+		//0.0f,
+		//Math::convertDegreesToRadians(-135.0f),
+		Math::getAngleBetweenPoints(Vec3f(vecCameraPosition.x, vecCameraPosition.z, 0.0f), Vec3f(vecCameraLookAtPosition.x, vecCameraLookAtPosition.z, 0.0f)) - Math::convertDegreesToRadians(90.0f),
 		0.0f,
-		Math::getAngleBetweenPoints(Vec3f(vecCameraPosition.y, vecCameraPosition.z, vecCameraPosition.x), vecCameraLookAtPosition) + Math::convertDegreesToRadians(90),
-		
-		Math::getAngleBetweenPoints(vecCameraPosition, vecCameraLookAtPosition)
+		Math::getAngleBetweenPoints(vecCameraPosition, vecCameraLookAtPosition)// + Math::convertDegreesToRadians(90.0f)
 	};
 	//f += 0.03f;
+	while (vecCameraRotation.x > 3.142) vecCameraRotation.x -= 3.142;
+	while (vecCameraRotation.x < -3.142) vecCameraRotation.x += 3.142;
+	while (vecCameraRotation.y > 3.142) vecCameraRotation.y -= 3.142;
+	while (vecCameraRotation.y < -3.142) vecCameraRotation.y += 3.142;
 	while (vecCameraRotation.z > 3.142) vecCameraRotation.z -= 3.142;
 	while (vecCameraRotation.z < -3.142) vecCameraRotation.z += 3.142;
 	//vecCameraRotation.z = -vecCameraRotation.z;
@@ -909,14 +955,14 @@ void						CollisionEditorTab::renderCamera(void)
 	// camera rotation
 	glRotatef(-Math::convertRadiansToDegrees(vecCameraRotation.x), 1.0f, 0.0f, 0.0f); // Rotate our camera on the x-axis (looking up and down)
 	glRotatef(-Math::convertRadiansToDegrees(vecCameraRotation.z), 0.0f, 1.0f, 0.0f); // Rotate our camera on the y-axis (looking left and right)
-	glRotatef(-Math::convertRadiansToDegrees(vecCameraRotation.y), 0.0f, 0.0f, 1.0f);
+	//glRotatef(-Math::convertRadiansToDegrees(vecCameraRotation.y), 0.0f, 0.0f, 1.0f);
 
 	// camera position
 	glTranslatef(-vecCameraPosition.x, -vecCameraPosition.z, -vecCameraPosition.y);
 
 	//vecCameraRotation.x += Math::convertDegreesToRadians(0.1f);
 	//vecCameraRotation.z += Math::convertDegreesToRadians(0.1f);
-	vecCameraRotation.z += Math::convertDegreesToRadians(0.03f);
+	//vecCameraRotation.z += Math::convertDegreesToRadians(0.03f);
 }
 void						CollisionEditorTab::renderCollisionObjects(void)
 {

@@ -4,6 +4,8 @@
 
 enum imgf::mainLayer::input::EInputItem
 {
+	UNKNOWN_TASK = -1,
+
 	// main menus
 	TOP_MENU = 1000,
 	SECOND_LEFT_MENU,
@@ -76,6 +78,7 @@ enum imgf::mainLayer::input::EInputItem
 	OPEN_FILE_GROUP,
 	OPEN_TODAYS_LOGS_FILE,
 	OPEN_LOGS_FOLDER,
+	REPEAST_LAST_TASK,
 
 	SAVE_FILE,
 	SAVE_FILE_AS,

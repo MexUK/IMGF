@@ -91,6 +91,9 @@ void								Editor::removeEditorTab(EditorTab *pEditorTab)
 	{
 		setActiveEditorTab(m_vecEditorTabs.getEntryByIndex(uiNewActiveFileIndex));
 	}
+
+	// render window
+	m_pMainWindow->render();
 }
 
 void								Editor::removeActiveEditorTab(void)

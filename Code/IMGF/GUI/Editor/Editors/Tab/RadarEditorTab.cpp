@@ -10,6 +10,8 @@
 #include "Task/Tasks/Tasks.h"
 #include "Control/Controls/ProgressBar.h"
 #include "Control/Controls/Text.h"
+#include "../bxgi/Event/EEvent.h"
+#include "Task/TaskManager.h"
 
 using namespace std;
 using namespace bxcf;
@@ -29,12 +31,27 @@ void						RadarEditorTab::addControls(void)
 // events
 void						RadarEditorTab::bindEvents(void)
 {
+	bindEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
+
 	EditorTab::bindEvents();
 }
 
 void						RadarEditorTab::unbindEvents(void)
 {
+	unbindEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
+
 	EditorTab::unbindEvents();
+}
+
+// unserialize entry
+void						RadarEditorTab::onUnserializeEntry(IMGFormat *img)
+{
+	if (img != m_pIMGFile)
+	{
+		return;
+	}
+
+	getIMGF()->getTaskManager()->onTaskProgressTick();
 }
 
 // render
@@ -48,17 +65,17 @@ bool						RadarEditorTab::unserializeFile(void)
 	IMGFormat *img = getIMGFile();
 
 	/*
-	progress bar: 3 stages
+	progress bar: 2 stages
 
 	[IMG versions 1, 2, and fastman92]
 	- parsing header
 	- parsing RW versions
-	- adding entries to grid
+	//- adding entries to grid
 
 	[IMG versions 3 (encrypted and unencrypted)]
 	- parsing header
 	- parsing entry names
-	- adding entries to grid
+	//- adding entries to grid
 	*/
 
 	if (!img->openFile())
@@ -73,7 +90,7 @@ bool						RadarEditorTab::unserializeFile(void)
 	}
 
 	uint32
-		uiProgressBarMaxMultiplier = 3,
+		uiProgressBarMaxMultiplier = 2,
 		uiProgressBarMax = img->m_uiEntryCount * uiProgressBarMaxMultiplier;
 	getProgressBar()->setMax(uiProgressBarMax);
 

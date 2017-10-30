@@ -14,6 +14,8 @@ public:
 	void						bindEvents(void);
 	void						unbindEvents(void);
 
+	void						onUnserializeEntry(bxgi::IMGFormat *img);
+
 	void						render_Type1(void);
 
 	bool						unserializeFile(void);

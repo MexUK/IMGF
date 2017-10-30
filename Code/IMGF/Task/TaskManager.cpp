@@ -288,9 +288,9 @@ void							TaskManager::onTaskProgressTick(void)
 	//setTaskProgressTickCount(getTaskProgressTickCount() + 1);
 
 	ProgressBar *pProgressBar;
-	if (getIMGF()->getWindowManager()->getMainWindow()->getIMGEditor()->getActiveTab())
+	if (getIMGF()->getWindowManager()->getMainWindow()->getActiveEditor()->getActiveEditorTab())
 	{
-		pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getIMGEditor()->getActiveTab()->getProgressBar();
+		pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getActiveEditor()->getActiveEditorTab()->getProgressBar();
 	}
 	else
 	{

@@ -136,6 +136,8 @@
 #include "Game/GameManager.h"
 #include "Image/ImageManager.h"
 #include "Image/RasterDataFormatManager.h"
+#include "GUI/Input/InputManager.h"
+#include "GUI/Input/EInputItem.h"
 #include <gdiplus.h>
 #include <stdio.h>
 #include <algorithm>
@@ -146,6 +148,7 @@ using namespace bxgx;
 using namespace bxgi;
 using namespace imgf;
 using namespace imgf::task;
+using namespace imgf::mainLayer::input;
 
 Tasks::Tasks(void) :
 	m_pMainWindow(nullptr),
@@ -520,6 +523,17 @@ void		Tasks::openLogsFolder(void)
 	Process::openFolder(strLogsFolderPath);
 
 	onCompleteTask();
+}
+
+void		Tasks::repeatLastTask(void)
+{
+	uint32 uiMenuItemId = getIMGF()->getInputManager()->getLastTaskId();
+	if (uiMenuItemId == -1)
+	{
+		return;
+	}
+
+	getIMGF()->getInputManager()->processTask(uiMenuItemId);
 }
 
 void		Tasks::_saveFile(void)
@@ -6902,12 +6916,12 @@ void		Tasks::onRequestAutoUpdate(void)
 	getIMGF()->getTaskManager()->onTaskEnd("onRequestAutoUpdate");
 }
 
-void		Tasks::onRequestFeatureByName(string strFeatureName)
+void		Tasks::processTaskByName(string strFeatureName)
 {
 	/*
 	todo
 
-	if (strFeatureName == "onRequestFeatureByName")
+	if (strFeatureName == "processTaskByName")
 	{
 	}
 	else if (strFeatureName == "chooseFilesToOpen")
@@ -7374,17 +7388,6 @@ void		Tasks::onRequestFeatureByName(string strFeatureName)
 	{
 	}
 	*/
-}
-
-void		Tasks::onRequestLastFeatureUsed(void)
-{
-	string strPreviousTaskName = getIMGF()->getTaskManager()->getTaskName();
-	if (strPreviousTaskName == "")
-	{
-		return;
-	}
-
-	onRequestFeatureByName(strPreviousTaskName);
 }
 
 uint32 uiSortPreviousColumnIndex; // todo - namespace

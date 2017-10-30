@@ -17,12 +17,15 @@
 #include "Static/Path.h"
 #include "BXGX.h"
 #include "Format/Format.h"
+#include "Stream/DataReader.h"
+#include "../bxgi/Event/EEvent.h"
 #include <stdarg.h>
 
 using namespace std;
 using namespace bxcf;
 using namespace bxgx;
 using namespace bxgx::events;
+using namespace bxgi;
 using namespace imgf;
 
 EditorTab::EditorTab(void) :
@@ -55,6 +58,7 @@ void						EditorTab::bindEvents(void)
 {
 	bindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
 	bindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
+	bindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
 
 	Layer::bindEvents();
 }
@@ -63,6 +67,7 @@ void						EditorTab::unbindEvents(void)
 {
 	unbindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
 	unbindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
+	unbindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
 
 	Layer::unbindEvents();
 }
@@ -333,4 +338,10 @@ void						EditorTab::updateTabText(void)
 {
 	string strTabText = Path::getFileName(m_pFile->getFilePath());
 	m_pTab->setText(strTabText);
+}
+
+// unserialize file progress
+void						EditorTab::onUnserializeFileProgress(DataReader *pDataReader)
+{
+	getProgressBar()->setCurrent(pDataReader->getSeek());
 }

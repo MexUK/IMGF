@@ -34,8 +34,6 @@ public:
 	void						setFileInfoText(void);
 	void						updateEntryCountText(void);
 
-	void						onUnserializeCOLEntry(bxgi::COLEntry *pCOLEntry);
-
 protected:
 	void						addControls(void);
 	void						initControls(void);
@@ -64,6 +62,9 @@ private:
 	void						renderCollisionMeshes(void);
 	void						renderCollisionCuboids(void);
 	void						renderCollisionSpheres(void);
+
+	void						moveCamera(float32 fAngleDeg, float32 fRadius);
+	float32						getCameraZRotation(void); // result is in radians
 
 private:
 	bxgi::COLFormat*			m_pCOLFile;
