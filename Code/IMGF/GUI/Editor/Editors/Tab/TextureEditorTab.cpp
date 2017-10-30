@@ -412,7 +412,7 @@ bool						TextureEditorTab::prepareRenderData_WTD(void)
 	uint32 uiTextureIndex = 0;
 	vector<WTDEntry*> vecWTDEntries = m_pWTDFile->getEntries();
 
-	for (auto pWTDEntry : vecWTDEntries)
+	for (WTDEntry *pWTDEntry : vecWTDEntries)
 	{
 		TextureEditorTabEntry *pTabEntry = new TextureEditorTabEntry;
 

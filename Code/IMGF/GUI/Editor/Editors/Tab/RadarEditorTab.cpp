@@ -10,6 +10,7 @@
 #include "Format/IMG/Regular/IMGEntry.h"
 #include "Format/IMG/Regular/IMGManager.h"
 #include "Format/TXD/TXDFormat.h"
+#include "Format/WTD/WTDFormat.h"
 #include "Task/Tasks/Tasks.h"
 #include "Control/Controls/ProgressBar.h"
 #include "Control/Controls/Text.h"
@@ -19,6 +20,7 @@
 #include "Format/RW/Sections/RWSection_TextureNative.h"
 #include "GUI/Editor/Editors/Entry/RadarEditorTabEntry.h"
 #include "GraphicsLibrary/Libraries/GraphicsLibrary_GDIPlus.h"
+#include "Image/ImageManager.h"
 
 using namespace std;
 using namespace bxcf;
@@ -143,7 +145,14 @@ void						RadarEditorTab::onFileLoaded(void)
 	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(getFile()->getFilePath());
 
 	// prepare render data
-	prepareRenderData_TXD();
+	if (getIMGFile()->getVersion() == IMG_3)
+	{
+		prepareRenderData_WTD();
+	}
+	else
+	{
+		prepareRenderData_TXD();
+	}
 
 	// display file info
 	setFileInfoText();
@@ -266,6 +275,78 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 	}
 }
 
+void						RadarEditorTab::prepareRenderData_WTD(void)
+{
+	bPremultipledAlphaApplied = FALSE;
+
+	vector<IMGEntry*> vecRadarIMGEntries;
+	for (IMGEntry *pIMGEntry : m_pIMGFile->getEntries())
+	{
+		if (!(pIMGEntry->isTextureFile() && String::toUpperCase(pIMGEntry->getEntryName().substr(0, 5)) == "RADAR" && String::isPositiveInteger(Path::removeFileExtension(pIMGEntry->getEntryName()).substr(5))))
+		{
+			continue;
+		}
+		vecRadarIMGEntries.push_back(pIMGEntry);
+	}
+
+	std::sort(vecRadarIMGEntries.begin(), vecRadarIMGEntries.end(), [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2)
+	{
+		return String::toUint32(Path::removeFileExtension(pIMGEntry1->getEntryName()).substr(5)) < String::toUint32(Path::removeFileExtension(pIMGEntry2->getEntryName()).substr(5));
+	});
+
+	for(IMGEntry *pIMGEntry : vecRadarIMGEntries)
+	{
+		WTDFormat wtdFile(pIMGEntry->getEntryData(), false);
+		if (!wtdFile.unserialize())
+		{
+			continue;
+		}
+		vector<WTDEntry*> vecWTDEntries = wtdFile.getEntries();
+
+		// todo
+		//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
+		//m_pVScrollBar->setItemCount(VERTICAL, vecTextures.size() * 50);
+
+		uint32 uiTextureIndex = 0;
+		for (WTDEntry *pWTDEntry : vecWTDEntries)
+		{
+			RadarEditorTabEntry *pTabEntry = new RadarEditorTabEntry;
+
+			if (pWTDEntry->getEntryCount() == 0)
+			{
+				// the texture does not have a mipmap
+				pTabEntry->m_uiIndex = uiTextureIndex;
+				pTabEntry->m_bTextureContainsNoMipmaps = true;
+			}
+			else
+			{
+				WTDMipmap *pMipmap = pWTDEntry->getEntryByIndex(0);
+				string strBMPImageDataStr = pMipmap->getRasterDataBGRA32();
+				const char *pBmpImageData = strBMPImageDataStr.c_str();
+
+				HBITMAP hBitmap = CreateBitmap(pWTDEntry->getImageSize(true), pWTDEntry->getImageSize(false), 1, 32, pBmpImageData);
+
+				pTabEntry->m_uiIndex = uiTextureIndex;
+				pTabEntry->m_hBitmap = hBitmap;
+				pTabEntry->m_uiWidth = pWTDEntry->getImageSize(true);
+				pTabEntry->m_uiHeight = pWTDEntry->getImageSize(false);
+				pTabEntry->m_strDiffuseName = pWTDEntry->getEntryName();
+				pTabEntry->m_strAlphaName = "";
+				pTabEntry->m_ucBPP = 32;
+				pTabEntry->m_strTextureFormat = ImageManager::getD3DFormatText(pWTDEntry->getD3DFormat());
+			}
+
+			addEntry(pTabEntry);
+			uiTextureIndex++;
+		}
+
+		if (getEntryCount() > 0)
+		{
+			// todo setActiveEntry(getEntryByIndex(0));
+		}
+	}
+}
+
 // render editor
 void						RadarEditorTab::render_Type1(void)
 {
@@ -294,16 +375,37 @@ void						RadarEditorTab::render_Type1(void)
 	{
 		return;
 	}
-	uint32 uiDimensionTileCount = sqrt(uiTileCount);
-	Vec2u vecImageSize(vecAreaSize.x / uiDimensionTileCount, vecAreaSize.y / uiDimensionTileCount);
+	Vec2u vecDimensionTileCount;
+	if (m_pIMGFile->getVersion() == IMG_3)
+	{
+		vecDimensionTileCount = Vec2u(16, 9);
+	}
+	else
+	{
+		uint32 uiDimensionTileCount = ceil(sqrt((float32)uiTileCount));
+		vecDimensionTileCount = Vec2u(uiDimensionTileCount, uiDimensionTileCount);
+	}
+	Vec2u vecImageSize(vecAreaSize.x / vecDimensionTileCount.x, vecAreaSize.y / vecDimensionTileCount.y);
 	uint32 uiTabEntry = 0;
 
-	for (uint32 i = 0; i < uiDimensionTileCount; i++)
+	for (uint32 i = 0; i < vecDimensionTileCount.y; i++)
 	{
-		for (uint32 i2 = 0; i2 < uiDimensionTileCount; i2++)
+		for (uint32 i2 = 0; i2 < vecDimensionTileCount.x; i2++)
 		{
-			Vec2i vecImagePosition(139 + 139 + 150 + (i2 * vecImageSize.x), 192 + (i * vecImageSize.y));
+			Vec2i vecImagePosition;
+			if (getIMGFile()->getVersion() == IMG_3)
+			{
+				vecImagePosition = Vec2i(139 + 139 + 150 + (i2 * vecImageSize.x), 192 + (i * vecImageSize.y));
+			}
+			else
+			{
+				vecImagePosition = Vec2i(139 + 139 + 150 + (i2 * vecImageSize.x), 192 + (i * vecImageSize.y));
+			}
 			RadarEditorTabEntry *pTabEntry = getEntryByIndex(uiTabEntry);
+			if (!pTabEntry)
+			{
+				continue;
+			}
 
 			pGFX->drawImage(vecImagePosition, pTabEntry->m_hBitmap, vecImageSize);
 

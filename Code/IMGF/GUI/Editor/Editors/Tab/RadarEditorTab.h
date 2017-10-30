@@ -26,6 +26,7 @@ public:
 	void						updateEntryCountText(void);
 
 	void						prepareRenderData_TXD(void);
+	void						prepareRenderData_WTD(void);
 
 	void						setIMGFile(bxgi::IMGFormat *pIMGFile) { m_pIMGFile = pIMGFile; }
 	bxgi::IMGFormat*			getIMGFile(void) { return m_pIMGFile; }
