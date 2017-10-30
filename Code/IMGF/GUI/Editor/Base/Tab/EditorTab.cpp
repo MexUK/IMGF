@@ -168,7 +168,7 @@ void						EditorTab::processThreadOnce(void)
 	}
 	else
 	{
-		render();
+		//render();
 	}
 }
 

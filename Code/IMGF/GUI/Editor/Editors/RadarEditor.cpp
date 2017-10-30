@@ -21,7 +21,7 @@ void									RadarEditor::init(void)
 // events
 void									RadarEditor::bindEvents(void)
 {
-	bindEvent(BEFORE_RENDER, &TextureEditor::renderBefore);
+	bindEvent(BEFORE_RENDER, &RadarEditor::renderBefore);
 
 	Editor::bindEvents();
 
@@ -33,7 +33,7 @@ void									RadarEditor::bindEvents(void)
 
 void									RadarEditor::unbindEvents(void)
 {
-	unbindEvent(BEFORE_RENDER, &TextureEditor::renderBefore);
+	unbindEvent(BEFORE_RENDER, &RadarEditor::renderBefore);
 
 	Editor::unbindEvents();
 
@@ -48,7 +48,7 @@ void									RadarEditor::renderBefore(void)
 {
 	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
 
-	if (m_pMainWindow->getActiveEditor() != m_pMainWindow->getTextureEditor() || BXGX::get()->getEventWindow() != m_pMainWindow)
+	if (m_pMainWindow->getActiveEditor() != m_pMainWindow->getRadarEditor() || BXGX::get()->getEventWindow() != m_pMainWindow)
 	{
 		return;
 	}
@@ -60,7 +60,7 @@ void									RadarEditor::renderBefore(void)
 
 	if (m_pActiveEditorTab)
 	{
-		((ModelEditorTab*)m_pActiveEditorTab)->render_Type1();
+		((RadarEditorTab*)m_pActiveEditorTab)->render_Type1();
 	}
 }
 

@@ -86,7 +86,7 @@ namespace imgf
 	class RadarEditorTab;
 
 	struct TextureEditorTabEntry;
-
+	struct RadarEditorTabEntry;
 
 
 	class InputManager;

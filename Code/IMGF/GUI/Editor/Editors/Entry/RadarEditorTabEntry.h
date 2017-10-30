@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include <string>
 
-struct imgf::TextureEditorTabEntry
+struct imgf::RadarEditorTabEntry
 {
 	bool			isCompletelyDisplayed(void)
 	{

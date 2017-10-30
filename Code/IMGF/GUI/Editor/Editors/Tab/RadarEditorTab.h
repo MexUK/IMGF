@@ -3,8 +3,9 @@
 #include "nsbxgi.h"
 #include "nsimgf.h"
 #include "GUI/Editor/Base/Tab/EditorTab.h"
+#include "Pool/VectorPool.h"
 
-class imgf::RadarEditorTab : public imgf::EditorTab
+class imgf::RadarEditorTab : public imgf::EditorTab, public bxcf::VectorPool<imgf::RadarEditorTabEntry*>
 {
 public:
 	RadarEditorTab(void);
@@ -23,6 +24,8 @@ public:
 
 	void						setFileInfoText(void);
 	void						updateEntryCountText(void);
+
+	void						prepareRenderData_TXD(void);
 
 	void						setIMGFile(bxgi::IMGFormat *pIMGFile) { m_pIMGFile = pIMGFile; }
 	bxgi::IMGFormat*			getIMGFile(void) { return m_pIMGFile; }

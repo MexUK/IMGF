@@ -201,6 +201,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\CollisionEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\DATEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\EEditorItem.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Entry\RadarEditorTabEntry.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Entry\TextureEditorTabEntry.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\IMGEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ItemDefinitionEditor.h" />
