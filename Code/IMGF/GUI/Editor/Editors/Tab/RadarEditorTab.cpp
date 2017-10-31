@@ -281,27 +281,39 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 	bPremultipledAlphaApplied = FALSE;
 
 	vector<IMGEntry*> vecRadarIMGEntries;
+	vecRadarIMGEntries.resize(144);
 	for (IMGEntry *pIMGEntry : m_pIMGFile->getEntries())
 	{
 		if (!(pIMGEntry->isTextureFile() && String::toUpperCase(pIMGEntry->getEntryName().substr(0, 5)) == "RADAR" && String::isPositiveInteger(Path::removeFileExtension(pIMGEntry->getEntryName()).substr(5))))
 		{
 			continue;
 		}
-		vecRadarIMGEntries.push_back(pIMGEntry);
+
+		uint32 uiTokenIndex = String::toUint32(Path::removeFileExtension(pIMGEntry->getEntryName()).substr(5));
+		vecRadarIMGEntries[uiTokenIndex] = pIMGEntry;
 	}
 
-	///*
+	/*
 	std::sort(vecRadarIMGEntries.begin(), vecRadarIMGEntries.end(), [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2)
 	{
 		return String::toUint32(Path::removeFileExtension(pIMGEntry1->getEntryName()).substr(5)) < String::toUint32(Path::removeFileExtension(pIMGEntry2->getEntryName()).substr(5));
 	});
-	//*/
+	*/
 
+	uint32 uiTabEntry = 0;
+	getEntries().resize(144);
 	for(IMGEntry *pIMGEntry : vecRadarIMGEntries)
 	{
+		if (!pIMGEntry)
+		{
+			uiTabEntry++;
+			continue;
+		}
+
 		WTDFormat wtdFile(pIMGEntry->getEntryData(), false);
 		if (!wtdFile.unserialize())
 		{
+			uiTabEntry++;
 			continue;
 		}
 		vector<WTDEntry*> vecWTDEntries = wtdFile.getEntries();
@@ -339,10 +351,11 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 				pTabEntry->m_strTextureFormat = ImageManager::getD3DFormatText(pWTDEntry->getD3DFormat());
 			}
 
-			addEntry(pTabEntry);
+			setEntryByIndex(uiTabEntry, pTabEntry);
 			uiTextureIndex++;
 		}
-
+		
+		uiTabEntry++;
 		if (getEntryCount() > 0)
 		{
 			// todo setActiveEntry(getEntryByIndex(0));
@@ -381,7 +394,7 @@ void						RadarEditorTab::render_Type1(void)
 	Vec2u vecDimensionTileCount;
 	if (m_pIMGFile->getVersion() == IMG_3)
 	{
-		vecDimensionTileCount = Vec2u(8, 8);
+		vecDimensionTileCount = Vec2u(12, 12);
 	}
 	else
 	{
@@ -405,20 +418,21 @@ void						RadarEditorTab::render_Type1(void)
 				vecImagePosition = Vec2i(139 + 139 + 150 + (i2 * vecImageSize.x), 192 + (i * vecImageSize.y));
 			}
 
-			uint32 uiTabEntry2 = uiTabEntry;
+			//uint32 uiTabEntry2 = uiTabEntry;
 			//if (uiTabEntry2 < 4)
 			//{
 				
 			//}
-			if (uiTabEntry < 3)
-			{
-				uiTabEntry2 = 62 - uiTabEntry;
-			}
-			else
-				uiTabEntry2 -= 3;
-			RadarEditorTabEntry *pTabEntry = getEntryByIndex(uiTabEntry2);
+			//if (uiTabEntry < 3)
+			//{
+			//	uiTabEntry2 = 62 - uiTabEntry;
+			//}
+			//else
+			//	uiTabEntry2 -= 3;
+			RadarEditorTabEntry *pTabEntry = getEntryByIndex(uiTabEntry);
 			if (!pTabEntry)
 			{
+				uiTabEntry++;
 				continue;
 			}
 
