@@ -450,6 +450,7 @@ void		MainLayer::addMenus(void)
 	{
 		pMenu2->addMenuItem("Sort by IDE", SORT_BY_IDE);
 		pMenu2->addMenuItem("Sort by COL", SORT_BY_COL);
+		pMenu2->addMenuItem("Sort by Multiple Types", SORT_BY_MULTIPLE_TYPES);
 	}
 
 	// LST

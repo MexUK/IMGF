@@ -177,6 +177,7 @@ public:
 	void						sortByVersionNewOld(void);
 	void						sortByIDE(void);
 	void						sortByCOL(void);
+	void						sortByMultipleTypes(void);
 
 	void						lst(void);
 

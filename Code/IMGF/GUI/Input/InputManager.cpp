@@ -367,6 +367,7 @@ void					InputManager::processTask(uint32 uiMenuItemId)
 	case SORT_BY_VERSION_NEW_OLD:					return sortByVersionNewOld();
 	case SORT_BY_IDE:								return sortByIDE();
 	case SORT_BY_COL:								return sortByCOL();
+	case SORT_BY_MULTIPLE_TYPES:					return sortByMultipleTypes();
 
 	case LST:										return lst();
 
@@ -1032,6 +1033,11 @@ void					InputManager::sortByIDE(void)
 void					InputManager::sortByCOL(void)
 {
 	m_pTasks->sortByCOL();
+}
+
+void					InputManager::sortByMultipleTypes(void)
+{
+	m_pTasks->sortByMultipleTypes();
 }
 
 // entry

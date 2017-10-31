@@ -171,6 +171,7 @@ private:
 	void					sortByVersionNewOld(void);
 	void					sortByIDE(void);
 	void					sortByCOL(void);
+	void					sortByMultipleTypes(void);
 
 	void					nameCaseLower(void);
 	void					nameCaseUpper(void);

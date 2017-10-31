@@ -3969,6 +3969,183 @@ void		Tasks::sortByCOL(void)
 	onCompleteTask();
 }
 
+void		Tasks::sortByMultipleTypes(void)
+{
+	onStartTask("sortByMultipleTypes");
+	
+	uint32
+		uiSortTypeIndex = 0;
+	vector<string>
+		vecIDEFilePaths,
+		vecCOLFilePaths,
+		vecIDEModelNamesUpper,
+		vecCOLModelNamesUpper,
+		vecDropDownOptions = {
+			"Index",
+			"Type",
+			"Name",
+			"Offset",
+			"Size",
+			"Version",
+			"IDE",
+			"COL"
+		};
+	vector<int32>
+		vecSortTypes;
+	while (uiSortTypeIndex < 10)
+	{
+		int32 iSortType = m_pMainWindow->showDropDownWindow("Sort Type #" + String::toString(uiSortTypeIndex), "Choose a sort type for sort index " + String::toString(uiSortTypeIndex), vecDropDownOptions);
+		if (iSortType == -1)
+		{
+			break;
+		}
+
+		if (iSortType == 6)
+		{
+			vecIDEFilePaths = openFile("IDE");
+			vecIDEModelNamesUpper = IDEManager::get()->getIDEEntryNamesWithoutExtension(vecIDEFilePaths, true, true);
+		}
+		else if (iSortType == 7)
+		{
+			vecCOLFilePaths = openFile("COL");
+			vecCOLModelNamesUpper = COLManager::get()->getEntryNames(vecCOLFilePaths);
+		}
+
+		vecSortTypes.push_back(iSortType);
+
+		uiSortTypeIndex++;
+	}
+	
+	std::function<bool(IMGEntry *, IMGEntry *)> sortByMultipleTypes = [&](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	{
+		bool bResult;
+		vector<string>::iterator itIndex1;
+		vector<string>::iterator itIndex2;
+
+		unordered_map<IMGEntry*, uint32> umapEntryIndexes;
+		for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->getEntries())
+		{
+			umapEntryIndexes[pIMGEntry] = pIMGEntry->getIMGFile()->getIndexByEntry(pIMGEntry);
+		}
+
+		switch (uiSortTypeIndex)
+		{
+		case 0: // Index
+			if (umapEntryIndexes[pIMGEntry1] == umapEntryIndexes[pIMGEntry2])
+			{
+				uiSortTypeIndex++;
+				bResult = sortByMultipleTypes(pIMGEntry1, pIMGEntry2);
+				uiSortTypeIndex--;
+				return bResult;
+			}
+			else
+			{
+				return umapEntryIndexes[pIMGEntry1] < umapEntryIndexes[pIMGEntry2];
+			}
+			break;
+		case 1: // Type
+			if (pIMGEntry1->getEntryExtension() == pIMGEntry2->getEntryExtension())
+			{
+				uiSortTypeIndex++;
+				bResult = sortByMultipleTypes(pIMGEntry1, pIMGEntry2);
+				uiSortTypeIndex--;
+				return bResult;
+			}
+			else
+			{
+				return strcmp(String::toLowerCase(pIMGEntry1->getEntryExtension()).c_str(), String::toLowerCase(pIMGEntry2->getEntryExtension()).c_str()) < 0;
+			}
+			break;
+		case 2: // Name
+			if (pIMGEntry1->getEntryName() == pIMGEntry2->getEntryName())
+			{
+				uiSortTypeIndex++;
+				bResult = sortByMultipleTypes(pIMGEntry1, pIMGEntry2);
+				uiSortTypeIndex--;
+				return bResult;
+			}
+			else
+			{
+				return strcmp(String::toLowerCase(pIMGEntry1->getEntryName()).c_str(), String::toLowerCase(pIMGEntry2->getEntryName()).c_str()) < 0;
+			}
+			break;
+		case 3: // Offset
+			if (pIMGEntry1->getEntryOffset() == pIMGEntry2->getEntryOffset())
+			{
+				uiSortTypeIndex++;
+				bResult = sortByMultipleTypes(pIMGEntry1, pIMGEntry2);
+				uiSortTypeIndex--;
+				return bResult;
+			}
+			else
+			{
+				return pIMGEntry1->getEntryOffset() < pIMGEntry2->getEntryOffset();
+			}
+			break;
+		case 4: // Size
+			if (pIMGEntry1->getEntrySize() == pIMGEntry2->getEntrySize())
+			{
+				uiSortTypeIndex++;
+				bResult = sortByMultipleTypes(pIMGEntry1, pIMGEntry2);
+				uiSortTypeIndex--;
+				return bResult;
+			}
+			else
+			{
+				return pIMGEntry1->getEntrySize() < pIMGEntry2->getEntrySize();
+			}
+			break;
+		case 5: // Version
+			if (pIMGEntry1->getRawVersion() == pIMGEntry2->getRawVersion())
+			{
+				uiSortTypeIndex++;
+				bResult = sortByMultipleTypes(pIMGEntry1, pIMGEntry2);
+				uiSortTypeIndex--;
+				return bResult;
+			}
+			else
+			{
+				return pIMGEntry1->getRawVersion() < pIMGEntry2->getRawVersion();
+			}
+			break;
+		case 6: // IDE
+			itIndex1 = std::find(vecIDEModelNamesUpper.begin(), vecIDEModelNamesUpper.end(), String::toUpperCase(pIMGEntry1->getEntryName()));
+			itIndex2 = std::find(vecIDEModelNamesUpper.begin(), vecIDEModelNamesUpper.end(), String::toUpperCase(pIMGEntry2->getEntryName()));
+			if (itIndex1 == itIndex2)
+			{
+				uiSortTypeIndex++;
+				bResult = sortByMultipleTypes(pIMGEntry1, pIMGEntry2);
+				uiSortTypeIndex--;
+				return bResult;
+			}
+			else
+			{
+				return itIndex1 < itIndex2;
+			}
+			break;
+		case 7: // COL
+			itIndex1 = std::find(vecCOLModelNamesUpper.begin(), vecCOLModelNamesUpper.end(), String::toUpperCase(pIMGEntry1->getEntryName()));
+			itIndex2 = std::find(vecCOLModelNamesUpper.begin(), vecCOLModelNamesUpper.end(), String::toUpperCase(pIMGEntry2->getEntryName()));
+			if (itIndex1 == itIndex2)
+			{
+				uiSortTypeIndex++;
+				bResult = sortByMultipleTypes(pIMGEntry1, pIMGEntry2);
+				uiSortTypeIndex--;
+				return bResult;
+			}
+			else
+			{
+				return itIndex1 < itIndex2;
+			}
+			break;
+		}
+	};
+	uiSortTypeIndex = 0;
+	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortByMultipleTypes);
+
+	onCompleteTask();
+}
+
 void		Tasks::lst(void)
 {
 	onStartTask("lst");
