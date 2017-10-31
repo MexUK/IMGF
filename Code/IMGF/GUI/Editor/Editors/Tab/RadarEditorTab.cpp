@@ -289,10 +289,12 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 		vecRadarIMGEntries.push_back(pIMGEntry);
 	}
 
+	///*
 	std::sort(vecRadarIMGEntries.begin(), vecRadarIMGEntries.end(), [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2)
 	{
 		return String::toUint32(Path::removeFileExtension(pIMGEntry1->getEntryName()).substr(5)) < String::toUint32(Path::removeFileExtension(pIMGEntry2->getEntryName()).substr(5));
 	});
+	//*/
 
 	for(IMGEntry *pIMGEntry : vecRadarIMGEntries)
 	{
@@ -378,7 +380,7 @@ void						RadarEditorTab::render_Type1(void)
 	Vec2u vecDimensionTileCount;
 	if (m_pIMGFile->getVersion() == IMG_3)
 	{
-		vecDimensionTileCount = Vec2u(16, 9);
+		vecDimensionTileCount = Vec2u(8, 8);
 	}
 	else
 	{
@@ -401,7 +403,19 @@ void						RadarEditorTab::render_Type1(void)
 			{
 				vecImagePosition = Vec2i(139 + 139 + 150 + (i2 * vecImageSize.x), 192 + (i * vecImageSize.y));
 			}
-			RadarEditorTabEntry *pTabEntry = getEntryByIndex(uiTabEntry);
+
+			uint32 uiTabEntry2 = uiTabEntry;
+			//if (uiTabEntry2 < 4)
+			//{
+				
+			//}
+			if (uiTabEntry < 3)
+			{
+				uiTabEntry2 = 62 - uiTabEntry;
+			}
+			else
+				uiTabEntry2 -= 3;
+			RadarEditorTabEntry *pTabEntry = getEntryByIndex(uiTabEntry2);
 			if (!pTabEntry)
 			{
 				continue;

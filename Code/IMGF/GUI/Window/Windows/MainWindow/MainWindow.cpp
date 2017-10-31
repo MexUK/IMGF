@@ -85,17 +85,32 @@ void					MainWindow::initWindow(void)
 
 void					MainWindow::initLayers(void)
 {
+	initEditors();
 	initMainLayer();
 	initMainLayerNoTabsOpen();
 	initMainMenuLayers();
 	initSettingsMenuLayer();
-	initEditors();
 
 	bindEventRef(RESIZE_WINDOW, &MainWindow::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));
+
+	setActiveEditor(m_pCollisionEditor);
 }
 
 // layer initialization
+void					MainWindow::initEditors(void)
+{
+	m_pDATEditor = addEditor<DATEditor>();
+	m_pIMGEditor = addEditor<IMGEditor>();
+	m_pItemDefinitionEditor = addEditor<ItemDefinitionEditor>();
+	m_pItemPlacementEditor = addEditor<ItemPlacementEditor>();
+	m_pModelEditor = addEditor<ModelEditor>();
+	m_pCollisionEditor = addEditor<CollisionEditor>();
+	m_pTextureEditor = addEditor<TextureEditor>();
+	m_pAnimationEditor = addEditor<AnimationEditor>();
+	m_pRadarEditor = addEditor<RadarEditor>();
+}
+
 void					MainWindow::initMainLayer(void)
 {
 	m_pMainLayer = addLayer<MainLayer>(-1, true);
@@ -186,21 +201,6 @@ void					MainWindow::initSettingsMenuLayer(void)
 	m_pSettingsMenu->addMenuItem("Update", UPDATE);
 }
 
-void					MainWindow::initEditors(void)
-{
-	m_pDATEditor				= addEditor<DATEditor>();
-	m_pIMGEditor				= addEditor<IMGEditor>();
-	m_pItemDefinitionEditor		= addEditor<ItemDefinitionEditor>();
-	m_pItemPlacementEditor		= addEditor<ItemPlacementEditor>();
-	m_pModelEditor				= addEditor<ModelEditor>();
-	m_pCollisionEditor			= addEditor<CollisionEditor>();
-	m_pTextureEditor			= addEditor<TextureEditor>();
-	m_pAnimationEditor			= addEditor<AnimationEditor>();
-	m_pRadarEditor				= addEditor<RadarEditor>();
-
-	setActiveEditor(m_pCollisionEditor);
-}
-
 void					MainWindow::addEditor(Editor *pEditor)
 {
 	m_vecEditors.addEntry(pEditor);
@@ -223,6 +223,9 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 		pActiveEditor->setEnabled(true);
 		//pActiveEditor->bindEvents();
 	}
+
+	m_pMainLayer->removeMenus();
+	m_pMainLayer->addMenus();
 
 	bool bEnableLayerWithNoTabsOpen = pActiveEditor && pActiveEditor->getEditorTabs().getEntryCount() == 0;
 	Layer *pLayerWithNoTabsOpen = getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen();

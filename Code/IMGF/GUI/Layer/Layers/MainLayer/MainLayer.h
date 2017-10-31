@@ -27,6 +27,8 @@ public:
 	void						onChangeTab(bxgx::TabBar *pTabBar);
 	void						onRemoveTab(bxgx::Tab *pTab);
 
+	void						addMenus(void);
+	void						removeMenus(void);
 	void						setCertainMenuItemsEnabled(bool bEnabled);
 
 private:

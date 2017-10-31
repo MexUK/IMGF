@@ -15,6 +15,7 @@
 #include "Control/Controls/Menu.h"
 #include "Control/Entries/MenuItem.h"
 #include "Static/DataPath.h"
+#include "Static/StdVector.h"
 
 using namespace std;
 using namespace bxcf;
@@ -63,7 +64,7 @@ void		MainLayer::onRemoveTab(Tab *pTab)
 }
 
 // controls
-void		MainLayer::addControls(void)
+void						MainLayer::addControls(void)
 {
 	int32
 		x, y, y2, w, h, w2, h2, h3;
@@ -79,6 +80,42 @@ void		MainLayer::addControls(void)
 	uiTitleBarHeight = getWindow()->getTitleBarHeight();
 	uiButtonHeight = 37;
 	uiLogWidth = 335;
+
+	// menu items
+	addMenus();
+	setCertainMenuItemsEnabled(false);
+
+	// logo
+	x = 139 + 14;
+	y = uiTitleBarHeight;
+	w = 0;
+	h = 0;
+
+	addImage(x, y, DataPath::getDataPath() + "Images/Logo.png", w, h);
+}
+
+void		MainLayer::addMenus(void)
+{
+	int32
+		x, y, y2, w, h, w2, h2, h3;
+	uint32
+		uiTitleBarHeight, uiButtonHeight, uiLogWidth;
+	Menu
+		*pMenu1, *pMenu2, *pMenu3, *pMenu4;
+	MenuItem
+		*pMenuItem1, *pMenuItem2, *pMenuItem3;
+	string
+		strStyleGroup;
+
+	uiTitleBarHeight = getWindow()->getTitleBarHeight();
+	uiButtonHeight = 37;
+	uiLogWidth = 335;
+
+	bool
+		bIsIMGEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getIMGEditor(),
+		bIsModelEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getModelEditor(),
+		bIsTextureEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getTextureEditor(),
+		bIsCollisionEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getCollisionEditor();
 
 	// top left menu
 	x = 0;
@@ -189,7 +226,10 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Import by Single Folder", IMPORT_BY_SINGLE_FOLDER);
 	pMenu3->addMenuItem("Import by Folder Recursively", IMPORT_BY_FOLDER_RECURSIVELY);
 
-	pMenu2->addMenuItem("Import by IDE", IMPORT_BY_IDE);
+	if (bIsIMGEditor)
+	{
+		pMenu2->addMenuItem("Import by IDE", IMPORT_BY_IDE);
+	}
 	pMenu2->addMenuItem("Import by Entry Names", IMPORT_BY_ENTRY_NAMES);
 
 	// export
@@ -217,12 +257,18 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Export all entries from all tabs", EXPORT_ALL_FROM_ALL_TABS);
 	pMenu3->addMenuItem("Export all entries from all tabs into grouped folders by type", EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE);
 	pMenu3->addMenuItem("Export selection from all tabs", EXPORT_SELECTION_FROM_ALL_TABS);
-	pMenu3->addMenuItem("Export by IDE from All Tabs", EXPORT_BY_IDE_FROM_ALL_TABS);
+	if (bIsIMGEditor)
+	{
+		pMenu3->addMenuItem("Export by IDE from All Tabs", EXPORT_BY_IDE_FROM_ALL_TABS);
+	}
 	pMenu3->addMenuItem("Export by Entry Names from All Tabs", EXPORT_BY_ENTRY_NAMES_FROM_ALL_TABS);
 
-	pMenu2->addMenuItem("Export by IDE", EXPORT_BY_IDE);
-	pMenu2->addMenuItem("Export by IPL", EXPORT_BY_IPL);
-	pMenu2->addMenuItem("Export by DAT", EXPORT_BY_DAT);
+	if (bIsIMGEditor)
+	{
+		pMenu2->addMenuItem("Export by IDE", EXPORT_BY_IDE);
+		pMenu2->addMenuItem("Export by IPL", EXPORT_BY_IPL);
+		pMenu2->addMenuItem("Export by DAT", EXPORT_BY_DAT);
+	}
 	pMenu2->addMenuItem("Export by Entry Names", EXPORT_BY_ENTRY_NAMES);
 
 	// quick export
@@ -243,7 +289,10 @@ void		MainLayer::addControls(void)
 	pMenuItem3 = pMenu3->addMenuItem("Replace by Single Folder", REPLACE_BY_SINGLE_FOLDER);
 	pMenuItem3 = pMenu3->addMenuItem("Replace by Folder Recursively", REPLACE_BY_FOLDER_RECURSIVELY);
 
-	pMenuItem2 = pMenu2->addMenuItem("Replace by IDE", REPLACE_BY_IDE);
+	if (bIsIMGEditor)
+	{
+		pMenuItem2 = pMenu2->addMenuItem("Replace by IDE", REPLACE_BY_IDE);
+	}
 
 	// remove
 	pMenuItem1 = pMenu1->addMenuItem("Remove", REMOVE_MENU);
@@ -261,7 +310,10 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Remove by Type", REMOVE_BY_TYPE);
 	pMenu3->addMenuItem("Remove by Version", REMOVE_BY_VERSION);
 
-	pMenu2->addMenuItem("Remove by IDE", REMOVE_BY_IDE);
+	if (bIsIMGEditor)
+	{
+		pMenu2->addMenuItem("Remove by IDE", REMOVE_BY_IDE);
+	}
 	pMenu2->addMenuItem("Remove by Entry Names", REMOVE_BY_ENTRY_NAMES);
 
 	// merge
@@ -273,35 +325,47 @@ void		MainLayer::addControls(void)
 
 	pMenu2 = pMenuItem1->addMenu();
 	pMenuItem2 = pMenu2->addMenuItem("Split Selection", SPLIT_SELECTED);
-	pMenuItem2 = pMenu2->addMenuItem("Split by IDE", SPLIT_BY_IDE);
+	if (bIsIMGEditor)
+	{
+		pMenuItem2 = pMenu2->addMenuItem("Split by IDE", SPLIT_BY_IDE);
+	}
 	pMenuItem2 = pMenu2->addMenuItem("Split by Entry Names", SPLIT_BY_ENTRY_NAMES);
 
 	// convert
 	pMenuItem1 = pMenu1->addMenuItem("Convert", CONVERT_MENU);
 	pMenu2 = pMenuItem1->addMenu();
 
-	pMenuItem2 = pMenu2->addMenuItem("IMG", CONVERT_IMG_MENU);
-	pMenu3 = pMenuItem2->addMenu();
-	pMenuItem3 = pMenu3->addMenuItem("Convert IMG Version", CONVERT_IMG_VERSION);
+	if (bIsIMGEditor)
+	{
+		pMenuItem2 = pMenu2->addMenuItem("IMG", CONVERT_IMG_MENU);
+		pMenu3 = pMenuItem2->addMenu();
+		pMenuItem3 = pMenu3->addMenuItem("Convert IMG Version", CONVERT_IMG_VERSION);
+	}
+	if (bIsIMGEditor || bIsCollisionEditor)
+	{
+		pMenuItem2 = pMenu2->addMenuItem("COL", CONVERT_COL_MENU);
+		pMenu3 = pMenuItem2->addMenu();
+		pMenuItem3 = pMenu3->addMenuItem("Convert COL Version for Selection", CONVERT_SELECTED_COL_VERSION);
+	}
+	if (bIsIMGEditor || bIsModelEditor)
+	{
+		pMenuItem2 = pMenu2->addMenuItem("DFF", CONVERT_DFF_MENU);
+		pMenu3 = pMenuItem2->addMenu();
+		pMenuItem3 = pMenu3->addMenuItem("Convert DFF RW Version for Selection", CONVERT_SELECTED_DFF_RW_VERSION);
+		pMenuItem3 = pMenu3->addMenuItem("Convert DFF to WDR for Selection", CONVERT_SELECTED_DFF_TO_WDR);
+	}
+	if (bIsIMGEditor || bIsTextureEditor)
+	{
+		pMenuItem2 = pMenu2->addMenuItem("TXD", CONVERT_TXD_MENU);
+		pMenu3 = pMenuItem2->addMenu();
+		pMenuItem3 = pMenu3->addMenuItem("Convert TXD RW Version for Selection", CONVERT_SELECTED_TXD_RW_VERSION);
+		pMenuItem3 = pMenu3->addMenuItem("Convert TXD to Game for Selection", CONVERT_SELECTED_TXD_TO_GAME);
+		pMenuItem3 = pMenu3->addMenuItem("Convert TXD to Texture Format for Selection", CONVERT_SELECTED_TXD_TO_TEXTURE_FORMAT);
 
-	pMenuItem2 = pMenu2->addMenuItem("COL", CONVERT_COL_MENU);
-	pMenu3 = pMenuItem2->addMenu();
-	pMenuItem3 = pMenu3->addMenuItem("Convert COL Version for Selection", CONVERT_SELECTED_COL_VERSION);
-
-	pMenuItem2 = pMenu2->addMenuItem("DFF", CONVERT_DFF_MENU);
-	pMenu3 = pMenuItem2->addMenu();
-	pMenuItem3 = pMenu3->addMenuItem("Convert DFF RW Version for Selection", CONVERT_SELECTED_DFF_RW_VERSION);
-	pMenuItem3 = pMenu3->addMenuItem("Convert DFF to WDR for Selection", CONVERT_SELECTED_DFF_TO_WDR);
-
-	pMenuItem2 = pMenu2->addMenuItem("TXD", CONVERT_TXD_MENU);
-	pMenu3 = pMenuItem2->addMenu();
-	pMenuItem3 = pMenu3->addMenuItem("Convert TXD RW Version for Selection", CONVERT_SELECTED_TXD_RW_VERSION);
-	pMenuItem3 = pMenu3->addMenuItem("Convert TXD to Game for Selection", CONVERT_SELECTED_TXD_TO_GAME);
-	pMenuItem3 = pMenu3->addMenuItem("Convert TXD to Texture Format for Selection", CONVERT_SELECTED_TXD_TO_TEXTURE_FORMAT);
-
-	pMenuItem2 = pMenu2->addMenuItem("WTD", CONVERT_WTD_MENU);
-	pMenu3 = pMenuItem2->addMenu();
-	pMenuItem3 = pMenu3->addMenuItem("Convert WTD to TXD for Selection", CONVERT_SELECTED_WTD_TO_TXD);
+		pMenuItem2 = pMenu2->addMenuItem("WTD", CONVERT_WTD_MENU);
+		pMenu3 = pMenuItem2->addMenu();
+		pMenuItem3 = pMenu3->addMenuItem("Convert WTD to TXD for Selection", CONVERT_SELECTED_WTD_TO_TXD);
+	}
 
 	// select
 	pMenuItem1 = pMenu1->addMenuItem("Select", SELECT_MENU);
@@ -321,7 +385,10 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Select by Type", SELECT_BY_TYPE);
 	pMenu3->addMenuItem("Select by Version", SELECT_BY_VERSION);
 
-	pMenu2->addMenuItem("Select by IDE", SELECT_BY_IDE);
+	if (bIsIMGEditor)
+	{
+		pMenu2->addMenuItem("Select by IDE", SELECT_BY_IDE);
+	}
 
 	pMenuItem2 = pMenu2->addMenuItem("Unselect by Column..", UNSELECT_BY_COLUMN_MENU);
 
@@ -333,7 +400,10 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Unselect by Type", UNSELECT_BY_TYPE);
 	pMenu3->addMenuItem("Unselect by Version", UNSELECT_BY_VERSION);
 
-	pMenu2->addMenuItem("Unselect by IDE", UNSELECT_BY_IDE);
+	if (bIsIMGEditor)
+	{
+		pMenu2->addMenuItem("Unselect by IDE", UNSELECT_BY_IDE);
+	}
 
 	// sort
 	pMenuItem1 = pMenu1->addMenuItem("Sort", SORT_MENU);
@@ -376,8 +446,11 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Sort by Version (Old-New)", SORT_BY_VERSION_OLD_NEW);
 	pMenu3->addMenuItem("Sort by Version (New-Old)", SORT_BY_VERSION_NEW_OLD);
 
-	pMenu2->addMenuItem("Sort by IDE", SORT_BY_IDE);
-	pMenu2->addMenuItem("Sort by COL", SORT_BY_COL);
+	if (bIsIMGEditor)
+	{
+		pMenu2->addMenuItem("Sort by IDE", SORT_BY_IDE);
+		pMenu2->addMenuItem("Sort by COL", SORT_BY_COL);
+	}
 
 	// LST
 	pMenu1->addMenuItem("LST", LST);
@@ -417,71 +490,77 @@ void		MainLayer::addControls(void)
 	pMenu3->addMenuItem("Shift Entries Down 100 Rows", SHIFT_ENTRY_DOWN_100_ROWS);
 	pMenu3->addMenuItem("Shift Entries Down 1000 Rows", SHIFT_ENTRY_DOWN_1000_ROWS);
 
-	// orphan entries
-	pMenuItem1 = pMenu1->addMenuItem("Orphan Entries", ORPHAN_ENTRIES_MENU);
-	pMenu2 = pMenuItem1->addMenu();
-	pMenu2->addMenuItem("Remove Orphan Textures from DFF Entries", REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES);
-	pMenu2->addMenuItem("Find Orphan IMG Entries not in IDE", FIND_ORPHAN_IMG_ENTRIES_NOT_IN_IDE);
-	pMenu2->addMenuItem("Find Orphan IDE Entries not in IMG", FIND_ORPHAN_IDE_ENTRIES_NOT_IN_IMG);
-	pMenu2->addMenuItem("Find Orphan TXD Textures for DFFs in IMG by IDE", FIND_ORPHAN_TXD_TEXTURES_FOR_DFFS_IN_IMG_BY_IDE);
+	if (bIsIMGEditor)
+	{
+		// orphan entries
+		pMenuItem1 = pMenu1->addMenuItem("Orphan Entries", ORPHAN_ENTRIES_MENU);
+		pMenu2 = pMenuItem1->addMenu();
+		pMenu2->addMenuItem("Remove Orphan Textures from DFF Entries", REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES);
+		pMenu2->addMenuItem("Find Orphan IMG Entries not in IDE", FIND_ORPHAN_IMG_ENTRIES_NOT_IN_IDE);
+		pMenu2->addMenuItem("Find Orphan IDE Entries not in IMG", FIND_ORPHAN_IDE_ENTRIES_NOT_IN_IMG);
+		pMenu2->addMenuItem("Find Orphan TXD Textures for DFFs in IMG by IDE", FIND_ORPHAN_TXD_TEXTURES_FOR_DFFS_IN_IMG_BY_IDE);
 
-	// tools
-	pMenuItem1 = pMenu1->addMenuItem("Tools");
-	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
+		// tools
+		pMenuItem1 = pMenu1->addMenuItem("Tools");
+		pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
-	pMenu2 = pMenuItem1->addMenu();
-	pMenu2->addMenuItem("Dump", DUMP);
-	pMenu2->addMenuItem("Session Manager", SESSION_MANAGER);
-	pMenu2->addMenuItem("Renamer", RENAMER);
-	pMenu2->addMenuItem("TXD Builder", TXD_BUILDER);
-	pMenu2->addMenuItem("TXD Organizer", TXD_ORGANIZER);
-	pMenu2->addMenuItem("DAT Paths Mover", DAT_PATHS_MOVER);
-	pMenu2->addMenuItem("Map Mover and ID Shifter", MAP_MOVER_AND_ID_SHIFTER);
+		pMenu2 = pMenuItem1->addMenu();
+		pMenu2->addMenuItem("Dump", DUMP);
+		pMenu2->addMenuItem("Session Manager", SESSION_MANAGER);
+		pMenu2->addMenuItem("Renamer", RENAMER);
+		pMenu2->addMenuItem("TXD Builder", TXD_BUILDER);
+		pMenu2->addMenuItem("TXD Organizer", TXD_ORGANIZER);
+		pMenu2->addMenuItem("DAT Paths Mover", DAT_PATHS_MOVER);
+		pMenu2->addMenuItem("Map Mover and ID Shifter", MAP_MOVER_AND_ID_SHIFTER);
 
-	// other
-	pMenuItem1 = pMenu1->addMenuItem("Other");
+		// other
+		pMenuItem1 = pMenu1->addMenuItem("Other");
 
-	pMenu2 = pMenuItem1->addMenu();
-	pMenu2->addMenuItem("Texture List", TEXTURE_LIST);
-	pMenu2->addMenuItem("Stats", STATS);
+		pMenu2 = pMenuItem1->addMenu();
+		pMenu2->addMenuItem("Texture List", TEXTURE_LIST);
+		pMenu2->addMenuItem("Stats", STATS);
 
-	pMenuItem2 = pMenu2->addMenuItem("Find Duplicate Entries");
-	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Find Duplicate Entries in Selection", FIND_DUPLICATE_ENTRIES_IN_SELECTION);
-	pMenu3->addMenuItem("Find Duplicate Entries in Tab", FIND_DUPLICATE_ENTRIES_IN_TAB);
-	pMenu3->addMenuItem("Find Duplicate Entries in All Tabs", FIND_DUPLICATE_ENTRIES_IN_ALL_TABS);
-	pMenu3->addMenuItem("Find Duplicate Entries by DAT", FIND_DUPLICATE_ENTRIES_BY_DAT);
+		pMenuItem2 = pMenu2->addMenuItem("Find Duplicate Entries");
+		pMenu3 = pMenuItem2->addMenu();
+		pMenu3->addMenuItem("Find Duplicate Entries in Selection", FIND_DUPLICATE_ENTRIES_IN_SELECTION);
+		pMenu3->addMenuItem("Find Duplicate Entries in Tab", FIND_DUPLICATE_ENTRIES_IN_TAB);
+		pMenu3->addMenuItem("Find Duplicate Entries in All Tabs", FIND_DUPLICATE_ENTRIES_IN_ALL_TABS);
+		pMenu3->addMenuItem("Find Duplicate Entries by DAT", FIND_DUPLICATE_ENTRIES_BY_DAT);
 
-	pMenu2->addMenuItem("Compare IMGs", COMPARE_IMGS);
-	pMenu2->addMenuItem("Model List for IDE/IPL by DAT", MODEL_LIST_FOR_IDE_AND_IPL_BY_DAT);
-	pMenu2->addMenuItem("Save IMG Signature", SAVE_IMG_SIGNATURE);
-	pMenu2->addMenuItem("Verify IMG Signature", VERIFY_IMG_SIGNATURE);
-	pMenu2->addMenuItem("Validate DFF in Tab", VALIDATE_DFF_IN_TAB);
-	pMenu2->addMenuItem("Validate TXD in Tab", VALIDATE_TXD_IN_TAB);
-	pMenu2->addMenuItem("Center COL Meshes in Selection", CENTER_COL_MESHES_IN_SELECTION);
-	pMenu2->addMenuItem("Align COL Meshes to DFF Meshes", ALIGN_COL_MESHES_TO_DFF_MESHES);
-	pMenu2->addMenuItem("Extract DVC and NVC into DFFs", EXTRACT_DVC_AND_NVC_INTO_DFFS);
-	pMenu2->addMenuItem("Extract 2DFX into DFFs", EXTRACT_2DFX_INTO_DFFS);
-	pMenu2->addMenuItem("IMG Compression", IMG_COMPRESSION);
-	pMenu2->addMenuItem("Generate COL from DFF", GENERATE_COL_FROM_DFF);
-	
-	// set certain items enabled
-	setCertainMenuItemsEnabled(false);
+		pMenu2->addMenuItem("Compare IMGs", COMPARE_IMGS);
+		pMenu2->addMenuItem("Model List for IDE/IPL by DAT", MODEL_LIST_FOR_IDE_AND_IPL_BY_DAT);
+		pMenu2->addMenuItem("Save IMG Signature", SAVE_IMG_SIGNATURE);
+		pMenu2->addMenuItem("Verify IMG Signature", VERIFY_IMG_SIGNATURE);
+		pMenu2->addMenuItem("Validate DFF in Tab", VALIDATE_DFF_IN_TAB);
+		pMenu2->addMenuItem("Validate TXD in Tab", VALIDATE_TXD_IN_TAB);
+		pMenu2->addMenuItem("Center COL Meshes in Selection", CENTER_COL_MESHES_IN_SELECTION);
+		pMenu2->addMenuItem("Align COL Meshes to DFF Meshes", ALIGN_COL_MESHES_TO_DFF_MESHES);
+		pMenu2->addMenuItem("Extract DVC and NVC into DFFs", EXTRACT_DVC_AND_NVC_INTO_DFFS);
+		pMenu2->addMenuItem("Extract 2DFX into DFFs", EXTRACT_2DFX_INTO_DFFS);
+		pMenu2->addMenuItem("IMG Compression", IMG_COMPRESSION);
+		pMenu2->addMenuItem("Generate COL from DFF", GENERATE_COL_FROM_DFF);
+	}
+}
 
-
-
-
-	// logo
-	x = 139 + 14;
-	y = uiTitleBarHeight;
-	w = 0;
-	h = 0;
-
-	addImage(x, y, DataPath::getDataPath() + "Images/Logo.png", w, h);
+void						MainLayer::removeMenus(void)
+{
+	for (Control *pControl : vector<Control*>(getControls()->getEntries()))
+	{
+		if (pControl->getControlType() == MENU)
+		{
+			removeControl(pControl);
+		}
+	}
 }
 
 void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
 {
+	bool
+		bIsIMGEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getIMGEditor(),
+		bIsModelEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getModelEditor(),
+		bIsTextureEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getTextureEditor(),
+		bIsCollisionEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getCollisionEditor();
+
 	// disable certain menu items
 	vector<EInputItem> vecMenuItemIds = {
 		// second left and top menus
@@ -541,7 +620,6 @@ void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
 		IMPORT_BY_FILES,
 		IMPORT_BY_SINGLE_FOLDER,
 		IMPORT_BY_FOLDER_RECURSIVELY,
-		IMPORT_BY_IDE,
 		IMPORT_BY_ENTRY_NAMES,
 
 		EXPORT_SELECTED,
@@ -556,10 +634,6 @@ void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
 		EXPORT_ALL_FROM_ALL_TABS,
 		EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE,
 		EXPORT_SELECTION_FROM_ALL_TABS,
-		EXPORT_BY_IDE,
-		EXPORT_BY_IDE_FROM_ALL_TABS,
-		EXPORT_BY_IPL,
-		EXPORT_BY_DAT,
 		EXPORT_BY_ENTRY_NAMES,
 		EXPORT_BY_ENTRY_NAMES_FROM_ALL_TABS,
 
@@ -570,7 +644,6 @@ void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
 		REPLACE_BY_FILES,
 		REPLACE_BY_SINGLE_FOLDER,
 		REPLACE_BY_FOLDER_RECURSIVELY,
-		REPLACE_BY_IDE,
 
 		REMOVE_SELECTED,
 		REMOVE_ALL,
@@ -580,23 +653,12 @@ void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
 		REMOVE_BY_SIZE,
 		REMOVE_BY_TYPE,
 		REMOVE_BY_VERSION,
-		REMOVE_BY_IDE,
 		REMOVE_BY_ENTRY_NAMES,
 
 		MERGE,
 
 		SPLIT_SELECTED,
-		SPLIT_BY_IDE,
 		SPLIT_BY_ENTRY_NAMES,
-
-		CONVERT_IMG_VERSION,
-		CONVERT_SELECTED_COL_VERSION,
-		CONVERT_SELECTED_DFF_RW_VERSION,
-		CONVERT_SELECTED_DFF_TO_WDR,
-		CONVERT_SELECTED_TXD_RW_VERSION,
-		CONVERT_SELECTED_TXD_TO_GAME,
-		CONVERT_SELECTED_TXD_TO_TEXTURE_FORMAT,
-		CONVERT_SELECTED_WTD_TO_TXD,
 
 		SELECT_ALL,
 		UNSELECT_ALL,
@@ -607,14 +669,12 @@ void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
 		SELECT_BY_SIZE,
 		SELECT_BY_TYPE,
 		SELECT_BY_VERSION,
-		SELECT_BY_IDE,
 		UNSELECT_BY_INDEX,
 		UNSELECT_BY_NAME,
 		UNSELECT_BY_OFFSET,
 		UNSELECT_BY_SIZE,
 		UNSELECT_BY_TYPE,
 		UNSELECT_BY_VERSION,
-		UNSELECT_BY_IDE,
 
 		SORT_BY_INDEX_REVERSE,
 		SORT_BY_NAME_ASCENDING_09AZ,
@@ -629,8 +689,6 @@ void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
 		SORT_BY_TYPE_ZA,
 		SORT_BY_VERSION_OLD_NEW,
 		SORT_BY_VERSION_NEW_OLD,
-		SORT_BY_IDE,
-		SORT_BY_COL,
 
 		NAME_CASE_LOWER,
 		NAME_CASE_UPPER,
@@ -653,27 +711,68 @@ void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
 		SHIFT_ENTRY_DOWN_5_ROWS,
 		SHIFT_ENTRY_DOWN_10_ROWS,
 		SHIFT_ENTRY_DOWN_100_ROWS,
-		SHIFT_ENTRY_DOWN_1000_ROWS,
-
-		REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES,
-		FIND_ORPHAN_IMG_ENTRIES_NOT_IN_IDE,
-		FIND_ORPHAN_IDE_ENTRIES_NOT_IN_IMG,
-		FIND_ORPHAN_TXD_TEXTURES_FOR_DFFS_IN_IMG_BY_IDE,
-
-		TEXTURE_LIST,
-		STATS,
-		FIND_DUPLICATE_ENTRIES_IN_SELECTION,
-		FIND_DUPLICATE_ENTRIES_IN_TAB,
-		FIND_DUPLICATE_ENTRIES_IN_ALL_TABS,
-		COMPARE_IMGS,
-		SAVE_IMG_SIGNATURE,
-		VERIFY_IMG_SIGNATURE,
-		VALIDATE_DFF_IN_TAB,
-		VALIDATE_TXD_IN_TAB,
-		CENTER_COL_MESHES_IN_SELECTION,
-		IMG_COMPRESSION
+		SHIFT_ENTRY_DOWN_1000_ROWS
 	};
-	
+	if (bIsIMGEditor)
+	{
+		StdVector::addToVector(vecMenuItemIds, vector<EInputItem>({
+			IMPORT_BY_IDE,
+			EXPORT_BY_IDE,
+			EXPORT_BY_IDE_FROM_ALL_TABS,
+			EXPORT_BY_IPL,
+			EXPORT_BY_DAT,
+			REPLACE_BY_IDE,
+			REMOVE_BY_IDE,
+			SPLIT_BY_IDE,
+			SELECT_BY_IDE,
+			UNSELECT_BY_IDE,
+			SORT_BY_IDE,
+			SORT_BY_COL,
+
+			REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES,
+			FIND_ORPHAN_IMG_ENTRIES_NOT_IN_IDE,
+			FIND_ORPHAN_IDE_ENTRIES_NOT_IN_IMG,
+			FIND_ORPHAN_TXD_TEXTURES_FOR_DFFS_IN_IMG_BY_IDE,
+
+			TEXTURE_LIST,
+			STATS,
+			FIND_DUPLICATE_ENTRIES_IN_SELECTION,
+			FIND_DUPLICATE_ENTRIES_IN_TAB,
+			FIND_DUPLICATE_ENTRIES_IN_ALL_TABS,
+			COMPARE_IMGS,
+			SAVE_IMG_SIGNATURE,
+			VERIFY_IMG_SIGNATURE,
+			VALIDATE_DFF_IN_TAB,
+			VALIDATE_TXD_IN_TAB,
+			CENTER_COL_MESHES_IN_SELECTION,
+			IMG_COMPRESSION,
+
+			CONVERT_IMG_VERSION
+		}));
+		if (bIsIMGEditor || bIsCollisionEditor)
+		{
+			StdVector::addToVector(vecMenuItemIds, vector<EInputItem>({
+				CONVERT_SELECTED_COL_VERSION
+			}));
+		}
+		if (bIsIMGEditor || bIsModelEditor)
+		{
+			StdVector::addToVector(vecMenuItemIds, vector<EInputItem>({
+				CONVERT_SELECTED_DFF_RW_VERSION,
+				CONVERT_SELECTED_DFF_TO_WDR
+			}));
+		}
+		if (bIsIMGEditor || bIsTextureEditor)
+		{
+			StdVector::addToVector(vecMenuItemIds, vector<EInputItem>({
+				CONVERT_SELECTED_TXD_RW_VERSION,
+				CONVERT_SELECTED_TXD_TO_GAME,
+				CONVERT_SELECTED_TXD_TO_TEXTURE_FORMAT,
+				CONVERT_SELECTED_WTD_TO_TXD
+			}));
+		}
+	}
+
 	for (EInputItem uiMenuItemId : vecMenuItemIds)
 	{
 		MenuItem *pMenuItem = (MenuItem*) m_pWindow->getItemById(uiMenuItemId);

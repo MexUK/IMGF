@@ -19,7 +19,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6FBD84F0-8530-44AD-A2E6-AFFC9A23EF67}</ProjectGuid>
     <RootNamespace>IMGF.BuildVersion</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
     <ProjectName>IMGF.BuildVersion</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
