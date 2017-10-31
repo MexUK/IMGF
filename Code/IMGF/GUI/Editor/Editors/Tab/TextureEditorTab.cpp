@@ -21,6 +21,7 @@
 #include "../BXGI/Event/EEvent.h"
 #include "Event/EInputEvent.h"
 #include "Image/ImageManager.h"
+#include "GUI/Editor/Base/Editor.h"
 
 using namespace std;
 using namespace bxcf;
@@ -330,7 +331,7 @@ void					TextureEditorTab::onFileLoaded(void)
 	updateTabText();
 
 	// add file path to recently opened files list
-	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(strFilePath);
+	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), strFilePath);
 
 	// prepare render data
 	if (String::toUpperCase(Path::getFileExtension(strFilePath)) == "TXD")

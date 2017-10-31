@@ -16,6 +16,8 @@
 class imgf::ModelEditor : public imgf::Editor
 {
 public:
+	ModelEditor(void) : Editor(MODEL_EDITOR) {}
+
 	void								init(void);
 	
 	void								bindEvents(void);

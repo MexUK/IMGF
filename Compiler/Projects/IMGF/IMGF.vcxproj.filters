@@ -833,6 +833,9 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Entry\RadarEditorTabEntry.h">
       <Filter>Header Files\GUI\Editor\Editors\Entry</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\EEditor.h">
+      <Filter>Header Files\GUI\Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IMGF.rc">

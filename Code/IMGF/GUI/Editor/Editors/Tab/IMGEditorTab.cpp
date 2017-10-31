@@ -118,7 +118,7 @@ void					IMGEditorTab::onFileLoaded(void)
 	updateTabText();
 
 	// add file path to recently opened files list
-	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(strFilePath);
+	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), strFilePath);
 
 	// store render items
 	getRenderItems().addEntry(m_pEntryGrid);
@@ -148,9 +148,11 @@ void					IMGEditorTab::onFileLoaded(void)
 
 	return;
 
+	// todo
+
 	// add to recently open
 	
-	getIMGF()->getRecentlyOpenManager()->loadRecentlyOpenEntries();
+	//getIMGF()->getRecentlyOpenManager()->loadRecentlyOpenEntries();
 
 	// update filename for open last
 	getIMGF()->getActiveWindow()->setOpenLastFilename(Path::getFileName(getIMGFile()->getFilePath()));

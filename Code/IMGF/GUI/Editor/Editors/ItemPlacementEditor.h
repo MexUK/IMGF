@@ -15,6 +15,8 @@
 class imgf::ItemPlacementEditor : public imgf::Editor
 {
 public:
+	ItemPlacementEditor(void) : Editor(ITEM_PLACEMENT_EDITOR) {}
+
 	void								init(void);
 	
 	void								bindEvents(void);

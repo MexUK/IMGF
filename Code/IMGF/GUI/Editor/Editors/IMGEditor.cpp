@@ -34,6 +34,7 @@
 #include "../IMGF/Event/EEvent.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
+#include "GUI/Editor/EEditor.h"
 
 // for menu start - todo
 #include "Engine/RW/RWManager.h"
@@ -60,6 +61,7 @@ using namespace imgf;
 using namespace imgf::editor::items;
 
 IMGEditor::IMGEditor(void) :
+	Editor(IMG_EDITOR),
 	m_pEntryGrid(nullptr),
 	m_pEntryTypeFilter(nullptr),
 	m_pEntryVersionFilter(nullptr),

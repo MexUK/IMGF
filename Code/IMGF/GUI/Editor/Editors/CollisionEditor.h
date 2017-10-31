@@ -10,6 +10,8 @@ extern HDC hDC;
 class imgf::CollisionEditor : public imgf::Editor
 {
 public:
+	CollisionEditor(void) : Editor(COLLISION_EDITOR) {}
+
 	void								init(void);
 
 	void								bindEvents(void);

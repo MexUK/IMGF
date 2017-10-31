@@ -28,28 +28,28 @@ using namespace imgf::mainLayer::input;
 // initialization
 void					RecentlyOpenManager::init(void)
 {
-	bindEvent(BXGX_READY, &RecentlyOpenManager::loadRecentlyOpenEntries);
+	// todo bindEvent(BXGX_READY, &RecentlyOpenManager::loadRecentlyOpenEntries);
 }
 
 void					RecentlyOpenManager::uninit(void)
 {
-	unloadRecentlyOpenEntries();
+	// todo unloadRecentlyOpenEntries();
 }
 
 // load/unload entries
-void					RecentlyOpenManager::loadRecentlyOpenEntries(void)
+void					RecentlyOpenManager::loadRecentlyOpenEntries(EEditor uiEditor)
 {
-	removeAllEntries();
+	m_umapFilePaths[uiEditor].removeAllEntries();
 
 	Menu *pRecentlyOpenMenu = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pRecentlyOpenMenu;
 	
 	pRecentlyOpenMenu->removeAllMenuItems();
-	m_umapRecentlyOpenedFiles.clear();
 
-	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
+	string strINISectionName = Editor::getEditorName(uiEditor);
+	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, "Count"));
 	for (int32 i = uiRecentlyOpenedCount; i >= 1; i--)
 	{
-		string strIMGPath = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i));
+		string strIMGPath = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, String::toString(i));
 
 		string strMenuItemText = String::toString((uiRecentlyOpenedCount - i) + 1) + ") " + strIMGPath;
 		pRecentlyOpenMenu->addMenuItem(strMenuItemText, 1800 + i);
@@ -58,7 +58,7 @@ void					RecentlyOpenManager::loadRecentlyOpenEntries(void)
 
 		RecentlyOpenEntry *pRecentlyOpenEntry = new RecentlyOpenEntry;
 		pRecentlyOpenEntry->m_strPath = strIMGPath;
-		addEntry(pRecentlyOpenEntry);
+		m_umapFilePaths[uiEditor].addEntry(pRecentlyOpenEntry);
 	}
 
 	if (uiRecentlyOpenedCount == 0)
@@ -69,30 +69,32 @@ void					RecentlyOpenManager::loadRecentlyOpenEntries(void)
 	pRecentlyOpenMenu->addMenuItem("Clear Recently Open Files", CLEAR_RECENTLY_OPEN_FILES);
 }
 
-void					RecentlyOpenManager::unloadRecentlyOpenEntries(void)
+void					RecentlyOpenManager::unloadRecentlyOpenEntries(EEditor uiEditor)
 {
-	removeAllEntries();
+	m_umapFilePaths[uiEditor].removeAllEntries();
 }
 
 // add/remove entries
-RecentlyOpenEntry*		RecentlyOpenManager::addRecentlyOpenEntry(string strFilePath)
+RecentlyOpenEntry*		RecentlyOpenManager::addRecentlyOpenEntry(EEditor uiEditor, string strFilePath)
 {
-	if (doesRecentlyOpenEntryExist(strFilePath))
+	if (doesRecentlyOpenEntryExist(uiEditor, strFilePath))
 	{
-		moveRecentlyOpenEntryToTop(strFilePath);
-		loadRecentlyOpenEntries();
-		RecentlyOpenEntry *pRecentlyOpenEntry = getRecentlyOpenEntryByPath(strFilePath);
+		moveRecentlyOpenEntryToTop(uiEditor, strFilePath);
+		loadRecentlyOpenEntries(uiEditor);
+		RecentlyOpenEntry *pRecentlyOpenEntry = getRecentlyOpenEntryByPath(uiEditor, strFilePath);
 		return pRecentlyOpenEntry;
 	}
+
+	string strINISectionName = Editor::getEditorName(uiEditor);
 
 	strFilePath = String::replace(strFilePath, "/", "\\");
 
 	RecentlyOpenEntry *pRecentlyOpenEntry = new RecentlyOpenEntry;
 	pRecentlyOpenEntry->m_strPath = strFilePath;
-	addEntry(pRecentlyOpenEntry);
+	m_umapFilePaths[uiEditor].addEntry(pRecentlyOpenEntry);
 
 	uint32 uiRecentlyOpenedMaxCount = 15;
-	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
+	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, "Count"));
 
 	Menu *pRecentlyOpenMenu = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pRecentlyOpenMenu;
 
@@ -113,22 +115,23 @@ RecentlyOpenEntry*		RecentlyOpenManager::addRecentlyOpenEntry(string strFilePath
 	{
 		for (uint32 i = 2; i <= uiRecentlyOpenedMaxCount; i++)
 		{
-			string strIMGPath2 = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i));
-			INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i - 1), strIMGPath2);
+			string strIMGPath2 = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, String::toString(i));
+			INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, String::toString(i - 1), strIMGPath2);
 		}
-		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedMaxCount), strFilePath);
+		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, String::toString(uiRecentlyOpenedMaxCount), strFilePath);
 	}
 	else
 	{
-		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count", String::toString(uiRecentlyOpenedCount + 1));
-		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedCount + 1), strFilePath);
+		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, "Count", String::toString(uiRecentlyOpenedCount + 1));
+		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, String::toString(uiRecentlyOpenedCount + 1), strFilePath);
 	}
 
 	return pRecentlyOpenEntry;
 }
 
-void					RecentlyOpenManager::removeRecentlyOpenedEntries(void)
+void					RecentlyOpenManager::removeRecentlyOpenedEntries(EEditor uiEditor)
 {
+	string strINISectionName = Editor::getEditorName(uiEditor);
 	Menu *pRecentlyOpenMenu = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pRecentlyOpenMenu;
 
 	pRecentlyOpenMenu->removeAllMenuItems();
@@ -136,42 +139,45 @@ void					RecentlyOpenManager::removeRecentlyOpenedEntries(void)
 
 	getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer().clear();
 
-	removeAllEntries();
+	m_umapFilePaths[uiEditor].removeAllEntries();
 	getIMGF()->getWindowManager()->getMainWindow()->clearOpenLastFilename();
 
-	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
+	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, "Count"));
 	for (uint32 i = 1; i <= uiRecentlyOpenedCount; i++)
 	{
-		INIManager::removeItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i));
+		INIManager::removeItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, String::toString(i));
 	}
-	INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count", "0");
+	INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, "Count", "0");
 
-	loadRecentlyOpenEntries();
+	loadRecentlyOpenEntries(uiEditor);
 }
 
-void					RecentlyOpenManager::removeRecentlyOpenEntry(RecentlyOpenEntry *pRecentlyOpenEntry)
+void					RecentlyOpenManager::removeRecentlyOpenEntry(EEditor uiEditor, RecentlyOpenEntry *pRecentlyOpenEntry)
 {
-	uint32 uiRecentlyOpenedIndex = getRecentlyOpenedFileIndex(pRecentlyOpenEntry->getPath());
-	INIManager::removeItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedIndex));
+	string strINISectionName = Editor::getEditorName(uiEditor);
 
-	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
+	uint32 uiRecentlyOpenedIndex = getRecentlyOpenedFileIndex(uiEditor, pRecentlyOpenEntry->getPath());
+	INIManager::removeItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, String::toString(uiRecentlyOpenedIndex));
+
+	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, "Count"));
 	for (uint32 i = uiRecentlyOpenedIndex; i <= uiRecentlyOpenedCount; i++)
 	{
-		string strIMGPath2 = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i + 1));
-		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i), strIMGPath2);
+		string strIMGPath2 = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, String::toString(i + 1));
+		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, String::toString(i), strIMGPath2);
 	}
-	INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count", String::toString(uiRecentlyOpenedCount - 1));
+	INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, "Count", String::toString(uiRecentlyOpenedCount - 1));
 
-	removeEntry(pRecentlyOpenEntry);
+	m_umapFilePaths[uiEditor].removeEntry(pRecentlyOpenEntry);
 }
 
 // entry fetching
-uint32			RecentlyOpenManager::getRecentlyOpenedFileIndex(string strIMGPath)
+uint32			RecentlyOpenManager::getRecentlyOpenedFileIndex(EEditor uiEditor, string strIMGPath)
 {
-	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
+	string strINISectionName = Editor::getEditorName(uiEditor);
+	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, "Count"));
 	for (uint32 i = 1; i <= uiRecentlyOpenedCount; i++)
 	{
-		string strIMGPath2 = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(i));
+		string strIMGPath2 = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, String::toString(i));
 		if (strIMGPath2 == strIMGPath)
 		{
 			return i;
@@ -180,11 +186,11 @@ uint32			RecentlyOpenManager::getRecentlyOpenedFileIndex(string strIMGPath)
 	return -1;
 }
 
-RecentlyOpenEntry*		RecentlyOpenManager::getRecentlyOpenEntryByPath(string strPath)
+RecentlyOpenEntry*		RecentlyOpenManager::getRecentlyOpenEntryByPath(EEditor uiEditor, string strPath)
 {
 	strPath = String::toUpperCase(strPath);
 	strPath = String::replace(strPath, "\\", "/");
-	for (auto pRecentlyOpenEntry : getEntries())
+	for (auto pRecentlyOpenEntry : m_umapFilePaths[uiEditor].getEntries())
 	{
 		if (String::replace(String::toUpperCase(pRecentlyOpenEntry->m_strPath), "\\", "/") == strPath)
 		{
@@ -194,27 +200,28 @@ RecentlyOpenEntry*		RecentlyOpenManager::getRecentlyOpenEntryByPath(string strPa
 	return nullptr;
 }
 
-string					RecentlyOpenManager::getLastOpenEntry(void)
+string					RecentlyOpenManager::getLastOpenEntry(EEditor uiEditor)
 {
-	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
+	string strINISectionName = Editor::getEditorName(uiEditor);
+	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, "Count"));
 	if (uiRecentlyOpenedCount == 0)
 	{
 		return "";
 	}
 
-	string strIMGPath = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedCount));
+	string strIMGPath = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, String::toString(uiRecentlyOpenedCount));
 	return strIMGPath;
 }
 
 // entry testing
-bool					RecentlyOpenManager::doesRecentlyOpenEntryExist(string strPath)
+bool					RecentlyOpenManager::doesRecentlyOpenEntryExist(EEditor uiEditor, string strPath)
 {
-	return getRecentlyOpenEntryByPath(strPath) != nullptr;
+	return getRecentlyOpenEntryByPath(uiEditor, strPath) != nullptr;
 }
 
 // entry moving
-void					RecentlyOpenManager::moveRecentlyOpenEntryToTop(string strIMGPath)
+void					RecentlyOpenManager::moveRecentlyOpenEntryToTop(EEditor uiEditor, string strIMGPath)
 {
-	removeRecentlyOpenEntry(getRecentlyOpenEntryByPath(strIMGPath));
-	addRecentlyOpenEntry(strIMGPath);
+	removeRecentlyOpenEntry(uiEditor, getRecentlyOpenEntryByPath(uiEditor, strIMGPath));
+	addRecentlyOpenEntry(uiEditor, strIMGPath);
 }

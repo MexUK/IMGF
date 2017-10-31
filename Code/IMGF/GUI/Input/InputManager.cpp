@@ -175,7 +175,7 @@ void					InputManager::processMenuItemPress(MenuItem *pMenuItem)
 	if (getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer().find(pMenuItem->getId()) != getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer().end())
 	{
 		string strRecentlyOpenFilePath = getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer()[pMenuItem->getId()];
-		getIMGF()->getRecentlyOpenManager()->moveRecentlyOpenEntryToTop(strRecentlyOpenFilePath);
+		getIMGF()->getRecentlyOpenManager()->moveRecentlyOpenEntryToTop(m_pMainWindow->getActiveEditor()->getEditorType(), strRecentlyOpenFilePath);
 		getIMGF()->getIMGEditor()->addEditorTab(strRecentlyOpenFilePath);
 		return;
 	}

@@ -474,7 +474,7 @@ void		Tasks::clearRecentlyOpenFiles(void)
 {
 	onStartTask("clearRecentlyOpenFiles");
 
-	getIMGF()->getRecentlyOpenManager()->removeRecentlyOpenedEntries();
+	getIMGF()->getRecentlyOpenManager()->removeRecentlyOpenedEntries(getIMGF()->getWindowManager()->getMainWindow()->getActiveEditor()->getEditorType());
 
 	onCompleteTask();
 }

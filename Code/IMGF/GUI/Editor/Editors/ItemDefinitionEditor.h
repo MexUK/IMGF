@@ -15,6 +15,8 @@
 class imgf::ItemDefinitionEditor : public imgf::Editor
 {
 public:
+	ItemDefinitionEditor(void) : Editor(ITEM_DEFINITION_EDITOR) {}
+
 	void								init(void);
 	
 	void								bindEvents(void);

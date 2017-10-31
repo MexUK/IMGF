@@ -13,6 +13,7 @@
 #include "IMGF.h"
 #include "Engine/RW/RWManager.h"
 #include "Engine/RW/RWVersionManager.h"
+#include "GUI/Editor/EEditor.h"
 
 using namespace std;
 using namespace bxcf;
@@ -23,6 +24,7 @@ using namespace bxgi;
 using namespace imgf;
 
 TextureEditor::TextureEditor(void) :
+	Editor(TEXTURE_EDITOR),
 	m_pActiveTexture(nullptr)
 {
 	setEditorFileFormats({ "TXD", "WTD" });

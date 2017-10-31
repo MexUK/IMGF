@@ -16,6 +16,8 @@
 class imgf::RadarEditor : public imgf::Editor
 {
 public:
+	RadarEditor(void) : Editor(RADAR_EDITOR) {}
+
 	void								init(void);
 
 	void								bindEvents(void);

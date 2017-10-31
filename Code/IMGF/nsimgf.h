@@ -62,6 +62,8 @@ namespace imgf
 
 
 
+	enum EEditor;
+
 	class Editor;
 	class EditorTab;
 

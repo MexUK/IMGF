@@ -8,26 +8,27 @@
 #include <string>
 #include <unordered_map>
 
-class imgf::RecentlyOpenManager : public bxcf::Manager, public bxcf::VectorPool<RecentlyOpenEntry*>, public bxcf::EventBindable
+class imgf::RecentlyOpenManager : public bxcf::Manager, public bxcf::EventBindable
 {
 public:
 	void					init(void);
 	void					uninit(void);
 
-	void					loadRecentlyOpenEntries(void);
-	void					unloadRecentlyOpenEntries(void);
+	void					loadRecentlyOpenEntries(EEditor uiEditor);
+	void					unloadRecentlyOpenEntries(EEditor uiEditor);
 
-	RecentlyOpenEntry*		addRecentlyOpenEntry(std::string strName);
-	void					removeRecentlyOpenedEntries(void);
-	void					removeRecentlyOpenEntry(RecentlyOpenEntry *pRecentlyOpenEntry);
-	uint32					getRecentlyOpenedFileIndex(std::string strIMGPath);
-	RecentlyOpenEntry*		getRecentlyOpenEntryByPath(std::string strPath);
-	bool					doesRecentlyOpenEntryExist(std::string strPath);
-	std::string				getLastOpenEntry(void);
-	void					moveRecentlyOpenEntryToTop(std::string strPath);
+	RecentlyOpenEntry*		addRecentlyOpenEntry(EEditor uiEditor, std::string strName);
+	void					removeRecentlyOpenedEntries(EEditor uiEditor);
+	void					removeRecentlyOpenEntry(EEditor uiEditor, RecentlyOpenEntry *pRecentlyOpenEntry);
+	uint32					getRecentlyOpenedFileIndex(EEditor uiEditor, std::string strIMGPath);
+	RecentlyOpenEntry*		getRecentlyOpenEntryByPath(EEditor uiEditor, std::string strPath);
+	bool					doesRecentlyOpenEntryExist(EEditor uiEditor, std::string strPath);
+	std::string				getLastOpenEntry(EEditor uiEditor);
+	void					moveRecentlyOpenEntryToTop(EEditor uiEditor, std::string strPath);
 	
 	std::unordered_map<uint32, std::string>&		getRecentlyOpenedFilesContainer(void) { return m_umapRecentlyOpenedFiles; }
 	
 private:
-	std::unordered_map<uint32, std::string>			m_umapRecentlyOpenedFiles;
+	std::unordered_map<EEditor, bxcf::VectorPool<RecentlyOpenEntry*>>		m_umapFilePaths;
+	std::unordered_map<uint32, std::string>									m_umapRecentlyOpenedFiles;
 };

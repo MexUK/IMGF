@@ -7,6 +7,7 @@
 #include "Layer/Layer.h"
 #include "Pool/VectorPool.h"
 #include "GUI/Editor/Base/Tab/EditorTab.h"
+#include "GUI/Editor/EEditor.h"
 //#include "Globals.h"
 //#include "IMGF.h"
 //#include "GUI/Window/WindowManager.h"
@@ -30,7 +31,7 @@ class bxgx::TextBox;
 class imgf::Editor : public bxgx::Layer, public bxcf::EventBindable
 {
 public:
-	Editor(void);
+	Editor(EEditor uiEditorType);
 
 	virtual void						init(void);
 
@@ -46,6 +47,8 @@ public:
 	EditorTabType*						_addEditorTab(std::string& strFilePath, bool bNewFile);
 	void								removeEditorTab(EditorTab *pEditorTab);
 	void								removeActiveEditorTab(void);
+
+	EEditor								getEditorType(void) { return m_uiEditorType; }
 
 	bxcf::VectorPool<EditorTab*>&		getEditorTabs(void) { return m_vecEditorTabs; }
 
@@ -68,7 +71,10 @@ public:
 
 	virtual std::string					getResolvedFilePath(std::string& strFilePath) { return strFilePath; } // file name or file path
 
+	static std::string					getEditorName(EEditor uiEditor);
+
 protected:
+	EEditor								m_uiEditorType;
 	MainWindow*							m_pMainWindow;
 	EditorTab*							m_pActiveEditorTab;
 	bxgx::TabBar*						m_pTabBar;

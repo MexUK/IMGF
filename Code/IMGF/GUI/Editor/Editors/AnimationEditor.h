@@ -27,6 +27,8 @@ private:
 class imgf::AnimationEditor : public imgf::Editor
 {
 public:
+	AnimationEditor(void) : Editor(ANIMATION_EDITOR) {}
+
 	void								init(void);
 	
 	void								bindEvents(void);

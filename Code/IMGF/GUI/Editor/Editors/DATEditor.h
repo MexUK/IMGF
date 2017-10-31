@@ -24,6 +24,8 @@ class bxgi::IMGFormat;
 class imgf::DATEditor : public imgf::Editor
 {
 public:
+	DATEditor(void) : Editor(DAT_EDITOR) {}
+
 	void								init(void);
 	
 	void								bindEvents(void);

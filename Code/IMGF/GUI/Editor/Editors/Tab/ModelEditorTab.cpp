@@ -6,6 +6,7 @@
 #include "Static/File.h"
 #include "Control/Controls/TextBox.h"
 #include "Control/Controls/Text.h"
+#include "GUI/Editor/Base/Editor.h"
 
 using namespace std;
 using namespace bxcf;
@@ -50,7 +51,7 @@ void						ModelEditorTab::onFileLoaded(void)
 	updateTabText();
 
 	// add file path to recently opened files list
-	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(getFile()->getFilePath());
+	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
 
 	// display file info
 	setFileInfoText();

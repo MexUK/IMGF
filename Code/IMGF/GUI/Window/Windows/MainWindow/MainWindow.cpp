@@ -23,6 +23,7 @@
 #include "GUI/Input/EInputItem.h"
 #include "Settings/SettingsManager.h"
 #include "Static/StdVector.h"
+#include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 
 using namespace std;
 using namespace bxcf;
@@ -226,6 +227,9 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 
 	m_pMainLayer->removeMenus();
 	m_pMainLayer->addMenus();
+
+	getIMGF()->getRecentlyOpenManager()->unloadRecentlyOpenEntries(m_pActiveEditor->getEditorType());
+	getIMGF()->getRecentlyOpenManager()->loadRecentlyOpenEntries(m_pActiveEditor->getEditorType());
 
 	bool bEnableLayerWithNoTabsOpen = pActiveEditor && pActiveEditor->getEditorTabs().getEntryCount() == 0;
 	Layer *pLayerWithNoTabsOpen = getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen();

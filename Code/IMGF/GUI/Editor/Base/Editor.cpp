@@ -9,13 +9,15 @@
 #include "Static/String.h"
 #include "Control/Controls/TextBox.h"
 #include "Control/Controls/TabBar.h"
+#include "GUI/Editor/EEditor.h"
 
 using namespace std;
 using namespace bxcf;
 using namespace bxgx;
 using namespace imgf;
 
-Editor::Editor(void) :
+Editor::Editor(EEditor uiEditorType) :
+	m_uiEditorType(uiEditorType),
 	m_pMainWindow(nullptr),
 	m_pActiveEditorTab(nullptr),
 	m_pTabBar(nullptr)
@@ -160,4 +162,22 @@ EditorTab*							Editor::getEditorTabByFilePath(string& strFilePath)
 		}
 	}
 	return nullptr;
+}
+
+// editor name
+string								Editor::getEditorName(EEditor uiEditor)
+{
+	switch (uiEditor)
+	{
+	case DAT_EDITOR:				return "DAT";
+	case IMG_EDITOR:				return "IMG";
+	case ITEM_DEFINITION_EDITOR:	return "Item Definition";
+	case ITEM_PLACEMENT_EDITOR:		return "Item Placement";
+	case MODEL_EDITOR:				return "Model";
+	case COLLISION_EDITOR:			return "Collision";
+	case TEXTURE_EDITOR:			return "Texture";
+	case ANIMATION_EDITOR:			return "Animation";
+	case RADAR_EDITOR:				return "Radar";
+	}
+	return "Unknown";
 }

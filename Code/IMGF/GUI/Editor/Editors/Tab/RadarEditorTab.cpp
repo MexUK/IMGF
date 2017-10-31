@@ -21,6 +21,7 @@
 #include "GUI/Editor/Editors/Entry/RadarEditorTabEntry.h"
 #include "GraphicsLibrary/Libraries/GraphicsLibrary_GDIPlus.h"
 #include "Image/ImageManager.h"
+#include "GUI/Editor/Base/Editor.h"
 
 using namespace std;
 using namespace bxcf;
@@ -142,7 +143,7 @@ void						RadarEditorTab::onFileLoaded(void)
 	updateTabText();
 
 	// add file path to recently opened files list
-	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(getFile()->getFilePath());
+	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
 
 	// prepare render data
 	if (getIMGFile()->getVersion() == IMG_3)
