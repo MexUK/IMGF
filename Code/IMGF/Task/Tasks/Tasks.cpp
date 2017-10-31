@@ -203,7 +203,7 @@ void		Tasks::onProgressTask(void)
 vector<string>	Tasks::openFile(string strExtensionFilters, bool bAllowMultiSelect, string strDefaultFileName)
 {
 	m_pTaskManager->onPauseTask();
-	vector<string> vecFilePaths = Input::openFile(getTaskName(), strExtensionFilters, bAllowMultiSelect, strDefaultFileName);
+	vector<string> vecFilePaths = Input::openFile(Editor::getEditorName(m_pMainWindow->getActiveEditor()->getEditorType()) + "_" + getTaskName(), strExtensionFilters, bAllowMultiSelect, strDefaultFileName);
 	m_pTaskManager->onResumeTask();
 	return vecFilePaths;
 }
@@ -211,7 +211,7 @@ vector<string>	Tasks::openFile(string strExtensionFilters, bool bAllowMultiSelec
 string			Tasks::saveFile(string strExtensionFilters, string strDefaultFileName)
 {
 	m_pTaskManager->onPauseTask();
-	string strFilePath = Input::saveFile(getTaskName(), strExtensionFilters, strDefaultFileName);
+	string strFilePath = Input::saveFile(Editor::getEditorName(m_pMainWindow->getActiveEditor()->getEditorType()) + "_" + getTaskName(), strExtensionFilters, strDefaultFileName);
 	m_pTaskManager->onResumeTask();
 	return strFilePath;
 }
@@ -219,7 +219,7 @@ string			Tasks::saveFile(string strExtensionFilters, string strDefaultFileName)
 string			Tasks::openFolder(string strTitle, string strInitialDir)
 {
 	m_pTaskManager->onPauseTask();
-	string strFolderPath = Input::openFolder(strTitle, getTaskName());
+	string strFolderPath = Input::openFolder(strTitle, Editor::getEditorName(m_pMainWindow->getActiveEditor()->getEditorType()) + "_" + getTaskName());
 	m_pTaskManager->onResumeTask();
 	return strFolderPath;
 }
@@ -227,7 +227,7 @@ string			Tasks::openFolder(string strTitle, string strInitialDir)
 string			Tasks::saveFolder(string strTitle, string strInitialDir)
 {
 	m_pTaskManager->onPauseTask();
-	string strFolderPath = Input::saveFolder(strTitle, getTaskName());
+	string strFolderPath = Input::saveFolder(strTitle, Editor::getEditorName(m_pMainWindow->getActiveEditor()->getEditorType()) + "_" + getTaskName());
 	m_pTaskManager->onResumeTask();
 	return strFolderPath;
 }
@@ -4139,9 +4139,12 @@ void		Tasks::sortByMultipleTypes(void)
 			}
 			break;
 		}
+		return true;
 	};
 	uiSortTypeIndex = 0;
 	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortByMultipleTypes);
+
+	getTab()->log("Sorted IMG by multiple types.");
 
 	onCompleteTask();
 }
