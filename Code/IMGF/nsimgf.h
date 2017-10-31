@@ -150,8 +150,8 @@ namespace imgf
 
 	struct RenamedIMGEntry;
 
-	class Session;
-	class SessionManager;
+	class FileGroup;
+	class FileGroupManager;
 
 	class SortManager;
 	class SortMenuItem;

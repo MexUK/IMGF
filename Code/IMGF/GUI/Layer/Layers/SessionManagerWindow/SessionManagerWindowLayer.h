@@ -16,5 +16,5 @@ public:
 	void					onPressButton(bxgx::Button *pButton);
 
 private:
-	void					reloadSessionsGrid(void);
+	void					reloadFileGroupsGrid(void);
 };

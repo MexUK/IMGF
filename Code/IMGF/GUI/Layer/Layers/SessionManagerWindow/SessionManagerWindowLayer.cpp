@@ -6,7 +6,8 @@
 #include "Settings/SettingsManager.h"
 #include "IMGF.h"
 #include "GUI/Window/WindowManager.h"
-#include "Task/Tasks/Session/SessionManager.h"
+#include "GUI/Window/Windows/MainWindow/MainWindow.h"
+#include "Task/Tasks/FileGroups/FileGroupManager.h"
 
 using namespace std;
 using namespace bxcf;
@@ -14,7 +15,7 @@ using namespace bxgx;
 using namespace bxgx::events;
 using namespace imgf;
 
-SessionManagerWindowLayer::SessionManagerWindowLayer(void)
+SessionManagerWindowLayer::SessionManagerWindowLayer(void) // todo - rename class to File Group
 {
 	bindEvent(PRESS_BUTTON, &SessionManagerWindowLayer::onPressButton);
 }
@@ -28,31 +29,31 @@ SessionManagerWindowLayer::~SessionManagerWindowLayer(void)
 void					SessionManagerWindowLayer::init(void)
 {
 	Grid *pGrid = addGrid(50, 50, 600, 500, "window2_grid", 190);
-	vector<string> vecGridHeaders = { "Session ID", "Session Name", "File Count", "File Names" };
+	vector<string> vecGridHeaders = { "File Group ID", "File Group Name", "File Count", "File Names" };
 	pGrid->addHeaders(vecGridHeaders);
 	pGrid->getHeaders().getEntryByIndex(0)->setColumnWidth(80);
 	pGrid->getHeaders().getEntryByIndex(1)->setColumnWidth(170);
 	pGrid->getHeaders().getEntryByIndex(2)->setColumnWidth(80);
 	pGrid->getHeaders().getEntryByIndex(3)->setColumnWidth(270);
 
-	addButton(50, 580, 120, 20, "Add Session", "window2_button", 200);
-	addButton(190, 580, 120, 20, "Update Session", "window2_button", 210);
-	addButton(330, 580, 120, 20, "Remove Session", "window2_button", 220);
+	addButton(50, 580, 120, 20, "Add File Group", "window2_button", 200);
+	addButton(190, 580, 120, 20, "Update File Group", "window2_button", 210);
+	addButton(330, 580, 120, 20, "Remove File Group", "window2_button", 220);
 	addButton(510, 580, 120, 20, "Close", "window2_button", 230);
 
-	reloadSessionsGrid();
+	reloadFileGroupsGrid();
 }
 
 // data lading
-void					SessionManagerWindowLayer::reloadSessionsGrid(void)
+void					SessionManagerWindowLayer::reloadFileGroupsGrid(void)
 {
-	Grid *pSessionGrid = (Grid*)getItemById(190);
-	for (Session *pSession : getIMGF()->getSessionManager()->getEntries())
+	Grid *pFileGroupGrid = (Grid*)getItemById(190);
+	for (FileGroup *pFileGroup : getIMGF()->getFileGroupManager()->getEntries())
 	{
 		GridRow *pRow = new GridRow;
-		vector<vector<string>> vecRowText = { { "Session ID", "Session Name", "File Count", "File Names" } };
+		vector<vector<string>> vecRowText = { { "File Group ID", "File Group Name", "File Count", "File Names" } };
 		pRow->getText() = vecRowText;
-		pSessionGrid->addEntry(pRow);
+		pFileGroupGrid->addEntry(pRow);
 	}
 }
 
@@ -69,10 +70,10 @@ void					SessionManagerWindowLayer::onPressButton(Button *pButton)
 	{
 	case 200:
 	{
-		// Add Session
-		string strIMGFilePaths = pWindow2->showMultiLineTextBoxWindow("Add Session", "Separate IMG/DIR file paths with a new line, put session name on the first line.");
+		// Add File Group
+		string strIMGFilePaths = pWindow2->showMultiLineTextBoxWindow("Add File Group", "Separate IMG/DIR file paths with a new line, put file group name on the first line.");
 		vector<string> vecInputLines = String::split(strIMGFilePaths, "\n");
-		string& strSessionManager = vecInputLines[0];
+		string& strFileGroupName = vecInputLines[0];
 		vector<string> vecIMGFilePaths;
 		for (uint32 i = 1, j = vecInputLines.size(); i < j; i++)
 		{
@@ -80,17 +81,17 @@ void					SessionManagerWindowLayer::onPressButton(Button *pButton)
 			strIMGFilePath = String::trim(strIMGFilePath);
 			vecIMGFilePaths.push_back(strIMGFilePath);
 		}
-		getIMGF()->getSessionManager()->addSession(strSessionManager, vecIMGFilePaths);
-		reloadSessionsGrid();
+		getIMGF()->getFileGroupManager()->addFileGroup(pWindowManager->getMainWindow()->getActiveEditor()->getEditorType(), strFileGroupName, vecIMGFilePaths);
+		reloadFileGroupsGrid();
 		break;
 	}
 
 	case 210:
 	{
-		// Update Session
-		string strIMGFilePaths = pWindow2->showMultiLineTextBoxWindow("Update Session", "Separate IMG/DIR file paths with a new line, put session name on the first line.");
+		// Update File Group
+		string strIMGFilePaths = pWindow2->showMultiLineTextBoxWindow("Update File Group", "Separate IMG/DIR file paths with a new line, put file group name on the first line.");
 		vector<string> vecInputLines = String::split(strIMGFilePaths, "\n");
-		string& strSessionName = vecInputLines[0];
+		string& strFileGroupName = vecInputLines[0];
 		vector<string> vecIMGFilePaths;
 		for (uint32 i = 1, j = vecInputLines.size(); i < j; i++)
 		{
@@ -98,22 +99,22 @@ void					SessionManagerWindowLayer::onPressButton(Button *pButton)
 			strIMGFilePath = String::trim(strIMGFilePath);
 			vecIMGFilePaths.push_back(strIMGFilePath);
 		}
-		reloadSessionsGrid();
-		getIMGF()->getSessionManager()->getSessionByName(strSessionName)->setPaths(vecIMGFilePaths);
+		reloadFileGroupsGrid();
+		getIMGF()->getFileGroupManager()->getFileGroupByName(pWindowManager->getMainWindow()->getActiveEditor()->getEditorType(), strFileGroupName)->setPaths(vecIMGFilePaths);
 		break;
 	}
 
 	case 220:
 	{
-		// Remove Session
-		Grid *pSessionGrid = (Grid*)getItemById(190);
-		for (GridRow *pRow : pSessionGrid->getSelectedRows())
+		// Remove File Group
+		Grid *pFileGroupGrid = (Grid*)getItemById(190);
+		for (GridRow *pRow : pFileGroupGrid->getSelectedRows())
 		{
-			string strSessionName = pRow->getText()[1][0];
-			Session *pSession = getIMGF()->getSessionManager()->getSessionByName(strSessionName);
-			getIMGF()->getSessionManager()->removeSession(pSession);
+			string strFileGroupName = pRow->getText()[1][0];
+			FileGroup *pFileGroup = getIMGF()->getFileGroupManager()->getFileGroupByName(pWindowManager->getMainWindow()->getActiveEditor()->getEditorType(), strFileGroupName);
+			getIMGF()->getFileGroupManager()->removeFileGroup(pWindowManager->getMainWindow()->getActiveEditor()->getEditorType(), pFileGroup);
 		}
-		reloadSessionsGrid();
+		reloadFileGroupsGrid();
 		break;
 	}
 

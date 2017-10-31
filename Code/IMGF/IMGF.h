@@ -17,7 +17,7 @@ class imgf::IMGEditor;
 class imgf::IMGEditorTab;
 
 class imgf::InputManager;
-class imgf::SessionManager;
+class imgf::FileGroupManager;
 class imgf::RecentlyOpenManager;
 class imgf::TaskManager;
 class imgf::LSTProcessingManager;
@@ -60,7 +60,7 @@ public:
 	WindowManager*				getWindowManager(void) { return m_pWindowManager; }
 	RecentlyOpenManager*		getRecentlyOpenManager(void) { return m_pRecentlyOpenManager; }
 	TaskManager*				getTaskManager(void) { return m_pTaskManager; }
-	SessionManager*				getSessionManager(void) { return m_pSessionManager; }
+	FileGroupManager*			getFileGroupManager(void) { return m_pFileGroupManager; }
 	SettingsManager*			getSettingsManager(void) { return m_pSettingsManager; }
 	SortManager*				getSortManager(void) { return m_pSortManager; }
 	UpdateManager*				getUpdateManager(void) { return m_pUpdateManager; }
@@ -100,7 +100,7 @@ private:
 	WindowManager*				m_pWindowManager;
 	RecentlyOpenManager*		m_pRecentlyOpenManager;
 	TaskManager*				m_pTaskManager;
-	SessionManager*				m_pSessionManager;
+	FileGroupManager*			m_pFileGroupManager;
 	SettingsManager*			m_pSettingsManager;
 	SortManager*				m_pSortManager;
 	UpdateManager*				m_pUpdateManager;

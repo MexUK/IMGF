@@ -115,9 +115,6 @@
     <Filter Include="Header Files\Task\Tasks\Sort">
       <UniqueIdentifier>{8a83b32b-ed53-492f-b270-aeae5d2a389f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Task\Tasks\Session">
-      <UniqueIdentifier>{1855c45e-a919-43bc-acb2-1fd402fd12a5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Task\Tasks">
       <UniqueIdentifier>{b2fda12f-aa2f-4b0c-9d00-4c2af1b97312}</UniqueIdentifier>
     </Filter>
@@ -132,9 +129,6 @@
     </Filter>
     <Filter Include="Source Files\Task\Tasks\Sort">
       <UniqueIdentifier>{477d7b3a-cab0-4673-993b-a8adebf8143d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Task\Tasks\Session">
-      <UniqueIdentifier>{7707ff7c-3e6a-4f9f-80eb-8b863c202f30}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Task\Tasks\Find">
       <UniqueIdentifier>{9808bfe1-d3f1-4d59-9692-97869864f3b7}</UniqueIdentifier>
@@ -310,6 +304,12 @@
     <Filter Include="Header Files\GUI\Editor\Editors\Entry">
       <UniqueIdentifier>{8ae3d54c-83ba-48bc-afa4-f6683bc35a94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Task\Tasks\FileGroups">
+      <UniqueIdentifier>{7707ff7c-3e6a-4f9f-80eb-8b863c202f30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Task\Tasks\FileGroups">
+      <UniqueIdentifier>{1855c45e-a919-43bc-acb2-1fd402fd12a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\IMGF\Globals.cpp">
@@ -386,12 +386,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\RecentlyOpen\RecentlyOpenManager.cpp">
       <Filter>Source Files\Task\Tasks\RecentlyOpen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\Session\Session.cpp">
-      <Filter>Source Files\Task\Tasks\Session</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\Session\SessionManager.cpp">
-      <Filter>Source Files\Task\Tasks\Session</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\Sort\SortManager.cpp">
       <Filter>Source Files\Task\Tasks\Sort</Filter>
@@ -531,6 +525,12 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\RadarEditorTab.cpp">
       <Filter>Source Files\GUI\Editor\Editors\Tab</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\FileGroups\FileGroupManager.cpp">
+      <Filter>Source Files\Task\Tasks\FileGroups</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\FileGroups\FileGroup.cpp">
+      <Filter>Source Files\Task\Tasks\FileGroups</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\IMGF\Globals.h">
@@ -628,12 +628,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Renamer\RenamedIMGEntry.h">
       <Filter>Header Files\Task\Tasks\Renamer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Session\Session.h">
-      <Filter>Header Files\Task\Tasks\Session</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Session\SessionManager.h">
-      <Filter>Header Files\Task\Tasks\Session</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\Sort\SortManager.h">
       <Filter>Header Files\Task\Tasks\Sort</Filter>
@@ -835,6 +829,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\EEditor.h">
       <Filter>Header Files\GUI\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\FileGroups\FileGroup.h">
+      <Filter>Header Files\Task\Tasks\FileGroups</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\FileGroups\FileGroupManager.h">
+      <Filter>Header Files\Task\Tasks\FileGroups</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

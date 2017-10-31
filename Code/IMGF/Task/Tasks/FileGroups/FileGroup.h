@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-class imgf::Session
+class imgf::FileGroup
 {
 public:
 	void							unload(void) {}

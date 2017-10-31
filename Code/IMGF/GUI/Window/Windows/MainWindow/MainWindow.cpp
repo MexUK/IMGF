@@ -24,6 +24,7 @@
 #include "Settings/SettingsManager.h"
 #include "Static/StdVector.h"
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
+#include "Task/Tasks/FileGroups/FileGroupManager.h"
 
 using namespace std;
 using namespace bxcf;
@@ -230,6 +231,9 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 
 	getIMGF()->getRecentlyOpenManager()->unloadRecentlyOpenEntries(m_pActiveEditor->getEditorType());
 	getIMGF()->getRecentlyOpenManager()->loadRecentlyOpenEntries(m_pActiveEditor->getEditorType());
+
+	getIMGF()->getFileGroupManager()->unloadFileGroups(m_pActiveEditor->getEditorType());
+	getIMGF()->getFileGroupManager()->loadFileGroups(m_pActiveEditor->getEditorType());
 
 	bool bEnableLayerWithNoTabsOpen = pActiveEditor && pActiveEditor->getEditorTabs().getEntryCount() == 0;
 	Layer *pLayerWithNoTabsOpen = getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen();

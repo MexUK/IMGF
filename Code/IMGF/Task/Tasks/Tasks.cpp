@@ -46,7 +46,7 @@
 #include "Task/Base/ETask.h"
 #include "Task/Repeat/LastUsedValueManager.h"
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
-#include "Task/Tasks/Session/SessionManager.h"
+#include "Task/Tasks/FileGroups/FileGroupManager.h"
 #include "Task/Tasks/LST/LSTProcessingManager.h"
 #include "Task/Tasks/Dump/DumpManager.h"
 #include "Task/Tasks/Sort/SortManager.h"
@@ -637,8 +637,9 @@ void		Tasks::saveFileGroup(void)
 		vecEditorFilePaths.push_back(pEditorTab->getFile()->getFilePath());
 	}
 
-	getIMGF()->getSessionManager()->addSession(strFileGroupName, vecEditorFilePaths); // todo - rename SessionManager to FileGroupManager
-	getIMGF()->getSessionManager()->loadSessions();
+	EEditor uiEditor = m_pMainWindow->getActiveEditor()->getEditorType();
+	getIMGF()->getFileGroupManager()->addFileGroup(uiEditor, strFileGroupName, vecEditorFilePaths); // todo - rename SessionManager to FileGroupManager
+	getIMGF()->getFileGroupManager()->loadFileGroups(uiEditor);
 
 	for (EditorTab *pEditorTab : m_pMainWindow->getActiveEditor()->getEditorTabs().getEntries())
 	{

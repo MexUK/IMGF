@@ -7,7 +7,7 @@
 #include "Task/TaskManager.h"
 #include "Task/Tasks/Tasks.h"
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
-#include "Task/Tasks/Session/SessionManager.h"
+#include "Task/Tasks/FileGroups/FileGroupManager.h"
 #include "Task/Tasks/LST/LSTProcessingManager.h"
 #include "Task/Tasks/Sort/SortManager.h"
 #include "Task/Tasks/Find/SearchEntry.h"
@@ -87,7 +87,7 @@ IMGF::IMGF(void)
 	m_pLSTProcessingManager	= new LSTProcessingManager;
 	m_pRecentlyOpenManager	= new RecentlyOpenManager;
 	m_pTaskManager			= new TaskManager;
-	m_pSessionManager		= new SessionManager;
+	m_pFileGroupManager		= new FileGroupManager;
 	m_pSettingsManager		= new SettingsManager;
 	m_pSortManager			= new SortManager;
 	m_pUpdateManager		= new UpdateManager;
@@ -104,7 +104,7 @@ IMGF::~IMGF(void)
 	delete m_pLSTProcessingManager;
 	delete m_pRecentlyOpenManager;
 	delete m_pTaskManager;
-	delete m_pSessionManager;
+	delete m_pFileGroupManager;
 	delete m_pSettingsManager;
 	delete m_pSortManager;
 	delete m_pUpdateManager;
@@ -211,7 +211,7 @@ void				IMGF::initStoredObjects(void)
 	m_pLanguageManager->init();
 	m_pLSTProcessingManager->init();
 	m_pRecentlyOpenManager->init();
-	m_pSessionManager->init();
+	m_pFileGroupManager->init();
 	m_pSettingsManager->init();
 	m_pUpdateManager->init();
 }

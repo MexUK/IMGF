@@ -15,9 +15,9 @@ string					AppDataPath::getInternalSettingsPath(void)
 	return DataPath::getDataPath() + "Settings" + DataPath::FOLDER_SEPARATOR + "InternalSettings.ini";
 }
 
-string					AppDataPath::getSessionsPath(void)
+string					AppDataPath::getFileGroupsPath(void)
 {
-	return DataPath::getDataPath() + "Features" + DataPath::FOLDER_SEPARATOR + "Sessions.ini";
+	return DataPath::getDataPath() + "Features" + DataPath::FOLDER_SEPARATOR + "FileGroups.ini";
 }
 
 string					AppDataPath::getRecentlyOpenedPath(void)

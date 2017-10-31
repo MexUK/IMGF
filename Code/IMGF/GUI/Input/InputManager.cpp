@@ -13,7 +13,7 @@
 #include "Task/TaskManager.h"
 #include "Task/Tasks/Tasks.h"
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
-#include "Task/Tasks/Session/SessionManager.h"
+#include "Task/Tasks/FileGroups/FileGroupManager.h"
 #include "GUI/Editor/Editors/IMGEditor.h"
 #include "Static/String.h"
 #include "Event/EInternalEvent.h"
@@ -181,9 +181,9 @@ void					InputManager::processMenuItemPress(MenuItem *pMenuItem)
 	}
 
 	// file group
-	if (getIMGF()->getSessionManager()->getSessionsContainer().find(pMenuItem->getId()) != getIMGF()->getSessionManager()->getSessionsContainer().end())
+	if (getIMGF()->getFileGroupManager()->getFileGroupsContainer().find(pMenuItem->getId()) != getIMGF()->getFileGroupManager()->getFileGroupsContainer().end())
 	{
-		string strFileGroupData = getIMGF()->getSessionManager()->getSessionsContainer()[pMenuItem->getId()];
+		string strFileGroupData = getIMGF()->getFileGroupManager()->getFileGroupsContainer()[pMenuItem->getId()];
 		vector<string> vecFileGroupData = String::split(strFileGroupData, "; ");
 		for (uint32 i = 1, j = vecFileGroupData.size(); i < j; i++)
 		{
