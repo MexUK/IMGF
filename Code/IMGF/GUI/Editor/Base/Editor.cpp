@@ -111,6 +111,18 @@ void								Editor::removeActiveEditorTab(void)
 // set active file
 void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 {
+	/*
+	if (m_pActiveEditorTab)
+	{
+		m_pActiveEditorTab->unbindEvents();
+		//m_pActiveEditorTab->unbindEvents();
+	}
+	else
+	{
+		Editor::unbindEvents();
+	}
+	*/
+
 	// store editor tab
 	m_pActiveEditorTab = pEditorTab;
 	
@@ -129,8 +141,16 @@ void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 	else
 	{
 		// show no-tabs-open layer
+		setEnabled(true); // e.g. IMGEditor
 		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(true);
 	}
+
+	/*
+	if(pEditorTab)
+	{
+		pEditorTab->bindEvents();
+	}
+	*/
 }
 
 // displayed info

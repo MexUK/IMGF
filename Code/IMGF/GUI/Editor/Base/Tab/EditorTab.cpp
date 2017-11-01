@@ -120,6 +120,9 @@ bool						EditorTab::init(void)
 	// on file loaded
 	onFileLoaded();
 
+	// display editor tab
+	//getEditor()->setEnabled(true);
+
 	// set certain menu items enabled
 	m_pEditor->getMainWindow()->getMainLayer()->setCertainMenuItemsEnabled(true);
 
@@ -166,9 +169,9 @@ void						EditorTab::processThreadOnce(void)
 		// check to render each window or window items
 		BXGX::get()->render();
 	}
-	else
+	else if (m_pEditor->getEditorType() == MODEL_EDITOR || m_pEditor->getEditorType() == COLLISION_EDITOR || m_pEditor->getEditorType() == ANIMATION_EDITOR)
 	{
-		//render();
+		render();
 	}
 }
 

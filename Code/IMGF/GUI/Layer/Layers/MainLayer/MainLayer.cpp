@@ -270,6 +270,10 @@ void		MainLayer::addMenus(void)
 		pMenu2->addMenuItem("Export by DAT", EXPORT_BY_DAT);
 	}
 	pMenu2->addMenuItem("Export by Entry Names", EXPORT_BY_ENTRY_NAMES);
+	if (bIsIMGEditor)
+	{
+		pMenu2->addMenuItem("Export Texture Name List", EXPORT_TEXTURE_NAME_LIST);
+	}
 
 	// quick export
 	pMenu1->addMenuItem("Quick Export", QUICK_EXPORT);
@@ -722,6 +726,7 @@ void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
 			EXPORT_BY_IDE_FROM_ALL_TABS,
 			EXPORT_BY_IPL,
 			EXPORT_BY_DAT,
+			EXPORT_TEXTURE_NAME_LIST,
 			REPLACE_BY_IDE,
 			REMOVE_BY_IDE,
 			SPLIT_BY_IDE,

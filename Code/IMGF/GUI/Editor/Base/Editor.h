@@ -114,7 +114,7 @@ EditorTabType*							imgf::Editor::_addEditorTab(std::string& strFilePath, bool 
 	}
 	else
 	{
-		//setEnabled(false);
+		setEnabled(false); // e.g. IMGEditor
 		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(false);
 	}
 

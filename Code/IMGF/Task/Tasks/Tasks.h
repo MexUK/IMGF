@@ -108,6 +108,7 @@ public:
 	void						exportByDAT(void);
 	void						exportByEntryNames(void);
 	void						exportByEntryNamesFromAllTabs(void);
+	void						exportTextureNameList(void);
 
 	void						quickExport(void);
 

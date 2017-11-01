@@ -298,6 +298,7 @@ void					InputManager::processTask(uint32 uiMenuItemId)
 	case EXPORT_BY_DAT:								return exportByDAT();
 	case EXPORT_BY_ENTRY_NAMES:						return exportByEntryNames();
 	case EXPORT_BY_ENTRY_NAMES_FROM_ALL_TABS:		return exportByEntryNamesFromAllTabs();
+	case EXPORT_TEXTURE_NAME_LIST:					return exportTextureNameList();
 
 	case QUICK_EXPORT:								return quickExport();
 
@@ -724,6 +725,11 @@ void					InputManager::exportByEntryNames(void)
 void					InputManager::exportByEntryNamesFromAllTabs(void)
 {
 	m_pTasks->exportByEntryNamesFromAllTabs();
+}
+
+void					InputManager::exportTextureNameList(void)
+{
+	m_pTasks->exportTextureNameList();
 }
 
 // quick export

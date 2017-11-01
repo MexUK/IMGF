@@ -83,7 +83,7 @@ void					IMGEditorTab::bindEvents(void)
 	bindEvent(CHANGE_TEXT_BOX, &IMGEditorTab::onChangeTextBox);
 	bindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
 	bindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
-	bindEvent(DOUBLE_LEFT_MOUSE_DOWN, &IMGEditorTab::onDoubleLeftMouseDown);
+	bindEvent(DOUBLE_LEFT_MOUSE_DOWN, &IMGEditorTab::onDoubleLeftMouseDown2);
 
 	EditorTab::bindEvents();
 }
@@ -95,7 +95,7 @@ void					IMGEditorTab::unbindEvents(void)
 	unbindEvent(CHANGE_TEXT_BOX, &IMGEditorTab::onChangeTextBox);
 	unbindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
 	unbindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
-	unbindEvent(DOUBLE_LEFT_MOUSE_DOWN, &IMGEditorTab::onDoubleLeftMouseDown);
+	unbindEvent(DOUBLE_LEFT_MOUSE_DOWN, &IMGEditorTab::onDoubleLeftMouseDown2);
 
 	EditorTab::unbindEvents();
 }
@@ -375,7 +375,7 @@ void					IMGEditorTab::onSortGridByColumn(Grid *pGrid)
 	}
 }
 
-void					IMGEditorTab::onDoubleLeftMouseDown(void)
+void					IMGEditorTab::onDoubleLeftMouseDown2(void)
 {
 	GridRow *pGridRow = m_pEntryGrid->getRowFromPoint(BXGX::get()->getCursorPosition());
 	if (pGridRow)

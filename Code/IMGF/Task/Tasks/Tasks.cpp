@@ -138,12 +138,14 @@
 #include "Image/RasterDataFormatManager.h"
 #include "GUI/Input/InputManager.h"
 #include "GUI/Input/EInputItem.h"
+#include "Engine/RAGE/RageResourceType.h"
 #include <gdiplus.h>
 #include <stdio.h>
 #include <algorithm>
 
 using namespace std;
 using namespace bxcf;
+using namespace bxcf::fileType;
 using namespace bxgx;
 using namespace bxgi;
 using namespace imgf;
@@ -808,16 +810,15 @@ void		Tasks::importBySingleFolder(void)
 
 	for (string& strFileName : vecFileNames)
 	{
-		getIMGTab()->addFile(strFolderPath + strFileName);
+		getTab()->addFile(strFolderPath + strFileName);
 		increaseProgress();
 	}
 
 	if (vecFileNames.size() > 0)
 	{
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->setFileUnsaved(true);
+		getTab()->logf("Added %u files from folder %s.", vecFileNames.size(), Path::getFolderName(strFolderPath).c_str());
 	}
-
-	getIMGTab()->logf("Added %u files from folder %s.", vecFileNames.size(), Path::getFolderName(strFolderPath).c_str());
 
 	onCompleteTask();
 }
@@ -837,16 +838,15 @@ void		Tasks::importByFolderRecursively(void)
 
 	for (string& strFilePath : vecFilePaths)
 	{
-		getIMGTab()->addFile(strFilePath);
+		getTab()->addFile(strFilePath);
 		increaseProgress();
 	}
 
 	if (vecFilePaths.size() > 0)
 	{
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->setFileUnsaved(true);
+		getTab()->logf("Added %u files recursively from folder %s.", vecFilePaths.size(), Path::getFolderName(strFolderPath).c_str());
 	}
-
-	getIMGTab()->logf("Added %u files recursively from folder %s.", vecFilePaths.size(), Path::getFolderName(strFolderPath).c_str());
 
 	onCompleteTask();
 }
@@ -855,7 +855,8 @@ void		Tasks::importByIDE(void)
 {
 	onStartTask("importByIDE");
 
-	IDEInputWindowResult ideInputWindowResult = getIMGF()->getWindowManager()->showIDEInputWindow("Import into IMG by IDE", "Choose IDE items to import into the IMG:");
+	string strFileExtension = String::toUpperCase(Path::getFileExtension(getTab()->getFile()->getFilePath()));
+	IDEInputWindowResult ideInputWindowResult = getIMGF()->getWindowManager()->showIDEInputWindow("Import into " + strFileExtension + " by IDE", "Choose IDE items to import into the " + strFileExtension + ":");
 	if (getIMGF()->getWindowManager()->m_bWindow2Cancelled)
 	{
 		return onAbortTask();
@@ -904,7 +905,7 @@ void		Tasks::importByIDE(void)
 		if (File::doesFileExist(strEntryFilePath))
 		{
 			uiImportCount++;
-			getIMGTab()->addFile(strEntryFilePath);
+			getTab()->addFile(strEntryFilePath);
 		}
 
 		increaseProgress();
@@ -912,10 +913,9 @@ void		Tasks::importByIDE(void)
 
 	if (uiImportCount > 0)
 	{
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->setFileUnsaved(true);
+		getTab()->logf("Imported %u entries by %u IDE files.", vecAllIDEEntryNames.size(), vecIDEFilePaths.size());
 	}
-
-	getIMGTab()->logf("Imported %u entries by %u IDE files.", vecAllIDEEntryNames.size(), vecIDEFilePaths.size());
 
 	onCompleteTask();
 }
@@ -953,7 +953,7 @@ void		Tasks::importByEntryNames(void)
 	{
 		if (stEntryNames.find(Path::removeFileExtension(String::toUpperCase(strFileName))) != stEntryNames.end())
 		{
-			getIMGTab()->addFile(strFolderPath + strFileName);
+			getTab()->addFile(strFolderPath + strFileName);
 			uiImportedEntryCount++;
 			increaseProgress();
 		}
@@ -967,7 +967,7 @@ void		Tasks::importByEntryNames(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Imported %u entries by entry names.", uiImportedEntryCount);
+	getTab()->logf("Imported %u entries by entry names.", uiImportedEntryCount);
 
 	onCompleteTask();
 }
@@ -995,7 +995,7 @@ void		Tasks::exportSelected(void)
 
 	getIMGTab()->getIMGFile()->exportMultiple(vecIMGEntries, strFolderPath);
 
-	getIMGTab()->logf("Exported %u selected entries.", uiSelectedEntryCount);
+	getTab()->logf("Exported %u selected entries.", uiSelectedEntryCount);
 
 	onCompleteTask();
 }
@@ -1015,7 +1015,7 @@ void		Tasks::exportAll(void)
 
 	getIMGTab()->getIMGFile()->exportAll(strFolderPath);
 
-	getIMGTab()->logf("Exported all %u entries.", uiTotalEntryCount);
+	getTab()->logf("Exported all %u entries.", uiTotalEntryCount);
 
 	onCompleteTask();
 }
@@ -1050,7 +1050,7 @@ void		Tasks::exportByIndex(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Exported %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Exported %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -1085,7 +1085,7 @@ void		Tasks::exportByName(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Exported %u entries with a name that includes %s.", vecIMGEntries.size(), strEntryNameInput.c_str());
+	getTab()->logf("Exported %u entries with a name that includes %s.", vecIMGEntries.size(), strEntryNameInput.c_str());
 
 	onCompleteTask();
 }
@@ -1120,7 +1120,7 @@ void		Tasks::exportByOffset(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Exported %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Exported %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -1155,7 +1155,7 @@ void		Tasks::exportBySize(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Exported %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Exported %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -1190,7 +1190,7 @@ void		Tasks::exportByType(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Exported %u entries with a type that includes %s.", vecIMGEntries.size(), strEntryTypeInput.c_str());
+	getTab()->logf("Exported %u entries with a type that includes %s.", vecIMGEntries.size(), strEntryTypeInput.c_str());
 
 	onCompleteTask();
 }
@@ -1233,7 +1233,7 @@ void		Tasks::exportByVersion(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Exported %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
+	getTab()->logf("Exported %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
 
 	onCompleteTask();
 }
@@ -1271,7 +1271,7 @@ void		Tasks::exportAllIntoGroupedFoldersByType(void)
 		setExtensionsUsed.insert(strFileExtension);
 	}
 
-	getIMGTab()->logf("Exported all %u entries into %u folders.", uiTotalEntryCount, setExtensionsUsed.size());
+	getTab()->logf("Exported all %u entries into %u folders.", uiTotalEntryCount, setExtensionsUsed.size());
 
 	onCompleteTask();
 }
@@ -1298,7 +1298,7 @@ void		Tasks::exportAllFromAllTabs(void)
 		pEditorTab->getIMGFile()->exportAll(strFolderPath);
 	}
 
-	getIMGTab()->logf("Exported all %u entries from all tabs.", uiTotalEntryCount);
+	getTab()->logf("Exported all %u entries from all tabs.", uiTotalEntryCount);
 
 	onCompleteTask();
 }
@@ -1342,7 +1342,7 @@ void		Tasks::exportAllFromAllTabsIntoGroupedFoldersByType(void)
 		}
 	}
 
-	getIMGTab()->logf("Exported all %u entries from all tabs into %u folders.", uiTotalEntryCount, setExtensionsUsed.size());
+	getTab()->logf("Exported all %u entries from all tabs into %u folders.", uiTotalEntryCount, setExtensionsUsed.size());
 
 	onCompleteTask();
 }
@@ -1377,7 +1377,7 @@ void		Tasks::exportSelectionFromAllTabs(void)
 		pEditorTab->getIMGFile()->exportMultiple(vecIMGEntries, strFolderPath);
 	}
 
-	getIMGTab()->logf("Exported %u selected entries from all tabs.", uiSelectedEntryCount);
+	getTab()->logf("Exported %u selected entries from all tabs.", uiSelectedEntryCount);
 
 	onCompleteTask();
 }
@@ -1436,7 +1436,7 @@ void		Tasks::exportByIDE(void)
 	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount() + vecIMGEntries.size());
 	getIMGTab()->getIMGFile()->exportMultiple(vecIMGEntries, strFolderPath);
 
-	getIMGTab()->logf("Exported %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
+	getTab()->logf("Exported %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
 
 	onCompleteTask();
 }
@@ -1501,7 +1501,7 @@ void		Tasks::exportByIDEFromAllTabs(void)
 		uiIMGEntryExportCount += vecIMGEntries.size();
 	}
 
-	getIMGTab()->logf("Exported %u entries from all tabs by %u IDE files.", uiIMGEntryExportCount, vecIDEFilePaths.size());
+	getTab()->logf("Exported %u entries from all tabs by %u IDE files.", uiIMGEntryExportCount, vecIDEFilePaths.size());
 
 	onCompleteTask();
 }
@@ -1545,7 +1545,7 @@ void		Tasks::exportByIPL(void)
 	setMaxProgress((vecIPLFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount() + vecIMGEntries.size());
 	getIMGTab()->getIMGFile()->exportMultiple(vecIMGEntries, strFolderPath);
 
-	getIMGTab()->logf("Exported %u entries by %u IPL files.", vecIMGEntries.size(), vecIPLFilePaths.size());
+	getTab()->logf("Exported %u entries by %u IPL files.", vecIMGEntries.size(), vecIPLFilePaths.size());
 
 	onCompleteTask();
 }
@@ -1621,7 +1621,7 @@ void			Tasks::exportByDAT(void)
 	setMaxProgress((vecIDEFilePaths.size() * 2) + getIMGTab()->getIMGFile()->getEntryCount() + vecIMGEntries.size());
 	getIMGTab()->getIMGFile()->exportMultiple(vecIMGEntries, strOutputFolderPath);
 
-	getIMGTab()->logf("Exported %u entries by %u DAT files.", vecIMGEntries.size(), vecDATFilePaths.size());
+	getTab()->logf("Exported %u entries by %u DAT files.", vecIMGEntries.size(), vecDATFilePaths.size());
 
 	onCompleteTask();
 }
@@ -1655,7 +1655,7 @@ void		Tasks::exportByEntryNames(void)
 	setMaxProgress(vecIMGEntries.size());
 	getIMGTab()->getIMGFile()->exportMultiple(vecIMGEntries, strExportFolderPath);
 	
-	getIMGTab()->logf("Exported %u entries by entry names.", vecIMGEntries.size());
+	getTab()->logf("Exported %u entries by entry names.", vecIMGEntries.size());
 
 	onCompleteTask();
 }
@@ -1703,6 +1703,83 @@ void		Tasks::exportByEntryNamesFromAllTabs(void)
 	onCompleteTask();
 }
 
+void		Tasks::exportTextureNameList(void)
+{
+	onStartTask("exportTextureNameList");
+
+	string strTextureImagesFolderPath = Input::openFolder("Choose a folder containing texture images: (BMP, JPG, GIF, PNG, etc)");
+	if (strTextureImagesFolderPath == "")
+	{
+		return onAbortTask();
+	}
+
+	string strOutputFilePath = Input::saveFile("", "TXT", "Texture List.txt");
+	if (strOutputFilePath == "")
+	{
+		return onAbortTask();
+	}
+
+	vector<string> vecImagesFilePaths = File::getFilePaths(strTextureImagesFolderPath, true, false, "bmp,jpg,jpeg,gif,png,col,ico,dds", false);
+	unordered_map<string, string> vecImagesFilePathsUpper;
+	for (string& strImagesFilePath : vecImagesFilePaths)
+	{
+		vecImagesFilePathsUpper[String::toUpperCase(Path::removeFileExtension(Path::getFileName(strImagesFilePath)))] = strImagesFilePath;
+	}
+
+	string strOutputData;
+	uint32 uiTextureNumber = 1;
+	for (IMGEntry *pIMGEntry : getIMGTab()->getSelectedEntries())
+	{
+		if (pIMGEntry->getFileType() == MODEL)
+		{
+			if (pIMGEntry->getRageResourceType() && pIMGEntry->getRageResourceType()->getResourceTypeId() == RAGE_MODEL)
+			{
+				 // WDR etc
+			}
+			else
+			{
+				// DFF
+				DFFFormat dffFormat(pIMGEntry->getEntryData(), false);
+				if (!dffFormat.unserialize())
+				{
+					continue;
+				}
+
+				string strTextureFileNotFoundText = "(Texture not found)";
+				string& strTextureFilePath = g_strBlankString;
+				for (string& strTextureName : dffFormat.getTextureNames())
+				{
+					string strTextureNameUpper = String::toUpperCase(strTextureName);
+					if (vecImagesFilePathsUpper.count(strTextureNameUpper) == 0)
+					{
+						strTextureFilePath = strTextureFileNotFoundText;
+					}
+					else
+					{
+						strTextureFilePath = vecImagesFilePathsUpper[strTextureNameUpper];
+					}
+
+					strOutputData += "[Texture" + String::toString(uiTextureNumber) + "]\n";
+					strOutputData += "name=" + strTextureName + "\n";
+					strOutputData += "path=" + strTextureFilePath + "\n";
+
+					uiTextureNumber++;
+				}
+
+				dffFormat.unload();
+			}
+		}
+	}
+
+	strOutputData = "[TXDList]\ncount=" + String::toString(uiTextureNumber - 1) + "\napp=IMG Factory 2.0\n" + strOutputData;
+
+	File::setTextFile(strOutputFilePath, strOutputData);
+
+	getTab()->log("Created texture list.");
+
+	onCompleteTask();
+}
+
 void		Tasks::quickExport(void)
 {
 	onStartTask("quickExport");
@@ -1719,7 +1796,7 @@ void		Tasks::quickExport(void)
 
 	getIMGTab()->getIMGFile()->exportMultiple(getIMGTab()->getSelectedEntries(), strQuickExportFolderPath);
 
-	getIMGTab()->logf("Quick exported %u entries.", uiSelectedEntryCount);
+	getTab()->logf("Quick exported %u entries.", uiSelectedEntryCount);
 
 	onCompleteTask();
 }
@@ -1809,7 +1886,7 @@ void		Tasks::replaceByFiles(void)
 		getIMGTab()->readdGridEntries();
 	}
 
-	getIMGTab()->logf("Replaced %u entries by file.", uiReplacedEntryCount);
+	getTab()->logf("Replaced %u entries by file.", uiReplacedEntryCount);
 
 	onCompleteTask();
 }
@@ -1853,7 +1930,7 @@ void		Tasks::replaceBySingleFolder(void)
 		getIMGTab()->readdGridEntries();
 	}
 
-	getIMGTab()->logf("Replaced %u entries by folder.", uiReplacedEntryCount);
+	getTab()->logf("Replaced %u entries by folder.", uiReplacedEntryCount);
 
 	onCompleteTask();
 }
@@ -1897,7 +1974,7 @@ void		Tasks::replaceByFolderRecursively(void)
 		getIMGTab()->readdGridEntries();
 	}
 
-	getIMGTab()->logf("Replaced %u entries recursively by folder.", uiReplacedEntryCount);
+	getTab()->logf("Replaced %u entries recursively by folder.", uiReplacedEntryCount);
 
 	onCompleteTask();
 }
@@ -1989,7 +2066,7 @@ void		Tasks::replaceByIDE(void)
 		getIMGTab()->readdGridEntries();
 	}
 
-	getIMGTab()->logf("Replaced %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
+	getTab()->logf("Replaced %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
 
 	onCompleteTask();
 }
@@ -2009,7 +2086,7 @@ void		Tasks::removeSelected(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Removed %u selected entries.", uiSelectedEntryCount);
+	getTab()->logf("Removed %u selected entries.", uiSelectedEntryCount);
 
 	onCompleteTask();
 }
@@ -2029,7 +2106,7 @@ void		Tasks::removeAll(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Removed all %u entries.", uiTotalEntryCount);
+	getTab()->logf("Removed all %u entries.", uiTotalEntryCount);
 
 	onCompleteTask();
 }
@@ -2066,7 +2143,7 @@ void		Tasks::removeByIndex(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Removed %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Removed %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -2103,7 +2180,7 @@ void		Tasks::removeByName(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Removed %u entries with a name that includes %s.", vecIMGEntries.size(), strEntryNameInput.c_str());
+	getTab()->logf("Removed %u entries with a name that includes %s.", vecIMGEntries.size(), strEntryNameInput.c_str());
 
 	onCompleteTask();
 }
@@ -2140,7 +2217,7 @@ void		Tasks::removeByOffset(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Removed %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Removed %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -2177,7 +2254,7 @@ void		Tasks::removeBySize(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Removed %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Removed %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -2214,7 +2291,7 @@ void		Tasks::removeByType(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Removed %u entries with a type that includes %s.", vecIMGEntries.size(), strEntryTypeInput.c_str());
+	getTab()->logf("Removed %u entries with a type that includes %s.", vecIMGEntries.size(), strEntryTypeInput.c_str());
 
 	onCompleteTask();
 }
@@ -2259,7 +2336,7 @@ void		Tasks::removeByVersion(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Removed %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
+	getTab()->logf("Removed %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
 
 	onCompleteTask();
 }
@@ -2325,7 +2402,7 @@ void		Tasks::removeByIDE(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Removed %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
+	getTab()->logf("Removed %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
 
 	onCompleteTask();
 }
@@ -2366,7 +2443,7 @@ void		Tasks::removeByEntryNames(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Removed %u entries by entry names.", vecIMGEntries.size());
+	getTab()->logf("Removed %u entries by entry names.", vecIMGEntries.size());
 
 	onCompleteTask();
 }
@@ -2401,7 +2478,7 @@ void		Tasks::merge(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Merged in %u IMG files (%u entries).", vecFilePaths.size(), uiMergeEntryCount);
+	getTab()->logf("Merged in %u IMG files (%u entries).", vecFilePaths.size(), uiMergeEntryCount);
 
 	onCompleteTask();
 }
@@ -2444,7 +2521,7 @@ void		Tasks::splitSelected(void)
 	string
 		strLogPart3 = bDeleteSelectedEntriesFromSourceIMG ? ", removing selected source entries" : "",
 		strLogPart4 = iNewIMGVersionOptionIndex == -1 ? "" : ", creating IMG with version " + IMGManager::getVersionText(uiNewIMGVersion);
-	getIMGTab()->logf("Split %u entries into %s%s%s.", uiSelectedEntryCount, Path::getFileName(strNewFilePath).c_str(), strLogPart3.c_str(), strLogPart4.c_str());
+	getTab()->logf("Split %u entries into %s%s%s.", uiSelectedEntryCount, Path::getFileName(strNewFilePath).c_str(), strLogPart3.c_str(), strLogPart4.c_str());
 
 	onCompleteTask();
 }
@@ -2530,7 +2607,7 @@ void		Tasks::splitByIDE(void)
 	string
 		strLogPart3 = bDeleteSelectedEntriesFromSourceIMG ? ", removing selected source entries" : "",
 		strLogPart4 = iNewIMGVersionOptionIndex == -1 ? "" : ", creating IMG with version " + IMGManager::getVersionText(uiNewIMGVersion);
-	getIMGTab()->logf("Split %u entries by %u IDE files into %s%s%s.", vecIMGEntries.size(), vecIDEFilePaths.size(), Path::getFileName(strNewFilePath).c_str(), strLogPart3.c_str(), strLogPart4.c_str());
+	getTab()->logf("Split %u entries by %u IDE files into %s%s%s.", vecIMGEntries.size(), vecIDEFilePaths.size(), Path::getFileName(strNewFilePath).c_str(), strLogPart3.c_str(), strLogPart4.c_str());
 
 	onCompleteTask();
 }
@@ -2590,7 +2667,7 @@ void		Tasks::splitByEntryNames(void)
 	string
 		strLogPart3 = bDeleteSelectedEntriesFromSourceIMG ? ", removing selected source entries" : "",
 		strLogPart4 = iNewIMGVersionOptionIndex == -1 ? "" : ", creating IMG with version " + IMGManager::getVersionText(uiNewIMGVersion);
-	getIMGTab()->logf("Split %u entries into %s by entry names%s%s.", vecIMGEntries.size(), Path::getFileName(strNewFilePath).c_str(), strLogPart3.c_str(), strLogPart4.c_str());
+	getTab()->logf("Split %u entries into %s by entry names%s%s.", vecIMGEntries.size(), Path::getFileName(strNewFilePath).c_str(), strLogPart3.c_str(), strLogPart4.c_str());
 
 	onCompleteTask();
 }
@@ -2641,7 +2718,7 @@ void		Tasks::convertIMGVersion(void)
 	getIMGTab()->setFileUnsaved(true);
 
 	// log
-	getIMGTab()->logf("Converted IMG file to version %s.", IMGManager::getVersionText(uiNewIMGVersion, false).c_str());
+	getTab()->logf("Converted IMG file to version %s.", IMGManager::getVersionText(uiNewIMGVersion, false).c_str());
 
 	onCompleteTask();
 }
@@ -2695,7 +2772,7 @@ void		Tasks::convertSelectedCOLVersion(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Converted COL version to %u for %u entries.", uiNewCOLVersion, uiConvertedEntryCount);
+	getTab()->logf("Converted COL version to %u for %u entries.", uiNewCOLVersion, uiConvertedEntryCount);
 
 	onCompleteTask();
 }
@@ -2757,7 +2834,7 @@ void		Tasks::convertSelectedDFFRWVersion(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Converted DFF version to %s for %u entries.", strNewRWVersionText.c_str(), uiConvertedEntryCount);
+	getTab()->logf("Converted DFF version to %s for %u entries.", strNewRWVersionText.c_str(), uiConvertedEntryCount);
 
 	onCompleteTask();
 }
@@ -2804,7 +2881,7 @@ void			Tasks::convertSelectedDFFToWDR(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Converted %u DFF entries to WDR entries.", uiConvertedEntryCount);
+	getTab()->logf("Converted %u DFF entries to WDR entries.", uiConvertedEntryCount);
 
 	onCompleteTask();
 }
@@ -2866,7 +2943,7 @@ void		Tasks::convertSelectedTXDRWVersion(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Converted TXD version to %s for %u entries.", strNewRWVersionText.c_str(), uiConvertedEntryCount);
+	getTab()->logf("Converted TXD version to %s for %u entries.", strNewRWVersionText.c_str(), uiConvertedEntryCount);
 
 	onCompleteTask();
 }
@@ -2926,7 +3003,7 @@ void		Tasks::convertSelectedTXDToGame(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Converted TXD to game %s for %u entries.", strNewPlatformedGameText.c_str(), uiConvertedEntryCount);
+	getTab()->logf("Converted TXD to game %s for %u entries.", strNewPlatformedGameText.c_str(), uiConvertedEntryCount);
 
 	onCompleteTask();
 }
@@ -2986,7 +3063,7 @@ void		Tasks::convertSelectedTXDToTextureFormat(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Converted TXD to texture format %s for %u entries.", strNewRasterDataFormatText.c_str(), uiConvertedEntryCount);
+	getTab()->logf("Converted TXD to texture format %s for %u entries.", strNewRasterDataFormatText.c_str(), uiConvertedEntryCount);
 
 	onCompleteTask();
 }
@@ -3033,7 +3110,7 @@ void			Tasks::convertWTDFileToTXDFile(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->logf("Converted %u WTD entries to TXD entries.", uiConvertedEntryCount);
+	getTab()->logf("Converted %u WTD entries to TXD entries.", uiConvertedEntryCount);
 
 	onCompleteTask();
 }
@@ -3107,7 +3184,7 @@ void		Tasks::selectByIndex(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Selected %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Selected %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -3136,7 +3213,7 @@ void		Tasks::selectByName(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Selected %u entries with a name that includes %s.", vecIMGEntries.size(), strEntryNameInput.c_str());
+	getTab()->logf("Selected %u entries with a name that includes %s.", vecIMGEntries.size(), strEntryNameInput.c_str());
 
 	onCompleteTask();
 }
@@ -3165,7 +3242,7 @@ void		Tasks::selectByOffset(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Selected %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Selected %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -3194,7 +3271,7 @@ void		Tasks::selectBySize(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Selected %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Selected %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -3223,7 +3300,7 @@ void		Tasks::selectByType(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Selected %u entries with a type that includes %s.", vecIMGEntries.size(), strEntryTypeInput.c_str());
+	getTab()->logf("Selected %u entries with a type that includes %s.", vecIMGEntries.size(), strEntryTypeInput.c_str());
 
 	onCompleteTask();
 }
@@ -3260,7 +3337,7 @@ void		Tasks::selectByVersion(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Selected %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
+	getTab()->logf("Selected %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
 
 	onCompleteTask();
 }
@@ -3318,7 +3395,7 @@ void		Tasks::selectByIDE(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Selected %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
+	getTab()->logf("Selected %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
 
 	onCompleteTask();
 }
@@ -3347,7 +3424,7 @@ void		Tasks::unselectByIndex(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Unselected %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Unselected %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -3376,7 +3453,7 @@ void		Tasks::unselectByName(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Unselected %u entries with a name that includes %s.", vecIMGEntries.size(), strEntryNameInput.c_str());
+	getTab()->logf("Unselected %u entries with a name that includes %s.", vecIMGEntries.size(), strEntryNameInput.c_str());
 
 	onCompleteTask();
 }
@@ -3405,7 +3482,7 @@ void		Tasks::unselectByOffset(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Unselected %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Unselected %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -3434,7 +3511,7 @@ void		Tasks::unselectBySize(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Unselected %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Unselected %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -3463,7 +3540,7 @@ void		Tasks::unselectByType(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Unselected %u entries with a type that includes %s.", vecIMGEntries.size(), strEntryTypeInput.c_str());
+	getTab()->logf("Unselected %u entries with a type that includes %s.", vecIMGEntries.size(), strEntryTypeInput.c_str());
 
 	onCompleteTask();
 }
@@ -3500,7 +3577,7 @@ void		Tasks::unselectByVersion(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Unselected %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
+	getTab()->logf("Unselected %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
 
 	onCompleteTask();
 }
@@ -3558,7 +3635,7 @@ void		Tasks::unselectByIDE(void)
 	}
 	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getIMGTab()->logf("Unselected %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
+	getTab()->logf("Unselected %u entries by %u IDE files.", vecIMGEntries.size(), vecIDEFilePaths.size());
 
 	onCompleteTask();
 }
@@ -3588,7 +3665,7 @@ void		Tasks::sortByIndexReverse(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->log("Sorted all entries by index (reverse).");
+	getTab()->log("Sorted all entries by index (reverse).");
 
 	onCompleteTask();
 }
@@ -3612,7 +3689,7 @@ void		Tasks::sortByNameAscending09AZ(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->log("Sorted all entries by name (ascending 0-9 A-Z).");
+	getTab()->log("Sorted all entries by name (ascending 0-9 A-Z).");
 
 	onCompleteTask();
 }
@@ -3664,7 +3741,7 @@ void		Tasks::sortByNameAscendingAZ09(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->log("Sorted all entries by name (ascending A-Z 0-9).");
+	getTab()->log("Sorted all entries by name (ascending A-Z 0-9).");
 
 	onCompleteTask();
 	*/
@@ -3690,7 +3767,7 @@ void		Tasks::sortByNameDescendingZA90(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->log("Sorted all entries by name (descending Z-A 9-0).");
+	getTab()->log("Sorted all entries by name (descending Z-A 9-0).");
 
 	onCompleteTask();
 }
@@ -3719,7 +3796,7 @@ void		Tasks::sortByOffsetLowHigh(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->log("Sorted all entries by offset (low to high).");
+	getTab()->log("Sorted all entries by offset (low to high).");
 
 	onCompleteTask();
 }
@@ -3743,7 +3820,7 @@ void		Tasks::sortByOffsetHighLow(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->log("Sorted all entries by offset (high to low).");
+	getTab()->log("Sorted all entries by offset (high to low).");
 
 	onCompleteTask();
 }
@@ -3767,7 +3844,7 @@ void		Tasks::sortBySizeSmallBig(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->log("Sorted all entries by size (small to big).");
+	getTab()->log("Sorted all entries by size (small to big).");
 
 	onCompleteTask();
 }
@@ -3791,7 +3868,7 @@ void		Tasks::sortBySizeBigSmall(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->log("Sorted all entries by size (big to small).");
+	getTab()->log("Sorted all entries by size (big to small).");
 
 	onCompleteTask();
 }
@@ -3815,7 +3892,7 @@ void		Tasks::sortByTypeAZ(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->log("Sorted all entries by type (ascending 0-9 A-Z).");
+	getTab()->log("Sorted all entries by type (ascending 0-9 A-Z).");
 
 	onCompleteTask();
 }
@@ -3839,7 +3916,7 @@ void		Tasks::sortByTypeZA(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->log("Sorted all entries by type (descending Z-A 9-0).");
+	getTab()->log("Sorted all entries by type (descending Z-A 9-0).");
 
 	onCompleteTask();
 }
@@ -3863,7 +3940,7 @@ void		Tasks::sortByVersionOldNew(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->log("Sorted all entries by version (old to new).");
+	getTab()->log("Sorted all entries by version (old to new).");
 
 	onCompleteTask();
 }
@@ -3887,7 +3964,7 @@ void		Tasks::sortByVersionNewOld(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->log("Sorted all entries by version (new to old).");
+	getTab()->log("Sorted all entries by version (new to old).");
 
 	onCompleteTask();
 }
@@ -3926,7 +4003,7 @@ void		Tasks::sortByIDE(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->log("Sorted all entries by IDE file " + Path::getFileName(vecIDEFilePaths[0]) + ".");
+	getTab()->log("Sorted all entries by IDE file " + Path::getFileName(vecIDEFilePaths[0]) + ".");
 
 	onCompleteTask();
 }
@@ -3965,7 +4042,7 @@ void		Tasks::sortByCOL(void)
 		getIMGTab()->setFileUnsaved(true);
 	}
 
-	getIMGTab()->log("Sorted all entries by COL file " + Path::getFileName(vecCOLFilePaths[0]) + ".");
+	getTab()->log("Sorted all entries by COL file " + Path::getFileName(vecCOLFilePaths[0]) + ".");
 
 	onCompleteTask();
 }
@@ -4181,7 +4258,7 @@ void		Tasks::lst(void)
 		increaseProgress();
 	}
 
-	getIMGTab()->logf("Processed %u LST files.", vecLSTFilePaths.size());
+	getTab()->logf("Processed %u LST files.", vecLSTFilePaths.size());
 
 	onCompleteTask();
 }
@@ -4192,7 +4269,7 @@ void						Tasks::nameCaseLower(void)
 	onStartTask("nameCaseLower");
 
 	getIMGTab()->setSelectedEntriesNameCase(0);
-	getIMGTab()->logf("Set entry name to lower case for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->logf("Set entry name to lower case for %u entries.", getIMGTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4202,7 +4279,7 @@ void						Tasks::nameCaseUpper(void)
 	onStartTask("nameCaseUpper");
 
 	getIMGTab()->setSelectedEntriesNameCase(1);
-	getIMGTab()->logf("Set entry name to UPPER CASE for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->logf("Set entry name to UPPER CASE for %u entries.", getIMGTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4212,7 +4289,7 @@ void						Tasks::nameCaseTitle(void)
 	onStartTask("nameCaseTitle");
 
 	getIMGTab()->setSelectedEntriesNameCase(2);
-	getIMGTab()->logf("Set entry name to Title Case for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->logf("Set entry name to Title Case for %u entries.", getIMGTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4222,7 +4299,7 @@ void						Tasks::copyEntryIndex(void)
 	onStartTask("copyEntryIndex");
 
 	getIMGTab()->copySelectedEntryData(0);
-	getIMGTab()->logf("Copied entry index for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->logf("Copied entry index for %u entries.", getIMGTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4232,7 +4309,7 @@ void						Tasks::copyEntryType(void)
 	onStartTask("copyEntryType");
 
 	getIMGTab()->copySelectedEntryData(1);
-	getIMGTab()->logf("Copied entry type for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->logf("Copied entry type for %u entries.", getIMGTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4242,7 +4319,7 @@ void						Tasks::copyEntryName(void)
 	onStartTask("copyEntryName");
 
 	getIMGTab()->copySelectedEntryData(2);
-	getIMGTab()->logf("Copied entry name for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->logf("Copied entry name for %u entries.", getIMGTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4252,7 +4329,7 @@ void						Tasks::copyEntryOffset(void)
 	onStartTask("copyEntryOffset");
 
 	getIMGTab()->copySelectedEntryData(3);
-	getIMGTab()->logf("Copied entry offset for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->logf("Copied entry offset for %u entries.", getIMGTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4262,7 +4339,7 @@ void						Tasks::copyEntrySize(void)
 	onStartTask("copyEntrySize");
 
 	getIMGTab()->copySelectedEntryData(4);
-	getIMGTab()->logf("Copied entry size for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->logf("Copied entry size for %u entries.", getIMGTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4272,7 +4349,7 @@ void						Tasks::copyEntryVersion(void)
 	onStartTask("copyEntryVersion");
 
 	getIMGTab()->copySelectedEntryData(5);
-	getIMGTab()->logf("Copied entry version for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->logf("Copied entry version for %u entries.", getIMGTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4282,7 +4359,7 @@ void						Tasks::copyEntryRowData(void)
 	onStartTask("copyEntryRowData");
 
 	getIMGTab()->copySelectedEntryData(6);
-	getIMGTab()->logf("Copied row data for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->logf("Copied row data for %u entries.", getIMGTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4292,7 +4369,7 @@ void						Tasks::shiftEntryUp1Row(void)
 	onStartTask("shiftEntryUp1Row");
 
 	getIMGTab()->shiftSelectedEntries(-1);
-	getIMGTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 1);
+	getTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 1);
 
 	onCompleteTask();
 }
@@ -4302,7 +4379,7 @@ void						Tasks::shiftEntryUp5Rows(void)
 	onStartTask("shiftEntryUp5Rows");
 
 	getIMGTab()->shiftSelectedEntries(-5);
-	getIMGTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 5);
+	getTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 5);
 
 	onCompleteTask();
 }
@@ -4312,7 +4389,7 @@ void						Tasks::shiftEntryUp10Rows(void)
 	onStartTask("shiftEntryUp10Rows");
 
 	getIMGTab()->shiftSelectedEntries(-10);
-	getIMGTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 10);
+	getTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 10);
 
 	onCompleteTask();
 }
@@ -4322,7 +4399,7 @@ void						Tasks::shiftEntryUp100Rows(void)
 	onStartTask("shiftEntryUp100Rows");
 
 	getIMGTab()->shiftSelectedEntries(-100);
-	getIMGTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 100);
+	getTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 100);
 
 	onCompleteTask();
 }
@@ -4332,7 +4409,7 @@ void						Tasks::shiftEntryUp1000Rows(void)
 	onStartTask("shiftEntryUp1000Rows");
 
 	getIMGTab()->shiftSelectedEntries(-1000);
-	getIMGTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 1000);
+	getTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 1000);
 
 	onCompleteTask();
 }
@@ -4342,7 +4419,7 @@ void						Tasks::shiftEntryDown1Row(void)
 	onStartTask("shiftEntryDown1Row");
 
 	getIMGTab()->shiftSelectedEntries(1);
-	getIMGTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 1);
+	getTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 1);
 
 	onCompleteTask();
 }
@@ -4352,7 +4429,7 @@ void						Tasks::shiftEntryDown5Rows(void)
 	onStartTask("shiftEntryDown5Rows");
 
 	getIMGTab()->shiftSelectedEntries(5);
-	getIMGTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 5);
+	getTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 5);
 
 	onCompleteTask();
 }
@@ -4362,7 +4439,7 @@ void						Tasks::shiftEntryDown10Rows(void)
 	onStartTask("shiftEntryDown10Rows");
 
 	getIMGTab()->shiftSelectedEntries(10);
-	getIMGTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 10);
+	getTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 10);
 
 	onCompleteTask();
 }
@@ -4372,7 +4449,7 @@ void						Tasks::shiftEntryDown100Rows(void)
 	onStartTask("shiftEntryDown100Rows");
 
 	getIMGTab()->shiftSelectedEntries(100);
-	getIMGTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 100);
+	getTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 100);
 
 	onCompleteTask();
 }
@@ -4382,7 +4459,7 @@ void						Tasks::shiftEntryDown1000Rows(void)
 	onStartTask("shiftEntryDown1000Rows");
 
 	getIMGTab()->shiftSelectedEntries(1000);
-	getIMGTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 1000);
+	getTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 1000);
 
 	onCompleteTask();
 }
@@ -4502,7 +4579,7 @@ void						Tasks::removeOrphanTexturesFromDFFEntries(void)
 		i++;
 	}
 
-	getIMGTab()->logf("Removed orphan txtures from %u DFF files.", uiDFFFileCountWithRemovedSections);
+	getTab()->logf("Removed orphan txtures from %u DFF files.", uiDFFFileCountWithRemovedSections);
 
 	// clean up
 	for (DFFFormat *pDFFFile : vecDFFFormatsInput)
@@ -4553,7 +4630,7 @@ void		Tasks::findOrphanIMGEntriesNotInIDE(void)
 			getIMGTab()->setFileUnsaved(true);
 		}
 
-		getIMGTab()->logf("Removed %u orphan entries in IMG missing from IDE.", vecOrphanEntries.size());
+		getTab()->logf("Removed %u orphan entries in IMG missing from IDE.", vecOrphanEntries.size());
 	}
 	
 	onCompleteTask();
@@ -4609,7 +4686,7 @@ void		Tasks::findOrphanIDEEntriesNotInIMG(void)
 			getIMGTab()->setFileUnsaved(true);
 		}
 
-		getIMGTab()->logf("Imported %u orphan IDE entries into IMG.", uiImportCount);
+		getTab()->logf("Imported %u orphan IDE entries into IMG.", uiImportCount);
 	}
 
 	onCompleteTask();
@@ -4895,11 +4972,11 @@ void		Tasks::txdBuilder(void)
 	}
 
 	// log
-	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_118", uiTotalTXDFileCount, uiTotalTextureCountUsed));
-	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_119", pBuildTXDDialogData->m_strTexturesFolderPath.c_str()), true);
-	// todo - getIMGTab()->log(String::join(vecTextureImagesNotFound, "\n"), true);
-	// todo - getIMGTab()->log(LocalizationManager::get()->getTranslatedText("Log_120"), true);
-	// todo - getIMGTab()->log(String::join(veTXDFormatNames, "\n"), true);
+	// todo - getTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_118", uiTotalTXDFileCount, uiTotalTextureCountUsed));
+	// todo - getTab()->log(LocalizationManager::get()->getTranslatedFormattedText("Log_119", pBuildTXDDialogData->m_strTexturesFolderPath.c_str()), true);
+	// todo - getTab()->log(String::join(vecTextureImagesNotFound, "\n"), true);
+	// todo - getTab()->log(LocalizationManager::get()->getTranslatedText("Log_120"), true);
+	// todo - getTab()->log(String::join(veTXDFormatNames, "\n"), true);
 
 	// clean up
 	//for (DFFFormat *pDFFFile : veDFFFormats)
@@ -5788,7 +5865,7 @@ void		Tasks::findDuplicateEntriesInSelection(void)
 	umapIMGEntries.clear();
 
 	// log
-	getIMGTab()->logf("Found %u dupliate entries in selection.", vecDuplicateEntries.size());
+	getTab()->logf("Found %u dupliate entries in selection.", vecDuplicateEntries.size());
 
 	// results window
 	vector<string> vecGridHeaders = { "Entry Name", "IMG File(s)" };
@@ -5836,7 +5913,7 @@ void		Tasks::findDuplicateEntriesInTab(void)
 	umapIMGEntries.clear();
 
 	// log
-	getIMGTab()->logf("Found %u dupliate entries in tab.", vecDuplicateEntries.size());
+	getTab()->logf("Found %u dupliate entries in tab.", vecDuplicateEntries.size());
 
 	// results window
 	vector<string> vecGridHeaders = { "Entry Name", "IMG File(s)" };
@@ -6186,7 +6263,7 @@ void		Tasks::saveIMGSignature(void)
 	getIMGTab()->loadProtectedEntryStates();
 	getIMGTab()->readdGridEntries();
 
-	getIMGTab()->logf("Saved DB file for %s.", Path::getFileName(pIMGFile->getIMGFilePath()).c_str());
+	getTab()->logf("Saved DB file for %s.", Path::getFileName(pIMGFile->getIMGFilePath()).c_str());
 
 	onCompleteTask();
 }
@@ -6377,7 +6454,7 @@ void			Tasks::centerCOLMeshesInSelection(void)
 		uiEntryCount++;
 	}
 
-	getIMGTab()->logf("Centered meshes for %u COL files.", uiEntryCount);
+	getTab()->logf("Centered meshes for %u COL files.", uiEntryCount);
 
 	getIMGTab()->setFileUnsaved(true);
 
@@ -6598,7 +6675,7 @@ void				Tasks::extractDVCAndNVCIntoDFFs(void)
 
 	// log
 	string strLogPart1 = uiUpdateType == 1 ? "DVC" : (uiUpdateType == 2 ? "NVC" : "DVC and NVC");
-	getIMGTab()->logf("Extracted " + strLogPart1 + " into %u DFF files.", uiDFFUpdatedFileCount);
+	getTab()->logf("Extracted " + strLogPart1 + " into %u DFF files.", uiDFFUpdatedFileCount);
 
 	// end
 	onCompleteTask();
@@ -6683,7 +6760,7 @@ void				Tasks::extract2DFXIntoDFFs(void)
 	}
 
 	// log
-	getIMGTab()->logf("Extracted 2DFX into %u DFF files.", uiDFFUpdatedFileCount);
+	getTab()->logf("Extracted 2DFX into %u DFF files.", uiDFFUpdatedFileCount);
 
 	onCompleteTask();
 }
@@ -6765,7 +6842,7 @@ void		Tasks::imgCompression(void)
 	getIMGTab()->updateIMGText();
 
 	// log
-	getIMGTab()->logf("Updated IMG compression for %u entries.", vecIMGEntries.size());
+	getTab()->logf("Updated IMG compression for %u entries.", vecIMGEntries.size());
 
 	// mark as modified since rebuild
 	getIMGTab()->setFileUnsaved(true);
