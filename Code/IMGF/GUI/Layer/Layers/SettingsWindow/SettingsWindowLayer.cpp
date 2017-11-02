@@ -112,6 +112,18 @@ void					SettingsWindowLayer::init(void)
 	{
 		pSaveLogsToFolderCheckBox->setMarked(true);
 	}
+	y += yGap1;
+
+	string strActiveProjectFilePath = getIMGF()->getActiveProjectFolderPath();
+	addText(50, y, 80, 20, "Project:");
+	DropDown *pDropDown = addDropDown(150, y, 380, 20, "Project:", "", 550);
+	pDropDown->addItem("Active Project Not Set", strActiveProjectFilePath == "");
+	for (string& strProjectFilePath : getIMGF()->getProjectFilePaths())
+	{
+		pDropDown->addItem(strProjectFilePath, strProjectFilePath == strActiveProjectFilePath);
+	}
+	addButton(550, y, 50, 20, "Add", "", 560);
+	addButton(620, y, 100, 20, "Remove", "", 570);
 	y += yGap2;
 
 	bindEvent(PRESS_BUTTON, &SettingsWindowLayer::onPressButton);
@@ -170,6 +182,44 @@ void					SettingsWindowLayer::onPressButton(Button *pButton)
 		}
 		pSettingsManager->setSetting("LogsFolderPath", strFolderPath);
 		break;
+	}
+	case 560:
+	{
+		// Add Project
+		strFolderPath = Input::openFolder("Choose a project folder.", strFolderPath);
+		if (strFolderPath == "")
+		{
+			return;
+		}
+
+		getIMGF()->addProjectFolderPath(strFolderPath);
+
+		DropDown *pProjectsDropDown = (DropDown*)getItemById(550);
+		pProjectsDropDown->addItem(strFolderPath);
+	}
+	case 570:
+	{
+		// Remove Project
+		DropDown *pProjectsDropDown = (DropDown*) getItemById(550);
+		if (pProjectsDropDown->getSelectedItemIndex() < 1)
+		{
+			return;
+		}
+
+		getIMGF()->removeProjectFolderPath(pProjectsDropDown->getActiveItem()->getText());
+
+		pProjectsDropDown->removeItem(pProjectsDropDown->getActiveItem());
+
+		if (pProjectsDropDown->getEntryCount() > 1)
+		{
+			pProjectsDropDown->setActiveItem(pProjectsDropDown->getEntryByIndex(1));
+			getIMGF()->setActiveProjectFolderPath(pProjectsDropDown->getEntryByIndex(1)->getText());
+		}
+		else
+		{
+			pProjectsDropDown->setActiveItem(pProjectsDropDown->getFirstEntry());
+			getIMGF()->removeActiveProjectFolderPath();
+		}
 	}
 	}
 }
@@ -234,6 +284,19 @@ void					SettingsWindowLayer::onSelectDropDownItem(DropDownItem *pDropDownEntry)
 		// Theme
 		pSettingsManager->setSetting("ThemeName", pDropDownEntry->getText());
 		StyleManager::get()->reloadTheme(pDropDownEntry->getText());
+		break;
+
+	/* Tasks */
+	case 550:
+		// Project
+		if (pDropDownEntry == pDropDown->getFirstEntry())
+		{
+			getIMGF()->removeActiveProjectFolderPath();
+		}
+		else
+		{
+			getIMGF()->setActiveProjectFolderPath(pDropDownEntry->getText());
+		}
 		break;
 	}
 }

@@ -69,6 +69,14 @@ public:
 	void						setLastUsedDirectory(std::string strHandleName, std::string strDirectory); // todo - still needed?
 	std::string					getLastUsedDirectory(std::string strHandleName); // todo - still needed?
 
+	std::vector<std::string>	getProjectFilePaths(void);
+	void						addProjectFolderPath(std::string& strProjectFolderPath);
+	void						removeProjectFolderPath(std::string& strProjectFolderPath);
+
+	void						setActiveProjectFolderPath(std::string& strProjectFolderPath);
+	std::string					getActiveProjectFolderPath(void);
+	void						removeActiveProjectFolderPath(void);
+
 	static bool							isFileExtensionOpenable(std::string& strFileExtension);
 	static std::vector<std::string>		getFileExtensionsOpenable(void);
 

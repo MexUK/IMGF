@@ -11,4 +11,5 @@ public:
 	static std::string					getFileGroupsPath(void);
 	static std::string					getRecentlyOpenedPath(void);
 	static std::string					getTaskDurationsPath(void);
+	static std::string					getProjectsFilePath(void);
 };

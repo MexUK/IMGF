@@ -69,6 +69,8 @@
 #include "GUI/Input/InputManager.h"
 #include "Crash/CrashManager.h"
 #include "Program/BuildVersion.h"
+#include "Format/Text/INI/INIManager.h"
+#include "Static/AppDataPath.h"
 
 using namespace std;
 using namespace bxcf;
@@ -401,6 +403,65 @@ void				IMGF::setLastUsedDirectory(string strHandleName, string strDirectory)
 string				IMGF::getLastUsedDirectory(string strHandleName)
 {
 	return ""; // todo - remove after Tasks is done
+}
+
+// project names
+vector<string>		IMGF::getProjectFilePaths(void)
+{
+	uint32 uiProjectCount = String::toUint32(INIManager::getItem(AppDataPath::getProjectsFilePath(), "Projects", "Count"));
+	vector<string> vecProjectNames;
+	for (uint32 uiProjectIndex = 1; uiProjectIndex <= uiProjectCount; uiProjectIndex++)
+	{
+		vecProjectNames.push_back(INIManager::getItem(AppDataPath::getProjectsFilePath(), "Projects", String::toString(uiProjectIndex)));
+	}
+	return vecProjectNames;
+}
+
+void				IMGF::setActiveProjectFolderPath(string& strProjectFolderPath)
+{
+	INIManager::setItem(AppDataPath::getProjectsFilePath(), "Projects", "Active", strProjectFolderPath);
+}
+
+void				IMGF::addProjectFolderPath(string& strProjectFolderPath)
+{
+	uint32 uiProjectCount = String::toUint32(INIManager::getItem(AppDataPath::getProjectsFilePath(), "Projects", "Count"));
+	INIManager::setItem(AppDataPath::getProjectsFilePath(), "Projects", String::toString(uiProjectCount + 1), strProjectFolderPath);
+	INIManager::setItem(AppDataPath::getProjectsFilePath(), "Projects", "Count", String::toString(uiProjectCount + 1));
+}
+
+void				IMGF::removeProjectFolderPath(string& strProjectFolderPath)
+{
+	uint32 uiProjectCount = String::toUint32(INIManager::getItem(AppDataPath::getProjectsFilePath(), "Projects", "Count"));
+	uint32 uiRemovedProjectIndex = -1;
+	for (uint32 uiProjectIndex = 1; uiProjectIndex <= uiProjectCount; uiProjectIndex++)
+	{
+		if (strProjectFolderPath == INIManager::getItem(AppDataPath::getProjectsFilePath(), "Projects", String::toString(uiProjectIndex)))
+		{
+			uiRemovedProjectIndex = uiProjectIndex;
+			INIManager::removeItem(AppDataPath::getProjectsFilePath(), "Projects", uiProjectIndex);
+			INIManager::setItem(AppDataPath::getProjectsFilePath(), "Projects", "Count", String::toString(uiProjectCount - 1));
+			break;
+		}
+	}
+	if (uiRemovedProjectIndex != -1)
+	{
+		for (uint32 uiProjectIndex = uiRemovedProjectIndex + 1; uiProjectIndex <= uiProjectCount; uiProjectIndex++)
+		{
+			string strProjectFolderPath = INIManager::getItem(AppDataPath::getProjectsFilePath(), "Projects", String::toString(uiProjectIndex));
+			INIManager::setItem(AppDataPath::getProjectsFilePath(), "Projects", String::toString(uiProjectIndex - 1), strProjectFolderPath);
+		}
+		INIManager::removeItem(AppDataPath::getProjectsFilePath(), "Projects", String::toString(uiProjectCount));
+	}
+}
+
+string				IMGF::getActiveProjectFolderPath(void)
+{
+	return INIManager::getItem(AppDataPath::getProjectsFilePath(), "Projects", "Active");
+}
+
+void				IMGF::removeActiveProjectFolderPath(void)
+{
+	INIManager::removeItem(AppDataPath::getProjectsFilePath(), "Projects", "Active");
 }
 
 // file extension openable

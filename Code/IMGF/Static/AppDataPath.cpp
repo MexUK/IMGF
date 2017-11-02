@@ -29,3 +29,8 @@ string					AppDataPath::getTaskDurationsPath(void)
 {
 	return DataPath::getDataPath() + "Task" + DataPath::FOLDER_SEPARATOR + "TaskDurations.ini";
 }
+
+::string				AppDataPath::getProjectsFilePath(void)
+{
+	return DataPath::getDataPath() + "Features" + DataPath::FOLDER_SEPARATOR + "Projects.ini";
+}

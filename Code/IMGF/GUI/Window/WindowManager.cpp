@@ -201,7 +201,7 @@ void					WindowManager::showSettingsWindow(void)
 {
 	m_bWindow2Cancelled = true;
 
-	Window *pWindow = BXGX::get()->addWindow(650, 510);
+	Window *pWindow = BXGX::get()->addWindow(750, 510);
 	SettingsWindowLayer *pLayer = pWindow->addLayer<SettingsWindowLayer>();
 
 	pWindow->addTitleBar("Settings");
