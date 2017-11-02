@@ -90,9 +90,22 @@ void						RadarEditorTab::addControls(void)
 	m_pVScrollBar->setScrollOrientation(VERTICAL);
 }
 
+void						RadarEditorTab::initControls(void)
+{
+	repositionAndResizeControls(Vec2i(0, 0));
+}
+
+void						RadarEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
+{
+	// entry list vertical scroll bar
+	// todo m_pVScrollBar->setSize(m_pVScrollBar->getSize() + Vec2u(0, vecSizeChange.y));
+	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, m_pWindow->getSize().y - m_pVScrollBar->getPosition().y));
+}
+
 // events
 void						RadarEditorTab::bindEvents(void)
 {
+	bindEvent(RESIZE_WINDOW, &RadarEditorTab::repositionAndResizeControls);
 	bindEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
 	bindEvent(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
 	bindEvent(KEY_DOWN, &RadarEditorTab::onKeyDown2);
@@ -103,6 +116,7 @@ void						RadarEditorTab::bindEvents(void)
 
 void						RadarEditorTab::unbindEvents(void)
 {
+	unbindEvent(RESIZE_WINDOW, &RadarEditorTab::repositionAndResizeControls);
 	unbindEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
 	unbindEvent(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
 	unbindEvent(KEY_DOWN, &RadarEditorTab::onKeyDown2);
@@ -602,7 +616,7 @@ void						RadarEditorTab::render_Type1(void)
 
 
 
-	Vec2u vecAreaSize(512, 512);
+	Vec2u vecAreaSize(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
 	uint32 uiTileCount = getEntryCount();
 	if (uiTileCount == 0)
 	{

@@ -57,6 +57,7 @@ CollisionEditorTab::CollisionEditorTab(void) :
 // events
 void					CollisionEditorTab::bindEvents(void)
 {
+	bindEvent(RESIZE_WINDOW, &CollisionEditorTab::repositionAndResizeControls);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	bindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	bindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
@@ -67,6 +68,7 @@ void					CollisionEditorTab::bindEvents(void)
 
 void					CollisionEditorTab::unbindEvents(void)
 {
+	unbindEvent(RESIZE_WINDOW, &CollisionEditorTab::repositionAndResizeControls);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	unbindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
@@ -107,6 +109,14 @@ void					CollisionEditorTab::addControls(void)
 
 void					CollisionEditorTab::initControls(void)
 {
+	repositionAndResizeControls(Vec2i(0, 0));
+}
+
+void					CollisionEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
+{
+	// entry list vertical scroll bar
+	// todo m_pVScrollBar->setSize(m_pVScrollBar->getSize() + Vec2u(0, vecSizeChange.y));
+	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, m_pWindow->getSize().y - m_pVScrollBar->getPosition().y));
 }
 
 // editor input
@@ -690,7 +700,7 @@ void						CollisionEditorTab::render3D(void)
 	static HBITMAP hbm;
 	static HDC hdcWindow;
 
-	Vec2u vecRenderSize = Vec2u(512, 512);
+	Vec2u vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
 
 	if (!bInitd)
 	{

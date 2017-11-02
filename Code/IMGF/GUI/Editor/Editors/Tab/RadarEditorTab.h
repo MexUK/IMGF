@@ -11,6 +11,7 @@ public:
 	RadarEditorTab(void);
 
 	void						addControls(void);
+	void						initControls(void);
 
 	void						bindEvents(void);
 	void						unbindEvents(void);
@@ -39,6 +40,8 @@ protected:
 	void						onLeftMouseDown(bxcf::Vec2i vecCursorPosition);
 	void						onKeyDown2(uint16 uiKey);
 	void						onMouseWheelMove2(int16 iRotationDistance);
+
+	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeChange);
 
 private:
 	bxgi::IMGFormat*			m_pIMGFile;

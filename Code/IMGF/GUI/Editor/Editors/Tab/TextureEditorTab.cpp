@@ -46,6 +46,7 @@ TextureEditorTab::TextureEditorTab(void) :
 // events
 void					TextureEditorTab::bindEvents(void)
 {
+	bindEvent(RESIZE_WINDOW, &TextureEditorTab::repositionAndResizeControls);
 	bindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
 	bindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
@@ -57,6 +58,7 @@ void					TextureEditorTab::bindEvents(void)
 
 void					TextureEditorTab::unbindEvents(void)
 {
+	unbindEvent(RESIZE_WINDOW, &TextureEditorTab::repositionAndResizeControls);
 	unbindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
@@ -98,6 +100,14 @@ void					TextureEditorTab::addControls(void)
 
 void					TextureEditorTab::initControls(void)
 {
+	repositionAndResizeControls(Vec2i(0, 0));
+}
+
+void					TextureEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
+{
+	// entry list vertical scroll bar
+	// todo m_pVScrollBar->setSize(m_pVScrollBar->getSize() + Vec2u(0, vecSizeChange.y));
+	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, m_pWindow->getSize().y - m_pVScrollBar->getPosition().y));
 }
 
 // editor input

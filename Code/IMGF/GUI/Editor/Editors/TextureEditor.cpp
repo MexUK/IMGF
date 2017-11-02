@@ -25,7 +25,8 @@ using namespace imgf;
 
 TextureEditor::TextureEditor(void) :
 	Editor(TEXTURE_EDITOR),
-	m_pActiveTexture(nullptr)
+	m_pActiveTexture(nullptr)//,
+	//m_pTopLine(nullptr) // todo
 {
 	setEditorFileFormats({ "TXD", "WTD" });
 	setImportEditorFileFormats({ "BMP", "PNG", "GIF", "JPG", "JPEG", "ICO", "CUR", "DDS" });
@@ -49,7 +50,7 @@ void						TextureEditor::init(void)
 	x2 = x + (m_pMainWindow->getSize().x - uiLogWidth - startx);
 	y2 = y;
 
-	addLine(x, y, x2, y2);
+	//m_pTopLine = addLine(x, y, x2, y2);
 
 	/*
 	// add vertical line for texture preview panel

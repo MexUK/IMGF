@@ -15,6 +15,7 @@
 using namespace std;
 using namespace bxcf;
 using namespace bxgx;
+using namespace bxgx::events;
 using namespace imgf;
 
 Editor::Editor(EEditor uiEditorType) :
@@ -48,11 +49,15 @@ void								Editor::init(void)
 // events
 void								Editor::bindEvents(void)
 {
+	bindEvent(RESIZE_WINDOW, &Editor::repositionAndResizeControls);
+
 	Layer::bindEvents();
 }
 
 void								Editor::unbindEvents(void)
 {
+	unbindEvent(RESIZE_WINDOW, &Editor::repositionAndResizeControls);
+
 	Layer::unbindEvents();
 }
 
@@ -63,6 +68,12 @@ void								Editor::addControls(void)
 
 void								Editor::initControls(void)
 {
+	repositionAndResizeControls(Vec2i(0, 0));
+}
+
+void								Editor::repositionAndResizeControls(Vec2i& vecSizeChange)
+{
+	m_pTabBar->setSize(Vec2u(m_pWindow->getSize().x - 335 - 139 - 139, m_pTabBar->getSize().y));
 }
 
 // remove editor tab

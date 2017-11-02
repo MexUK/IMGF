@@ -25,4 +25,5 @@ public:
 
 public:
 	void*								m_pActiveTexture;
+	// todo bxgx::Line*							m_pTopLine;
 };

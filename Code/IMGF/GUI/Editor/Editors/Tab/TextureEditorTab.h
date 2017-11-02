@@ -43,6 +43,8 @@ protected:
 	void						onKeyDown2(uint16 uiKey);
 	void						onMouseWheelMove2(int16 iRotationDistance);
 
+	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeChange);
+
 private:
 	bool						prepareRenderData_TXD(void);
 	bool						prepareRenderData_WTD(void); // todo - merge with prepareRenderData_TXD?
