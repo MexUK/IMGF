@@ -61,15 +61,18 @@ void					InputManager::bindEvents(void)
 void					InputManager::onKeyDown(uint16 uiKey)
 {
 	IMGEditorTab *pEditorTab = (IMGEditorTab*)m_pMainWindow->getIMGEditor()->getActiveEditorTab();
-	if (pEditorTab && m_pMainWindow->getActiveItem() == (LayerItem*)pEditorTab->getEntryGrid())
+	if (BXGX::get()->getEntryCount() == 1)
 	{
-		if (uiKey == VK_DELETE && pEditorTab->getEntryGrid()->isAnyRowSelected())
+		if (pEditorTab && m_pMainWindow->getActiveItem() == (LayerItem*)pEditorTab->getEntryGrid())
 		{
-			m_pTasks->removeSelected();
-		}
-		else if (!(uiKey >= 37 && uiKey <= 40) && (String::isAsciiCharacterDisplayable((uint8)uiKey) || uiKey == VK_BACK || uiKey == VK_DELETE))
-		{
-			pEditorTab->getSearchBox()->onKeyDown(uiKey);
+			if (uiKey == VK_DELETE && pEditorTab->getEntryGrid()->isAnyRowSelected())
+			{
+				m_pTasks->removeSelected();
+			}
+			else if (!(uiKey >= 37 && uiKey <= 40) && (String::isAsciiCharacterDisplayable((uint8)uiKey) || uiKey == VK_BACK || uiKey == VK_DELETE))
+			{
+				pEditorTab->getSearchBox()->onKeyDown(uiKey);
+			}
 		}
 	}
 }
@@ -78,9 +81,12 @@ void					InputManager::onKeyDown(uint16 uiKey)
 void					InputManager::onCharDown(uint16 uiKey)
 {
 	IMGEditorTab *pEditorTab = (IMGEditorTab*)m_pMainWindow->getIMGEditor()->getActiveEditorTab();
-	if (pEditorTab && m_pMainWindow->getActiveItem() == (LayerItem*)pEditorTab->getEntryGrid() && String::isAsciiCharacterDisplayable((uint8)uiKey))
+	if (BXGX::get()->getEntryCount() == 1)
 	{
-		pEditorTab->getSearchBox()->onCharDown(uiKey);
+		if (pEditorTab && m_pMainWindow->getActiveItem() == (LayerItem*)pEditorTab->getEntryGrid() && String::isAsciiCharacterDisplayable((uint8)uiKey))
+		{
+			pEditorTab->getSearchBox()->onCharDown(uiKey);
+		}
 	}
 }
 

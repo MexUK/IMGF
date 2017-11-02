@@ -36,6 +36,7 @@
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
 #include "GUI/Layer/Layers/MainLayer/MainLayer.h"
+#include "GUI/Input/EInputItem.h"
 #include "Control/Controls/Text.h"
 #include "Control/Controls/TabBar.h"
 #include "Control/Controls/TextBox.h"
@@ -57,6 +58,7 @@ using namespace bxgx;
 using namespace bxgx::events;
 using namespace bxgi;
 using namespace imgf;
+using namespace imgf::mainLayer::input;
 
 IMGEditorTab::IMGEditorTab(void) :
 	m_pIMGEditor(nullptr),
@@ -83,7 +85,7 @@ void					IMGEditorTab::bindEvents(void)
 	bindEvent(CHANGE_TEXT_BOX, &IMGEditorTab::onChangeTextBox);
 	bindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
 	bindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
-	bindEvent(DOUBLE_LEFT_MOUSE_DOWN, &IMGEditorTab::onDoubleLeftMouseDown2);
+	bindEvent(DOUBLE_LEFT_MOUSE_UP, &IMGEditorTab::onDoubleLeftMouseUp2);
 
 	EditorTab::bindEvents();
 }
@@ -95,7 +97,7 @@ void					IMGEditorTab::unbindEvents(void)
 	unbindEvent(CHANGE_TEXT_BOX, &IMGEditorTab::onChangeTextBox);
 	unbindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
 	unbindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
-	unbindEvent(DOUBLE_LEFT_MOUSE_DOWN, &IMGEditorTab::onDoubleLeftMouseDown2);
+	unbindEvent(DOUBLE_LEFT_MOUSE_UP, &IMGEditorTab::onDoubleLeftMouseUp2);
 
 	EditorTab::unbindEvents();
 }
@@ -375,12 +377,14 @@ void					IMGEditorTab::onSortGridByColumn(Grid *pGrid)
 	}
 }
 
-void					IMGEditorTab::onDoubleLeftMouseDown2(void)
+void					IMGEditorTab::onDoubleLeftMouseUp2(Vec2i vecCursorPosition)
 {
 	GridRow *pGridRow = m_pEntryGrid->getRowFromPoint(BXGX::get()->getCursorPosition());
 	if (pGridRow)
 	{
-		getIMGF()->getTaskManager()->getDispatch()->rename();
+		mutexControlInput.lock();
+		BXGX::get()->getMenuItemsPressed().push_back((MenuItem*)m_pEditor->getMainWindow()->getItemById(RENAME));
+		mutexControlInput.unlock();
 	}
 }
 
