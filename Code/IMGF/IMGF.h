@@ -41,6 +41,7 @@ public:
 	void						uninit(void);
 
 	void						_init(void);
+	void						initCommandLine(void);
 
 	void						openWindow(void);
 	void						process(void);
@@ -93,7 +94,6 @@ private:
 	void						initLocalization(void);
 	void						initSorting(void);
 	void						initOldVersionMigration(void);
-	void						initCommandLine(void);
 	void						initAutoUpdateCheck(void);
 	void						initTempStuff(void);
 

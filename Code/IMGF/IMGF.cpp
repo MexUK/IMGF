@@ -160,7 +160,6 @@ void				IMGF::_init(void)
 	initSorting();
 	initOldVersionMigration();
 	initTempStuff();
-	initCommandLine();
 	initAutoUpdateCheck();
 }
 
@@ -324,8 +323,8 @@ void				IMGF::initOldVersionMigration(void)
 void				IMGF::initCommandLine(void)
 {
 	// command line
-	wchar_t *pCommandLine = GetCommandLine();
-	string strCommandLine = String::convertStdWStringToStdString(pCommandLine);
+	wchar_t *wszCommandLine = GetCommandLine();
+	string strCommandLine = String::convertStdWStringToStdString(wszCommandLine);
 	int uiPos1 = strCommandLine.find('"', 0);
 	int uiPos2 = strCommandLine.find('"', uiPos1 + 1);
 	int uiPos3 = strCommandLine.find('"', uiPos2 + 1);
@@ -333,7 +332,6 @@ void				IMGF::initCommandLine(void)
 	{
 		int uiPos4 = strCommandLine.find('"', uiPos3 + 1);
 		string strPath = strCommandLine.substr(uiPos3 + 1, (uiPos4 - uiPos3) - 1);
-		//MessageBox(NULL, String::convertStdStringToStdWString(strCommandLine).c_str(), L"S", MB_OK);
 		getTaskManager()->getDispatch()->_openFile(strPath);
 	}
 }
@@ -360,7 +358,7 @@ void				IMGF::openWindow(void)
 	m_pInputManager->init();
 	m_pTaskManager->init();
 
-	//Events::trigger(TOOL_READY);
+	// todo Events::trigger(TOOL_READY);
 }
 
 void				IMGF::process(void)

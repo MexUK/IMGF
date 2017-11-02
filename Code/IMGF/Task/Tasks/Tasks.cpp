@@ -322,6 +322,7 @@ void		Tasks::_openFile(string& strFilePath)
 	onStartTask("openFile");
 
 	string strExtensionUpper = String::toUpperCase(Path::getFileExtension(strFilePath));
+
 	/*
 	todo - use this code
 	CUnknownFormat unknownFormatFile;
@@ -350,13 +351,15 @@ void		Tasks::_openFile(string& strFilePath)
 		showMessage("File doesn't have an extension.\r\n\r\n" + strFilePath, "Format Not Detected");
 		return onAbortTask();
 	}
-
+	
 	Editor *pEditor = m_pMainWindow->getEditorFromFileExtension(Path::getFileExtension(strFilePath));
 	if (!pEditor)
 	{
 		showMessage(strExtensionUpper + " files are not supported.\r\n\r\n" + strFilePath, "Format Not Supported");
 		return onAbortTask();
 	}
+
+	m_pMainWindow->setActiveEditor(pEditor);
 
 	if (!pEditor->addEditorTab(strFilePath))
 	{

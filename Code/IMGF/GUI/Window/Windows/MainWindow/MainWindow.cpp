@@ -71,6 +71,11 @@ void					MainWindow::init(void)
 	{
 		setTopZIndex(true);
 	}
+
+	// load file from command line
+	getIMGF()->initCommandLine();
+
+	render();
 }
 
 // item fetching
