@@ -474,14 +474,14 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 	float32 yCurrentScroll = 0;
 
 	/*
-	todo
+	//todo
 	BOOL bPremultipledAlphaApplied = FALSE; /////
 
 	if (!bPremultipledAlphaApplied)
 	{
-		for (auto pImageData : getIMGF()->getEntryViewerManager()->getTextureViewer()->getEntries())
+		for (TextureEditorTabEntry *pTabEntry : getEntries())
 		{
-			PremultiplyBitmapAlpha(hdc, pImageData->m_hBitmap);
+			PremultiplyBitmapAlpha(hdc, pTabEntry->m_hBitmap);
 		}
 		bPremultipledAlphaApplied = true;
 	}

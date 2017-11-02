@@ -22,10 +22,14 @@
 #include "GraphicsLibrary/Libraries/GraphicsLibrary_GDIPlus.h"
 #include "Image/ImageManager.h"
 #include "GUI/Editor/Base/Editor.h"
+#include "Style/Parts/EStyleStatus.h"
+#include "Event/EInternalEvent.h"
 
 using namespace std;
 using namespace bxcf;
 using namespace bxgx;
+using namespace bxgx::styles::statuses;
+using namespace bxgx::events;
 using namespace bxgi;
 using namespace imgf;
 
@@ -57,19 +61,42 @@ inline void PremultiplyBitmapAlpha(HDC hDC, HBITMAP hBmp)
 }
 
 RadarEditorTab::RadarEditorTab(void) :
-	m_pIMGFile(nullptr)
+	m_pIMGFile(nullptr),
+	m_pActiveTabEntry(nullptr)
 {
 }
 
 // controls
 void						RadarEditorTab::addControls(void)
 {
+	int32 x, y;
+	uint32 w, h, uiLogWidth;
+
+	uiLogWidth = 335;
+
+	x = 139 + 139 + 250 + 100 + 51;
+	y = ((162 + 30) - 50) - 1;
+	w = 80;
+	h = 20;
+
+	// vertical scroll bar
+	x = 139 + 139 + 250;
+	y = 192;
+	w = 15;
+	h = m_pWindow->getSize().y - y;
+	x -= w;
+
+	m_pVScrollBar = addScrollBar(x, y, w, h, "", -1, 50);
+	m_pVScrollBar->setScrollOrientation(VERTICAL);
 }
 
 // events
 void						RadarEditorTab::bindEvents(void)
 {
 	bindEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
+	bindEvent(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
+	bindEvent(KEY_DOWN, &RadarEditorTab::onKeyDown2);
+	bindEvent(MOVE_MOUSE_WHEEL, &RadarEditorTab::onMouseWheelMove2);
 
 	EditorTab::bindEvents();
 }
@@ -77,8 +104,159 @@ void						RadarEditorTab::bindEvents(void)
 void						RadarEditorTab::unbindEvents(void)
 {
 	unbindEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
+	unbindEvent(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
+	unbindEvent(KEY_DOWN, &RadarEditorTab::onKeyDown2);
+	unbindEvent(MOVE_MOUSE_WHEEL, &RadarEditorTab::onMouseWheelMove2);
 
 	EditorTab::unbindEvents();
+}
+
+void						RadarEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
+{
+	RadarEditorTabEntry
+		*pActiveTabEntry = nullptr;
+	uint32
+		uiActiveImageIndex,
+		uiRowHeight = 50;
+	float32
+		fVProgress = m_pVScrollBar->getProgress();
+
+	for (uint32
+		uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
+		uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
+		uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount);
+		uiEntryIndex < uiEntryEndIndexExclusive;
+		uiEntryIndex++
+		)
+	{
+		RadarEditorTabEntry *pImageData = getEntryByIndex(uiEntryIndex);
+		if (!pImageData)
+		{
+			continue; // in case of render() between vector.resize() and vector.setEntryAtIndex()
+		}
+
+		if (vecCursorPosition.x >= pImageData->m_rect.left
+			&& vecCursorPosition.y >= pImageData->m_rect.top
+			&& vecCursorPosition.x <= (pImageData->m_rect.right - m_pVScrollBar->getSize().x)
+			&& vecCursorPosition.y <= pImageData->m_rect.bottom)
+		{
+			uiActiveImageIndex = uiEntryIndex;
+			pActiveTabEntry = pImageData;
+			break;
+		}
+	}
+	if (pActiveTabEntry != nullptr)
+	{
+		setActiveEntry(pActiveTabEntry);
+		m_pWindow->render();
+	}
+}
+
+void						RadarEditorTab::onKeyDown2(uint16 uiKey)
+{
+	int32 iNextTextureIndex;
+	int32 wScrollNotify;
+	uint32 uiMinTextureIndex = 0;
+	uint32 uiMaxTextureIndex = getEntryCount() - 1;
+	uint32 yCurrentScroll = 0;
+	RadarEditorTabEntry *pTexData;
+
+	switch (uiKey)
+	{
+	case VK_PRIOR:
+		iNextTextureIndex = getActiveEntry()->m_uiIndex - 5;
+		if (iNextTextureIndex < 0)
+		{
+			iNextTextureIndex = 0;
+		}
+		pTexData = getEntryByIndex(iNextTextureIndex);
+		setActiveEntry(pTexData);
+		if (!pTexData->isCompletelyDisplayed())
+		{
+			yCurrentScroll -= ((pTexData->m_rect.bottom - pTexData->m_rect.top) + 1) * 5;
+			if (yCurrentScroll < 0)
+			{
+				yCurrentScroll = 0;
+			}
+		}
+		m_pWindow->render();
+		break;
+
+	case VK_NEXT:
+		iNextTextureIndex = getActiveEntry()->m_uiIndex + 5;
+		if (iNextTextureIndex >(int32)uiMaxTextureIndex)
+		{
+			iNextTextureIndex = uiMaxTextureIndex;
+		}
+		pTexData = getEntryByIndex(iNextTextureIndex);
+		setActiveEntry(pTexData);
+		if (!pTexData->isCompletelyDisplayed())
+		{
+			yCurrentScroll += ((pTexData->m_rect.bottom - pTexData->m_rect.top) + 1) * 5;
+		}
+		m_pWindow->render();
+		break;
+
+	case VK_UP:
+		iNextTextureIndex = ((int32)getActiveEntry()->m_uiIndex) - 1;
+		if (iNextTextureIndex >= 0)
+		{
+			pTexData = getEntryByIndex(iNextTextureIndex);
+			setActiveEntry(pTexData);
+			if (!pTexData->isCompletelyDisplayed())
+			{
+				yCurrentScroll -= (pTexData->m_rect.bottom - pTexData->m_rect.top) + 1;
+				if (yCurrentScroll < 0)
+				{
+					yCurrentScroll = 0;
+				}
+			}
+			m_pWindow->render();
+		}
+		break;
+
+	case VK_DOWN:
+		iNextTextureIndex = getActiveEntry()->m_uiIndex + 1;
+		if (iNextTextureIndex <= (int32)uiMaxTextureIndex)
+		{
+			pTexData = getEntryByIndex(iNextTextureIndex);
+			setActiveEntry(pTexData);
+			if (!pTexData->isCompletelyDisplayed())
+			{
+				yCurrentScroll += (pTexData->m_rect.bottom - pTexData->m_rect.top) + 1;
+			}
+			m_pWindow->render();
+		}
+		break;
+
+	case VK_HOME:
+		if (getEntryCount() > 0)
+		{
+			setActiveEntry(getFirstEntry());
+			m_pWindow->render();
+		}
+		wScrollNotify = SB_TOP;
+		break;
+
+	case VK_END:
+		if (getEntryCount() > 0)
+		{
+			setActiveEntry(getLastEntry());
+			m_pWindow->render();
+		}
+		wScrollNotify = SB_BOTTOM;
+		break;
+	}
+}
+
+void						RadarEditorTab::onMouseWheelMove2(int16 iRotationDistance)
+{
+	int iDelta = -(iRotationDistance / WHEEL_DELTA);
+	float32 fNewProgress = m_pVScrollBar->getProgress() + (iDelta * m_pVScrollBar->getProgressFor1Item());
+	fNewProgress = Math::limit(fNewProgress, 0.0f, 1.0f);
+	m_pVScrollBar->setProgress(fNewProgress);
+
+	m_pWindow->render();
 }
 
 // unserialize entry
@@ -167,7 +345,37 @@ void						RadarEditorTab::setFileInfoText(void)
 {
 	m_pText_FilePath->setText(getIMGFile()->getIMGFilePath());
 	m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
-	m_pText_FileGame->setText(IMGManager::getVersionGames(getIMGFile()->getVersion()));
+
+	if (getEntryCount() == 64 && getFirstEntry()->m_ucBPP == 32)
+	{
+		// GTA III
+		m_pText_FileGame->setText(string("GTA III"));
+	}
+	else if (getEntryCount() == 64 && getFirstEntry()->m_strAlphaName == "" && getFirstEntry()->m_ucBPP == 16)
+	{
+		// GTA VC
+		m_pText_FileGame->setText(string("GTA VC"));
+	}
+	else if (getEntryCount() == 128 && getFirstEntry()->m_strAlphaName == "" && getFirstEntry()->m_ucBPP == 16)
+	{
+		// GTA SA
+		m_pText_FileGame->setText(string("GTA SA"));
+	}
+	else if (getEntryCount() == 63)
+	{
+		// GTA IV
+		m_pText_FileGame->setText(string("GTA IV"));
+	}
+	else if (getEntryCount() == 1296)
+	{
+		// SOL
+		m_pText_FileGame->setText(string("SOL"));
+	}
+	else
+	{
+		// Unknown
+		m_pText_FileGame->setText(IMGManager::getVersionGames(getIMGFile()->getVersion()));
+	}
 
 	updateEntryCountText();
 }
@@ -223,6 +431,9 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 		return String::toUint32(Path::removeFileExtension(pIMGEntry1->getEntryName()).substr(5)) < String::toUint32(Path::removeFileExtension(pIMGEntry2->getEntryName()).substr(5));
 	});
 
+	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
+	m_pVScrollBar->setItemCount(VERTICAL, vecRadarIMGEntries.size() * 50);
+
 	for(IMGEntry *pIMGEntry : vecRadarIMGEntries)
 	{
 		TXDFormat txdFile(pIMGEntry->getEntryData(), false);
@@ -264,6 +475,7 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 				pTabEntry->m_ucBPP = pRWSection_TextureNative->getOriginalBPP() == 0 ? pRWSection_TextureNative->getBPP() : pRWSection_TextureNative->getOriginalBPP();
 				pTabEntry->m_strTextureFormat = TXDManager::getTXDRasterFormatText(pRWSection_TextureNative->getTXDRasterDataFormat(), pRWSection_TextureNative->getDXTCompressionType());
 			}
+			pTabEntry->m_uiMatrixIndex = String::toUint32(Path::removeFileExtension(pIMGEntry->getEntryName()).substr(5));
 
 			addEntry(pTabEntry);
 			uiTextureIndex++;
@@ -271,7 +483,7 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 
 		if (getEntryCount() > 0)
 		{
-			// todo setActiveEntry(getEntryByIndex(0));
+			setActiveEntry(getEntryByIndex(0));
 		}
 	}
 }
@@ -282,6 +494,7 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 
 	vector<IMGEntry*> vecRadarIMGEntries;
 	vecRadarIMGEntries.resize(144);
+	for (int i = 0; i < 144; i++) vecRadarIMGEntries[i] = nullptr;
 	for (IMGEntry *pIMGEntry : m_pIMGFile->getEntries())
 	{
 		if (!(pIMGEntry->isTextureFile() && String::toUpperCase(pIMGEntry->getEntryName().substr(0, 5)) == "RADAR" && String::isPositiveInteger(Path::removeFileExtension(pIMGEntry->getEntryName()).substr(5))))
@@ -300,8 +513,11 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 	});
 	*/
 
+	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
+	m_pVScrollBar->setItemCount(VERTICAL, vecRadarIMGEntries.size() * 50);
+
 	uint32 uiTabEntry = 0;
-	getEntries().resize(144);
+	//getEntries().resize(144);
 	for(IMGEntry *pIMGEntry : vecRadarIMGEntries)
 	{
 		if (!pIMGEntry)
@@ -350,15 +566,16 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 				pTabEntry->m_ucBPP = 32;
 				pTabEntry->m_strTextureFormat = ImageManager::getD3DFormatText(pWTDEntry->getD3DFormat());
 			}
+			pTabEntry->m_uiMatrixIndex = String::toUint32(Path::removeFileExtension(pIMGEntry->getEntryName()).substr(5));
 
-			setEntryByIndex(uiTabEntry, pTabEntry);
+			addEntry(pTabEntry);
 			uiTextureIndex++;
 		}
 		
 		uiTabEntry++;
 		if (getEntryCount() > 0)
 		{
-			// todo setActiveEntry(getEntryByIndex(0));
+			setActiveEntry(getEntryByIndex(0));
 		}
 	}
 }
@@ -370,7 +587,7 @@ void						RadarEditorTab::render_Type1(void)
 
 
 	/*
-	todo
+	//todo
 
 	if (!bPremultipledAlphaApplied)
 	{
@@ -402,43 +619,254 @@ void						RadarEditorTab::render_Type1(void)
 		vecDimensionTileCount = Vec2u(uiDimensionTileCount, uiDimensionTileCount);
 	}
 	Vec2u vecImageSize(vecAreaSize.x / vecDimensionTileCount.x, vecAreaSize.y / vecDimensionTileCount.y);
-	uint32 uiTabEntry = 0;
 
-	for (uint32 i = 0; i < vecDimensionTileCount.y; i++)
+	for(RadarEditorTabEntry *pTabEntry : getEntries())
 	{
-		for (uint32 i2 = 0; i2 < vecDimensionTileCount.x; i2++)
+		uint32
+			y = pTabEntry->m_uiMatrixIndex / vecDimensionTileCount.y,
+			x = pTabEntry->m_uiMatrixIndex % vecDimensionTileCount.x;
+
+		Vec2i vecImagePosition;
+		if (getIMGFile()->getVersion() == IMG_3)
 		{
-			Vec2i vecImagePosition;
-			if (getIMGFile()->getVersion() == IMG_3)
+			vecImagePosition = Vec2i(139 + 139 + 250 + (x * vecImageSize.x), 192 + (y * vecImageSize.y));
+		}
+		else
+		{
+			vecImagePosition = Vec2i(139 + 139 + 250 + (x * vecImageSize.x), 192 + (y * vecImageSize.y));
+		}
+
+		pGFX->drawImage(vecImagePosition, pTabEntry->m_hBitmap, vecImageSize);
+	}
+}
+
+// render editor
+void						RadarEditorTab::renderEntryList(void)
+{
+	HWND hwnd = getWindow()->getWindowHandle();
+
+	HDC memDC, hdc = GetWindowDC(hwnd);
+	HGDIOBJ old = nullptr;
+	PAINTSTRUCT ps;
+	RECT clientRect;
+	int width, height;
+
+	uint32 x, y;
+	Vec2i vecMainPanelPosition;
+
+	x = 139 + 139;
+	y = 162 + 30;
+	vecMainPanelPosition = Vec2i(x, y);
+
+	float32 yCurrentScroll = 0;
+
+	/*
+	//todo
+	BOOL bPremultipledAlphaApplied = FALSE; /////
+
+	if (!bPremultipledAlphaApplied)
+	{
+		for (TextureEditorTabEntry *pTabEntry : getEntries())
+		{
+			PremultiplyBitmapAlpha(hdc, pTabEntry->m_hBitmap);
+		}
+		bPremultipledAlphaApplied = true;
+	}
+	*/
+
+	/*
+	todo
+	if (fSize)
+	{
+		BitBlt(ps.hdc,
+			0, 0,
+			800, getIMGF()->getEntryViewerManager()->getTextureViewer()->getWindowScrollbarMaxRange(),
+			hdcScreenCompat,
+			0, yCurrentScroll,
+			SRCCOPY);
+
+		fSize = FALSE;
+	}
+	*/
+
+	//getIMGF()->getEntryViewerManager()->getTextureViewer()->clearWindowBackground(hdc);
+
+	GetClientRect(hwnd, &clientRect);
+	width = clientRect.right - clientRect.left;
+	height = clientRect.bottom - clientRect.top;
+
+	memDC = CreateCompatibleDC(NULL);
+
+	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
+
+
+
+
+
+	// display type: Single
+	const uint32
+		uiImagePaddingRight = 10,
+		uiImagePaddingBottom = 10,
+		uiEntryViewerWindowClientAreaWidth = 494;
+	uint32
+		uiEntryRectX = x,// uiSingleDisplayTypeTopScrollbarXCurrentScroll,
+		uiEntryRectY = y,
+		uiHighestImageInRow = 0,
+		uiCalculatedWidth,
+		uiTextureIndex = 0,
+		uiRowHeight = 50;
+	RadarEditorTabEntry
+		*pActiveImageData = getActiveEntry();
+	bool
+		bTexturePreviewIsEnabled = false;
+	float32
+		fVProgress = m_pVScrollBar->getProgress();
+
+	for(uint32
+			uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
+			uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
+			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount);
+		uiEntryIndex < uiEntryEndIndexExclusive;
+		uiEntryIndex++
+	)
+	{
+		RadarEditorTabEntry *pImageData = getEntryByIndex(uiEntryIndex);
+		if (!pImageData)
+		{
+			continue; // in case of render() between vector.resize() and vector.setEntryAtIndex()
+		}
+
+		if (bTexturePreviewIsEnabled)
+		{
+			pImageData->m_rect.left = vecMainPanelPosition.x;
+			pImageData->m_rect.top = uiEntryRectY;
+			pImageData->m_rect.right = vecMainPanelPosition.x + 250;
+			pImageData->m_rect.bottom = uiEntryRectY + 45 + 128 + 10;
+		}
+		else
+		{
+			pImageData->m_rect.left = vecMainPanelPosition.x;
+			pImageData->m_rect.top = uiEntryRectY;
+			pImageData->m_rect.right = vecMainPanelPosition.x + 250;
+			pImageData->m_rect.bottom = uiEntryRectY + 45 + 10;
+		}
+
+		uiCalculatedWidth = 0;
+
+		// calculate max width out of: image, diffuse text and alpha text
+		SIZE textSize;
+		GetTextExtentPoint32(hdc, String::convertStdStringToStdWString(pImageData->m_strDiffuseName).c_str(), pImageData->m_strDiffuseName.length(), &textSize);
+		uiCalculatedWidth = textSize.cx;
+
+		SIZE textSize2;
+		GetTextExtentPoint32(hdc, String::convertStdStringToStdWString(pImageData->m_strAlphaName).c_str(), pImageData->m_strAlphaName.length(), &textSize2);
+		if (textSize2.cx > (int32)uiCalculatedWidth)
+		{
+			uiCalculatedWidth = textSize2.cx;
+		}
+
+		if (pImageData->m_uiWidth > uiCalculatedWidth)
+		{
+			uiCalculatedWidth = pImageData->m_uiWidth;
+		}
+
+		// draw active texture background colour
+		RECT rect2 = pImageData->m_rect;
+
+		m_pWindow->setRenderingStyleGroups("leftEntryPanel");
+		if (pImageData == getActiveEntry())
+		{
+			m_pWindow->setRenderingStyleStatus(EStyleStatus::ACTIVE);
+		}
+		pGFX->drawRectangle(Vec2i(rect2.left, rect2.top), Vec2u(rect2.right - rect2.left, rect2.bottom - rect2.top));
+		m_pWindow->resetRenderingStyleGroups();
+		m_pWindow->resetRenderingStyleStatus();
+
+		// draw texture number
+		HFONT hFont = CreateFont(22, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
+			CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, VARIABLE_PITCH, TEXT("Verdana"));
+		old = SelectObject(hdc, hFont);
+
+		SetTextColor(hdc, RGB(0, 0, 0));
+		SetBkMode(hdc, TRANSPARENT);
+
+		RECT rect;
+
+		rect.left = uiEntryRectX + 5;
+		rect.top = uiEntryRectY + 13 - yCurrentScroll;
+		string strText = String::toString(uiEntryIndex + 1);
+		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
+
+		// draw texture diffuse name
+		uint32 uiXOffset1 = 50;
+
+		rect.left = uiEntryRectX + uiXOffset1;
+		rect.top = uiEntryRectY + 5 - yCurrentScroll;
+		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), pImageData->m_strDiffuseName);
+		uiEntryRectY += 15;
+
+		// draw texture alpha name
+		if (pImageData->m_strAlphaName != "")
+		{
+			rect.left = uiEntryRectX + uiXOffset1;
+			rect.top = uiEntryRectY + 5 - yCurrentScroll;
+			pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), pImageData->m_strAlphaName);
+		}
+		uiEntryRectY += 15;
+
+		// draw texture size
+		rect.left = uiEntryRectX + uiXOffset1;
+		rect.top = uiEntryRectY + 5 - yCurrentScroll;
+		strText = String::toString(pImageData->m_uiWidth) + " x " + String::toString(pImageData->m_uiHeight);
+		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
+
+		// draw texture BPP
+		rect.left = uiEntryRectX + uiXOffset1 + 85;
+		rect.top = uiEntryRectY + 5 - yCurrentScroll;
+		strText = String::toString(pImageData->m_ucBPP) + " BPP";
+		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
+
+		// draw texture raster format
+		rect.left = uiEntryRectX + uiXOffset1 + 85 + 55;
+		rect.top = uiEntryRectY + 5 - yCurrentScroll;
+		strText = pImageData->m_strTextureFormat;
+		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
+
+		uiEntryRectY += 15;
+
+		// draw texture image preview
+		if (bTexturePreviewIsEnabled)
+		{
+			//old = (HBITMAP)SelectObject(memDC, pImageData->m_hBitmap);
+
+			uint32 uiImageWidthWhenHeightIs128 = (uint32)(((float32)128.0f / (float32)pImageData->m_uiHeight) * (float32)pImageData->m_uiWidth);
+			uint32 uiImageHeightWhenWidthIs128 = (uint32)(((float32)128.0f / (float32)pImageData->m_uiWidth) * (float32)pImageData->m_uiHeight);
+
+			uint32 uiDestWidth;
+			uint32 uiDestHeight;
+			if (uiImageWidthWhenHeightIs128 > uiImageHeightWhenWidthIs128)
 			{
-				vecImagePosition = Vec2i(139 + 139 + 150 + (i2 * vecImageSize.x), 192 + (i * vecImageSize.y));
+				uiDestWidth = 128;
+				uiDestHeight = uiImageHeightWhenWidthIs128;
 			}
 			else
 			{
-				vecImagePosition = Vec2i(139 + 139 + 150 + (i2 * vecImageSize.x), 192 + (i * vecImageSize.y));
+				uiDestWidth = uiImageWidthWhenHeightIs128;
+				uiDestHeight = 128;
 			}
-
-			//uint32 uiTabEntry2 = uiTabEntry;
-			//if (uiTabEntry2 < 4)
-			//{
-				
-			//}
-			//if (uiTabEntry < 3)
-			//{
-			//	uiTabEntry2 = 62 - uiTabEntry;
-			//}
-			//else
-			//	uiTabEntry2 -= 3;
-			RadarEditorTabEntry *pTabEntry = getEntryByIndex(uiTabEntry);
-			if (!pTabEntry)
-			{
-				uiTabEntry++;
-				continue;
-			}
-
-			pGFX->drawImage(vecImagePosition, pTabEntry->m_hBitmap, vecImageSize);
-
-			uiTabEntry++;
+			
+			pGFX->drawImage(Vec2i(uiEntryRectX + 20, uiEntryRectY - yCurrentScroll), pImageData->m_hBitmap, Vec2u(pActiveImageData->m_uiWidth, pActiveImageData->m_uiHeight));
+			uiEntryRectY += 128;
 		}
+
+		uiEntryRectY += 10;
+
+		// horizontal line below texture image
+		pGFX->drawLine(Vec2i(vecMainPanelPosition.x, uiEntryRectY - 1 - yCurrentScroll), Vec2i(vecMainPanelPosition.x + 250, uiEntryRectY - 1 - yCurrentScroll));
+
+		uiTextureIndex++;
 	}
+
+	SelectObject(memDC, old);
+	DeleteDC(memDC);
 }

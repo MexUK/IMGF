@@ -4,9 +4,10 @@
 #include "nsbxgi.h"
 #include "nsbxgx.h"
 #include "GUI/Editor/Base/Tab/EditorTab.h"
+#include "GUI/Editor/Components/LeftEntryList.h"
 #include "Pool/VectorPool.h"
 
-class imgf::TextureEditorTab : public imgf::EditorTab, public bxcf::VectorPool<imgf::TextureEditorTabEntry*>
+class imgf::TextureEditorTab : public imgf::EditorTab, public imgf::LeftEntryList, public bxcf::VectorPool<imgf::TextureEditorTabEntry*>
 {
 public:
 	TextureEditorTab(void);

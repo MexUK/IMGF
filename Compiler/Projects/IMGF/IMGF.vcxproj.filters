@@ -310,6 +310,12 @@
     <Filter Include="Header Files\Task\Tasks\FileGroups">
       <UniqueIdentifier>{1855c45e-a919-43bc-acb2-1fd402fd12a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GUI\Editor\Components">
+      <UniqueIdentifier>{53dbdf43-6c04-4dde-a970-1d7b6f8e89a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Editor\Components">
+      <UniqueIdentifier>{efb455a3-96af-4831-9e1a-e87cbbfbeb8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\IMGF\Globals.cpp">
@@ -530,6 +536,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\Task\Tasks\FileGroups\FileGroup.cpp">
       <Filter>Source Files\Task\Tasks\FileGroups</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Components\LeftEntryList.cpp">
+      <Filter>Source Files\GUI\Editor\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -835,6 +844,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Task\Tasks\FileGroups\FileGroupManager.h">
       <Filter>Header Files\Task\Tasks\FileGroups</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Components\LeftEntryList.h">
+      <Filter>Header Files\GUI\Editor\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

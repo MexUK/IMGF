@@ -77,6 +77,8 @@ namespace imgf
 	class AnimationEditor;
 	class RadarEditor;
 
+	class LeftEntryList;
+
 	class DATEditorTab;
 	class IMGEditorTab;
 	class ItemDefinitionEditorTab;

@@ -17,6 +17,7 @@ public:
 
 	void						onUnserializeEntry(bxgi::IMGFormat *img);
 
+	void						renderEntryList(void);
 	void						render_Type1(void);
 
 	bool						unserializeFile(void);
@@ -31,6 +32,17 @@ public:
 	void						setIMGFile(bxgi::IMGFormat *pIMGFile) { m_pIMGFile = pIMGFile; }
 	bxgi::IMGFormat*			getIMGFile(void) { return m_pIMGFile; }
 
+	void						setActiveEntry(RadarEditorTabEntry *pTabEntry) { m_pActiveTabEntry = pTabEntry; }
+	RadarEditorTabEntry*		getActiveEntry(void) { return m_pActiveTabEntry; }
+
+protected:
+	void						onLeftMouseDown(bxcf::Vec2i vecCursorPosition);
+	void						onKeyDown2(uint16 uiKey);
+	void						onMouseWheelMove2(int16 iRotationDistance);
+
 private:
 	bxgi::IMGFormat*			m_pIMGFile;
+	RadarEditorTabEntry*		m_pActiveTabEntry;
+
+	bxgx::ScrollBar*			m_pVScrollBar;
 };
