@@ -196,19 +196,16 @@ void					IMGEditorTab::addControls(void)
 	uiLogWidth = 335;
 
 	// grid
-	Grid *pBlankGrid = m_pIMGEditor->getEntryGrid();
+	//Grid *pBlankGrid = m_pIMGEditor->getEntryGrid();
 
 	x = 139 + 139;
 	y = 162 + 30;
 	w = m_pWindow->getSize().x - x - uiLogWidth;
 	h = m_pWindow->getSize().y - y;
+	strStyleGroup = "imgEditor_grid";
 
 	m_pEntryGrid = addGrid(x, y, w, h);
-	m_pEntryGrid->setStyleGroups(pBlankGrid->getStyleGroups());
-	for (GridHeader *pHeader : pBlankGrid->getHeaders().getEntries())
-	{
-		m_pEntryGrid->addHeader(pHeader->getText(), pHeader->getColumnWidth());
-	}
+	m_pEntryGrid->setStyleGroups(strStyleGroup);
 
 	// filter - entry type
 	w = 140;
@@ -233,7 +230,34 @@ void					IMGEditorTab::addControls(void)
 void					IMGEditorTab::initControls(void)
 {
 	// todo bindEvents();
+	addGridHeaders(getIMGFile()->getVersion());
 	repositionAndResizeControls(Vec2i(0, 0));
+}
+
+void					IMGEditorTab::addGridHeaders(EIMGVersion uiIMGVersionValue)
+{
+	m_pEntryGrid->addHeader("Index", 50);
+	m_pEntryGrid->addHeader("Type", 40);
+	m_pEntryGrid->addHeader("Name", 160);
+	m_pEntryGrid->addHeader("Offset", 95);
+	m_pEntryGrid->addHeader("Size", 80);
+
+	switch (uiIMGVersionValue)
+	{
+	case IMG_UNKNOWN:
+	case IMG_1:
+	case IMG_2:
+		m_pEntryGrid->addHeader("Version", 170);
+		break;
+	case IMG_3:
+		m_pEntryGrid->addHeader("Resource Type", 125);
+		break;
+	case IMG_FASTMAN92:
+		m_pEntryGrid->addHeader("Version", 170);
+		m_pEntryGrid->addHeader("Compression", 125);
+		m_pEntryGrid->addHeader("Encryption", 125);
+		break;
+	}
 }
 
 void					IMGEditorTab::onUnserializeEntry(IMGFormat *img)
@@ -801,11 +825,6 @@ void					IMGEditorTab::removeAllEntries(void)
 {
 	getIMGFile()->removeAllEntries();
 	updateEntryCountText();
-}
-
-void					IMGEditorTab::addGridHeaders(void)
-{
-	getIMGF()->getIMGEditor()->addColumnsToMainListView(getIMGFile()->getVersion());
 }
 
 void					IMGEditorTab::readdGridEntries(void)

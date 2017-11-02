@@ -103,10 +103,6 @@ EditorTabType*							imgf::Editor::_addEditorTab(std::string& strFilePath, bool 
 		return nullptr;
 	}
 
-	// add editor tab
-	EditorTabType *pEditorTab = m_pWindow->addLayer<EditorTabType>(-1, true, -50);
-	m_vecEditorTabs.addEntry(pEditorTab);
-
 	// disable other layers
 	if (m_pActiveEditorTab)
 	{
@@ -114,9 +110,12 @@ EditorTabType*							imgf::Editor::_addEditorTab(std::string& strFilePath, bool 
 	}
 	else
 	{
-		setEnabled(false); // e.g. IMGEditor
 		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(false);
 	}
+
+	// add editor tab
+	EditorTabType *pEditorTab = m_pWindow->addLayer<EditorTabType>(-1, true, -50);
+	m_vecEditorTabs.addEntry(pEditorTab);
 
 	// initialize editor tab
 	pEditorTab->setEditor(this);

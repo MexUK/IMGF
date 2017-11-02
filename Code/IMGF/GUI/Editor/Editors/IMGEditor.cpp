@@ -356,33 +356,9 @@ void						IMGEditor::setActiveTab(IMGEditorTab *pEditorTab)
 void					IMGEditor::readdColumnsToMainListView(EIMGVersion EIMGVersionValue)
 {
 	removeColumnsFromMainListView();
-	addColumnsToMainListView(EIMGVersionValue);
+	((IMGEditorTab*)getActiveEditorTab())->addGridHeaders(EIMGVersionValue);
 }
-void					IMGEditor::addColumnsToMainListView(EIMGVersion EIMGVersionValue)
-{
-	m_pEntryGrid->addHeader("Index", 50);
-	m_pEntryGrid->addHeader("Type", 40);
-	m_pEntryGrid->addHeader("Name", 160);
-	m_pEntryGrid->addHeader("Offset", 95);
-	m_pEntryGrid->addHeader("Size", 80);
 
-	switch (EIMGVersionValue)
-	{
-	case IMG_UNKNOWN:
-	case IMG_1:
-	case IMG_2:
-		m_pEntryGrid->addHeader("Version", 170);
-		break;
-	case IMG_3:
-		m_pEntryGrid->addHeader("Resource Type", 125);
-		break;
-	case IMG_FASTMAN92:
-		m_pEntryGrid->addHeader("Version", 170);
-		m_pEntryGrid->addHeader("Compression", 125);
-		m_pEntryGrid->addHeader("Encryption", 125);
-		break;
-	}
-}
 void					IMGEditor::removeColumnsFromMainListView(void)
 {
 	/*
@@ -1065,6 +1041,9 @@ string					IMGEditor::getResolvedFilePath(string& strFilePath)
 // controls
 void		IMGEditor::addControls(void)
 {
+	/*
+	todo
+
 	Vec2i
 		point;
 	Vec2u
@@ -1112,17 +1091,23 @@ void		IMGEditor::addControls(void)
 
 	m_pEntryVersionFilter = addDropDown(x, y, w, h, "Entry Version", strStyleGroup, -1, -100);
 	m_pEntryVersionFilter->addItem("No file is open", false, false);
+	*/
 }
 
 void		IMGEditor::initControls(void)
 {
-	addColumnsToMainListView(IMG_UNKNOWN);
+	// todo
 
-	repositionAndResizeControls(Vec2i(0, 0));
+	//addColumnsToMainListView(IMG_UNKNOWN);
+
+	//repositionAndResizeControls(Vec2i(0, 0));
 }
 
 void		IMGEditor::repositionAndResizeControls(Vec2i& vecSizeDifference)
 {
+	/*
+	todo
+
 	Vec2i point;
 	Vec2u size, newSize;
 	int32 iNewX, iNewWidth, iNewHeight;
@@ -1163,6 +1148,7 @@ void		IMGEditor::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	point = m_pEntryVersionFilter->getPosition();
 	iNewX = m_pWindow->getSize().x - m_pEntryVersionFilter->getSize().x - uiLogWidth - 10;
 	m_pEntryVersionFilter->setPosition(Vec2i(iNewX, point.y));
+	*/
 }
 
 // render

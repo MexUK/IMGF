@@ -107,7 +107,7 @@ public:
 	void						removeSelectedEntries(void);
 	void						removeAllEntries(void);
 
-	void						addGridHeaders(void);
+	void						addGridHeaders(bxgi::EIMGVersion uiIMGVersionValue);
 	void						addGridEntries(void);
 	void						readdGridEntries(void);
 	void						addGridEntry(bxgi::IMGEntry *pIMGEntry, uint32 uiEntryIndex = -1, void **pRows = nullptr);
