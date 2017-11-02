@@ -1,5 +1,6 @@
 #include "Editor.h"
 #include "Static/Path.h"
+#include "Static/StdVector.h"
 #include "Format/Format.h"
 #include "IMGF.h"
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
@@ -200,4 +201,10 @@ string								Editor::getEditorName(EEditor uiEditor)
 	case RADAR_EDITOR:				return "Radar";
 	}
 	return "Unknown";
+}
+
+// file extension importable
+bool								Editor::isFileExtensionImportable(string& strFileExtension)
+{
+	return StdVector::isIn(StdVector::toUpperCase(getImportEditorFileFormats()), String::toUpperCase(strFileExtension));
 }

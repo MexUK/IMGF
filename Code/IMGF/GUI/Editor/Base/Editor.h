@@ -55,6 +55,10 @@ public:
 	void								setEditorFileFormats(std::vector<std::string> vecEditorFileFormats) { m_vecEditorFileFormats = vecEditorFileFormats; }
 	std::vector<std::string>&			getEditorFileFormats(void) { return m_vecEditorFileFormats; }
 
+	void								setImportEditorFileFormats(std::vector<std::string> vecImportEditorFileFormats) { m_vecImportEditorFileFormats = vecImportEditorFileFormats; }
+	std::vector<std::string>&			getImportEditorFileFormats(void) { return m_vecImportEditorFileFormats; }
+	bool								isFileExtensionImportable(std::string& strFileExtension);
+
 	void								setMainWindow(MainWindow *pMainWindow) { m_pMainWindow = pMainWindow; }
 	MainWindow*							getMainWindow(void) { return m_pMainWindow; }
 
@@ -79,6 +83,7 @@ protected:
 	EditorTab*							m_pActiveEditorTab;
 	bxgx::TabBar*						m_pTabBar;
 	std::vector<std::string>			m_vecEditorFileFormats;
+	std::vector<std::string>			m_vecImportEditorFileFormats;
 	bxcf::VectorPool<imgf::EditorTab*>	m_vecEditorTabs;
 };
 

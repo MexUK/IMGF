@@ -770,7 +770,7 @@ void		Tasks::importByFiles(void)
 {
 	onStartTask("importByFiles");
 
-	vector<string> vecFilePaths = openFile();
+	vector<string> vecFilePaths = openFile(String::join(m_pMainWindow->getActiveEditor()->getImportEditorFileFormats(), ","));
 	if (vecFilePaths.size() == 0)
 	{
 		return onAbortTask();
@@ -780,7 +780,7 @@ void		Tasks::importByFiles(void)
 
 	for (string& strFilePath : vecFilePaths)
 	{
-		getTab()->addFile(strFilePath);
+		getTab()->addEntryViaFile(strFilePath);
 		increaseProgress();
 	}
 
@@ -813,7 +813,7 @@ void		Tasks::importBySingleFolder(void)
 
 	for (string& strFileName : vecFileNames)
 	{
-		getTab()->addFile(strFolderPath + strFileName);
+		getTab()->addEntryViaFile(strFolderPath + strFileName);
 		increaseProgress();
 	}
 
@@ -841,7 +841,7 @@ void		Tasks::importByFolderRecursively(void)
 
 	for (string& strFilePath : vecFilePaths)
 	{
-		getTab()->addFile(strFilePath);
+		getTab()->addEntryViaFile(strFilePath);
 		increaseProgress();
 	}
 
@@ -908,7 +908,7 @@ void		Tasks::importByIDE(void)
 		if (File::doesFileExist(strEntryFilePath))
 		{
 			uiImportCount++;
-			getTab()->addFile(strEntryFilePath);
+			getTab()->addEntryViaFile(strEntryFilePath);
 		}
 
 		increaseProgress();
@@ -956,7 +956,7 @@ void		Tasks::importByEntryNames(void)
 	{
 		if (stEntryNames.find(Path::removeFileExtension(String::toUpperCase(strFileName))) != stEntryNames.end())
 		{
-			getTab()->addFile(strFolderPath + strFileName);
+			getTab()->addEntryViaFile(strFolderPath + strFileName);
 			uiImportedEntryCount++;
 			increaseProgress();
 		}
@@ -4678,7 +4678,7 @@ void		Tasks::findOrphanIDEEntriesNotInIMG(void)
 			if (File::doesFileExist(strEntryFilePath))
 			{
 				uiImportCount++;
-				getIMGTab()->addFile(strEntryFilePath);
+				getIMGTab()->addEntryViaFile(strEntryFilePath);
 			}
 
 			increaseProgress();

@@ -11,6 +11,7 @@ using namespace imgf;
 void									ModelEditor::init(void)
 {
 	setEditorFileFormats({ "DFF" });
+	setImportEditorFileFormats({ "3dmesh" });
 
 	Editor::init();
 }

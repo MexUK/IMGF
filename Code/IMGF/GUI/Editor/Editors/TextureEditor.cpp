@@ -28,6 +28,7 @@ TextureEditor::TextureEditor(void) :
 	m_pActiveTexture(nullptr)
 {
 	setEditorFileFormats({ "TXD", "WTD" });
+	setImportEditorFileFormats({ "BMP", "PNG", "GIF", "JPG", "JPEG", "ICO", "CUR", "DDS" });
 }
 
 // initialization

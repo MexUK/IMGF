@@ -9,6 +9,7 @@ using namespace imgf;
 void									ItemDefinitionEditor::init(void)
 {
 	setEditorFileFormats({ "IDE" });
+	setImportEditorFileFormats({ "DFF", "COL" });
 
 	Editor::init();
 }

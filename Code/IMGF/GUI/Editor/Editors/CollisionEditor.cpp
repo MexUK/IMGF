@@ -18,6 +18,7 @@ HDC hDC; // todo - namespace
 void					CollisionEditor::init(void)
 {
 	setEditorFileFormats({ "COL" });
+	setImportEditorFileFormats({ "3dmesh" });
 
 	Editor::init();
 }

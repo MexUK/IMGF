@@ -36,7 +36,13 @@ public:
 	virtual bool						unserializeFile(void) = 0;
 	virtual void						onFileLoaded(void) = 0;
 
-	virtual void						addFile(std::string& strFilePath) {}
+	template <class T>
+	T									_addEntry(std::string& strEntryFilePathOrData, bool bParam1IsFilePath = true, std::string strEntryName = "");
+	virtual void*						addEntryViaFile(std::string& strEntryFilePath, std::string strEntryName = "");
+	virtual void*						addEntryViaData(std::string strEntryName, std::string& strEntryData);
+	virtual void						addEntryAfter(void) {}
+
+	virtual void						updateEntryCountText(void) {}
 
 	virtual void						render(void) {}
 
@@ -116,3 +122,26 @@ private:
 	std::vector<bxgx::Button*>			m_vecButtonsPressedPending;
 	std::vector<bxgx::MenuItem*>		m_vecMenuItemsPressed;
 };
+
+// add entry
+template <class T>
+T										imgf::EditorTab::_addEntry(std::string& strEntryFilePathOrData, bool bParam1IsFilePath, std::string strEntryName)
+{
+	T pResult;
+	if (bParam1IsFilePath)
+	{
+		if (strEntryName == "")
+		{
+			strEntryName = bxcf::Path::getFileName(strEntryFilePathOrData);
+		}
+		pResult = (T) getFile()->addItem(strEntryName, bxcf::File::getFileContent(strEntryFilePathOrData, getFile()->doesFormatUseBinaryData()));
+	}
+	else
+	{
+		pResult = (T) getFile()->addItem(strEntryName, strEntryFilePathOrData);
+	}
+	updateEntryCountText();
+	addEntryAfter();
+
+	return pResult;
+}

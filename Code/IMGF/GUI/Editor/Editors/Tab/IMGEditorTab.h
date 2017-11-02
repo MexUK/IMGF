@@ -95,8 +95,8 @@ public:
 	std::vector<std::string>&	getLogLinesBasic(void) { return m_vecLogLinesBasic; }
 	std::vector<std::string>&	getLogLinesExtended(void) { return m_vecLogLinesExtended; }
 
-	void						addFile(std::string strEntryFilePath, std::string strEntryName = "");
-	void						addEntryViaData(std::string strEntryName, std::string strEntryData);
+	void						addEntryAfter(bxgi::IMGEntry *pIMGEntry);
+
 	void						replaceEntryViaFile(std::string strEntryName, std::string strEntryFilePath, std::string strNewEntryName = "");
 	void						replaceEntryViaData(std::string strEntryName, std::string& strEntryData, std::string strNewEntryName = "");
 	void						addOrReplaceEntryViaFile(std::string strEntryFilePath, std::string strEntryName = ""); // if entry with name already exists, then it is replaced, otherwise it is added.

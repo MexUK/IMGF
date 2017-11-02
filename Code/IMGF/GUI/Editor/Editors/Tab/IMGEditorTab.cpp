@@ -534,34 +534,15 @@ void					IMGEditorTab::checkToApplyCompression(IMGEntry *pIMGEntry)
 	}
 }
 
-void					IMGEditorTab::addFile(string strEntryFilePath, string strEntryName)
+// add entry
+void					IMGEditorTab::addEntryAfter(IMGEntry *pIMGEntry)
 {
-	if (strEntryName == "")
-	{
-		strEntryName = Path::getFileName(strEntryFilePath);
-	}
-
-	IMGEntry *pIMGEntry = getIMGFile()->addEntryViaFile(strEntryFilePath, strEntryName);
 	checkToApplyCompression(pIMGEntry);
-
 	addGridEntry(pIMGEntry);
-	m_pEntryGrid->render();
-
-	updateEntryCountText();
 	updateIMGText();
 }
 
-void					IMGEditorTab::addEntryViaData(string strEntryName, string strEntryData)
-{
-	IMGEntry *pIMGEntry = getIMGFile()->addEntryViaData(strEntryName, strEntryData);
-	checkToApplyCompression(pIMGEntry);
-
-	addGridEntry(pIMGEntry);
-
-	updateEntryCountText();
-	updateIMGText();
-}
-
+// replace entry
 void					IMGEditorTab::replaceEntryViaFile(string strEntryName, string strEntryFilePath, string strNewEntryName)
 {
 	IMGEntry *pIMGEntry = getIMGFile()->replaceEntryViaFile(strEntryName, strEntryFilePath, strNewEntryName);
@@ -628,7 +609,8 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 	{
 		// entry name not found in IMG
 		// import the entry
-		return addFile(strEntryFilePath, strEntryName);
+		addEntryViaFile(strEntryFilePath, strEntryName);
+		return;
 	}
 
 	// entry name is found in IMG
@@ -663,11 +645,13 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 
 		if (uiResultOption == 0) // import
 		{
-			return addFile(strEntryFilePath, strEntryName);
+			addEntryViaFile(strEntryFilePath, strEntryName);
+			return;
 		}
 		else if (uiResultOption == 1) // replace
 		{
-			return replaceEntryViaFile(strEntryName, strEntryFilePath);
+			replaceEntryViaFile(strEntryName, strEntryFilePath);
+			return;
 		}
 	}
 
@@ -678,7 +662,8 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 		if (getIMGF()->getSettingsManager()->getSettingBool("OverwriteProtectedFiles"))
 		{
 			// Setting is enabled: Overwrite protected files
-			return replaceEntryViaFile(strEntryName, strEntryFilePath);
+			replaceEntryViaFile(strEntryName, strEntryFilePath);
+			return;
 		}
 		else
 		{
@@ -695,13 +680,15 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 	if (uiExistingEntryFileCreationDate == 0 || uiNewEntryFileCreationDate == 0)
 	{
 		// either the file creation date is not stored for the existing entry or unable to fetch it for the new entry
-		return replaceEntryViaFile(strEntryName, strEntryFilePath);
+		replaceEntryViaFile(strEntryName, strEntryFilePath);
+		return;
 	}
 
 	if (uiNewEntryFileCreationDate == uiExistingEntryFileCreationDate)
 	{
 		// file creation date is the same for both existing entry and new entry
-		return replaceEntryViaFile(strEntryName, strEntryFilePath);
+		replaceEntryViaFile(strEntryName, strEntryFilePath);
+		return;
 	}
 
 	if (uiExistingEntryFileCreationDate < uiNewEntryFileCreationDate)
@@ -711,7 +698,8 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 		if (getIMGF()->getSettingsManager()->getSettingBool("OverwriteOlderFiles"))
 		{
 			// Setting is enabled: Overwrite older files
-			return replaceEntryViaFile(strEntryName, strEntryFilePath);
+			replaceEntryViaFile(strEntryName, strEntryFilePath);
+			return;
 		}
 		else
 		{
@@ -727,7 +715,8 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 		if (getIMGF()->getSettingsManager()->getSettingBool("OverwriteNewerFiles"))
 		{
 			// Setting is enabled: Overwrite newer files
-			return replaceEntryViaFile(strEntryName, strEntryFilePath);
+			replaceEntryViaFile(strEntryName, strEntryFilePath);
+			return;
 		}
 		else
 		{
@@ -738,7 +727,8 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 	}
 
 	// replace by default. e.g. if no settings are enabled.
-	return replaceEntryViaFile(strEntryName, strEntryFilePath);
+	replaceEntryViaFile(strEntryName, strEntryFilePath);
+	return;
 }
 
 void					IMGEditorTab::addOrReplaceEntryViaDataAndSettings(string strEntryName, string strEntryData)
@@ -748,7 +738,8 @@ void					IMGEditorTab::addOrReplaceEntryViaDataAndSettings(string strEntryName, 
 	{
 		// entry name not found in IMG
 		// import the entry
-		return addEntryViaData(strEntryName, strEntryData);
+		addEntryViaData(strEntryName, strEntryData);
+		return;
 	}
 
 	// entry name is found in IMG

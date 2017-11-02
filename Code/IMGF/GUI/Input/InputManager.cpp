@@ -161,15 +161,16 @@ void					InputManager::onDropFiles(vector<string> vecDroppedFilePaths)
 	EditorTab *pActiveEditorTab = m_pMainWindow->getActiveEditor()->getActiveEditorTab();
 	for (string& strDroppedFilePath : vecDroppedFilePaths)
 	{
-		if (IMGF::isFileExtensionOpenable(Path::getFileExtension(strDroppedFilePath)))
+		string strFileExtension = Path::getFileExtension(strDroppedFilePath);
+		if (IMGF::isFileExtensionOpenable(strFileExtension))
 		{
 			m_pTasks->_openFile(strDroppedFilePath);
 		}
 		else
 		{
-			if (pActiveEditorTab)
+			if (pActiveEditorTab && pActiveEditorTab->getEditor()->isFileExtensionImportable(strFileExtension))
 			{
-				pActiveEditorTab->addFile(strDroppedFilePath);
+				pActiveEditorTab->addEntryViaFile(strDroppedFilePath);
 			}
 		}
 	}

@@ -70,6 +70,7 @@ IMGEditor::IMGEditor(void) :
 	m_uiSearchFileCount(0) // todo - rename to SearchHitFileCount
 {
 	setEditorFileFormats({ "IMG", "DIR" });
+	//setImportEditorFileFormats({});
 }
 
 // events

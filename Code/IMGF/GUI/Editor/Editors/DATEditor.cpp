@@ -9,6 +9,7 @@ using namespace imgf;
 void							DATEditor::init(void)
 {
 	setEditorFileFormats({ "DAT" });
+	setImportEditorFileFormats({ "IDE", "IPL", "IMG", "COL" });
 
 	Editor::init();
 }

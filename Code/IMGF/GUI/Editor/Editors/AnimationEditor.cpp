@@ -9,6 +9,7 @@ using namespace imgf;
 void								AnimationEditor::init(void)
 {
 	setEditorFileFormats({ "IFP" });
+	setImportEditorFileFormats({ "3dmesh" });
 
 	Editor::init();
 }

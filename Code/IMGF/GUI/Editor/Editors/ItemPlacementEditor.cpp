@@ -8,6 +8,7 @@ using namespace imgf;
 void								ItemPlacementEditor::init(void)
 {
 	setEditorFileFormats({ "IPL" });
+	//setImportEditorFileFormats({});
 
 	Editor::init();
 }

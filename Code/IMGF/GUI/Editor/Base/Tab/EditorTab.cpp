@@ -348,3 +348,14 @@ void						EditorTab::onUnserializeFileProgress(DataReader *pDataReader)
 {
 	getProgressBar()->setCurrent(pDataReader->getSeek());
 }
+
+// add entry
+void*						EditorTab::addEntryViaFile(string& strEntryFilePath, string strEntryName)
+{
+	return _addEntry<void*>(strEntryFilePath, true, strEntryName);
+}
+
+void*						EditorTab::addEntryViaData(string strEntryName, string& strEntryData)
+{
+	return _addEntry<void*>(strEntryData, false, strEntryName);
+}
