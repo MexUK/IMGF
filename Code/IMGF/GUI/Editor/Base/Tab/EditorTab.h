@@ -9,6 +9,7 @@
 #include "Event/EventBindable.h"
 #include "Event/EInputEvent.h"
 #include "../BXCF/Event/EEvent.h"
+#include "Format/ContainerFormat.h"
 #include <string>
 #include <vector>
 #include <thread>
@@ -25,7 +26,7 @@ public:
 	EditorTab(void);
 	virtual ~EditorTab(void);
 
-	bool								init(void);
+	bool								init(bool bIsNewFile);
 
 	virtual void						bindEvents(void);
 	virtual void						unbindEvents(void);
@@ -40,7 +41,7 @@ public:
 	T									_addEntry(std::string& strEntryFilePathOrData, bool bParam1IsFilePath = true, std::string strEntryName = "");
 	virtual void*						addEntryViaFile(std::string& strEntryFilePath, std::string strEntryName = "");
 	virtual void*						addEntryViaData(std::string strEntryName, std::string& strEntryData);
-	virtual void						addEntryAfter(void) {}
+	virtual void						addEntryAfter(bxcf::FormatEntry *pFormatEntry) {}
 
 	virtual void						updateEntryCountText(void) {}
 
@@ -66,6 +67,7 @@ public:
 
 	void								setFile(bxcf::Format *pFile) { m_pFile = pFile; }
 	bxcf::Format*						getFile(void) { return m_pFile; }
+	bxcf::ContainerFormat*				getContainerFile(void) { return (bxcf::ContainerFormat*)m_pFile; }
 
 	void								setMarkedToClose(bool bMarkedToClose) { m_bMarkedToClose = bMarkedToClose; }
 	bool								isMarkedToClose(void) { return m_bMarkedToClose; }
@@ -134,14 +136,14 @@ T										imgf::EditorTab::_addEntry(std::string& strEntryFilePathOrData, bool 
 		{
 			strEntryName = bxcf::Path::getFileName(strEntryFilePathOrData);
 		}
-		pResult = (T) getFile()->addItem(strEntryName, bxcf::File::getFileContent(strEntryFilePathOrData, getFile()->doesFormatUseBinaryData()));
+		pResult = (T) getContainerFile()->addEntryViaFile(strEntryFilePathOrData, strEntryName);
 	}
 	else
 	{
-		pResult = (T) getFile()->addItem(strEntryName, strEntryFilePathOrData);
+		pResult = (T) getContainerFile()->addEntryViaData(strEntryName, strEntryFilePathOrData);
 	}
+	addEntryAfter(pResult);
 	updateEntryCountText();
-	addEntryAfter();
 
 	return pResult;
 }

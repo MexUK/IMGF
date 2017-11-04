@@ -54,6 +54,8 @@ private:
 	void						setZoomLevel(float32 fZoomLevel) { m_fZoomLevel = fZoomLevel; }
 	float32						getZoomLevel(void) { return m_fZoomLevel; }
 
+	void						update3DRenderSize(bxcf::Vec2u& vecRenderSize);
+
 	void						prepare3DRender(void);
 	void						renderCamera(void);
 	void						renderCollisionObjects(void);

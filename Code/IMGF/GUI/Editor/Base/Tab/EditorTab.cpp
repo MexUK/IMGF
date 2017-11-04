@@ -73,7 +73,7 @@ void						EditorTab::unbindEvents(void)
 }
 
 // initialization
-bool						EditorTab::init(void)
+bool						EditorTab::init(bool bIsNewFile)
 {
 	/*
 	todo
@@ -112,7 +112,7 @@ bool						EditorTab::init(void)
 	m_pEditor->setActiveEditorTab(this);
 
 	// unserialize file
-	if (!unserializeFile())
+	if (!bIsNewFile && !unserializeFile())
 	{
 		return false;
 	}
@@ -164,12 +164,13 @@ void						EditorTab::processThreadOnce(void)
 		getIMGF()->getInputManager()->processMenuItemPress(pMenuItem);
 	}
 
+	EEditor uiActiveEditor = getIMGF()->getWindowManager()->getMainWindow()->getActiveEditor()->getEditorType();
 	if (vecButtonsPressed.size() > 0 || vecMenuItemsPressed.size() > 0)
 	{
 		// check to render each window or window items
 		BXGX::get()->render();
 	}
-	else if (m_pEditor->getEditorType() == MODEL_EDITOR || m_pEditor->getEditorType() == COLLISION_EDITOR || m_pEditor->getEditorType() == ANIMATION_EDITOR)
+	else if (uiActiveEditor == MODEL_EDITOR || uiActiveEditor == COLLISION_EDITOR || uiActiveEditor == ANIMATION_EDITOR)
 	{
 		render();
 	}
@@ -352,10 +353,10 @@ void						EditorTab::onUnserializeFileProgress(DataReader *pDataReader)
 // add entry
 void*						EditorTab::addEntryViaFile(string& strEntryFilePath, string strEntryName)
 {
-	return _addEntry<void*>(strEntryFilePath, true, strEntryName);
+	return _addEntry<FormatEntry*>(strEntryFilePath, true, strEntryName);
 }
 
 void*						EditorTab::addEntryViaData(string strEntryName, string& strEntryData)
 {
-	return _addEntry<void*>(strEntryData, false, strEntryName);
+	return _addEntry<FormatEntry*>(strEntryData, false, strEntryName);
 }

@@ -178,7 +178,7 @@ TextureEditorTab*				TextureEditor::addEditorTab(string& strFilePath)
 			//pTextureEditorTab->setTextureEditor(this);
 			pTextureEditorTab->setIsTXDFile(true);
 			pTextureEditorTab->setTXDFile((TXDFormat*)pTextureEditorTab->getFile());
-			if (!pTextureEditorTab->init())
+			if (!pTextureEditorTab->init(false))
 			{
 				removeEditorTab(pTextureEditorTab);
 				return nullptr;
@@ -201,7 +201,7 @@ TextureEditorTab*				TextureEditor::addEditorTab(string& strFilePath)
 			//pTextureEditorTab->setTextureEditor(this);
 			pTextureEditorTab->setIsTXDFile(false);
 			pTextureEditorTab->setWTDFile((WTDFormat*)pTextureEditorTab->getFile());
-			if (!pTextureEditorTab->init())
+			if (!pTextureEditorTab->init(false))
 			{
 				removeEditorTab(pTextureEditorTab);
 				return nullptr;
@@ -223,7 +223,7 @@ TextureEditorTab*				TextureEditor::addBlankEditorTab(string& strFilePath)
 			pTextureEditorTab->setIsTXDFile(true);
 			pTextureEditorTab->setTXDFile((TXDFormat*)pTextureEditorTab->getFile());
 			pTextureEditorTab->getTXDFile()->setRWVersion(RWManager::get()->getVersionManager()->getEntryByVersionId(RW_3_6_0_3));
-			pTextureEditorTab->init();
+			pTextureEditorTab->init(true);
 		}
 		return pTextureEditorTab;
 	}
@@ -237,7 +237,7 @@ TextureEditorTab*				TextureEditor::addBlankEditorTab(string& strFilePath)
 			pTextureEditorTab->setIsTXDFile(false);
 			pTextureEditorTab->setWTDFile((WTDFormat*)pTextureEditorTab->getFile());
 			// todo pTextureEditorTab->getTXDFile()->setRWVersion(RWManager::get()->getVersionManager()->getEntryByVersionId(RW_3_6_0_3));
-			pTextureEditorTab->init();
+			pTextureEditorTab->init(true);
 		}
 		return pTextureEditorTab;
 	}

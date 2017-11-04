@@ -50,7 +50,7 @@ ItemDefinitionEditorTab*				ItemDefinitionEditor::addEditorTab(string& strFilePa
 	{
 		//pItemDefinitionEditorTab->setItemDefinitionEditor(this);
 		pItemDefinitionEditorTab->setIDEFile((IDEFormat*)pItemDefinitionEditorTab->getFile());
-		if (!pItemDefinitionEditorTab->init())
+		if (!pItemDefinitionEditorTab->init(false))
 		{
 			removeEditorTab(pItemDefinitionEditorTab);
 			return nullptr;
@@ -67,7 +67,7 @@ ItemDefinitionEditorTab*				ItemDefinitionEditor::addBlankEditorTab(string& strF
 	{
 		//pItemDefinitionEditorTab->setItemDefinitionEditor(this);
 		pItemDefinitionEditorTab->setIDEFile((IDEFormat*)pItemDefinitionEditorTab->getFile());
-		pItemDefinitionEditorTab->init();
+		pItemDefinitionEditorTab->init(true);
 	}
 	return pItemDefinitionEditorTab;
 }

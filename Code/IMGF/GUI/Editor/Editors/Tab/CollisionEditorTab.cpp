@@ -117,6 +117,9 @@ void					CollisionEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 	// entry list vertical scroll bar
 	// todo m_pVScrollBar->setSize(m_pVScrollBar->getSize() + Vec2u(0, vecSizeChange.y));
 	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, m_pWindow->getSize().y - m_pVScrollBar->getPosition().y));
+
+	Vec2u vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
+	update3DRenderSize(vecRenderSize);
 }
 
 // editor input
@@ -819,31 +822,7 @@ void						CollisionEditorTab::render3D(void)
 	//HANDLE hOld = SelectObject(hDC, hbm);
 	
 	
-	const float64 ar = ((float64)vecRenderSize.x) / ((float64)vecRenderSize.y);
-
-	glViewport(0, 0, vecRenderSize.x, vecRenderSize.y);
-	//glScissor(x, y, w, h);
-	//glEnable(GL_SCISSOR_TEST);
-	//glClear(GL_DEPTH_BUFFER_BIT);
-	GLenum a = glGetError();
-	if (a != GL_NO_ERROR)
-	{
-		MessageBox(NULL, L"AAA", L"BBB", MB_OK);
-	}
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	//glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
-
-	//gluPerspective(60.0, ar, 0.1, 100.0);
-	//gluPerspective(50.0, 1.0, 1.0, 50.0);
-	perspectiveGL(45.0, ar, 1.0, 1500.0);
-
-	//glLoadMatrixf(fData);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	update3DRenderSize(vecRenderSize);
 
 
 	//prepare2DRender();
@@ -908,6 +887,39 @@ void						CollisionEditorTab::render3D(void)
 	mutexRendering.unlock();
 }
 
+void						CollisionEditorTab::update3DRenderSize(Vec2u& vecRenderSize)
+{
+	mutexRendering.lock();
+
+	const float64 ar = ((float64)vecRenderSize.x) / ((float64)vecRenderSize.y);
+
+	glViewport(0, 0, vecRenderSize.x, vecRenderSize.y);
+	//glScissor(x, y, w, h);
+	//glEnable(GL_SCISSOR_TEST);
+	//glClear(GL_DEPTH_BUFFER_BIT);
+	GLenum a = glGetError();
+	if (a != GL_NO_ERROR)
+	{
+		MessageBox(NULL, L"AAA", L"BBB", MB_OK);
+	}
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	//glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+
+	//gluPerspective(60.0, ar, 0.1, 100.0);
+	//gluPerspective(50.0, 1.0, 1.0, 50.0);
+	perspectiveGL(45.0, ar, 1.0, 1500.0);
+
+	//glLoadMatrixf(fData);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	mutexRendering.unlock();
+}
+
 void						CollisionEditorTab::prepare3DRender(void)
 {
 	//glUseProgram(ProgramObject_3DScene);
@@ -934,6 +946,7 @@ void						CollisionEditorTab::prepare3DRender(void)
 void						CollisionEditorTab::moveCamera(float32 fAngleDeg, float32 fRadius)
 {
 	vecCameraPosition = Math::getPositionInFrontOfPosition(vecCameraPosition, getCameraZRotation() + Math::convertDegreesToRadians(fAngleDeg), fRadius);
+	vecCameraLookAtPosition = Math::getPositionInFrontOfPosition(vecCameraLookAtPosition, getCameraZRotation() + Math::convertDegreesToRadians(fAngleDeg), fRadius);
 }
 
 float32						CollisionEditorTab::getCameraZRotation(void)

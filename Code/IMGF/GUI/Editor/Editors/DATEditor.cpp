@@ -50,7 +50,7 @@ DATEditorTab*					DATEditor::addEditorTab(string& strFilePath)
 	{
 		//pDATEditorTab->setDATEditor(this);
 		pDATEditorTab->setDATFile((DATLoaderFormat*)pDATEditorTab->getFile());
-		if (!pDATEditorTab->init())
+		if (!pDATEditorTab->init(false))
 		{
 			removeEditorTab(pDATEditorTab);
 			return nullptr;
@@ -67,7 +67,7 @@ DATEditorTab*				DATEditor::addBlankEditorTab(string& strFilePath)
 	{
 		//pDATEditorTab->setDATEditor(this);
 		pDATEditorTab->setDATFile((DATLoaderFormat*)pDATEditorTab->getFile());
-		pDATEditorTab->init();
+		pDATEditorTab->init(true);
 	}
 	return pDATEditorTab;
 }

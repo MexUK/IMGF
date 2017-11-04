@@ -187,7 +187,10 @@ void					Installer::createFiles(void)
 	
 	createFile(hModule, IDB_PNG1, strIMGFDataFolderPath + "Images/Logo.png");
 	
-	createFile(hModule, IDR_RCDATA21, strIMGFDataFolderPath + "Settings/RegularSettings.ini");
+	if (File::doesFileExist(strIMGFDataFolderPath + "Settings/RegularSettings.ini"))
+	{
+		createFile(hModule, IDR_RCDATA21, strIMGFDataFolderPath + "Settings/RegularSettings.ini");
+	}
 
 	createFile(hModule, IDR_RCDATA6, strIMGFDataFolderPath + "Styles/Main (dark).bxs");
 	createFile(hModule, IDR_RCDATA7, strIMGFDataFolderPath + "Styles/Main (orange and yellow).bxs");

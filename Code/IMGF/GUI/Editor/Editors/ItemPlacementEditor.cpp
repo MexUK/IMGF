@@ -49,7 +49,7 @@ ItemPlacementEditorTab*				ItemPlacementEditor::addEditorTab(string& strFilePath
 	{
 		//pItemDefinitionEditorTab->setItemPlacementEditor(this);
 		pItemDefinitionEditorTab->setIPLFile((IPLFormat*)pItemDefinitionEditorTab->getFile());
-		if (!pItemDefinitionEditorTab->init())
+		if (!pItemDefinitionEditorTab->init(false))
 		{
 			removeEditorTab(pItemDefinitionEditorTab);
 			return nullptr;
@@ -66,7 +66,7 @@ ItemPlacementEditorTab*				ItemPlacementEditor::addBlankEditorTab(string& strFil
 	{
 		//pItemDefinitionEditorTab->setItemPlacementEditor(this);
 		pItemDefinitionEditorTab->setIPLFile((IPLFormat*)pItemDefinitionEditorTab->getFile());
-		pItemDefinitionEditorTab->init();
+		pItemDefinitionEditorTab->init(true);
 	}
 	return pItemDefinitionEditorTab;
 }

@@ -100,7 +100,7 @@ RadarEditorTab*							RadarEditor::addEditorTab(string& strFilePath)
 	{
 		//pRadarEditorTab->setIMGEditor(this);
 		pRadarEditorTab->setIMGFile((IMGFormat*)pRadarEditorTab->getFile());
-		if (!pRadarEditorTab->init())
+		if (!pRadarEditorTab->init(false))
 		{
 			removeEditorTab(pRadarEditorTab);
 			return nullptr;
@@ -138,7 +138,7 @@ RadarEditorTab*							RadarEditor::addBlankEditorTab(string& strFilePath)
 	{
 		//pRadarEditorTab->setIMGEditor(this);
 		pRadarEditorTab->setIMGFile((IMGFormat*)pRadarEditorTab->getFile());
-		pRadarEditorTab->init();
+		pRadarEditorTab->init(true);
 	}
 
 	return pRadarEditorTab;

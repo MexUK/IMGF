@@ -74,8 +74,6 @@ void					MainWindow::init(void)
 
 	// load file from command line
 	getIMGF()->initCommandLine();
-
-	render();
 }
 
 // item fetching

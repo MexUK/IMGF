@@ -77,7 +77,7 @@ ModelEditorTab*							ModelEditor::addEditorTab(string& strFilePath)
 	{
 		//pModelEditorTab->setModelEditor(this);
 		pModelEditorTab->setDFFFile((DFFFormat*)pModelEditorTab->getFile());
-		if (!pModelEditorTab->init())
+		if (!pModelEditorTab->init(false))
 		{
 			removeEditorTab(pModelEditorTab);
 			return nullptr;
@@ -94,7 +94,7 @@ ModelEditorTab*							ModelEditor::addBlankEditorTab(string& strFilePath)
 	{
 		//pModelEditorTab->setModelEditor(this);
 		pModelEditorTab->setDFFFile((DFFFormat*)pModelEditorTab->getFile());
-		pModelEditorTab->init();
+		pModelEditorTab->init(true);
 	}
 	return pModelEditorTab;
 }

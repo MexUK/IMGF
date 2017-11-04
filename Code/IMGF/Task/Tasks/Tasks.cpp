@@ -273,8 +273,20 @@ void		Tasks::newFile(void)
 {
 	onStartTask("newFile");
 
+	string strOutputFilePath = getIMGF()->getActiveProjectFolderPath();
 	string strEditorFileExtension = m_pMainWindow->getActiveEditor()->getEditorFileFormats()[0];
-	string strNewFilePath = DataPath::getDataPath() + "New/" + String::toUpperCase(strEditorFileExtension ) + "/New." + String::toLowerCase(strEditorFileExtension);
+
+	string strNewFileFolderPath;
+	if (strOutputFilePath == "")
+	{
+		strNewFileFolderPath = DataPath::getDataPath() + "New/" + String::toUpperCase(strEditorFileExtension);
+	}
+	else
+	{
+		strNewFileFolderPath = strOutputFilePath;
+	}
+	
+	string strNewFilePath = strNewFileFolderPath + "/New." + String::toLowerCase(strEditorFileExtension);
 	string strNewFilePath2 = strNewFilePath;
 	uint32 uiSuffix = 2;
 	while (m_pMainWindow->getActiveEditor()->isFilePathOpen(strNewFilePath) || File::doesFileExist(strNewFilePath))
@@ -979,10 +991,14 @@ void		Tasks::exportSelected(void)
 {
 	onStartTask("exportSelected");
 
-	string strFolderPath = openFolder("Choose a folder to export the selected files to.");
+	string strFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strFolderPath == "")
 	{
-		return onAbortTask();
+		strFolderPath = openFolder("Choose a folder to export the selected files to.");
+		if (strFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	uint32 uiSelectedEntryCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
@@ -1007,10 +1023,14 @@ void		Tasks::exportAll(void)
 {
 	onStartTask("exportAll");
 
-	string strFolderPath = openFolder("Choose a folder to export all files to.");
+	string strFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strFolderPath == "")
 	{
-		return onAbortTask();
+		strFolderPath = openFolder("Choose a folder to export all files to.");
+		if (strFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
@@ -1035,10 +1055,14 @@ void		Tasks::exportByIndex(void)
 		return onAbortTask();
 	}
 
-	string strFolderPath = openFolder("Choose a folder to export the files to.");
+	string strFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strFolderPath == "")
 	{
-		return onAbortTask();
+		strFolderPath = openFolder("Choose a folder to export the files to.");
+		if (strFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
@@ -1070,10 +1094,14 @@ void		Tasks::exportByName(void)
 		return onAbortTask();
 	}
 
-	string strFolderPath = openFolder("Choose a folder to export the files to.");
+	string strFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strFolderPath == "")
 	{
-		return onAbortTask();
+		strFolderPath = openFolder("Choose a folder to export the files to.");
+		if (strFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
@@ -1105,10 +1133,14 @@ void		Tasks::exportByOffset(void)
 		return onAbortTask();
 	}
 
-	string strFolderPath = openFolder("Choose a folder to export the files to.");
+	string strFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strFolderPath == "")
 	{
-		return onAbortTask();
+		strFolderPath = openFolder("Choose a folder to export the files to.");
+		if (strFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
@@ -1140,10 +1172,14 @@ void		Tasks::exportBySize(void)
 		return onAbortTask();
 	}
 
-	string strFolderPath = openFolder("Choose a folder to export the files to.");
+	string strFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strFolderPath == "")
 	{
-		return onAbortTask();
+		strFolderPath = openFolder("Choose a folder to export the files to.");
+		if (strFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
@@ -1175,10 +1211,14 @@ void		Tasks::exportByType(void)
 		return onAbortTask();
 	}
 
-	string strFolderPath = openFolder("Choose a folder to export the files to.");
+	string strFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strFolderPath == "")
 	{
-		return onAbortTask();
+		strFolderPath = openFolder("Choose a folder to export the files to.");
+		if (strFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
@@ -1212,10 +1252,14 @@ void		Tasks::exportByVersion(void)
 		return onAbortTask();
 	}
 
-	string strFolderPath = openFolder("Choose a folder to export the files to.");
+	string strFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strFolderPath == "")
 	{
-		return onAbortTask();
+		strFolderPath = openFolder("Choose a folder to export the files to.");
+		if (strFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
@@ -1246,10 +1290,14 @@ void		Tasks::exportAllIntoGroupedFoldersByType(void)
 {
 	onStartTask("exportAllIntoGroupedFoldersByType");
 
-	string strFolderPath = openFolder("Choose a folder to export files into grouped folders by type.");
+	string strFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strFolderPath == "")
 	{
-		return onAbortTask();
+		strFolderPath = openFolder("Choose a folder to export files into grouped folders by type.");
+		if (strFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
@@ -1283,10 +1331,14 @@ void		Tasks::exportAllFromAllTabs(void)
 {
 	onStartTask("exportAllFromAllTabs");
 
-	string strFolderPath = openFolder("Choose a folder to export all files from all tabs to.");
+	string strFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strFolderPath == "")
 	{
-		return onAbortTask();
+		strFolderPath = openFolder("Choose a folder to export all files from all tabs to.");
+		if (strFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	uint32 uiTotalEntryCount = 0;
@@ -1310,10 +1362,14 @@ void		Tasks::exportAllFromAllTabsIntoGroupedFoldersByType(void)
 {
 	onStartTask("exportAllFromAllTabsIntoGroupedFoldersByType");
 
-	string strFolderPath = openFolder("Choose a folder to export all files from all tabs grouped by type to.");
+	string strFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strFolderPath == "")
 	{
-		return onAbortTask();
+		strFolderPath = openFolder("Choose a folder to export all files from all tabs grouped by type to.");
+		if (strFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	uint32 uiTotalEntryCount = 0;
@@ -1354,10 +1410,14 @@ void		Tasks::exportSelectionFromAllTabs(void)
 {
 	onStartTask("exportSelectionFromAllTabs");
 
-	string strFolderPath = openFolder("Choose a folder to export selected files from all tabs to.");
+	string strFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strFolderPath == "")
 	{
-		return onAbortTask();
+		strFolderPath = openFolder("Choose a folder to export selected files from all tabs to.");
+		if (strFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	uint32 uiSelectedEntryCount = 0;
@@ -1401,10 +1461,14 @@ void		Tasks::exportByIDE(void)
 		return onAbortTask();
 	}
 
-	string strFolderPath = openFolder("Choose a folder to export the files to.");
+	string strFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strFolderPath == "")
 	{
-		return onAbortTask();
+		strFolderPath = openFolder("Choose a folder to export the files to.");
+		if (strFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	// fetch chosen IDE sections from input window
@@ -1460,10 +1524,14 @@ void		Tasks::exportByIDEFromAllTabs(void)
 		return onAbortTask();
 	}
 
-	string strExportFolderPath = openFolder("Choose a folder to export the files to.");
+	string strExportFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strExportFolderPath == "")
 	{
-		return onAbortTask();
+		strExportFolderPath = openFolder("Choose a folder to export the files to.");
+		if (strExportFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	// fetch chosen IDE sections from input window
@@ -1519,10 +1587,14 @@ void		Tasks::exportByIPL(void)
 		return onAbortTask();
 	}
 
-	string strFolderPath = openFolder("Choose a folder to export the files to.");
+	string strFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strFolderPath == "")
 	{
-		return onAbortTask();
+		strFolderPath = openFolder("Choose a folder to export the files to.");
+		if (strFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	// fetch model names from IPL file
@@ -1569,10 +1641,14 @@ void			Tasks::exportByDAT(void)
 		return onAbortTask();
 	}
 
-	string strGameFolderPath = openFolder("Choose the game folder.");
+	string strGameFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strGameFolderPath == "")
 	{
-		return onAbortTask();
+		strGameFolderPath = openFolder("Choose the game folder.");
+		if (strGameFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	// fetch IDE paths from DAT files
@@ -1641,10 +1717,14 @@ void		Tasks::exportByEntryNames(void)
 		return onAbortTask();
 	}
 
-	string strExportFolderPath = openFolder("Choose a folder to export the entries to:");
+	string strExportFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strExportFolderPath == "")
 	{
-		return onAbortTask();
+		strExportFolderPath = openFolder("Choose a folder to export the entries to:");
+		if (strExportFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	vector<string> vecInputEntryNames = String::split(strInputEntryNames, "\n");
@@ -1675,10 +1755,14 @@ void		Tasks::exportByEntryNamesFromAllTabs(void)
 		return onAbortTask();
 	}
 
-	string strExportFolderPath = openFolder("Choose a folder to export the entries from all tabs to:");
+	string strExportFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strExportFolderPath == "")
 	{
-		return onAbortTask();
+		strExportFolderPath = openFolder("Choose a folder to export the entries from all tabs to:");
+		if (strExportFolderPath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	vector<string> vecInputEntryNames = String::split(strInputEntryNames, "\n");
@@ -1716,10 +1800,14 @@ void		Tasks::exportTextureNameList(void)
 		return onAbortTask();
 	}
 
-	string strOutputFilePath = Input::saveFile("", "TXT", "Texture List.txt");
+	string strOutputFilePath = getIMGF()->getActiveProjectFolderPath();
 	if (strOutputFilePath == "")
 	{
-		return onAbortTask();
+		strOutputFilePath = Input::saveFile("", "TXT", "Texture List.txt");
+		if (strOutputFilePath == "")
+		{
+			return onAbortTask();
+		}
 	}
 
 	vector<string> vecImagesFilePaths = File::getFilePaths(strTextureImagesFolderPath, true, false, "bmp,jpg,jpeg,gif,png,col,ico,dds", false);
@@ -1787,11 +1875,15 @@ void		Tasks::quickExport(void)
 {
 	onStartTask("quickExport");
 
-	string strQuickExportFolderPath = getIMGF()->getSettingsManager()->getSetting("QuickExportFolderPath");
+	string strQuickExportFolderPath = getIMGF()->getActiveProjectFolderPath();
 	if (strQuickExportFolderPath == "")
 	{
-		showMessage("The Quick Export folder is not set, please choose this in Settings first.", "Quick Export Folder Not Set", MB_OK);
-		return;
+		strQuickExportFolderPath = getIMGF()->getSettingsManager()->getSetting("QuickExportFolderPath");
+		if (strQuickExportFolderPath == "")
+		{
+			showMessage("The Quick Export folder is not set, please choose this in Settings first.", "Quick Export Folder Not Set", MB_OK);
+			return;
+		}
 	}
 
 	uint32 uiSelectedEntryCount = getIMGTab()->getSelectedEntryCount();

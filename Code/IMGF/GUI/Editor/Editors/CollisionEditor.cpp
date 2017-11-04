@@ -63,7 +63,7 @@ CollisionEditorTab*				CollisionEditor::addEditorTab(string& strFilePath)
 	{
 		//pCollisionEditorTab->setCollisionEditor(this);
 		pCollisionEditorTab->setCOLFile((COLFormat*)pCollisionEditorTab->getFile());
-		if (!pCollisionEditorTab->init())
+		if (!pCollisionEditorTab->init(false))
 		{
 			removeEditorTab(pCollisionEditorTab);
 			return nullptr;
@@ -81,7 +81,7 @@ CollisionEditorTab*				CollisionEditor::addBlankEditorTab(string& strFilePath)
 		//pCollisionEditorTab->setCollisionEditor(this);
 		pCollisionEditorTab->setCOLFile((COLFormat*)pCollisionEditorTab->getFile());
 		pCollisionEditorTab->getCOLFile()->setCOLVersion(COL_1);
-		pCollisionEditorTab->init();
+		pCollisionEditorTab->init(true);
 	}
 	return pCollisionEditorTab;
 }

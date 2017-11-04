@@ -535,8 +535,10 @@ void					IMGEditorTab::checkToApplyCompression(IMGEntry *pIMGEntry)
 }
 
 // add entry
-void					IMGEditorTab::addEntryAfter(IMGEntry *pIMGEntry)
+void					IMGEditorTab::addEntryAfter(FormatEntry *pEntry)
 {
+	IMGEntry *pIMGEntry = (IMGEntry *)pEntry;
+
 	checkToApplyCompression(pIMGEntry);
 	addGridEntry(pIMGEntry);
 	updateIMGText();

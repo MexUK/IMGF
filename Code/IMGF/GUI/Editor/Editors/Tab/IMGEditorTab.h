@@ -95,7 +95,7 @@ public:
 	std::vector<std::string>&	getLogLinesBasic(void) { return m_vecLogLinesBasic; }
 	std::vector<std::string>&	getLogLinesExtended(void) { return m_vecLogLinesExtended; }
 
-	void						addEntryAfter(bxgi::IMGEntry *pIMGEntry);
+	void						addEntryAfter(bxcf::FormatEntry *pEntry);
 
 	void						replaceEntryViaFile(std::string strEntryName, std::string strEntryFilePath, std::string strNewEntryName = "");
 	void						replaceEntryViaData(std::string strEntryName, std::string& strEntryData, std::string strNewEntryName = "");
