@@ -34,6 +34,8 @@ public:
 
 	void						onUnserializeRWSection(bxgi::RWSection *pRWSection);
 
+	void						addEntryAfter(bxcf::FormatEntry *pEntry);
+
 protected:
 	void						addControls(void);
 	void						initControls(void);
@@ -48,6 +50,8 @@ protected:
 private:
 	bool						prepareRenderData_TXD(void);
 	bool						prepareRenderData_WTD(void); // todo - merge with prepareRenderData_TXD?
+
+	void						prepareTexture_TXD(bxgi::RWSection_TextureNative *pRWSection_TextureNative);
 
 	void						setActiveEntry(TextureEditorTabEntry *pTabEntry) { m_pActiveTabEntry = pTabEntry; }
 	TextureEditorTabEntry*		getActiveEntry(void) { return m_pActiveTabEntry; }

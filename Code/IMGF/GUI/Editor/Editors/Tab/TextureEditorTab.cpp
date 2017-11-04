@@ -110,6 +110,15 @@ void					TextureEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, m_pWindow->getSize().y - m_pVScrollBar->getPosition().y));
 }
 
+// add entry
+void					TextureEditorTab::addEntryAfter(FormatEntry *pEntry)
+{
+	RWSection_TextureNative *pTexture = (RWSection_TextureNative *)pEntry;
+
+	prepareTexture_TXD(pTexture);
+	//updateIMGText();
+}
+
 // editor input
 void					TextureEditorTab::onSelectDropDownItem(DropDownItem *pItem)
 {
@@ -370,45 +379,48 @@ bool						TextureEditorTab::prepareRenderData_TXD(void)
 	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
 	m_pVScrollBar->setItemCount(VERTICAL, vecTextures.size() * 50);
 
-	uint32 uiTextureIndex = 0;
 	for (RWSection_TextureNative *pRWSection_TextureNative : vecTextures)
 	{
-		TextureEditorTabEntry *pTabEntry = new TextureEditorTabEntry;
-
-		if (pRWSection_TextureNative->getEntryCount() == 0)
-		{
-			// the texture does not have a mipmap
-			pTabEntry->m_uiIndex = uiTextureIndex;
-			pTabEntry->m_bTextureContainsNoMipmaps = true;
-		}
-		else
-		{
-			RWEntry_TextureNative_MipMap *pMipmap = pRWSection_TextureNative->getMipMaps().getEntryByIndex(0);
-			string strBMPImageDataStr = pMipmap->getRasterDataBGRA32();
-			const char *pBmpImageData = strBMPImageDataStr.c_str();
-
-			HBITMAP hBitmap = CreateBitmap(pMipmap->getImageSize().x, pMipmap->getImageSize().y, 1, 32, pBmpImageData);
-
-			pTabEntry->m_uiIndex = uiTextureIndex;
-			pTabEntry->m_hBitmap = hBitmap;
-			pTabEntry->m_uiWidth = pRWSection_TextureNative->getImageSize().x;
-			pTabEntry->m_uiHeight = pRWSection_TextureNative->getImageSize().y;
-			pTabEntry->m_strDiffuseName = pRWSection_TextureNative->getDiffuseName();
-			pTabEntry->m_strAlphaName = pRWSection_TextureNative->getAlphaName();
-			pTabEntry->m_ucBPP = pRWSection_TextureNative->getOriginalBPP() == 0 ? pRWSection_TextureNative->getBPP() : pRWSection_TextureNative->getOriginalBPP();
-			pTabEntry->m_strTextureFormat = TXDManager::getTXDRasterFormatText(pRWSection_TextureNative->getTXDRasterDataFormat(), pRWSection_TextureNative->getDXTCompressionType());
-		}
-
-		addEntry(pTabEntry);
-		uiTextureIndex++;
+		prepareTexture_TXD(pRWSection_TextureNative);
 	}
 
 	if (getEntryCount() > 0)
 	{
-		setActiveEntry(getEntryByIndex(0));
+		setActiveEntry(getFirstEntry());
 	}
 
 	return true;
+}
+
+void						TextureEditorTab::prepareTexture_TXD(RWSection_TextureNative *pRWSection_TextureNative)
+{
+	TextureEditorTabEntry *pTabEntry = new TextureEditorTabEntry;
+
+	if (pRWSection_TextureNative->getMipMaps().getEntryCount() == 0)
+	{
+		// the texture does not have a mipmap
+		pTabEntry->m_uiIndex = getEntryCount();
+		pTabEntry->m_bTextureContainsNoMipmaps = true;
+	}
+	else
+	{
+		RWEntry_TextureNative_MipMap *pMipmap = pRWSection_TextureNative->getMipMaps().getEntryByIndex(0);
+		string strBMPImageDataStr = pMipmap->getRasterDataBGRA32();
+		const char *pBmpImageData = strBMPImageDataStr.c_str();
+
+		HBITMAP hBitmap = CreateBitmap(pMipmap->getImageSize().x, pMipmap->getImageSize().y, 1, 32, pBmpImageData);
+
+		pTabEntry->m_uiIndex = getEntryCount();
+		pTabEntry->m_hBitmap = hBitmap;
+		pTabEntry->m_uiWidth = pRWSection_TextureNative->getImageSize().x;
+		pTabEntry->m_uiHeight = pRWSection_TextureNative->getImageSize().y;
+		pTabEntry->m_strDiffuseName = pRWSection_TextureNative->getDiffuseName();
+		pTabEntry->m_strAlphaName = pRWSection_TextureNative->getAlphaName();
+		pTabEntry->m_ucBPP = pRWSection_TextureNative->getOriginalBPP() == 0 ? pRWSection_TextureNative->getBPP() : pRWSection_TextureNative->getOriginalBPP();
+		pTabEntry->m_strTextureFormat = TXDManager::getTXDRasterFormatText(pRWSection_TextureNative->getTXDRasterDataFormat(), pRWSection_TextureNative->getDXTCompressionType());
+	}
+
+	addEntry(pTabEntry);
 }
 
 bool						TextureEditorTab::prepareRenderData_WTD(void)
@@ -457,7 +469,7 @@ bool						TextureEditorTab::prepareRenderData_WTD(void)
 
 	if (getEntryCount() > 0)
 	{
-		setActiveEntry(getEntryByIndex(0));
+		setActiveEntry(getFirstEntry());
 	}
 
 	return true;

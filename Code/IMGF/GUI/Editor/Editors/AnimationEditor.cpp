@@ -49,7 +49,7 @@ AnimationEditorTab*					AnimationEditor::addEditorTab(string& strFilePath)
 	if (pAnimationEditorTab)
 	{
 		//pAnimationEditorTab->setAnimationEditor(this);
-		// todo pAnimationEditorTab->setIFPFile((PLGFormat*)pAnimationEditorTab->getFile());
+		// todo pAnimationEditorTab->setIFPFile((IFPFormat*)pAnimationEditorTab->getFile());
 		if (!pAnimationEditorTab->init(false))
 		{
 			removeEditorTab(pAnimationEditorTab);
@@ -66,7 +66,7 @@ AnimationEditorTab*					AnimationEditor::addBlankEditorTab(string& strFilePath)
 	if (pAnimationEditorTab)
 	{
 		//pAnimationEditorTab->setAnimationEditor(this);
-		// todo pAnimationEditorTab->setIFPFile((PLGFormat*)pAnimationEditorTab->getFile());
+		// todo pAnimationEditorTab->setIFPFile((IFPFormat*)pAnimationEditorTab->getFile());
 		pAnimationEditorTab->init(true);
 	}
 	return pAnimationEditorTab;
