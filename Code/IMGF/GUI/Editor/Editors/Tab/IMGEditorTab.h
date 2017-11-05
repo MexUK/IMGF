@@ -5,6 +5,7 @@
 #include "GUI/Editor/Base/Tab/EditorTab.h"
 #include "Task/Tasks/Filter/FilterOptions.h"
 #include "Task/TaskManager.h"
+#include "Format/FormatEntry.h"
 #include <string>
 #include <vector>
 #include <Windows.h>
@@ -63,8 +64,9 @@ public:
 	bxgx::DropDown*				getEntryTypeFilter(void) { return m_pEntryTypeFilter; }
 	bxgx::DropDown*				getEntryVersionFilter(void) { return m_pEntryVersionFilter; }
 
-	std::vector<bxgi::IMGEntry*>	getSelectedEntries(void);
-	uint32							getSelectedEntryCount(void);
+	uint32								getTotalEntryCount(void);
+	std::vector<bxcf::FormatEntry*>		getSelectedEntries(void);
+	uint32								getSelectedEntryCount(void);
 
 	void						setSelectedEntriesNameCase(uint32 uiNameCaseType);
 	void						copySelectedEntryData(uint32 uiColumnType);

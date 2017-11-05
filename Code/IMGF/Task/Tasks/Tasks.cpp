@@ -1001,18 +1001,11 @@ void		Tasks::exportSelected(void)
 		}
 	}
 
-	uint32 uiSelectedEntryCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
+	uint32 uiSelectedEntryCount = getTab()->getSelectedEntryCount();
 	setMaxProgress(uiSelectedEntryCount);
 
-	vector<IMGEntry*> vecIMGEntries;
-	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getSelectedRows())
-	{
-		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
-
-		vecIMGEntries.push_back(pIMGEntry);
-	}
-
-	getIMGTab()->getIMGFile()->exportMultiple(vecIMGEntries, strFolderPath);
+	vector<FormatEntry*> vecEntries = getTab()->getSelectedEntries();
+	getTab()->getContainerFile()->exportMultiple(vecEntries, strFolderPath);
 
 	getTab()->logf("Exported %u selected entries.", uiSelectedEntryCount);
 
@@ -1033,10 +1026,10 @@ void		Tasks::exportAll(void)
 		}
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
-	getIMGTab()->getIMGFile()->exportAll(strFolderPath);
+	getTab()->getContainerFile()->exportAll(strFolderPath);
 
 	getTab()->logf("Exported all %u entries.", uiTotalEntryCount);
 
@@ -1065,7 +1058,7 @@ void		Tasks::exportByIndex(void)
 		}
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
 	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(0, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
@@ -1342,15 +1335,15 @@ void		Tasks::exportAllFromAllTabs(void)
 	}
 
 	uint32 uiTotalEntryCount = 0;
-	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGEditorTabs().getEntries())
+	for (EditorTab *pEditorTab : getTab()->getEditor()->getEditorTabs().getEntries())
 	{
-		uiTotalEntryCount += pEditorTab->getIMGFile()->getEntryCount();
+		uiTotalEntryCount += pEditorTab->getFile()->getEntryCount();
 	}
 	setMaxProgress(uiTotalEntryCount);
 
-	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGEditorTabs().getEntries())
+	for (EditorTab *pEditorTab : getTab()->getEditor()->getEditorTabs().getEntries())
 	{
-		pEditorTab->getIMGFile()->exportAll(strFolderPath);
+		pEditorTab->getContainerFile()->exportAll(strFolderPath);
 	}
 
 	getTab()->logf("Exported all %u entries from all tabs.", uiTotalEntryCount);
@@ -1429,15 +1422,7 @@ void		Tasks::exportSelectionFromAllTabs(void)
 
 	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
-		vector<IMGEntry*> vecIMGEntries;
-		for (GridRow *pRow : pEditorTab->getEntryGrid()->getSelectedRows())
-		{
-			IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
-
-			vecIMGEntries.push_back(pIMGEntry);
-		}
-
-		pEditorTab->getIMGFile()->exportMultiple(vecIMGEntries, strFolderPath);
+		pEditorTab->getIMGFile()->exportMultiple(getTab()->getSelectedEntries(), strFolderPath);
 	}
 
 	getTab()->logf("Exported %u selected entries from all tabs.", uiSelectedEntryCount);
@@ -1819,7 +1804,7 @@ void		Tasks::exportTextureNameList(void)
 
 	string strOutputData;
 	uint32 uiTextureNumber = 1;
-	for (IMGEntry *pIMGEntry : getIMGTab()->getSelectedEntries())
+	for (IMGEntry *pIMGEntry : (vector<IMGEntry*>&)getIMGTab()->getSelectedEntries())
 	{
 		if (pIMGEntry->getFileType() == MODEL)
 		{
@@ -1886,10 +1871,10 @@ void		Tasks::quickExport(void)
 		}
 	}
 
-	uint32 uiSelectedEntryCount = getIMGTab()->getSelectedEntryCount();
+	uint32 uiSelectedEntryCount = getTab()->getSelectedEntryCount();
 	setMaxProgress(uiSelectedEntryCount);
 
-	getIMGTab()->getIMGFile()->exportMultiple(getIMGTab()->getSelectedEntries(), strQuickExportFolderPath);
+	getTab()->getContainerFile()->exportMultiple(getTab()->getSelectedEntries(), strQuickExportFolderPath);
 
 	getTab()->logf("Quick exported %u entries.", uiSelectedEntryCount);
 
@@ -4572,7 +4557,7 @@ void						Tasks::removeOrphanTexturesFromDFFEntries(void)
 
 	// progess bar
 	uint32 uiSelectedDFFCount = 0;
-	for (IMGEntry *pIMGEntry : getIMGTab()->getSelectedEntries())
+	for (IMGEntry *pIMGEntry : (vector<IMGEntry*>&)getIMGTab()->getSelectedEntries())
 	{
 		if (pIMGEntry->isModelFile())
 		{
@@ -4586,7 +4571,7 @@ void						Tasks::removeOrphanTexturesFromDFFEntries(void)
 	vector<DFFFormat*> vecDFFFormatsInput;
 	vector<IMGEntry*> vecIMGEntries;
 	uint32 uiProgressMaxTicksDecudctionForCorruptDFFFiles = 0;
-	for (IMGEntry *pIMGEntry : getIMGTab()->getSelectedEntries())
+	for (IMGEntry *pIMGEntry : (vector<IMGEntry*>&)getIMGTab()->getSelectedEntries())
 	{
 		if (pIMGEntry->isModelFile())
 		{
@@ -4803,7 +4788,7 @@ void		Tasks::findOrphanTXDTexturesForDFFsInIMGByIDE(void)
 
 	// fetch texture names for DFF and TXD entries in the IMG that are found in the IDE
 	vector<string> vecDFFTextureNames, vecTXDTextureNames;
-	for (IMGEntry *pIMGEntry : getIMGTab()->getSelectedEntries())
+	for (IMGEntry *pIMGEntry : (vector<IMGEntry*>&)getIMGTab()->getSelectedEntries())
 	{
 		if (pIMGEntry->isModelFile())
 		{
@@ -4921,7 +4906,7 @@ void		Tasks::txdBuilder(void)
 			return onAbortTask();
 		}
 
-		vector<IMGEntry*> vecIMGEntries = getIMGTab()->getSelectedEntries();
+		vector<IMGEntry*> vecIMGEntries = (vector<IMGEntry*>&)getIMGTab()->getSelectedEntries();
 		
 		for(auto pIMGEntry : vecIMGEntries)
 		{
@@ -5827,7 +5812,7 @@ void		Tasks::textureList(void)
 	onStartTask("textureList");
 
 	vector<string> vecTextureNames;
-	for (IMGEntry *pIMGEntry : getIMGTab()->getSelectedEntries())
+	for (IMGEntry *pIMGEntry : (vector<IMGEntry*>&)getIMGTab()->getSelectedEntries())
 	{
 		//Debug::log("pIMGEntry = " + pIMGEntry->getEntryName());
 		if (pIMGEntry->isModelFile())
@@ -5931,7 +5916,7 @@ void		Tasks::findDuplicateEntriesInSelection(void)
 	setMaxProgress(getIMGTab()->getSelectedEntryCount());
 
 	// fetch selected entries
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getSelectedEntries();
+	vector<IMGEntry*> vecIMGEntries = (vector<IMGEntry*>&)getIMGTab()->getSelectedEntries();
 
 	// store IMG entry names for checking
 	unordered_map<string, vector<IMGEntry*>> umapIMGEntries;
@@ -6508,7 +6493,7 @@ void			Tasks::centerCOLMeshesInSelection(void)
 {
 	onStartTask("centerCOLMeshesInSelection");
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getSelectedEntries();
+	vector<IMGEntry*> vecIMGEntries = (vector<IMGEntry*>&)getIMGTab()->getSelectedEntries();
 	setMaxProgress(vecIMGEntries.size());
 
 	uint32 uiEntryCount = 0;
@@ -6921,7 +6906,7 @@ void		Tasks::imgCompression(void)
 	}
 
 	// fetch selected entries
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getSelectedEntries();
+	vector<IMGEntry*> vecIMGEntries = (vector<IMGEntry*>&)getIMGTab()->getSelectedEntries();
 	
 	// apply new compression type to IMG entries
 	setMaxProgress(vecIMGEntries.size());

@@ -176,7 +176,7 @@ bool		DumpManager::process(void)
 		vector<IMGEntry*> vecIMGEntries;
 		if (dumpWindowResult.m_uiDumpType == 4) // selected entries
 		{
-			vecIMGEntries = pActiveEditorTab->getSelectedEntries();
+			vecIMGEntries = (vector<IMGEntry*>&)pActiveEditorTab->getSelectedEntries();
 		}
 		else
 		{

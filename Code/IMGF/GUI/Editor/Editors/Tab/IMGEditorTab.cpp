@@ -1366,7 +1366,7 @@ uint32			IMGEditorTab::merge(string strPath, vector<string>& vecImportedEntryNam
 
 void					IMGEditorTab::splitSelectedEntries(string strNewFilePath, EIMGVersion uiNewIMGVersion, bool bDeleteFromSource)
 {
-	getIMGFile()->split(getSelectedEntries(), strNewFilePath, uiNewIMGVersion);
+	getIMGFile()->split((vector<IMGEntry*>&)getSelectedEntries(), strNewFilePath, uiNewIMGVersion);
 
 	if (bDeleteFromSource)
 	{
@@ -1729,7 +1729,7 @@ void				IMGEditorTab::reassignEntryIds(void)
 	}
 }
 
-vector<IMGEntry*>	IMGEditorTab::getSelectedEntries(void)
+vector<FormatEntry*>	IMGEditorTab::getSelectedEntries(void)
 {
 	vector<IMGEntry*> vecIMGEntries;
 	for (GridRow *pGridRow : m_pEntryGrid->getEntries())
@@ -1739,7 +1739,7 @@ vector<IMGEntry*>	IMGEditorTab::getSelectedEntries(void)
 			vecIMGEntries.push_back((IMGEntry*)pGridRow->getUserData());
 		}
 	}
-	return vecIMGEntries;
+	return (vector<FormatEntry*>&)vecIMGEntries;
 }
 
 uint32				IMGEditorTab::getSelectedEntryCount(void)
@@ -1843,4 +1843,9 @@ void				IMGEditorTab::shiftSelectedEntries(int32 uiRowCountOffset)
 	}
 
 	setFileUnsaved(true);
+}
+
+uint32				IMGEditorTab::getTotalEntryCount(void)
+{
+	return m_pIMGFile->getEntryCount();
 }

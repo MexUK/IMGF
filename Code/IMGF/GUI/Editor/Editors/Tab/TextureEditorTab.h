@@ -18,6 +18,10 @@ public:
 	bool						unserializeFile(void);
 	void						onFileLoaded(void);
 
+	uint32								getTotalEntryCount(void);
+	std::vector<bxcf::FormatEntry*>		getSelectedEntries(void);
+	uint32								getSelectedEntryCount(void);
+
 	void						setIsTXDFile(bool bIsTXDFile) { m_bIsTXDFile = bIsTXDFile; }
 	bool						isTXDFile(void) { return m_bIsTXDFile; }
 
@@ -52,6 +56,7 @@ private:
 	bool						prepareRenderData_WTD(void); // todo - merge with prepareRenderData_TXD?
 
 	void						prepareTexture_TXD(bxgi::RWSection_TextureNative *pRWSection_TextureNative);
+	void						prepareTexture_WTD(bxgi::WTDEntry *pWTDEntry);
 
 	void						setActiveEntry(TextureEditorTabEntry *pTabEntry) { m_pActiveTabEntry = pTabEntry; }
 	TextureEditorTabEntry*		getActiveEntry(void) { return m_pActiveTabEntry; }

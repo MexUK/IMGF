@@ -113,9 +113,18 @@ void					TextureEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 // add entry
 void					TextureEditorTab::addEntryAfter(FormatEntry *pEntry)
 {
-	RWSection_TextureNative *pTexture = (RWSection_TextureNative *)pEntry;
+	if (m_bIsTXDFile)
+	{
+		RWSection_TextureNative *pTexture = (RWSection_TextureNative*) pEntry;
+		prepareTexture_TXD(pTexture);
+	}
+	else
+	{
+		WTDEntry *pTexture = (WTDEntry*) pEntry;
+		prepareTexture_WTD(pTexture);
+	}
 
-	prepareTexture_TXD(pTexture);
+	// todo
 	//updateIMGText();
 }
 
@@ -410,39 +419,10 @@ bool						TextureEditorTab::prepareRenderData_WTD(void)
 		return false;
 	}
 
-	uint32 uiTextureIndex = 0;
 	vector<WTDEntry*> vecWTDEntries = m_pWTDFile->getEntries();
-
 	for (WTDEntry *pWTDEntry : vecWTDEntries)
 	{
-		TextureEditorTabEntry *pTabEntry = new TextureEditorTabEntry;
-
-		if (pWTDEntry->getEntryCount() == 0)
-		{
-			// the texture does not have a mipmap
-			pTabEntry->m_uiIndex = uiTextureIndex;
-			pTabEntry->m_bTextureContainsNoMipmaps = true;
-		}
-		else
-		{
-			WTDMipmap *pMipmap = pWTDEntry->getEntryByIndex(0);
-			string strBMPImageDataStr = pMipmap->getRasterDataBGRA32();
-			const char *pBmpImageData = strBMPImageDataStr.c_str();
-
-			HBITMAP hBitmap = CreateBitmap(pWTDEntry->getImageSize(true), pWTDEntry->getImageSize(false), 1, 32, pBmpImageData);
-
-			pTabEntry->m_uiIndex = uiTextureIndex;
-			pTabEntry->m_hBitmap = hBitmap;
-			pTabEntry->m_uiWidth = pWTDEntry->getImageSize(true);
-			pTabEntry->m_uiHeight = pWTDEntry->getImageSize(false);
-			pTabEntry->m_strDiffuseName = pWTDEntry->getEntryName();
-			pTabEntry->m_strAlphaName = "";
-			pTabEntry->m_ucBPP = 32;
-			pTabEntry->m_strTextureFormat = ImageManager::getD3DFormatText(pWTDEntry->getD3DFormat());
-		}
-
-		addEntry(pTabEntry);
-		uiTextureIndex++;
+		prepareTexture_WTD(pWTDEntry);
 	}
 
 	if (getEntryCount() > 0)
@@ -451,6 +431,37 @@ bool						TextureEditorTab::prepareRenderData_WTD(void)
 	}
 
 	return true;
+}
+
+void						TextureEditorTab::prepareTexture_WTD(WTDEntry *pWTDEntry)
+{
+	TextureEditorTabEntry *pTabEntry = new TextureEditorTabEntry;
+
+	if (pWTDEntry->getEntryCount() == 0)
+	{
+		// the texture does not have a mipmap
+		pTabEntry->m_uiIndex = getEntryCount();
+		pTabEntry->m_bTextureContainsNoMipmaps = true;
+	}
+	else
+	{
+		WTDMipmap *pMipmap = pWTDEntry->getEntryByIndex(0);
+		string strBMPImageDataStr = pMipmap->getRasterDataBGRA32();
+		const char *pBmpImageData = strBMPImageDataStr.c_str();
+
+		HBITMAP hBitmap = CreateBitmap(pWTDEntry->getImageSize(true), pWTDEntry->getImageSize(false), 1, 32, pBmpImageData);
+
+		pTabEntry->m_uiIndex = getEntryCount();
+		pTabEntry->m_hBitmap = hBitmap;
+		pTabEntry->m_uiWidth = pWTDEntry->getImageSize(true);
+		pTabEntry->m_uiHeight = pWTDEntry->getImageSize(false);
+		pTabEntry->m_strDiffuseName = pWTDEntry->getEntryName();
+		pTabEntry->m_strAlphaName = "";
+		pTabEntry->m_ucBPP = 32;
+		pTabEntry->m_strTextureFormat = ImageManager::getD3DFormatText(pWTDEntry->getD3DFormat());
+	}
+
+	addEntry(pTabEntry);
 }
 
 // render editor
@@ -756,4 +767,50 @@ void					TextureEditorTab::updateEntryCountText(void)
 	}
 
 	m_pText_FileEntryCount->setText(strEntryCountText);
+}
+
+vector<FormatEntry*>	TextureEditorTab::getSelectedEntries(void)
+{
+	if (m_bIsTXDFile)
+	{
+		vector<RWSection_TextureNative*> vecEntries;
+		if (m_pActiveTabEntry)
+		{
+			vecEntries.push_back((RWSection_TextureNative*)(m_pTXDFile->getSectionsByType(RW_SECTION_TEXTURE_NATIVE)[getIndexByEntry(m_pActiveTabEntry)]));
+		}
+		return (vector<FormatEntry*>&)vecEntries;
+	}
+	else
+	{
+		vector<WTDEntry*> vecEntries;
+		if (m_pActiveTabEntry)
+		{
+			vecEntries.push_back((WTDEntry*)m_pWTDFile->getEntryByIndex(getIndexByEntry(m_pActiveTabEntry)));
+		}
+		return (vector<FormatEntry*>&)vecEntries;
+	}
+}
+
+uint32					TextureEditorTab::getSelectedEntryCount(void)
+{
+	if (getEntryCount() > 0)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+uint32					TextureEditorTab::getTotalEntryCount(void)
+{
+	if (m_bIsTXDFile)
+	{
+		return getTXDFile()->getTextures().size();
+	}
+	else
+	{
+		return getWTDFile()->getEntries().size();
+	}
 }
