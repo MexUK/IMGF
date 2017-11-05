@@ -1941,19 +1941,19 @@ void		Tasks::replaceByFiles(void)
 	setMaxProgress(vecFilePaths.size());
 
 	uint32 uiReplacedEntryCount = 0;
-	IMGFormat *pIMGFile = getIMGTab()->getIMGFile();
+	Format *pFile = getTab()->getFile();
 	for (string& strFilePath : vecFilePaths)
 	{
 		string strFileName = Path::getFileName(strFilePath);
 
-		IMGEntry *pIMGEntry = getIMGTab()->getEntryByName(strFileName);
-		if (!pIMGEntry)
+		FormatEntry *pEntry = getTab()->getContainerFile()->getEntryByName(strFileName);
+		if (!pEntry)
 		{
 			increaseProgress();
 			continue;
 		}
 
-		pIMGEntry->replace(strFilePath);
+		pEntry->replace(strFilePath);
 
 		increaseProgress();
 		uiReplacedEntryCount++;
@@ -1961,8 +1961,9 @@ void		Tasks::replaceByFiles(void)
 
 	if (uiReplacedEntryCount > 0)
 	{
-		getIMGTab()->setFileUnsaved(true);
-		getIMGTab()->readdGridEntries();
+		getTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->getWindow()->render();
 	}
 
 	getTab()->logf("Replaced %u entries by file.", uiReplacedEntryCount);
@@ -1985,19 +1986,19 @@ void		Tasks::replaceBySingleFolder(void)
 	setMaxProgress(vecFileNames.size());
 
 	uint32 uiReplacedEntryCount = 0;
-	IMGFormat *pIMGFile = getIMGTab()->getIMGFile();
+	Format *pFile = getTab()->getFile();
 	for (string& strFileName : vecFileNames)
 	{
 		string strFilePath = strFolderPath + strFileName;
 
-		IMGEntry *pIMGEntry = getIMGTab()->getEntryByName(strFileName);
-		if (!pIMGEntry)
+		FormatEntry *pEntry = getTab()->getContainerFile()->getEntryByName(strFileName);
+		if (!pEntry)
 		{
 			increaseProgress();
 			continue;
 		}
 
-		pIMGEntry->replace(strFilePath);
+		pEntry->replace(strFilePath);
 
 		increaseProgress();
 		uiReplacedEntryCount++;
@@ -2005,8 +2006,8 @@ void		Tasks::replaceBySingleFolder(void)
 
 	if (uiReplacedEntryCount > 0)
 	{
-		getIMGTab()->setFileUnsaved(true);
-		getIMGTab()->readdGridEntries();
+		getTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
 	}
 
 	getTab()->logf("Replaced %u entries by folder.", uiReplacedEntryCount);
@@ -2029,19 +2030,19 @@ void		Tasks::replaceByFolderRecursively(void)
 	setMaxProgress(vecFilePaths.size());
 
 	uint32 uiReplacedEntryCount = 0;
-	IMGFormat *pIMGFile = getIMGTab()->getIMGFile();
+	Format *pFile = getTab()->getFile();
 	for (string& strFilePath : vecFilePaths)
 	{
 		string strFileName = Path::getFileName(strFilePath);
 
-		IMGEntry *pIMGEntry = getIMGTab()->getEntryByName(strFileName);
-		if (!pIMGEntry)
+		FormatEntry *pEntry = getTab()->getContainerFile()->getEntryByName(strFileName);
+		if (!pEntry)
 		{
 			increaseProgress();
 			continue;
 		}
 
-		pIMGEntry->replace(strFilePath);
+		pEntry->replace(strFilePath);
 
 		increaseProgress();
 		uiReplacedEntryCount++;
@@ -2049,8 +2050,8 @@ void		Tasks::replaceByFolderRecursively(void)
 
 	if (uiReplacedEntryCount > 0)
 	{
-		getIMGTab()->setFileUnsaved(true);
-		getIMGTab()->readdGridEntries();
+		getTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
 	}
 
 	getTab()->logf("Replaced %u entries recursively by folder.", uiReplacedEntryCount);
@@ -2154,15 +2155,15 @@ void		Tasks::removeSelected(void)
 {
 	onStartTask("removeSelected");
 
-	uint32 uiSelectedEntryCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
-	setMaxProgress(uiSelectedEntryCount + (uiSelectedEntryCount == 0 ? 0 : (getIMGTab()->getEntryGrid()->getEntryCount() - uiSelectedEntryCount)));
+	uint32 uiSelectedEntryCount = getTab()->getSelectedEntryCount();
+	setMaxProgress(uiSelectedEntryCount + (uiSelectedEntryCount == 0 ? 0 : (getTab()->getFile()->getEntryCount() - uiSelectedEntryCount)));
 
-	getIMGTab()->removeSelectedEntries();
+	// todo getTab()->removeSelectedEntries();
 
 	if (uiSelectedEntryCount > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
 	getTab()->logf("Removed %u selected entries.", uiSelectedEntryCount);
@@ -2174,15 +2175,15 @@ void		Tasks::removeAll(void)
 {
 	onStartTask("removeAll");
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
-	getIMGTab()->removeAllEntries();
+	// todo getTab()->removeAllEntries();
 
 	if (uiTotalEntryCount > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
 	getTab()->logf("Removed all %u entries.", uiTotalEntryCount);

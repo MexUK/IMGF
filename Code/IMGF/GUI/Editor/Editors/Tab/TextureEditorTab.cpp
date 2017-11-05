@@ -823,3 +823,16 @@ void					TextureEditorTab::onEntryChange(FormatEntry *pEntry)
 	getEntryByIndex(uiIndex)->m_strDiffuseName = pEntry->getEntryName();
 	getEntryByIndex(uiIndex)->m_strAlphaName = pEntry->getEntryName() + "a";
 }
+
+void					TextureEditorTab::recreateEntryList(void)
+{
+	removeAllEntries();
+	if(m_bIsTXDFile)
+	{
+		prepareRenderData_TXD();
+	}
+	else
+	{
+		prepareRenderData_WTD();
+	}
+}

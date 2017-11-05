@@ -1856,3 +1856,8 @@ void				IMGEditorTab::onEntryChange(FormatEntry *pEntry)
 
 	readdGridEntries(); // for search text
 }
+
+void				IMGEditorTab::recreateEntryList(void)
+{
+	readdGridEntries();
+}
