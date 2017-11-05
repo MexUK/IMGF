@@ -21,6 +21,7 @@ public:
 	uint32								getTotalEntryCount(void);
 	std::vector<bxcf::FormatEntry*>		getSelectedEntries(void);
 	uint32								getSelectedEntryCount(void);
+	void								onEntryChange(bxcf::FormatEntry *pEntry);
 
 	void						setIsTXDFile(bool bIsTXDFile) { m_bIsTXDFile = bIsTXDFile; }
 	bool						isTXDFile(void) { return m_bIsTXDFile; }

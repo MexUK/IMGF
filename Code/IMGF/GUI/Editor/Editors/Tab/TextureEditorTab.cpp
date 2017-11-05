@@ -12,6 +12,7 @@
 #include "IMGF.h"
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Static/Path.h"
+#include "Static/StdVector.h"
 #include "Format/TXD/TXDManager.h"
 #include "Format/RW/Sections/RWSection_TextureNative.h"
 #include "GUI/Editor/Editors/Entry/TextureEditorTabEntry.h"
@@ -813,4 +814,12 @@ uint32					TextureEditorTab::getTotalEntryCount(void)
 	{
 		return getWTDFile()->getEntries().size();
 	}
+}
+
+void					TextureEditorTab::onEntryChange(FormatEntry *pEntry)
+{
+	uint32 uiIndex = StdVector::findKey(getTXDFile()->getSectionsByType(RW_SECTION_TEXTURE_NATIVE), (RWSection*)(RWSection_TextureNative*)pEntry);
+
+	getEntryByIndex(uiIndex)->m_strDiffuseName = pEntry->getEntryName();
+	getEntryByIndex(uiIndex)->m_strAlphaName = pEntry->getEntryName() + "a";
 }

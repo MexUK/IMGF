@@ -1923,6 +1923,8 @@ void		Tasks::rename(void)
 
 	getTab()->setFileUnsaved(true);
 
+	getTab()->getWindow()->render();
+
 	onCompleteTask();
 }
 
