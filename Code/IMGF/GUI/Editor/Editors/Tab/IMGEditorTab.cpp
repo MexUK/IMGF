@@ -801,11 +801,11 @@ void					IMGEditorTab::removeEntry(IMGEntry *pIMGEntry)
 	updateEntryCountText();
 }
 
-void					IMGEditorTab::removeSelectedEntries(void)
+void					IMGEditorTab::removeEntries(vector<FormatEntry*>& vecEntries)
 {
-	for (GridRow *pRow : getEntryGrid()->getSelectedRows())
+	for (FormatEntry *pEntry : vecEntries)
 	{
-		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
+		IMGEntry *pIMGEntry = (IMGEntry*)pEntry;
 
 		removeEntry(pIMGEntry);
 		Events::trigger(TASK_PROGRESS);

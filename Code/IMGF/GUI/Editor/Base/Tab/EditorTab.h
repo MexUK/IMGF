@@ -63,6 +63,9 @@ public:
 	virtual std::vector<bxcf::FormatEntry*>		getSelectedEntries(void) { return std::vector<bxcf::FormatEntry*>(); }
 	bxcf::FormatEntry*							getSelectedEntry(void) { return getSelectedEntries()[0]; }
 	virtual void								recreateEntryList(void) {}
+	virtual void								removeAllEntries(void) {}
+	virtual void								removeEntries(std::vector<bxcf::FormatEntry*>& vecEntries) {}
+	void										removeSelectedEntries(void) { removeEntries(getSelectedEntries()); }
 
 	void								setEditor(Editor* pEditor) { m_pEditor = pEditor; }
 	Editor*								getEditor(void) { return m_pEditor; }

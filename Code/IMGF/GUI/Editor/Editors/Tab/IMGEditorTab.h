@@ -72,6 +72,9 @@ public:
 
 	void								recreateEntryList(void);
 
+	void								removeAllEntries(void);
+	void								removeEntries(std::vector<bxcf::FormatEntry*>& vecEntries);
+
 	void						setSelectedEntriesNameCase(uint32 uiNameCaseType);
 	void						copySelectedEntryData(uint32 uiColumnType);
 	void						shiftSelectedEntries(int32 uiRowCountOffset);
@@ -110,8 +113,6 @@ public:
 	void						addOrReplaceEntryViaFileAndSettings(std::string strEntryFilePath, std::string strEntryName = ""); // entry is added or replaced depending on settings.
 	void						addOrReplaceEntryViaDataAndSettings(std::string strEntryName, std::string strEntryData); // entry is added or replaced depending on settings.
 	void						removeEntry(bxgi::IMGEntry *pIMGEntry);
-	void						removeSelectedEntries(void);
-	void						removeAllEntries(void);
 
 	void						addGridHeaders(bxgi::EIMGVersion uiIMGVersionValue);
 	void						addGridEntries(void);

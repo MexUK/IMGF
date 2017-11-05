@@ -2158,7 +2158,7 @@ void		Tasks::removeSelected(void)
 	uint32 uiSelectedEntryCount = getTab()->getSelectedEntryCount();
 	setMaxProgress(uiSelectedEntryCount + (uiSelectedEntryCount == 0 ? 0 : (getTab()->getFile()->getEntryCount() - uiSelectedEntryCount)));
 
-	// todo getTab()->removeSelectedEntries();
+	getTab()->removeSelectedEntries();
 
 	if (uiSelectedEntryCount > 0)
 	{
@@ -2178,7 +2178,7 @@ void		Tasks::removeAll(void)
 	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
-	// todo getTab()->removeAllEntries();
+	getTab()->removeAllEntries();
 
 	if (uiTotalEntryCount > 0)
 	{

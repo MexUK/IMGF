@@ -826,7 +826,7 @@ void					TextureEditorTab::onEntryChange(FormatEntry *pEntry)
 
 void					TextureEditorTab::recreateEntryList(void)
 {
-	removeAllEntries();
+	VectorPool::removeAllEntries();
 	if(m_bIsTXDFile)
 	{
 		prepareRenderData_TXD();
@@ -835,4 +835,53 @@ void					TextureEditorTab::recreateEntryList(void)
 	{
 		prepareRenderData_WTD();
 	}
+}
+
+void					TextureEditorTab::removeAllEntries(void)
+{
+	if (m_bIsTXDFile)
+	{
+		for (RWSection *pRWSection : getTXDFile()->getSectionsByType(RW_SECTION_TEXTURE_NATIVE))
+		{
+			RWSection_TextureNative *pTXDEntry = (RWSection_TextureNative*)pRWSection;
+			pTXDEntry->removeSection();
+			Events::trigger(TASK_PROGRESS);
+		}
+	}
+	else
+	{
+		getWTDFile()->removeAllEntries();
+	}
+
+	m_pActiveTabEntry = nullptr;
+
+	recreateEntryList();
+	updateEntryCountText();
+}
+
+void					TextureEditorTab::removeEntries(vector<FormatEntry*>& vecEntries)
+{
+	if (m_bIsTXDFile)
+	{
+		for (FormatEntry *pEntry : vecEntries)
+		{
+			RWSection_TextureNative *pTXDEntry = (RWSection_TextureNative*)pEntry;
+			pTXDEntry->removeSection();
+			Events::trigger(TASK_PROGRESS);
+		}
+	}
+	else
+	{
+		for (FormatEntry *pEntry : vecEntries)
+		{
+			WTDEntry *pWTDEntry = (WTDEntry*)pEntry;
+			getWTDFile()->removeEntry(pWTDEntry);
+			Events::trigger(TASK_PROGRESS);
+		}
+	}
+
+	m_pActiveTabEntry = nullptr;
+
+	recreateEntryList();
+	updateEntryCountText();
 }
