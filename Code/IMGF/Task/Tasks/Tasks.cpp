@@ -1885,21 +1885,21 @@ void		Tasks::rename(void)
 {
 	onStartTask("rename");
 
-	if (getIMGTab()->getEntryGrid()->getSelectedRowCount() == 0)
+	if (getTab()->getSelectedEntryCount() == 0)
 	{
-		showMessage("At least one IMG entry must be selected to rename.", "No Entries Selected");
+		showMessage("At least one entry must be selected to rename.", "No Entries Selected");
 		return onAbortTask();
 	}
-	else if (getIMGTab()->getEntryGrid()->getSelectedRowCount() > 1)
+	else if (getTab()->getSelectedEntryCount() > 1)
 	{
-		showMessage("Only one IMG entry can be selected to rename.", "Too Many Entries Selected");
+		showMessage("Only one entry can be selected to rename.", "Too Many Entries Selected");
 		return onAbortTask();
 	}
 
-	IMGEntry *pIMGEntry = (IMGEntry*)getIMGTab()->getEntryGrid()->getSelectedRows()[0]->getUserData();
+	FormatEntry *pEntry = getTab()->getSelectedEntry();
 
 	m_pTaskManager->onPauseTask();
-	string strNewEntryName = getIMGTab()->getWindow()->showSingleLineTextBoxWindow("New IMG Entry Name", "Choose a new name for the IMG entry:", pIMGEntry->getEntryName());
+	string strNewEntryName = getTab()->getWindow()->showSingleLineTextBoxWindow("New Entry Name", "Choose a new name for the entry:", pEntry->getEntryName());
 	m_pTaskManager->onResumeTask();
 	if (strNewEntryName == "")
 	{
@@ -1908,23 +1908,20 @@ void		Tasks::rename(void)
 
 	if (Path::getFileExtension(strNewEntryName) == "")
 	{
-		string strOldExtension = Path::getFileExtension(pIMGEntry->getEntryName());
+		string strOldExtension = Path::getFileExtension(pEntry->getEntryName());
 		if (strOldExtension != "")
 		{
 			strNewEntryName += "." + strOldExtension;
 		}
 	}
 
-	setMaxProgress(2);
+	setMaxProgress(1);
 	
-	pIMGEntry->setEntryName(strNewEntryName);
-	getIMGTab()->updateGridEntry(pIMGEntry);
+	pEntry->setEntryName(strNewEntryName);
+	getTab()->onEntryChange(pEntry);
 	increaseProgress();
 
-	getIMGTab()->readdGridEntries(); // for search text
-	increaseProgress();
-
-	getIMGTab()->setFileUnsaved(true);
+	getTab()->setFileUnsaved(true);
 
 	onCompleteTask();
 }

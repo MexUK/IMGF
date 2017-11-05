@@ -68,6 +68,8 @@ public:
 	std::vector<bxcf::FormatEntry*>		getSelectedEntries(void);
 	uint32								getSelectedEntryCount(void);
 
+	void						onEntryChange(bxcf::FormatEntry *pEntry);
+
 	void						setSelectedEntriesNameCase(uint32 uiNameCaseType);
 	void						copySelectedEntryData(uint32 uiColumnType);
 	void						shiftSelectedEntries(int32 uiRowCountOffset);

@@ -56,9 +56,12 @@ public:
 	virtual void						setFileInfoText(void) {}
 	virtual void						updateTabText(void);
 
+	virtual void								onEntryChange(bxcf::FormatEntry *pEntry) {}
+
 	virtual uint32								getTotalEntryCount(void) { return 0; }
 	virtual uint32								getSelectedEntryCount(void) { return 0; }
 	virtual std::vector<bxcf::FormatEntry*>		getSelectedEntries(void) { return std::vector<bxcf::FormatEntry*>(); }
+	bxcf::FormatEntry*							getSelectedEntry(void) { return getSelectedEntries()[0]; }
 
 	void								setEditor(Editor* pEditor) { m_pEditor = pEditor; }
 	Editor*								getEditor(void) { return m_pEditor; }

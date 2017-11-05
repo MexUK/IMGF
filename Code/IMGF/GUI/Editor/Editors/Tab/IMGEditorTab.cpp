@@ -1849,3 +1849,10 @@ uint32				IMGEditorTab::getTotalEntryCount(void)
 {
 	return m_pIMGFile->getEntryCount();
 }
+
+void				IMGEditorTab::onEntryChange(FormatEntry *pEntry)
+{
+	updateGridEntry((IMGEntry*)pEntry);
+
+	readdGridEntries(); // for search text
+}
