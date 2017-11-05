@@ -278,62 +278,40 @@ void					TextureEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 // file unserialization
 bool					TextureEditorTab::unserializeFile(void)
 {
+	string strFileExtension = String::toUpperCase(Path::getFileExtension(m_pFile->getFilePath()));
+
+	if (!m_pFile->openFile())
+	{
+		return false;
+	}
+
+	if (!m_pFile->readMetaData()) // here for progress bar tick count
+	{
+		Tasks::showMessage(Format::getErrorReason(m_pFile->getErrorCode()) + "\r\n\r\n" + m_pFile->getFilePath(), "Can't Open " + strFileExtension + " File");
+		delete m_pFile;
+		return false;
+	}
+
+	uint32 uiProgressBarMax = m_pFile->m_reader.getSize();
+	getProgressBar()->setMax(uiProgressBarMax);
+
+	if (!m_pFile->unserialize())
+	{
+		Tasks::showMessage(Format::getErrorReason(m_pFile->getErrorCode()) + "\r\n\r\n" + m_pFile->getFilePath(), "Can't Open " + strFileExtension + " File");
+		delete m_pFile;
+		return false;
+	}
+
 	if (m_bIsTXDFile)
 	{
-		TXDFormat *txd = new TXDFormat;
-
-		if (!txd->openFile())
-		{
-			return false;
-		}
-		if (!txd->readMetaData()) // here for progress bar tick count
-		{
-			Tasks::showMessage(Format::getErrorReason(txd->getErrorCode()) + "\r\n\r\n" + txd->getFilePath(), "Can't Open TXD File");
-			delete txd;
-			return false;
-		}
-
-		uint32 uiProgressBarMax = txd->m_reader.getSize();
-		getProgressBar()->setMax(uiProgressBarMax);
-
-		if (!txd->unserialize())
-		{
-			Tasks::showMessage(Format::getErrorReason(txd->getErrorCode()) + "\r\n\r\n" + txd->getFilePath(), "Can't Open TXD File");
-			delete txd;
-			return false;
-		}
-
-		setTXDFile(txd);
-		return true;
+		setTXDFile((TXDFormat*)m_pFile);
 	}
 	else
 	{
-		WTDFormat *wtd = new WTDFormat;
-
-		if (!wtd->openFile())
-		{
-			return false;
-		}
-		if (!wtd->readMetaData()) // here for progress bar tick count
-		{
-			Tasks::showMessage(Format::getErrorReason(wtd->getErrorCode()) + "\r\n\r\n" + wtd->getFilePath(), "Can't Open TXD File");
-			delete wtd;
-			return false;
-		}
-
-		uint32 uiProgressBarMax = wtd->m_reader.getSize();
-		getProgressBar()->setMax(uiProgressBarMax);
-
-		if (!wtd->unserialize())
-		{
-			Tasks::showMessage(Format::getErrorReason(wtd->getErrorCode()) + "\r\n\r\n" + wtd->getFilePath(), "Can't Open TXD File");
-			delete wtd;
-			return false;
-		}
-
-		setWTDFile(wtd);
-		return true;
+		setWTDFile((WTDFormat*)m_pFile);
 	}
+
+	return true;
 }
 
 void					TextureEditorTab::onUnserializeRWSection(RWSection *pRWSection)
