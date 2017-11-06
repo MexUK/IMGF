@@ -66,6 +66,9 @@ public:
 	virtual void								removeAllEntries(void) {}
 	virtual void								removeEntries(std::vector<bxcf::FormatEntry*>& vecEntries) {}
 	void										removeSelectedEntries(void) { removeEntries(getSelectedEntries()); }
+	void										setSelectedEntriesNameCase(uint32 uiNameCaseType);
+	void										copySelectedEntryData(uint32 uiColumnType);
+	void										shiftSelectedEntries(int32 uiRowCountOffset);
 
 	void								setEditor(Editor* pEditor) { m_pEditor = pEditor; }
 	Editor*								getEditor(void) { return m_pEditor; }

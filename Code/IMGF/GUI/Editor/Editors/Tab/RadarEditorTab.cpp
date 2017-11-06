@@ -399,7 +399,7 @@ void						RadarEditorTab::updateEntryCountText(void)
 	uint32
 		uiDisplayedEntryCount = 0;
 	
-	for (IMGEntry *pIMGEntry : m_pIMGFile->getEntries())
+	for (IMGEntry *pIMGEntry : m_pIMGFile->VectorPool::getEntries())
 	{
 		if (!(pIMGEntry->isTextureFile() && String::toUpperCase(pIMGEntry->getEntryName().substr(0, 5)) == "RADAR" && String::isPositiveInteger(Path::removeFileExtension(pIMGEntry->getEntryName()).substr(5))))
 		{
@@ -431,7 +431,7 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 	bPremultipledAlphaApplied = FALSE;
 
 	vector<IMGEntry*> vecRadarIMGEntries;
-	for (IMGEntry *pIMGEntry : m_pIMGFile->getEntries())
+	for (IMGEntry *pIMGEntry : m_pIMGFile->VectorPool::getEntries())
 	{
 		if (!(pIMGEntry->isTextureFile() && String::toUpperCase(pIMGEntry->getEntryName().substr(0, 5)) == "RADAR" && String::isPositiveInteger(Path::removeFileExtension(pIMGEntry->getEntryName()).substr(5))))
 		{
@@ -509,7 +509,7 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 	vector<IMGEntry*> vecRadarIMGEntries;
 	vecRadarIMGEntries.resize(144);
 	for (int i = 0; i < 144; i++) vecRadarIMGEntries[i] = nullptr;
-	for (IMGEntry *pIMGEntry : m_pIMGFile->getEntries())
+	for (IMGEntry *pIMGEntry : m_pIMGFile->VectorPool::getEntries())
 	{
 		if (!(pIMGEntry->isTextureFile() && String::toUpperCase(pIMGEntry->getEntryName().substr(0, 5)) == "RADAR" && String::isPositiveInteger(Path::removeFileExtension(pIMGEntry->getEntryName()).substr(5))))
 		{
@@ -546,7 +546,7 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 			uiTabEntry++;
 			continue;
 		}
-		vector<WTDEntry*> vecWTDEntries = wtdFile.getEntries();
+		vector<WTDEntry*> vecWTDEntries = wtdFile.VectorPool::getEntries();
 
 		// todo
 		//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);

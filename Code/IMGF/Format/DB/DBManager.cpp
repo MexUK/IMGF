@@ -27,7 +27,7 @@ DBFormat*		DBManager::createDBFileFromIMGFile(IMGFormat *pIMGFile)
 {
 	DBFormat *pDBFile = new DBFormat;
 	pDBFile->setDBVersion(0x01);
-	for (IMGEntry *pIMGEntry : pIMGFile->getEntries())
+	for (IMGEntry *pIMGEntry : pIMGFile->VectorPool::getEntries())
 	{
 		DBEntry *pDBEntry = new DBEntry;
 		pDBEntry->m_pFormat = pDBFile;

@@ -123,7 +123,7 @@ void		SortManager::uninitSortPriorities(void)
 void		SortManager::sort(IMGFormat *pIMGFile)
 {
 	m_uiSortPriorityIndex = 0;
-	std::sort(pIMGFile->getEntries().begin(), pIMGFile->getEntries().end(), SortManager::sortIMGEntries);
+	std::sort(pIMGFile->VectorPool::getEntries().begin(), pIMGFile->VectorPool::getEntries().end(), SortManager::sortIMGEntries);
 }
 
 bool		SortManager::sortIMGEntries(IMGEntry *p1, IMGEntry *p2)

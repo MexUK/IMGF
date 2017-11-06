@@ -180,7 +180,7 @@ bool		DumpManager::process(void)
 		}
 		else
 		{
-			vecIMGEntries = pIMGFile->getEntries();
+			vecIMGEntries = pIMGFile->VectorPool::getEntries();
 		}
 
 		// dump IMG entries
@@ -541,7 +541,7 @@ bool		DumpManager::process(void)
 						for (string& strImageType : dumpWindowResult.m_vecTextureImageOutputFormats)
 						{
 							uint32 uiTextureIndex = 0;
-							for (WTDEntry *pWTDEntry : pWTDFile->getEntries())
+							for (WTDEntry *pWTDEntry : pWTDFile->VectorPool::getEntries())
 							{
 								if (pWTDEntry->getEntryName().length() == 0)
 								{

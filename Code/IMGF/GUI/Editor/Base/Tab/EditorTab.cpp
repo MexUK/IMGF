@@ -15,6 +15,7 @@
 #include "Settings/SettingsManager.h"
 #include "Static/File.h"
 #include "Static/Path.h"
+#include "Static/StdVector.h"
 #include "BXGX.h"
 #include "Format/Format.h"
 #include "Stream/DataReader.h"
@@ -359,4 +360,84 @@ void*						EditorTab::addEntryViaFile(string& strEntryFilePath, string strEntryN
 void*						EditorTab::addEntryViaData(string strEntryName, string& strEntryData)
 {
 	return _addEntry<FormatEntry*>(strEntryData, false, strEntryName);
+}
+
+// selected entries
+void						EditorTab::setSelectedEntriesNameCase(uint32 uiNameCaseType)
+{
+	for (FormatEntry *pEntry : getSelectedEntries())
+	{
+		string strNewEntryName;
+		switch (uiNameCaseType)
+		{
+		case 0: // lower case
+			strNewEntryName = String::toLowerCase(pEntry->getEntryName());
+			break;
+		case 1: // UPPER CASE
+			strNewEntryName = String::toUpperCase(pEntry->getEntryName());
+			break;
+		case 2: // Title Case
+			strNewEntryName = String::toTitleCase(pEntry->getEntryName());
+			break;
+		}
+		pEntry->setEntryName(strNewEntryName);
+		onEntryChange(pEntry);
+	}
+
+	setFileUnsaved(true);
+}
+
+void						EditorTab::copySelectedEntryData(uint32 uiColumnType)
+{
+	vector<string> vecCopyLines;
+	for (FormatEntry *pEntry : getSelectedEntries())
+	{
+		switch (uiColumnType)
+		{
+		case 0: // Index
+			vecCopyLines.push_back(String::toString(pEntry->getIndex()));
+			break;
+		case 1: // Type
+			vecCopyLines.push_back(pEntry->getEntryExtension());
+			break;
+		case 2: // Name
+			vecCopyLines.push_back(pEntry->getEntryName());
+			break;
+		case 3: // Offset
+			vecCopyLines.push_back(String::toString(pEntry->getEntryOffset()));
+			break;
+		case 4: // Size
+			vecCopyLines.push_back(String::toString(pEntry->getEntrySize()));
+			break;
+		case 5: // Version
+			vecCopyLines.push_back(pEntry->getVersionText());
+			break;
+		case 6: // All Row Data
+			vecCopyLines.push_back(
+				String::toString(pEntry->getIndex()) + "," +
+				pEntry->getEntryExtension() + "," +
+				pEntry->getEntryName() + "," +
+				String::toString(pEntry->getEntryOffset()) + "," +
+				String::toString(pEntry->getEntrySize()) + "," +
+				pEntry->getVersionText()
+			);
+			break;
+		}
+	}
+	String::setClipboardText(String::join(vecCopyLines, "\r\n"));
+}
+
+void						EditorTab::shiftSelectedEntries(int32 uiRowCountOffset)
+{
+	for (FormatEntry *pEntry1 : getSelectedEntries())
+	{
+		int32 iEntry1Index = StdVector::findKey(getContainerFile()->getAllEntries(), pEntry1);
+		int32 iEntry2Index = Math::limit(iEntry1Index + (int32)uiRowCountOffset, 0, (int32)getTotalEntryCount());
+		FormatEntry *pEntry2 = getContainerFile()->getAllEntries()[iEntry2Index];
+
+		getContainerFile()->swapEntries(pEntry1, pEntry2);
+	}
+
+	recreateEntryList();
+	setFileUnsaved(true);
 }

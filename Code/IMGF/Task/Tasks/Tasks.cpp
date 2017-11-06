@@ -2892,7 +2892,7 @@ void		Tasks::convertSelectedDFFRWVersion(void)
 			DFFFormat dffFile(pIMGEntry->getEntryData(), false);
 			if (dffFile.unserialize())
 			{
-				for (RWSection *pRWSection : dffFile.getEntries())
+				for (RWSection *pRWSection : dffFile.VectorPool::getEntries())
 				{
 					pRWSection->setSectionRWVersion(uiNewRawRWVersion);
 				}
@@ -3001,7 +3001,7 @@ void		Tasks::convertSelectedTXDRWVersion(void)
 			TXDFormat txdFile(pIMGEntry->getEntryData(), false);
 			if (txdFile.unserialize())
 			{
-				for (RWSection *pRWSection : txdFile.getEntries())
+				for (RWSection *pRWSection : txdFile.VectorPool::getEntries())
 				{
 					pRWSection->setSectionRWVersion(uiNewRawRWVersion);
 				}
@@ -3728,7 +3728,7 @@ void		Tasks::sortByIndexReverse(void)
 	setMaxProgress(uiTotalEntryCount);
 
 	unordered_map<IMGEntry*, uint32> umapEntryIndexes;
-	for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->getEntries())
+	for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->VectorPool::getEntries())
 	{
 		umapEntryIndexes[pIMGEntry] = pIMGEntry->getIMGFile()->getIndexByEntry(pIMGEntry);
 	}
@@ -3737,7 +3737,7 @@ void		Tasks::sortByIndexReverse(void)
 	{
 		return umapEntryIndexes[pIMGEntry1] > umapEntryIndexes[pIMGEntry2];
 	};
-	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_IndexReverse);
+	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_IndexReverse);
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3761,7 +3761,7 @@ void		Tasks::sortByNameAscending09AZ(void)
 	{
 		return strcmp(String::toLowerCase(pIMGEntry1->getEntryName()).c_str(), String::toLowerCase(pIMGEntry2->getEntryName()).c_str()) < 0;
 	};
-	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_NameAscending09AZ);
+	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_NameAscending09AZ);
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3813,7 +3813,7 @@ void		Tasks::sortByNameAscendingAZ09(void)
 
 		return strcmp(String::toLowerCase(pIMGEntry1->getEntryName()).c_str(), String::toLowerCase(pIMGEntry2->getEntryName()).c_str()) < 0;
 	};
-	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_NameAscendingAZ09);
+	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_NameAscendingAZ09);
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3839,7 +3839,7 @@ void		Tasks::sortByNameDescendingZA90(void)
 	{
 		return strcmp(String::toLowerCase(pIMGEntry1->getEntryName()).c_str(), String::toLowerCase(pIMGEntry2->getEntryName()).c_str()) > 0;
 	};
-	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_NameDescendingZA90);
+	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_NameDescendingZA90);
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3868,7 +3868,7 @@ void		Tasks::sortByOffsetLowHigh(void)
 	{
 		return pIMGEntry1->getEntryOffset() < pIMGEntry2->getEntryOffset();
 	};
-	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_OffsetLowToHigh);
+	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_OffsetLowToHigh);
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3892,7 +3892,7 @@ void		Tasks::sortByOffsetHighLow(void)
 	{
 		return pIMGEntry1->getEntryOffset() > pIMGEntry2->getEntryOffset();
 	};
-	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_OffsetHighToLow);
+	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_OffsetHighToLow);
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3916,7 +3916,7 @@ void		Tasks::sortBySizeSmallBig(void)
 	{
 		return pIMGEntry1->getEntrySize() < pIMGEntry2->getEntrySize();
 	};
-	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_SizeSmallToBig);
+	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_SizeSmallToBig);
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3940,7 +3940,7 @@ void		Tasks::sortBySizeBigSmall(void)
 	{
 		return pIMGEntry1->getEntrySize() > pIMGEntry2->getEntrySize();
 	};
-	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_SizeBigToSmall);
+	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_SizeBigToSmall);
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3964,7 +3964,7 @@ void		Tasks::sortByTypeAZ(void)
 	{
 		return strcmp(String::toLowerCase(pIMGEntry1->getEntryExtension()).c_str(), String::toLowerCase(pIMGEntry2->getEntryExtension()).c_str()) < 0;
 	};
-	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_TypeAscending09AZ);
+	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_TypeAscending09AZ);
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3988,7 +3988,7 @@ void		Tasks::sortByTypeZA(void)
 	{
 		return strcmp(String::toLowerCase(pIMGEntry1->getEntryExtension()).c_str(), String::toLowerCase(pIMGEntry2->getEntryExtension()).c_str()) > 0;
 	};
-	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_TypeDescendingZA90);
+	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_TypeDescendingZA90);
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -4012,7 +4012,7 @@ void		Tasks::sortByVersionOldNew(void)
 	{
 		return pIMGEntry1->getRawVersion() < pIMGEntry2->getRawVersion();
 	};
-	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_VersionOldToNew);
+	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_VersionOldToNew);
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -4036,7 +4036,7 @@ void		Tasks::sortByVersionNewOld(void)
 	{
 		return pIMGEntry1->getRawVersion() > pIMGEntry2->getRawVersion();
 	};
-	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_VersionNewToOld);
+	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_VersionNewToOld);
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -4075,7 +4075,7 @@ void		Tasks::sortByIDE(void)
 	{
 		return vecModelNamesInIDEFile.getIndexByEntry(String::toLowerCase(pIMGEntry1->getEntryName())) < vecModelNamesInIDEFile.getIndexByEntry(String::toLowerCase(pIMGEntry2->getEntryName()));
 	};
-	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_IDEFile);
+	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_IDEFile);
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -4114,7 +4114,7 @@ void		Tasks::sortByCOL(void)
 	{
 		return vecModelNamesInCOLFile.getIndexByEntry(String::toLowerCase(pIMGEntry1->getEntryName())) < vecModelNamesInCOLFile.getIndexByEntry(String::toLowerCase(pIMGEntry2->getEntryName()));
 	};
-	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortIMGEntries_COLFile);
+	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_COLFile);
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -4181,7 +4181,7 @@ void		Tasks::sortByMultipleTypes(void)
 		vector<string>::iterator itIndex2;
 
 		unordered_map<IMGEntry*, uint32> umapEntryIndexes;
-		for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->getEntries())
+		for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->VectorPool::getEntries())
 		{
 			umapEntryIndexes[pIMGEntry] = pIMGEntry->getIMGFile()->getIndexByEntry(pIMGEntry);
 		}
@@ -4300,7 +4300,7 @@ void		Tasks::sortByMultipleTypes(void)
 		return true;
 	};
 	uiSortTypeIndex = 0;
-	std::sort(getIMGTab()->getIMGFile()->getEntries().begin(), getIMGTab()->getIMGFile()->getEntries().end(), sortByMultipleTypes);
+	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortByMultipleTypes);
 
 	getTab()->log("Sorted IMG by multiple types.");
 
@@ -4348,8 +4348,8 @@ void						Tasks::nameCaseLower(void)
 {
 	onStartTask("nameCaseLower");
 
-	getIMGTab()->setSelectedEntriesNameCase(0);
-	getTab()->logf("Set entry name to lower case for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->setSelectedEntriesNameCase(0);
+	getTab()->logf("Set entry name to lower case for %u entries.", getTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4358,8 +4358,8 @@ void						Tasks::nameCaseUpper(void)
 {
 	onStartTask("nameCaseUpper");
 
-	getIMGTab()->setSelectedEntriesNameCase(1);
-	getTab()->logf("Set entry name to UPPER CASE for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->setSelectedEntriesNameCase(1);
+	getTab()->logf("Set entry name to UPPER CASE for %u entries.", getTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4368,8 +4368,8 @@ void						Tasks::nameCaseTitle(void)
 {
 	onStartTask("nameCaseTitle");
 
-	getIMGTab()->setSelectedEntriesNameCase(2);
-	getTab()->logf("Set entry name to Title Case for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->setSelectedEntriesNameCase(2);
+	getTab()->logf("Set entry name to Title Case for %u entries.", getTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4378,8 +4378,8 @@ void						Tasks::copyEntryIndex(void)
 {
 	onStartTask("copyEntryIndex");
 
-	getIMGTab()->copySelectedEntryData(0);
-	getTab()->logf("Copied entry index for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->copySelectedEntryData(0);
+	getTab()->logf("Copied entry index for %u entries.", getTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4388,8 +4388,8 @@ void						Tasks::copyEntryType(void)
 {
 	onStartTask("copyEntryType");
 
-	getIMGTab()->copySelectedEntryData(1);
-	getTab()->logf("Copied entry type for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->copySelectedEntryData(1);
+	getTab()->logf("Copied entry type for %u entries.", getTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4398,8 +4398,8 @@ void						Tasks::copyEntryName(void)
 {
 	onStartTask("copyEntryName");
 
-	getIMGTab()->copySelectedEntryData(2);
-	getTab()->logf("Copied entry name for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->copySelectedEntryData(2);
+	getTab()->logf("Copied entry name for %u entries.", getTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4408,8 +4408,8 @@ void						Tasks::copyEntryOffset(void)
 {
 	onStartTask("copyEntryOffset");
 
-	getIMGTab()->copySelectedEntryData(3);
-	getTab()->logf("Copied entry offset for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->copySelectedEntryData(3);
+	getTab()->logf("Copied entry offset for %u entries.", getTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4418,8 +4418,8 @@ void						Tasks::copyEntrySize(void)
 {
 	onStartTask("copyEntrySize");
 
-	getIMGTab()->copySelectedEntryData(4);
-	getTab()->logf("Copied entry size for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->copySelectedEntryData(4);
+	getTab()->logf("Copied entry size for %u entries.", getTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4428,8 +4428,8 @@ void						Tasks::copyEntryVersion(void)
 {
 	onStartTask("copyEntryVersion");
 
-	getIMGTab()->copySelectedEntryData(5);
-	getTab()->logf("Copied entry version for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->copySelectedEntryData(5);
+	getTab()->logf("Copied entry version for %u entries.", getTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4438,8 +4438,8 @@ void						Tasks::copyEntryRowData(void)
 {
 	onStartTask("copyEntryRowData");
 
-	getIMGTab()->copySelectedEntryData(6);
-	getTab()->logf("Copied row data for %u entries.", getIMGTab()->getSelectedEntryCount());
+	getTab()->copySelectedEntryData(6);
+	getTab()->logf("Copied row data for %u entries.", getTab()->getSelectedEntryCount());
 
 	onCompleteTask();
 }
@@ -4448,8 +4448,8 @@ void						Tasks::shiftEntryUp1Row(void)
 {
 	onStartTask("shiftEntryUp1Row");
 
-	getIMGTab()->shiftSelectedEntries(-1);
-	getTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 1);
+	getTab()->shiftSelectedEntries(-1);
+	getTab()->logf("Shifted %u entries up by %u rows.", getTab()->getSelectedEntryCount(), 1);
 
 	onCompleteTask();
 }
@@ -4458,8 +4458,8 @@ void						Tasks::shiftEntryUp5Rows(void)
 {
 	onStartTask("shiftEntryUp5Rows");
 
-	getIMGTab()->shiftSelectedEntries(-5);
-	getTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 5);
+	getTab()->shiftSelectedEntries(-5);
+	getTab()->logf("Shifted %u entries up by %u rows.", getTab()->getSelectedEntryCount(), 5);
 
 	onCompleteTask();
 }
@@ -4468,8 +4468,8 @@ void						Tasks::shiftEntryUp10Rows(void)
 {
 	onStartTask("shiftEntryUp10Rows");
 
-	getIMGTab()->shiftSelectedEntries(-10);
-	getTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 10);
+	getTab()->shiftSelectedEntries(-10);
+	getTab()->logf("Shifted %u entries up by %u rows.", getTab()->getSelectedEntryCount(), 10);
 
 	onCompleteTask();
 }
@@ -4478,8 +4478,8 @@ void						Tasks::shiftEntryUp100Rows(void)
 {
 	onStartTask("shiftEntryUp100Rows");
 
-	getIMGTab()->shiftSelectedEntries(-100);
-	getTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 100);
+	getTab()->shiftSelectedEntries(-100);
+	getTab()->logf("Shifted %u entries up by %u rows.", getTab()->getSelectedEntryCount(), 100);
 
 	onCompleteTask();
 }
@@ -4488,8 +4488,8 @@ void						Tasks::shiftEntryUp1000Rows(void)
 {
 	onStartTask("shiftEntryUp1000Rows");
 
-	getIMGTab()->shiftSelectedEntries(-1000);
-	getTab()->logf("Shifted %u entries up by %u rows.", getIMGTab()->getSelectedEntryCount(), 1000);
+	getTab()->shiftSelectedEntries(-1000);
+	getTab()->logf("Shifted %u entries up by %u rows.", getTab()->getSelectedEntryCount(), 1000);
 
 	onCompleteTask();
 }
@@ -4498,8 +4498,8 @@ void						Tasks::shiftEntryDown1Row(void)
 {
 	onStartTask("shiftEntryDown1Row");
 
-	getIMGTab()->shiftSelectedEntries(1);
-	getTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 1);
+	getTab()->shiftSelectedEntries(1);
+	getTab()->logf("Shifted %u entries down by %u rows.", getTab()->getSelectedEntryCount(), 1);
 
 	onCompleteTask();
 }
@@ -4508,8 +4508,8 @@ void						Tasks::shiftEntryDown5Rows(void)
 {
 	onStartTask("shiftEntryDown5Rows");
 
-	getIMGTab()->shiftSelectedEntries(5);
-	getTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 5);
+	getTab()->shiftSelectedEntries(5);
+	getTab()->logf("Shifted %u entries down by %u rows.", getTab()->getSelectedEntryCount(), 5);
 
 	onCompleteTask();
 }
@@ -4518,8 +4518,8 @@ void						Tasks::shiftEntryDown10Rows(void)
 {
 	onStartTask("shiftEntryDown10Rows");
 
-	getIMGTab()->shiftSelectedEntries(10);
-	getTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 10);
+	getTab()->shiftSelectedEntries(10);
+	getTab()->logf("Shifted %u entries down by %u rows.", getTab()->getSelectedEntryCount(), 10);
 
 	onCompleteTask();
 }
@@ -4528,8 +4528,8 @@ void						Tasks::shiftEntryDown100Rows(void)
 {
 	onStartTask("shiftEntryDown100Rows");
 
-	getIMGTab()->shiftSelectedEntries(100);
-	getTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 100);
+	getTab()->shiftSelectedEntries(100);
+	getTab()->logf("Shifted %u entries down by %u rows.", getTab()->getSelectedEntryCount(), 100);
 
 	onCompleteTask();
 }
@@ -4538,8 +4538,8 @@ void						Tasks::shiftEntryDown1000Rows(void)
 {
 	onStartTask("shiftEntryDown1000Rows");
 
-	getIMGTab()->shiftSelectedEntries(1000);
-	getTab()->logf("Shifted %u entries down by %u rows.", getIMGTab()->getSelectedEntryCount(), 1000);
+	getTab()->shiftSelectedEntries(1000);
+	getTab()->logf("Shifted %u entries down by %u rows.", getTab()->getSelectedEntryCount(), 1000);
 
 	onCompleteTask();
 }
@@ -5850,7 +5850,7 @@ void		Tasks::stats(void)
 	unordered_map<uint32, uint32> umapStatsRWVersions;
 	unordered_map<string, uint32> umapStatsExtensions;
 
-	for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->getEntries())
+	for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->VectorPool::getEntries())
 	{
 		if (pIMGEntry->isRWFile())
 		{
@@ -5964,7 +5964,7 @@ void		Tasks::findDuplicateEntriesInTab(void)
 	setMaxProgress(getIMGTab()->getIMGFile()->getEntryCount());
 
 	// fetch entries
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntries();
+	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->VectorPool::getEntries();
 
 	// store IMG entry names for checking
 	unordered_map<string, vector<IMGEntry*>> umapIMGEntries;
@@ -6020,7 +6020,7 @@ void		Tasks::findDuplicateEntriesInAllTabs(void)
 	vector<IMGEntry*> vecIMGEntries;
 	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
 	{
-		StdVector::addToVector(vecIMGEntries, pEditorTab->getIMGFile()->getEntries());
+		StdVector::addToVector(vecIMGEntries, pEditorTab->getIMGFile()->VectorPool::getEntries());
 	}
 
 	// store IMG entry names for checking
@@ -6098,7 +6098,7 @@ void		Tasks::findDuplicateEntriesByDAT(void)
 	vector<IMGEntry*> vecIMGEntries;
 	for (IMGFormat *pIMGFile : vecIMGFiles)
 	{
-		StdVector::addToVector(vecIMGEntries, pIMGFile->getEntries());
+		StdVector::addToVector(vecIMGEntries, pIMGFile->VectorPool::getEntries());
 	}
 
 	// store IMG entry names for checking
@@ -6181,7 +6181,7 @@ void		Tasks::compareIMGs(void)
 	unordered_map<IMGFormat*, set<string>> umapIMGFormatEntryNames;
 	for (IMGFormat *pIMGFormat : vecIMGFiles)
 	{
-		for (IMGEntry *pIMGEntry : pIMGFormat->getEntries())
+		for (IMGEntry *pIMGEntry : pIMGFormat->VectorPool::getEntries())
 		{
 			umapIMGFormatEntryNames[pIMGFormat].insert(String::toUpperCase(pIMGEntry->getEntryName()));
 		}
@@ -6194,7 +6194,7 @@ void		Tasks::compareIMGs(void)
 
 	for (IMGFormat *pIMGFormat1 : vecIMGFiles)
 	{
-		for (IMGEntry *pIMGEntry1 : pIMGFormat1->getEntries())
+		for (IMGEntry *pIMGEntry1 : pIMGFormat1->VectorPool::getEntries())
 		{
 			bool bEntry1IsInAllIMGs = true;
 			string strEntryName1 = pIMGEntry1->getEntryName();
@@ -6393,7 +6393,7 @@ void			Tasks::validateDFFInTab(void)
 	onStartTask("validateDFFInTab");
 
 	vector<vector<string>> vecGridCellsText;
-	for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->getEntries())
+	for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->VectorPool::getEntries())
 	{
 		if (pIMGEntry->isModelFile())
 		{
@@ -6426,7 +6426,7 @@ void			Tasks::validateTXDInTab(void)
 	onStartTask("validateTXDInTab");
 
 	vector<vector<string>> vecGridCellsText;
-	for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->getEntries())
+	for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->VectorPool::getEntries())
 	{
 		if (pIMGEntry->isTextureFile())
 		{
