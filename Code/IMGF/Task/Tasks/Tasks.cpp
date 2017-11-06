@@ -1061,16 +1061,15 @@ void		Tasks::exportByIndex(void)
 	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(0, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	vector<FormatEntry*> vecEntries = getTab()->getEntriesByNumericMultiOptionValues(0, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false);
+	for (FormatEntry *pEntry : vecEntries)
 	{
-		getIMGTab()->getIMGFile()->exportSingle(pIMGEntry, strFolderPath);
+		getTab()->getContainerFile()->exportSingle(pEntry, strFolderPath);
 		increaseProgress();
 	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getTab()->logf("Exported %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Exported %u entries with an index %s.", vecEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -1097,19 +1096,18 @@ void		Tasks::exportByName(void)
 		}
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByName(strEntryNameInput);
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false); // todo - increaseMaxProgress
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByName(strEntryNameInput);
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false); // todo - increaseMaxProgress
+	for (FormatEntry *pEntry : vecEntries)
 	{
-		getIMGTab()->getIMGFile()->exportSingle(pIMGEntry, strFolderPath);
+		getTab()->getContainerFile()->exportSingle(pEntry, strFolderPath);
 		increaseProgress();
 	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getTab()->logf("Exported %u entries with a name that includes %s.", vecIMGEntries.size(), strEntryNameInput.c_str());
+	getTab()->logf("Exported %u entries with a name that includes %s.", vecEntries.size(), strEntryNameInput.c_str());
 
 	onCompleteTask();
 }
@@ -1136,19 +1134,18 @@ void		Tasks::exportByOffset(void)
 		}
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(2, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	vector<FormatEntry*> vecEntries = getTab()->getEntriesByNumericMultiOptionValues(2, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false);
+	for (FormatEntry *pEntry : vecEntries)
 	{
-		getIMGTab()->getIMGFile()->exportSingle(pIMGEntry, strFolderPath);
+		getTab()->getContainerFile()->exportSingle(pEntry, strFolderPath);
 		increaseProgress();
 	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getTab()->logf("Exported %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Exported %u entries with an offset %s.", vecEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -1175,17 +1172,16 @@ void		Tasks::exportBySize(void)
 		}
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(3, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	vector<FormatEntry *> vecIMGEntries = getTab()->getEntriesByNumericMultiOptionValues(3, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
 	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	for (FormatEntry *pEntry : vecIMGEntries)
 	{
-		getIMGTab()->getIMGFile()->exportSingle(pIMGEntry, strFolderPath);
+		getTab()->getContainerFile()->exportSingle(pEntry, strFolderPath);
 		increaseProgress();
 	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
 
 	getTab()->logf("Exported %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
 
@@ -1214,19 +1210,18 @@ void		Tasks::exportByType(void)
 		}
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByExtension(strEntryTypeInput, true);
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false); // todo - increaseMaxProgress
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByExtension(strEntryTypeInput, true);
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false); // todo - increaseMaxProgress
+	for (FormatEntry *pEntry : vecEntries)
 	{
-		getIMGTab()->getIMGFile()->exportSingle(pIMGEntry, strFolderPath);
+		getTab()->getContainerFile()->exportSingle(pEntry, strFolderPath);
 		increaseProgress();
 	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getTab()->logf("Exported %u entries with a type that includes %s.", vecIMGEntries.size(), strEntryTypeInput.c_str());
+	getTab()->logf("Exported %u entries with a type that includes %s.", vecEntries.size(), strEntryTypeInput.c_str());
 
 	onCompleteTask();
 }
@@ -1255,7 +1250,7 @@ void		Tasks::exportByVersion(void)
 		}
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
 	DropDownItem
@@ -1264,16 +1259,15 @@ void		Tasks::exportByVersion(void)
 		uiFileTypeId = pDropDownItem->getUserdata2(), // todo - rename to getUserData2()
 		uiFileVersionId = pDropDownItem->getUserdata(); // todo - rename to getUserData()
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByVersion(uiFileTypeId, uiFileVersionId);
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false); // todo - increaseMaxProgress
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByVersion(uiFileTypeId, uiFileVersionId);
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false); // todo - increaseMaxProgress
+	for (FormatEntry *pEntry : vecEntries)
 	{
-		getIMGTab()->getIMGFile()->exportSingle(pIMGEntry, strFolderPath);
+		getTab()->getContainerFile()->exportSingle(pEntry, strFolderPath);
 		increaseProgress();
 	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
 
-	getTab()->logf("Exported %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
+	getTab()->logf("Exported %u entries with version %s.", vecEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
 
 	onCompleteTask();
 }
@@ -1293,14 +1287,13 @@ void		Tasks::exportAllIntoGroupedFoldersByType(void)
 		}
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
 	set<string> setExtensionsUsed;
-	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getEntries())
+	for (FormatEntry *pEntry : getTab()->getContainerFile()->getAllEntries())
 	{
-		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
-		string strFileExtension = pIMGEntry->getEntryExtension();
+		string strFileExtension = pEntry->getEntryExtension();
 		if (strFileExtension == "")
 		{
 			strFileExtension = "NoExtension";
@@ -1308,7 +1301,7 @@ void		Tasks::exportAllIntoGroupedFoldersByType(void)
 
 		string strExportGroupedByTypeFolderPath = strFolderPath + strFileExtension + "/";
 
-		getIMGTab()->getIMGFile()->exportSingle(pIMGEntry, strExportGroupedByTypeFolderPath);
+		getTab()->getContainerFile()->exportSingle(pEntry, strExportGroupedByTypeFolderPath);
 
 		increaseProgress();
 
@@ -1366,19 +1359,18 @@ void		Tasks::exportAllFromAllTabsIntoGroupedFoldersByType(void)
 	}
 
 	uint32 uiTotalEntryCount = 0;
-	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGEditorTabs().getEntries())
+	for (EditorTab *pEditorTab : getTab()->getEditor()->getEditorTabs().getEntries())
 	{
-		uiTotalEntryCount += pEditorTab->getIMGFile()->getEntryCount();
+		uiTotalEntryCount += pEditorTab->getFile()->getEntryCount();
 	}
 	setMaxProgress(uiTotalEntryCount);
 
 	set<string> setExtensionsUsed;
-	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGEditorTabs().getEntries())
+	for (EditorTab *pEditorTab : getTab()->getEditor()->getEditorTabs().getEntries())
 	{
-		for (GridRow *pRow : pEditorTab->getEntryGrid()->getEntries())
+		for (FormatEntry *pEntry : pEditorTab->getContainerFile()->getAllEntries())
 		{
-			IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
-			string strFileExtension = pIMGEntry->getEntryExtension();
+			string strFileExtension = pEntry->getEntryExtension();
 			if (strFileExtension == "")
 			{
 				strFileExtension = "NoExtension";
@@ -1386,7 +1378,7 @@ void		Tasks::exportAllFromAllTabsIntoGroupedFoldersByType(void)
 
 			string strExportGroupedByTypeFolderPath = strFolderPath + strFileExtension + "/";
 
-			pEditorTab->getIMGFile()->exportSingle(pIMGEntry, strExportGroupedByTypeFolderPath);
+			pEditorTab->getContainerFile()->exportSingle(pEntry, strExportGroupedByTypeFolderPath);
 
 			increaseProgress();
 
@@ -1414,15 +1406,15 @@ void		Tasks::exportSelectionFromAllTabs(void)
 	}
 
 	uint32 uiSelectedEntryCount = 0;
-	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGEditorTabs().getEntries())
+	for (EditorTab *pEditorTab : getTab()->getEditor()->getEditorTabs().getEntries())
 	{
-		uiSelectedEntryCount += pEditorTab->getEntryGrid()->getSelectedRowCount();
+		uiSelectedEntryCount += pEditorTab->getSelectedEntryCount();
 	}
 	setMaxProgress(uiSelectedEntryCount);
 
-	for (IMGEditorTab *pEditorTab : getIMGTab()->getIMGEditor()->getIMGEditorTabs().getEntries())
+	for (EditorTab *pEditorTab : getTab()->getEditor()->getEditorTabs().getEntries())
 	{
-		pEditorTab->getIMGFile()->exportMultiple(getTab()->getSelectedEntries(), strFolderPath);
+		pEditorTab->getContainerFile()->exportMultiple(getTab()->getSelectedEntries(), strFolderPath);
 	}
 
 	getTab()->logf("Exported %u selected entries from all tabs.", uiSelectedEntryCount);
@@ -1718,12 +1710,12 @@ void		Tasks::exportByEntryNames(void)
 		strInputEntryName = String::trim(strInputEntryName);
 	}
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByNames(vecInputEntryNames);
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByNames(vecInputEntryNames);
 
-	setMaxProgress(vecIMGEntries.size());
-	getIMGTab()->getIMGFile()->exportMultiple(vecIMGEntries, strExportFolderPath);
+	setMaxProgress(vecEntries.size());
+	getTab()->getContainerFile()->exportMultiple(vecEntries, strExportFolderPath);
 	
-	getTab()->logf("Exported %u entries by entry names.", vecIMGEntries.size());
+	getTab()->logf("Exported %u entries by entry names.", vecEntries.size());
 
 	onCompleteTask();
 }
@@ -1757,17 +1749,17 @@ void		Tasks::exportByEntryNamesFromAllTabs(void)
 	}
 
 	uint32 uiEntryExportCount = 0;
-	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
+	for (EditorTab *pEditorTab : m_pMainWindow->getActiveEditor()->getEditorTabs().getEntries())
 	{
-		vector<IMGEntry*> vecIMGEntries = pEditorTab->getIMGFile()->getEntriesByNames(vecInputEntryNames);
+		vector<FormatEntry*> vecEntries = pEditorTab->getContainerFile()->getEntriesByNames(vecInputEntryNames);
 
-		setMaxProgress(vecIMGEntries.size());
-		pEditorTab->getIMGFile()->exportMultiple(vecIMGEntries, strExportFolderPath);
+		setMaxProgress(vecEntries.size());
+		pEditorTab->getContainerFile()->exportMultiple(vecEntries, strExportFolderPath);
 
-		uiEntryExportCount += vecIMGEntries.size();
+		uiEntryExportCount += vecEntries.size();
 	}
 
-	for (IMGEditorTab *pEditorTab : m_pMainWindow->getIMGEditor()->getIMGEditorTabs().getEntries())
+	for (EditorTab *pEditorTab : m_pMainWindow->getActiveEditor()->getEditorTabs().getEntries())
 	{
 		pEditorTab->logf("Exported %u entries by entry names from all tabs.", uiEntryExportCount);
 	}
@@ -2203,27 +2195,20 @@ void		Tasks::removeByIndex(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 3);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(0, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size() + (vecIMGEntries.size() == 0 ? 0 : (uiTotalEntryCount - vecIMGEntries.size())), false);
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->removeEntry(pIMGEntry);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getEntriesByNumericMultiOptionValues(0, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecEntries.size() + (vecEntries.size() == 0 ? 0 : (uiTotalEntryCount - vecEntries.size())), false);
+	getTab()->removeEntries(vecEntries);
 
-	if (vecIMGEntries.size() > 0)
+	if (vecEntries.size() > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->loadFilter_Type();
-		getIMGTab()->loadFilter_Version();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
-	getTab()->logf("Removed %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Removed %u entries with an index %s.", vecEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -2240,27 +2225,20 @@ void		Tasks::removeByName(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 3);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByName(strEntryNameInput);
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size() + (vecIMGEntries.size() == 0 ? 0 : (uiTotalEntryCount - vecIMGEntries.size())), false);
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->removeEntry(pIMGEntry);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByName(strEntryNameInput);
+	setMaxProgress(uiTotalEntryCount + vecEntries.size() + (vecEntries.size() == 0 ? 0 : (uiTotalEntryCount - vecEntries.size())), false);
+	getTab()->removeEntries(vecEntries);
 
-	if (vecIMGEntries.size() > 0)
+	if (vecEntries.size() > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->loadFilter_Type();
-		getIMGTab()->loadFilter_Version();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
-	getTab()->logf("Removed %u entries with a name that includes %s.", vecIMGEntries.size(), strEntryNameInput.c_str());
+	getTab()->logf("Removed %u entries with a name that includes %s.", vecEntries.size(), strEntryNameInput.c_str());
 
 	onCompleteTask();
 }
@@ -2277,27 +2255,20 @@ void		Tasks::removeByOffset(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 3);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(2, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size() + (vecIMGEntries.size() == 0 ? 0 : (uiTotalEntryCount - vecIMGEntries.size())), false);
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->removeEntry(pIMGEntry);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getEntriesByNumericMultiOptionValues(2, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecEntries.size() + (vecEntries.size() == 0 ? 0 : (uiTotalEntryCount - vecEntries.size())), false);
+	getTab()->removeEntries(vecEntries);
 
-	if (vecIMGEntries.size() > 0)
+	if (vecEntries.size() > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->loadFilter_Type();
-		getIMGTab()->loadFilter_Version();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
-	getTab()->logf("Removed %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Removed %u entries with an offset %s.", vecEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -2314,27 +2285,20 @@ void		Tasks::removeBySize(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 3);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(3, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size() + (vecIMGEntries.size() == 0 ? 0 : (uiTotalEntryCount - vecIMGEntries.size())), false);
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->removeEntry(pIMGEntry);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getEntriesByNumericMultiOptionValues(3, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecEntries.size() + (vecEntries.size() == 0 ? 0 : (uiTotalEntryCount - vecEntries.size())), false);
+	getTab()->removeEntries(vecEntries);
 
-	if (vecIMGEntries.size() > 0)
+	if (vecEntries.size() > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->loadFilter_Type();
-		getIMGTab()->loadFilter_Version();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
-	getTab()->logf("Removed %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Removed %u entries with a size %s.", vecEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -2351,27 +2315,20 @@ void		Tasks::removeByType(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 3);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByExtension(strEntryTypeInput, true);
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size() + (vecIMGEntries.size() == 0 ? 0 : (uiTotalEntryCount - vecIMGEntries.size())), false);
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->removeEntry(pIMGEntry);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByExtension(strEntryTypeInput, true);
+	setMaxProgress(uiTotalEntryCount + vecEntries.size() + (vecEntries.size() == 0 ? 0 : (uiTotalEntryCount - vecEntries.size())), false);
+	getTab()->removeEntries(vecEntries);
 
-	if (vecIMGEntries.size() > 0)
+	if (vecEntries.size() > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->loadFilter_Type();
-		getIMGTab()->loadFilter_Version();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
-	getTab()->logf("Removed %u entries with a type that includes %s.", vecIMGEntries.size(), strEntryTypeInput.c_str());
+	getTab()->logf("Removed %u entries with a type that includes %s.", vecEntries.size(), strEntryTypeInput.c_str());
 
 	onCompleteTask();
 }
@@ -2390,7 +2347,7 @@ void		Tasks::removeByVersion(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 3);
 
 	DropDownItem
@@ -2399,24 +2356,17 @@ void		Tasks::removeByVersion(void)
 		uiFileTypeId = pDropDownItem->getUserdata2(), // todo - rename to getUserData2()
 		uiFileVersionId = pDropDownItem->getUserdata(); // todo - rename to getUserData()
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByVersion(uiFileTypeId, uiFileVersionId);
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size() + (vecIMGEntries.size() == 0 ? 0 : (uiTotalEntryCount - vecIMGEntries.size())), false);
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->removeEntry(pIMGEntry);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByVersion(uiFileTypeId, uiFileVersionId);
+	setMaxProgress(uiTotalEntryCount + vecEntries.size() + (vecEntries.size() == 0 ? 0 : (uiTotalEntryCount - vecEntries.size())), false);
+	getTab()->removeEntries(vecEntries);
 
-	if (vecIMGEntries.size() > 0)
+	if (vecEntries.size() > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->loadFilter_Type();
-		getIMGTab()->loadFilter_Version();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
-	getTab()->logf("Removed %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
+	getTab()->logf("Removed %u entries with version %s.", vecEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
 
 	onCompleteTask();
 }
@@ -2505,25 +2455,18 @@ void		Tasks::removeByEntryNames(void)
 		strInputEntryName = String::trim(strInputEntryName);
 	}
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByNames(vecInputEntryNames);
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByNames(vecInputEntryNames);
 
-	setMaxProgress(vecIMGEntries.size());
-	for (IMGEntry *pIMGEntry : vecIMGEntries) // todo - removeEntries()
-	{
-		getIMGTab()->removeEntry(pIMGEntry);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	setMaxProgress(vecEntries.size());
+	getTab()->removeEntries(vecEntries);
 
-	if (vecIMGEntries.size() > 0)
+	if (vecEntries.size() > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->loadFilter_Type();
-		getIMGTab()->loadFilter_Version();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
-	getTab()->logf("Removed %u entries by entry names.", vecIMGEntries.size());
+	getTab()->logf("Removed %u entries by entry names.", vecEntries.size());
 
 	onCompleteTask();
 }
@@ -2716,7 +2659,7 @@ void		Tasks::splitByEntryNames(void)
 		strInputEntryName = String::trim(strInputEntryName);
 	}
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByNames(vecInputEntryNames);
+	vector<IMGEntry*> vecIMGEntries; // todo getIMGTab()->getIMGFile()->getEntriesByNames(vecInputEntryNames);
 
 	m_pTaskManager->onPauseTask();
 	int32 iNewIMGVersionOptionIndex = getIMGTab()->getWindow()->showDropDownWindow("Choose Output IMG Version", "Create output IMG with version (cancel for same version)", IMGManager::getVersionsText());
@@ -3255,16 +3198,11 @@ void		Tasks::selectByIndex(void)
 	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(0, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(true);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getEntriesByNumericMultiOptionValues(0, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false);
+	getTab()->setEntriesSelected(vecEntries, true);
 
-	getTab()->logf("Selected %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Selected %u entries with an index %s.", vecEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -3281,19 +3219,14 @@ void		Tasks::selectByName(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByName(strEntryNameInput);
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false); // todo - increaseMaxProgress
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(true);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByName(strEntryNameInput);
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false); // todo - increaseMaxProgress
+	getTab()->setEntriesSelected(vecEntries, true);
 
-	getTab()->logf("Selected %u entries with a name that includes %s.", vecIMGEntries.size(), strEntryNameInput.c_str());
+	getTab()->logf("Selected %u entries with a name that includes %s.", vecEntries.size(), strEntryNameInput.c_str());
 
 	onCompleteTask();
 }
@@ -3310,19 +3243,14 @@ void		Tasks::selectByOffset(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(2, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(true);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getEntriesByNumericMultiOptionValues(2, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false);
+	getTab()->setEntriesSelected(vecEntries, true);
 
-	getTab()->logf("Selected %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Selected %u entries with an offset %s.", vecEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -3339,19 +3267,14 @@ void		Tasks::selectBySize(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(3, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(true);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getEntriesByNumericMultiOptionValues(3, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false);
+	getTab()->setEntriesSelected(vecEntries, true);
 
-	getTab()->logf("Selected %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Selected %u entries with a size %s.", vecEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -3368,19 +3291,14 @@ void		Tasks::selectByType(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByExtension(strEntryTypeInput, true);
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false); // todo - increaseMaxProgress
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(true);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByExtension(strEntryTypeInput, true);
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false); // todo - increaseMaxProgress
+	getTab()->setEntriesSelected(vecEntries, true);
 
-	getTab()->logf("Selected %u entries with a type that includes %s.", vecIMGEntries.size(), strEntryTypeInput.c_str());
+	getTab()->logf("Selected %u entries with a type that includes %s.", vecEntries.size(), strEntryTypeInput.c_str());
 
 	onCompleteTask();
 }
@@ -3399,7 +3317,7 @@ void		Tasks::selectByVersion(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
 	DropDownItem
@@ -3408,16 +3326,11 @@ void		Tasks::selectByVersion(void)
 		uiFileTypeId = pDropDownItem->getUserdata2(), // todo - rename to getUserData2()
 		uiFileVersionId = pDropDownItem->getUserdata(); // todo - rename to getUserData()
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByVersion(uiFileTypeId, uiFileVersionId);
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false); // todo - increaseMaxProgress
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(true);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getIMGTab()->getIMGFile()->getEntriesByVersion(uiFileTypeId, uiFileVersionId);
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false); // todo - increaseMaxProgress
+	getTab()->setEntriesSelected(vecEntries, true);
 
-	getTab()->logf("Selected %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
+	getTab()->logf("Selected %u entries with version %s.", vecEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
 
 	onCompleteTask();
 }
@@ -3492,19 +3405,14 @@ void		Tasks::unselectByIndex(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(0, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(false);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getEntriesByNumericMultiOptionValues(0, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false);
+	getTab()->setEntriesSelected(vecEntries, false);
 
-	getTab()->logf("Unselected %u entries with an index %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Unselected %u entries with an index %s.", vecEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -3521,19 +3429,14 @@ void		Tasks::unselectByName(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByName(strEntryNameInput);
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false); // todo - increaseMaxProgress
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(false);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByName(strEntryNameInput);
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false); // todo - increaseMaxProgress
+	getTab()->setEntriesSelected(vecEntries, false);
 
-	getTab()->logf("Unselected %u entries with a name that includes %s.", vecIMGEntries.size(), strEntryNameInput.c_str());
+	getTab()->logf("Unselected %u entries with a name that includes %s.", vecEntries.size(), strEntryNameInput.c_str());
 
 	onCompleteTask();
 }
@@ -3550,19 +3453,14 @@ void		Tasks::unselectByOffset(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(2, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(false);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getEntriesByNumericMultiOptionValues(2, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false);
+	getTab()->setEntriesSelected(vecEntries, false);
 
-	getTab()->logf("Unselected %u entries with an offset %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Unselected %u entries with an offset %s.", vecEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -3579,19 +3477,14 @@ void		Tasks::unselectBySize(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getEntriesByNumericMultiOptionValues(3, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false);
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(false);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getEntriesByNumericMultiOptionValues(3, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false);
+	getTab()->setEntriesSelected(vecEntries, false);
 
-	getTab()->logf("Unselected %u entries with a size %s.", vecIMGEntries.size(), nmoir.getMessageText().c_str());
+	getTab()->logf("Unselected %u entries with a size %s.", vecEntries.size(), nmoir.getMessageText().c_str());
 
 	onCompleteTask();
 }
@@ -3608,19 +3501,14 @@ void		Tasks::unselectByType(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByExtension(strEntryTypeInput, true);
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false); // todo - increaseMaxProgress
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(false);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByExtension(strEntryTypeInput, true);
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false); // todo - increaseMaxProgress
+	getTab()->setEntriesSelected(vecEntries, false);
 
-	getTab()->logf("Unselected %u entries with a type that includes %s.", vecIMGEntries.size(), strEntryTypeInput.c_str());
+	getTab()->logf("Unselected %u entries with a type that includes %s.", vecEntries.size(), strEntryTypeInput.c_str());
 
 	onCompleteTask();
 }
@@ -3639,7 +3527,7 @@ void		Tasks::unselectByVersion(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
 	DropDownItem
@@ -3648,16 +3536,11 @@ void		Tasks::unselectByVersion(void)
 		uiFileTypeId = pDropDownItem->getUserdata2(), // todo - rename to getUserData2()
 		uiFileVersionId = pDropDownItem->getUserdata(); // todo - rename to getUserData()
 
-	vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByVersion(uiFileTypeId, uiFileVersionId);
-	setMaxProgress(uiTotalEntryCount + vecIMGEntries.size(), false); // todo - increaseMaxProgress
-	for (IMGEntry *pIMGEntry : vecIMGEntries)
-	{
-		getIMGTab()->getEntryGrid()->getRowByUserData((uint32)pIMGEntry)->setSelected(false);
-		increaseProgress();
-	}
-	getIMGTab()->getEntryGrid()->setActiveItem();
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByVersion(uiFileTypeId, uiFileVersionId);
+	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false); // todo - increaseMaxProgress
+	getTab()->setEntriesSelected(vecEntries, false);
 
-	getTab()->logf("Unselected %u entries with version %s.", vecIMGEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
+	getTab()->logf("Unselected %u entries with version %s.", vecEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
 
 	onCompleteTask();
 }
@@ -4697,11 +4580,11 @@ void		Tasks::findOrphanIMGEntriesNotInIDE(void)
 
 	if(bRemoveEntriesFromIMG)
 	{
-		vector<IMGEntry*> vecOrphanEntries = getIMGTab()->getIMGFile()->getEntriesByNames(vecOrphanEntryNames);
+		vector<FormatEntry*> vecOrphanEntries = getTab()->getContainerFile()->getEntriesByNames(vecOrphanEntryNames);
 
-		for (IMGEntry *pIMGEntry : vecOrphanEntries)
+		for (FormatEntry *pEntry : vecOrphanEntries)
 		{
-			getIMGTab()->removeEntry(pIMGEntry);
+			getIMGTab()->removeEntry((IMGEntry*)pEntry);
 		}
 
 		if (vecOrphanEntries.size() > 0)
@@ -4887,8 +4770,8 @@ void		Tasks::txdBuilder(void)
 			return onAbortTask();
 		}
 
-		vector<IMGEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByExtension("DFF");
-		vector<IMGEntry*> vecIMGEntries_BSP = getIMGTab()->getIMGFile()->getEntriesByExtension("BSP");
+		vector<FormatEntry*> vecIMGEntries = getIMGTab()->getIMGFile()->getEntriesByExtension("DFF");
+		vector<FormatEntry*> vecIMGEntries_BSP = getIMGTab()->getIMGFile()->getEntriesByExtension("BSP");
 		for (auto pIMGEntry : vecIMGEntries_BSP)
 		{
 			vecIMGEntries.push_back(pIMGEntry);
@@ -4926,8 +4809,8 @@ void		Tasks::txdBuilder(void)
 
 		for (auto pEditorTab : getIMGF()->getIMGEditor()->getEditorTabs().getEntries())
 		{
-			vector<IMGEntry*> vecIMGEntries = ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntriesByExtension("DFF");
-			vector<IMGEntry*> vecIMGEntries_BSP = ((IMGEditorTab*)pEditorTab)->getIMGFile()->getEntriesByExtension("BSP");
+			vector<FormatEntry*> vecIMGEntries = ((IMGEditorTab*)pEditorTab)->getContainerFile()->getEntriesByExtension("DFF");
+			vector<FormatEntry*> vecIMGEntries_BSP = ((IMGEditorTab*)pEditorTab)->getContainerFile()->getEntriesByExtension("BSP");
 			for (auto pIMGEntry : vecIMGEntries_BSP)
 			{
 				vecIMGEntries.push_back(pIMGEntry);

@@ -69,6 +69,9 @@ public:
 	void										setSelectedEntriesNameCase(uint32 uiNameCaseType);
 	void										copySelectedEntryData(uint32 uiColumnType);
 	void										shiftSelectedEntries(int32 uiRowCountOffset);
+	std::vector<bxcf::FormatEntry*>				getEntriesByNumericMultiOptionValues(uint32 uiEntryAttribute, uint32 uiMatchType, uint32 uiValue1, uint32 uiValue2);
+	std::vector<bxcf::FormatEntry*>				getEntriesByStringMultiOptionValues(uint32 uiEntryAttribute, uint32 uiMatchType, std::string& strValue1, std::string& strValue2, bool bMatchWildcard);
+	virtual void								setEntriesSelected(std::vector<bxcf::FormatEntry*>& vecEntries, bool bIsSelected) {}
 
 	void								setEditor(Editor* pEditor) { m_pEditor = pEditor; }
 	Editor*								getEditor(void) { return m_pEditor; }
