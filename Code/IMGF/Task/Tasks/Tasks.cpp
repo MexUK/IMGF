@@ -139,6 +139,8 @@
 #include "GUI/Input/InputManager.h"
 #include "GUI/Input/EInputItem.h"
 #include "Engine/RAGE/RageResourceType.h"
+#include "Format/FormatVersionManager.h"
+#include "Format/FormatVersion.h"
 #include <gdiplus.h>
 #include <stdio.h>
 #include <algorithm>
@@ -1230,10 +1232,9 @@ void		Tasks::exportByVersion(void)
 {
 	onStartTask("exportByVersion");
 
-	DropDown *pVersionFilter = getIMGTab()->getEntryVersionFilter();
-	vector<string> vecVersionOptions = pVersionFilter->getItems();
+	vector<string> vecEntriesVersionsText = FormatVersionManager::get()->getEntriesVersionsText();
 	m_pTaskManager->onPauseTask();
-	int32 iVersionOptionIndex = m_pMainWindow->showDropDownWindow("Export Entries by Version", "Export entries with version", vecVersionOptions);
+	int32 iVersionOptionIndex = m_pMainWindow->showDropDownWindow("Export Entries by Version", "Export entries with version", vecEntriesVersionsText);
 	m_pTaskManager->onResumeTask();
 	if (iVersionOptionIndex == -1)
 	{
@@ -1253,13 +1254,10 @@ void		Tasks::exportByVersion(void)
 	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	DropDownItem
-		*pDropDownItem = pVersionFilter->getEntryByIndex(iVersionOptionIndex);
-	uint32
-		uiFileTypeId = pDropDownItem->getUserdata2(), // todo - rename to getUserData2()
-		uiFileVersionId = pDropDownItem->getUserdata(); // todo - rename to getUserData()
-
-	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByVersion(uiFileTypeId, uiFileVersionId);
+	FormatVersion
+		*pEntryVersion = FormatVersionManager::get()->getEntryByVersionText(vecEntriesVersionsText[iVersionOptionIndex]);
+	vector<FormatEntry*>
+		vecEntries = getTab()->getContainerFile()->getEntriesByVersion(pEntryVersion->m_uiFileType, pEntryVersion->m_uiRawVersion);
 	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false); // todo - increaseMaxProgress
 	for (FormatEntry *pEntry : vecEntries)
 	{
@@ -1267,7 +1265,7 @@ void		Tasks::exportByVersion(void)
 		increaseProgress();
 	}
 
-	getTab()->logf("Exported %u entries with version %s.", vecEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
+	getTab()->logf("Exported %u entries with version %s.", vecEntries.size(), pEntryVersion->m_strVersionText.c_str());
 
 	onCompleteTask();
 }
@@ -2337,10 +2335,9 @@ void		Tasks::removeByVersion(void)
 {
 	onStartTask("removeByVersion");
 
-	DropDown *pVersionFilter = getIMGTab()->getEntryVersionFilter();
-	vector<string> vecVersionOptions = pVersionFilter->getItems();
+	vector<string> vecEntriesVersionsText = FormatVersionManager::get()->getEntriesVersionsText();
 	m_pTaskManager->onPauseTask();
-	int32 iVersionOptionIndex = m_pMainWindow->showDropDownWindow("Remove Entries by Version", "Remove entries with version", vecVersionOptions);
+	int32 iVersionOptionIndex = m_pMainWindow->showDropDownWindow("Remove Entries by Version", "Remove entries with version", vecEntriesVersionsText);
 	m_pTaskManager->onResumeTask();
 	if (iVersionOptionIndex == -1)
 	{
@@ -2350,13 +2347,10 @@ void		Tasks::removeByVersion(void)
 	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 3);
 
-	DropDownItem
-		*pDropDownItem = pVersionFilter->getEntryByIndex(iVersionOptionIndex);
-	uint32
-		uiFileTypeId = pDropDownItem->getUserdata2(), // todo - rename to getUserData2()
-		uiFileVersionId = pDropDownItem->getUserdata(); // todo - rename to getUserData()
-
-	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByVersion(uiFileTypeId, uiFileVersionId);
+	FormatVersion
+		*pEntryVersion = FormatVersionManager::get()->getEntryByVersionText(vecEntriesVersionsText[iVersionOptionIndex]);
+	vector<FormatEntry*>
+		vecEntries = getTab()->getContainerFile()->getEntriesByVersion(pEntryVersion->m_uiFileType, pEntryVersion->m_uiRawVersion);
 	setMaxProgress(uiTotalEntryCount + vecEntries.size() + (vecEntries.size() == 0 ? 0 : (uiTotalEntryCount - vecEntries.size())), false);
 	getTab()->removeEntries(vecEntries);
 
@@ -2366,7 +2360,7 @@ void		Tasks::removeByVersion(void)
 		getTab()->setFileUnsaved(true);
 	}
 
-	getTab()->logf("Removed %u entries with version %s.", vecEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
+	getTab()->logf("Removed %u entries with version %s.", vecEntries.size(), pEntryVersion->m_strVersionText.c_str());
 
 	onCompleteTask();
 }
@@ -3307,10 +3301,9 @@ void		Tasks::selectByVersion(void)
 {
 	onStartTask("selectByVersion");
 
-	DropDown *pVersionFilter = getIMGTab()->getEntryVersionFilter();
-	vector<string> vecVersionOptions = pVersionFilter->getItems();
+	vector<string> vecEntriesVersionsText = FormatVersionManager::get()->getEntriesVersionsText();
 	m_pTaskManager->onPauseTask();
-	int32 iVersionOptionIndex = m_pMainWindow->showDropDownWindow("Select Entries by Version", "Select entries with version", vecVersionOptions);
+	int32 iVersionOptionIndex = m_pMainWindow->showDropDownWindow("Select Entries by Version", "Select entries with version", vecEntriesVersionsText);
 	m_pTaskManager->onResumeTask();
 	if (iVersionOptionIndex == -1)
 	{
@@ -3320,17 +3313,14 @@ void		Tasks::selectByVersion(void)
 	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	DropDownItem
-		*pDropDownItem = pVersionFilter->getEntryByIndex(iVersionOptionIndex);
-	uint32
-		uiFileTypeId = pDropDownItem->getUserdata2(), // todo - rename to getUserData2()
-		uiFileVersionId = pDropDownItem->getUserdata(); // todo - rename to getUserData()
-
-	vector<FormatEntry*> vecEntries = getIMGTab()->getIMGFile()->getEntriesByVersion(uiFileTypeId, uiFileVersionId);
+	FormatVersion
+		*pEntryVersion = FormatVersionManager::get()->getEntryByVersionText(vecEntriesVersionsText[iVersionOptionIndex]);
+	vector<FormatEntry*>
+		vecEntries = getTab()->getContainerFile()->getEntriesByVersion(pEntryVersion->m_uiFileType, pEntryVersion->m_uiRawVersion);
 	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false); // todo - increaseMaxProgress
 	getTab()->setEntriesSelected(vecEntries, true);
 
-	getTab()->logf("Selected %u entries with version %s.", vecEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
+	getTab()->logf("Selected %u entries with version %s.", vecEntries.size(), pEntryVersion->m_strVersionText.c_str());
 
 	onCompleteTask();
 }
@@ -3517,10 +3507,9 @@ void		Tasks::unselectByVersion(void)
 {
 	onStartTask("unselectByVersion");
 
-	DropDown *pVersionFilter = getIMGTab()->getEntryVersionFilter();
-	vector<string> vecVersionOptions = pVersionFilter->getItems();
+	vector<string> vecEntriesVersionsText = FormatVersionManager::get()->getEntriesVersionsText();
 	m_pTaskManager->onPauseTask();
-	int32 iVersionOptionIndex = m_pMainWindow->showDropDownWindow("Unselect Entries by Version", "Unselect entries with version", vecVersionOptions);
+	int32 iVersionOptionIndex = m_pMainWindow->showDropDownWindow("Unselect Entries by Version", "Unselect entries with version", vecEntriesVersionsText);
 	m_pTaskManager->onResumeTask();
 	if (iVersionOptionIndex == -1)
 	{
@@ -3530,17 +3519,14 @@ void		Tasks::unselectByVersion(void)
 	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	DropDownItem
-		*pDropDownItem = pVersionFilter->getEntryByIndex(iVersionOptionIndex);
-	uint32
-		uiFileTypeId = pDropDownItem->getUserdata2(), // todo - rename to getUserData2()
-		uiFileVersionId = pDropDownItem->getUserdata(); // todo - rename to getUserData()
-
-	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByVersion(uiFileTypeId, uiFileVersionId);
+	FormatVersion
+		*pEntryVersion = FormatVersionManager::get()->getEntryByVersionText(vecEntriesVersionsText[iVersionOptionIndex]);
+	vector<FormatEntry*>
+		vecEntries = getTab()->getContainerFile()->getEntriesByVersion(pEntryVersion->m_uiFileType, pEntryVersion->m_uiRawVersion);
 	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false); // todo - increaseMaxProgress
 	getTab()->setEntriesSelected(vecEntries, false);
 
-	getTab()->logf("Unselected %u entries with version %s.", vecEntries.size(), RWVersion::unpackVersionStampAsStringWithBuild(uiFileVersionId).c_str());
+	getTab()->logf("Unselected %u entries with version %s.", vecEntries.size(), pEntryVersion->m_strVersionText.c_str());
 
 	onCompleteTask();
 }
