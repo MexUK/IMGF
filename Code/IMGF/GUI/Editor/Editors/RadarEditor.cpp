@@ -6,6 +6,7 @@
 #include "Format/IMG/Regular/IMGFormatVersionFastman92.h"
 
 using namespace std;
+using namespace bxcf::fileType;
 using namespace bxgi;
 using namespace bxgx;
 using namespace bxgx::events;
@@ -13,6 +14,7 @@ using namespace imgf;
 
 void									RadarEditor::init(void)
 {
+	setEditorFileType(IMG);
 	setEditorFileFormats({ "IMG", "TXD", "WTD" });
 	setImportEditorFileFormats({ "BMP", "PNG", "GIF", "JPG", "JPEG", "ICO", "CUR", "DDS" });
 

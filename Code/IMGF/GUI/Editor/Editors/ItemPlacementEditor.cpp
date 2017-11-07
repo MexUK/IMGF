@@ -2,11 +2,13 @@
 #include "Format/IPL/IPLFormat.h"
 
 using namespace std;
+using namespace bxcf::fileType;
 using namespace bxgi;
 using namespace imgf;
 
 void								ItemPlacementEditor::init(void)
 {
+	setEditorFileType(ITEM_PLACEMENT);
 	setEditorFileFormats({ "IPL" });
 	//setImportEditorFileFormats({});
 

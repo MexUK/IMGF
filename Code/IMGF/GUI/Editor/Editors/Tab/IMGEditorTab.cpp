@@ -1111,14 +1111,10 @@ void					IMGEditorTab::rebuild(string strIMGPath, bool bLog)
 		log(LocalizationManager::get()->getTranslatedText("Log_127"));
 	}
 }
-uint32			IMGEditorTab::merge(string strPath, vector<string>& vecImportedEntryNames)
-{
-	return getIMGFile()->merge(strPath, vecImportedEntryNames);
-}
 
 void					IMGEditorTab::splitSelectedEntries(string strNewFilePath, EIMGVersion uiNewIMGVersion, bool bDeleteFromSource)
 {
-	getIMGFile()->split((vector<IMGEntry*>&)getSelectedEntries(), strNewFilePath, uiNewIMGVersion);
+	getIMGFile()->split(getSelectedEntries(), strNewFilePath, uiNewIMGVersion);
 
 	if (bDeleteFromSource)
 	{
@@ -1524,6 +1520,7 @@ void				IMGEditorTab::recreateEntryList(void)
 	readdGridEntries();
 	loadFilter_Type();
 	loadFilter_Version();
+	m_pWindow->render();
 }
 
 void				IMGEditorTab::setEntriesSelected(vector<FormatEntry*>& vecEntries, bool bIsSelected)

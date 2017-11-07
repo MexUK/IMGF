@@ -8,6 +8,7 @@
 #include "BXGX.h"
 
 using namespace std;
+using namespace bxcf::fileType;
 using namespace bxgx;
 using namespace bxgx::events;
 using namespace bxgi;
@@ -17,6 +18,7 @@ HDC hDC; // todo - namespace
 
 void					CollisionEditor::init(void)
 {
+	setEditorFileType(COLLISION);
 	setEditorFileFormats({ "COL" });
 	setImportEditorFileFormats({ "3dmesh" });
 

@@ -3,11 +3,13 @@
 #include "GUI/Editor/Editors/Tab/ItemDefinitionEditorTab.h"
 
 using namespace std;
+using namespace bxcf::fileType;
 using namespace bxgi;
 using namespace imgf;
 
 void									ItemDefinitionEditor::init(void)
 {
+	setEditorFileType(ITEM_DEFINITION);
 	setEditorFileFormats({ "IDE" });
 	setImportEditorFileFormats({ "DFF", "COL" });
 

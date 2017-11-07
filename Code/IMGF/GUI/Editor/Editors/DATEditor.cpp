@@ -3,11 +3,13 @@
 #include "Format/DAT/Loader/DATLoaderFormat.h"
 
 using namespace std;
+using namespace bxcf::fileType;
 using namespace bxgi;
 using namespace imgf;
 
 void							DATEditor::init(void)
 {
+	setEditorFileType(DAT_LOADER);
 	setEditorFileFormats({ "DAT" });
 	setImportEditorFileFormats({ "IDE", "IPL", "IMG", "COL" });
 

@@ -75,6 +75,7 @@ public:
 	void								removeAllEntries(void);
 	void								removeEntries(std::vector<bxcf::FormatEntry*>& vecEntries);
 
+	void								merge(std::string strFilePath);
 	
 
 
@@ -122,7 +123,7 @@ public:
 	bxgi::IMGEntry*					getEntryByName(std::string strEntryName);
 
 	void						rebuild(std::string strIMGPath = "", bool bLog = true);
-	uint32						merge(std::string strPath, std::vector<std::string>& vecImportedEntryNames);
+	
 	void						splitSelectedEntries(std::string strNewFilePath, bxgi::EIMGVersion uiNewIMGVersion, bool bDeleteFromSource);
 	void						replace(std::vector<std::string>& vecPaths, std::vector<std::string>& vecReplacedEntryNames);
 	void						searchText(void);

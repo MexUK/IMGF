@@ -1101,7 +1101,7 @@ void		Tasks::exportByName(void)
 	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByName(strEntryNameInput);
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByName(strEntryNameInput, true);
 	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false); // todo - increaseMaxProgress
 	for (FormatEntry *pEntry : vecEntries)
 	{
@@ -2226,7 +2226,7 @@ void		Tasks::removeByName(void)
 	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 3);
 
-	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByName(strEntryNameInput);
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByName(strEntryNameInput, true);
 	setMaxProgress(uiTotalEntryCount + vecEntries.size() + (vecEntries.size() == 0 ? 0 : (uiTotalEntryCount - vecEntries.size())), false);
 	getTab()->removeEntries(vecEntries);
 
@@ -2469,33 +2469,31 @@ void		Tasks::merge(void)
 {
 	onStartTask("merge");
 	
-	vector<string> vecFilePaths = openFile("img,dir");
+	vector<string> vecFilePaths = openFile(String::join(getTab()->getEditor()->getEditorFileFormats(), ","));
 
+	/*
+	todo
 	uint32 uiMergeEntryCount = 0;
 	for (string& strFilePath : vecFilePaths)
 	{
 		uiMergeEntryCount += IMGManager::getIMGEntryCount(strFilePath, IMGManager::detectIMGVersion(strFilePath));
 	}
 	setMaxProgress(uiMergeEntryCount);
+	*/
 
-	vector<string> vecImportedEntryNames;
 	for (string& strFilePath : vecFilePaths)
 	{
-		getIMGTab()->merge(strFilePath, vecImportedEntryNames);
-		vecImportedEntryNames.clear();
+		getTab()->getContainerFile()->merge(strFilePath);
 	}
 
-	if (uiMergeEntryCount > 0)
-	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->loadFilter_Type();
-		getIMGTab()->loadFilter_Version();
-		getIMGTab()->updateEntryCountText();
-		getIMGTab()->updateIMGText();
-		getIMGTab()->setFileUnsaved(true);
-	}
+	// todo
+	//if (uiMergeEntryCount > 0)
+	//{
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
+	//}
 
-	getTab()->logf("Merged in %u IMG files (%u entries).", vecFilePaths.size(), uiMergeEntryCount);
+	getTab()->logf("Merged in %u files.", vecFilePaths.size());
 
 	onCompleteTask();
 }
@@ -2504,40 +2502,50 @@ void		Tasks::splitSelected(void)
 {
 	onStartTask("splitSelected");
 
-	uint32 uiSelectedEntryCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
+	uint32 uiSelectedEntryCount = getTab()->getTotalEntryCount();
 	if (uiSelectedEntryCount == 0)
 	{
 		showMessage("At least one entry must be selected to split selected entries.", "Selected Entry Needed", MB_OK);
 		return onAbortTask();
 	}
 
-	string strNewFilePath = saveFile("img,dir", "Split-IMG.img");
+	string strNewFilePath = saveFile(String::join(getTab()->getEditor()->getEditorFileFormats(), ","), "Split." + getTab()->getEditor()->getEditorFileFormats()[0]);
 	if (strNewFilePath == "")
 	{
 		return onAbortTask();
 	}
 
+	EFileType uiEditorFileType = getTab()->getEditor()->getEditorFileType();
+	vector<string> vecDropDownOptions = FormatVersionManager::get()->getEntriesVersionsText(uiEditorFileType);
 	m_pTaskManager->onPauseTask();
-	int32 iNewIMGVersionOptionIndex = getIMGTab()->getWindow()->showDropDownWindow("Choose Output IMG Version", "Create output IMG with version (cancel for same version)", IMGManager::getVersionsText());
+	int32 iNewFileVersionOptionIndex = getTab()->getWindow()->showDropDownWindow("Choose Output File Version", "Create output with version (cancel for same version)", vecDropDownOptions);
 	m_pTaskManager->onResumeTask();
-	EIMGVersion uiNewIMGVersion = IMGManager::getVersionFromVersionIndex(iNewIMGVersionOptionIndex);
-	if (uiNewIMGVersion == IMG_UNKNOWN)
+
+	FormatVersion *pFormatVersion = nullptr;
+	if (iNewFileVersionOptionIndex == -1)
 	{
-		uiNewIMGVersion = getIMGTab()->getIMGFile()->getVersion();
+		pFormatVersion->m_uiFileType = uiEditorFileType;
+		pFormatVersion->m_uiRawVersion = getTab()->getContainerFile()->getRawVersion();
+		pFormatVersion->m_uiFileType = uiEditorFileType;
+	}
+	else
+	{
+		pFormatVersion = FormatVersionManager::get()->getEntryByVersionText(vecDropDownOptions[iNewFileVersionOptionIndex]);
 	}
 
-	bool bDeleteSelectedEntriesFromSourceIMG = showMessage("Also delete selected entries from source IMG?", "Delete Selected Entries?") == MB_OK;
+	bool bDeleteSelectedEntriesFromSourceFile = showMessage("Also delete selected entries from source file?", "Delete Selected Entries?") == MB_OK;
 
-	getIMGTab()->splitSelectedEntries(strNewFilePath, uiNewIMGVersion, bDeleteSelectedEntriesFromSourceIMG);
+	vector<FormatEntry*> vecEntries = getTab()->getSelectedEntries();
+	getTab()->getContainerFile()->split(vecEntries, strNewFilePath, pFormatVersion->m_uiRawVersion);
 
-	if (uiSelectedEntryCount > 0 && bDeleteSelectedEntriesFromSourceIMG)
+	if (uiSelectedEntryCount > 0 && bDeleteSelectedEntriesFromSourceFile)
 	{
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->setFileUnsaved(true);
 	}
 
 	string
-		strLogPart3 = bDeleteSelectedEntriesFromSourceIMG ? ", removing selected source entries" : "",
-		strLogPart4 = iNewIMGVersionOptionIndex == -1 ? "" : ", creating IMG with version " + IMGManager::getVersionText(uiNewIMGVersion);
+		strLogPart3 = bDeleteSelectedEntriesFromSourceFile ? ", removing selected source entries" : "",
+		strLogPart4 = iNewFileVersionOptionIndex == -1 ? "" : ", creating file with version " + pFormatVersion->m_strVersionText;
 	getTab()->logf("Split %u entries into %s%s%s.", uiSelectedEntryCount, Path::getFileName(strNewFilePath).c_str(), strLogPart3.c_str(), strLogPart4.c_str());
 
 	onCompleteTask();
@@ -2604,7 +2612,8 @@ void		Tasks::splitByIDE(void)
 
 	// split the IMG
 	setMaxProgress(vecIMGEntries.size() * (bDeleteSelectedEntriesFromSourceIMG ? 2 : 1));
-	getIMGTab()->getIMGFile()->split(vecIMGEntries, strNewFilePath, uiNewIMGVersion);
+	vector<FormatEntry*> vecEntries = (vector<FormatEntry*>&)vecIMGEntries;
+	getIMGTab()->getIMGFile()->split(vecEntries, strNewFilePath, uiNewIMGVersion);
 
 	vecIMGEntries = StdVector::removeDuplicates(vecIMGEntries);
 
@@ -2641,7 +2650,7 @@ void		Tasks::splitByEntryNames(void)
 		return onAbortTask();
 	}
 
-	string strNewFilePath = saveFile("img,dir", "Split-IMG.img");
+	string strNewFilePath = saveFile(String::join(getTab()->getEditor()->getEditorFileFormats(), ","), "Split." + getTab()->getEditor()->getEditorFileFormats()[0]);
 	if (strNewFilePath == "")
 	{
 		return onAbortTask();
@@ -2653,38 +2662,44 @@ void		Tasks::splitByEntryNames(void)
 		strInputEntryName = String::trim(strInputEntryName);
 	}
 
-	vector<IMGEntry*> vecIMGEntries; // todo getIMGTab()->getIMGFile()->getEntriesByNames(vecInputEntryNames);
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByNames(vecInputEntryNames);
 
+	EFileType uiEditorFileType = getTab()->getEditor()->getEditorFileType();
+	vector<string> vecDropDownOptions = FormatVersionManager::get()->getEntriesVersionsText(uiEditorFileType);
 	m_pTaskManager->onPauseTask();
-	int32 iNewIMGVersionOptionIndex = getIMGTab()->getWindow()->showDropDownWindow("Choose Output IMG Version", "Create output IMG with version (cancel for same version)", IMGManager::getVersionsText());
+	int32 iNewFileVersionOptionIndex = getIMGTab()->getWindow()->showDropDownWindow("Choose Output File Version", "Create output file with version (cancel for same version)", vecDropDownOptions);
 	m_pTaskManager->onResumeTask();
-	EIMGVersion uiNewIMGVersion = IMGManager::getVersionFromVersionIndex(iNewIMGVersionOptionIndex);
-	if (uiNewIMGVersion == IMG_UNKNOWN)
+
+	FormatVersion *pFormatVersion = nullptr;
+	if (iNewFileVersionOptionIndex == -1)
 	{
-		uiNewIMGVersion = getIMGTab()->getIMGFile()->getVersion();
+		pFormatVersion->m_uiFileType = uiEditorFileType;
+		pFormatVersion->m_uiRawVersion = getTab()->getContainerFile()->getRawVersion();
+		pFormatVersion->m_uiFileType = uiEditorFileType;
+	}
+	else
+	{
+		pFormatVersion = FormatVersionManager::get()->getEntryByVersionText(vecDropDownOptions[iNewFileVersionOptionIndex]);
 	}
 
-	bool bDeleteSelectedEntriesFromSourceIMG = showMessage("Also delete split entries from source IMG?", "Delete Split Entries?") == MB_OK;
+	bool bDeleteSelectedEntriesFromSource = showMessage("Also delete split entries from source file?", "Delete Split Entries?") == MB_OK;
 
-	getIMGTab()->getIMGFile()->split(vecIMGEntries, strNewFilePath, uiNewIMGVersion);
+	getTab()->getContainerFile()->split(vecEntries, strNewFilePath, pFormatVersion->m_uiRawVersion);
 
-	if (bDeleteSelectedEntriesFromSourceIMG)
+	if (bDeleteSelectedEntriesFromSource)
 	{
-		for (IMGEntry *pIMGEntry : vecIMGEntries)
-		{
-			getIMGTab()->removeEntry(pIMGEntry);
-		}
+		getTab()->removeEntries(vecEntries);
 	}
 
-	if (vecIMGEntries.size() > 0 && bDeleteSelectedEntriesFromSourceIMG)
+	if (vecEntries.size() > 0 && bDeleteSelectedEntriesFromSource)
 	{
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->setFileUnsaved(true);
 	}
 
 	string
-		strLogPart3 = bDeleteSelectedEntriesFromSourceIMG ? ", removing selected source entries" : "",
-		strLogPart4 = iNewIMGVersionOptionIndex == -1 ? "" : ", creating IMG with version " + IMGManager::getVersionText(uiNewIMGVersion);
-	getTab()->logf("Split %u entries into %s by entry names%s%s.", vecIMGEntries.size(), Path::getFileName(strNewFilePath).c_str(), strLogPart3.c_str(), strLogPart4.c_str());
+		strLogPart3 = bDeleteSelectedEntriesFromSource ? ", removing selected source entries" : "",
+		strLogPart4 = iNewFileVersionOptionIndex == -1 ? "" : ", creating file with version " + pFormatVersion->m_strVersionText;
+	getTab()->logf("Split %u entries into %s by entry names%s%s.", vecEntries.size(), Path::getFileName(strNewFilePath).c_str(), strLogPart3.c_str(), strLogPart4.c_str());
 
 	onCompleteTask();
 }
@@ -3216,7 +3231,7 @@ void		Tasks::selectByName(void)
 	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByName(strEntryNameInput);
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByName(strEntryNameInput, true);
 	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false); // todo - increaseMaxProgress
 	getTab()->setEntriesSelected(vecEntries, true);
 
@@ -3422,7 +3437,7 @@ void		Tasks::unselectByName(void)
 	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
-	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByName(strEntryNameInput);
+	vector<FormatEntry*> vecEntries = getTab()->getContainerFile()->getEntriesByName(strEntryNameInput, true);
 	setMaxProgress(uiTotalEntryCount + vecEntries.size(), false); // todo - increaseMaxProgress
 	getTab()->setEntriesSelected(vecEntries, false);
 

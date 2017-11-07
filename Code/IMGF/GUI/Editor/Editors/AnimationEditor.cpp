@@ -3,11 +3,13 @@
 #include "Format/DAT/Loader/DATLoaderFormat.h"
 
 using namespace std;
+using namespace bxcf::fileType;
 using namespace bxgi;
 using namespace imgf;
 
 void								AnimationEditor::init(void)
 {
+	setEditorFileType(ANIMATION);
 	setEditorFileFormats({ "IFP" });
 	setImportEditorFileFormats({ "3dmesh" });
 

@@ -173,6 +173,7 @@ void						TextureEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 	}
 	if (pActiveTabEntry != nullptr)
 	{
+		clearActiveEntries();
 		setActiveEntry(pActiveTabEntry);
 		m_pWindow->render();
 	}
@@ -406,6 +407,7 @@ void						TextureEditorTab::prepareTexture_TXD(RWSection_TextureNative *pRWSecti
 		pTabEntry->m_strAlphaName = pRWSection_TextureNative->getAlphaName();
 		pTabEntry->m_ucBPP = pRWSection_TextureNative->getOriginalBPP() == 0 ? pRWSection_TextureNative->getBPP() : pRWSection_TextureNative->getOriginalBPP();
 		pTabEntry->m_strTextureFormat = TXDManager::getTXDRasterFormatText(pRWSection_TextureNative->getTXDRasterDataFormat(), pRWSection_TextureNative->getDXTCompressionType());
+		pTabEntry->m_bIsActive = false;
 	}
 
 	addEntry(pTabEntry);
@@ -460,6 +462,7 @@ void						TextureEditorTab::prepareTexture_WTD(WTDEntry *pWTDEntry)
 		pTabEntry->m_strAlphaName = "";
 		pTabEntry->m_ucBPP = 32;
 		pTabEntry->m_strTextureFormat = ImageManager::getD3DFormatText(pWTDEntry->getD3DFormat());
+		pTabEntry->m_bIsActive = false;
 	}
 
 	addEntry(pTabEntry);
@@ -599,7 +602,7 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		RECT rect2 = pImageData->m_rect;
 
 		m_pWindow->setRenderingStyleGroups("leftEntryPanel");
-		if (pImageData == getActiveEntry())
+		if (pImageData->m_bIsActive)
 		{
 			m_pWindow->setRenderingStyleStatus(EStyleStatus::ACTIVE);
 		}
@@ -743,8 +746,8 @@ void					TextureEditorTab::setFileInfoText(void)
 	}
 	else
 	{
-		m_pText_FileVersion->setText(string(""), false);
-		m_pText_FileGame->setText(string(""));
+		m_pText_FileVersion->setText(string("Unknown"), false);
+		m_pText_FileGame->setText(string("GTA IV"));
 	}
 
 	updateEntryCountText();
@@ -835,6 +838,7 @@ void					TextureEditorTab::recreateEntryList(void)
 	{
 		prepareRenderData_WTD();
 	}
+	m_pWindow->render();
 }
 
 void					TextureEditorTab::removeAllEntries(void)
@@ -884,4 +888,13 @@ void					TextureEditorTab::removeEntries(vector<FormatEntry*>& vecEntries)
 
 	recreateEntryList();
 	updateEntryCountText();
+}
+
+void					TextureEditorTab::clearActiveEntries(void)
+{
+	for (TextureEditorTabEntry *pTabEntry : getEntries())
+	{
+		pTabEntry->m_bIsActive = false;
+	}
+	setActiveEntry(nullptr);
 }

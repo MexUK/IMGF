@@ -3,6 +3,7 @@
 #include "BXGX.h"
 
 using namespace std;
+using namespace bxcf::fileType;
 using namespace bxgi;
 using namespace bxgx;
 using namespace bxgx::events;
@@ -10,6 +11,7 @@ using namespace imgf;
 
 void									ModelEditor::init(void)
 {
+	setEditorFileType(MODEL);
 	setEditorFileFormats({ "DFF" });
 	setImportEditorFileFormats({ "3dmesh" });
 

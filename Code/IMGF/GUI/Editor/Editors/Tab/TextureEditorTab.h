@@ -5,6 +5,7 @@
 #include "nsbxgx.h"
 #include "GUI/Editor/Base/Tab/EditorTab.h"
 #include "GUI/Editor/Components/LeftEntryList.h"
+#include "GUI/Editor/Editors/Entry/TextureEditorTabEntry.h"
 #include "Pool/VectorPool.h"
 
 class imgf::TextureEditorTab : public imgf::EditorTab, public imgf::LeftEntryList, public bxcf::VectorPool<imgf::TextureEditorTabEntry*>
@@ -62,8 +63,9 @@ private:
 	void						prepareTexture_TXD(bxgi::RWSection_TextureNative *pRWSection_TextureNative);
 	void						prepareTexture_WTD(bxgi::WTDEntry *pWTDEntry);
 
-	void						setActiveEntry(TextureEditorTabEntry *pTabEntry) { m_pActiveTabEntry = pTabEntry; }
+	void						setActiveEntry(TextureEditorTabEntry *pTabEntry) { m_pActiveTabEntry = pTabEntry; pTabEntry->m_bIsActive = true; }
 	TextureEditorTabEntry*		getActiveEntry(void) { return m_pActiveTabEntry; }
+	void						clearActiveEntries(void);
 
 	void						setZoomLevel(float32 fZoomLevel) { m_fZoomLevel = fZoomLevel; }
 	float32						getZoomLevel(void) { return m_fZoomLevel; }

@@ -54,6 +54,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace bxcf::fileType;
 using namespace bxgx;
 using namespace bxgx::events;
 using namespace bxgi;
@@ -69,8 +70,21 @@ IMGEditor::IMGEditor(void) :
 	m_uiSearchHitCount(0), // todo - rename to SearchHitEntryCount
 	m_uiSearchFileCount(0) // todo - rename to SearchHitFileCount
 {
+}
+
+void						IMGEditor::init(void)
+{
+	setEditorFileType(IMG);
 	setEditorFileFormats({ "IMG", "DIR" });
 	//setImportEditorFileFormats({});
+
+	Editor::init();
+
+	Editor::addControls();
+	Editor::initControls();
+
+	addControls();
+	initControls();
 }
 
 // events
@@ -96,18 +110,6 @@ void						IMGEditor::unbindEvents(void)
 	{
 		m_pActiveEditorTab->unbindEvents();
 	}
-}
-
-// editor initialization
-void						IMGEditor::init(void)
-{
-	Editor::init();
-
-	Editor::addControls();
-	Editor::initControls();
-
-	addControls();
-	initControls();
 }
 
 IMGEditorTab*				IMGEditor::addEditorTab(string& strFilePath)

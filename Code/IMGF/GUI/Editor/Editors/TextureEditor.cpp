@@ -17,6 +17,7 @@
 
 using namespace std;
 using namespace bxcf;
+using namespace bxcf::fileType;
 using namespace bxgx;
 using namespace bxgx::events;
 using namespace bxgx::styles::statuses;
@@ -28,13 +29,15 @@ TextureEditor::TextureEditor(void) :
 	m_pActiveTexture(nullptr)//,
 	//m_pTopLine(nullptr) // todo
 {
-	setEditorFileFormats({ "TXD", "WTD" });
-	setImportEditorFileFormats({ "BMP", "PNG", "GIF", "JPG", "JPEG", "ICO", "CUR", "DDS" });
 }
 
 // initialization
 void						TextureEditor::init(void)
 {
+	setEditorFileType(TEXTURE);
+	setEditorFileFormats({ "TXD", "WTD" });
+	setImportEditorFileFormats({ "BMP", "PNG", "GIF", "JPG", "JPEG", "ICO", "CUR", "DDS" });
+
 	Editor::init();
 
 	int32 startx, starty, x, y, x2, y2;
