@@ -3608,25 +3608,26 @@ void		Tasks::sortByIndexReverse(void)
 {
 	onStartTask("sortByIndexReverse");
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
-	unordered_map<IMGEntry*, uint32> umapEntryIndexes;
-	for (IMGEntry *pIMGEntry : getIMGTab()->getIMGFile()->VectorPool::getEntries())
+	unordered_map<FormatEntry*, uint32> umapEntryIndexes;
+	vector<FormatEntry*>& vecEntries = getTab()->getContainerFile()->getEntriesRef();
+	for (FormatEntry *pEntry : vecEntries)
 	{
-		umapEntryIndexes[pIMGEntry] = pIMGEntry->getIMGFile()->getIndexByEntry(pIMGEntry);
+		umapEntryIndexes[pEntry] = StdVector::findKey(vecEntries, pEntry);
 	}
 
-	auto sortIMGEntries_IndexReverse = [&](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	auto sortEntries_IndexReverse = [&](FormatEntry *pEntry1, FormatEntry *pEntry2) -> bool
 	{
-		return umapEntryIndexes[pIMGEntry1] > umapEntryIndexes[pIMGEntry2];
+		return umapEntryIndexes[pEntry1] > umapEntryIndexes[pEntry2];
 	};
-	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_IndexReverse);
+	std::sort(vecEntries.begin(), vecEntries.end(), sortEntries_IndexReverse);
 
 	if (uiTotalEntryCount > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
 	getTab()->log("Sorted all entries by index (reverse).");
@@ -3638,19 +3639,19 @@ void		Tasks::sortByNameAscending09AZ(void)
 {
 	onStartTask("sortByNameAscending09AZ");
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
-	auto sortIMGEntries_NameAscending09AZ = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	auto sortEntries_NameAscending09AZ = [](FormatEntry *pEntry1, FormatEntry *pEntry2) -> bool
 	{
-		return strcmp(String::toLowerCase(pIMGEntry1->getEntryName()).c_str(), String::toLowerCase(pIMGEntry2->getEntryName()).c_str()) < 0;
+		return strcmp(String::toLowerCase(pEntry1->getEntryName()).c_str(), String::toLowerCase(pEntry2->getEntryName()).c_str()) < 0;
 	};
-	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_NameAscending09AZ);
+	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_NameAscending09AZ);
 
 	if (uiTotalEntryCount > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
 	getTab()->log("Sorted all entries by name (ascending 0-9 A-Z).");
@@ -3664,14 +3665,14 @@ void		Tasks::sortByNameAscendingAZ09(void)
 	/*
 	onStartTask("sortByNameAscendingAZ09");
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
-	auto sortIMGEntries_NameAscendingAZ09 = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	auto sortEntries_NameAscendingAZ09 = [](FormatEntry *pEntry1, FormatEntry *pEntry2) -> bool
 	{
 		const char
-			*pEntryName1 = pIMGEntry1->getEntryName().c_str(),
-			*pEntryName2 = pIMGEntry2->getEntryName().c_str();
+			*pEntryName1 = pEntry1->getEntryName().c_str(),
+			*pEntryName2 = pEntry2->getEntryName().c_str();
 		for (uint32 i = 0, j = pIMGEntry1->getEntryName().length(); i < j; i++)
 		{
 			bool
@@ -3697,12 +3698,12 @@ void		Tasks::sortByNameAscendingAZ09(void)
 
 		return strcmp(String::toLowerCase(pIMGEntry1->getEntryName()).c_str(), String::toLowerCase(pIMGEntry2->getEntryName()).c_str()) < 0;
 	};
-	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_NameAscendingAZ09);
+	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_NameAscendingAZ09);
 
 	if (uiTotalEntryCount > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
 	getTab()->log("Sorted all entries by name (ascending A-Z 0-9).");
@@ -3716,19 +3717,19 @@ void		Tasks::sortByNameDescendingZA90(void)
 {
 	onStartTask("sortByNameDescendingZA90");
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
-	auto sortIMGEntries_NameDescendingZA90 = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	auto sortEntries_NameDescendingZA90 = [](FormatEntry *pEntry1, FormatEntry *pEntry2) -> bool
 	{
-		return strcmp(String::toLowerCase(pIMGEntry1->getEntryName()).c_str(), String::toLowerCase(pIMGEntry2->getEntryName()).c_str()) > 0;
+		return strcmp(String::toLowerCase(pEntry1->getEntryName()).c_str(), String::toLowerCase(pEntry2->getEntryName()).c_str()) > 0;
 	};
-	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_NameDescendingZA90);
+	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_NameDescendingZA90);
 
 	if (uiTotalEntryCount > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
 	getTab()->log("Sorted all entries by name (descending Z-A 9-0).");
@@ -3745,19 +3746,19 @@ void		Tasks::sortByOffsetLowHigh(void)
 {
 	onStartTask("sortByOffsetLowHigh");
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
-	auto sortIMGEntries_OffsetLowToHigh = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	auto sortEntries_OffsetLowToHigh = [](FormatEntry *pEntry1, FormatEntry *pEntry2) -> bool
 	{
-		return pIMGEntry1->getEntryOffset() < pIMGEntry2->getEntryOffset();
+		return pEntry1->getEntryOffset() < pEntry2->getEntryOffset();
 	};
-	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_OffsetLowToHigh);
+	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_OffsetLowToHigh);
 
 	if (uiTotalEntryCount > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
 	getTab()->log("Sorted all entries by offset (low to high).");
@@ -3769,19 +3770,19 @@ void		Tasks::sortByOffsetHighLow(void)
 {
 	onStartTask("sortByOffsetHighLow");
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
-	auto sortIMGEntries_OffsetHighToLow = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	auto sortEntries_OffsetHighToLow = [](FormatEntry *pEntry1, FormatEntry *pEntry2) -> bool
 	{
-		return pIMGEntry1->getEntryOffset() > pIMGEntry2->getEntryOffset();
+		return pEntry1->getEntryOffset() > pEntry2->getEntryOffset();
 	};
-	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_OffsetHighToLow);
+	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_OffsetHighToLow);
 
 	if (uiTotalEntryCount > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
 	getTab()->log("Sorted all entries by offset (high to low).");
@@ -3793,19 +3794,19 @@ void		Tasks::sortBySizeSmallBig(void)
 {
 	onStartTask("sortBySizeSmallBig");
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
-	auto sortIMGEntries_SizeSmallToBig = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	auto sortEntries_SizeSmallToBig = [](FormatEntry *pEntry1, FormatEntry *pEntry2) -> bool
 	{
-		return pIMGEntry1->getEntrySize() < pIMGEntry2->getEntrySize();
+		return pEntry1->getEntrySize() < pEntry2->getEntrySize();
 	};
-	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_SizeSmallToBig);
+	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_SizeSmallToBig);
 
 	if (uiTotalEntryCount > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
 	getTab()->log("Sorted all entries by size (small to big).");
@@ -3817,19 +3818,19 @@ void		Tasks::sortBySizeBigSmall(void)
 {
 	onStartTask("sortBySizeBigSmall");
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
-	auto sortIMGEntries_SizeBigToSmall = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	auto sortEntries_SizeBigToSmall = [](FormatEntry *pEntry1, FormatEntry *pEntry2) -> bool
 	{
-		return pIMGEntry1->getEntrySize() > pIMGEntry2->getEntrySize();
+		return pEntry1->getEntrySize() > pEntry2->getEntrySize();
 	};
-	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_SizeBigToSmall);
+	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_SizeBigToSmall);
 
 	if (uiTotalEntryCount > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
 	getTab()->log("Sorted all entries by size (big to small).");
@@ -3841,19 +3842,19 @@ void		Tasks::sortByTypeAZ(void)
 {
 	onStartTask("sortByTypeAZ");
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
-	auto sortIMGEntries_TypeAscending09AZ = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	auto sortEntries_TypeAscending09AZ = [](FormatEntry *pEntry1, FormatEntry *pEntry2) -> bool
 	{
-		return strcmp(String::toLowerCase(pIMGEntry1->getEntryExtension()).c_str(), String::toLowerCase(pIMGEntry2->getEntryExtension()).c_str()) < 0;
+		return strcmp(String::toLowerCase(pEntry1->getEntryExtension()).c_str(), String::toLowerCase(pEntry2->getEntryExtension()).c_str()) < 0;
 	};
-	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_TypeAscending09AZ);
+	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_TypeAscending09AZ);
 
 	if (uiTotalEntryCount > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
 	getTab()->log("Sorted all entries by type (ascending 0-9 A-Z).");
@@ -3865,19 +3866,19 @@ void		Tasks::sortByTypeZA(void)
 {
 	onStartTask("sortByTypeZA");
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
-	auto sortIMGEntries_TypeDescendingZA90 = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	auto sortEntries_TypeDescendingZA90 = [](FormatEntry *pEntry1, FormatEntry *pEntry2) -> bool
 	{
-		return strcmp(String::toLowerCase(pIMGEntry1->getEntryExtension()).c_str(), String::toLowerCase(pIMGEntry2->getEntryExtension()).c_str()) > 0;
+		return strcmp(String::toLowerCase(pEntry1->getEntryExtension()).c_str(), String::toLowerCase(pEntry2->getEntryExtension()).c_str()) > 0;
 	};
-	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_TypeDescendingZA90);
+	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_TypeDescendingZA90);
 
 	if (uiTotalEntryCount > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
 	getTab()->log("Sorted all entries by type (descending Z-A 9-0).");
@@ -3889,19 +3890,19 @@ void		Tasks::sortByVersionOldNew(void)
 {
 	onStartTask("sortByVersionOldNew");
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
-	auto sortIMGEntries_VersionOldToNew = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	auto sortEntries_VersionOldToNew = [](FormatEntry *pEntry1, FormatEntry *pEntry2) -> bool
 	{
-		return pIMGEntry1->getRawVersion() < pIMGEntry2->getRawVersion();
+		return pEntry1->getRawVersion() < pEntry2->getRawVersion();
 	};
-	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_VersionOldToNew);
+	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_VersionOldToNew);
 
 	if (uiTotalEntryCount > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
 	getTab()->log("Sorted all entries by version (old to new).");
@@ -3913,19 +3914,19 @@ void		Tasks::sortByVersionNewOld(void)
 {
 	onStartTask("sortByVersionNewOld");
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
-	auto sortIMGEntries_VersionNewToOld = [](IMGEntry *pIMGEntry1, IMGEntry *pIMGEntry2) -> bool
+	auto sortEntries_VersionNewToOld = [](FormatEntry *pEntry1, FormatEntry *pEntry2) -> bool
 	{
-		return pIMGEntry1->getRawVersion() > pIMGEntry2->getRawVersion();
+		return pEntry1->getRawVersion() > pEntry2->getRawVersion();
 	};
-	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_VersionNewToOld);
+	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_VersionNewToOld);
 
 	if (uiTotalEntryCount > 0)
 	{
-		getIMGTab()->readdGridEntries();
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->recreateEntryList();
+		getTab()->setFileUnsaved(true);
 	}
 
 	getTab()->log("Sorted all entries by version (new to old).");

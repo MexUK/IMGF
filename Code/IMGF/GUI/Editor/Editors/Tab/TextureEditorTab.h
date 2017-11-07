@@ -26,6 +26,7 @@ public:
 	void								recreateEntryList(void);
 	void								removeAllEntries(void);
 	void								removeEntries(std::vector<bxcf::FormatEntry*>& vecEntries);
+	void								setEntriesSelected(std::vector<bxcf::FormatEntry*>& vecEntries, bool bIsSelected);
 
 	void						setIsTXDFile(bool bIsTXDFile) { m_bIsTXDFile = bIsTXDFile; }
 	bool						isTXDFile(void) { return m_bIsTXDFile; }
@@ -63,7 +64,7 @@ private:
 	void						prepareTexture_TXD(bxgi::RWSection_TextureNative *pRWSection_TextureNative);
 	void						prepareTexture_WTD(bxgi::WTDEntry *pWTDEntry);
 
-	void						setActiveEntry(TextureEditorTabEntry *pTabEntry) { m_pActiveTabEntry = pTabEntry; pTabEntry->m_bIsActive = true; }
+	void						setActiveEntry(TextureEditorTabEntry *pTabEntry) { m_pActiveTabEntry = pTabEntry; if(pTabEntry) pTabEntry->m_bIsActive = true; }
 	TextureEditorTabEntry*		getActiveEntry(void) { return m_pActiveTabEntry; }
 	void						clearActiveEntries(void);
 

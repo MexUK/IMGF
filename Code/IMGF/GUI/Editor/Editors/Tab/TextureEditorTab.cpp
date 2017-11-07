@@ -775,36 +775,60 @@ void					TextureEditorTab::updateEntryCountText(void)
 
 vector<FormatEntry*>	TextureEditorTab::getSelectedEntries(void)
 {
+	uint32 uiIndex = 0;
+	vector<FormatEntry*> vecEntries;
 	if (m_bIsTXDFile)
 	{
-		vector<RWSection_TextureNative*> vecEntries;
-		if (m_pActiveTabEntry)
+		for (RWSection_TextureNative *pTextureNative : getTXDFile()->getTextures())
 		{
-			vecEntries.push_back((RWSection_TextureNative*)(m_pTXDFile->getSectionsByType(RW_SECTION_TEXTURE_NATIVE)[getIndexByEntry(m_pActiveTabEntry)]));
+			if (m_vecEntries[uiIndex]->m_bIsActive)
+			{
+				vecEntries.push_back(pTextureNative);
+			}
+			uiIndex++;
 		}
-		return (vector<FormatEntry*>&)vecEntries;
 	}
 	else
 	{
-		vector<WTDEntry*> vecEntries;
-		if (m_pActiveTabEntry)
+		for (WTDEntry *pWTDEntry : getWTDFile()->getEntries())
 		{
-			vecEntries.push_back((WTDEntry*)m_pWTDFile->getEntryByIndex(getIndexByEntry(m_pActiveTabEntry)));
+			if (m_vecEntries[uiIndex]->m_bIsActive)
+			{
+				vecEntries.push_back(pWTDEntry);
+			}
+			uiIndex++;
 		}
-		return (vector<FormatEntry*>&)vecEntries;
 	}
+	return vecEntries;
 }
 
 uint32					TextureEditorTab::getSelectedEntryCount(void)
 {
-	if (getEntryCount() > 0)
+	uint32 uiIndex = 0;
+	uint32 uiSelectedItemCount = 0;
+	if (m_bIsTXDFile)
 	{
-		return 1;
+		for (RWSection_TextureNative *pTextureNative : getTXDFile()->getTextures())
+		{
+			if (m_vecEntries[uiIndex]->m_bIsActive)
+			{
+				uiSelectedItemCount++;
+			}
+			uiIndex++;
+		}
 	}
 	else
 	{
-		return 0;
+		for (WTDEntry *pWTDEntry : getWTDFile()->getEntries())
+		{
+			if (m_vecEntries[uiIndex]->m_bIsActive)
+			{
+				uiSelectedItemCount++;
+			}
+			uiIndex++;
+		}
 	}
+	return uiSelectedItemCount;
 }
 
 uint32					TextureEditorTab::getTotalEntryCount(void)
@@ -821,10 +845,22 @@ uint32					TextureEditorTab::getTotalEntryCount(void)
 
 void					TextureEditorTab::onEntryChange(FormatEntry *pEntry)
 {
-	uint32 uiIndex = StdVector::findKey(getTXDFile()->getSectionsByType(RW_SECTION_TEXTURE_NATIVE), (RWSection*)(RWSection_TextureNative*)pEntry);
+	uint32 uiIndex;
+	if (m_bIsTXDFile)
+	{
+		uiIndex = StdVector::findKey(getTXDFile()->getSectionsByType(RW_SECTION_TEXTURE_NATIVE), (RWSection*)(RWSection_TextureNative*)pEntry);
+	}
+	else
+	{
+		uiIndex = getWTDFile()->getIndexByEntry((WTDEntry*)pEntry);
+	}
+	TextureEditorTabEntry *pTabEntry = getEntryByIndex(uiIndex);
 
-	getEntryByIndex(uiIndex)->m_strDiffuseName = pEntry->getEntryName();
-	getEntryByIndex(uiIndex)->m_strAlphaName = pEntry->getEntryName() + "a";
+	pTabEntry->m_strDiffuseName = pEntry->getEntryName();
+	if (pTabEntry->m_strAlphaName != "")
+	{
+		pTabEntry->m_strAlphaName = pEntry->getEntryName() + "a";
+	}
 }
 
 void					TextureEditorTab::recreateEntryList(void)
@@ -888,6 +924,19 @@ void					TextureEditorTab::removeEntries(vector<FormatEntry*>& vecEntries)
 
 	recreateEntryList();
 	updateEntryCountText();
+}
+
+void					TextureEditorTab::setEntriesSelected(vector<FormatEntry*>& vecEntries, bool bIsSelected)
+{
+	clearActiveEntries();
+	for (FormatEntry *pFormatEntry : vecEntries)
+	{
+		RWSection_TextureNative *pTextureNative = (RWSection_TextureNative *)pFormatEntry;
+		uint32 uiTextureIndex = StdVector::findKey(getTXDFile()->getSectionsByType(RW_SECTION_TEXTURE_NATIVE), (RWSection*)pTextureNative);
+		TextureEditorTabEntry *pTabEntry = getEntryByIndex(uiTextureIndex);
+		pTabEntry->m_bIsActive = bIsSelected;
+	}
+	m_pWindow->render();
 }
 
 void					TextureEditorTab::clearActiveEntries(void)
