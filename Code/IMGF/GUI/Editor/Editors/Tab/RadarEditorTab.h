@@ -58,6 +58,8 @@ protected:
 
 	uint32						getFileIndexFromEntry(bxcf::FormatEntry *pFormatEntry);
 
+	RadarEditorTabEntry*		getEntryByIMGEntry(bxgi::IMGEntry *pIMGEntry);
+
 private:
 	bxgi::IMGFormat*			m_pIMGFile;
 	RadarEditorTabEntry*		m_pActiveTabEntry;

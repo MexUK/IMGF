@@ -26,4 +26,5 @@ struct imgf::RadarEditorTabEntry
 	uint8			m_bTextureContainsNoMipmaps		: 1;
 	uint8			m_bIsActive						: 1;
 	uint32			m_uiMatrixIndex;
+	bxgi::IMGEntry*	m_pIMGEntry;
 };

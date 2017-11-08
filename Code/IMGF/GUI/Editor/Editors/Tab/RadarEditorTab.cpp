@@ -494,6 +494,7 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 				pTabEntry->m_ucBPP = pRWSection_TextureNative->getOriginalBPP() == 0 ? pRWSection_TextureNative->getBPP() : pRWSection_TextureNative->getOriginalBPP();
 				pTabEntry->m_strTextureFormat = TXDManager::getTXDRasterFormatText(pRWSection_TextureNative->getTXDRasterDataFormat(), pRWSection_TextureNative->getDXTCompressionType());
 				pTabEntry->m_bIsActive = false;
+				pTabEntry->m_pIMGEntry = pIMGEntry;
 			}
 			pTabEntry->m_uiMatrixIndex = String::toUint32(Path::removeFileExtension(pIMGEntry->getEntryName()).substr(5));
 
@@ -592,6 +593,7 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 				pTabEntry->m_ucBPP = 32;
 				pTabEntry->m_strTextureFormat = ImageManager::getD3DFormatText(pWTDEntry->getD3DFormat());
 				pTabEntry->m_bIsActive = false;
+				pTabEntry->m_pIMGEntry = pIMGEntry;
 			}
 			pTabEntry->m_uiMatrixIndex = String::toUint32(Path::removeFileExtension(pIMGEntry->getEntryName()).substr(5));
 
@@ -803,7 +805,7 @@ void						RadarEditorTab::renderEntryList(void)
 		RECT rect2 = pImageData->m_rect;
 
 		m_pWindow->setRenderingStyleGroups("leftEntryPanel");
-		if (pImageData == getActiveEntry())
+		if (pImageData->m_bIsActive)
 		{
 			m_pWindow->setRenderingStyleStatus(EStyleStatus::ACTIVE);
 		}
@@ -942,13 +944,12 @@ uint32					RadarEditorTab::getTotalEntryCount(void)
 
 void					RadarEditorTab::onEntryChange(FormatEntry *pEntry)
 {
-	uint32 uiFileIndex = getFileIndexFromEntry(pEntry);
-	RadarEditorTabEntry *pTabEntry = getEntryByIndex(uiFileIndex);
+	RadarEditorTabEntry *pTabEntry = getEntryByIMGEntry((IMGEntry*)pEntry);
 
-	pTabEntry->m_strDiffuseName = pEntry->getEntryName();
+	pTabEntry->m_strDiffuseName = Path::removeFileExtension(pEntry->getEntryName());
 	if (pTabEntry->m_strAlphaName != "")
 	{
-		pTabEntry->m_strAlphaName = pEntry->getEntryName() + "a";
+		pTabEntry->m_strAlphaName = pTabEntry->m_strDiffuseName + "a";
 	}
 }
 
@@ -1014,12 +1015,13 @@ void					RadarEditorTab::removeEntries(vector<FormatEntry*>& vecEntries)
 void					RadarEditorTab::setEntriesSelected(vector<FormatEntry*>& vecEntries, bool bIsSelected)
 {
 	clearActiveEntries();
-	uint32 uiFileIndex = 0;
 	for (FormatEntry *pFormatEntry : vecEntries)
 	{
-		uiFileIndex = getFileIndexFromEntry(pFormatEntry);
-		RadarEditorTabEntry *pTabEntry = getEntryByIndex(uiFileIndex);
-		pTabEntry->m_bIsActive = bIsSelected;
+		RadarEditorTabEntry *pTabEntry = getEntryByIMGEntry((IMGEntry*)pFormatEntry);
+		if (pTabEntry)
+		{
+			pTabEntry->m_bIsActive = bIsSelected;
+		}
 	}
 	m_pWindow->render();
 }
@@ -1061,4 +1063,16 @@ uint32					RadarEditorTab::getFileIndexFromEntry(FormatEntry *pFormatEntry)
 		}
 	}
 	return -1;
+}
+
+RadarEditorTabEntry*			RadarEditorTab::getEntryByIMGEntry(IMGEntry *pIMGEntry)
+{
+	for (RadarEditorTabEntry *pTabEntry : getEntries())
+	{
+		if (pIMGEntry == pTabEntry->m_pIMGEntry)
+		{
+			return pTabEntry;
+		}
+	}
+	return nullptr;
 }
