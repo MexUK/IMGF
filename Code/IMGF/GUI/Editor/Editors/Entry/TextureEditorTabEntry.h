@@ -22,7 +22,7 @@ struct imgf::TextureEditorTabEntry
 	std::string		m_strTextureFormat;
 	RECT			m_rect;
 	uint32			m_uiIndex;
-	uint8			m_bIsCorrupt : 1;
+	uint8			m_bIsCorrupt					: 1;
 	uint8			m_bTextureContainsNoMipmaps		: 1;
 	uint8			m_bIsActive						: 1;
 };

@@ -74,8 +74,6 @@ public:
 
 	void								removeAllEntries(void);
 	void								removeEntries(std::vector<bxcf::FormatEntry*>& vecEntries);
-
-	void								merge(std::string strFilePath);
 	
 
 

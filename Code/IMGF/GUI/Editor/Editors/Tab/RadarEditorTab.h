@@ -4,6 +4,9 @@
 #include "nsimgf.h"
 #include "GUI/Editor/Base/Tab/EditorTab.h"
 #include "Pool/VectorPool.h"
+#include "Format/FormatEntry.h"
+#include "GUI/Editor/Editors/Entry/RadarEditorTabEntry.h"
+#include <vector>
 
 class imgf::RadarEditorTab : public imgf::EditorTab, public bxcf::VectorPool<imgf::RadarEditorTabEntry*>
 {
@@ -17,6 +20,15 @@ public:
 	void						unbindEvents(void);
 
 	void						onUnserializeEntry(bxgi::IMGFormat *img);
+
+	uint32								getTotalEntryCount(void);
+	std::vector<bxcf::FormatEntry*>		getSelectedEntries(void);
+	uint32								getSelectedEntryCount(void);
+	void								onEntryChange(bxcf::FormatEntry *pEntry);
+	void								recreateEntryList(void);
+	void								removeAllEntries(void);
+	void								removeEntries(std::vector<bxcf::FormatEntry*>& vecEntries);
+	void								setEntriesSelected(std::vector<bxcf::FormatEntry*>& vecEntries, bool bIsSelected);
 
 	void						renderEntryList(void);
 	void						render_Type1(void);
@@ -33,8 +45,9 @@ public:
 	void						setIMGFile(bxgi::IMGFormat *pIMGFile) { m_pIMGFile = pIMGFile; }
 	bxgi::IMGFormat*			getIMGFile(void) { return m_pIMGFile; }
 
-	void						setActiveEntry(RadarEditorTabEntry *pTabEntry) { m_pActiveTabEntry = pTabEntry; }
+	void						setActiveEntry(RadarEditorTabEntry *pTabEntry) { m_pActiveTabEntry = pTabEntry; if (pTabEntry) pTabEntry->m_bIsActive = true; }
 	RadarEditorTabEntry*		getActiveEntry(void) { return m_pActiveTabEntry; }
+	void						clearActiveEntries(void);
 
 protected:
 	void						onLeftMouseDown(bxcf::Vec2i vecCursorPosition);
@@ -43,9 +56,14 @@ protected:
 
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeChange);
 
+	uint32						getFileIndexFromEntry(bxcf::FormatEntry *pFormatEntry);
+
 private:
 	bxgi::IMGFormat*			m_pIMGFile;
 	RadarEditorTabEntry*		m_pActiveTabEntry;
 
 	bxgx::ScrollBar*			m_pVScrollBar;
+
+	std::vector<bxgi::TXDFormat*>		m_vecTXDFiles;
+	std::vector<bxgi::WTDFormat*>		m_vecWTDFiles;
 };

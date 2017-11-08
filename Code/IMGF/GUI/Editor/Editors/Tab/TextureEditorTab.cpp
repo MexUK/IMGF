@@ -931,10 +931,19 @@ void					TextureEditorTab::setEntriesSelected(vector<FormatEntry*>& vecEntries, 
 	clearActiveEntries();
 	for (FormatEntry *pFormatEntry : vecEntries)
 	{
-		RWSection_TextureNative *pTextureNative = (RWSection_TextureNative *)pFormatEntry;
-		uint32 uiTextureIndex = StdVector::findKey(getTXDFile()->getSectionsByType(RW_SECTION_TEXTURE_NATIVE), (RWSection*)pTextureNative);
-		TextureEditorTabEntry *pTabEntry = getEntryByIndex(uiTextureIndex);
-		pTabEntry->m_bIsActive = bIsSelected;
+		if (m_bIsTXDFile)
+		{
+			RWSection_TextureNative *pTextureNative = (RWSection_TextureNative *)pFormatEntry;
+			uint32 uiTextureIndex = StdVector::findKey(getTXDFile()->getSectionsByType(RW_SECTION_TEXTURE_NATIVE), (RWSection*)pTextureNative);
+			TextureEditorTabEntry *pTabEntry = getEntryByIndex(uiTextureIndex);
+			pTabEntry->m_bIsActive = bIsSelected;
+		}
+		else
+		{
+			uint32 uiTextureIndex = getWTDFile()->getIndexByEntry((WTDEntry*)pFormatEntry);
+			TextureEditorTabEntry *pTabEntry = getEntryByIndex(uiTextureIndex);
+			pTabEntry->m_bIsActive = bIsSelected;
+		}
 	}
 	m_pWindow->render();
 }

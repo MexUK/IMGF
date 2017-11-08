@@ -2490,6 +2490,7 @@ void		Tasks::merge(void)
 	//if (uiMergeEntryCount > 0)
 	//{
 		getTab()->recreateEntryList();
+		getTab()->updateEntryCountText();
 		getTab()->setFileUnsaved(true);
 	//}
 
@@ -2509,7 +2510,7 @@ void		Tasks::splitSelected(void)
 		return onAbortTask();
 	}
 
-	string strNewFilePath = saveFile(String::join(getTab()->getEditor()->getEditorFileFormats(), ","), "Split." + getTab()->getEditor()->getEditorFileFormats()[0]);
+	string strNewFilePath = saveFile(String::join(getTab()->getEditor()->getEditorFileFormats(), ","), "Split." + Path::getFileExtension(getTab()->getFile()->getFilePath()));
 	if (strNewFilePath == "")
 	{
 		return onAbortTask();
@@ -2650,7 +2651,7 @@ void		Tasks::splitByEntryNames(void)
 		return onAbortTask();
 	}
 
-	string strNewFilePath = saveFile(String::join(getTab()->getEditor()->getEditorFileFormats(), ","), "Split." + getTab()->getEditor()->getEditorFileFormats()[0]);
+	string strNewFilePath = saveFile(String::join(getTab()->getEditor()->getEditorFileFormats(), ","), "Split." + Path::getFileExtension(getTab()->getFile()->getFilePath()));
 	if (strNewFilePath == "")
 	{
 		return onAbortTask();
@@ -3151,13 +3152,8 @@ void		Tasks::selectAll(void)
 {
 	onStartTask("selectAll");
 
-	IMGEditorTab *pEditorTab = m_pMainWindow->getIMGEditor()->getActiveTab();
-	Grid *pEntryGrid = pEditorTab->getEntryGrid();
-
-	pEntryGrid->selectAllRows();
-	pEntryGrid->setActiveItem();
-
-	pEditorTab->log("Selected all entries.");
+	getTab()->setEntriesSelected(getTab()->getContainerFile()->getEntriesRef(), true);
+	getTab()->log("Selected all entries.");
 
 	onCompleteTask();
 }
@@ -3166,13 +3162,8 @@ void		Tasks::unselectAll(void)
 {
 	onStartTask("unselectAll");
 
-	IMGEditorTab *pEditorTab = m_pMainWindow->getIMGEditor()->getActiveTab();
-	Grid *pEntryGrid = pEditorTab->getEntryGrid();
-
-	pEntryGrid->unselectAllRows();
-	pEntryGrid->setActiveItem();
-
-	pEditorTab->log("Unselected all entries.");
+	getTab()->setEntriesSelected(getTab()->getContainerFile()->getEntriesRef(), false);
+	getTab()->log("Unselected all entries.");
 
 	onCompleteTask();
 }
@@ -3181,13 +3172,12 @@ void		Tasks::selectInverse(void)
 {
 	onStartTask("selectInverse");
 
-	IMGEditorTab *pEditorTab = m_pMainWindow->getIMGEditor()->getActiveTab();
-	Grid *pEntryGrid = pEditorTab->getEntryGrid();
+	for (FormatEntry *pEntry : getTab()->getContainerFile()->getEntriesRef())
+	{
+		// todo getTab()->setEntrySelected(pEntry, !getTab()->isEntrySelected(pEntry));
+	}
 
-	pEntryGrid->selectInverseRows();
-	pEntryGrid->setActiveItem();
-
-	pEditorTab->logf("Selected inverse entries. (%u)", pEntryGrid->getSelectedRowCount());
+	getTab()->log("Selected inverse entries.");
 
 	onCompleteTask();
 }
@@ -3204,7 +3194,7 @@ void		Tasks::selectByIndex(void)
 		return onAbortTask();
 	}
 
-	uint32 uiTotalEntryCount = getIMGTab()->getEntryGrid()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount * 2);
 
 	vector<FormatEntry*> vecEntries = getTab()->getEntriesByNumericMultiOptionValues(0, nmoir.m_uiOptionIndex, nmoir.m_uiTextBoxValue1, nmoir.m_uiTextBoxValue2); // todo - magic int

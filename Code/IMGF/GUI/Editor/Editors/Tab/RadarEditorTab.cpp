@@ -161,6 +161,7 @@ void						RadarEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 	}
 	if (pActiveTabEntry != nullptr)
 	{
+		clearActiveEntries();
 		setActiveEntry(pActiveTabEntry);
 		m_pWindow->render();
 	}
@@ -431,7 +432,7 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 	bPremultipledAlphaApplied = FALSE;
 
 	vector<IMGEntry*> vecRadarIMGEntries;
-	for (IMGEntry *pIMGEntry : m_pIMGFile->VectorPool::getEntries())
+	for (IMGEntry *pIMGEntry : m_pIMGFile->getEntries())
 	{
 		if (!(pIMGEntry->isTextureFile() && String::toUpperCase(pIMGEntry->getEntryName().substr(0, 5)) == "RADAR" && String::isPositiveInteger(Path::removeFileExtension(pIMGEntry->getEntryName()).substr(5))))
 		{
@@ -448,14 +449,18 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
 	m_pVScrollBar->setItemCount(VERTICAL, vecRadarIMGEntries.size() * 50);
 
+	m_vecTXDFiles.clear();
+	m_vecWTDFiles.clear();
+	m_vecTXDFiles.resize(vecRadarIMGEntries.size());
+	uint32 uiIndex = 0;
 	for(IMGEntry *pIMGEntry : vecRadarIMGEntries)
 	{
-		TXDFormat txdFile(pIMGEntry->getEntryData(), false);
-		if (!txdFile.unserialize())
+		m_vecTXDFiles[uiIndex] = new TXDFormat(pIMGEntry->getEntryData(), false);
+		if (!m_vecTXDFiles[uiIndex]->unserialize())
 		{
 			continue;
 		}
-		vector<RWSection_TextureNative*> vecTextures = txdFile.getTextures();
+		vector<RWSection_TextureNative*> vecTextures = m_vecTXDFiles[uiIndex]->getTextures();
 
 		// todo
 		//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
@@ -488,6 +493,7 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 				pTabEntry->m_strAlphaName = pRWSection_TextureNative->getAlphaName();
 				pTabEntry->m_ucBPP = pRWSection_TextureNative->getOriginalBPP() == 0 ? pRWSection_TextureNative->getBPP() : pRWSection_TextureNative->getOriginalBPP();
 				pTabEntry->m_strTextureFormat = TXDManager::getTXDRasterFormatText(pRWSection_TextureNative->getTXDRasterDataFormat(), pRWSection_TextureNative->getDXTCompressionType());
+				pTabEntry->m_bIsActive = false;
 			}
 			pTabEntry->m_uiMatrixIndex = String::toUint32(Path::removeFileExtension(pIMGEntry->getEntryName()).substr(5));
 
@@ -499,6 +505,8 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 		{
 			setActiveEntry(getEntryByIndex(0));
 		}
+
+		uiIndex++;
 	}
 }
 
@@ -530,8 +538,12 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
 	m_pVScrollBar->setItemCount(VERTICAL, vecRadarIMGEntries.size() * 50);
 
+	m_vecTXDFiles.clear();
+	m_vecWTDFiles.clear();
+	m_vecWTDFiles.resize(vecRadarIMGEntries.size());
 	uint32 uiTabEntry = 0;
 	//getEntries().resize(144);
+	uint32 uiIndex = 0;
 	for(IMGEntry *pIMGEntry : vecRadarIMGEntries)
 	{
 		if (!pIMGEntry)
@@ -540,13 +552,13 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 			continue;
 		}
 
-		WTDFormat wtdFile(pIMGEntry->getEntryData(), false);
-		if (!wtdFile.unserialize())
+		m_vecWTDFiles[uiIndex] = new WTDFormat(pIMGEntry->getEntryData(), false);
+		if (!m_vecWTDFiles[uiIndex]->unserialize())
 		{
 			uiTabEntry++;
 			continue;
 		}
-		vector<WTDEntry*> vecWTDEntries = wtdFile.VectorPool::getEntries();
+		vector<WTDEntry*> vecWTDEntries = m_vecWTDFiles[uiIndex]->getEntries();
 
 		// todo
 		//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
@@ -579,6 +591,7 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 				pTabEntry->m_strAlphaName = "";
 				pTabEntry->m_ucBPP = 32;
 				pTabEntry->m_strTextureFormat = ImageManager::getD3DFormatText(pWTDEntry->getD3DFormat());
+				pTabEntry->m_bIsActive = false;
 			}
 			pTabEntry->m_uiMatrixIndex = String::toUint32(Path::removeFileExtension(pIMGEntry->getEntryName()).substr(5));
 
@@ -591,6 +604,8 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 		{
 			setActiveEntry(getEntryByIndex(0));
 		}
+
+		uiIndex++;
 	}
 }
 
@@ -883,4 +898,167 @@ void						RadarEditorTab::renderEntryList(void)
 
 	SelectObject(memDC, old);
 	DeleteDC(memDC);
+}
+
+vector<FormatEntry*>	RadarEditorTab::getSelectedEntries(void)
+{
+	uint32 uiEntryIndex = 0;
+	vector<FormatEntry*> vecEntries;
+	for (RadarEditorTabEntry *pTabEntry : getEntries())
+	{
+		if (pTabEntry->m_bIsActive)
+		{
+			vecEntries.push_back(m_pIMGFile->getEntryByName(pTabEntry->m_strDiffuseName + (m_pIMGFile->getVersion() == IMG_3 ? ".wtd" : ".txd")));
+		}
+		uiEntryIndex++;
+	}
+	return vecEntries;
+}
+
+uint32					RadarEditorTab::getSelectedEntryCount(void)
+{
+	uint32 uiSelectedItemCount = 0;
+	for (RadarEditorTabEntry *pTabEntry : getEntries())
+	{
+		if (pTabEntry->m_bIsActive)
+		{
+			uiSelectedItemCount++;
+		}
+	}
+	return uiSelectedItemCount;
+}
+
+uint32					RadarEditorTab::getTotalEntryCount(void)
+{
+	if (m_pIMGFile->getVersion() != IMG_3)
+	{
+		return m_vecTXDFiles.size();
+	}
+	else
+	{
+		return m_vecWTDFiles.size();
+	}
+}
+
+void					RadarEditorTab::onEntryChange(FormatEntry *pEntry)
+{
+	uint32 uiFileIndex = getFileIndexFromEntry(pEntry);
+	RadarEditorTabEntry *pTabEntry = getEntryByIndex(uiFileIndex);
+
+	pTabEntry->m_strDiffuseName = pEntry->getEntryName();
+	if (pTabEntry->m_strAlphaName != "")
+	{
+		pTabEntry->m_strAlphaName = pEntry->getEntryName() + "a";
+	}
+}
+
+void					RadarEditorTab::recreateEntryList(void)
+{
+	VectorPool::removeAllEntries();
+	if (m_pIMGFile->getVersion() != IMG_3)
+	{
+		prepareRenderData_TXD();
+	}
+	else
+	{
+		prepareRenderData_WTD();
+	}
+	m_pWindow->render();
+}
+
+void					RadarEditorTab::removeAllEntries(void)
+{
+	if (m_pIMGFile->getVersion() != IMG_3)
+	{
+		m_vecTXDFiles.clear();
+	}
+	else
+	{
+		m_vecWTDFiles.clear();
+	}
+	getIMGFile()->removeAllEntries();
+
+	m_pActiveTabEntry = nullptr;
+
+	recreateEntryList();
+	updateEntryCountText();
+}
+
+void					RadarEditorTab::removeEntries(vector<FormatEntry*>& vecEntries)
+{
+	if (m_pIMGFile->getVersion() != IMG_3)
+	{
+		for (FormatEntry *pEntry : vecEntries)
+		{
+			RWSection_TextureNative *pTXDEntry = (RWSection_TextureNative*)pEntry;
+			getIMGFile()->removeEntry(getIMGFile()->getEntryByName(pTXDEntry->getEntryName()));
+			Events::trigger(TASK_PROGRESS);
+		}
+	}
+	else
+	{
+		for (FormatEntry *pEntry : vecEntries)
+		{
+			WTDEntry *pWTDEntry = (WTDEntry*)pEntry;
+			getIMGFile()->removeEntry(getIMGFile()->getEntryByName(pWTDEntry->getEntryName()));
+			Events::trigger(TASK_PROGRESS);
+		}
+	}
+
+	m_pActiveTabEntry = nullptr;
+
+	recreateEntryList();
+	updateEntryCountText();
+}
+
+void					RadarEditorTab::setEntriesSelected(vector<FormatEntry*>& vecEntries, bool bIsSelected)
+{
+	clearActiveEntries();
+	uint32 uiFileIndex = 0;
+	for (FormatEntry *pFormatEntry : vecEntries)
+	{
+		uiFileIndex = getFileIndexFromEntry(pFormatEntry);
+		RadarEditorTabEntry *pTabEntry = getEntryByIndex(uiFileIndex);
+		pTabEntry->m_bIsActive = bIsSelected;
+	}
+	m_pWindow->render();
+}
+
+void					RadarEditorTab::clearActiveEntries(void)
+{
+	for (RadarEditorTabEntry *pTabEntry : getEntries())
+	{
+		pTabEntry->m_bIsActive = false;
+	}
+	setActiveEntry(nullptr);
+}
+
+uint32					RadarEditorTab::getFileIndexFromEntry(FormatEntry *pFormatEntry)
+{
+	uint32 uiFileIndex = 0;
+	if (m_pIMGFile->getVersion() != IMG_3)
+	{
+		TXDFormat *pTXDFile = nullptr;
+		for (TXDFormat *pTXDFile2 : m_vecTXDFiles)
+		{
+			if ((RWSection_TextureNative*)pFormatEntry == (RWSection_TextureNative*)pTXDFile2->getSectionsByType(RW_SECTION_TEXTURE_NATIVE)[0])
+			{
+				return uiFileIndex;
+			}
+			uiFileIndex++;
+		}
+	}
+	else
+	{
+		WTDFormat *pWTDFile = nullptr;
+		for (WTDFormat *pWTDFile2 : m_vecWTDFiles)
+		{
+			if ((WTDEntry*)pFormatEntry == pWTDFile2->getFirstEntry())
+			{
+				return uiFileIndex;
+			}
+			uiFileIndex++;
+		}
+	}
+	return -1;
 }
