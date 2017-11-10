@@ -119,7 +119,10 @@ void					CollisionEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, m_pWindow->getSize().y - m_pVScrollBar->getPosition().y));
 
 	Vec2u vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
+
+	mutexRendering.lock();
 	update3DRenderSize(vecRenderSize);
+	mutexRendering.unlock();
 }
 
 // editor input
@@ -889,7 +892,7 @@ void						CollisionEditorTab::render3D(void)
 
 void						CollisionEditorTab::update3DRenderSize(Vec2u& vecRenderSize)
 {
-	mutexRendering.lock();
+	//mutexRendering.lock();
 
 	const float64 ar = ((float64)vecRenderSize.x) / ((float64)vecRenderSize.y);
 
@@ -900,7 +903,7 @@ void						CollisionEditorTab::update3DRenderSize(Vec2u& vecRenderSize)
 	GLenum a = glGetError();
 	if (a != GL_NO_ERROR)
 	{
-		MessageBox(NULL, L"AAA", L"BBB", MB_OK);
+		//MessageBox(NULL, L"AAA", L"BBB", MB_OK);
 	}
 
 	glMatrixMode(GL_PROJECTION);
@@ -917,7 +920,7 @@ void						CollisionEditorTab::update3DRenderSize(Vec2u& vecRenderSize)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	mutexRendering.unlock();
+	//mutexRendering.unlock();
 }
 
 void						CollisionEditorTab::prepare3DRender(void)

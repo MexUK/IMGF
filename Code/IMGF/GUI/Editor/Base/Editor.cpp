@@ -92,6 +92,13 @@ void								Editor::removeEditorTab(EditorTab *pEditorTab)
 		}
 	}
 
+	// stop tab thread
+	pEditorTab->setMarkedToClose(true);
+	while (!pEditorTab->hasThreadTerminated())
+	{
+		Sleep(10);
+	}
+
 	// remove tab object
 	pEditorTab->unbindEvents();
 	m_vecEditorTabs.removeEntry(pEditorTab);

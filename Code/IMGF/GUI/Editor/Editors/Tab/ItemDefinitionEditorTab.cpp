@@ -67,15 +67,14 @@ void						ItemDefinitionEditorTab::setFileInfoText(void)
 {
 	m_pText_FilePath->setText(getIDEFile()->getFilePath());
 
-	if (getIDEFile()->getEntriesBySection<IDEEntry_OBJS>(IDE_SECTION_OBJS).size() == 0)
+	uint32 uiIDEGames = getIDEFile()->getFormatGames();
+	if (uiIDEGames == 0)
 	{
 		m_pText_FileGame->setText(string("Unknown"));
 		m_pText_FileVersion->setText(string("Unknown"));
 	}
 	else
 	{
-		uint32 uiIDEGames = ((IDEEntry_OBJS*)(getIDEFile()->getEntriesBySection<IDEEntry_OBJS>(IDE_SECTION_OBJS)[0]))->getFormatGames();
-
 		m_pText_FileGame->setText(IDEManager::getFormatGamesAsString(uiIDEGames));
 		m_pText_FileVersion->setText(IDEManager::getVersionText(uiIDEGames));
 	}
