@@ -72,6 +72,8 @@ public:
 	std::vector<bxcf::FormatEntry*>				getEntriesByNumericMultiOptionValues(uint32 uiEntryAttribute, uint32 uiMatchType, uint32 uiValue1, uint32 uiValue2);
 	std::vector<bxcf::FormatEntry*>				getEntriesByStringMultiOptionValues(uint32 uiEntryAttribute, uint32 uiMatchType, std::string& strValue1, std::string& strValue2, bool bMatchWildcard);
 	virtual void								setEntriesSelected(std::vector<bxcf::FormatEntry*>& vecEntries, bool bIsSelected) {}
+	virtual void								setEntrySelected(bxcf::FormatEntry* pEntry, bool bIsSelected) {}
+	virtual bool								isEntrySelected(bxcf::FormatEntry* pEntry) { return false; }
 
 	void								setEditor(Editor* pEditor) { m_pEditor = pEditor; }
 	Editor*								getEditor(void) { return m_pEditor; }
@@ -162,6 +164,7 @@ T										imgf::EditorTab::_addEntry(std::string& strEntryFilePathOrData, bool 
 	}
 	addEntryAfter(pResult);
 	updateEntryCountText();
+	m_pWindow->render();
 
 	return pResult;
 }

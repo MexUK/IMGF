@@ -110,6 +110,8 @@ public:
 	void						removeEntry(bxgi::IMGEntry *pIMGEntry);
 
 	void						setEntriesSelected(std::vector<bxcf::FormatEntry*>& vecEntries, bool bIsSelected);
+	void						setEntrySelected(bxcf::FormatEntry* pEntry, bool bIsSelected);
+	bool						isEntrySelected(bxcf::FormatEntry* pEntry);
 
 	void						addGridHeaders(bxgi::EIMGVersion uiIMGVersionValue);
 	void						addGridEntries(void);

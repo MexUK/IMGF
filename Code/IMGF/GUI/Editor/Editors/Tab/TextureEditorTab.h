@@ -27,6 +27,8 @@ public:
 	void								removeAllEntries(void);
 	void								removeEntries(std::vector<bxcf::FormatEntry*>& vecEntries);
 	void								setEntriesSelected(std::vector<bxcf::FormatEntry*>& vecEntries, bool bIsSelected);
+	void								setEntrySelected(bxcf::FormatEntry* pEntry, bool bIsSelected);
+	bool								isEntrySelected(bxcf::FormatEntry* pEntry);
 
 	void						setIsTXDFile(bool bIsTXDFile) { m_bIsTXDFile = bIsTXDFile; }
 	bool						isTXDFile(void) { return m_bIsTXDFile; }

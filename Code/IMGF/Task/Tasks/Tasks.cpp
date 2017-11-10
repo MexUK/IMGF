@@ -3174,7 +3174,7 @@ void		Tasks::selectInverse(void)
 
 	for (FormatEntry *pEntry : getTab()->getContainerFile()->getEntriesRef())
 	{
-		// todo getTab()->setEntrySelected(pEntry, !getTab()->isEntrySelected(pEntry));
+		getTab()->setEntrySelected(pEntry, !getTab()->isEntrySelected(pEntry));
 	}
 
 	getTab()->log("Selected inverse entries.");

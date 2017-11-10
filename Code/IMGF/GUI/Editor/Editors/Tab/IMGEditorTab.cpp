@@ -1531,3 +1531,15 @@ void				IMGEditorTab::setEntriesSelected(vector<FormatEntry*>& vecEntries, bool 
 		pGridRow->setSelected(bIsSelected);
 	}
 }
+
+void				IMGEditorTab::setEntrySelected(FormatEntry *pEntry, bool bIsSelected)
+{
+	GridRow *pGridRow = m_pEntryGrid->getRowByUserData((uint32)(IMGEntry*)pEntry);
+	pGridRow->setSelected(bIsSelected);
+}
+
+bool				IMGEditorTab::isEntrySelected(FormatEntry *pEntry)
+{
+	GridRow *pGridRow = m_pEntryGrid->getRowByUserData((uint32)(IMGEntry*)pEntry);
+	return pGridRow->isSelected();
+}

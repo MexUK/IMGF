@@ -6,6 +6,7 @@
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
+#include "GUI/Layer/Layers/MainLayer/MainLayer.h"
 #include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 #include "Static/String.h"
 #include "Control/Controls/TextBox.h"
@@ -105,6 +106,9 @@ void								Editor::removeEditorTab(EditorTab *pEditorTab)
 	{
 		setActiveEditorTab(m_vecEditorTabs.getEntryByIndex(uiNewActiveFileIndex));
 	}
+
+	// update menus
+	getMainWindow()->getMainLayer()->setCertainMenuItemsEnabled(getEditorTabs().getEntryCount() > 0);
 
 	// render window
 	m_pMainWindow->render();

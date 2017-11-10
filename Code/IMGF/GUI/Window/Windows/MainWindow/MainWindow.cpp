@@ -233,6 +233,7 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 
 	m_pMainLayer->removeMenus();
 	m_pMainLayer->addMenus();
+	m_pMainLayer->setCertainMenuItemsEnabled(pActiveEditor->getEditorTabs().getEntryCount() > 0);
 
 	getIMGF()->getRecentlyOpenManager()->unloadRecentlyOpenEntries(m_pActiveEditor->getEditorType());
 	getIMGF()->getRecentlyOpenManager()->loadRecentlyOpenEntries(m_pActiveEditor->getEditorType());
