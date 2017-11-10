@@ -81,6 +81,8 @@ public:
 	void								setEditorFileType(bxcf::fileType::EFileType uiEditorFileType) { m_uiEditorFileType = uiEditorFileType; }
 	bxcf::fileType::EFileType			getEditorFileType(void) { return m_uiEditorFileType; }
 
+	std::vector<std::string>			getFileFormatsForChooseFile(void);
+
 protected:
 	EEditor								m_uiEditorType;
 	MainWindow*							m_pMainWindow;

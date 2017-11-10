@@ -60,6 +60,8 @@ protected:
 
 	RadarEditorTabEntry*		getEntryByIMGEntry(bxgi::IMGEntry *pIMGEntry);
 
+	void						addEntryAfter(bxcf::FormatEntry *pEntry);
+
 private:
 	bxgi::IMGFormat*			m_pIMGFile;
 	RadarEditorTabEntry*		m_pActiveTabEntry;

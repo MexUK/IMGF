@@ -540,6 +540,9 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Components\LeftEntryList.cpp">
       <Filter>Source Files\GUI\Editor\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\BXGX\Code\BXGX\DragDrop\DataObject.cpp">
+      <Filter>Source Files\DragDrop</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\IMGF\Globals.h">
@@ -847,6 +850,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Components\LeftEntryList.h">
       <Filter>Header Files\GUI\Editor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\BXGX\Code\BXGX\DragDrop\DataObject.h">
+      <Filter>Header Files\DragDrop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

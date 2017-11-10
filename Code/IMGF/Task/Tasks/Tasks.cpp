@@ -317,7 +317,7 @@ void		Tasks::chooseFilesToOpen(void)
 {
 	onStartTask("chooseFilesToOpen");
 
-	vector<string> vecFilePaths = openFile(String::join(m_pMainWindow->getActiveEditor()->getEditorFileFormats(), ","));
+	vector<string> vecFilePaths = openFile(String::join(m_pMainWindow->getActiveEditor()->getFileFormatsForChooseFile(), ","));
 	if (vecFilePaths.size() == 0)
 	{
 		return m_pTaskManager->onAbortTask();

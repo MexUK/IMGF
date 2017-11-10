@@ -120,6 +120,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\BXGX\Code\BXGX\DragDrop\DataObject.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\Editor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\Tab\EditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Components\LeftEntryList.cpp" />
@@ -196,6 +197,7 @@
     <ClCompile Include="..\..\..\Code\IMGF\Updater\UpdateManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\BXGX\Code\BXGX\DragDrop\DataObject.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Base\Editor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Base\Tab\EditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Components\LeftEntryList.h" />

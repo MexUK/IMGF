@@ -1076,3 +1076,11 @@ RadarEditorTabEntry*			RadarEditorTab::getEntryByIMGEntry(IMGEntry *pIMGEntry)
 	}
 	return nullptr;
 }
+
+// add entry
+void							RadarEditorTab::addEntryAfter(FormatEntry *pEntry)
+{
+	IMGEntry *pIMGEntry = (IMGEntry*)pEntry;
+
+	recreateEntryList();
+}

@@ -99,7 +99,8 @@ void					MainWindow::initLayers(void)
 	bindEventRef(RESIZE_WINDOW, &MainWindow::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));
 
-	setActiveEditor(m_pCollisionEditor);
+	int32 iLastEditorUsedIndex = String::toUint32(getIMGF()->getSettingsManager()->getSetting("LastEditorUsedIndex"));
+	setActiveEditor(m_vecEditors.getEntryByIndex(iLastEditorUsedIndex));
 }
 
 // layer initialization
@@ -225,6 +226,7 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 
 	if (pActiveEditor && bDiff && !pActiveEditor->isEnabled())
 	{
+		getIMGF()->getSettingsManager()->setSetting("LastEditorUsedIndex", String::toString(getIndexByEntry(pActiveEditor)));
 		pActiveEditor->setEnabled(true);
 		//pActiveEditor->bindEvents();
 	}

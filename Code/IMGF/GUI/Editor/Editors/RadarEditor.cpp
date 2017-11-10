@@ -15,8 +15,9 @@ using namespace imgf;
 void									RadarEditor::init(void)
 {
 	setEditorFileType(IMG);
-	setEditorFileFormats({ "IMG", "TXD", "WTD" });
-	setImportEditorFileFormats({ "BMP", "PNG", "GIF", "JPG", "JPEG", "ICO", "CUR", "DDS" });
+	setEditorFileFormats({ "IMG" });
+	//setImportEditorFileFormats({ "BMP", "PNG", "GIF", "JPG", "JPEG", "ICO", "CUR", "DDS" });
+	setImportEditorFileFormats({ "TXD", "WTD" });
 
 	Editor::init();
 }
