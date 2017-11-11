@@ -1944,6 +1944,7 @@ void		Tasks::replaceByFiles(void)
 		}
 
 		pEntry->replace(strFilePath);
+		// todo getTab()->onEntryChange(pEntry);
 
 		increaseProgress();
 		uiReplacedEntryCount++;
