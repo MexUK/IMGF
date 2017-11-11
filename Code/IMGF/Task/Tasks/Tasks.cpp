@@ -2504,7 +2504,7 @@ void		Tasks::splitSelected(void)
 {
 	onStartTask("splitSelected");
 
-	uint32 uiSelectedEntryCount = getTab()->getTotalEntryCount();
+	uint32 uiSelectedEntryCount = getTab()->getSelectedEntryCount();
 	if (uiSelectedEntryCount == 0)
 	{
 		showMessage("At least one entry must be selected to split selected entries.", "Selected Entry Needed", MB_OK);
@@ -2526,6 +2526,7 @@ void		Tasks::splitSelected(void)
 	FormatVersion *pFormatVersion = nullptr;
 	if (iNewFileVersionOptionIndex == -1)
 	{
+		pFormatVersion = new FormatVersion;
 		pFormatVersion->m_uiFileType = uiEditorFileType;
 		pFormatVersion->m_uiRawVersion = getTab()->getContainerFile()->getRawVersion();
 		pFormatVersion->m_uiFileType = uiEditorFileType;
@@ -2549,6 +2550,11 @@ void		Tasks::splitSelected(void)
 		strLogPart3 = bDeleteSelectedEntriesFromSourceFile ? ", removing selected source entries" : "",
 		strLogPart4 = iNewFileVersionOptionIndex == -1 ? "" : ", creating file with version " + pFormatVersion->m_strVersionText;
 	getTab()->logf("Split %u entries into %s%s%s.", uiSelectedEntryCount, Path::getFileName(strNewFilePath).c_str(), strLogPart3.c_str(), strLogPart4.c_str());
+
+	if (iNewFileVersionOptionIndex == -1)
+	{
+		delete pFormatVersion;
+	}
 
 	onCompleteTask();
 }
@@ -2675,6 +2681,7 @@ void		Tasks::splitByEntryNames(void)
 	FormatVersion *pFormatVersion = nullptr;
 	if (iNewFileVersionOptionIndex == -1)
 	{
+		pFormatVersion = new FormatVersion;
 		pFormatVersion->m_uiFileType = uiEditorFileType;
 		pFormatVersion->m_uiRawVersion = getTab()->getContainerFile()->getRawVersion();
 		pFormatVersion->m_uiFileType = uiEditorFileType;
@@ -2702,6 +2709,11 @@ void		Tasks::splitByEntryNames(void)
 		strLogPart3 = bDeleteSelectedEntriesFromSource ? ", removing selected source entries" : "",
 		strLogPart4 = iNewFileVersionOptionIndex == -1 ? "" : ", creating file with version " + pFormatVersion->m_strVersionText;
 	getTab()->logf("Split %u entries into %s by entry names%s%s.", vecEntries.size(), Path::getFileName(strNewFilePath).c_str(), strLogPart3.c_str(), strLogPart4.c_str());
+
+	if (iNewFileVersionOptionIndex == -1)
+	{
+		delete pFormatVersion;
+	}
 
 	onCompleteTask();
 }

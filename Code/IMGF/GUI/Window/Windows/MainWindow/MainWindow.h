@@ -51,6 +51,7 @@ public:
 	bxcf::VectorPool<imgf::Editor*>&	getEditors(void) { return m_vecEditors; }
 
 	Editor*						getEditorFromFileExtension(std::string& strFileExtension);
+	int32						getEditorIndex(Editor *pEditor);
 
 	bxgx::ProgressBar*			getProgressBar(void);
 

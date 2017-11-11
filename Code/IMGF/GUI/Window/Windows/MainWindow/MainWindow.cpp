@@ -100,7 +100,14 @@ void					MainWindow::initLayers(void)
 	repositionAndResizeControls(Vec2i(0, 0));
 
 	int32 iLastEditorUsedIndex = String::toUint32(getIMGF()->getSettingsManager()->getSetting("LastEditorUsedIndex"));
-	setActiveEditor(m_vecEditors.getEntryByIndex(iLastEditorUsedIndex));
+	if (iLastEditorUsedIndex < m_vecEditors.getEntryCount())
+	{
+		setActiveEditor(m_vecEditors.getEntryByIndex(iLastEditorUsedIndex));
+	}
+	else
+	{
+		setActiveEditor(m_vecEditors.getFirstEntry());
+	}
 }
 
 // layer initialization
@@ -226,20 +233,23 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 
 	if (pActiveEditor && bDiff && !pActiveEditor->isEnabled())
 	{
-		getIMGF()->getSettingsManager()->setSetting("LastEditorUsedIndex", String::toString(getIndexByEntry(pActiveEditor)));
+		getIMGF()->getSettingsManager()->setSetting("LastEditorUsedIndex", String::toString(getEditorIndex(pActiveEditor)));
 		pActiveEditor->setEnabled(true);
 		//pActiveEditor->bindEvents();
 	}
 
 	m_pMainLayer->removeMenus();
 	m_pMainLayer->addMenus();
-	m_pMainLayer->setCertainMenuItemsEnabled(pActiveEditor->getEditorTabs().getEntryCount() > 0);
+	m_pMainLayer->setCertainMenuItemsEnabled(pActiveEditor && (pActiveEditor->getEditorTabs().getEntryCount() > 0));
 
-	getIMGF()->getRecentlyOpenManager()->unloadRecentlyOpenEntries(m_pActiveEditor->getEditorType());
-	getIMGF()->getRecentlyOpenManager()->loadRecentlyOpenEntries(m_pActiveEditor->getEditorType());
+	if (m_pActiveEditor)
+	{
+		getIMGF()->getRecentlyOpenManager()->unloadRecentlyOpenEntries(m_pActiveEditor->getEditorType());
+		getIMGF()->getRecentlyOpenManager()->loadRecentlyOpenEntries(m_pActiveEditor->getEditorType());
 
-	getIMGF()->getFileGroupManager()->unloadFileGroups(m_pActiveEditor->getEditorType());
-	getIMGF()->getFileGroupManager()->loadFileGroups(m_pActiveEditor->getEditorType());
+		getIMGF()->getFileGroupManager()->unloadFileGroups(m_pActiveEditor->getEditorType());
+		getIMGF()->getFileGroupManager()->loadFileGroups(m_pActiveEditor->getEditorType());
+	}
 
 	bool bEnableLayerWithNoTabsOpen = pActiveEditor && pActiveEditor->getEditorTabs().getEntryCount() == 0;
 	Layer *pLayerWithNoTabsOpen = getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen();
@@ -274,6 +284,20 @@ Editor*					MainWindow::getEditorFromFileExtension(string& strFileExtension)
 		}
 	}
 	return nullptr;
+}
+
+int32					MainWindow::getEditorIndex(Editor *pEditor)
+{
+	if (pEditor == m_pDATEditor) return 0;
+	if (pEditor == m_pIMGEditor) return 1;
+	if (pEditor == m_pItemDefinitionEditor) return 2;
+	if (pEditor == m_pItemPlacementEditor) return 3;
+	if (pEditor == m_pModelEditor) return 4;
+	if (pEditor == m_pCollisionEditor) return 5;
+	if (pEditor == m_pTextureEditor) return 6;
+	if (pEditor == m_pAnimationEditor) return 7;
+	if (pEditor == m_pRadarEditor) return 8;
+	return -1;
 }
 
 // layer repositioning and resizing

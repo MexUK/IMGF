@@ -23,6 +23,8 @@
 #include "Event/EInputEvent.h"
 #include "Image/ImageManager.h"
 #include "GUI/Editor/Base/Editor.h"
+#include "Engine/RW/RWManager.h"
+#include "Engine/RW/RWVersionManager.h"
 
 using namespace std;
 using namespace bxcf;
@@ -741,8 +743,11 @@ void					TextureEditorTab::setFileInfoText(void)
 	m_pText_FilePath->setText(getFile()->getFilePath());
 	if (m_bIsTXDFile)
 	{
-		m_pText_FileVersion->setText(getTXDFile()->getRWVersion()->getVersionText(), false);
-		m_pText_FileGame->setText(getTXDFile()->getRWVersion()->getGamesAsString());
+		string strVersionText = RWManager::get()->getVersionManager()->getVersionText(getTXDFile()->getRawVersion());
+		string strVersionGames = getTXDFile()->getRWVersion() ? getTXDFile()->getRWVersion()->getGamesAsString() : "Unknown";
+
+		m_pText_FileVersion->setText(strVersionText);
+		m_pText_FileGame->setText(strVersionGames);
 	}
 	else
 	{
