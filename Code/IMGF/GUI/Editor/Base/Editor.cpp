@@ -12,12 +12,14 @@
 #include "Control/Controls/TextBox.h"
 #include "Control/Controls/TabBar.h"
 #include "GUI/Editor/EEditor.h"
+#include "GUI/Input/EInputItem.h"
 
 using namespace std;
 using namespace bxcf;
 using namespace bxgx;
 using namespace bxgx::events;
 using namespace imgf;
+using namespace imgf::mainLayer::input;
 
 Editor::Editor(EEditor uiEditorType) :
 	m_uiEditorType(uiEditorType),
@@ -238,4 +240,15 @@ vector<string>						Editor::getFileFormatsForChooseFile(void)
 	string strEditorFileTypeName = getEditorName(m_uiEditorType);
 	vecData.insert(vecData.begin(), strEditorFileTypeName + " Files");
 	return vecData;
+}
+
+// file extension task
+EInputItem							Editor::getFileExtensionNewTask(string& strEditorFileExtension)
+{
+	string strEditorFileExtensionUpper = String::toUpperCase(strEditorFileExtension);
+	if (strEditorFileExtensionUpper == "WTD")
+	{
+		return NEW_WTD;
+	}
+	return NEW_FILE;
 }

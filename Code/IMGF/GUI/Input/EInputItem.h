@@ -66,6 +66,8 @@ enum imgf::mainLayer::input::EInputItem
 
 	// second left menu items
 	NEW_FILE,
+	NEW_WTD,
+	IMG_NEW_V3,
 	NEW_WINDOW,
 
 	OPEN_FILES,

@@ -304,6 +304,79 @@ void		Tasks::newFile(void)
 	onCompleteTask();
 }
 
+void		Tasks::newWTD(void)
+{
+	onStartTask("newWTD");
+
+	string strOutputFilePath = getIMGF()->getActiveProjectFolderPath();
+	string strEditorFileExtension = "WTD";
+
+	string strNewFileFolderPath;
+	if (strOutputFilePath == "")
+	{
+		strNewFileFolderPath = DataPath::getDataPath() + "New/" + String::toUpperCase(strEditorFileExtension);
+	}
+	else
+	{
+		strNewFileFolderPath = strOutputFilePath;
+	}
+
+	string strNewFilePath = strNewFileFolderPath + "/New." + String::toLowerCase(strEditorFileExtension);
+	string strNewFilePath2 = strNewFilePath;
+	uint32 uiSuffix = 2;
+	while (m_pMainWindow->getActiveEditor()->isFilePathOpen(strNewFilePath) || File::doesFileExist(strNewFilePath))
+	{
+		strNewFilePath = Path::removeFileExtension(strNewFilePath2) + String::toString(uiSuffix) + "." + Path::getFileExtension(strNewFilePath2);
+		uiSuffix++;
+	}
+
+	File::createFoldersForPath(strNewFilePath);
+
+	m_pMainWindow->getActiveEditor()->addBlankEditorTab(strNewFilePath);
+
+	onCompleteTask();
+}
+
+void		Tasks::newIMGV3(void)
+{
+	onStartTask("newIMGV3");
+
+	string strOutputFilePath = getIMGF()->getActiveProjectFolderPath();
+	string strEditorFileExtension = "IMG";
+
+	string strNewFileFolderPath;
+	if (strOutputFilePath == "")
+	{
+		strNewFileFolderPath = DataPath::getDataPath() + "New/" + String::toUpperCase(strEditorFileExtension);
+	}
+	else
+	{
+		strNewFileFolderPath = strOutputFilePath;
+	}
+
+	string strNewFilePath = strNewFileFolderPath + "/New." + String::toLowerCase(strEditorFileExtension);
+	string strNewFilePath2 = strNewFilePath;
+	uint32 uiSuffix = 2;
+	while (m_pMainWindow->getActiveEditor()->isFilePathOpen(strNewFilePath) || File::doesFileExist(strNewFilePath))
+	{
+		strNewFilePath = Path::removeFileExtension(strNewFilePath2) + String::toString(uiSuffix) + "." + Path::getFileExtension(strNewFilePath2);
+		uiSuffix++;
+	}
+
+	File::createFoldersForPath(strNewFilePath);
+
+	if (m_pMainWindow->getActiveEditor()->getEditorType() == IMG_EDITOR)
+	{
+		((IMGEditor*)m_pMainWindow->getActiveEditor())->addBlankEditorTab(strNewFilePath, IMG_3);
+	}
+	else if (m_pMainWindow->getActiveEditor()->getEditorType() == RADAR_EDITOR)
+	{
+		((RadarEditor*)m_pMainWindow->getActiveEditor())->addBlankEditorTab(strNewFilePath, IMG_3);
+	}
+
+	onCompleteTask();
+}
+
 void		Tasks::newWindow(void)
 {
 	onStartTask("newWindow");

@@ -254,6 +254,8 @@ void					InputManager::processTask(uint32 uiMenuItemId)
 	case RADAR:										return radar();
 
 	case NEW_FILE:									return newFile();
+	case NEW_WTD:									return newWTD();
+	case IMG_NEW_V3:								return newIMGV3();
 	case NEW_WINDOW:								return newWindow();
 
 	case OPEN_FILES:								return openFiles();
@@ -496,6 +498,16 @@ void					InputManager::radar(void)
 void					InputManager::newFile(void)
 {
 	m_pTasks->newFile();
+}
+
+void					InputManager::newWTD(void)
+{
+	m_pTasks->newWTD();
+}
+
+void					InputManager::newIMGV3(void)
+{
+	m_pTasks->newIMGV3();
 }
 
 void					InputManager::newWindow(void)

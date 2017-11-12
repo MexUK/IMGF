@@ -157,9 +157,12 @@ IMGEditorTab*				IMGEditor::addEditorTab(string& strFilePath)
 // add editor tab
 IMGEditorTab*				IMGEditor::addBlankEditorTab(string& strFilePath)
 {
-	IMGEditorTab *pIMGEditorTab;
+	return addBlankEditorTab(strFilePath, IMG_1);
+}
 
-	EIMGVersion uiIMGVersion = bxgi::EIMGVersion::IMG_1;
+IMGEditorTab*				IMGEditor::addBlankEditorTab(string& strFilePath, EIMGVersion uiIMGVersion)
+{
+	IMGEditorTab *pIMGEditorTab;
 
 	switch (uiIMGVersion)
 	{
@@ -184,6 +187,10 @@ IMGEditorTab*				IMGEditor::addBlankEditorTab(string& strFilePath)
 	{
 		pIMGEditorTab->setIMGEditor(this);
 		pIMGEditorTab->setIMGFile((IMGFormat*)pIMGEditorTab->getFile());
+		if (uiIMGVersion == IMG_3)
+		{
+			pIMGEditorTab->getIMGFile()->setEncrypted(true);
+		}
 		pIMGEditorTab->init(true);
 	}
 	

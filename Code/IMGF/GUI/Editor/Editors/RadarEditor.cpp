@@ -114,9 +114,12 @@ RadarEditorTab*							RadarEditor::addEditorTab(string& strFilePath)
 
 RadarEditorTab*							RadarEditor::addBlankEditorTab(string& strFilePath)
 {
-	RadarEditorTab *pRadarEditorTab;
+	return addBlankEditorTab(strFilePath, IMG_1);
+}
 
-	EIMGVersion uiIMGVersion = bxgi::EIMGVersion::IMG_1;
+RadarEditorTab*							RadarEditor::addBlankEditorTab(string& strFilePath, EIMGVersion uiIMGVersion)
+{
+	RadarEditorTab *pRadarEditorTab;
 
 	switch (uiIMGVersion)
 	{
@@ -141,6 +144,10 @@ RadarEditorTab*							RadarEditor::addBlankEditorTab(string& strFilePath)
 	{
 		//pRadarEditorTab->setIMGEditor(this);
 		pRadarEditorTab->setIMGFile((IMGFormat*)pRadarEditorTab->getFile());
+		if (uiIMGVersion == IMG_3)
+		{
+			pRadarEditorTab->getIMGFile()->setEncrypted(true);
+		}
 		pRadarEditorTab->init(true);
 	}
 

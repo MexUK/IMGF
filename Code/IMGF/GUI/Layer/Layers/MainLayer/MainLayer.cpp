@@ -140,7 +140,27 @@ void		MainLayer::addMenus(void)
 
 	pMenuItem1 = pMenu1->addMenuItem("New");
 	pMenu2 = pMenuItem1->addMenu(VERTICAL);
-	pMenu2->addMenuItem("New File", NEW_FILE);
+	if (m_pMainWindow->getActiveEditor())
+	{
+		for (string& strEditorFileExtension : m_pMainWindow->getActiveEditor()->getEditorFileFormats())
+		{
+			if (String::toUpperCase(strEditorFileExtension) == "DIR")
+			{
+				continue;
+			}
+
+			pMenu2->addMenuItem("New " + strEditorFileExtension, Editor::getFileExtensionNewTask(strEditorFileExtension));
+		}
+
+		if (m_pMainWindow->getActiveEditor()->getEditorType() == IMG_EDITOR || m_pMainWindow->getActiveEditor()->getEditorType() == RADAR_EDITOR)
+		{
+			pMenu2->addMenuItem("New IMG V3", IMG_NEW_V3);
+		}
+	}
+	else
+	{
+		pMenu2->addMenuItem("New File", NEW_FILE);
+	}
 	pMenu2->addMenuItem("New Window", NEW_WINDOW);
 
 	pMenuItem1 = pMenu1->addMenuItem("Open");

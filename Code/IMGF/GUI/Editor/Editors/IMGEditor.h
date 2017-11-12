@@ -30,6 +30,7 @@ public:
 	
 	IMGEditorTab*				addEditorTab(std::string& strFilePath);
 	IMGEditorTab*				addBlankEditorTab(std::string& strFilePath);
+	IMGEditorTab*				addBlankEditorTab(std::string& strFilePath, bxgi::EIMGVersion uiIMGVersion = bxgi::EIMGVersion::IMG_1);
 
 	void						removeEditorTab(IMGEditorTab *pIMGEditorTab);
 	void						removeActiveEditorTab(void);

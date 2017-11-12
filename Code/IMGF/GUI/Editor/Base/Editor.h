@@ -83,6 +83,8 @@ public:
 
 	std::vector<std::string>			getFileFormatsForChooseFile(void);
 
+	static imgf::mainLayer::input::EInputItem			getFileExtensionNewTask(std::string& strEditorFileExtension);
+
 protected:
 	EEditor								m_uiEditorType;
 	MainWindow*							m_pMainWindow;

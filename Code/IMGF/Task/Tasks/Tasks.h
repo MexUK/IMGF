@@ -55,6 +55,8 @@ public:
 	void						uninit(void);
 
 	void						newFile(void);
+	void						newWTD(void);
+	void						newIMGV3(void);
 	void						newWindow(void);
 
 	void						chooseFilesToOpen(void); // todo - different level function

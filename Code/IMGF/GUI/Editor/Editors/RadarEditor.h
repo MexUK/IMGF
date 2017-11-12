@@ -27,4 +27,5 @@ public:
 
 	RadarEditorTab*						addEditorTab(std::string& strFilePath);
 	RadarEditorTab*						addBlankEditorTab(std::string& strFilePath);
+	RadarEditorTab*						addBlankEditorTab(std::string& strFilePath, bxgi::EIMGVersion uiIMGVersion = bxgi::EIMGVersion::IMG_1);
 };
