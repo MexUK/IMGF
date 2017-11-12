@@ -59,6 +59,8 @@ protected:
 
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeChange);
 
+	bool						doesTabEntryMatchFilter(TextureEditorTabEntry *pTabEntry);
+
 private:
 	bool						prepareRenderData_TXD(void);
 	bool						prepareRenderData_WTD(void); // todo - merge with prepareRenderData_TXD?
@@ -73,6 +75,8 @@ private:
 	void						setZoomLevel(float32 fZoomLevel) { m_fZoomLevel = fZoomLevel; }
 	float32						getZoomLevel(void) { return m_fZoomLevel; }
 
+	void						calculateDisplayedEntryCount(void);
+
 private:
 	bool						m_bIsTXDFile;
 	union
@@ -86,4 +90,5 @@ private:
 	bxgx::ScrollBar*			m_pVScrollBar;
 
 	float32						m_fZoomLevel;
+	uint32						m_uiDisplayedEntryCount;
 };

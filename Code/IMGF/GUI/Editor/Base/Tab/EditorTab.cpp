@@ -60,6 +60,7 @@ void						EditorTab::bindEvents(void)
 	bindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
 	bindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
 	bindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
+	bindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
 
 	Layer::bindEvents();
 }
@@ -69,6 +70,7 @@ void						EditorTab::unbindEvents(void)
 	unbindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
 	unbindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
 	unbindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
+	unbindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
 
 	Layer::unbindEvents();
 }
@@ -195,6 +197,15 @@ void						EditorTab::clearLogs(void)
 uint32						EditorTab::getTabIndex(void)
 {
 	return m_pTab->getIndex();
+}
+
+// events
+void						EditorTab::onChangeTextBox(TextBox *pTextBox)
+{
+	if (pTextBox == m_pSearchBox)
+	{
+		recreateEntryList();
+	}
 }
 
 // controls

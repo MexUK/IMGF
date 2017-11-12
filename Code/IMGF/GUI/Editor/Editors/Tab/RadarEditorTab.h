@@ -49,6 +49,8 @@ public:
 	RadarEditorTabEntry*		getActiveEntry(void) { return m_pActiveTabEntry; }
 	void						clearActiveEntries(void);
 
+	bool						doesTabEntryMatchFilter(RadarEditorTabEntry *pTabEntry);
+
 protected:
 	void						onLeftMouseDown(bxcf::Vec2i vecCursorPosition);
 	void						onKeyDown2(uint16 uiKey);
@@ -62,11 +64,14 @@ protected:
 
 	void						addEntryAfter(bxcf::FormatEntry *pEntry);
 
+	void						calculateDisplayedEntryCount(void);
+
 private:
 	bxgi::IMGFormat*			m_pIMGFile;
 	RadarEditorTabEntry*		m_pActiveTabEntry;
 
 	bxgx::ScrollBar*			m_pVScrollBar;
+	uint32						m_uiDisplayedEntryCount;
 
 	std::vector<bxgi::TXDFormat*>		m_vecTXDFiles;
 	std::vector<bxgi::WTDFormat*>		m_vecWTDFiles;

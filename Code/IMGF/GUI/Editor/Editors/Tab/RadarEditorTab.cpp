@@ -62,7 +62,8 @@ inline void PremultiplyBitmapAlpha(HDC hDC, HBITMAP hBmp)
 
 RadarEditorTab::RadarEditorTab(void) :
 	m_pIMGFile(nullptr),
-	m_pActiveTabEntry(nullptr)
+	m_pActiveTabEntry(nullptr),
+	m_uiDisplayedEntryCount(0)
 {
 }
 
@@ -348,6 +349,8 @@ void						RadarEditorTab::onFileLoaded(void)
 		prepareRenderData_TXD();
 	}
 
+	calculateDisplayedEntryCount();
+
 	// display file info
 	setFileInfoText();
 
@@ -398,21 +401,19 @@ void						RadarEditorTab::setFileInfoText(void)
 void						RadarEditorTab::updateEntryCountText(void)
 {
 	uint32
-		uiDisplayedEntryCount = 0;
-	
+		uiTotalEntryCount = 0,
+		uiDisplayedEntryCount = m_uiDisplayedEntryCount;
+	string
+		strEntryCountText;
+
 	for (IMGEntry *pIMGEntry : m_pIMGFile->VectorPool::getEntries())
 	{
 		if (!(pIMGEntry->isTextureFile() && String::toUpperCase(pIMGEntry->getEntryName().substr(0, 5)) == "RADAR" && String::isPositiveInteger(Path::removeFileExtension(pIMGEntry->getEntryName()).substr(5))))
 		{
 			continue;
 		}
-		uiDisplayedEntryCount++;
+		uiTotalEntryCount++;
 	}
-
-	uint32
-		uiTotalEntryCount = uiDisplayedEntryCount;
-	string
-		strEntryCountText;
 
 	if (uiDisplayedEntryCount == uiTotalEntryCount)
 	{
@@ -424,6 +425,26 @@ void						RadarEditorTab::updateEntryCountText(void)
 	}
 
 	m_pText_FileEntryCount->setText(strEntryCountText);
+}
+
+// filter
+void						RadarEditorTab::calculateDisplayedEntryCount(void)
+{
+	uint32 uiMatchCount = 0;
+	for (RadarEditorTabEntry *pTabEntry : getEntries())
+	{
+		if (doesTabEntryMatchFilter(pTabEntry))
+		{
+			uiMatchCount++;
+		}
+	}
+	m_uiDisplayedEntryCount = uiMatchCount;
+}
+
+bool						RadarEditorTab::doesTabEntryMatchFilter(RadarEditorTabEntry *pTabEntry)
+{
+	string strSearchTextUpper = String::toUpperCase(m_pSearchBox->getText());
+	return strSearchTextUpper == "" || String::isIn(String::toUpperCase(pTabEntry->m_strDiffuseName), strSearchTextUpper, false);
 }
 
 // prepare render data
@@ -756,16 +777,30 @@ void						RadarEditorTab::renderEntryList(void)
 	for(uint32
 			uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
 			uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
-			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount);
-		uiEntryIndex < uiEntryEndIndexExclusive;
+			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount),
+			uiDisplayedEntryCount = 0,
+			uiEntryCount = getEntryCount();
+		uiEntryIndex < uiEntryCount;
 		uiEntryIndex++
 	)
 	{
+		if (uiDisplayedEntryCount > uiMaxEntryCount)
+		{
+			break;
+		}
+
 		RadarEditorTabEntry *pImageData = getEntryByIndex(uiEntryIndex);
 		if (!pImageData)
 		{
 			continue; // in case of render() between vector.resize() and vector.setEntryAtIndex()
 		}
+
+		if (!doesTabEntryMatchFilter(pImageData))
+		{
+			continue;
+		}
+
+		uiDisplayedEntryCount++;
 
 		if (bTexturePreviewIsEnabled)
 		{
@@ -964,6 +999,8 @@ void					RadarEditorTab::recreateEntryList(void)
 	{
 		prepareRenderData_WTD();
 	}
+	calculateDisplayedEntryCount();
+	updateEntryCountText();
 	m_pWindow->render();
 }
 

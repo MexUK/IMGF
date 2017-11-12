@@ -43,7 +43,6 @@ public:
 	void						onUnserializeEntry(bxgi::IMGFormat *img);
 
 	void						onSelectDropEntry(bxgx::DropDownItem *pDropEntry);
-	void						onChangeTextBox(bxgx::TextBox *pTextBox);
 	void						onSortGridByColumn(bxgx::Grid *pGrid);
 	void						onDoubleLeftMouseUp2(bxcf::Vec2i vecCursorPosition);
 

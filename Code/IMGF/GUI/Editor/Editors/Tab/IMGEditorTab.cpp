@@ -82,7 +82,6 @@ void					IMGEditorTab::bindEvents(void)
 {
 	bindEvent(RESIZE_WINDOW, &IMGEditorTab::repositionAndResizeControls);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &IMGEditorTab::onSelectDropEntry);
-	bindEvent(CHANGE_TEXT_BOX, &IMGEditorTab::onChangeTextBox);
 	bindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
 	bindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
 	bindEvent(DOUBLE_LEFT_MOUSE_UP, &IMGEditorTab::onDoubleLeftMouseUp2);
@@ -94,7 +93,6 @@ void					IMGEditorTab::unbindEvents(void)
 {
 	unbindEvent(RESIZE_WINDOW, &IMGEditorTab::repositionAndResizeControls);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &IMGEditorTab::onSelectDropEntry);
-	unbindEvent(CHANGE_TEXT_BOX, &IMGEditorTab::onChangeTextBox);
 	unbindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
 	unbindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
 	unbindEvent(DOUBLE_LEFT_MOUSE_UP, &IMGEditorTab::onDoubleLeftMouseUp2);
@@ -369,14 +367,6 @@ bool					IMGEditorTab::unserializeFile(void)
 void					IMGEditorTab::onSelectDropEntry(DropDownItem *pDropEntry)
 {
 	if(pDropEntry->getDropControl() == m_pEntryTypeFilter || pDropEntry->getDropControl() == m_pEntryVersionFilter)
-	{
-		readdGridEntries();
-	}
-}
-
-void					IMGEditorTab::onChangeTextBox(TextBox *pTextBox)
-{
-	if(pTextBox == m_pSearchBox)
 	{
 		readdGridEntries();
 	}

@@ -42,7 +42,8 @@ TextureEditorTab::TextureEditorTab(void) :
 	m_pZoomDropDown(nullptr),
 	m_pVScrollBar(nullptr),
 
-	m_fZoomLevel(1.0f)
+	m_fZoomLevel(1.0f),
+	m_uiDisplayedEntryCount(0)
 {
 }
 
@@ -353,11 +354,26 @@ void					TextureEditorTab::onFileLoaded(void)
 		prepareRenderData_WTD();
 	}
 
-	// display TXD info
-	setFileInfoText();
+	calculateDisplayedEntryCount();
 
 	// render
 	m_pWindow->render();
+
+	// display TXD info
+	setFileInfoText();
+}
+
+void					TextureEditorTab::calculateDisplayedEntryCount(void)
+{
+	uint32 uiMatchCount = 0;
+	for(TextureEditorTabEntry *pTabEntry : getEntries())
+	{
+		if (doesTabEntryMatchFilter(pTabEntry))
+		{
+			uiMatchCount++;
+		}
+	}
+	m_uiDisplayedEntryCount = uiMatchCount;
 }
 
 // prepare render data
@@ -470,6 +486,13 @@ void						TextureEditorTab::prepareTexture_WTD(WTDEntry *pWTDEntry)
 	addEntry(pTabEntry);
 }
 
+// filter
+bool						TextureEditorTab::doesTabEntryMatchFilter(TextureEditorTabEntry *pTabEntry)
+{
+	string strSearchTextUpper = String::toUpperCase(m_pSearchBox->getText());
+	return strSearchTextUpper == "" || String::isIn(String::toUpperCase(pTabEntry->m_strDiffuseName), strSearchTextUpper, false);
+}
+
 // render editor
 void						TextureEditorTab::renderDisplayType_Single(void)
 {
@@ -555,16 +578,30 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 	for(uint32
 			uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
 			uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
-			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount);
-		uiEntryIndex < uiEntryEndIndexExclusive;
+			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount),
+			uiDisplayedEntryCount = 0,
+			uiEntryCount = getEntryCount();
+		uiEntryIndex < uiEntryCount;
 		uiEntryIndex++
 	)
 	{
+		if (uiDisplayedEntryCount > uiMaxEntryCount)
+		{
+			break;
+		}
+
 		TextureEditorTabEntry *pImageData = getEntryByIndex(uiEntryIndex);
 		if (!pImageData)
 		{
 			continue; // in case of render() between vector.resize() and vector.setEntryAtIndex()
 		}
+
+		if (!doesTabEntryMatchFilter(pImageData))
+		{
+			continue;
+		}
+
+		uiDisplayedEntryCount++;
 
 		if (bTexturePreviewIsEnabled)
 		{
@@ -761,7 +798,7 @@ void					TextureEditorTab::setFileInfoText(void)
 void					TextureEditorTab::updateEntryCountText(void)
 {
 	uint32
-		uiDisplayedEntryCount = m_bIsTXDFile ? getTXDFile()->getTextures().size() : getWTDFile()->getEntries().size(),
+		uiDisplayedEntryCount = m_uiDisplayedEntryCount,
 		uiTotalEntryCount = getEntryCount();
 	string
 		strEntryCountText;
@@ -879,6 +916,8 @@ void					TextureEditorTab::recreateEntryList(void)
 	{
 		prepareRenderData_WTD();
 	}
+	calculateDisplayedEntryCount();
+	updateEntryCountText();
 	m_pWindow->render();
 }
 

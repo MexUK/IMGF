@@ -118,6 +118,8 @@ public:
 	void								setFileUnsaved(bool bFileUnsaved) { m_bFileUnsaved = bFileUnsaved; }
 	bool								isFileUnsaved(void) { return m_bFileUnsaved; }
 
+	void								onChangeTextBox(bxgx::TextBox *pTextBox);
+
 protected:
 	bxcf::Format*						m_pFile;
 	Editor*								m_pEditor;
