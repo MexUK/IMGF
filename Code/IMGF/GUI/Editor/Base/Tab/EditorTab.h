@@ -74,6 +74,7 @@ public:
 	virtual void								setEntriesSelected(std::vector<bxcf::FormatEntry*>& vecEntries, bool bIsSelected) {}
 	virtual void								setEntrySelected(bxcf::FormatEntry* pEntry, bool bIsSelected) {}
 	virtual bool								isEntrySelected(bxcf::FormatEntry* pEntry) { return false; }
+	virtual void								onSortEntries(std::vector<bxcf::FormatEntry*>& vecEntries) {}
 
 	void								setEditor(Editor* pEditor) { m_pEditor = pEditor; }
 	Editor*								getEditor(void) { return m_pEditor; }

@@ -2856,13 +2856,13 @@ void		Tasks::convertSelectedCOLVersion(void)
 	}
 	ECOLVersion uiNewCOLVersion = (ECOLVersion)(iNewCOLVersionOptionIndex + 1);
 
-	uint32 uiSelectedRowCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
+	uint32 uiSelectedRowCount = getTab()->getSelectedEntryCount();
 	setMaxProgress(uiSelectedRowCount);
 
 	uint32 uiConvertedEntryCount = 0;
-	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getSelectedRows())
+	for (FormatEntry *pEntry : getTab()->getSelectedEntries())
 	{
-		IMGEntry *pIMGEntry = (IMGEntry*) pRow->getUserData();
+		IMGEntry *pIMGEntry = (IMGEntry*)pEntry;
 
 		if (pIMGEntry->isCollisionFile())
 		{
@@ -2888,7 +2888,7 @@ void		Tasks::convertSelectedCOLVersion(void)
 
 	if (uiSelectedRowCount > 0)
 	{
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->setFileUnsaved(true);
 	}
 
 	getTab()->logf("Converted COL version to %u for %u entries.", uiNewCOLVersion, uiConvertedEntryCount);
@@ -3027,39 +3027,63 @@ void		Tasks::convertSelectedTXDRWVersion(void)
 	uint32 uiNewRawRWVersion = pNewRWVersion->getRawVersion();
 	string strNewRWVersionText = pNewRWVersion->getVersionTextWithGames();
 
-	uint32 uiSelectedRowCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
+	uint32 uiSelectedRowCount = getTab()->getSelectedEntryCount();
 	setMaxProgress(uiSelectedRowCount);
 
 	uint32 uiConvertedEntryCount = 0;
-	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getSelectedRows())
+	EEditor uiEditorType = m_pMainWindow->getActiveEditor()->getEditorType();
+
+	if (uiEditorType == IMG_EDITOR || uiEditorType == RADAR_EDITOR)
 	{
-		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
-
-		if (pIMGEntry->isTextureFile())
+		for (FormatEntry *pFormatEntry : getTab()->getSelectedEntries())
 		{
-			TXDFormat txdFile(pIMGEntry->getEntryData(), false);
-			if (txdFile.unserialize())
+			IMGEntry *pIMGEntry = (IMGEntry*)pFormatEntry;
+
+			if (pIMGEntry->isTextureFile())
 			{
-				for (RWSection *pRWSection : txdFile.VectorPool::getEntries())
+				TXDFormat txdFile(pIMGEntry->getEntryData(), false);
+				if (txdFile.unserialize())
 				{
-					pRWSection->setSectionRWVersion(uiNewRawRWVersion);
+					for (RWSection *pRWSection : txdFile.VectorPool::getEntries())
+					{
+						pRWSection->setSectionRWVersion(uiNewRawRWVersion);
+					}
+
+					string strNewFileData = txdFile.serialize();
+					pIMGEntry->setEntryData(strNewFileData);
+
+					getTab()->onEntryChange(pFormatEntry);
+					uiConvertedEntryCount++;
 				}
-
-				string strNewFileData = txdFile.serialize();
-				pIMGEntry->setEntryData(strNewFileData);
-
-				getIMGTab()->updateGridEntry(pIMGEntry);
-				uiConvertedEntryCount++;
+				txdFile.unload();
 			}
-			txdFile.unload();
-		}
 
-		increaseProgress();
+			increaseProgress();
+		}
+	}
+	else if (uiEditorType == TEXTURE_EDITOR)
+	{
+		TextureEditorTab *pTextureEditorTab = (TextureEditorTab*)getTab();
+		for (FormatEntry *pFormatEntry : getTab()->getSelectedEntries())
+		{
+			if (pTextureEditorTab->isTXDFile())
+			{
+				RWSection_TextureNative *pTextureNative = (RWSection_TextureNative*)pFormatEntry;
+				pTextureNative->setSectionRWVersion(uiNewRawRWVersion);
+			}
+
+			getTab()->onEntryChange(pFormatEntry);
+			uiConvertedEntryCount++;
+
+			increaseProgress();
+		}
 	}
 
 	if (uiSelectedRowCount > 0)
 	{
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->setFileUnsaved(true);
+		getTab()->setFileInfoText();
+		getTab()->getWindow()->render();
 	}
 
 	getTab()->logf("Converted TXD version to %s for %u entries.", strNewRWVersionText.c_str(), uiConvertedEntryCount);
@@ -3089,37 +3113,63 @@ void		Tasks::convertSelectedTXDToGame(void)
 	EPlatformedGame uiNewPlatformedGame = pNewPlatformedGame->getPlatformedGameId();
 	string strNewPlatformedGameText = pNewPlatformedGame->getText();
 
-	uint32 uiSelectedRowCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
+	uint32 uiSelectedRowCount = getTab()->getSelectedEntryCount();
 	setMaxProgress(uiSelectedRowCount);
 
 	uint32 uiConvertedEntryCount = 0;
-	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getSelectedRows())
+	EEditor uiEditorType = m_pMainWindow->getActiveEditor()->getEditorType();
+
+	if (uiEditorType == IMG_EDITOR || uiEditorType == RADAR_EDITOR)
 	{
-		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
-
-		if (pIMGEntry->isTextureFile())
+		for (FormatEntry *pEntry : getTab()->getSelectedEntries())
 		{
-			TXDFormat txdFile(pIMGEntry->getEntryData(), false);
-			vector<string> vecMipmapsRemoved;
-			if (txdFile.unserialize())
+			IMGEntry *pIMGEntry = (IMGEntry*)pEntry;
+
+			if (pIMGEntry->isTextureFile())
 			{
-				txdFile.convertToGame(uiNewPlatformedGame, vecMipmapsRemoved);
+				TXDFormat txdFile(pIMGEntry->getEntryData(), false);
+				vector<string> vecMipmapsRemoved;
+				if (txdFile.unserialize())
+				{
+					txdFile.convertToGame(uiNewPlatformedGame, vecMipmapsRemoved);
 
-				string strNewFileData = txdFile.serialize();
-				pIMGEntry->setEntryData(strNewFileData);
+					string strNewFileData = txdFile.serialize();
+					pIMGEntry->setEntryData(strNewFileData);
 
-				getIMGTab()->updateGridEntry(pIMGEntry);
-				uiConvertedEntryCount++;
+					getIMGTab()->updateGridEntry(pIMGEntry);
+					uiConvertedEntryCount++;
+				}
+				txdFile.unload();
 			}
-			txdFile.unload();
-		}
 
-		increaseProgress();
+			increaseProgress();
+		}
+	}
+	else if (uiEditorType == TEXTURE_EDITOR)
+	{
+		TextureEditorTab *pTextureEditorTab = (TextureEditorTab*)getTab();
+		for (FormatEntry *pFormatEntry : getTab()->getSelectedEntries())
+		{
+			if (pTextureEditorTab->isTXDFile())
+			{
+				RWSection_TextureNative *pTextureNative = (RWSection_TextureNative*)pFormatEntry;
+				vector<string> vecMipmapsRemoved;
+				pTextureNative->convertToGame(uiNewPlatformedGame, vecMipmapsRemoved);
+			}
+
+			getTab()->onEntryChange(pFormatEntry);
+			uiConvertedEntryCount++;
+
+			increaseProgress();
+		}
 	}
 
 	if (uiSelectedRowCount > 0)
 	{
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->setFileUnsaved(true);
+		getTab()->setFileInfoText();
+		getTab()->recreateEntryList();
+		getTab()->getWindow()->render();
 	}
 
 	getTab()->logf("Converted TXD to game %s for %u entries.", strNewPlatformedGameText.c_str(), uiConvertedEntryCount);
@@ -3149,37 +3199,63 @@ void		Tasks::convertSelectedTXDToTextureFormat(void)
 	ERasterDataFormat uiNewRasterDataFormat = pNewRasterDataFormat->getRasterDataFormatId();
 	string strNewRasterDataFormatText = pNewRasterDataFormat->getText();
 
-	uint32 uiSelectedRowCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
+	uint32 uiSelectedRowCount = getTab()->getSelectedEntryCount();
 	setMaxProgress(uiSelectedRowCount);
 
 	uint32 uiConvertedEntryCount = 0;
-	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getSelectedRows())
+	EEditor uiEditorType = m_pMainWindow->getActiveEditor()->getEditorType();
+
+	if (uiEditorType == IMG_EDITOR || uiEditorType == RADAR_EDITOR)
 	{
-		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
-
-		if (pIMGEntry->isTextureFile())
+		for (FormatEntry *pEntry : getTab()->getSelectedEntries())
 		{
-			TXDFormat txdFile(pIMGEntry->getEntryData(), false);
-			vector<string> vecMipmapsRemoved;
-			if (txdFile.unserialize())
+			IMGEntry *pIMGEntry = (IMGEntry*)pEntry;
+
+			if (pIMGEntry->isTextureFile())
 			{
-				txdFile.convertToRasterDataFormat(pNewRasterDataFormat->getRasterDataFormatId(), vecMipmapsRemoved);
+				TXDFormat txdFile(pIMGEntry->getEntryData(), false);
+				vector<string> vecMipmapsRemoved;
+				if (txdFile.unserialize())
+				{
+					txdFile.convertToRasterDataFormat(pNewRasterDataFormat->getRasterDataFormatId(), vecMipmapsRemoved);
 
-				string strNewFileData = txdFile.serialize();
-				pIMGEntry->setEntryData(strNewFileData);
+					string strNewFileData = txdFile.serialize();
+					pIMGEntry->setEntryData(strNewFileData);
 
-				getIMGTab()->updateGridEntry(pIMGEntry);
-				uiConvertedEntryCount++;
+					getIMGTab()->updateGridEntry(pIMGEntry);
+					uiConvertedEntryCount++;
+				}
+				txdFile.unload();
 			}
-			txdFile.unload();
-		}
 
-		increaseProgress();
+			increaseProgress();
+		}
+	}
+	else if (uiEditorType == TEXTURE_EDITOR)
+	{
+		TextureEditorTab *pTextureEditorTab = (TextureEditorTab*)getTab();
+		for (FormatEntry *pFormatEntry : getTab()->getSelectedEntries())
+		{
+			if (pTextureEditorTab->isTXDFile())
+			{
+				RWSection_TextureNative *pTextureNative = (RWSection_TextureNative*)pFormatEntry;
+				vector<string> vecMipmapsRemoved;
+				pTextureNative->convertToRasterDataFormat(pNewRasterDataFormat->getRasterDataFormatId(), vecMipmapsRemoved);
+			}
+
+			getTab()->onEntryChange(pFormatEntry);
+			uiConvertedEntryCount++;
+
+			increaseProgress();
+		}
 	}
 
 	if (uiSelectedRowCount > 0)
 	{
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->setFileUnsaved(true);
+		getTab()->setFileInfoText();
+		getTab()->recreateEntryList();
+		getTab()->getWindow()->render();
 	}
 
 	getTab()->logf("Converted TXD to texture format %s for %u entries.", strNewRasterDataFormatText.c_str(), uiConvertedEntryCount);
@@ -3191,42 +3267,75 @@ void			Tasks::convertWTDFileToTXDFile(void)
 {
 	onStartTask("convertWTDFileToTXDFile");
 
-	uint32 uiSelectedRowCount = getIMGTab()->getEntryGrid()->getSelectedRowCount();
+	uint32 uiSelectedRowCount = getTab()->getSelectedEntryCount();
 	setMaxProgress(uiSelectedRowCount);
 
 	uint32 uiConvertedEntryCount = 0;
-	for (GridRow *pRow : getIMGTab()->getEntryGrid()->getSelectedRows())
+	EEditor uiEditorType = m_pMainWindow->getActiveEditor()->getEditorType();
+
+	if (uiEditorType == IMG_EDITOR || uiEditorType == RADAR_EDITOR)
 	{
-		IMGEntry *pIMGEntry = (IMGEntry*)pRow->getUserData();
-
-		if (pIMGEntry->isTextureFile() && !pIMGEntry->isRWFile())
+		for (FormatEntry *pEntry : getTab()->getSelectedEntries())
 		{
-			WTDFormat wtdFile(pIMGEntry->getEntryData(), false);
-			if (wtdFile.unserialize())
+			IMGEntry *pIMGEntry = (IMGEntry*)pEntry;
+
+			if (pIMGEntry->isTextureFile() && !pIMGEntry->isRWFile())
 			{
-				IntermediateTextureFormat *pGeneralTextureFile = wtdFile.convertToIntermediateFormat();
-				TXDFormat *pTXDFile = TXDManager::get()->convertIntermediateTextureFileToTXDFile(pGeneralTextureFile);
-				pGeneralTextureFile->unload();
-				delete pGeneralTextureFile;
-				string strTXDFileData = pTXDFile->serialize();
-				pTXDFile->unload();
-				delete pTXDFile;
+				WTDFormat wtdFile(pIMGEntry->getEntryData(), false);
+				if (wtdFile.unserialize())
+				{
+					IntermediateTextureFormat *pGeneralTextureFile = wtdFile.convertToIntermediateFormat();
+					TXDFormat *pTXDFile = TXDManager::get()->convertIntermediateTextureFileToTXDFile(pGeneralTextureFile);
+					pGeneralTextureFile->unload();
+					delete pGeneralTextureFile;
+					string strTXDFileData = pTXDFile->serialize();
+					pTXDFile->unload();
+					delete pTXDFile;
 
-				pIMGEntry->setEntryData(strTXDFileData);
-				pIMGEntry->setEntryName(Path::replaceFileExtensionWithCase(pIMGEntry->getEntryName(), "txd"));
+					pIMGEntry->setEntryData(strTXDFileData);
+					pIMGEntry->setEntryName(Path::replaceFileExtensionWithCase(pIMGEntry->getEntryName(), "txd"));
 
-				getIMGTab()->updateGridEntry(pIMGEntry);
-				uiConvertedEntryCount++;
+					getIMGTab()->updateGridEntry(pIMGEntry);
+					uiConvertedEntryCount++;
+				}
+				wtdFile.unload();
 			}
-			wtdFile.unload();
-		}
 
-		increaseProgress();
+			increaseProgress();
+		}
+	}
+	else if (uiEditorType == TEXTURE_EDITOR)
+	{
+		TextureEditorTab *pTextureEditorTab = (TextureEditorTab*)getTab();
+
+		WTDFormat *pWTDFile = (WTDFormat *)getTab()->getFile();
+
+		IntermediateTextureFormat *pGeneralTextureFile = pWTDFile->convertToIntermediateFormat();
+		TXDFormat *pTXDFile = TXDManager::get()->convertIntermediateTextureFileToTXDFile(pGeneralTextureFile);
+		pGeneralTextureFile->unload();
+		delete pGeneralTextureFile;
+		string strTXDFileData = pTXDFile->serialize();
+		pTXDFile->unload();
+		delete pTXDFile;
+
+		string strWTDFilePath = pWTDFile->getFilePath();
+		string strTXDFilePath = Path::replaceFileExtensionWithCase(strWTDFilePath, "TXD");
+		Editor *pEditor = pTextureEditorTab->getEditor();
+
+		File::setBinaryFile(strTXDFilePath, strTXDFileData);
+		
+		pEditor->removeEditorTab(pTextureEditorTab);
+		if (pEditor->addEditorTab(strTXDFilePath))
+		{
+			uiConvertedEntryCount++;
+		}
 	}
 
-	if (uiSelectedRowCount > 0)
+	if (uiConvertedEntryCount > 0)
 	{
-		getIMGTab()->setFileUnsaved(true);
+		getTab()->setFileUnsaved(true);
+		getTab()->setFileInfoText();
+		getTab()->getWindow()->render();
 	}
 
 	getTab()->logf("Converted %u WTD entries to TXD entries.", uiConvertedEntryCount);
@@ -3699,6 +3808,7 @@ void		Tasks::sortByIndexReverse(void)
 		return umapEntryIndexes[pEntry1] > umapEntryIndexes[pEntry2];
 	};
 	std::sort(vecEntries.begin(), vecEntries.end(), sortEntries_IndexReverse);
+	getTab()->onSortEntries(vecEntries);
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3723,6 +3833,7 @@ void		Tasks::sortByNameAscending09AZ(void)
 		return strcmp(String::toLowerCase(pEntry1->getEntryName()).c_str(), String::toLowerCase(pEntry2->getEntryName()).c_str()) < 0;
 	};
 	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_NameAscending09AZ);
+	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3775,6 +3886,7 @@ void		Tasks::sortByNameAscendingAZ09(void)
 		return strcmp(String::toLowerCase(pIMGEntry1->getEntryName()).c_str(), String::toLowerCase(pIMGEntry2->getEntryName()).c_str()) < 0;
 	};
 	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_NameAscendingAZ09);
+	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3801,6 +3913,7 @@ void		Tasks::sortByNameDescendingZA90(void)
 		return strcmp(String::toLowerCase(pEntry1->getEntryName()).c_str(), String::toLowerCase(pEntry2->getEntryName()).c_str()) > 0;
 	};
 	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_NameDescendingZA90);
+	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3830,6 +3943,7 @@ void		Tasks::sortByOffsetLowHigh(void)
 		return pEntry1->getEntryOffset() < pEntry2->getEntryOffset();
 	};
 	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_OffsetLowToHigh);
+	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3854,6 +3968,7 @@ void		Tasks::sortByOffsetHighLow(void)
 		return pEntry1->getEntryOffset() > pEntry2->getEntryOffset();
 	};
 	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_OffsetHighToLow);
+	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3878,6 +3993,7 @@ void		Tasks::sortBySizeSmallBig(void)
 		return pEntry1->getEntrySize() < pEntry2->getEntrySize();
 	};
 	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_SizeSmallToBig);
+	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3902,6 +4018,7 @@ void		Tasks::sortBySizeBigSmall(void)
 		return pEntry1->getEntrySize() > pEntry2->getEntrySize();
 	};
 	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_SizeBigToSmall);
+	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3926,6 +4043,7 @@ void		Tasks::sortByTypeAZ(void)
 		return strcmp(String::toLowerCase(pEntry1->getEntryExtension()).c_str(), String::toLowerCase(pEntry2->getEntryExtension()).c_str()) < 0;
 	};
 	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_TypeAscending09AZ);
+	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3950,6 +4068,7 @@ void		Tasks::sortByTypeZA(void)
 		return strcmp(String::toLowerCase(pEntry1->getEntryExtension()).c_str(), String::toLowerCase(pEntry2->getEntryExtension()).c_str()) > 0;
 	};
 	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_TypeDescendingZA90);
+	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3974,6 +4093,7 @@ void		Tasks::sortByVersionOldNew(void)
 		return pEntry1->getRawVersion() < pEntry2->getRawVersion();
 	};
 	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_VersionOldToNew);
+	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3998,6 +4118,7 @@ void		Tasks::sortByVersionNewOld(void)
 		return pEntry1->getRawVersion() > pEntry2->getRawVersion();
 	};
 	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_VersionNewToOld);
+	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -4037,6 +4158,7 @@ void		Tasks::sortByIDE(void)
 		return vecModelNamesInIDEFile.getIndexByEntry(String::toLowerCase(pIMGEntry1->getEntryName())) < vecModelNamesInIDEFile.getIndexByEntry(String::toLowerCase(pIMGEntry2->getEntryName()));
 	};
 	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_IDEFile);
+	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -4076,6 +4198,7 @@ void		Tasks::sortByCOL(void)
 		return vecModelNamesInCOLFile.getIndexByEntry(String::toLowerCase(pIMGEntry1->getEntryName())) < vecModelNamesInCOLFile.getIndexByEntry(String::toLowerCase(pIMGEntry2->getEntryName()));
 	};
 	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_COLFile);
+	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -4262,6 +4385,7 @@ void		Tasks::sortByMultipleTypes(void)
 	};
 	uiSortTypeIndex = 0;
 	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortByMultipleTypes);
+	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
 
 	getTab()->log("Sorted IMG by multiple types.");
 

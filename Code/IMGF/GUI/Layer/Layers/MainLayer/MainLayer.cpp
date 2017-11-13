@@ -115,7 +115,8 @@ void		MainLayer::addMenus(void)
 		bIsIMGEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getIMGEditor(),
 		bIsModelEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getModelEditor(),
 		bIsTextureEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getTextureEditor(),
-		bIsCollisionEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getCollisionEditor();
+		bIsCollisionEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getCollisionEditor(),
+		bIsRadarEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getRadarEditor();
 
 	// top left menu
 	x = 0;
@@ -359,26 +360,26 @@ void		MainLayer::addMenus(void)
 	pMenuItem1 = pMenu1->addMenuItem("Convert", CONVERT_MENU);
 	pMenu2 = pMenuItem1->addMenu();
 
-	if (bIsIMGEditor)
+	if (bIsIMGEditor || bIsRadarEditor)
 	{
 		pMenuItem2 = pMenu2->addMenuItem("IMG", CONVERT_IMG_MENU);
 		pMenu3 = pMenuItem2->addMenu();
 		pMenuItem3 = pMenu3->addMenuItem("Convert IMG Version", CONVERT_IMG_VERSION);
 	}
-	if (bIsIMGEditor || bIsCollisionEditor)
+	if (bIsIMGEditor || bIsRadarEditor || bIsCollisionEditor)
 	{
 		pMenuItem2 = pMenu2->addMenuItem("COL", CONVERT_COL_MENU);
 		pMenu3 = pMenuItem2->addMenu();
 		pMenuItem3 = pMenu3->addMenuItem("Convert COL Version for Selection", CONVERT_SELECTED_COL_VERSION);
 	}
-	if (bIsIMGEditor || bIsModelEditor)
+	if (bIsIMGEditor || bIsRadarEditor || bIsModelEditor)
 	{
 		pMenuItem2 = pMenu2->addMenuItem("DFF", CONVERT_DFF_MENU);
 		pMenu3 = pMenuItem2->addMenu();
 		pMenuItem3 = pMenu3->addMenuItem("Convert DFF RW Version for Selection", CONVERT_SELECTED_DFF_RW_VERSION);
 		pMenuItem3 = pMenu3->addMenuItem("Convert DFF to WDR for Selection", CONVERT_SELECTED_DFF_TO_WDR);
 	}
-	if (bIsIMGEditor || bIsTextureEditor)
+	if (bIsIMGEditor || bIsRadarEditor || bIsTextureEditor)
 	{
 		pMenuItem2 = pMenu2->addMenuItem("TXD", CONVERT_TXD_MENU);
 		pMenu3 = pMenuItem2->addMenu();
@@ -388,7 +389,14 @@ void		MainLayer::addMenus(void)
 
 		pMenuItem2 = pMenu2->addMenuItem("WTD", CONVERT_WTD_MENU);
 		pMenu3 = pMenuItem2->addMenu();
-		pMenuItem3 = pMenu3->addMenuItem("Convert WTD to TXD for Selection", CONVERT_SELECTED_WTD_TO_TXD);
+		if (bIsIMGEditor)
+		{
+			pMenuItem3 = pMenu3->addMenuItem("Convert WTD to TXD for Selection", CONVERT_SELECTED_WTD_TO_TXD);
+		}
+		else if (bIsTextureEditor)
+		{
+			pMenuItem3 = pMenu3->addMenuItem("Convert WTD to TXD", CONVERT_SELECTED_WTD_TO_TXD);
+		}
 	}
 
 	// select

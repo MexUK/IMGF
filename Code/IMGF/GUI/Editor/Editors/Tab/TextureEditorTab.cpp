@@ -14,6 +14,7 @@
 #include "Static/Path.h"
 #include "Static/StdVector.h"
 #include "Format/TXD/TXDManager.h"
+#include "Format/RW/Sections/RWSection_TextureDictionary.h"
 #include "Format/RW/Sections/RWSection_TextureNative.h"
 #include "GUI/Editor/Editors/Entry/TextureEditorTabEntry.h"
 #include "GraphicsLibrary/Base/ImageObject.h"
@@ -902,6 +903,21 @@ void					TextureEditorTab::onEntryChange(FormatEntry *pEntry)
 	if (pTabEntry->m_strAlphaName != "")
 	{
 		pTabEntry->m_strAlphaName = pEntry->getEntryName() + "a";
+	}
+}
+
+void					TextureEditorTab::onSortEntries(vector<FormatEntry*>& vecEntries)
+{
+	if (m_bIsTXDFile)
+	{
+		RWSection_TextureDictionary *pTextureDictionary = (RWSection_TextureDictionary*)getTXDFile()->getSectionsByType(RW_SECTION_TEXTURE_DICTIONARY)[0];
+
+		pTextureDictionary->removeAllEntries();
+
+		for (FormatEntry *pEntry : vecEntries)
+		{
+			pTextureDictionary->addEntry((RWSection_TextureNative*)pEntry);
+		}
 	}
 }
 
