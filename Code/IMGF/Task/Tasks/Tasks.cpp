@@ -1979,7 +1979,13 @@ void		Tasks::rename(void)
 	}
 
 	setMaxProgress(1);
-	
+
+	if (getTab()->getContainerFile()->doesEntryNameExist(strNewEntryName))
+	{
+		showMessage("Entry name already exists.\n\n" + strNewEntryName, "Name Already Used", MB_OK);
+		return onAbortTask();
+	}
+
 	pEntry->setEntryName(strNewEntryName);
 	getTab()->onEntryChange(pEntry);
 	increaseProgress();
