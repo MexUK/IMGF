@@ -9,10 +9,12 @@
 #include "Control/Controls/TextBox.h"
 #include "Control/Controls/Text.h"
 #include "GUI/Editor/Base/Editor.h"
+#include "Event/EInputEvent.h"
 
 using namespace std;
 using namespace bxcf;
 using namespace bxgi;
+using namespace bxgx::events;
 using namespace imgf;
 
 ItemPlacementEditorTab::ItemPlacementEditorTab(void) :
@@ -25,16 +27,22 @@ ItemPlacementEditorTab::ItemPlacementEditorTab(void) :
 void						ItemPlacementEditorTab::addControls(void)
 {
 	m_pTextBox = addTextBox(139 + 139, 192, 600, 512, "", true, "textBasedEditorTextBox");
+
+	repositionAndResizeControls(Vec2i(0, 0));
 }
 
 // events
 void						ItemPlacementEditorTab::bindEvents(void)
 {
+	bindEvent(RESIZE_WINDOW, &ItemPlacementEditorTab::repositionAndResizeControls);
+
 	EditorTab::bindEvents();
 }
 
 void						ItemPlacementEditorTab::unbindEvents(void)
 {
+	unbindEvent(RESIZE_WINDOW, &ItemPlacementEditorTab::repositionAndResizeControls);
+
 	EditorTab::unbindEvents();
 }
 
@@ -101,4 +109,16 @@ void						ItemPlacementEditorTab::updateEntryCountText(void)
 	}
 
 	m_pText_FileEntryCount->setText(strEntryCountText);
+}
+
+void						ItemPlacementEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
+{
+	uint32 x, y;
+	uint32 uiLogWidth;
+
+	uiLogWidth = 337;
+
+	x = m_pTextBox->getWindow()->getSize().x - uiLogWidth - 139 * 2;
+	y = m_pTextBox->getWindow()->getSize().y - 200;
+	m_pTextBox->setSize(Vec2u(x, y));
 }

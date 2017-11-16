@@ -9,10 +9,12 @@
 #include "Control/Controls/TextBox.h"
 #include "Control/Controls/Text.h"
 #include "GUI/Editor/Base/Editor.h"
+#include "Event/EInputEvent.h"
 
 using namespace std;
 using namespace bxcf;
 using namespace bxgi;
+using namespace bxgx::events;
 using namespace imgf;
 
 ItemDefinitionEditorTab::ItemDefinitionEditorTab(void) :
@@ -25,16 +27,22 @@ ItemDefinitionEditorTab::ItemDefinitionEditorTab(void) :
 void						ItemDefinitionEditorTab::addControls(void)
 {
 	m_pTextBox = addTextBox(139 + 139, 192, 600, 512, "", true, "textBasedEditorTextBox");
+
+	repositionAndResizeControls(Vec2i(0,0));
 }
 
 // events
 void						ItemDefinitionEditorTab::bindEvents(void)
 {
+	bindEvent(RESIZE_WINDOW, &ItemDefinitionEditorTab::repositionAndResizeControls);
+
 	EditorTab::bindEvents();
 }
 
 void						ItemDefinitionEditorTab::unbindEvents(void)
 {
+	unbindEvent(RESIZE_WINDOW, &ItemDefinitionEditorTab::repositionAndResizeControls);
+
 	EditorTab::unbindEvents();
 }
 
@@ -56,7 +64,7 @@ void						ItemDefinitionEditorTab::onFileLoaded(void)
 	setFileInfoText();
 
 	// show file content
-	m_pTextBox->setText(File::getFileContent(getFile()->getFilePath()));
+	m_pTextBox->getTextLines() = String::split(File::getFileContent(getFile()->getFilePath(), false), "\n");
 
 	// render
 	m_pWindow->render();
@@ -100,4 +108,16 @@ void						ItemDefinitionEditorTab::updateEntryCountText(void)
 	}
 
 	m_pText_FileEntryCount->setText(strEntryCountText);
+}
+
+void						ItemDefinitionEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
+{
+	uint32 x, y;
+	uint32 uiLogWidth;
+
+	uiLogWidth = 337;
+
+	x = m_pTextBox->getWindow()->getSize().x - uiLogWidth - 139 * 2;
+	y = m_pTextBox->getWindow()->getSize().y - 200;
+	m_pTextBox->setSize(Vec2u(x, y));
 }

@@ -23,6 +23,8 @@ public:
 	void						setDATFile(bxgi::DATLoaderFormat *pDATFile) { m_pDATFile = pDATFile; }
 	bxgi::DATLoaderFormat*		getDATFile(void) { return m_pDATFile; }
 
+	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
+
 private:
 	bxgi::DATLoaderFormat*		m_pDATFile;
 

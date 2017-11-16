@@ -8,10 +8,12 @@
 #include "Control/Controls/Text.h"
 #include "Game/GameManager.h"
 #include "GUI/Editor/Base/Editor.h"
+#include "Event/EInputEvent.h"
 
 using namespace std;
 using namespace bxcf;
 using namespace bxgi;
+using namespace bxgx::events;
 using namespace imgf;
 
 DATEditorTab::DATEditorTab(void) :
@@ -24,16 +26,22 @@ DATEditorTab::DATEditorTab(void) :
 void						DATEditorTab::addControls(void)
 {
 	m_pTextBox = addTextBox(139 + 139, 192, 600, 512, "", true, "textBasedEditorTextBox");
+
+	repositionAndResizeControls(Vec2i(0, 0));
 }
 
 // events
 void						DATEditorTab::bindEvents(void)
 {
+	bindEvent(RESIZE_WINDOW, &DATEditorTab::repositionAndResizeControls);
+
 	EditorTab::bindEvents();
 }
 
 void						DATEditorTab::unbindEvents(void)
 {
+	unbindEvent(RESIZE_WINDOW, &DATEditorTab::repositionAndResizeControls);
+
 	EditorTab::unbindEvents();
 }
 
@@ -89,4 +97,16 @@ void						DATEditorTab::updateEntryCountText(void)
 	}
 
 	m_pText_FileEntryCount->setText(strEntryCountText);
+}
+
+void						DATEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
+{
+	uint32 x, y;
+	uint32 uiLogWidth;
+
+	uiLogWidth = 337;
+
+	x = m_pTextBox->getWindow()->getSize().x - uiLogWidth - 139 * 2;
+	y = m_pTextBox->getWindow()->getSize().y - 200;
+	m_pTextBox->setSize(Vec2u(x, y));
 }

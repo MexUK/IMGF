@@ -133,6 +133,9 @@ bool						EditorTab::init(bool bIsNewFile)
 	string strFileName = Path::getFileName(m_pFile->getFilePath());
 	logf("Opened %s", strFileName.c_str());
 
+	// render
+	m_pWindow->render();
+
 	return true;
 }
 

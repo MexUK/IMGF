@@ -671,6 +671,14 @@ void						RadarEditorTab::render_Type1(void)
 		vecDimensionTileCount = Vec2u(uiDimensionTileCount, uiDimensionTileCount);
 	}
 	Vec2u vecImageSize(vecAreaSize.x / vecDimensionTileCount.x, vecAreaSize.y / vecDimensionTileCount.y);
+	if (vecImageSize.x < vecImageSize.y)
+	{
+		vecImageSize.y = vecImageSize.x;
+	}
+	else
+	{
+		vecImageSize.x = vecImageSize.y;
+	}
 
 	for(RadarEditorTabEntry *pTabEntry : getEntries())
 	{

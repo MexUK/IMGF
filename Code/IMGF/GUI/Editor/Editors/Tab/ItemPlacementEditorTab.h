@@ -23,6 +23,8 @@ public:
 	void						setIPLFile(bxgi::IPLFormat *pIPLFile) { m_pIPLFile = pIPLFile; }
 	bxgi::IPLFormat*			getIPLFile(void) { return m_pIPLFile; }
 
+	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
+
 private:
 	bxgi::IPLFormat*			m_pIPLFile;
 

@@ -23,6 +23,8 @@ public:
 	void						setIDEFile(bxgi::IDEFormat *pIDEFile) { m_pIDEFile = pIDEFile; }
 	bxgi::IDEFormat*			getIDEFile(void) { return m_pIDEFile; }
 
+	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
+
 private:
 	bxgi::IDEFormat*			m_pIDEFile;
 
