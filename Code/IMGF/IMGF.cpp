@@ -334,6 +334,8 @@ void				IMGF::initCommandLine(void)
 		string strPath = strCommandLine.substr(uiPos3 + 1, (uiPos4 - uiPos3) - 1);
 		getTaskManager()->getDispatch()->_openFile(strPath);
 	}
+
+	BXGX::get()->m_bRenderOnNextProcess = true;
 }
 
 void				IMGF::initAutoUpdateCheck(void)
