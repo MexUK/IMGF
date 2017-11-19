@@ -7087,7 +7087,7 @@ void		Tasks::generateCOLFromDFF(void)
 			colFile.addEntry(pCOLEntry);
 		}
 
-		colFile.serialize(Path::replaceFileExtensionWithCase(strDFFFilePath, "COL"));
+		colFile.serialize(strOutputFolderPath + Path::replaceFileExtensionWithCase(Path::getFileName(strDFFFilePath), "COL"));
 
 		dffFile.unload();
 		increaseProgress();

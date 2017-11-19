@@ -170,7 +170,7 @@ void					DumpWindowLayer::onPressButton(Button *pButton)
 
 		if (pWindow1->m_dumpWindowResult.m_strOutputFolderPath == "")
 		{
-			Input::showMessage("Output folder mst be chosen.", "Input Error", MB_OK);
+			Input::showMessage("Output folder must be chosen.", "Input Error", MB_OK);
 			return;
 		}
 
@@ -180,6 +180,7 @@ void					DumpWindowLayer::onPressButton(Button *pButton)
 		pWindow1->m_dumpWindowResult.m_vecTextureImageOutputFormats = pWindow2->getFirstEntry()->getSelectedCheckBoxesText(1);
 		pWindow1->m_dumpWindowResult.m_bDumpAllTextureMipmaps = ((CheckBox*)pWindow2->getItemById(400))->isMarked();
 		pWindow1->m_dumpWindowResult.m_bDumpTextureImagesAsFolders = ((CheckBox*)pWindow2->getItemById(401))->isMarked();
+		BXGX::get()->m_vecWindowsToDestroy.push_back(pWindow2);
 		break;
 
 	case 210:
