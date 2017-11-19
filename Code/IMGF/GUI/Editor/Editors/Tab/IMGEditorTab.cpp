@@ -48,11 +48,8 @@
 #include "../BXGI/Event/EEvent.h"
 #include "Exception/EExceptionCode.h"
 #include "Task/Tasks/Tasks.h"
-#include "DragDrop/DropSource.h"
-#include "DragDrop/DataObject.h"
 #include <map>
 #include <algorithm>
-#include <Shlobj.h>
 
 using namespace std;
 using namespace bxcf;
@@ -409,109 +406,27 @@ void					IMGEditorTab::onDoubleLeftMouseUp2(Vec2i vecCursorPosition)
 
 void					IMGEditorTab::onStartDraggingGridRows(Grid *pGrid)
 {
-	HRESULT hr = OleInitialize(NULL);
+	vector<string>
+		vecFileNames,
+		vecFileDatas;
+	uint32
+		uiDragDropEntryCount = getSelectedEntryCount(),
+		i = 0;
 
-	IDataObject		*pDataObject;
-	IDropSource		*pDropSource;
-	DWORD			dwEffect;
-	HRESULT			iResult;
+	vecFileNames.resize(uiDragDropEntryCount);
+	vecFileDatas.resize(uiDragDropEntryCount);
 
-	// prepare data
-	uint32 uiDragDropEntryCount = getSelectedEntryCount();
-
-	// create FORMATETC
-	FORMATETC *fmtetc = new FORMATETC[uiDragDropEntryCount + 1];
-	fmtetc[0] = { (CLIPFORMAT)RegisterClipboardFormat(CFSTR_FILEDESCRIPTOR), NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
-	uint32 i = 0;
-	for (FormatEntry *pEntry : getSelectedEntries())
-	{
-		fmtetc[i + 1] = { (CLIPFORMAT)RegisterClipboardFormat(CFSTR_FILECONTENTS), NULL, DVASPECT_CONTENT, (LONG)i + 1, TYMED_HGLOBAL };
-
-		i++;
-	}
-
-	// create file data into HGLOBAL
-	HGLOBAL *hgblFileDatas = new HGLOBAL[uiDragDropEntryCount];
-	i = 0;
-	for (FormatEntry *pEntry : getSelectedEntries())
-	{
-		IMGEntry *pIMGEntry = (IMGEntry *) pEntry;
-		string strFileData = pIMGEntry->getEntryData();
-
-		hgblFileDatas[i] = GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, strFileData.length());
-		LPSTR lpszFileData = (LPSTR)GlobalLock(hgblFileDatas[i]);
-		lstrcpyA(lpszFileData, strFileData.c_str());
-		GlobalUnlock(hgblFileDatas[i]);
-
-		i++;
-	}
-
-	// create file description into HGLOBAL
-	HGLOBAL hgblDescriptorData = GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, sizeof(FILEGROUPDESCRIPTOR) + (sizeof(FILEDESCRIPTOR) * (uiDragDropEntryCount - 1)));
-	FILEGROUPDESCRIPTOR *pfgd = (FILEGROUPDESCRIPTOR*)GlobalLock(hgblDescriptorData);
-	pfgd->cItems = uiDragDropEntryCount;
-	i = 0;
 	for (GridRow *pGridRow : m_pEntryGrid->getSelectedRows())
 	{
-		string strFileName = pGridRow->getText()[0][2];
+		IMGEntry *pIMGEntry = (IMGEntry*)pGridRow->getUserData();
 
-		pfgd->fgd[i].dwFlags = FD_ATTRIBUTES | FD_FILESIZE | FD_PROGRESSUI;
-		pfgd->fgd[i].dwFileAttributes = FILE_ATTRIBUTE_NORMAL;
-		pfgd->fgd[i].nFileSizeHigh = 0;
-		pfgd->fgd[i].nFileSizeLow = GlobalSize(hgblFileDatas[i]);
-		lstrcpyn(pfgd->fgd[i].cFileName, String::convertStdStringToStdWString(strFileName).c_str(), sizeof(pfgd->fgd[i].cFileName));
+		vecFileNames[i] = pGridRow->getText()[0][2];
+		vecFileDatas[i] = pIMGEntry->getEntryData();
 
 		i++;
 	}
-	GlobalUnlock(hgblDescriptorData);
 
-	// create STGMEDIUM x2
-	STGMEDIUM *stgmed = new STGMEDIUM[uiDragDropEntryCount + 1];
-
-	memset((void far *)(&(stgmed[0])), 0, sizeof(stgmed[0]));
-	stgmed[0].tymed = TYMED_HGLOBAL;
-	stgmed[0].hGlobal = hgblDescriptorData;
-	stgmed[0].pUnkForRelease = NULL;
-
-	for (uint32 i = 0; i < uiDragDropEntryCount; i++)
-	{
-		memset((void far *)(&(stgmed[i + 1])), 0, sizeof(stgmed[i + 1]));
-		stgmed[i + 1].tymed = TYMED_HGLOBAL;
-		stgmed[i + 1].hGlobal = hgblFileDatas[i];
-		stgmed[i + 1].pUnkForRelease = NULL;
-	}
-
-	pDropSource = new DropSource;
-
-	if (CreateDataObject(fmtetc, stgmed, uiDragDropEntryCount + 1, &pDataObject) != S_OK)
-	{
-		return;
-	}
-
-	iResult = DoDragDrop(pDataObject, pDropSource, DROPEFFECT_COPY | DROPEFFECT_MOVE, &dwEffect);
-
-	if (iResult == DRAGDROP_S_DROP)
-	{
-		if (dwEffect & DROPEFFECT_MOVE)
-		{
-			// move
-		}
-		else if (dwEffect & DROPEFFECT_COPY)
-		{
-			// copy
-		}
-	}
-	else if (iResult == DRAGDROP_S_CANCEL)
-	{
-		// cancelled
-	}
-	else
-	{
-		// error
-	}
-
-	pDataObject->Release();
-	pDropSource->Release();
+	EditorTab::startDragDrop(vecFileNames, vecFileDatas);
 }
 
 // error checking
