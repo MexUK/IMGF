@@ -65,6 +65,10 @@ void						ItemDefinitionEditorTab::onFileLoaded(void)
 
 	// show file content
 	m_pTextBox->getTextLines() = String::split(File::getFileContent(getFile()->getFilePath(), false), "\n");
+	if (m_pTextBox->getTextLines().size() == 0)
+	{
+		m_pTextBox->getTextLines().push_back("");
+	}
 
 	// render
 	m_pWindow->render();
