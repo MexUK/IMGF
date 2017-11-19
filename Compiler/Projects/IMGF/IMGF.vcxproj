@@ -120,7 +120,6 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\BXGX\Code\BXGX\DragDrop\DataObject.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\Editor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\Tab\EditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Components\LeftEntryList.cpp" />
@@ -160,10 +159,6 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Layer\Layers\WebsitesWindow\WebsitesWindowLayer.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Window\Windows\MainWindow\MainWindow.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\IMGF.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DragDrop.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DragListCtrl.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DropSource.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DropTarget.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Format\DB\DBEntry.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Format\DB\DBFormat.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\Format\DB\DBManager.cpp" />
@@ -197,7 +192,6 @@
     <ClCompile Include="..\..\..\Code\IMGF\Updater\UpdateManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\BXGX\Code\BXGX\DragDrop\DataObject.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Base\Editor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Base\Tab\EditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Components\LeftEntryList.h" />
@@ -252,10 +246,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Layer\Layers\WebsitesWindow\WebsitesWindowLayer.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Window\Windows\MainWindow\MainWindow.h" />
     <ClInclude Include="..\..\..\Code\IMGF\IMGF.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\DragDrop\DragDrop.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\DragDrop\DragListCtrl.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\DragDrop\DropSource.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\DragDrop\DropTarget.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Event\EEvent.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Format\DB\DBEntry.h" />
     <ClInclude Include="..\..\..\Code\IMGF\Format\DB\DBFormat.h" />

@@ -35,7 +35,6 @@
 #include "Static/Debug.h"
 #include "Static/DataPath.h"
 #include "Static/Timing.h"
-#include "DragDrop/DropTarget.h"
 #include "DB/DBManager.h"
 #include "DB/DBFormat.h"
 #include "Format/IMG/Regular/IMGEntry.h"

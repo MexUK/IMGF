@@ -48,8 +48,11 @@
 #include "../BXGI/Event/EEvent.h"
 #include "Exception/EExceptionCode.h"
 #include "Task/Tasks/Tasks.h"
+#include "DragDrop/DropSource.h"
+#include "DragDrop/DataObject.h"
 #include <map>
 #include <algorithm>
+#include <Shlobj.h>
 
 using namespace std;
 using namespace bxcf;
@@ -85,6 +88,7 @@ void					IMGEditorTab::bindEvents(void)
 	bindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
 	bindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
 	bindEvent(DOUBLE_LEFT_MOUSE_UP, &IMGEditorTab::onDoubleLeftMouseUp2);
+	bindEvent(START_DRAGGING_GRID_ROW, &IMGEditorTab::onStartDraggingGridRow);
 
 	EditorTab::bindEvents();
 }
@@ -96,6 +100,7 @@ void					IMGEditorTab::unbindEvents(void)
 	unbindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
 	unbindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
 	unbindEvent(DOUBLE_LEFT_MOUSE_UP, &IMGEditorTab::onDoubleLeftMouseUp2);
+	unbindEvent(START_DRAGGING_GRID_ROW, &IMGEditorTab::onStartDraggingGridRow);
 
 	EditorTab::unbindEvents();
 }
@@ -160,7 +165,7 @@ void					IMGEditorTab::onFileLoaded(void)
 	// load corresponding DB file & protected entry states
 	m_pDBFile = nullptr;
 	string strDBFilePath = Path::replaceFileExtension(getIMGFile()->getFilePath(), "db");
-	if (File::doesFileExist(strDBFilePath))
+	if (bxcf::File::doesFileExist(strDBFilePath))
 	{
 		m_pDBFile = DBManager::get()->unserializeFile(strDBFilePath);
 
@@ -400,6 +405,89 @@ void					IMGEditorTab::onDoubleLeftMouseUp2(Vec2i vecCursorPosition)
 		BXGX::get()->getMenuItemsPressed().push_back((MenuItem*)m_pEditor->getMainWindow()->getItemById(RENAME));
 		mutexControlInput.unlock();
 	}
+}
+
+void					IMGEditorTab::onStartDraggingGridRow(GridRow *pGridRow)
+{
+	HRESULT hr = OleInitialize(NULL);
+
+	IDataObject		*pDataObject;
+	IDropSource		*pDropSource;
+	DWORD			dwEffect;
+	HRESULT			iResult;
+
+	// prepare filename and file data
+	IMGEntry *pIMGEntry = (IMGEntry *)pGridRow->getUserData();
+
+	wstring strFileName = String::convertStdStringToStdWString(pGridRow->getText()[0][2]);
+	string strFileData = pIMGEntry->getEntryData();
+
+	// create FORMATETC x2
+	FORMATETC *fmtetc = new FORMATETC[2];
+	fmtetc[0] = { (CLIPFORMAT)RegisterClipboardFormat(CFSTR_FILECONTENTS), NULL, DVASPECT_CONTENT, 0, TYMED_HGLOBAL };
+	fmtetc[1] = { (CLIPFORMAT)RegisterClipboardFormat(CFSTR_FILEDESCRIPTOR), NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
+
+	// create file data into HGLOBAL
+	HGLOBAL hgblFileData = GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, strFileData.length());
+	LPSTR lpszFileData = (LPSTR)GlobalLock(hgblFileData);
+	lstrcpyA(lpszFileData, strFileData.c_str());
+	GlobalUnlock(hgblFileData);
+
+	// create file description into HGLOBAL
+	HGLOBAL hgblDescriptorData = GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, sizeof(FILEGROUPDESCRIPTOR));
+	FILEGROUPDESCRIPTOR *pfgd = (FILEGROUPDESCRIPTOR*)GlobalLock(hgblDescriptorData);
+	pfgd->cItems = 1;
+	pfgd->fgd[0].dwFlags = FD_ATTRIBUTES | FD_FILESIZE;
+	pfgd->fgd[0].dwFileAttributes = FILE_ATTRIBUTE_NORMAL;
+	pfgd->fgd[0].nFileSizeHigh = 0;
+	pfgd->fgd[0].nFileSizeLow = strFileData.length() * sizeof(strFileData.c_str()[0]);
+	lstrcpyn(pfgd->fgd[0].cFileName, strFileName.c_str(), sizeof(pfgd->fgd[0].cFileName));
+	GlobalUnlock(hgblDescriptorData);
+
+	// create STGMEDIUM x2
+	STGMEDIUM *stgmed = new STGMEDIUM[2];
+
+	memset((void far *)(&(stgmed[0])), 0, sizeof(stgmed[0]));
+	stgmed[0].tymed = TYMED_HGLOBAL;
+	stgmed[0].hGlobal = hgblFileData;
+	stgmed[0].pUnkForRelease = NULL;
+
+	memset((void far *)(&(stgmed[1])), 0, sizeof(stgmed[1]));
+	stgmed[1].tymed = TYMED_HGLOBAL;
+	stgmed[1].hGlobal = hgblDescriptorData;
+	stgmed[1].pUnkForRelease = NULL;
+
+	pDropSource = new DropSource;
+
+	if (CreateDataObject(fmtetc, stgmed, 2, &pDataObject) != S_OK)
+	{
+		return;
+	}
+
+	iResult = DoDragDrop(pDataObject, pDropSource, DROPEFFECT_COPY | DROPEFFECT_MOVE, &dwEffect);
+
+	if (iResult == DRAGDROP_S_DROP)
+	{
+		if (dwEffect & DROPEFFECT_MOVE)
+		{
+			// move
+		}
+		else if (dwEffect & DROPEFFECT_COPY)
+		{
+			// copy
+		}
+	}
+	else if (iResult == DRAGDROP_S_CANCEL)
+	{
+		// cancelled
+	}
+	else
+	{
+		// error
+	}
+
+	pDataObject->Release();
+	pDropSource->Release();
 }
 
 // error checking
@@ -667,7 +755,7 @@ void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePa
 
 	uint32
 		uiExistingEntryFileCreationDate = pIMGEntry->getFileCreationDate(),
-		uiNewEntryFileCreationDate = File::getFileCreationDate(strEntryFilePath);
+		uiNewEntryFileCreationDate = bxcf::File::getFileCreationDate(strEntryFilePath);
 
 	if (uiExistingEntryFileCreationDate == 0 || uiNewEntryFileCreationDate == 0)
 	{

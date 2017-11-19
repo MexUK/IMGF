@@ -35,14 +35,6 @@ namespace imgf
 		enum ETask;
 	};
 
-	class AutomatedTesting;
-	
-	class DragDrop;
-	struct DraggableFile;
-	class DragListCtrl;
-	class DropSource;
-	class DropTarget;
-
 	class CollisionViewer;
 	class EntryViewer;
 	class EntryViewerManager;

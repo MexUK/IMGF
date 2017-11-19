@@ -34,9 +34,6 @@
     <Filter Include="Source Files\GUI\Editor">
       <UniqueIdentifier>{0bff4621-726e-4d35-87e5-e9c4516e5ce1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\DragDrop">
-      <UniqueIdentifier>{2da4e01f-81cb-430d-a66d-e772befc50a9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Format">
       <UniqueIdentifier>{be344ecf-bbe9-42e8-8f93-338d1c58b864}</UniqueIdentifier>
     </Filter>
@@ -45,9 +42,6 @@
     </Filter>
     <Filter Include="Header Files\Format\LST">
       <UniqueIdentifier>{dc991616-56e1-4a2c-b70f-dcb94205632a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\DragDrop">
-      <UniqueIdentifier>{7dc71615-13dd-48f2-bc40-068150e921f2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Format">
       <UniqueIdentifier>{b11c09cf-842e-4f91-b33d-3249313a2f74}</UniqueIdentifier>
@@ -327,18 +321,6 @@
     <ClCompile Include="..\..\..\Code\IMGF\IMGF.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DragDrop.cpp">
-      <Filter>Source Files\DragDrop</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DragListCtrl.cpp">
-      <Filter>Source Files\DragDrop</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DropSource.cpp">
-      <Filter>Source Files\DragDrop</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\DragDrop\DropTarget.cpp">
-      <Filter>Source Files\DragDrop</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\Format\DB\DBEntry.cpp">
       <Filter>Source Files\Format\DB</Filter>
     </ClCompile>
@@ -540,9 +522,6 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Components\LeftEntryList.cpp">
       <Filter>Source Files\GUI\Editor\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\BXGX\Code\BXGX\DragDrop\DataObject.cpp">
-      <Filter>Source Files\DragDrop</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\IMGF\Globals.h">
@@ -565,18 +544,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\EInputItem.h">
       <Filter>Header Files\GUI\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\DragDrop\DragDrop.h">
-      <Filter>Header Files\DragDrop</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\DragDrop\DragListCtrl.h">
-      <Filter>Header Files\DragDrop</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\DragDrop\DropSource.h">
-      <Filter>Header Files\DragDrop</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\DragDrop\DropTarget.h">
-      <Filter>Header Files\DragDrop</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\Format\DB\DBEntry.h">
       <Filter>Header Files\Format\DB</Filter>
@@ -850,9 +817,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Components\LeftEntryList.h">
       <Filter>Header Files\GUI\Editor\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\BXGX\Code\BXGX\DragDrop\DataObject.h">
-      <Filter>Header Files\DragDrop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

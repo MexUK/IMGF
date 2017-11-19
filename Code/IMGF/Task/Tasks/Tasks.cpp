@@ -23,7 +23,6 @@
 #include "Format/COL/COLManager.h"
 #include "Format/COL/COLFormat.h"
 #include "Format/COL/COLEntry.h"
-#include "DragDrop/DropTarget.h"
 #include "Format/TXD/TXDManager.h"
 #include "Format/TXD/TXDFormat.h"
 #include "Format/RW/Sections/RWSection_TextureNative.h"
