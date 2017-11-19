@@ -45,7 +45,7 @@ public:
 	void						onSelectDropEntry(bxgx::DropDownItem *pDropEntry);
 	void						onSortGridByColumn(bxgx::Grid *pGrid);
 	void						onDoubleLeftMouseUp2(bxcf::Vec2i vecCursorPosition);
-	void						onStartDraggingGridRow(bxgx::GridRow *pGridRow);
+	void						onStartDraggingGridRows(bxgx::Grid *pGrid);
 
 	void						setIMGEditor(IMGEditor *pEditor) { m_pIMGEditor = pEditor; }
 	IMGEditor*					getIMGEditor(void) { return m_pIMGEditor; }

@@ -88,7 +88,7 @@ void					IMGEditorTab::bindEvents(void)
 	bindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
 	bindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
 	bindEvent(DOUBLE_LEFT_MOUSE_UP, &IMGEditorTab::onDoubleLeftMouseUp2);
-	bindEvent(START_DRAGGING_GRID_ROW, &IMGEditorTab::onStartDraggingGridRow);
+	bindEvent(START_DRAGGING_GRID_ROWS, &IMGEditorTab::onStartDraggingGridRows);
 
 	EditorTab::bindEvents();
 }
@@ -100,7 +100,7 @@ void					IMGEditorTab::unbindEvents(void)
 	unbindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
 	unbindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
 	unbindEvent(DOUBLE_LEFT_MOUSE_UP, &IMGEditorTab::onDoubleLeftMouseUp2);
-	unbindEvent(START_DRAGGING_GRID_ROW, &IMGEditorTab::onStartDraggingGridRow);
+	unbindEvent(START_DRAGGING_GRID_ROWS, &IMGEditorTab::onStartDraggingGridRows);
 
 	EditorTab::unbindEvents();
 }
@@ -407,7 +407,7 @@ void					IMGEditorTab::onDoubleLeftMouseUp2(Vec2i vecCursorPosition)
 	}
 }
 
-void					IMGEditorTab::onStartDraggingGridRow(GridRow *pGridRow)
+void					IMGEditorTab::onStartDraggingGridRows(Grid *pGrid)
 {
 	HRESULT hr = OleInitialize(NULL);
 
@@ -416,50 +416,74 @@ void					IMGEditorTab::onStartDraggingGridRow(GridRow *pGridRow)
 	DWORD			dwEffect;
 	HRESULT			iResult;
 
-	// prepare filename and file data
-	IMGEntry *pIMGEntry = (IMGEntry *)pGridRow->getUserData();
+	// prepare data
+	uint32 uiDragDropEntryCount = getSelectedEntryCount();
 
-	wstring strFileName = String::convertStdStringToStdWString(pGridRow->getText()[0][2]);
-	string strFileData = pIMGEntry->getEntryData();
+	// create FORMATETC
+	FORMATETC *fmtetc = new FORMATETC[uiDragDropEntryCount + 1];
+	fmtetc[0] = { (CLIPFORMAT)RegisterClipboardFormat(CFSTR_FILEDESCRIPTOR), NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
+	uint32 i = 0;
+	for (FormatEntry *pEntry : getSelectedEntries())
+	{
+		fmtetc[i + 1] = { (CLIPFORMAT)RegisterClipboardFormat(CFSTR_FILECONTENTS), NULL, DVASPECT_CONTENT, (LONG)i + 1, TYMED_HGLOBAL };
 
-	// create FORMATETC x2
-	FORMATETC *fmtetc = new FORMATETC[2];
-	fmtetc[0] = { (CLIPFORMAT)RegisterClipboardFormat(CFSTR_FILECONTENTS), NULL, DVASPECT_CONTENT, 0, TYMED_HGLOBAL };
-	fmtetc[1] = { (CLIPFORMAT)RegisterClipboardFormat(CFSTR_FILEDESCRIPTOR), NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
+		i++;
+	}
 
 	// create file data into HGLOBAL
-	HGLOBAL hgblFileData = GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, strFileData.length());
-	LPSTR lpszFileData = (LPSTR)GlobalLock(hgblFileData);
-	lstrcpyA(lpszFileData, strFileData.c_str());
-	GlobalUnlock(hgblFileData);
+	HGLOBAL *hgblFileDatas = new HGLOBAL[uiDragDropEntryCount];
+	i = 0;
+	for (FormatEntry *pEntry : getSelectedEntries())
+	{
+		IMGEntry *pIMGEntry = (IMGEntry *) pEntry;
+		string strFileData = pIMGEntry->getEntryData();
+
+		hgblFileDatas[i] = GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, strFileData.length());
+		LPSTR lpszFileData = (LPSTR)GlobalLock(hgblFileDatas[i]);
+		lstrcpyA(lpszFileData, strFileData.c_str());
+		GlobalUnlock(hgblFileDatas[i]);
+
+		i++;
+	}
 
 	// create file description into HGLOBAL
-	HGLOBAL hgblDescriptorData = GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, sizeof(FILEGROUPDESCRIPTOR));
+	HGLOBAL hgblDescriptorData = GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, sizeof(FILEGROUPDESCRIPTOR) + (sizeof(FILEDESCRIPTOR) * (uiDragDropEntryCount - 1)));
 	FILEGROUPDESCRIPTOR *pfgd = (FILEGROUPDESCRIPTOR*)GlobalLock(hgblDescriptorData);
-	pfgd->cItems = 1;
-	pfgd->fgd[0].dwFlags = FD_ATTRIBUTES | FD_FILESIZE;
-	pfgd->fgd[0].dwFileAttributes = FILE_ATTRIBUTE_NORMAL;
-	pfgd->fgd[0].nFileSizeHigh = 0;
-	pfgd->fgd[0].nFileSizeLow = strFileData.length() * sizeof(strFileData.c_str()[0]);
-	lstrcpyn(pfgd->fgd[0].cFileName, strFileName.c_str(), sizeof(pfgd->fgd[0].cFileName));
+	pfgd->cItems = uiDragDropEntryCount;
+	i = 0;
+	for (GridRow *pGridRow : m_pEntryGrid->getSelectedRows())
+	{
+		string strFileName = pGridRow->getText()[0][2];
+
+		pfgd->fgd[i].dwFlags = FD_ATTRIBUTES | FD_FILESIZE | FD_PROGRESSUI;
+		pfgd->fgd[i].dwFileAttributes = FILE_ATTRIBUTE_NORMAL;
+		pfgd->fgd[i].nFileSizeHigh = 0;
+		pfgd->fgd[i].nFileSizeLow = GlobalSize(hgblFileDatas[i]);
+		lstrcpyn(pfgd->fgd[i].cFileName, String::convertStdStringToStdWString(strFileName).c_str(), sizeof(pfgd->fgd[i].cFileName));
+
+		i++;
+	}
 	GlobalUnlock(hgblDescriptorData);
 
 	// create STGMEDIUM x2
-	STGMEDIUM *stgmed = new STGMEDIUM[2];
+	STGMEDIUM *stgmed = new STGMEDIUM[uiDragDropEntryCount + 1];
 
 	memset((void far *)(&(stgmed[0])), 0, sizeof(stgmed[0]));
 	stgmed[0].tymed = TYMED_HGLOBAL;
-	stgmed[0].hGlobal = hgblFileData;
+	stgmed[0].hGlobal = hgblDescriptorData;
 	stgmed[0].pUnkForRelease = NULL;
 
-	memset((void far *)(&(stgmed[1])), 0, sizeof(stgmed[1]));
-	stgmed[1].tymed = TYMED_HGLOBAL;
-	stgmed[1].hGlobal = hgblDescriptorData;
-	stgmed[1].pUnkForRelease = NULL;
+	for (uint32 i = 0; i < uiDragDropEntryCount; i++)
+	{
+		memset((void far *)(&(stgmed[i + 1])), 0, sizeof(stgmed[i + 1]));
+		stgmed[i + 1].tymed = TYMED_HGLOBAL;
+		stgmed[i + 1].hGlobal = hgblFileDatas[i];
+		stgmed[i + 1].pUnkForRelease = NULL;
+	}
 
 	pDropSource = new DropSource;
 
-	if (CreateDataObject(fmtetc, stgmed, 2, &pDataObject) != S_OK)
+	if (CreateDataObject(fmtetc, stgmed, uiDragDropEntryCount + 1, &pDataObject) != S_OK)
 	{
 		return;
 	}
