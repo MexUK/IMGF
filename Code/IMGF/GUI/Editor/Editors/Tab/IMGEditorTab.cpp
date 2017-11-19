@@ -406,27 +406,7 @@ void					IMGEditorTab::onDoubleLeftMouseUp2(Vec2i vecCursorPosition)
 
 void					IMGEditorTab::onStartDraggingGridRows(Grid *pGrid)
 {
-	vector<string>
-		vecFileNames,
-		vecFileDatas;
-	uint32
-		uiDragDropEntryCount = getSelectedEntryCount(),
-		i = 0;
-
-	vecFileNames.resize(uiDragDropEntryCount);
-	vecFileDatas.resize(uiDragDropEntryCount);
-
-	for (GridRow *pGridRow : m_pEntryGrid->getSelectedRows())
-	{
-		IMGEntry *pIMGEntry = (IMGEntry*)pGridRow->getUserData();
-
-		vecFileNames[i] = pGridRow->getText()[0][2];
-		vecFileDatas[i] = pIMGEntry->getEntryData();
-
-		i++;
-	}
-
-	EditorTab::startDragDrop(vecFileNames, vecFileDatas);
+	startDragDrop();
 }
 
 // error checking

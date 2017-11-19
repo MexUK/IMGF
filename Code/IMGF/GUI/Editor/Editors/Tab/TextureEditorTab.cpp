@@ -44,7 +44,8 @@ TextureEditorTab::TextureEditorTab(void) :
 	m_pVScrollBar(nullptr),
 
 	m_fZoomLevel(1.0f),
-	m_uiDisplayedEntryCount(0)
+	m_uiDisplayedEntryCount(0),
+	m_pMouseDownOriginEntry(nullptr)
 {
 }
 
@@ -55,6 +56,8 @@ void					TextureEditorTab::bindEvents(void)
 	bindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
 	bindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
+	bindEvent(LEFT_MOUSE_UP, &TextureEditorTab::onLeftMouseUp);
+	bindEvent(MOVE_MOUSE, &TextureEditorTab::onMouseMove);
 	bindEvent(KEY_DOWN, &TextureEditorTab::onKeyDown2);
 	bindEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
 
@@ -67,6 +70,8 @@ void					TextureEditorTab::unbindEvents(void)
 	unbindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
+	unbindEvent(LEFT_MOUSE_UP, &TextureEditorTab::onLeftMouseUp);
+	unbindEvent(MOVE_MOUSE, &TextureEditorTab::onMouseMove);
 	unbindEvent(KEY_DOWN, &TextureEditorTab::onKeyDown2);
 	unbindEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
 
@@ -141,7 +146,7 @@ void					TextureEditorTab::onSelectDropDownItem(DropDownItem *pItem)
 	setZoomLevel(fZoomLevel);
 }
 
-void						TextureEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
+bool						TextureEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 {
 	TextureEditorTabEntry
 		*pActiveTabEntry = nullptr;
@@ -149,15 +154,15 @@ void						TextureEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 		uiActiveImageIndex,
 		uiRowHeight = 50;
 	float32
-		fVProgress = m_pVScrollBar->getProgress();
+		fVProgress = m_pVScrollBar ? m_pVScrollBar->getProgress() : 0.0f;
 
 	for (uint32
-			uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
-			uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
-			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount);
+		uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
+		uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
+		uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount);
 		uiEntryIndex < uiEntryEndIndexExclusive;
 		uiEntryIndex++
-	)
+		)
 	{
 		TextureEditorTabEntry *pImageData = getEntryByIndex(uiEntryIndex);
 		if (!pImageData)
@@ -167,7 +172,64 @@ void						TextureEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 
 		if (vecCursorPosition.x >= pImageData->m_rect.left
 			&& vecCursorPosition.y >= pImageData->m_rect.top
-			&& vecCursorPosition.x <= (pImageData->m_rect.right - m_pVScrollBar->getSize().x)
+			&& vecCursorPosition.x <= (pImageData->m_rect.right - (m_pVScrollBar ? m_pVScrollBar->getSize().x : 0))
+			&& vecCursorPosition.y <= pImageData->m_rect.bottom)
+		{
+			uiActiveImageIndex = uiEntryIndex;
+			pActiveTabEntry = pImageData;
+			break;
+		}
+	}
+	if (pActiveTabEntry != nullptr)
+	{
+		if (m_pWindow->isMovingWindow())
+		{
+			m_pWindow->checkToStopMovingOrResizingWindow();
+		}
+
+		m_pMouseDownOriginEntry = pActiveTabEntry;
+		if (!pActiveTabEntry->m_bIsActive)
+		{
+			clearActiveEntries();
+		}
+		setActiveEntry(pActiveTabEntry);
+		m_pWindow->render();
+
+		return false;
+	}
+
+	return true;
+}
+
+void						TextureEditorTab::onLeftMouseUp(Vec2i vecCursorPosition)
+{
+	TextureEditorTabEntry
+		*pActiveTabEntry = nullptr;
+	uint32
+		uiActiveImageIndex,
+		uiRowHeight = 50;
+	float32
+		fVProgress = m_pVScrollBar ? m_pVScrollBar->getProgress() : 0.0f;
+
+	m_pMouseDownOriginEntry = nullptr;
+
+	for (uint32
+		uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
+		uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
+		uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount);
+		uiEntryIndex < uiEntryEndIndexExclusive;
+		uiEntryIndex++
+		)
+	{
+		TextureEditorTabEntry *pImageData = getEntryByIndex(uiEntryIndex);
+		if (!pImageData)
+		{
+			continue; // in case of render() between vector.resize() and vector.setEntryAtIndex()
+		}
+
+		if (vecCursorPosition.x >= pImageData->m_rect.left
+			&& vecCursorPosition.y >= pImageData->m_rect.top
+			&& vecCursorPosition.x <= (pImageData->m_rect.right - (m_pVScrollBar ? m_pVScrollBar->getSize().x : 0))
 			&& vecCursorPosition.y <= pImageData->m_rect.bottom)
 		{
 			uiActiveImageIndex = uiEntryIndex;
@@ -180,6 +242,18 @@ void						TextureEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 		clearActiveEntries();
 		setActiveEntry(pActiveTabEntry);
 		m_pWindow->render();
+	}
+}
+
+void						TextureEditorTab::onMouseMove(Vec2i vecCursorPosition)
+{
+	static bool bDoingDragDrop = false;
+	if ((GetKeyState(VK_LBUTTON) & 0x100) != 0 && m_pMouseDownOriginEntry != nullptr && !bDoingDragDrop)
+	{
+		bDoingDragDrop = true;
+		startDragDrop("BMP");
+		m_pMouseDownOriginEntry = nullptr;
+		bDoingDragDrop = false;
 	}
 }
 
@@ -384,8 +458,11 @@ bool						TextureEditorTab::prepareRenderData_TXD(void)
 
 	vector<RWSection_TextureNative*> vecTextures = m_pTXDFile->getTextures();
 
-	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
-	m_pVScrollBar->setItemCount(VERTICAL, vecTextures.size() * 50);
+	if (m_pVScrollBar)
+	{
+		m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
+		m_pVScrollBar->setItemCount(VERTICAL, vecTextures.size() * 50);
+	}
 
 	for (RWSection_TextureNative *pRWSection_TextureNative : vecTextures)
 	{
@@ -574,7 +651,7 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 	bool
 		bTexturePreviewIsEnabled = false;
 	float32
-		fVProgress = m_pVScrollBar->getProgress();
+		fVProgress = m_pVScrollBar ? m_pVScrollBar->getProgress() : 0.0f;
 
 	for(uint32
 			uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),

@@ -716,7 +716,35 @@ vector<FormatEntry*>			EditorTab::getEntriesByStringMultiOptionValues(uint32 uiE
 }
 
 // drag drop
-void								EditorTab::startDragDrop(vector<string>& vecFileNames, vector<string>& vecFileDatas)
+void								EditorTab::startDragDrop(string strFileExtension)
+{
+	vector<string>
+		vecFileNames,
+		vecFileDatas;
+	uint32
+		uiDragDropEntryCount = getSelectedEntryCount(),
+		i = 0;
+
+	vecFileNames.resize(uiDragDropEntryCount);
+	vecFileDatas.resize(uiDragDropEntryCount);
+
+	for (FormatEntry *pEntry : getSelectedEntries())
+	{
+		vecFileNames[i] = pEntry->getEntryName();
+		vecFileDatas[i] = pEntry->getEntryData();
+
+		if (strFileExtension != "")
+		{
+			vecFileNames[i] += "." + strFileExtension;
+		}
+
+		i++;
+	}
+
+	EditorTab::startDragDrop2(vecFileNames, vecFileDatas);
+}
+
+void								EditorTab::startDragDrop2(vector<string>& vecFileNames, vector<string>& vecFileDatas)
 {
 	HRESULT hr = OleInitialize(NULL);
 
@@ -744,7 +772,7 @@ void								EditorTab::startDragDrop(vector<string>& vecFileNames, vector<string
 
 		hgblFileDatas[i] = GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, strFileData.length());
 		LPSTR lpszFileData = (LPSTR)GlobalLock(hgblFileDatas[i]);
-		lstrcpyA(lpszFileData, strFileData.c_str());
+		memcpy(lpszFileData, strFileData.c_str(), strFileData.length());
 		GlobalUnlock(hgblFileDatas[i]);
 	}
 

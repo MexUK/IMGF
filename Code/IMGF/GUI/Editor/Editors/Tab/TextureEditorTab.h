@@ -40,6 +40,9 @@ public:
 	void						setWTDFile(bxgi::WTDFormat *pWTDFile) { m_pWTDFile = pWTDFile; }
 	bxgi::WTDFormat*			getWTDFile(void) { return m_pWTDFile; }
 
+	void						setMouseDownOriginEntry(TextureEditorTabEntry *pMouseDownOriginEntry) { m_pMouseDownOriginEntry = pMouseDownOriginEntry; }
+	TextureEditorTabEntry*		getMouseDownOriginEntry(void) { return m_pMouseDownOriginEntry; }
+
 	void						renderDisplayType_Single(void);
 
 	void						setFileInfoText(void);
@@ -54,7 +57,9 @@ protected:
 	void						initControls(void);
 
 	void						onSelectDropDownItem(bxgx::DropDownItem *pItem);
-	void						onLeftMouseDown(bxcf::Vec2i vecCursorPosition);
+	bool						onLeftMouseDown(bxcf::Vec2i vecCursorPosition);
+	void						onLeftMouseUp(bxcf::Vec2i vecCursorPosition);
+	void						onMouseMove(bxcf::Vec2i vecCursorPosition);
 	void						onKeyDown2(uint16 uiKey);
 	void						onMouseWheelMove2(int16 iRotationDistance);
 
@@ -92,4 +97,5 @@ private:
 
 	float32						m_fZoomLevel;
 	uint32						m_uiDisplayedEntryCount;
+	TextureEditorTabEntry*		m_pMouseDownOriginEntry;
 };
