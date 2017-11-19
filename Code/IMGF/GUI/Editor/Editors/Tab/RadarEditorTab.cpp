@@ -63,7 +63,8 @@ inline void PremultiplyBitmapAlpha(HDC hDC, HBITMAP hBmp)
 RadarEditorTab::RadarEditorTab(void) :
 	m_pIMGFile(nullptr),
 	m_pActiveTabEntry(nullptr),
-	m_uiDisplayedEntryCount(0)
+	m_uiDisplayedEntryCount(0),
+	m_pMouseDownOriginEntry(nullptr)
 {
 }
 
@@ -109,6 +110,8 @@ void						RadarEditorTab::bindEvents(void)
 	bindEvent(RESIZE_WINDOW, &RadarEditorTab::repositionAndResizeControls);
 	bindEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
 	bindEvent(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
+	bindEvent(LEFT_MOUSE_UP, &RadarEditorTab::onLeftMouseUp);
+	bindEvent(MOVE_MOUSE, &RadarEditorTab::onMouseMove);
 	bindEvent(KEY_DOWN, &RadarEditorTab::onKeyDown2);
 	bindEvent(MOVE_MOUSE_WHEEL, &RadarEditorTab::onMouseWheelMove2);
 
@@ -120,6 +123,8 @@ void						RadarEditorTab::unbindEvents(void)
 	unbindEvent(RESIZE_WINDOW, &RadarEditorTab::repositionAndResizeControls);
 	unbindEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
 	unbindEvent(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
+	unbindEvent(LEFT_MOUSE_UP, &RadarEditorTab::onLeftMouseUp);
+	unbindEvent(MOVE_MOUSE, &RadarEditorTab::onMouseMove);
 	unbindEvent(KEY_DOWN, &RadarEditorTab::onKeyDown2);
 	unbindEvent(MOVE_MOUSE_WHEEL, &RadarEditorTab::onMouseWheelMove2);
 
@@ -162,9 +167,35 @@ void						RadarEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 	}
 	if (pActiveTabEntry != nullptr)
 	{
-		clearActiveEntries();
+		if (m_pWindow->isMovingWindow())
+		{
+			m_pWindow->checkToStopMovingOrResizingWindow();
+		}
+
+		m_pMouseDownOriginEntry = pActiveTabEntry;
+		if (!pActiveTabEntry->m_bIsActive)
+		{
+			clearActiveEntries();
+		}
 		setActiveEntry(pActiveTabEntry);
 		m_pWindow->render();
+	}
+}
+
+void						RadarEditorTab::onLeftMouseUp(Vec2i vecCursorPosition)
+{
+	m_pMouseDownOriginEntry = nullptr;
+}
+
+void						RadarEditorTab::onMouseMove(Vec2i vecCursorPosition)
+{
+	static bool bDoingDragDrop = false;
+	if ((GetKeyState(VK_LBUTTON) & 0x100) != 0 && m_pMouseDownOriginEntry != nullptr && !bDoingDragDrop)
+	{
+		bDoingDragDrop = true;
+		startDragDrop();
+		m_pMouseDownOriginEntry = nullptr;
+		bDoingDragDrop = false;
 	}
 }
 

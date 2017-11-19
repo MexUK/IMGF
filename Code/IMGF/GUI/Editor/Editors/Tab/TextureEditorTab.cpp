@@ -203,46 +203,7 @@ bool						TextureEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 
 void						TextureEditorTab::onLeftMouseUp(Vec2i vecCursorPosition)
 {
-	TextureEditorTabEntry
-		*pActiveTabEntry = nullptr;
-	uint32
-		uiActiveImageIndex,
-		uiRowHeight = 50;
-	float32
-		fVProgress = m_pVScrollBar ? m_pVScrollBar->getProgress() : 0.0f;
-
 	m_pMouseDownOriginEntry = nullptr;
-
-	for (uint32
-		uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
-		uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
-		uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount);
-		uiEntryIndex < uiEntryEndIndexExclusive;
-		uiEntryIndex++
-		)
-	{
-		TextureEditorTabEntry *pImageData = getEntryByIndex(uiEntryIndex);
-		if (!pImageData)
-		{
-			continue; // in case of render() between vector.resize() and vector.setEntryAtIndex()
-		}
-
-		if (vecCursorPosition.x >= pImageData->m_rect.left
-			&& vecCursorPosition.y >= pImageData->m_rect.top
-			&& vecCursorPosition.x <= (pImageData->m_rect.right - (m_pVScrollBar ? m_pVScrollBar->getSize().x : 0))
-			&& vecCursorPosition.y <= pImageData->m_rect.bottom)
-		{
-			uiActiveImageIndex = uiEntryIndex;
-			pActiveTabEntry = pImageData;
-			break;
-		}
-	}
-	if (pActiveTabEntry != nullptr)
-	{
-		clearActiveEntries();
-		setActiveEntry(pActiveTabEntry);
-		m_pWindow->render();
-	}
 }
 
 void						TextureEditorTab::onMouseMove(Vec2i vecCursorPosition)

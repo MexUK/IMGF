@@ -45,6 +45,9 @@ public:
 	void						setIMGFile(bxgi::IMGFormat *pIMGFile) { m_pIMGFile = pIMGFile; }
 	bxgi::IMGFormat*			getIMGFile(void) { return m_pIMGFile; }
 
+	void						setMouseDownOriginEntry(RadarEditorTabEntry *pMouseDownOriginEntry) { m_pMouseDownOriginEntry = pMouseDownOriginEntry; }
+	RadarEditorTabEntry*		getMouseDownOriginEntry(void) { return m_pMouseDownOriginEntry; }
+
 	void						setActiveEntry(RadarEditorTabEntry *pTabEntry) { m_pActiveTabEntry = pTabEntry; if (pTabEntry) pTabEntry->m_bIsActive = true; }
 	RadarEditorTabEntry*		getActiveEntry(void) { return m_pActiveTabEntry; }
 	void						clearActiveEntries(void);
@@ -55,6 +58,8 @@ protected:
 	void						onLeftMouseDown(bxcf::Vec2i vecCursorPosition);
 	void						onKeyDown2(uint16 uiKey);
 	void						onMouseWheelMove2(int16 iRotationDistance);
+	void						onLeftMouseUp(bxcf::Vec2i vecCursorPosition);
+	void						onMouseMove(bxcf::Vec2i vecCursorPosition);
 
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeChange);
 
@@ -72,6 +77,7 @@ private:
 
 	bxgx::ScrollBar*			m_pVScrollBar;
 	uint32						m_uiDisplayedEntryCount;
+	RadarEditorTabEntry*		m_pMouseDownOriginEntry;
 
 	std::vector<bxgi::TXDFormat*>		m_vecTXDFiles;
 	std::vector<bxgi::WTDFormat*>		m_vecWTDFiles;
