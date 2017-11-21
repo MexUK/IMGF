@@ -25,6 +25,7 @@
 #include "Static/StdVector.h"
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Task/Tasks/FileGroups/FileGroupManager.h"
+#include "DragDrop/DropTarget.h"
 
 using namespace std;
 using namespace bxcf;
@@ -63,6 +64,8 @@ void					MainWindow::init(void)
 	initWindow();
 	initLayers();
 
+	RegisterDragDrop(getWindowHandle(), new bxgx::DropTarget(getWindowHandle()));
+
 	/* Settings */
 	SettingsManager *pSettingsManager = getIMGF()->getSettingsManager();
 
@@ -99,6 +102,8 @@ void					MainWindow::initLayers(void)
 	bindEventRef(RESIZE_WINDOW, &MainWindow::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));
 
+	bindEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
+
 	int32 iLastEditorUsedIndex = String::toUint32(getIMGF()->getSettingsManager()->getSetting("LastEditorUsedIndex"));
 	if (iLastEditorUsedIndex < m_vecEditors.getEntryCount())
 	{
@@ -107,6 +112,25 @@ void					MainWindow::initLayers(void)
 	else
 	{
 		setActiveEditor(m_vecEditors.getFirstEntry());
+	}
+}
+
+void					MainWindow::onDropEntries(void *m_pEditorTab, vector<string>& vecFileNames, vector<string>& vecFileDatas)
+{
+	// import files
+	EditorTab
+		*pActiveEditorTab = getActiveEditor()->getActiveEditorTab(),
+		*pSourceActiveEditorTab = (EditorTab*)m_pEditorTab;
+
+	if (pActiveEditorTab == pSourceActiveEditorTab)
+	{
+		// skip if dropped in source editor tab
+		return;
+	}
+
+	for (uint32 i = 0, j = vecFileNames.size(); i < j; i++)
+	{
+		pActiveEditorTab->addEntryViaData(vecFileNames[i], vecFileDatas[i]);
 	}
 }
 

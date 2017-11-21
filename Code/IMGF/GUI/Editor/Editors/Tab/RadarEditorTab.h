@@ -78,6 +78,8 @@ private:
 	bxgx::ScrollBar*			m_pVScrollBar;
 	uint32						m_uiDisplayedEntryCount;
 	RadarEditorTabEntry*		m_pMouseDownOriginEntry;
+	bxgx::CheckBox*				m_pDiffuseCheckBox;
+	bxgx::CheckBox*				m_pAlphaCheckBox;
 
 	std::vector<bxgi::TXDFormat*>		m_vecTXDFiles;
 	std::vector<bxgi::WTDFormat*>		m_vecWTDFiles;

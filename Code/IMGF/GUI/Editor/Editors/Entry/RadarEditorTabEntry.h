@@ -13,7 +13,8 @@ struct imgf::RadarEditorTabEntry
 
 	void			unload(void) {}
 
-	HBITMAP			m_hBitmap;
+	HBITMAP			m_hDiffuseBitmap;
+	HBITMAP			m_hAlphaBitmap;
 	uint32			m_uiWidth;
 	uint32			m_uiHeight;
 	std::string		m_strDiffuseName;

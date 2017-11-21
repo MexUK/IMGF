@@ -144,7 +144,7 @@ void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
 		uiMenuItemId = pMenuItem->getExpandableMenu()->getFirstEntry()->getId();
 	}
 
-	if (pActiveEditorTab && uiMenuItemId != CLOSE_FILE && uiMenuItemId != CLOSE_ALL_FILES)
+	if (pActiveEditorTab && uiMenuItemId != CLOSE_FILE && uiMenuItemId != CLOSE_ALL_FILES && uiMenuItemId != REOPEN_FILE)
 	{
 		mutexControlInput.lock();
 		pActiveEditorTab->getMenuItemsPressed().push_back(pMenuItem);

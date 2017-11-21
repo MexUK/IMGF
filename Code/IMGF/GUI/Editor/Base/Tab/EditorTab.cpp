@@ -716,7 +716,7 @@ vector<FormatEntry*>			EditorTab::getEntriesByStringMultiOptionValues(uint32 uiE
 }
 
 // drag drop
-void								EditorTab::startDragDrop(string strFileExtension)
+void								EditorTab::startDragDrop(EditorTab *pEditorTab, string strFileExtension)
 {
 	vector<string>
 		vecFileNames,
@@ -744,7 +744,7 @@ void								EditorTab::startDragDrop(string strFileExtension)
 	EditorTab::startDragDrop2(vecFileNames, vecFileDatas);
 }
 
-void								EditorTab::startDragDrop2(vector<string>& vecFileNames, vector<string>& vecFileDatas)
+void								EditorTab::startDragDrop2(EditorTab *pEditorTab, vector<string>& vecFileNames, vector<string>& vecFileDatas)
 {
 	HRESULT hr = OleInitialize(NULL);
 
@@ -814,6 +814,8 @@ void								EditorTab::startDragDrop2(vector<string>& vecFileNames, vector<strin
 	{
 		return;
 	}
+
+	pDataObject->m_pEditorTab = pEditorTab;
 
 	iResult = DoDragDrop(pDataObject, pDropSource, DROPEFFECT_COPY | DROPEFFECT_MOVE, &dwEffect);
 

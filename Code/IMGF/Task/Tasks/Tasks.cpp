@@ -541,10 +541,10 @@ void		Tasks::openLastClosedFile(void)
 {
 	onStartTask("onRequestOpenLast");
 
-	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", "Count"));
+	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), Editor::getEditorName(m_pMainWindow->getActiveEditor()->getEditorType()), "Count"));
 	if (uiRecentlyOpenedCount > 0)
 	{
-		string strFilePath = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), "RecentlyOpened", String::toString(uiRecentlyOpenedCount));
+		string strFilePath = INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), Editor::getEditorName(m_pMainWindow->getActiveEditor()->getEditorType()), String::toString(uiRecentlyOpenedCount));
 		m_pMainWindow->getActiveEditor()->addEditorTab(strFilePath);
 	}
 	

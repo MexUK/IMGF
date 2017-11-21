@@ -76,8 +76,8 @@ public:
 	virtual bool								isEntrySelected(bxcf::FormatEntry* pEntry) { return false; }
 	virtual void								onSortEntries(std::vector<bxcf::FormatEntry*>& vecEntries) {}
 
-	void								startDragDrop(std::string strFileExtension = "");
-	void								startDragDrop2(std::vector<std::string>& vecFileNames, std::vector<std::string>& vecFileDatas);
+	void								startDragDrop(imgf::EditorTab *pEditorTab, std::string strFileExtension = "");
+	void								startDragDrop2(imgf::EditorTab *pEditorTab, std::vector<std::string>& vecFileNames, std::vector<std::string>& vecFileDatas);
 
 	void								setEditor(Editor* pEditor) { m_pEditor = pEditor; }
 	Editor*								getEditor(void) { return m_pEditor; }

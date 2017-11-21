@@ -406,7 +406,7 @@ void					IMGEditorTab::onDoubleLeftMouseUp2(Vec2i vecCursorPosition)
 
 void					IMGEditorTab::onStartDraggingGridRows(Grid *pGrid)
 {
-	startDragDrop();
+	startDragDrop(this, "");
 }
 
 // error checking

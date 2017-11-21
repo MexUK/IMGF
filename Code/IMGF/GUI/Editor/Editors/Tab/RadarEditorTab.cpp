@@ -6,6 +6,7 @@
 #include "Static/File.h"
 #include "Static/Path.h"
 #include "Control/Controls/TextBox.h"
+#include "Control/Controls/CheckBox.h"
 #include "Format/IMG/Regular/IMGFormat.h"
 #include "Format/IMG/Regular/IMGEntry.h"
 #include "Format/IMG/Regular/IMGManager.h"
@@ -64,7 +65,9 @@ RadarEditorTab::RadarEditorTab(void) :
 	m_pIMGFile(nullptr),
 	m_pActiveTabEntry(nullptr),
 	m_uiDisplayedEntryCount(0),
-	m_pMouseDownOriginEntry(nullptr)
+	m_pMouseDownOriginEntry(nullptr),
+	m_pDiffuseCheckBox(nullptr),
+	m_pAlphaCheckBox(nullptr)
 {
 }
 
@@ -80,6 +83,18 @@ void						RadarEditorTab::addControls(void)
 	y = ((162 + 30) - 50) - 1;
 	w = 80;
 	h = 20;
+
+	// zoom dropdown
+	w = 20;
+	h = 20;
+
+	x = 139 + 139 + 250 + 50;
+	m_pDiffuseCheckBox = addCheckBox(Vec2i(x, y), Vec2u(w, h), "Diffuse");
+	m_pDiffuseCheckBox->setMarked(true);
+
+	x += 90;
+	m_pAlphaCheckBox = addCheckBox(Vec2i(x, y), Vec2u(w, h), "Alpha");
+	m_pAlphaCheckBox->setMarked(true);
 
 	// vertical scroll bar
 	x = 139 + 139 + 250;
@@ -193,7 +208,7 @@ void						RadarEditorTab::onMouseMove(Vec2i vecCursorPosition)
 	if ((GetKeyState(VK_LBUTTON) & 0x100) != 0 && m_pMouseDownOriginEntry != nullptr && !bDoingDragDrop)
 	{
 		bDoingDragDrop = true;
-		startDragDrop();
+		startDragDrop(this);
 		m_pMouseDownOriginEntry = nullptr;
 		bDoingDragDrop = false;
 	}
@@ -395,10 +410,13 @@ void						RadarEditorTab::setFileInfoText(void)
 	m_pText_FilePath->setText(getIMGFile()->getIMGFilePath());
 	m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
 
+	m_pAlphaCheckBox->setMarked(false);
+
 	if (getEntryCount() == 64 && getFirstEntry()->m_ucBPP == 32)
 	{
 		// GTA III
 		m_pText_FileGame->setText(string("GTA III"));
+		m_pAlphaCheckBox->setMarked(true);
 	}
 	else if (getEntryCount() == 64 && getFirstEntry()->m_strAlphaName == "" && getFirstEntry()->m_ucBPP == 16)
 	{
@@ -532,13 +550,18 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 			else
 			{
 				RWEntry_TextureNative_MipMap *pMipmap = pRWSection_TextureNative->getMipMaps().getEntryByIndex(0);
-				string strBMPImageDataStr = pMipmap->getRasterDataBGRA32();
-				const char *pBmpImageData = strBMPImageDataStr.c_str();
 
-				HBITMAP hBitmap = CreateBitmap(pMipmap->getImageSize().x, pMipmap->getImageSize().y, 1, 32, pBmpImageData);
+				string strRasterDataBGRA32 = pMipmap->getRasterDataBGRA32();
+				const char *pRasterDataBGRA32 = strRasterDataBGRA32.c_str();
+				HBITMAP hDiffuseBitmap = CreateBitmap(pMipmap->getImageSize().x, pMipmap->getImageSize().y, 1, 32, pRasterDataBGRA32);
+
+				string strRasterDataBGR24 = ImageManager::convertBGRA32ToAlphaBGRA32(strRasterDataBGRA32);
+				const char *pRasterDataBGR24 = strRasterDataBGR24.c_str();
+				HBITMAP hAlphaBitmap = CreateBitmap(pMipmap->getImageSize().x, pMipmap->getImageSize().y, 1, 32, pRasterDataBGR24);
 
 				pTabEntry->m_uiIndex = uiTextureIndex;
-				pTabEntry->m_hBitmap = hBitmap;
+				pTabEntry->m_hDiffuseBitmap = hDiffuseBitmap;
+				pTabEntry->m_hAlphaBitmap = hAlphaBitmap;
 				pTabEntry->m_uiWidth = pRWSection_TextureNative->getImageSize().x;
 				pTabEntry->m_uiHeight = pRWSection_TextureNative->getImageSize().y;
 				pTabEntry->m_strDiffuseName = pRWSection_TextureNative->getDiffuseName();
@@ -631,13 +654,18 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 			else
 			{
 				WTDMipmap *pMipmap = pWTDEntry->getEntryByIndex(0);
-				string strBMPImageDataStr = pMipmap->getRasterDataBGRA32();
-				const char *pBmpImageData = strBMPImageDataStr.c_str();
+				
+				string strRasterDataBGRA32 = pMipmap->getRasterDataBGRA32();
+				const char *pRasterDataBGRA32 = strRasterDataBGRA32.c_str();
+				HBITMAP hDiffuseBitmap = CreateBitmap(pMipmap->getImageSize(true), pMipmap->getImageSize(false), 1, 32, pRasterDataBGRA32);
 
-				HBITMAP hBitmap = CreateBitmap(pWTDEntry->getImageSize(true), pWTDEntry->getImageSize(false), 1, 32, pBmpImageData);
+				string strRasterDataBGR24 = ImageManager::convertBGRA32ToAlphaBGRA32(strRasterDataBGRA32);
+				const char *pRasterDataBGR24 = strRasterDataBGR24.c_str();
+				HBITMAP hAlphaBitmap = CreateBitmap(pMipmap->getImageSize(true), pMipmap->getImageSize(false), 1, 32, pRasterDataBGR24);
 
 				pTabEntry->m_uiIndex = uiTextureIndex;
-				pTabEntry->m_hBitmap = hBitmap;
+				pTabEntry->m_hDiffuseBitmap = hDiffuseBitmap;
+				pTabEntry->m_hAlphaBitmap = hAlphaBitmap;
 				pTabEntry->m_uiWidth = pWTDEntry->getImageSize(true);
 				pTabEntry->m_uiHeight = pWTDEntry->getImageSize(false);
 				pTabEntry->m_strDiffuseName = pWTDEntry->getEntryName();
@@ -727,7 +755,14 @@ void						RadarEditorTab::render_Type1(void)
 			vecImagePosition = Vec2i(139 + 139 + 250 + (x * vecImageSize.x), 192 + (y * vecImageSize.y));
 		}
 
-		pGFX->drawImage(vecImagePosition, pTabEntry->m_hBitmap, vecImageSize);
+		if (m_pDiffuseCheckBox->isMarked())
+		{
+			pGFX->drawImage(vecImagePosition, pTabEntry->m_hDiffuseBitmap, vecImageSize);
+		}
+		if (m_pAlphaCheckBox->isMarked())
+		{
+			pGFX->drawImage(vecImagePosition, pTabEntry->m_hAlphaBitmap, vecImageSize);
+		}
 	}
 }
 
@@ -960,7 +995,7 @@ void						RadarEditorTab::renderEntryList(void)
 				uiDestHeight = 128;
 			}
 			
-			pGFX->drawImage(Vec2i(uiEntryRectX + 20, uiEntryRectY - yCurrentScroll), pImageData->m_hBitmap, Vec2u(pActiveImageData->m_uiWidth, pActiveImageData->m_uiHeight));
+			pGFX->drawImage(Vec2i(uiEntryRectX + 20, uiEntryRectY - yCurrentScroll), pImageData->m_hDiffuseBitmap, Vec2u(pActiveImageData->m_uiWidth, pActiveImageData->m_uiHeight));
 			uiEntryRectY += 128;
 		}
 

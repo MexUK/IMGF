@@ -212,7 +212,7 @@ void						TextureEditorTab::onMouseMove(Vec2i vecCursorPosition)
 	if ((GetKeyState(VK_LBUTTON) & 0x100) != 0 && m_pMouseDownOriginEntry != nullptr && !bDoingDragDrop)
 	{
 		bDoingDragDrop = true;
-		startDragDrop("BMP");
+		startDragDrop(this, "BMP");
 		m_pMouseDownOriginEntry = nullptr;
 		bDoingDragDrop = false;
 	}
