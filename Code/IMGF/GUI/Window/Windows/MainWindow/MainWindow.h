@@ -56,7 +56,7 @@ public:
 	bxgx::ProgressBar*			getProgressBar(void);
 
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
-	void						onDropEntries(void *m_pEditorTab, std::vector<std::string>& vecFileNames, std::vector<std::string>& vecFileDatas);
+	void						onDropEntries(void *m_pEditorTab, std::vector<std::string> vecFileNames, std::vector<std::string> vecFileDatas);
 
 private:
 	void						initWindow(void);
@@ -90,6 +90,7 @@ public:
 	bxgx::Menu*					m_pSettingsMenu;
 	DumpWindowResult			m_dumpWindowResult;
 	Editor*						m_pActiveEditor;
+	bool						m_bDragDropOutIsOccurring;
 
 private:
 	imgf::mainLayer::mainMenuType::EMainMenuType	m_uiMainMenuType;

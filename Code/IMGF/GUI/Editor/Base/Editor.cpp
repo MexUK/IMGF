@@ -53,6 +53,7 @@ void								Editor::init(void)
 void								Editor::bindEvents(void)
 {
 	bindEvent(RESIZE_WINDOW, &Editor::repositionAndResizeControls);
+	bindEvent(DRAG_ENTRIES_OVER, &Editor::onDragEntriesOver);
 
 	Layer::bindEvents();
 }
@@ -60,6 +61,7 @@ void								Editor::bindEvents(void)
 void								Editor::unbindEvents(void)
 {
 	unbindEvent(RESIZE_WINDOW, &Editor::repositionAndResizeControls);
+	unbindEvent(DRAG_ENTRIES_OVER, &Editor::onDragEntriesOver);
 
 	Layer::unbindEvents();
 }
@@ -74,9 +76,42 @@ void								Editor::initControls(void)
 	repositionAndResizeControls(Vec2i(0, 0));
 }
 
+// events
 void								Editor::repositionAndResizeControls(Vec2i& vecSizeChange)
 {
 	m_pTabBar->setSize(Vec2u(m_pWindow->getSize().x - 335 - 139 - 139, m_pTabBar->getSize().y));
+}
+
+void								Editor::onDragEntriesOver(Vec2i vecCursorPosition)
+{
+	// check that this editor is the active editor
+	if (this != m_pMainWindow->getActiveEditor())
+	{
+		return;
+	}
+
+	// convert absolute to relative coordinates
+	POINT cursorPos;
+	cursorPos.x = vecCursorPosition.x;
+	cursorPos.y = vecCursorPosition.y;
+	ScreenToClient(m_pMainWindow->getWindowHandle(), &cursorPos);
+	vecCursorPosition.x = cursorPos.x;
+	vecCursorPosition.y = cursorPos.y;
+
+	// check if drag drop is occurring
+	if (m_pMainWindow->m_bDragDropOutIsOccurring)
+	{
+		// check if cursor is over a tab
+		Tab *pTab = m_pTabBar->getTabFromPosition(vecCursorPosition);
+		if (pTab)
+		{
+			// change active tab
+			uint32 uiNewActiveFileIndex = pTab->getIndex();
+			EditorTab *pEditorTab = m_vecEditorTabs.getEntryByIndex(uiNewActiveFileIndex);
+			setActiveEditorTab(pEditorTab);
+			m_pMainWindow->renderNow();
+		}
+	}
 }
 
 // remove editor tab
@@ -120,7 +155,7 @@ void								Editor::removeEditorTab(EditorTab *pEditorTab)
 	getMainWindow()->getMainLayer()->setCertainMenuItemsEnabled(getEditorTabs().getEntryCount() > 0);
 
 	// render window
-	m_pMainWindow->render();
+	m_pMainWindow->renderNow();
 }
 
 void								Editor::removeActiveEditorTab(void)

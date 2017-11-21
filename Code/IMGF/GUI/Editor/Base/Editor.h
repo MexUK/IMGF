@@ -85,6 +85,8 @@ public:
 
 	static imgf::mainLayer::input::EInputItem			getFileExtensionNewTask(std::string& strEditorFileExtension);
 
+	void								onDragEntriesOver(bxcf::Vec2i vecCursorPosition);
+
 protected:
 	EEditor								m_uiEditorType;
 	MainWindow*							m_pMainWindow;

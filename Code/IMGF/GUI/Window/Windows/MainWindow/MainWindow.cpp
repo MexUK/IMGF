@@ -54,7 +54,9 @@ MainWindow::MainWindow(void) :
 	m_pAnimationEditor(nullptr),
 	m_pRadarEditor(nullptr),
 
-	m_pActiveEditor(nullptr)
+	m_pActiveEditor(nullptr),
+
+	m_bDragDropOutIsOccurring(false)
 {
 }
 
@@ -115,7 +117,7 @@ void					MainWindow::initLayers(void)
 	}
 }
 
-void					MainWindow::onDropEntries(void *m_pEditorTab, vector<string>& vecFileNames, vector<string>& vecFileDatas)
+void					MainWindow::onDropEntries(void *m_pEditorTab, vector<string> vecFileNames, vector<string> vecFileDatas)
 {
 	// import files
 	EditorTab

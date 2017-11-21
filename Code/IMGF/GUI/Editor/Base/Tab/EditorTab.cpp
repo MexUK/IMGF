@@ -718,6 +718,9 @@ vector<FormatEntry*>			EditorTab::getEntriesByStringMultiOptionValues(uint32 uiE
 // drag drop
 void								EditorTab::startDragDrop(EditorTab *pEditorTab, string strFileExtension)
 {
+	MainWindow *pMainWindow = (MainWindow*)m_pWindow;
+	pMainWindow->m_bDragDropOutIsOccurring = true;
+
 	vector<string>
 		vecFileNames,
 		vecFileDatas;
@@ -742,6 +745,8 @@ void								EditorTab::startDragDrop(EditorTab *pEditorTab, string strFileExtens
 	}
 
 	EditorTab::startDragDrop2(pEditorTab, vecFileNames, vecFileDatas);
+
+	pMainWindow->m_bDragDropOutIsOccurring = false;
 }
 
 void								EditorTab::startDragDrop2(EditorTab *pEditorTab, vector<string>& vecFileNames, vector<string>& vecFileDatas)
