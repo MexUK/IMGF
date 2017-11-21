@@ -741,7 +741,7 @@ void								EditorTab::startDragDrop(EditorTab *pEditorTab, string strFileExtens
 		i++;
 	}
 
-	EditorTab::startDragDrop2(vecFileNames, vecFileDatas);
+	EditorTab::startDragDrop2(pEditorTab, vecFileNames, vecFileDatas);
 }
 
 void								EditorTab::startDragDrop2(EditorTab *pEditorTab, vector<string>& vecFileNames, vector<string>& vecFileDatas)
@@ -815,7 +815,7 @@ void								EditorTab::startDragDrop2(EditorTab *pEditorTab, vector<string>& vec
 		return;
 	}
 
-	pDataObject->m_pEditorTab = pEditorTab;
+	((DataObject*)pDataObject)->m_pEditorTab = pEditorTab;
 
 	iResult = DoDragDrop(pDataObject, pDropSource, DROPEFFECT_COPY | DROPEFFECT_MOVE, &dwEffect);
 
