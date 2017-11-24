@@ -741,6 +741,11 @@ void						RadarEditorTab::render_Type1(void)
 
 	for(RadarEditorTabEntry *pTabEntry : getEntries())
 	{
+		if (!pTabEntry)
+		{
+			continue;
+		}
+
 		uint32
 			y = pTabEntry->m_uiMatrixIndex / vecDimensionTileCount.y,
 			x = pTabEntry->m_uiMatrixIndex % vecDimensionTileCount.x;
@@ -1065,6 +1070,7 @@ void					RadarEditorTab::onEntryChange(FormatEntry *pEntry)
 void					RadarEditorTab::recreateEntryList(void)
 {
 	VectorPool::removeAllEntries();
+	mutexRendering.lock();
 	if (m_pIMGFile->getVersion() != IMG_3)
 	{
 		prepareRenderData_TXD();
@@ -1073,6 +1079,7 @@ void					RadarEditorTab::recreateEntryList(void)
 	{
 		prepareRenderData_WTD();
 	}
+	mutexRendering.unlock();
 	calculateDisplayedEntryCount();
 	updateEntryCountText();
 	m_pWindow->render();
