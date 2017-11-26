@@ -412,9 +412,16 @@ bool						CollisionEditorTab::prepareRenderData(void)
 void						CollisionEditorTab::setFileInfoText(void)
 {
 	m_pText_FilePath->setText(getFile()->getFilePath());
-	m_pText_FileVersion->setText(COLManager::get()->getVersionManager()->getVersionText(getCOLFile()->getFirstEntry()->getCOLVersion()), false);
-	m_pText_FileGame->setText(COLManager::get()->getVersionManager()->getGamesAsString(getCOLFile()->getFirstEntry()->getCOLVersion()));
-
+	if (getCOLFile()->getEntryCount() > 0)
+	{
+		m_pText_FileVersion->setText(COLManager::get()->getVersionManager()->getVersionText(getCOLFile()->getFirstEntry()->getCOLVersion()), false);
+		m_pText_FileGame->setText(COLManager::get()->getVersionManager()->getGamesAsString(getCOLFile()->getFirstEntry()->getCOLVersion()));
+	}
+	else
+	{
+		m_pText_FileVersion->setText(string("COL 1"), false);
+		m_pText_FileGame->setText(string("GTA III"));
+	}
 	updateEntryCountText();
 }
 
@@ -818,7 +825,7 @@ void						CollisionEditorTab::render3D(void)
 		//vecCameraRotation = { 0.0f, Math::convertDegreesToRadians(45.0f + 90), 0.0f };
 	}
 
-	mutexRendering.lock();
+	//mutexRendering.lock();
 	
 
 
@@ -887,7 +894,7 @@ void						CollisionEditorTab::render3D(void)
 
 
 
-	mutexRendering.unlock();
+	//mutexRendering.unlock();
 }
 
 void						CollisionEditorTab::update3DRenderSize(Vec2u& vecRenderSize)
@@ -954,7 +961,7 @@ void						CollisionEditorTab::moveCamera(float32 fAngleDeg, float32 fRadius)
 
 float32						CollisionEditorTab::getCameraZRotation(void)
 {
-	return Math::getAngleBetweenPoints(vecCameraLookAtPosition, vecCameraPosition);
+	return Math::getAngleBetweenPoints(vecCameraPosition, vecCameraLookAtPosition);
 }
 
 float f = 0.0f;
@@ -965,7 +972,7 @@ void						CollisionEditorTab::renderCamera(void)
 		//Math::convertDegreesToRadians(0.0f),
 		//0.0f,
 		//Math::convertDegreesToRadians(-135.0f),
-		Math::getAngleBetweenPoints(Vec3f(vecCameraPosition.x, vecCameraPosition.z, 0.0f), Vec3f(vecCameraLookAtPosition.x, vecCameraLookAtPosition.z, 0.0f)) - Math::convertDegreesToRadians(90.0f),
+		0.0f,//Math::getAngleBetweenPoints(Vec3f(vecCameraPosition.x, vecCameraPosition.z, 0.0f), Vec3f(vecCameraLookAtPosition.x, vecCameraLookAtPosition.z, 0.0f)) - Math::convertDegreesToRadians(90.0f),
 		0.0f,
 		Math::getAngleBetweenPoints(vecCameraPosition, vecCameraLookAtPosition)// + Math::convertDegreesToRadians(90.0f)
 	};
