@@ -77,7 +77,7 @@ void						ItemDefinitionEditorTab::onFileLoaded(void)
 // file info text
 void						ItemDefinitionEditorTab::setFileInfoText(void)
 {
-	m_pText_FilePath->setText(getIDEFile()->getFilePath());
+	m_pText_FilePath->setText(Path::getDisplayableFilePath(getIDEFile()->getFilePath()));
 
 	uint32 uiIDEGames = getIDEFile()->getFormatGames();
 	if (uiIDEGames == 0)

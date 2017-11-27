@@ -64,7 +64,7 @@ void						AnimationEditorTab::onFileLoaded(void)
 // file info text
 void						AnimationEditorTab::setFileInfoText(void)
 {
-	m_pText_FilePath->setText(getFile()->getFilePath());
+	m_pText_FilePath->setText(Path::getDisplayableFilePath(getFile()->getFilePath()));
 	m_pText_FileGame->setText(string("Unknown")); // todo
 	m_pText_FileVersion->setText(string("Unknown")); // todo
 

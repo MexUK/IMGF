@@ -816,7 +816,7 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 // file info text
 void					TextureEditorTab::setFileInfoText(void)
 {
-	m_pText_FilePath->setText(getFile()->getFilePath());
+	m_pText_FilePath->setText(Path::getDisplayableFilePath(getFile()->getFilePath()));
 	if (m_bIsTXDFile)
 	{
 		string strVersionText = RWManager::get()->getVersionManager()->getVersionText(getTXDFile()->getRawVersion());

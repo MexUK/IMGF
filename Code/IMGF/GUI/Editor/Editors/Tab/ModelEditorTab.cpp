@@ -63,7 +63,7 @@ void						ModelEditorTab::onFileLoaded(void)
 // file info text
 void						ModelEditorTab::setFileInfoText(void)
 {
-	m_pText_FilePath->setText(getFile()->getFilePath());
+	m_pText_FilePath->setText(Path::getDisplayableFilePath(getFile()->getFilePath()));
 	m_pText_FileVersion->setText(getDFFFile()->getRWVersion()->getVersionText(), false);
 	m_pText_FileGame->setText(getDFFFile()->getRWVersion()->getGamesAsString());
 

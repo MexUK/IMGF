@@ -73,7 +73,7 @@ void						ItemPlacementEditorTab::onFileLoaded(void)
 // file info text
 void						ItemPlacementEditorTab::setFileInfoText(void)
 {
-	m_pText_FilePath->setText(getIPLFile()->getFilePath());
+	m_pText_FilePath->setText(Path::getDisplayableFilePath(getIPLFile()->getFilePath()));
 
 	if (getIPLFile()->getEntriesBySection<IPLEntry_INST>(IPL_SECTION_INST).size() == 0)
 	{

@@ -40,6 +40,7 @@ protected:
 
 	void						onSelectDropDownItem(bxgx::DropDownItem *pItem);
 	void						onLeftMouseDown(bxcf::Vec2i vecCursorPosition);
+	void						onMouseMove2(bxcf::Vec2i vecCursorPosition);
 	void						onKeyDown2(uint16 uiKey);
 	void						onMouseWheelMove2(int16 iRotationDistance);
 
@@ -56,6 +57,7 @@ private:
 
 	void						update3DRenderSize(bxcf::Vec2u& vecRenderSize);
 
+	void						prepareInitial3DRender(void);
 	void						prepare3DRender(void);
 	void						renderCamera(void);
 	void						renderCollisionObjects(void);
@@ -68,6 +70,8 @@ private:
 	void						renderCollisionSpheres(void);
 
 	void						moveCamera(float32 fAngleDeg, float32 fRadius);
+	void						zoomCamera(float32 fRadius);
+	bxcf::Vec3f					getCameraRotation(void);
 	float32						getCameraZRotation(void); // result is in radians
 
 private:
@@ -78,4 +82,6 @@ private:
 	bxgx::ScrollBar*			m_pVScrollBar;
 
 	float32						m_fZoomLevel;
+
+	bool						m_bInitialized;
 };

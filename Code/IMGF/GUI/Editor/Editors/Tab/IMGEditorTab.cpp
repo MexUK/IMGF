@@ -1018,7 +1018,7 @@ uint32			IMGEditorTab::getMainListViewItemIndexByItemData(IMGEntry *pIMGEntry)
 // file info text
 void					IMGEditorTab::setFileInfoText(void)
 {
-	m_pText_FilePath->setText(getIMGFile()->getIMGFilePath());
+	m_pText_FilePath->setText(Path::getDisplayableFilePath(getIMGFile()->getIMGFilePath()));
 	m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
 	m_pText_FileGame->setText(IMGManager::getVersionGames(getIMGFile()->getVersion()));
 

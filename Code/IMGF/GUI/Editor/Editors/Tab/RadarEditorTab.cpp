@@ -407,7 +407,7 @@ void						RadarEditorTab::onFileLoaded(void)
 // file info text
 void						RadarEditorTab::setFileInfoText(void)
 {
-	m_pText_FilePath->setText(getIMGFile()->getIMGFilePath());
+	m_pText_FilePath->setText(Path::getDisplayableFilePath(getIMGFile()->getIMGFilePath()));
 	m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
 
 	m_pAlphaCheckBox->setMarked(false);
