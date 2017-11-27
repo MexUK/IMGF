@@ -179,9 +179,12 @@ void						EditorTab::processThreadOnce(void)
 		// check to render each window or window items
 		BXGX::get()->render();
 	}
-	else if (uiActiveEditor == MODEL_EDITOR || uiActiveEditor == COLLISION_EDITOR || uiActiveEditor == ANIMATION_EDITOR)
+	else if (this == getEditor()->getActiveEditorTab())
 	{
-		render();
+		if (uiActiveEditor == MODEL_EDITOR || uiActiveEditor == COLLISION_EDITOR || uiActiveEditor == ANIMATION_EDITOR)
+		{
+			render();
+		}
 	}
 }
 

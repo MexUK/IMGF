@@ -14,8 +14,6 @@ using namespace bxgx::events;
 using namespace bxgi;
 using namespace imgf;
 
-HDC hDC; // todo - namespace
-
 void					CollisionEditor::init(void)
 {
 	setEditorFileType(COLLISION);

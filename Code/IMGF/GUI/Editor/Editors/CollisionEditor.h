@@ -5,8 +5,6 @@
 #include "GUI/Editor/Editors/Tab/CollisionEditorTab.h"
 #include <string>
 
-extern HDC hDC;
-
 class imgf::CollisionEditor : public imgf::Editor
 {
 public:

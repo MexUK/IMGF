@@ -195,6 +195,9 @@ void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 		mutexTabs.unlock();
 		m_pTabBar->setActiveTab(pTab);
 
+		// reposition controls
+		pEditorTab->repositionAndResizeControls(Vec2i(0,0));
+
 		// hide no-tabs-open layer
 		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(false);
 	}

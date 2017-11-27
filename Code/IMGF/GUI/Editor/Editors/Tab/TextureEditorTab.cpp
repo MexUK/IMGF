@@ -115,6 +115,8 @@ void					TextureEditorTab::initControls(void)
 
 void					TextureEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 {
+	EditorTab::repositionAndResizeControls(vecSizeChange);
+
 	// entry list vertical scroll bar
 	// todo m_pVScrollBar->setSize(m_pVScrollBar->getSize() + Vec2u(0, vecSizeChange.y));
 	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, m_pWindow->getSize().y - m_pVScrollBar->getPosition().y));

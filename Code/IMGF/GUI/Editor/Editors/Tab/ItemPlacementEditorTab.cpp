@@ -113,6 +113,8 @@ void						ItemPlacementEditorTab::updateEntryCountText(void)
 
 void						ItemPlacementEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 {
+	EditorTab::repositionAndResizeControls(vecSizeDifference);
+
 	uint32 x, y;
 	uint32 uiLogWidth;
 

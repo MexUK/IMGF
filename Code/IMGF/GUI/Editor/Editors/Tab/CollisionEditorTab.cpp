@@ -39,11 +39,7 @@ using namespace bxgx::styles::statuses;
 using namespace bxgi;
 using namespace imgf;
 
-Vec3f					vecCameraPosition = Vec3f(0.0f, 0.0f, 0.0f); // todo - namespace
-Vec3f					vecCameraLookAtPosition = Vec3f(0.0f, 0.0f, 0.0f);
-//Vec3f					vecCameraRotation = Vec3f(0.0f, 0.0f, 0.0f); // todo - namespace
-static HDC hdcWindow; // todo
-static HBITMAP hbm; // todo
+mutex mutexInitializing3DRender; // todo
 
 CollisionEditorTab::CollisionEditorTab(void) :
 	m_pCOLFile(nullptr),
@@ -56,6 +52,8 @@ CollisionEditorTab::CollisionEditorTab(void) :
 
 	m_bInitialized(false)
 {
+	m_vecCameraPosition = Vec3f(0.0f, 0.0f, 0.0f);
+	m_vecCameraLookAtPosition = Vec3f(0.0f, 0.0f, 0.0f);
 }
 
 // events
@@ -120,6 +118,13 @@ void					CollisionEditorTab::initControls(void)
 
 void					CollisionEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 {
+	EditorTab::repositionAndResizeControls(vecSizeChange);
+
+	if (!m_bInitialized)
+	{
+		return;
+	}
+
 	// entry list vertical scroll bar
 	// todo m_pVScrollBar->setSize(m_pVScrollBar->getSize() + Vec2u(0, vecSizeChange.y));
 	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, m_pWindow->getSize().y - m_pVScrollBar->getPosition().y));
@@ -130,9 +135,9 @@ void					CollisionEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 
 	const float64 ar = ((float64)vecRenderSize.x) / ((float64)vecRenderSize.y);
 	
-	DeleteObject(hbm);
-	hbm = CreateCompatibleBitmap(hdcWindow, vecRenderSize.x, vecRenderSize.y);
-	SelectObject(hDC, hbm);
+	DeleteObject(m_hbm);
+	m_hbm = CreateCompatibleBitmap(m_hdcWindow, vecRenderSize.x, vecRenderSize.y);
+	SelectObject(m_hDC, m_hbm);
 
 	glViewport(0, 0, vecRenderSize.x, vecRenderSize.y);
 	//perspectiveGL(45.0, ar, 1.0, 1500.0);
@@ -151,13 +156,18 @@ void					CollisionEditorTab::onSelectDropDownItem(DropDownItem *pItem)
 
 void					CollisionEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 {
+	if (!m_pCOLFile)
+	{
+		return;
+	}
+
 	COLEntry
 		*pActiveCOLEntry = nullptr;
 	uint32
 		uiActiveImageIndex,
 		uiRowHeight = 50;
 	float32
-		fVProgress = m_pVScrollBar->getProgress();
+		fVProgress = m_pVScrollBar ? m_pVScrollBar->getProgress() : 0.0f;
 	RECT
 		rectCOLEntry;
 
@@ -308,8 +318,8 @@ void					CollisionEditorTab::onKeyDown2(uint16 uiKey)
 		case VK_DOWN:
 			if (bControlKey)
 			{
-				vecCameraPosition.z -= 0.2f;
-				vecCameraLookAtPosition.z -= 0.2f;
+				m_vecCameraPosition.z -= 0.2f;
+				m_vecCameraLookAtPosition.z -= 0.2f;
 			}
 			else
 			{
@@ -319,8 +329,8 @@ void					CollisionEditorTab::onKeyDown2(uint16 uiKey)
 		case VK_UP:
 			if (bControlKey)
 			{
-				vecCameraPosition.z += 0.2f;
-				vecCameraLookAtPosition.z += 0.2f;
+				m_vecCameraPosition.z += 0.2f;
+				m_vecCameraLookAtPosition.z += 0.2f;
 			}
 			else
 			{
@@ -338,8 +348,8 @@ void					CollisionEditorTab::onKeyDown2(uint16 uiKey)
 		case 87: // W
 			if (bControlKey)
 			{
-				vecCameraPosition.z += 0.2f;
-				vecCameraLookAtPosition.z += 0.2f;
+				m_vecCameraPosition.z += 0.2f;
+				m_vecCameraLookAtPosition.z += 0.2f;
 			}
 			else
 			{
@@ -349,8 +359,8 @@ void					CollisionEditorTab::onKeyDown2(uint16 uiKey)
 		case 83: // S
 			if (bControlKey)
 			{
-				vecCameraPosition.z -= 0.2f;
-				vecCameraLookAtPosition.z -= 0.2f;
+				m_vecCameraPosition.z -= 0.2f;
+				m_vecCameraLookAtPosition.z -= 0.2f;
 			}
 			else
 			{
@@ -799,7 +809,7 @@ void						CollisionEditorTab::render3D(void)
 
 	if (!m_bInitialized)
 	{
-		m_bInitialized = true;
+		
 
 
 
@@ -813,17 +823,17 @@ void						CollisionEditorTab::render3D(void)
 		
 
 
-
+		mutexInitializing3DRender.lock();
 
 		//hDC = GetDC(m_pWindow->getWindowHandle());
-		hdcWindow = GetDC(m_pWindow->getWindowHandle());
-		hDC = CreateCompatibleDC(hdcWindow);
+		m_hdcWindow = GetDC(m_pWindow->getWindowHandle());
+		m_hDC = CreateCompatibleDC(m_hdcWindow);
 
-		hbm = CreateCompatibleBitmap(hdcWindow, vecRenderSize.x, vecRenderSize.y);
+		m_hbm = CreateCompatibleBitmap(m_hdcWindow, vecRenderSize.x, vecRenderSize.y);
 
-		SelectObject(hDC, hbm);
+		SelectObject(m_hDC, m_hbm);
 
-		if (!hDC)
+		if (!m_hDC)
 		{
 			MessageBox(NULL, L"ERROR 1", L"A", MB_OK);
 			return;
@@ -854,28 +864,28 @@ void						CollisionEditorTab::render3D(void)
 			0, 0, 0							// Layer Masks Ignored
 		};
 
-		GLuint PixelFormat = ChoosePixelFormat(hDC, &pfd);
+		GLuint PixelFormat = ChoosePixelFormat(m_hDC, &pfd);
 		if (!PixelFormat)
 		{
 			MessageBox(NULL, L"ERROR 2", L"A", MB_OK);
 			return;
 		}
 
-		BOOL bResult = SetPixelFormat(hDC, PixelFormat, &pfd);
+		BOOL bResult = SetPixelFormat(m_hDC, PixelFormat, &pfd);
 		if (!bResult)
 		{
 			MessageBox(NULL, L"ERROR 3", L"A", MB_OK);
 			return;
 		}
 
-		HGLRC hRC = wglCreateContext(hDC);
+		HGLRC hRC = wglCreateContext(m_hDC);
 		if (!hRC)
 		{
 			MessageBox(NULL, L"ERROR 4", L"A", MB_OK);
 			return;
 		}
 
-		bResult = wglMakeCurrent(hDC, hRC);
+		bResult = wglMakeCurrent(m_hDC, hRC);
 		if (!bResult)
 		{
 			MessageBox(NULL, L"ERROR 5", L"A", MB_OK);
@@ -905,10 +915,14 @@ void						CollisionEditorTab::render3D(void)
 
 		float32 fHighestDistance = 1.5f;
 		float32 fDistanceMultiplier = 2.0f;
-		vecCameraPosition = { -2.0f, -2.0f, 2.0f };
+		m_vecCameraPosition = { -2.0f, -2.0f, 2.0f };
 		//vecCameraPosition = { 0.0f, 0.0f, 0.0f };
 		//vecCameraPosition = Math::getPositionInFrontOfPosition(vecCameraPosition, Math::convertDegreesToRadians(45.0f), fHighestDistance * fDistanceMultiplier);
 		//vecCameraRotation = { 0.0f, Math::convertDegreesToRadians(45.0f + 90), 0.0f };
+
+		m_bInitialized = true;
+
+		mutexInitializing3DRender.unlock();
 	}
 
 	//mutexRendering.lock();
@@ -966,7 +980,7 @@ void						CollisionEditorTab::render3D(void)
 
 	
 
-	BitBlt(hdcWindow, 139+139+250, 192, vecRenderSize.x, vecRenderSize.y, hDC, 0, 0, SRCCOPY);
+	BitBlt(m_hdcWindow, 139+139+250, 192, vecRenderSize.x, vecRenderSize.y, m_hDC, 0, 0, SRCCOPY);
 
 
 	
@@ -1050,8 +1064,8 @@ void						CollisionEditorTab::prepare3DRender(void)
 
 void						CollisionEditorTab::moveCamera(float32 fAngleDeg, float32 fRadius)
 {
-	vecCameraPosition = Math::getPositionInFrontOfPosition(vecCameraPosition, getCameraZRotation() + Math::convertDegreesToRadians(fAngleDeg), fRadius);
-	vecCameraLookAtPosition = Math::getPositionInFrontOfPosition(vecCameraLookAtPosition, getCameraZRotation() + Math::convertDegreesToRadians(fAngleDeg), fRadius);
+	m_vecCameraPosition = Math::getPositionInFrontOfPosition(m_vecCameraPosition, getCameraZRotation() + Math::convertDegreesToRadians(fAngleDeg), fRadius);
+	m_vecCameraLookAtPosition = Math::getPositionInFrontOfPosition(m_vecCameraLookAtPosition, getCameraZRotation() + Math::convertDegreesToRadians(fAngleDeg), fRadius);
 }
 
 void						CollisionEditorTab::zoomCamera(float32 fRadius)
@@ -1061,16 +1075,16 @@ void						CollisionEditorTab::zoomCamera(float32 fRadius)
 	float32 fZAngle = vecCameraRotation.z - Math::convertDegreesToRadians(90.0f);
 	Vec3f vecCameraPositionOffset = Math::getCartesianFromSpherical(fRadius, fXAngle, fZAngle);
 	vecCameraPositionOffset.z = -vecCameraPositionOffset.z;
-	vecCameraPosition = vecCameraPosition + vecCameraPositionOffset;
-	vecCameraLookAtPosition = vecCameraLookAtPosition + vecCameraPositionOffset;
+	m_vecCameraPosition = m_vecCameraPosition + vecCameraPositionOffset;
+	m_vecCameraLookAtPosition = m_vecCameraLookAtPosition + vecCameraPositionOffset;
 }
 
 Vec3f						CollisionEditorTab::getCameraRotation(void)
 {
 	Vec3f vecCameraRotation = Vec3f{
-		Math::getAngleBetweenPoints(Vec3f(vecCameraPosition.x, vecCameraPosition.z, 0.0f), Vec3f(vecCameraLookAtPosition.x, vecCameraLookAtPosition.z, 0.0f)) + Math::convertDegreesToRadians(90.0f), // X
+		Math::getAngleBetweenPoints(Vec3f(m_vecCameraPosition.x, m_vecCameraPosition.z, 0.0f), Vec3f(m_vecCameraLookAtPosition.x, m_vecCameraLookAtPosition.z, 0.0f)) + Math::convertDegreesToRadians(90.0f), // X
 		0.0f, // Y
-		Math::getAngleBetweenPoints(vecCameraPosition, vecCameraLookAtPosition) + Math::convertDegreesToRadians(90.0f) // Z
+		Math::getAngleBetweenPoints(m_vecCameraPosition, m_vecCameraLookAtPosition) + Math::convertDegreesToRadians(90.0f) // Z
 	};
 	while (vecCameraRotation.x > 3.142) vecCameraRotation.x -= 3.142;
 	while (vecCameraRotation.x < -3.142) vecCameraRotation.x += 3.142;
@@ -1083,7 +1097,7 @@ Vec3f						CollisionEditorTab::getCameraRotation(void)
 
 float32						CollisionEditorTab::getCameraZRotation(void)
 {
-	return Math::getAngleBetweenPoints(vecCameraPosition, vecCameraLookAtPosition) + Math::convertDegreesToRadians(90.0f); // Z
+	return Math::getAngleBetweenPoints(m_vecCameraPosition, m_vecCameraLookAtPosition) + Math::convertDegreesToRadians(90.0f); // Z
 }
 
 float f = 0.0f;
@@ -1101,7 +1115,7 @@ void						CollisionEditorTab::renderCamera(void)
 	glRotatef(Math::convertRadiansToDegrees(vecCameraRotation.y), 0.0f, 0.0f, 1.0f);
 
 	// camera position
-	glTranslatef(-vecCameraPosition.x, -vecCameraPosition.z, -vecCameraPosition.y);
+	glTranslatef(-m_vecCameraPosition.x, -m_vecCameraPosition.z, -m_vecCameraPosition.y);
 
 	//vecCameraRotation.x += Math::convertDegreesToRadians(0.1f);
 	//vecCameraRotation.z += Math::convertDegreesToRadians(0.1f);

@@ -278,6 +278,13 @@ void					IMGEditorTab::removeControls(void)
 
 void					IMGEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 {
+	EditorTab::repositionAndResizeControls(vecSizeDifference);
+
+	if (!m_pEntryGrid)
+	{
+		return;
+	}
+
 	Vec2i point;
 	Vec2u size, newSize;
 	int32 iNewX, iNewWidth, iNewHeight;
@@ -395,6 +402,11 @@ void					IMGEditorTab::onSortGridByColumn(Grid *pGrid)
 
 void					IMGEditorTab::onDoubleLeftMouseUp2(Vec2i vecCursorPosition)
 {
+	if (!m_pEntryGrid)
+	{
+		return;
+	}
+
 	GridRow *pGridRow = m_pEntryGrid->getRowFromPoint(BXGX::get()->getCursorPosition());
 	if (pGridRow)
 	{

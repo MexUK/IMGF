@@ -5,12 +5,13 @@
 #include "nsbxgx.h"
 #include "GUI/Editor/Base/Tab/EditorTab.h"
 #include "Pool/VectorPool.h"
+#include "Type/Vector/Vec3f.h"
 
 #include "GL/glew.h"
 #include "GL/wglew.h"
+#include <Windows.h>
 
-// todo - namespace
-void						perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar);
+void						perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar); // todo - namespace
 
 class imgf::CollisionEditorTab : public imgf::EditorTab
 {
@@ -84,4 +85,10 @@ private:
 	float32						m_fZoomLevel;
 
 	bool						m_bInitialized;
+
+	bxcf::Vec3f					m_vecCameraPosition;
+	bxcf::Vec3f					m_vecCameraLookAtPosition;
+	HDC							m_hdcWindow;
+	HDC							m_hDC;
+	HBITMAP						m_hbm;
 };
