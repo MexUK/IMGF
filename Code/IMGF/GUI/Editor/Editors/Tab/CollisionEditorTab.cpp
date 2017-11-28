@@ -52,7 +52,7 @@ CollisionEditorTab::CollisionEditorTab(void) :
 
 	m_bInitialized(false)
 {
-	m_vecCameraPosition = Vec3f(0.0f, 0.0f, 0.0f);
+	m_vecCameraPosition = Vec3f(-2.0f, -2.0f, 2.0f);
 	m_vecCameraLookAtPosition = Vec3f(0.0f, 0.0f, 0.0f);
 }
 
@@ -131,16 +131,23 @@ void					CollisionEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 
 	Vec2u vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
 
+
+
+
 	mutexRendering.lock();
 
-	const float64 ar = ((float64)vecRenderSize.x) / ((float64)vecRenderSize.y);
-	
-	DeleteObject(m_hbm);
+	if (m_hbm)
+	{
+		DeleteObject(m_hbm);
+	}
+
 	m_hbm = CreateCompatibleBitmap(m_hdcWindow, vecRenderSize.x, vecRenderSize.y);
 	SelectObject(m_hDC, m_hbm);
 
-	glViewport(0, 0, vecRenderSize.x, vecRenderSize.y);
+	//glViewport(0, 0, vecRenderSize.x, vecRenderSize.y);
+	//const float64 ar = ((float64)vecRenderSize.x) / ((float64)vecRenderSize.y);
 	//perspectiveGL(45.0, ar, 1.0, 1500.0);
+
 	update3DRenderSize(vecRenderSize);
 	
 	mutexRendering.unlock();
@@ -807,6 +814,7 @@ void						CollisionEditorTab::render3D(void)
 {
 	Vec2u vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
 
+	mutexInitializing3DRender.lock();
 	if (!m_bInitialized)
 	{
 		
@@ -823,7 +831,7 @@ void						CollisionEditorTab::render3D(void)
 		
 
 
-		mutexInitializing3DRender.lock();
+		
 
 		//hDC = GetDC(m_pWindow->getWindowHandle());
 		m_hdcWindow = GetDC(m_pWindow->getWindowHandle());
@@ -921,9 +929,8 @@ void						CollisionEditorTab::render3D(void)
 		//vecCameraRotation = { 0.0f, Math::convertDegreesToRadians(45.0f + 90), 0.0f };
 
 		m_bInitialized = true;
-
-		mutexInitializing3DRender.unlock();
 	}
+	mutexInitializing3DRender.unlock();
 
 	//mutexRendering.lock();
 	
@@ -1100,7 +1107,7 @@ float32						CollisionEditorTab::getCameraZRotation(void)
 	return Math::getAngleBetweenPoints(m_vecCameraPosition, m_vecCameraLookAtPosition) + Math::convertDegreesToRadians(90.0f); // Z
 }
 
-float f = 0.0f;
+float f = 0.0f; // todo
 
 void						CollisionEditorTab::renderCamera(void)
 {

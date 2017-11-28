@@ -173,13 +173,15 @@ void						EditorTab::processThreadOnce(void)
 		getIMGF()->getInputManager()->processMenuItemPress(pMenuItem);
 	}
 
-	EEditor uiActiveEditor = getIMGF()->getWindowManager()->getMainWindow()->getActiveEditor()->getEditorType();
+	Editor *pActiveEditor = getIMGF()->getWindowManager()->getMainWindow()->getActiveEditor();
+	EEditor uiActiveEditor = pActiveEditor->getEditorType();
 	if (vecButtonsPressed.size() > 0 || vecMenuItemsPressed.size() > 0)
 	{
 		// check to render each window or window items
 		BXGX::get()->render();
 	}
-	else if (this == getEditor()->getActiveEditorTab())
+	
+	if (this == pActiveEditor->getActiveEditorTab())
 	{
 		if (uiActiveEditor == MODEL_EDITOR || uiActiveEditor == COLLISION_EDITOR || uiActiveEditor == ANIMATION_EDITOR)
 		{
