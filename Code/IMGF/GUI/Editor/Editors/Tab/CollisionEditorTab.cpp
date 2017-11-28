@@ -45,10 +45,7 @@ CollisionEditorTab::CollisionEditorTab(void) :
 	m_pCOLFile(nullptr),
 	m_pActiveEntry(nullptr),
 
-	m_pZoomDropDown(nullptr),
 	m_pVScrollBar(nullptr),
-
-	m_fZoomLevel(1.0f),
 
 	m_bInitialized(false)
 {
@@ -93,12 +90,6 @@ void					CollisionEditorTab::addControls(void)
 	y = ((162 + 30) - 50) - 1;
 	w = 80;
 	h = 20;
-
-	// zoom dropdown
-	m_pZoomDropDown = addDropDown(Vec2i(x, y), Vec2u(w, h), "");
-	vector<string> vecZoomDropDownItems = { "25%", "50%", "100%", "200%", "400%", "800%", "1600%" };
-	m_pZoomDropDown->addItems(vecZoomDropDownItems);
-	m_pZoomDropDown->setActiveItem(m_pZoomDropDown->getEntryByIndex(2));
 
 	// vertical scroll bar
 	x = 139 + 139 + 250;
@@ -156,9 +147,6 @@ void					CollisionEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 // editor input
 void					CollisionEditorTab::onSelectDropDownItem(DropDownItem *pItem)
 {
-	string strActiveZoomText = m_pZoomDropDown->getActiveItem()->getText();
-	float32 fZoomLevel = ((float32)String::toUint32(strActiveZoomText.substr(0, strActiveZoomText.length() - 1))) / 100.0f;
-	setZoomLevel(fZoomLevel);
 }
 
 void					CollisionEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
@@ -217,33 +205,33 @@ void					CollisionEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 	}
 }
 
-Vec2f g_vecLastMousePosition; // todo
+Vec2f g_vecLastMousePosition = Vec2f(0.0f, 0.0f); // todo
 
 void					CollisionEditorTab::onMouseMove2(Vec2i vecCursorPosition)
 {
 	if ((GetKeyState(VK_LBUTTON) & 0x100) != 0)
 	{
-		/*
 		//Vec2f vecNewPosition = Vec2f((float32)xpos, ypos);
 		Vec2i vecNewPosition = BXGX::get()->getCursorPosition();
 		if (g_vecLastMousePosition.x != 0.0f && g_vecLastMousePosition.y != 0.0f)
 		{
 			const Vec2f vecCursorMoveMultiplier = { 0.3f, 0.3f };
-			Vec3f vecCameraRotation;
+			Vec3f vecCameraRotation(0.0f, 0.0f, 0.0f);
 			Vec2f vecPositionDifference = Vec2f(vecNewPosition.x - g_vecLastMousePosition.x, vecNewPosition.y - g_vecLastMousePosition.y);
 			vecCameraRotation.z += Math::convertDegreesToRadians(vecPositionDifference.x * vecCursorMoveMultiplier.x);
 			vecCameraRotation.x += Math::convertDegreesToRadians(vecPositionDifference.y * vecCursorMoveMultiplier.y);
+
+			m_vecCameraLookAtPosition = Math::getPositionInFrontOfPosition(m_vecCameraPosition, vecCameraRotation.z, Math::getDistanceBetweenPoints(m_vecCameraPosition, m_vecCameraLookAtPosition));
+			render3D();
 		}
 
-		g_vecLastMousePosition = vecNewPosition;
-		*/
+		g_vecLastMousePosition = Vec2f(vecNewPosition.x, vecNewPosition.y);
 	}
 }
 
 void					CollisionEditorTab::onKeyDown2(uint16 uiKey)
 {
-	bool bTextureListIsActive = false;
-	if (bTextureListIsActive)
+	if (isPointOverEntryList(BXGX::get()->getCursorPosition()))
 	{
 		// texture list
 		int32 iNextTextureIndex;
@@ -386,7 +374,7 @@ void					CollisionEditorTab::onKeyDown2(uint16 uiKey)
 
 void					CollisionEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 {
-	if (false)
+	if (isPointOverEntryList(BXGX::get()->getCursorPosition()))
 	{
 		int iDelta = -(iRotationDistance / WHEEL_DELTA);
 		float32 fNewProgress = m_pVScrollBar->getProgress() + ((float32)iDelta * m_pVScrollBar->getProgressFor1Item());
@@ -542,9 +530,16 @@ void						CollisionEditorTab::updateEntryCountText(void)
 	m_pText_FileEntryCount->setText(strEntryCountText);
 }
 
-// render editor
+// render
 void						CollisionEditorTab::render(void)
 {
+	render3D();
+}
+
+// render on process
+void						CollisionEditorTab::renderNotOnProcess(void)
+{
+	render2D();
 	render3D();
 }
 
@@ -759,13 +754,6 @@ void						CollisionEditorTab::render2D(void)
 		rectCOLEntry.bottom += 55;
 	}
 
-	// zoom text
-	RECT rect;
-	rect.left = vecMainPanelPosition.x + 250 + 100;
-	rect.top = vecMainPanelPosition.y - 50;
-	string strText = "Zoom:";
-	pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
-
 	m_pWindow->setRenderingStyleGroups("centerEntryPanel");
 	Vec2u vecRectSize;
 	vecRectSize.x = m_pWindow->getSize().x - (vecMainPanelPosition.x + 250);
@@ -855,8 +843,8 @@ void						CollisionEditorTab::render3D(void)
 			/*PFD_DRAW_TO_WINDOW |*/			// Format Must Support Window
 			PFD_DRAW_TO_BITMAP |
 			//PFD_SUPPORT_GDI
-			PFD_SUPPORT_OPENGL// |			// Format Must Support OpenGL
-			/*PFD_DOUBLEBUFFER*/,				// Must Support Double Buffering
+			PFD_SUPPORT_OPENGL, // |			// Format Must Support OpenGL
+			//PFD_DOUBLEBUFFER,				// Must Support Double Buffering
 			PFD_TYPE_RGBA,					// Request An RGBA Format
 			bits,							// Select Our Color Depth
 			0, 0, 0, 0, 0, 0,				// Color Bits Ignored
@@ -979,17 +967,16 @@ void						CollisionEditorTab::render3D(void)
 
 	//glDisable(GL_SCISSOR_TEST);
 
-	//SwapBuffers(hDC);
+	//glDrawBuffers(1, GetBuffer(GL_BACK);
+	
 	
 
 	glFinish();
 
-
+	//SwapBuffers(m_hdcWindow);
 	
 
 	BitBlt(m_hdcWindow, 139+139+250, 192, vecRenderSize.x, vecRenderSize.y, m_hDC, 0, 0, SRCCOPY);
-
-
 	
 
 
@@ -1219,6 +1206,7 @@ void						CollisionEditorTab::renderCollisionObjects(void)
 	renderCollisionMeshes();
 	renderCollisionCuboids();
 	renderCollisionSpheres();
+	renderCollisionLines();
 }
 
 void						CollisionEditorTab::renderCollisionMeshes(void)
@@ -1310,6 +1298,28 @@ void						CollisionEditorTab::renderCollisionSpheres(void)
 	}
 }
 
+void						CollisionEditorTab::renderCollisionLines(void)
+{
+	COLEntry *pCOLEntry = getActiveEntry();
+
+	// draw collision mesh faces & vertices
+	glBegin(GL_TRIANGLES);
+	glColor3ub(255, 0, 0);
+	for (TFace& face : pCOLEntry->getCollisionLines())
+	{
+		TVertex& vecVector1 = pCOLEntry->getCollisionMeshVertices()[face.m_uiA];
+		TVertex& vecVector2 = pCOLEntry->getCollisionMeshVertices()[face.m_uiB];
+		TVertex& vecVector3 = pCOLEntry->getCollisionMeshVertices()[face.m_uiC];
+		//Debugger::log("vecVector1: " + String::toString(vecVector1.x) + ", " + String::toString(vecVector1.y) + ", " + String::toString(vecVector1.z));
+		//Debugger::log("vecVector2: " + String::toString(vecVector2.x) + ", " + String::toString(vecVector2.y) + ", " + String::toString(vecVector2.z));
+		//Debugger::log("vecVector3: " + String::toString(vecVector3.x) + ", " + String::toString(vecVector3.y) + ", " + String::toString(vecVector3.z));
+		glVertex3f(vecVector1.x, vecVector1.z, vecVector1.y);
+		glVertex3f(vecVector2.x, vecVector2.z, vecVector2.y);
+		glVertex3f(vecVector3.x, vecVector3.z, vecVector3.y);
+	}
+	glEnd();
+}
+
 // utility
 void						perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar)
 {
@@ -1321,4 +1331,18 @@ void						perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble
 	fW = fH * aspect;
 
 	glFrustum(-fW, fW, -fH, fH, zNear, zFar);
+}
+
+bool						CollisionEditorTab::isPointOverEntryList(Vec2i& vecPoint)
+{
+	int32 x, y;
+	uint32 w, h;
+
+	x = 139 + 139;
+	y = 162 + 30;
+
+	w = 250;
+	h = m_pWindow->getSize().y - y;
+
+	return Math::isPointInRectangle(vecPoint, Vec2i(x, y), Vec2u(w, h));
 }

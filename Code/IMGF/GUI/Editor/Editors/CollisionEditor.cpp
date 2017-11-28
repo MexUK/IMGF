@@ -103,6 +103,6 @@ void							CollisionEditor::renderBefore(void)
 
 	if (m_pActiveEditorTab)
 	{
-		((CollisionEditorTab*)m_pActiveEditorTab)->render2D();
+		((CollisionEditorTab*)m_pActiveEditorTab)->renderNotOnProcess();
 	}
 }

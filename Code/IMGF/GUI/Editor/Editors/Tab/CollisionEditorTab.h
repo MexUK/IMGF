@@ -28,6 +28,7 @@ public:
 	bxgi::COLFormat*			getCOLFile(void) { return m_pCOLFile; }
 
 	void						render(void);
+	void						renderNotOnProcess(void);
 
 	void						render2D(void);
 	void						render3D(void);
@@ -53,9 +54,6 @@ private:
 	void						setActiveEntry(bxgi::COLEntry *pCOLEntry) { m_pActiveEntry = pCOLEntry; }
 	bxgi::COLEntry*				getActiveEntry(void) { return m_pActiveEntry; }
 
-	void						setZoomLevel(float32 fZoomLevel) { m_fZoomLevel = fZoomLevel; }
-	float32						getZoomLevel(void) { return m_fZoomLevel; }
-
 	void						update3DRenderSize(bxcf::Vec2u& vecRenderSize);
 
 	void						prepareInitial3DRender(void);
@@ -69,20 +67,20 @@ private:
 	void						renderCollisionMeshes(void);
 	void						renderCollisionCuboids(void);
 	void						renderCollisionSpheres(void);
+	void						renderCollisionLines(void);
 
 	void						moveCamera(float32 fAngleDeg, float32 fRadius);
 	void						zoomCamera(float32 fRadius);
 	bxcf::Vec3f					getCameraRotation(void);
 	float32						getCameraZRotation(void); // result is in radians
 
+	bool						isPointOverEntryList(bxcf::Vec2i& vecPoint);
+
 private:
 	bxgi::COLFormat*			m_pCOLFile;
 	bxgi::COLEntry*				m_pActiveEntry;
 
-	bxgx::DropDown*				m_pZoomDropDown;
 	bxgx::ScrollBar*			m_pVScrollBar;
-
-	float32						m_fZoomLevel;
 
 	bool						m_bInitialized;
 
