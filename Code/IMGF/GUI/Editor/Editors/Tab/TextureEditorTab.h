@@ -30,6 +30,7 @@ public:
 	void								setEntrySelected(bxcf::FormatEntry* pEntry, bool bIsSelected);
 	bool								isEntrySelected(bxcf::FormatEntry* pEntry);
 	void								onSortEntries(std::vector<bxcf::FormatEntry*>& vecEntries);
+	void								merge(std::string& strFilePath);
 
 	void						setIsTXDFile(bool bIsTXDFile) { m_bIsTXDFile = bIsTXDFile; }
 	bool						isTXDFile(void) { return m_bIsTXDFile; }

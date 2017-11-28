@@ -25,6 +25,9 @@ public:
 
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 
+	void						merge(std::string& strFilePath);
+	void						mergeViaData(std::string& strFileData);
+
 private:
 	bxgi::DATLoaderFormat*		m_pDATFile;
 

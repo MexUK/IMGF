@@ -961,6 +961,14 @@ void					TextureEditorTab::onSortEntries(vector<FormatEntry*>& vecEntries)
 	}
 }
 
+void					TextureEditorTab::merge(string& strFilePath)
+{
+	getContainerFile()->merge(strFilePath);
+}
+
+
+
+
 void					TextureEditorTab::recreateEntryList(void)
 {
 	VectorPool::removeAllEntries();

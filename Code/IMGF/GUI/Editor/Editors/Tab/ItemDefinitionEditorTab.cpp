@@ -123,7 +123,23 @@ void						ItemDefinitionEditorTab::repositionAndResizeControls(Vec2i& vecSizeDif
 
 	uiLogWidth = 337;
 
+	if (!m_pTextBox)
+	{
+		return;
+	}
+
 	x = m_pTextBox->getWindow()->getSize().x - uiLogWidth - 139 * 2;
 	y = m_pTextBox->getWindow()->getSize().y - 200;
 	m_pTextBox->setSize(Vec2u(x, y));
+}
+
+// merge
+void						ItemDefinitionEditorTab::merge(string& strFilePath)
+{
+	mergeViaData(File::getFileContent(strFilePath));
+}
+
+void						ItemDefinitionEditorTab::mergeViaData(string& strFileData)
+{
+	m_pTextBox->addText("\r\n\r\n" + strFileData);
 }

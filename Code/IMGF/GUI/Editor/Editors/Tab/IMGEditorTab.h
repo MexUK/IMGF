@@ -69,6 +69,8 @@ public:
 	uint32								getSelectedEntryCount(void);
 
 	void								onEntryChange(bxcf::FormatEntry *pEntry);
+	
+	void								merge(std::string& strFilePath);
 
 	void								recreateEntryList(void);
 

@@ -1399,6 +1399,11 @@ void					IMGEditorTab::onEntryChange(IMGEntry *pIMGEntry)
 	loadProtectedEntryState(pIMGEntry);
 }
 
+void					IMGEditorTab::merge(string& strFilePath)
+{
+	getContainerFile()->merge(strFilePath);
+}
+
 void					IMGEditorTab::loadProtectedEntryState(IMGEntry *pIMGEntry)
 {
 	if (m_pDBFile->isIMGEntryFound(getIMGFile(), pIMGEntry))

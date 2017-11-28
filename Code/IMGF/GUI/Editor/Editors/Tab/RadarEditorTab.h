@@ -29,6 +29,7 @@ public:
 	void								removeAllEntries(void);
 	void								removeEntries(std::vector<bxcf::FormatEntry*>& vecEntries);
 	void								setEntriesSelected(std::vector<bxcf::FormatEntry*>& vecEntries, bool bIsSelected);
+	void								merge(std::string& strFilePath);
 
 	void						renderEntryList(void);
 	void						render_Type1(void);

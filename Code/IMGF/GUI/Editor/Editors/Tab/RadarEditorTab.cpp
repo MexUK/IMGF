@@ -1069,6 +1069,15 @@ void					RadarEditorTab::onEntryChange(FormatEntry *pEntry)
 	}
 }
 
+void					RadarEditorTab::merge(string& strFilePath)
+{
+	getContainerFile()->merge(strFilePath);
+}
+
+
+
+
+
 void					RadarEditorTab::recreateEntryList(void)
 {
 	VectorPool::removeAllEntries();

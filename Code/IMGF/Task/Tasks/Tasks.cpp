@@ -2562,7 +2562,7 @@ void		Tasks::merge(void)
 
 	for (string& strFilePath : vecFilePaths)
 	{
-		getTab()->getContainerFile()->merge(strFilePath);
+		getTab()->merge(strFilePath);
 	}
 
 	// todo

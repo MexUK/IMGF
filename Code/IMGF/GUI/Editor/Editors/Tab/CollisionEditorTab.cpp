@@ -1262,6 +1262,7 @@ void						CollisionEditorTab::renderCollisionCuboids(void)
 			{
 				glColor3ub(colors[i2][0], colors[i2][1], colors[i2][2]);
 				i2++;
+				i2 = i2 % 6;
 			}
 			if ((i % 4) == 3)
 			{
@@ -1279,22 +1280,32 @@ void						CollisionEditorTab::renderCollisionSpheres(void)
 {
 	COLEntry *pCOLEntry = getActiveEntry();
 
+	int colors[6][3] = {
+		{ 255, 0, 0 },
+		{ 0, 255, 0 },
+		{ 0, 0, 255 },
+		{ 255, 255, 0 },
+		{ 255, 128, 0 },
+		{ 50, 50, 50 }
+	};
+
 	// draw collision spheres
 	uint32 i2 = 0;
 	for (TSphere& collisionSphere : pCOLEntry->getCollisionSpheres())
 	{
-		//glColor3ub(colors[i2][0], colors[i2][1], colors[i2][2]);
+		glColor3ub(colors[i2][0], colors[i2][1], colors[i2][2]);
 
-		//glPushMatrix();
-		//glTranslatef(collisionSphere.m_vecCenter.x, collisionSphere.m_vecCenter.z, collisionSphere.m_vecCenter.y); 
-		//gluSphere(gluNewQuadric(), collisionSphere.m_fRadius, 100, 100);
-		////////////////if (!isEntryChanging() && i2 < m_vecCollisionSpheresGL.size() && m_vecCollisionSpheresGL[i2] != nullptr)
-		////////////////{
-		////////////////	m_vecCollisionSpheresGL[i2]->draw(collisionSphere.m_vecCenter.x, collisionSphere.m_vecCenter.z, collisionSphere.m_vecCenter.y);
-		////////////////}
-		//glPopMatrix();
+		glPushMatrix();
+		glTranslatef(collisionSphere.m_vecCenter.x, collisionSphere.m_vecCenter.z, collisionSphere.m_vecCenter.y); 
+		// todo gluSphere(gluNewQuadric(), collisionSphere.m_fRadius, 100, 100);
+		//if (!isEntryChanging() && i2 < m_vecCollisionSpheresGL.size() && m_vecCollisionSpheresGL[i2] != nullptr)
+		//{
+			//m_vecCollisionSpheresGL[i2]->draw(collisionSphere.m_vecCenter.x, collisionSphere.m_vecCenter.z, collisionSphere.m_vecCenter.y);
+		//}
+		glPopMatrix();
 
 		i2++;
+		i2 = i2 % 6;
 	}
 }
 
@@ -1305,6 +1316,8 @@ void						CollisionEditorTab::renderCollisionLines(void)
 	// draw collision mesh faces & vertices
 	glBegin(GL_TRIANGLES);
 	glColor3ub(255, 0, 0);
+	/*
+	todo
 	for (TFace& face : pCOLEntry->getCollisionLines())
 	{
 		TVertex& vecVector1 = pCOLEntry->getCollisionMeshVertices()[face.m_uiA];
@@ -1317,6 +1330,7 @@ void						CollisionEditorTab::renderCollisionLines(void)
 		glVertex3f(vecVector2.x, vecVector2.z, vecVector2.y);
 		glVertex3f(vecVector3.x, vecVector3.z, vecVector3.y);
 	}
+	*/
 	glEnd();
 }
 
