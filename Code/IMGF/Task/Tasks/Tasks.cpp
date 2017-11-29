@@ -3352,7 +3352,15 @@ void		Tasks::selectAll(void)
 {
 	onStartTask("selectAll");
 
-	getTab()->setEntriesSelected(getTab()->getContainerFile()->getEntriesRef(), true);
+	EEditor uiEditorType = getTab()->getEditor()->getEditorType();
+	if (uiEditorType == ITEM_DEFINITION_EDITOR || uiEditorType == ITEM_PLACEMENT_EDITOR || uiEditorType == DAT_EDITOR)
+	{
+		getTab()->setAllLinesSelected(true);
+	}
+	else
+	{
+		getTab()->setEntriesSelected(getTab()->getEntriesRef(), true);
+	}
 	getTab()->log("Selected all entries.");
 
 	onCompleteTask();
@@ -3362,7 +3370,15 @@ void		Tasks::unselectAll(void)
 {
 	onStartTask("unselectAll");
 
-	getTab()->setEntriesSelected(getTab()->getContainerFile()->getEntriesRef(), false);
+	EEditor uiEditorType = getTab()->getEditor()->getEditorType();
+	if (uiEditorType == ITEM_DEFINITION_EDITOR || uiEditorType == ITEM_PLACEMENT_EDITOR || uiEditorType == DAT_EDITOR)
+	{
+		getTab()->setAllLinesSelected(false);
+	}
+	else
+	{
+		getTab()->setEntriesSelected(getTab()->getEntriesRef(), false);
+	}
 	getTab()->log("Unselected all entries.");
 
 	onCompleteTask();
@@ -3372,9 +3388,17 @@ void		Tasks::selectInverse(void)
 {
 	onStartTask("selectInverse");
 
-	for (FormatEntry *pEntry : getTab()->getContainerFile()->getEntriesRef())
+	EEditor uiEditorType = getTab()->getEditor()->getEditorType();
+	if (uiEditorType == ITEM_DEFINITION_EDITOR || uiEditorType == ITEM_PLACEMENT_EDITOR || uiEditorType == DAT_EDITOR)
 	{
-		getTab()->setEntrySelected(pEntry, !getTab()->isEntrySelected(pEntry));
+		//getTab()->setAllLinesSelected(!getTab()->m_pTextBox->isTextSelected());
+	}
+	else
+	{
+		for (FormatEntry *pEntry : getTab()->getEntriesRef())
+		{
+			getTab()->setEntrySelected(pEntry, !getTab()->isEntrySelected(pEntry));
+		}
 	}
 
 	getTab()->log("Selected inverse entries.");
@@ -3802,7 +3826,7 @@ void		Tasks::sortByIndexReverse(void)
 	setMaxProgress(uiTotalEntryCount);
 
 	unordered_map<FormatEntry*, uint32> umapEntryIndexes;
-	vector<FormatEntry*>& vecEntries = getTab()->getContainerFile()->getEntriesRef();
+	vector<FormatEntry*>& vecEntries = getTab()->getEntriesRef();
 	for (FormatEntry *pEntry : vecEntries)
 	{
 		umapEntryIndexes[pEntry] = StdVector::findKey(vecEntries, pEntry);
@@ -3837,8 +3861,8 @@ void		Tasks::sortByNameAscending09AZ(void)
 	{
 		return strcmp(String::toLowerCase(pEntry1->getEntryName()).c_str(), String::toLowerCase(pEntry2->getEntryName()).c_str()) < 0;
 	};
-	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_NameAscending09AZ);
-	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
+	std::sort(getTab()->getEntriesRef().begin(), getTab()->getEntriesRef().end(), sortEntries_NameAscending09AZ);
+	getTab()->onSortEntries(getTab()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3890,8 +3914,8 @@ void		Tasks::sortByNameAscendingAZ09(void)
 
 		return strcmp(String::toLowerCase(pIMGEntry1->getEntryName()).c_str(), String::toLowerCase(pIMGEntry2->getEntryName()).c_str()) < 0;
 	};
-	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_NameAscendingAZ09);
-	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
+	std::sort(getTab()->getEntriesRef().begin(), getTab()->getEntriesRef().end(), sortEntries_NameAscendingAZ09);
+	getTab()->onSortEntries(getTab()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3917,8 +3941,8 @@ void		Tasks::sortByNameDescendingZA90(void)
 	{
 		return strcmp(String::toLowerCase(pEntry1->getEntryName()).c_str(), String::toLowerCase(pEntry2->getEntryName()).c_str()) > 0;
 	};
-	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_NameDescendingZA90);
-	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
+	std::sort(getTab()->getEntriesRef().begin(), getTab()->getEntriesRef().end(), sortEntries_NameDescendingZA90);
+	getTab()->onSortEntries(getTab()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3947,8 +3971,8 @@ void		Tasks::sortByOffsetLowHigh(void)
 	{
 		return pEntry1->getEntryOffset() < pEntry2->getEntryOffset();
 	};
-	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_OffsetLowToHigh);
-	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
+	std::sort(getTab()->getEntriesRef().begin(), getTab()->getEntriesRef().end(), sortEntries_OffsetLowToHigh);
+	getTab()->onSortEntries(getTab()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3972,8 +3996,8 @@ void		Tasks::sortByOffsetHighLow(void)
 	{
 		return pEntry1->getEntryOffset() > pEntry2->getEntryOffset();
 	};
-	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_OffsetHighToLow);
-	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
+	std::sort(getTab()->getEntriesRef().begin(), getTab()->getEntriesRef().end(), sortEntries_OffsetHighToLow);
+	getTab()->onSortEntries(getTab()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -3997,8 +4021,8 @@ void		Tasks::sortBySizeSmallBig(void)
 	{
 		return pEntry1->getEntrySize() < pEntry2->getEntrySize();
 	};
-	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_SizeSmallToBig);
-	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
+	std::sort(getTab()->getEntriesRef().begin(), getTab()->getEntriesRef().end(), sortEntries_SizeSmallToBig);
+	getTab()->onSortEntries(getTab()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -4022,8 +4046,8 @@ void		Tasks::sortBySizeBigSmall(void)
 	{
 		return pEntry1->getEntrySize() > pEntry2->getEntrySize();
 	};
-	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_SizeBigToSmall);
-	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
+	std::sort(getTab()->getEntriesRef().begin(), getTab()->getEntriesRef().end(), sortEntries_SizeBigToSmall);
+	getTab()->onSortEntries(getTab()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -4047,8 +4071,8 @@ void		Tasks::sortByTypeAZ(void)
 	{
 		return strcmp(String::toLowerCase(pEntry1->getEntryExtension()).c_str(), String::toLowerCase(pEntry2->getEntryExtension()).c_str()) < 0;
 	};
-	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_TypeAscending09AZ);
-	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
+	std::sort(getTab()->getEntriesRef().begin(), getTab()->getEntriesRef().end(), sortEntries_TypeAscending09AZ);
+	getTab()->onSortEntries(getTab()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -4072,8 +4096,8 @@ void		Tasks::sortByTypeZA(void)
 	{
 		return strcmp(String::toLowerCase(pEntry1->getEntryExtension()).c_str(), String::toLowerCase(pEntry2->getEntryExtension()).c_str()) > 0;
 	};
-	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_TypeDescendingZA90);
-	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
+	std::sort(getTab()->getEntriesRef().begin(), getTab()->getEntriesRef().end(), sortEntries_TypeDescendingZA90);
+	getTab()->onSortEntries(getTab()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -4097,8 +4121,8 @@ void		Tasks::sortByVersionOldNew(void)
 	{
 		return pEntry1->getRawVersion() < pEntry2->getRawVersion();
 	};
-	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_VersionOldToNew);
-	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
+	std::sort(getTab()->getEntriesRef().begin(), getTab()->getEntriesRef().end(), sortEntries_VersionOldToNew);
+	getTab()->onSortEntries(getTab()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -4122,8 +4146,8 @@ void		Tasks::sortByVersionNewOld(void)
 	{
 		return pEntry1->getRawVersion() > pEntry2->getRawVersion();
 	};
-	std::sort(getTab()->getContainerFile()->getEntriesRef().begin(), getTab()->getContainerFile()->getEntriesRef().end(), sortEntries_VersionNewToOld);
-	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
+	std::sort(getTab()->getEntriesRef().begin(), getTab()->getEntriesRef().end(), sortEntries_VersionNewToOld);
+	getTab()->onSortEntries(getTab()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -4163,7 +4187,7 @@ void		Tasks::sortByIDE(void)
 		return vecModelNamesInIDEFile.getIndexByEntry(String::toLowerCase(pIMGEntry1->getEntryName())) < vecModelNamesInIDEFile.getIndexByEntry(String::toLowerCase(pIMGEntry2->getEntryName()));
 	};
 	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_IDEFile);
-	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
+	getTab()->onSortEntries(getTab()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -4203,7 +4227,7 @@ void		Tasks::sortByCOL(void)
 		return vecModelNamesInCOLFile.getIndexByEntry(String::toLowerCase(pIMGEntry1->getEntryName())) < vecModelNamesInCOLFile.getIndexByEntry(String::toLowerCase(pIMGEntry2->getEntryName()));
 	};
 	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortIMGEntries_COLFile);
-	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
+	getTab()->onSortEntries(getTab()->getEntriesRef());
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -4390,7 +4414,7 @@ void		Tasks::sortByMultipleTypes(void)
 	};
 	uiSortTypeIndex = 0;
 	std::sort(getIMGTab()->getIMGFile()->VectorPool::getEntries().begin(), getIMGTab()->getIMGFile()->VectorPool::getEntries().end(), sortByMultipleTypes);
-	getTab()->onSortEntries(getTab()->getContainerFile()->getEntriesRef());
+	getTab()->onSortEntries(getTab()->getEntriesRef());
 
 	getTab()->log("Sorted IMG by multiple types.");
 

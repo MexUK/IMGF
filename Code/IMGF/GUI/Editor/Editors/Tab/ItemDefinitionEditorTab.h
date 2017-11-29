@@ -23,7 +23,20 @@ public:
 	void						setIDEFile(bxgi::IDEFormat *pIDEFile) { m_pIDEFile = pIDEFile; }
 	bxgi::IDEFormat*			getIDEFile(void) { return m_pIDEFile; }
 
+
+
+
+
+
+
+
+
+	//std::vector<bxcf::FormatEntry*>				getAllEntries(void) { return (std::vector<bxcf::FormatEntry*>)(std::vector<bxcf::FormatEntry*>&)m_pTextBox->getTextLines(); }
+	//std::vector<bxcf::FormatEntry*>&			getEntriesRef(void) { return (std::vector<bxcf::FormatEntry*>&)m_pTextBox->getTextLines(); }
+
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
+
+	void						setAllLinesSelected(bool bIsSelected);
 
 	void						merge(std::string& strFilePath);
 	void						mergeViaData(std::string& strFileData);

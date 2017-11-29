@@ -133,6 +133,19 @@ void						ItemDefinitionEditorTab::repositionAndResizeControls(Vec2i& vecSizeDif
 	m_pTextBox->setSize(Vec2u(x, y));
 }
 
+// entry selection
+void						ItemDefinitionEditorTab::setAllLinesSelected(bool bIsSelected)
+{
+	if (bIsSelected)
+	{
+		m_pTextBox->selectAllText();
+	}
+	else
+	{
+		m_pTextBox->unselectAllText();
+	}
+}
+
 // merge
 void						ItemDefinitionEditorTab::merge(string& strFilePath)
 {

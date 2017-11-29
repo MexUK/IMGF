@@ -117,6 +117,8 @@ void		MainLayer::addMenus(void)
 		bIsTextureEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getTextureEditor(),
 		bIsCollisionEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getCollisionEditor(),
 		bIsRadarEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getRadarEditor();
+	EEditor
+		uiEditorType = m_pMainWindow->getActiveEditor() ? m_pMainWindow->getActiveEditor()->getEditorType() : UNKNOWN_EDITOR;
 
 	// top left menu
 	x = 0;
@@ -233,6 +235,9 @@ void		MainLayer::addMenus(void)
 
 
 
+
+
+	
 
 	pMenu1 = addMenu(x, y, w, h, VERTICAL, strStyleGroup, SECOND_LEFT_MENU, -200);
 
@@ -406,35 +411,38 @@ void		MainLayer::addMenus(void)
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Select All Entries", SELECT_ALL);
 	pMenu2->addMenuItem("Unselect All Entries", UNSELECT_ALL);
-	pMenu2->addMenuItem("Select Inverse", SELECT_INVERSE);
-	pMenuItem2 = pMenu2->addMenuItem("Select by Column..", SELECT_BY_COLUMN_MENU);
-
-	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Select by Index", SELECT_BY_INDEX);
-	pMenu3->addMenuItem("Select by Name", SELECT_BY_NAME);
-	pMenu3->addMenuItem("Select by Offset", SELECT_BY_OFFSET);
-	pMenu3->addMenuItem("Select by Size", SELECT_BY_SIZE);
-	pMenu3->addMenuItem("Select by Type", SELECT_BY_TYPE);
-	pMenu3->addMenuItem("Select by Version", SELECT_BY_VERSION);
-
-	if (bIsIMGEditor)
+	if (uiEditorType != ITEM_DEFINITION_EDITOR && uiEditorType != ITEM_PLACEMENT_EDITOR && uiEditorType != DAT_EDITOR)
 	{
-		pMenu2->addMenuItem("Select by IDE", SELECT_BY_IDE);
-	}
+		pMenu2->addMenuItem("Select Inverse", SELECT_INVERSE);
+		pMenuItem2 = pMenu2->addMenuItem("Select by Column..", SELECT_BY_COLUMN_MENU);
 
-	pMenuItem2 = pMenu2->addMenuItem("Unselect by Column..", UNSELECT_BY_COLUMN_MENU);
+		pMenu3 = pMenuItem2->addMenu();
+		pMenu3->addMenuItem("Select by Index", SELECT_BY_INDEX);
+		pMenu3->addMenuItem("Select by Name", SELECT_BY_NAME);
+		pMenu3->addMenuItem("Select by Offset", SELECT_BY_OFFSET);
+		pMenu3->addMenuItem("Select by Size", SELECT_BY_SIZE);
+		pMenu3->addMenuItem("Select by Type", SELECT_BY_TYPE);
+		pMenu3->addMenuItem("Select by Version", SELECT_BY_VERSION);
 
-	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Unselect by Index", UNSELECT_BY_INDEX);
-	pMenu3->addMenuItem("Unselect by Name", UNSELECT_BY_NAME);
-	pMenu3->addMenuItem("Unselect by Offset", UNSELECT_BY_OFFSET);
-	pMenu3->addMenuItem("Unselect by Size", UNSELECT_BY_SIZE);
-	pMenu3->addMenuItem("Unselect by Type", UNSELECT_BY_TYPE);
-	pMenu3->addMenuItem("Unselect by Version", UNSELECT_BY_VERSION);
+		if (bIsIMGEditor)
+		{
+			pMenu2->addMenuItem("Select by IDE", SELECT_BY_IDE);
+		}
 
-	if (bIsIMGEditor)
-	{
-		pMenu2->addMenuItem("Unselect by IDE", UNSELECT_BY_IDE);
+		pMenuItem2 = pMenu2->addMenuItem("Unselect by Column..", UNSELECT_BY_COLUMN_MENU);
+
+		pMenu3 = pMenuItem2->addMenu();
+		pMenu3->addMenuItem("Unselect by Index", UNSELECT_BY_INDEX);
+		pMenu3->addMenuItem("Unselect by Name", UNSELECT_BY_NAME);
+		pMenu3->addMenuItem("Unselect by Offset", UNSELECT_BY_OFFSET);
+		pMenu3->addMenuItem("Unselect by Size", UNSELECT_BY_SIZE);
+		pMenu3->addMenuItem("Unselect by Type", UNSELECT_BY_TYPE);
+		pMenu3->addMenuItem("Unselect by Version", UNSELECT_BY_VERSION);
+
+		if (bIsIMGEditor)
+		{
+			pMenu2->addMenuItem("Unselect by IDE", UNSELECT_BY_IDE);
+		}
 	}
 
 	// sort
