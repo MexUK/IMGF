@@ -79,6 +79,8 @@ public:
 	std::vector<bxcf::FormatEntry*>				getAllEntries(void) { return getContainerFile()->getAllEntries(); }
 	std::vector<bxcf::FormatEntry*>&			getEntriesRef(void) { return getContainerFile()->getEntriesRef(); }
 	virtual void								setAllLinesSelected(bool bIsSelected) {}
+	virtual std::vector<std::string>			getSelectedTextLines(void) { std::vector<std::string> vecTextLines; return vecTextLines; }
+	virtual std::vector<std::string>			getTextLines(void) { std::vector<std::string> vecTextLines; return vecTextLines; }
 
 	void								startDragDrop(imgf::EditorTab *pEditorTab, std::string strFileExtension = "");
 	void								startDragDrop2(imgf::EditorTab *pEditorTab, std::vector<std::string>& vecFileNames, std::vector<std::string>& vecFileDatas);

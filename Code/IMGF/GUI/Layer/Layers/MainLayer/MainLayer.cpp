@@ -265,40 +265,43 @@ void		MainLayer::addMenus(void)
 	pMenu2->addMenuItem("Export Selection", EXPORT_SELECTED);
 	pMenu2->addMenuItem("Export All Entries", EXPORT_ALL);
 
-	pMenuItem2 = pMenu2->addMenuItem("Export by Column..", EXPORT_BY_COLUMN_MENU);
-	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Export by Index", EXPORT_BY_INDEX);
-	pMenu3->addMenuItem("Export by Name", EXPORT_BY_NAME);
-	pMenu3->addMenuItem("Export by Offset", EXPORT_BY_OFFSET);
-	pMenu3->addMenuItem("Export by Size", EXPORT_BY_SIZE);
-	pMenu3->addMenuItem("Export by Type", EXPORT_BY_TYPE);
-	pMenu3->addMenuItem("Export by Version", EXPORT_BY_VERSION);
-
-	pMenuItem2 = pMenu2->addMenuItem("Export All Entries into..", EXPORT_ALL_ENTRIES_INTO_MENU);
-	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Export all entries into Grouped Folders by Type", EXPORT_ALL_INTO_GROUPED_FOLDERS_BY_TYPE);
-
-	pMenuItem2 = pMenu2->addMenuItem("Export All Tabs..", EXPORT_ALL_TABS_MENU);
-	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Export all entries from all tabs", EXPORT_ALL_FROM_ALL_TABS);
-	pMenu3->addMenuItem("Export all entries from all tabs into grouped folders by type", EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE);
-	pMenu3->addMenuItem("Export selection from all tabs", EXPORT_SELECTION_FROM_ALL_TABS);
-	if (bIsIMGEditor)
+	if (uiEditorType != ITEM_DEFINITION_EDITOR && uiEditorType != ITEM_PLACEMENT_EDITOR && uiEditorType != DAT_EDITOR)
 	{
-		pMenu3->addMenuItem("Export by IDE from All Tabs", EXPORT_BY_IDE_FROM_ALL_TABS);
-	}
-	pMenu3->addMenuItem("Export by Entry Names from All Tabs", EXPORT_BY_ENTRY_NAMES_FROM_ALL_TABS);
+		pMenuItem2 = pMenu2->addMenuItem("Export by Column..", EXPORT_BY_COLUMN_MENU);
+		pMenu3 = pMenuItem2->addMenu();
+		pMenu3->addMenuItem("Export by Index", EXPORT_BY_INDEX);
+		pMenu3->addMenuItem("Export by Name", EXPORT_BY_NAME);
+		pMenu3->addMenuItem("Export by Offset", EXPORT_BY_OFFSET);
+		pMenu3->addMenuItem("Export by Size", EXPORT_BY_SIZE);
+		pMenu3->addMenuItem("Export by Type", EXPORT_BY_TYPE);
+		pMenu3->addMenuItem("Export by Version", EXPORT_BY_VERSION);
 
-	if (bIsIMGEditor)
-	{
-		pMenu2->addMenuItem("Export by IDE", EXPORT_BY_IDE);
-		pMenu2->addMenuItem("Export by IPL", EXPORT_BY_IPL);
-		pMenu2->addMenuItem("Export by DAT", EXPORT_BY_DAT);
-	}
-	pMenu2->addMenuItem("Export by Entry Names", EXPORT_BY_ENTRY_NAMES);
-	if (bIsIMGEditor)
-	{
-		pMenu2->addMenuItem("Export Texture Name List", EXPORT_TEXTURE_NAME_LIST);
+		pMenuItem2 = pMenu2->addMenuItem("Export All Entries into..", EXPORT_ALL_ENTRIES_INTO_MENU);
+		pMenu3 = pMenuItem2->addMenu();
+		pMenu3->addMenuItem("Export all entries into Grouped Folders by Type", EXPORT_ALL_INTO_GROUPED_FOLDERS_BY_TYPE);
+
+		pMenuItem2 = pMenu2->addMenuItem("Export All Tabs..", EXPORT_ALL_TABS_MENU);
+		pMenu3 = pMenuItem2->addMenu();
+		pMenu3->addMenuItem("Export all entries from all tabs", EXPORT_ALL_FROM_ALL_TABS);
+		pMenu3->addMenuItem("Export all entries from all tabs into grouped folders by type", EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE);
+		pMenu3->addMenuItem("Export selection from all tabs", EXPORT_SELECTION_FROM_ALL_TABS);
+		if (bIsIMGEditor)
+		{
+			pMenu3->addMenuItem("Export by IDE from All Tabs", EXPORT_BY_IDE_FROM_ALL_TABS);
+		}
+		pMenu3->addMenuItem("Export by Entry Names from All Tabs", EXPORT_BY_ENTRY_NAMES_FROM_ALL_TABS);
+
+		if (bIsIMGEditor)
+		{
+			pMenu2->addMenuItem("Export by IDE", EXPORT_BY_IDE);
+			pMenu2->addMenuItem("Export by IPL", EXPORT_BY_IPL);
+			pMenu2->addMenuItem("Export by DAT", EXPORT_BY_DAT);
+		}
+		pMenu2->addMenuItem("Export by Entry Names", EXPORT_BY_ENTRY_NAMES);
+		if (bIsIMGEditor)
+		{
+			pMenu2->addMenuItem("Export Texture Name List", EXPORT_TEXTURE_NAME_LIST);
+		}
 	}
 
 	// quick export
@@ -330,21 +333,25 @@ void		MainLayer::addMenus(void)
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Remove Selection", REMOVE_SELECTED);
 	pMenu2->addMenuItem("Remove All Entries", REMOVE_ALL);
-	pMenuItem2 = pMenu2->addMenuItem("Remove by Column..", REMOVE_BY_COLUMN_MENU);
 
-	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Remove by Index", REMOVE_BY_INDEX);
-	pMenu3->addMenuItem("Remove by Name", REMOVE_BY_NAME);
-	pMenu3->addMenuItem("Remove by Offset", REMOVE_BY_OFFSET);
-	pMenu3->addMenuItem("Remove by Size", REMOVE_BY_SIZE);
-	pMenu3->addMenuItem("Remove by Type", REMOVE_BY_TYPE);
-	pMenu3->addMenuItem("Remove by Version", REMOVE_BY_VERSION);
-
-	if (bIsIMGEditor)
+	if (uiEditorType != ITEM_DEFINITION_EDITOR && uiEditorType != ITEM_PLACEMENT_EDITOR && uiEditorType != DAT_EDITOR)
 	{
-		pMenu2->addMenuItem("Remove by IDE", REMOVE_BY_IDE);
+		pMenuItem2 = pMenu2->addMenuItem("Remove by Column..", REMOVE_BY_COLUMN_MENU);
+
+		pMenu3 = pMenuItem2->addMenu();
+		pMenu3->addMenuItem("Remove by Index", REMOVE_BY_INDEX);
+		pMenu3->addMenuItem("Remove by Name", REMOVE_BY_NAME);
+		pMenu3->addMenuItem("Remove by Offset", REMOVE_BY_OFFSET);
+		pMenu3->addMenuItem("Remove by Size", REMOVE_BY_SIZE);
+		pMenu3->addMenuItem("Remove by Type", REMOVE_BY_TYPE);
+		pMenu3->addMenuItem("Remove by Version", REMOVE_BY_VERSION);
+
+		if (bIsIMGEditor)
+		{
+			pMenu2->addMenuItem("Remove by IDE", REMOVE_BY_IDE);
+		}
+		pMenu2->addMenuItem("Remove by Entry Names", REMOVE_BY_ENTRY_NAMES);
 	}
-	pMenu2->addMenuItem("Remove by Entry Names", REMOVE_BY_ENTRY_NAMES);
 
 	// merge
 	pMenuItem1 = pMenu1->addMenuItem("Merge", MERGE);

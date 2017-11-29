@@ -59,11 +59,11 @@ void						DATEditorTab::onFileLoaded(void)
 	// add file path to recently opened files list
 	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
 
-	// display file info
-	setFileInfoText();
-
 	// show file content
 	m_pTextBox->setText(File::getFileContent(getFile()->getFilePath()));
+
+	// display file info
+	setFileInfoText();
 
 	// render
 	m_pWindow->render();
@@ -82,7 +82,7 @@ void						DATEditorTab::setFileInfoText(void)
 void						DATEditorTab::updateEntryCountText(void)
 {
 	uint32
-		uiDisplayedEntryCount = getDATFile()->getEntryCount(),
+		uiDisplayedEntryCount = m_pTextBox->getTextLines().size(),
 		uiTotalEntryCount = uiDisplayedEntryCount;
 	string
 		strEntryCountText;
@@ -118,6 +118,44 @@ void						DATEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	m_pTextBox->setSize(Vec2u(x, y));
 }
 
+// entry selection
+void						DATEditorTab::setAllLinesSelected(bool bIsSelected)
+{
+	if (bIsSelected)
+	{
+		m_pTextBox->selectAllText();
+	}
+	else
+	{
+		m_pTextBox->unselectAllText();
+	}
+}
+
+vector<string>				DATEditorTab::getSelectedTextLines(void)
+{
+	vector<string> vecTextLines;
+	for (int32 iLine = m_pTextBox->getCaretPositionStart().y, iLineEnd = m_pTextBox->getCaretPositionEnd().y; iLine <= iLineEnd; iLine++)
+	{
+		vecTextLines.push_back(m_pTextBox->getTextAtLine(iLine));
+	}
+	return vecTextLines;
+}
+
+uint32						DATEditorTab::getSelectedEntryCount(void)
+{
+	return (m_pTextBox->getCaretPositionEnd().y - m_pTextBox->getCaretPositionStart().y) + 1;
+}
+
+uint32						DATEditorTab::getTotalEntryCount(void)
+{
+	return m_pTextBox->getTextLines().size();
+}
+
+vector<string>				DATEditorTab::getTextLines(void)
+{
+	return m_pTextBox->getTextLines();
+}
+
 // merge
 void						DATEditorTab::merge(string& strFilePath)
 {
@@ -127,4 +165,17 @@ void						DATEditorTab::merge(string& strFilePath)
 void						DATEditorTab::mergeViaData(string& strFileData)
 {
 	m_pTextBox->addText("\r\n\r\n" + strFileData);
+}
+
+// add entry
+void*						DATEditorTab::addEntryViaFile(string& strEntryFilePath, string strEntryName)
+{
+	merge(strEntryFilePath);
+	return nullptr;
+}
+
+void*						DATEditorTab::addEntryViaData(string strEntryName, string& strEntryData)
+{
+	mergeViaData(strEntryData);
+	return nullptr;
 }

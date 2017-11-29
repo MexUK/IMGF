@@ -11,7 +11,8 @@ void									ItemDefinitionEditor::init(void)
 {
 	setEditorFileType(ITEM_DEFINITION);
 	setEditorFileFormats({ "IDE" });
-	setImportEditorFileFormats({ "DFF", "COL" });
+	//setImportEditorFileFormats({ "DFF", "COL" }); // todo
+	setImportEditorFileFormats({ "IDE" });
 
 	Editor::init();
 }

@@ -60,15 +60,15 @@ void						ItemDefinitionEditorTab::onFileLoaded(void)
 	// add file path to recently opened files list
 	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
 
-	// display file info
-	setFileInfoText();
-
 	// show file content
 	m_pTextBox->getTextLines() = String::split(File::getFileContent(getFile()->getFilePath(), false), "\n");
 	if (m_pTextBox->getTextLines().size() == 0)
 	{
 		m_pTextBox->getTextLines().push_back("");
 	}
+
+	// display file info
+	setFileInfoText();
 
 	// render
 	m_pWindow->render();
@@ -97,7 +97,7 @@ void						ItemDefinitionEditorTab::setFileInfoText(void)
 void						ItemDefinitionEditorTab::updateEntryCountText(void)
 {
 	uint32
-		uiDisplayedEntryCount = getIDEFile()->getEntryCount(),
+		uiDisplayedEntryCount = m_pTextBox->getTextLines().size(),
 		uiTotalEntryCount = uiDisplayedEntryCount;
 	string
 		strEntryCountText;
@@ -146,6 +146,31 @@ void						ItemDefinitionEditorTab::setAllLinesSelected(bool bIsSelected)
 	}
 }
 
+vector<string>				ItemDefinitionEditorTab::getSelectedTextLines(void)
+{
+	vector<string> vecTextLines;
+	for (int32 iLine = m_pTextBox->getCaretPositionStart().y, iLineEnd = m_pTextBox->getCaretPositionEnd().y; iLine <= iLineEnd; iLine++)
+	{
+		vecTextLines.push_back(m_pTextBox->getTextAtLine(iLine));
+	}
+	return vecTextLines;
+}
+
+uint32						ItemDefinitionEditorTab::getSelectedEntryCount(void)
+{
+	return (m_pTextBox->getCaretPositionEnd().y - m_pTextBox->getCaretPositionStart().y) + 1;
+}
+
+uint32						ItemDefinitionEditorTab::getTotalEntryCount(void)
+{
+	return m_pTextBox->getTextLines().size();
+}
+
+vector<string>				ItemDefinitionEditorTab::getTextLines(void)
+{
+	return m_pTextBox->getTextLines();
+}
+
 // merge
 void						ItemDefinitionEditorTab::merge(string& strFilePath)
 {
@@ -155,4 +180,22 @@ void						ItemDefinitionEditorTab::merge(string& strFilePath)
 void						ItemDefinitionEditorTab::mergeViaData(string& strFileData)
 {
 	m_pTextBox->addText("\r\n\r\n" + strFileData);
+
+	//addEntryAfter(pResult);
+	updateEntryCountText();
+
+	m_pWindow->render();
+}
+
+// add entry
+void*						ItemDefinitionEditorTab::addEntryViaFile(string& strEntryFilePath, string strEntryName)
+{
+	merge(strEntryFilePath);
+	return nullptr;
+}
+
+void*						ItemDefinitionEditorTab::addEntryViaData(string strEntryName, string& strEntryData)
+{
+	mergeViaData(strEntryData);
+	return nullptr;
 }

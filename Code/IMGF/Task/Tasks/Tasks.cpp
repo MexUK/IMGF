@@ -1075,11 +1075,20 @@ void		Tasks::exportSelected(void)
 		}
 	}
 
+	EEditor uiEditorType = m_pMainWindow->getActiveEditor()->getEditorType();
 	uint32 uiSelectedEntryCount = getTab()->getSelectedEntryCount();
-	setMaxProgress(uiSelectedEntryCount);
+	if (uiEditorType == ITEM_DEFINITION_EDITOR || uiEditorType == ITEM_PLACEMENT_EDITOR || uiEditorType == DAT_EDITOR)
+	{
+		vector<string> vecSelectedTextLines = getTab()->getSelectedTextLines();
+		File::setTextFile(strFolderPath + "Export Selected.ide", String::join(vecSelectedTextLines, "\n"));
+	}
+	else
+	{
+		setMaxProgress(uiSelectedEntryCount);
 
-	vector<FormatEntry*> vecEntries = getTab()->getSelectedEntries();
-	getTab()->getContainerFile()->exportMultiple(vecEntries, strFolderPath);
+		vector<FormatEntry*> vecEntries = getTab()->getSelectedEntries();
+		getTab()->getContainerFile()->exportMultiple(vecEntries, strFolderPath);
+	}
 
 	getTab()->logf("Exported %u selected entries.", uiSelectedEntryCount);
 
@@ -1100,10 +1109,21 @@ void		Tasks::exportAll(void)
 		}
 	}
 
-	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
-	setMaxProgress(uiTotalEntryCount);
+	EEditor uiEditorType = m_pMainWindow->getActiveEditor()->getEditorType();
+	uint32 uiTotalEntryCount;
+	if (uiEditorType == ITEM_DEFINITION_EDITOR || uiEditorType == ITEM_PLACEMENT_EDITOR || uiEditorType == DAT_EDITOR)
+	{
+		uiTotalEntryCount = getTab()->getTotalEntryCount();
+		vector<string> vecTextLines = getTab()->getTextLines();
+		File::setTextFile(strFolderPath + "Export All.ide", String::join(vecTextLines, "\n"));
+	}
+	else
+	{
+		uiTotalEntryCount = getTab()->getTotalEntryCount();
+		setMaxProgress(uiTotalEntryCount);
 
-	getTab()->getContainerFile()->exportAll(strFolderPath);
+		getTab()->getContainerFile()->exportAll(strFolderPath);
+	}
 
 	getTab()->logf("Exported all %u entries.", uiTotalEntryCount);
 
@@ -1932,11 +1952,20 @@ void		Tasks::quickExport(void)
 			return;
 		}
 	}
-
+	
+	EEditor uiEditorType = m_pMainWindow->getActiveEditor()->getEditorType();
 	uint32 uiSelectedEntryCount = getTab()->getSelectedEntryCount();
-	setMaxProgress(uiSelectedEntryCount);
+	if (uiEditorType == ITEM_DEFINITION_EDITOR || uiEditorType == ITEM_PLACEMENT_EDITOR || uiEditorType == DAT_EDITOR)
+	{
+		vector<string> vecSelectedTextLines = getTab()->getSelectedTextLines();
+		File::setTextFile(strQuickExportFolderPath + "Export All.ide", String::join(vecSelectedTextLines, "\n"));
+	}
+	else
+	{
+		setMaxProgress(uiSelectedEntryCount);
 
-	getTab()->getContainerFile()->exportMultiple(getTab()->getSelectedEntries(), strQuickExportFolderPath);
+		getTab()->getContainerFile()->exportMultiple(getTab()->getSelectedEntries(), strQuickExportFolderPath);
+	}
 
 	getTab()->logf("Quick exported %u entries.", uiSelectedEntryCount);
 
