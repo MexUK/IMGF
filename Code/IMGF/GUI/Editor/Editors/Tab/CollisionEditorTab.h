@@ -7,9 +7,10 @@
 #include "Pool/VectorPool.h"
 #include "Type/Vector/Vec3f.h"
 
-#include "GL/glew.h"
-#include "GL/wglew.h"
-#include <Windows.h>
+//#include "GLEE/GLee.h"
+//#include "GL/glew.h"
+//#include "GL/wglew.h"
+//#include <Windows.h>
 
 void						perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar); // todo - namespace
 

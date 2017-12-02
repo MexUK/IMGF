@@ -41,7 +41,7 @@
 #include <string.h>
 #include <wchar.h>
 
-#include <GLFW/glfw3.h>
+//#include <GLFW/glfw3.h>
 
 
 // ------------------------------------------------------------- print help ---
@@ -78,7 +78,7 @@ int ________main( int argc, char **argv )
     int show_help = 0;
     size_t texture_width = 128;
 
-    GLFWwindow* window;
+   // GLFWwindow* window;
 
     for ( arg = 1; arg < argc; ++arg )
     {
@@ -267,18 +267,18 @@ int ________main( int argc, char **argv )
         exit( EXIT_FAILURE );
     }
 
-    glfwWindowHint( GLFW_VISIBLE, GL_TRUE );
-    glfwWindowHint( GLFW_RESIZABLE, GL_FALSE );
+   // glfwWindowHint( GLFW_VISIBLE, GL_TRUE );
+   // glfwWindowHint( GLFW_RESIZABLE, GL_FALSE );
 
-    window = glfwCreateWindow( atlas->width, atlas->height, argv[0], NULL, NULL );
+   // window = glfwCreateWindow( atlas->width, atlas->height, argv[0], NULL, NULL );
 
-    if (!window)
-    {
-        glfwTerminate( );
-        exit( EXIT_FAILURE );
-    }
+   // if (!window)
+  //  {
+  //      glfwTerminate( );
+  //      exit( EXIT_FAILURE );
+  //  }
 
-    glfwMakeContextCurrent( window );
+ //   glfwMakeContextCurrent( window );
 
     size_t missed = texture_font_load_glyphs( font, font_cache );
 
@@ -525,7 +525,7 @@ int ________main( int argc, char **argv )
         L"}\n"
         L"#endif\n" );
 
-    glfwDestroyWindow( window );
+ //   glfwDestroyWindow( window );
     glfwTerminate( );
 
     return 0;

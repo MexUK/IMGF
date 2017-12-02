@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Type/Types.h"
+#include "GL/glew.h"
 
 namespace imgf
 {

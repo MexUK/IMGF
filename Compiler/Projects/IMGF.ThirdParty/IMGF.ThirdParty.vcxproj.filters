@@ -25,12 +25,6 @@
     <Filter Include="Source Files\DXSDK">
       <UniqueIdentifier>{83e13dd7-46ac-4d0e-b899-a71db7ea7182}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Freeglut">
-      <UniqueIdentifier>{f1ac1dcc-0100-4158-ad63-ba039110c7f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Freeglut">
-      <UniqueIdentifier>{9fbc6074-9457-4db4-ae9a-1cf0ce5aade2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Freetype">
       <UniqueIdentifier>{25f6e1a1-591e-4bb6-8a77-e85d34d03fd2}</UniqueIdentifier>
     </Filter>
@@ -48,12 +42,6 @@
     </Filter>
     <Filter Include="Source Files\GLEW">
       <UniqueIdentifier>{747751c1-ed82-419a-b6bc-78e70350744d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GLFW">
-      <UniqueIdentifier>{440607e7-aa26-45cd-b818-bd567b21d881}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GLFW">
-      <UniqueIdentifier>{bc8d0ddb-431d-4b0f-b5aa-e354ff0ca12a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\GLM">
       <UniqueIdentifier>{e3588da5-66c9-49a2-929e-d8932062f4f0}</UniqueIdentifier>
@@ -73,15 +61,6 @@
     <Filter Include="Header Files\Freetype\freetype\internal\services">
       <UniqueIdentifier>{77187617-2b19-45c2-8121-cc646f8011b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GLEW\GL">
-      <UniqueIdentifier>{b52bbf51-a6f3-480b-a400-b48b6a3126b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GLFW\include">
-      <UniqueIdentifier>{65b4c337-1bbe-480b-8b92-38921af4a494}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GLFW\include\GLFW">
-      <UniqueIdentifier>{7b52c462-219e-4c87-8eff-6742f84251b0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GLM\gtx">
       <UniqueIdentifier>{c15382bd-bd97-4fa1-9e9d-00268f2d2f44}</UniqueIdentifier>
     </Filter>
@@ -94,17 +73,8 @@
     <Filter Include="Source Files\GLM\detail">
       <UniqueIdentifier>{1a302ec0-8e8c-4bbd-aa75-536bfe07aedb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GLFW\deps">
-      <UniqueIdentifier>{cd19fa08-337f-43ac-98d6-f543ec308106}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GLFW\deps">
-      <UniqueIdentifier>{fdbac4f1-45cf-4101-9bf1-56170a105b9a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GLFW\deps\GL">
-      <UniqueIdentifier>{2cc5ea62-51dd-4a84-9151-ce536cdbb077}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GLFW\deps\glad">
-      <UniqueIdentifier>{8f9d866f-d0c2-43f1-9251-551bb0e09d55}</UniqueIdentifier>
+    <Filter Include="Header Files\GLEW\GL">
+      <UniqueIdentifier>{309619b2-8f48-493f-98e5-827c1b5d48dc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -462,18 +432,6 @@
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\Segment.h">
       <Filter>Header Files\DXSDK</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freeglut\include\GL\freeglut_std.h">
-      <Filter>Header Files\Freeglut</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freeglut\include\GL\glut.h">
-      <Filter>Header Files\Freeglut</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freeglut\include\GL\freeglut.h">
-      <Filter>Header Files\Freeglut</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freeglut\include\GL\freeglut_ext.h">
-      <Filter>Header Files\Freeglut</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\ft2build.h">
       <Filter>Header Files\Freetype</Filter>
     </ClInclude>
@@ -782,36 +740,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\text-buffer.h">
       <Filter>Header Files\freetype-gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\nsgl_context.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\wgl_context.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_platform.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_tls.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\winmm_joystick.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\xkb_unicode.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\internal.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\iokit_joystick.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\include\GLFW\glfw3native.h">
-      <Filter>Header Files\GLFW\include\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\include\GLFW\glfw3.h">
-      <Filter>Header Files\GLFW\include\GLFW</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat3x4.hpp">
       <Filter>Header Files\GLM</Filter>
@@ -1239,63 +1167,6 @@
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\type_vec4.hpp">
       <Filter>Header Files\GLM\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLEW\GL\glew.h">
-      <Filter>Header Files\GLEW\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLEW\GL\wglew.h">
-      <Filter>Header Files\GLEW\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\GL\wglext.h">
-      <Filter>Header Files\GLFW\deps\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\GL\glext.h">
-      <Filter>Header Files\GLFW\deps\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\GL\glxext.h">
-      <Filter>Header Files\GLFW\deps\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\tinycthread.h">
-      <Filter>Header Files\GLFW\deps</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\getopt.h">
-      <Filter>Header Files\GLFW\deps</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\linmath.h">
-      <Filter>Header Files\GLFW\deps</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLEW\GL\glxew.h">
-      <Filter>Header Files\GLEW\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\cocoa_platform.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\egl_context.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\glx_context.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\linux_joystick.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\mir_platform.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\posix_tls.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\posix_time.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\wl_platform.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\x11_platform.h">
-      <Filter>Header Files\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\glad\glad.h">
-      <Filter>Header Files\GLFW\deps\glad</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\Bitmap\bitmap.cpp">
@@ -1337,62 +1208,8 @@
     <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\shader.c">
       <Filter>Source Files\freetype-gl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\monitor.c">
-      <Filter>Source Files\GLFW</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\wgl_context.c">
-      <Filter>Source Files\GLFW</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_init.c">
-      <Filter>Source Files\GLFW</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_monitor.c">
-      <Filter>Source Files\GLFW</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_time.c">
-      <Filter>Source Files\GLFW</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_tls.c">
-      <Filter>Source Files\GLFW</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_window.c">
-      <Filter>Source Files\GLFW</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\window.c">
-      <Filter>Source Files\GLFW</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\winmm_joystick.c">
-      <Filter>Source Files\GLFW</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\context.c">
-      <Filter>Source Files\GLFW</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\init.c">
-      <Filter>Source Files\GLFW</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\input.c">
-      <Filter>Source Files\GLFW</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\glm.cpp">
       <Filter>Source Files\GLM\detail</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLEW\glewinfo.c">
-      <Filter>Source Files\GLEW</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLEW\visualinfo.c">
-      <Filter>Source Files\GLEW</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLEW\glew.c">
-      <Filter>Source Files\GLEW</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\tinycthread.c">
-      <Filter>Source Files\GLFW\deps</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\getopt.c">
-      <Filter>Source Files\GLFW\deps</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\glad.c">
-      <Filter>Source Files\GLFW\deps</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

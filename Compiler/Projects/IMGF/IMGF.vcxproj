@@ -45,16 +45,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>../../../../Output/Final/IMGF/$(Configuration).$(Platform)/</OutDir>
     <IntDir>../../../../Output/Intermediate/IMGF/IMGF/$(Configuration).$(Platform)/</IntDir>
-    <IncludePath>$(IncludePath);$(UniversalCRT_IncludePath);../../../Code/IMGF/;../../../Code/IMGF/Format/;../../../../BXCF/Code/BXCF/;../../../../BXCF/Code/BXCF.ThirdParty/;../../../../BXGX/Code/BXGX/;../../../../BXGX/Code/BXGX.ThirdParty/;../../../../BXGI/Code/BXGI/;../../../Code/IMGF.ThirdParty/;../../../Code/IMGF.ThirdParty/freetype-gl/windows/glew/include/;../../../Code/IMGF.ThirdParty/Freetype/include/;../../../Code/IMGF.ThirdParty/GLFW/include/;../../../Code/IMGF.ThirdParty/Bitmap/;../../../Code/IMGF.ThirdParty/GLFW/;../../../Code/IMGF.ThirdParty/freetype-gl/</IncludePath>
-    <LibraryPath>$(LibraryPath);../../../../Input/;../../../../Output/Final/IMGF/$(Configuration).$(Platform)/;../../../../Output/Final/BXGX/$(Configuration).$(Platform)/;../../../../Output/Final/BXGI/$(Configuration).$(Platform)/;../../../../Output/Final/BXCF/$(Configuration).$(Platform)/</LibraryPath>
+    <IncludePath>../../../Code/IMGF.ThirdParty/GLEW/;$(IncludePath);$(UniversalCRT_IncludePath);../../../Code/IMGF/;../../../Code/IMGF/Format/;../../../../BXCF/Code/BXCF/;../../../../BXCF/Code/BXCF.ThirdParty/;../../../../BXGX/Code/BXGX/;../../../../BXGX/Code/BXGX.ThirdParty/;../../../../BXGI/Code/BXGI/;../../../Code/IMGF.ThirdParty/;../../../Code/IMGF.ThirdParty/Freetype/include/;../../../Code/IMGF.ThirdParty/GLFW/include/;../../../Code/IMGF.ThirdParty/Bitmap/;../../../Code/IMGF.ThirdParty/GLFW/;../../../Code/IMGF.ThirdParty/freetype-gl/</IncludePath>
+    <LibraryPath>../../../../Input/;$(LibraryPath);../../../../Output/Final/IMGF/$(Configuration).$(Platform)/;../../../../Output/Final/BXGX/$(Configuration).$(Platform)/;../../../../Output/Final/BXGI/$(Configuration).$(Platform)/;../../../../Output/Final/BXCF/$(Configuration).$(Platform)/</LibraryPath>
     <TargetName>IMG Factory</TargetName>
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>../../../../Output/Final/IMGF/$(Configuration).$(Platform)/</OutDir>
     <IntDir>../../../../Output/Intermediate/IMGF/IMGF/$(Configuration).$(Platform)/</IntDir>
-    <IncludePath>$(IncludePath);$(UniversalCRT_IncludePath);../../../Code/IMGF/;../../../Code/IMGF/Format/;../../../../BXCF/Code/BXCF/;../../../../BXCF/Code/BXCF.ThirdParty/;../../../../BXGX/Code/BXGX/;../../../../BXGX/Code/BXGX.ThirdParty/;../../../../BXGI/Code/BXGI/;../../../Code/IMGF.ThirdParty/;../../../Code/IMGF.ThirdParty/freetype-gl/windows/glew/include/;../../../Code/IMGF.ThirdParty/Freetype/include/;../../../Code/IMGF.ThirdParty/GLFW/include/;../../../Code/IMGF.ThirdParty/Bitmap/;../../../Code/IMGF.ThirdParty/GLFW/;../../../Code/IMGF.ThirdParty/freetype-gl/</IncludePath>
-    <LibraryPath>$(LibraryPath);../../../../Input/;../../../../Output/Final/IMGF/$(Configuration).$(Platform)/;../../../../Output/Final/BXGX/$(Configuration).$(Platform)/;../../../../Output/Final/BXGI/$(Configuration).$(Platform)/;../../../../Output/Final/BXCF/$(Configuration).$(Platform)/</LibraryPath>
+    <IncludePath>../../../Code/IMGF.ThirdParty/GLEW/;$(IncludePath);$(UniversalCRT_IncludePath);../../../Code/IMGF/;../../../Code/IMGF/Format/;../../../../BXCF/Code/BXCF/;../../../../BXCF/Code/BXCF.ThirdParty/;../../../../BXGX/Code/BXGX/;../../../../BXGX/Code/BXGX.ThirdParty/;../../../../BXGI/Code/BXGI/;../../../Code/IMGF.ThirdParty/;../../../Code/IMGF.ThirdParty/Freetype/include/;../../../Code/IMGF.ThirdParty/GLFW/include/;../../../Code/IMGF.ThirdParty/Bitmap/;../../../Code/IMGF.ThirdParty/GLFW/;../../../Code/IMGF.ThirdParty/freetype-gl/</IncludePath>
+    <LibraryPath>../../../../Input/;$(LibraryPath);../../../../Output/Final/IMGF/$(Configuration).$(Platform)/;../../../../Output/Final/BXGX/$(Configuration).$(Platform)/;../../../../Output/Final/BXGI/$(Configuration).$(Platform)/;../../../../Output/Final/BXCF/$(Configuration).$(Platform)/</LibraryPath>
     <TargetName>IMG Factory</TargetName>
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
   </PropertyGroup>
@@ -64,14 +64,14 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <PreprocessorDefinitions>_GLFW_USE_OPENGL;_GLFW_WIN32;_GLFW_WGL;GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowIncludes>false</ShowIncludes>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <MinimalRebuild>true</MinimalRebuild>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;libci.lib;BXCF.lib;BXGX.lib;BXGI.lib;IMGF.ThirdParty.lib;freetype261-$(Configuration).lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;libci.lib;BXCF.lib;BXGX.lib;BXGI.lib;IMGF.ThirdParty.lib;freetype261-$(Configuration).lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>
@@ -95,14 +95,14 @@
       <SDLCheck>true</SDLCheck>
       <ShowIncludes>false</ShowIncludes>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <PreprocessorDefinitions>_GLFW_USE_OPENGL;_GLFW_WIN32;_GLFW_WGL;GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;libci.lib;BXCF.lib;BXGX.lib;BXGI.lib;IMGF.ThirdParty.lib;freetype261-$(Configuration).lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;libci.lib;BXCF.lib;BXGX.lib;BXGI.lib;IMGF.ThirdParty.lib;freetype261-$(Configuration).lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>Uafxcw.lib;Libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>

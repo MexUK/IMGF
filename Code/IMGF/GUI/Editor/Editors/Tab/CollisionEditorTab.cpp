@@ -21,13 +21,17 @@
 #include "Event/EInputEvent.h"
 #include "GUI/Editor/Editors/CollisionEditor.h"
 
+/*
 #include <include/GLFW/glfw3.h>
 #define GLFW_EXPOSE_NATIVE_WIN32 1
 #define GLFW_EXPOSE_NATIVE_WGL 1
 #include <include/GLFW/glfw3native.h>
+*/
 
-#include <gl\gl.h>
-#include <gl\glu.h>
+//#define GL_GLEXT_PROTOTYPES 1
+//#define GL3_PROTOTYPES 1
+//#include "GL3.h"
+//#include <gl\glu.h>
 
 using namespace std;
 using namespace bxcf;

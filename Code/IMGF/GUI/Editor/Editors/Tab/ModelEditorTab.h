@@ -4,10 +4,14 @@
 #include "nsimgf.h"
 #include "GUI/Editor/Base/Tab/EditorTab.h"
 #include "Type/Vector/Vec3f.h"
+#include <string>
+#include <vector>
+#include <unordered_map>
 
-#include "GL/glew.h"
-#include "GL/wglew.h"
-#include <Windows.h>
+//#include "GLEE/GLee.h"
+//#include "GL/glew.h"
+//#include "GL/wglew.h"
+//#include <Windows.h>
 
 void						perspectiveGL_ModelEditor(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar); // todo - namespace - duplicated too
 
@@ -53,10 +57,25 @@ private:
 	bxgi::TXDFormat*			m_pTXDFile;
 	bool						m_bInitialized;
 	bool						m_bPanningCamera;
+	bool						m_bInitializing;
 
 	bxcf::Vec3f					m_vecCameraPosition;
 	bxcf::Vec3f					m_vecCameraLookAtPosition;
 	HDC							m_hdcWindow;
 	HDC							m_hDC;
 	HBITMAP						m_hbm;
+	HGLRC						m_hRC;
+
+	GLuint*						textureIDs; // todo - prefix
+	std::unordered_map<std::string, GLuint>		textureIndices; // todo - prefix // GLuint: gl texture id
+
+	std::vector<GLuint>			m_pGeometryVertexPositionBuffers;	// GLuint: gl buffer id
+	std::vector<GLuint>			m_pGeometryVertexNormalBuffers;		// GLuint: gl buffer id
+	std::vector<GLuint>			m_pGeometryTexturePositionBuffers;	// GLuint: gl buffer id
+	std::vector<std::vector<GLuint>>	m_pBinMeshDataIndexBuffers;	// GLuint: gl buffer id
+
+	//GLuint*						m_pGeometryVertexPositionBuffers;	// GLuint: gl buffer id
+
+	std::vector<const char*>					m_pVertexPositionBuffer;
+	std::vector<std::vector<const char*>>		m_pDataIndexBuffer;
 };

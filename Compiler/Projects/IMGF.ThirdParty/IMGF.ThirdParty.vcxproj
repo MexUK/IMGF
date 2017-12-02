@@ -73,7 +73,7 @@
     <OutDir>../../../../Output/Final/IMGF/$(Configuration).$(Platform)/</OutDir>
     <IntDir>../../../../Output/Intermediate/IMGF/IMGF.ThirdParty/$(Configuration).$(Platform)/</IntDir>
     <TargetName>IMGF.ThirdParty</TargetName>
-    <IncludePath>../../../Code/IMGF.ThirdParty/;../../../Code/IMGF.ThirdParty/GLEW/;../../../Code/IMGF.ThirdParty/GLEW/GL/;../../../Code/IMGF.ThirdParty/Freetype/include/;../../../Code/IMGF.ThirdParty/GLFW/;../../../Code/IMGF.ThirdParty/GLFW/include/;../../../Code/IMGF.ThirdParty/GLFW/deps/;../../../Code/IMGF.ThirdParty/freetype-gl/;../../../Code/IMGF.ThirdParty/freetype-gl/windows/glew/include/;../../../Code/IMGF.ThirdParty/GLM/;$(IncludePath)</IncludePath>
+    <IncludePath>../../../Code/IMGF.ThirdParty/;../../../Code/IMGF.ThirdParty/GLEW/;../../../Code/IMGF.ThirdParty/GLEW/GL/;../../../Code/IMGF.ThirdParty/Freetype/include/;../../../Code/IMGF.ThirdParty/GLFW/;../../../Code/IMGF.ThirdParty/GLFW/include/;../../../Code/IMGF.ThirdParty/GLFW/deps/;../../../Code/IMGF.ThirdParty/freetype-gl/;../../../Code/IMGF.ThirdParty/GLM/;$(IncludePath)</IncludePath>
     <LibraryPath>../../../../Input/;$(LibraryPath)</LibraryPath>
     <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
   </PropertyGroup>
@@ -81,7 +81,7 @@
     <OutDir>../../../../Output/Final/IMGF/$(Configuration).$(Platform)/</OutDir>
     <IntDir>../../../../Output/Intermediate/IMGF/IMGF.ThirdParty/$(Configuration).$(Platform)/</IntDir>
     <TargetName>IMGF.ThirdParty</TargetName>
-    <IncludePath>../../../Code/IMGF.ThirdParty/;../../../Code/IMGF.ThirdParty/GLEW/;../../../Code/IMGF.ThirdParty/GLEW/GL/;../../../Code/IMGF.ThirdParty/Freetype/include/;../../../Code/IMGF.ThirdParty/GLFW/;../../../Code/IMGF.ThirdParty/GLFW/include/;../../../Code/IMGF.ThirdParty/GLFW/deps/;../../../Code/IMGF.ThirdParty/freetype-gl/;../../../Code/IMGF.ThirdParty/freetype-gl/windows/glew/include/;../../../Code/IMGF.ThirdParty/GLM/;$(IncludePath)</IncludePath>
+    <IncludePath>../../../Code/IMGF.ThirdParty/;../../../Code/IMGF.ThirdParty/GLEW/;../../../Code/IMGF.ThirdParty/GLEW/GL/;../../../Code/IMGF.ThirdParty/Freetype/include/;../../../Code/IMGF.ThirdParty/GLFW/;../../../Code/IMGF.ThirdParty/GLFW/include/;../../../Code/IMGF.ThirdParty/GLFW/deps/;../../../Code/IMGF.ThirdParty/freetype-gl/;../../../Code/IMGF.ThirdParty/GLM/;$(IncludePath)</IncludePath>
     <LibraryPath>../../../../Input/;$(LibraryPath)</LibraryPath>
     <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
   </PropertyGroup>
@@ -90,10 +90,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_GLFW_USE_OPENGL;_GLFW_WIN32;_GLFW_WGL;GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;freetype261-$(Configuration).lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;freetype261-$(Configuration).lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
@@ -117,14 +117,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_GLFW_USE_OPENGL;_GLFW_WIN32;_GLFW_WGL;GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;freetype261-$(Configuration).lib;freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;freetype261-$(Configuration).lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
       <Command>
@@ -266,10 +266,6 @@
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\vpnotify.h" />
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\vptype.h" />
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\xprtdefs.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freeglut\include\GL\freeglut.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freeglut\include\GL\freeglut_ext.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freeglut\include\GL\freeglut_std.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freeglut\include\GL\glut.h" />
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\edtaa3func.h" />
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\font-manager.h" />
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\freetype-gl.h" />
@@ -373,35 +369,6 @@
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\tttags.h" />
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\ttunpat.h" />
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\ft2build.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLEW\GL\glew.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLEW\GL\glxew.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLEW\GL\wglew.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\getopt.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\glad\glad.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\GL\glext.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\GL\glxext.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\GL\wglext.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\linmath.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\tinycthread.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\include\GLFW\glfw3.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\include\GLFW\glfw3native.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\cocoa_platform.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\egl_context.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\glx_context.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\internal.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\iokit_joystick.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\linux_joystick.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\mir_platform.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\nsgl_context.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\posix_time.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\posix_tls.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\wgl_context.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_platform.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_tls.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\winmm_joystick.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\wl_platform.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\x11_platform.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\xkb_unicode.h" />
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\common.hpp" />
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_common.hpp" />
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\func_exponential.hpp" />
@@ -559,24 +526,6 @@
     <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vector.c" />
     <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-attribute.c" />
     <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-buffer.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLEW\glew.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLEW\glewinfo.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLEW\visualinfo.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\getopt.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\glad.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\deps\tinycthread.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\context.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\init.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\input.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\monitor.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\wgl_context.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_init.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_monitor.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_time.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_tls.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\win32_window.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\window.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLFW\src\winmm_joystick.c" />
     <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\glm.cpp" />
   </ItemGroup>
   <ItemGroup>

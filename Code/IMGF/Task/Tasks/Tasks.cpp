@@ -143,6 +143,7 @@
 #include <gdiplus.h>
 #include <stdio.h>
 #include <algorithm>
+#include <Shellapi.h>
 
 using namespace std;
 using namespace bxcf;
