@@ -178,8 +178,8 @@ void					MainWindow::initMainMenuLayers(void)
 	// formats menu
 	Layer *pFormatsLayer = addLayer(FORMATS_MENU, true);
 
-	x = 0;
-	y = getTitleBarHeight() + uiButtonHeight;
+	x = 5;
+	y = getTitleBarHeight() + 40;
 	y2 = y;
 	w = 139;
 	h = uiButtonHeight;
@@ -187,7 +187,7 @@ void					MainWindow::initMainMenuLayers(void)
 	strStyleGroup = "leftMenu";
 
 	m_pFormatsMenu = pFormatsLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -200);
-	vector<MenuItem*> vecMenuItems = m_pFormatsMenu->addMenuItems(9, "DAT", "IMG", "Item Definition", "Item Placement", "Model", "Collision", "Texture", "Animation", "Radar");
+	vector<MenuItem*> vecMenuItems = m_pFormatsMenu->addMenuItems(19, "IMG", "TXD", "COL", "Radar", "Water", "Paths", "Paint", "Zones", "Anims", "Root Dat", "IDE / IPL", "2DFX / IFX", "Text Editor", "Map Editor", "Weapon", "Vehicle", "Ped", "Cuts", "More ->");
 	m_pFormatsMenu->setItemIds(500);
 	m_pFormatsMenu->setActiveMenuItem(vecMenuItems[6]);
 

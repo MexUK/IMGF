@@ -86,7 +86,7 @@ void						MainLayer::addControls(void)
 	setCertainMenuItemsEnabled(false);
 
 	// logo
-	x = 139 + 14;
+	x = 0;
 	y = uiTitleBarHeight;
 	w = 0;
 	h = 0;
@@ -120,6 +120,7 @@ void		MainLayer::addMenus(void)
 	EEditor
 		uiEditorType = m_pMainWindow->getActiveEditor() ? m_pMainWindow->getActiveEditor()->getEditorType() : UNKNOWN_EDITOR;
 
+	/*
 	// top left menu
 	x = 0;
 	y = uiTitleBarHeight;
@@ -130,6 +131,7 @@ void		MainLayer::addMenus(void)
 	pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, -1, -200);
 	pMenu1->addMenuItem("Formats", FORMATS);
 	pMenu1->addMenuItem("Utility", UTILITY);
+	*/
 
 	// top menu - buttons
 	x = 139 + 139;
@@ -362,11 +364,14 @@ void		MainLayer::addMenus(void)
 
 	pMenu2 = pMenuItem1->addMenu();
 	pMenuItem2 = pMenu2->addMenuItem("Split Selection", SPLIT_SELECTED);
-	if (bIsIMGEditor)
+	if (uiEditorType != ITEM_DEFINITION_EDITOR && uiEditorType != ITEM_PLACEMENT_EDITOR && uiEditorType != DAT_EDITOR)
 	{
-		pMenuItem2 = pMenu2->addMenuItem("Split by IDE", SPLIT_BY_IDE);
+		if (bIsIMGEditor)
+		{
+			pMenuItem2 = pMenu2->addMenuItem("Split by IDE", SPLIT_BY_IDE);
+		}
+		pMenuItem2 = pMenu2->addMenuItem("Split by Entry Names", SPLIT_BY_ENTRY_NAMES);
 	}
-	pMenuItem2 = pMenu2->addMenuItem("Split by Entry Names", SPLIT_BY_ENTRY_NAMES);
 
 	// convert
 	pMenuItem1 = pMenu1->addMenuItem("Convert", CONVERT_MENU);
@@ -517,12 +522,15 @@ void		MainLayer::addMenus(void)
 
 	pMenuItem2 = pMenu2->addMenuItem("Copy Entry Data", ENTRY_COPY_DATA_MENU);
 	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Copy Entries Index", COPY_ENTRY_INDEX);
-	pMenu3->addMenuItem("Copy Entries Type", COPY_ENTRY_TYPE);
-	pMenu3->addMenuItem("Copy Entries Name", COPY_ENTRY_NAME);
-	pMenu3->addMenuItem("Copy Entries Offset", COPY_ENTRY_OFFSET);
-	pMenu3->addMenuItem("Copy Entries Size", COPY_ENTRY_SIZE);
-	pMenu3->addMenuItem("Copy Entries Version", COPY_ENTRY_VERSION);
+	if (uiEditorType != ITEM_DEFINITION_EDITOR && uiEditorType != ITEM_PLACEMENT_EDITOR && uiEditorType != DAT_EDITOR)
+	{
+		pMenu3->addMenuItem("Copy Entries Index", COPY_ENTRY_INDEX);
+		pMenu3->addMenuItem("Copy Entries Type", COPY_ENTRY_TYPE);
+		pMenu3->addMenuItem("Copy Entries Name", COPY_ENTRY_NAME);
+		pMenu3->addMenuItem("Copy Entries Offset", COPY_ENTRY_OFFSET);
+		pMenu3->addMenuItem("Copy Entries Size", COPY_ENTRY_SIZE);
+		pMenu3->addMenuItem("Copy Entries Version", COPY_ENTRY_VERSION);
+	}
 	pMenu3->addMenuItem("Copy Entries Row Data", COPY_ENTRY_ROW_DATA);
 
 	pMenuItem2 = pMenu2->addMenuItem("Shift Entry", ENTRY_SHIFT_MENU);

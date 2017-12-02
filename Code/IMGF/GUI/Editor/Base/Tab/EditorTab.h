@@ -66,9 +66,11 @@ public:
 	virtual void								removeAllEntries(void) {}
 	virtual void								removeEntries(std::vector<bxcf::FormatEntry*>& vecEntries) {}
 	void										removeSelectedEntries(void) { removeEntries(getSelectedEntries()); }
+	virtual void								removeSelectedText(void) {}
+	virtual void								removeAllText(void) {}
 	void										setSelectedEntriesNameCase(uint32 uiNameCaseType);
-	void										copySelectedEntryData(uint32 uiColumnType);
-	void										shiftSelectedEntries(int32 uiRowCountOffset);
+	virtual void								copySelectedEntryData(uint32 uiColumnType);
+	virtual void								shiftSelectedEntries(int32 uiRowCountOffset); // todo - rename parameter to i not ui
 	std::vector<bxcf::FormatEntry*>				getEntriesByNumericMultiOptionValues(uint32 uiEntryAttribute, uint32 uiMatchType, uint32 uiValue1, uint32 uiValue2);
 	std::vector<bxcf::FormatEntry*>				getEntriesByStringMultiOptionValues(uint32 uiEntryAttribute, uint32 uiMatchType, std::string& strValue1, std::string& strValue2, bool bMatchWildcard);
 	virtual void								setEntriesSelected(std::vector<bxcf::FormatEntry*>& vecEntries, bool bIsSelected) {}
@@ -81,6 +83,7 @@ public:
 	virtual void								setAllLinesSelected(bool bIsSelected) {}
 	virtual std::vector<std::string>			getSelectedTextLines(void) { std::vector<std::string> vecTextLines; return vecTextLines; }
 	virtual std::vector<std::string>			getTextLines(void) { std::vector<std::string> vecTextLines; return vecTextLines; }
+	virtual void								split(std::vector<std::string>& vecTextLines, std::string& strFilePathOut, uint32 uiFileVersionOut) {}
 
 	void								startDragDrop(imgf::EditorTab *pEditorTab, std::string strFileExtension = "");
 	void								startDragDrop2(imgf::EditorTab *pEditorTab, std::vector<std::string>& vecFileNames, std::vector<std::string>& vecFileDatas);

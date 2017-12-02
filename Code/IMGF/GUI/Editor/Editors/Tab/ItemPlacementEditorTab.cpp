@@ -155,12 +155,27 @@ vector<string>				ItemPlacementEditorTab::getSelectedTextLines(void)
 
 uint32						ItemPlacementEditorTab::getSelectedEntryCount(void)
 {
-	return (m_pTextBox->getCaretPositionEnd().y - m_pTextBox->getCaretPositionStart().y) + 1;
+	if (m_pTextBox->getCaretPositionStart().x == m_pTextBox->getCaretPositionEnd().x && m_pTextBox->getCaretPositionStart().y == m_pTextBox->getCaretPositionEnd().y)
+	{
+		return 0;
+	}
+	else
+	{
+		return (m_pTextBox->getCaretPositionEnd().y - m_pTextBox->getCaretPositionStart().y) + 1;
+	}
 }
 
 uint32						ItemPlacementEditorTab::getTotalEntryCount(void)
 {
-	return m_pTextBox->getTextLines().size();
+	uint32 uiLineCount = m_pTextBox->getTextLines().size();
+	if (uiLineCount == 1)
+	{
+		return m_pTextBox->getTextLines()[0] == "" ? 0 : 1;
+	}
+	else
+	{
+		return uiLineCount;
+	}
 }
 
 vector<string>				ItemPlacementEditorTab::getTextLines(void)
@@ -179,6 +194,12 @@ void						ItemPlacementEditorTab::mergeViaData(string& strFileData)
 	m_pTextBox->addText("\r\n\r\n" + strFileData);
 }
 
+// split
+void						ItemPlacementEditorTab::split(vector<string>& vecTextLines, string& strFilePathOut, uint32 uiFileVersionOut)
+{
+	File::setTextFile(strFilePathOut, String::join(vecTextLines, "\n"));
+}
+
 // add entry
 void*						ItemPlacementEditorTab::addEntryViaFile(string& strEntryFilePath, string strEntryName)
 {
@@ -190,4 +211,49 @@ void*						ItemPlacementEditorTab::addEntryViaData(string strEntryName, string& 
 {
 	mergeViaData(strEntryData);
 	return nullptr;
+}
+
+// remove text
+void						ItemPlacementEditorTab::removeSelectedText(void)
+{
+	m_pTextBox->removeSelectedText();
+}
+
+void						ItemPlacementEditorTab::removeAllText(void)
+{
+	m_pTextBox->removeAllText();
+}
+
+// shift entries
+void						ItemPlacementEditorTab::shiftSelectedEntries(int32 iRowCountOffset)
+{
+	if (!m_pTextBox->isTextSelected())
+	{
+		return;
+	}
+
+	for (int32 iLine = m_pTextBox->getCaretPositionStart().y, iLineEnd = m_pTextBox->getCaretPositionEnd().y; iLine <= iLineEnd; iLine++)
+	{
+		int32 iEntry1Index = iLine;
+		int32 iEntry2Index = Math::limit(iEntry1Index + (int32)iRowCountOffset, 0, (int32)getTotalEntryCount());
+
+		string strEntry1 = m_pTextBox->getTextLines()[iEntry1Index];
+		string strEntry2 = m_pTextBox->getTextLines()[iEntry2Index];
+
+		m_pTextBox->getTextLines()[iEntry1Index] = strEntry2;
+		m_pTextBox->getTextLines()[iEntry2Index] = strEntry1;
+	}
+
+	recreateEntryList();
+	setFileUnsaved(true);
+}
+
+// copy data
+void						ItemPlacementEditorTab::copySelectedEntryData(uint32 uiFieldId)
+{
+	if (uiFieldId == 6)
+	{
+		// copy row
+		String::setClipboardText(m_pTextBox->getSelectedText());
+	}
 }

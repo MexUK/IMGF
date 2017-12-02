@@ -2256,7 +2256,15 @@ void		Tasks::removeSelected(void)
 	uint32 uiSelectedEntryCount = getTab()->getSelectedEntryCount();
 	setMaxProgress(uiSelectedEntryCount + (uiSelectedEntryCount == 0 ? 0 : (getTab()->getFile()->getEntryCount() - uiSelectedEntryCount)));
 
-	getTab()->removeSelectedEntries();
+	EEditor uiEditorType = getTab()->getEditor()->getEditorType();
+	if (uiEditorType == ITEM_DEFINITION_EDITOR || uiEditorType == ITEM_PLACEMENT_EDITOR || uiEditorType == DAT_EDITOR)
+	{
+		getTab()->removeSelectedText();
+	}
+	else
+	{
+		getTab()->removeSelectedEntries();
+	}
 
 	if (uiSelectedEntryCount > 0)
 	{
@@ -2273,10 +2281,18 @@ void		Tasks::removeAll(void)
 {
 	onStartTask("removeAll");
 
-	uint32 uiTotalEntryCount = getTab()->getFile()->getEntryCount();
+	uint32 uiTotalEntryCount = getTab()->getTotalEntryCount();
 	setMaxProgress(uiTotalEntryCount);
 
-	getTab()->removeAllEntries();
+	EEditor uiEditorType = getTab()->getEditor()->getEditorType();
+	if (uiEditorType == ITEM_DEFINITION_EDITOR || uiEditorType == ITEM_PLACEMENT_EDITOR || uiEditorType == DAT_EDITOR)
+	{
+		getTab()->removeAllText();
+	}
+	else
+	{
+		getTab()->removeAllEntries();
+	}
 
 	if (uiTotalEntryCount > 0)
 	{
@@ -2645,8 +2661,17 @@ void		Tasks::splitSelected(void)
 
 	bool bDeleteSelectedEntriesFromSourceFile = showMessage("Also delete selected entries from source file?", "Delete Selected Entries?") == MB_OK;
 
-	vector<FormatEntry*> vecEntries = getTab()->getSelectedEntries();
-	getTab()->getContainerFile()->split(vecEntries, strNewFilePath, pFormatVersion->m_uiRawVersion);
+	EEditor uiEditorType = getTab()->getEditor()->getEditorType();
+	if (uiEditorType == ITEM_DEFINITION_EDITOR || uiEditorType == ITEM_PLACEMENT_EDITOR || uiEditorType == DAT_EDITOR)
+	{
+		vector<string> vecSelectedTextLines = getTab()->getSelectedTextLines();
+		getTab()->split(vecSelectedTextLines, strNewFilePath, pFormatVersion->m_uiRawVersion);
+	}
+	else
+	{
+		vector<FormatEntry*> vecEntries = getTab()->getSelectedEntries();
+		getTab()->getContainerFile()->split(vecEntries, strNewFilePath, pFormatVersion->m_uiRawVersion);
+	}
 
 	if (uiSelectedEntryCount > 0 && bDeleteSelectedEntriesFromSourceFile)
 	{

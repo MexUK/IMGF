@@ -43,6 +43,44 @@ void									ModelEditor::unbindEvents(void)
 	}
 }
 
+// add editor tab
+ModelEditorTab*							ModelEditor::addEditorTab(string& strFilePath)
+{
+	DFFFormat dffFormat(strFilePath);
+	if (!dffFormat.readMetaData())
+	{
+		return nullptr;
+	}
+
+	ModelEditorTab *pModelEditorTab = Editor::_addEditorTab<DFFFormat, ModelEditorTab>(strFilePath, false);
+
+	if (pModelEditorTab)
+	{
+		//pCollisionEditorTab->setCollisionEditor(this);
+		pModelEditorTab->setDFFFile((DFFFormat*)pModelEditorTab->getFile());
+		if (!pModelEditorTab->init(false))
+		{
+			removeEditorTab(pModelEditorTab);
+			return nullptr;
+		}
+	}
+	return pModelEditorTab;
+}
+
+ModelEditorTab*							ModelEditor::addBlankEditorTab(string& strFilePath)
+{
+	ModelEditorTab *pModelEditorTab = Editor::_addEditorTab<DFFFormat, ModelEditorTab>(strFilePath, true);
+
+	if (pModelEditorTab)
+	{
+		//pCollisionEditorTab->setCollisionEditor(this);
+		pModelEditorTab->setDFFFile((DFFFormat*)pModelEditorTab->getFile());
+		//pModelEditorTab->getDFFFile()->setRWVersion(nullptr, RW_3_4_0_3);
+		pModelEditorTab->init(true);
+	}
+	return pModelEditorTab;
+}
+
 // render
 void									ModelEditor::renderBefore(void)
 {
@@ -62,41 +100,4 @@ void									ModelEditor::renderBefore(void)
 	{
 		((ModelEditorTab*)m_pActiveEditorTab)->render_Type1();
 	}
-}
-
-// add editor tab
-ModelEditorTab*							ModelEditor::addEditorTab(string& strFilePath)
-{
-	DFFFormat ideFormat(strFilePath);
-	if (!ideFormat.readMetaData())
-	{
-		return nullptr;
-	}
-
-	ModelEditorTab *pModelEditorTab = Editor::_addEditorTab<DFFFormat, ModelEditorTab>(strFilePath, false);
-
-	if (pModelEditorTab)
-	{
-		//pModelEditorTab->setModelEditor(this);
-		pModelEditorTab->setDFFFile((DFFFormat*)pModelEditorTab->getFile());
-		if (!pModelEditorTab->init(false))
-		{
-			removeEditorTab(pModelEditorTab);
-			return nullptr;
-		}
-	}
-	return pModelEditorTab;
-}
-
-ModelEditorTab*							ModelEditor::addBlankEditorTab(string& strFilePath)
-{
-	ModelEditorTab *pModelEditorTab = Editor::_addEditorTab<DFFFormat, ModelEditorTab>(strFilePath, true);
-
-	if (pModelEditorTab)
-	{
-		//pModelEditorTab->setModelEditor(this);
-		pModelEditorTab->setDFFFile((DFFFormat*)pModelEditorTab->getFile());
-		pModelEditorTab->init(true);
-	}
-	return pModelEditorTab;
 }

@@ -26,10 +26,8 @@
 #define GLFW_EXPOSE_NATIVE_WGL 1
 #include <include/GLFW/glfw3native.h>
 
-#include <windows.h>
 #include <gl\gl.h>
 #include <gl\glu.h>
-//#include <gl\glaux.h>
 
 using namespace std;
 using namespace bxcf;
@@ -47,7 +45,8 @@ CollisionEditorTab::CollisionEditorTab(void) :
 
 	m_pVScrollBar(nullptr),
 
-	m_bInitialized(false)
+	m_bInitialized(false),
+	m_bPanningCamera(false)
 {
 	m_vecCameraPosition = Vec3f(-2.0f, -2.0f, 2.0f);
 	m_vecCameraLookAtPosition = Vec3f(0.0f, 0.0f, 0.0f);
@@ -56,10 +55,12 @@ CollisionEditorTab::CollisionEditorTab(void) :
 // events
 void					CollisionEditorTab::bindEvents(void)
 {
+	markEventUsage(MOVE_MOUSE);
+
 	bindEvent(RESIZE_WINDOW, &CollisionEditorTab::repositionAndResizeControls);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	bindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
-	bindEvent(MOVE_MOUSE, &CollisionEditorTab::onMouseMove2);
+	//bindEvent(MOVE_MOUSE, &CollisionEditorTab::onMouseMove2);
 	bindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
 	bindEvent(MOVE_MOUSE_WHEEL, &CollisionEditorTab::onMouseWheelMove2);
 
@@ -68,10 +69,12 @@ void					CollisionEditorTab::bindEvents(void)
 
 void					CollisionEditorTab::unbindEvents(void)
 {
+	unmarkEventUsage(MOVE_MOUSE);
+
 	unbindEvent(RESIZE_WINDOW, &CollisionEditorTab::repositionAndResizeControls);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
-	unbindEvent(MOVE_MOUSE, &CollisionEditorTab::onMouseMove2);
+	//unbindEvent(MOVE_MOUSE, &CollisionEditorTab::onMouseMove2);
 	unbindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
 	unbindEvent(MOVE_MOUSE_WHEEL, &CollisionEditorTab::onMouseWheelMove2);
 
@@ -207,25 +210,42 @@ void					CollisionEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 
 Vec2f g_vecLastMousePosition = Vec2f(0.0f, 0.0f); // todo
 
-void					CollisionEditorTab::onMouseMove2(Vec2i vecCursorPosition)
+bool					CollisionEditorTab::onMouseMove(Vec2i& vecCursorPosition)
 {
 	if ((GetKeyState(VK_LBUTTON) & 0x100) != 0)
 	{
+		m_bPanningCamera = true;
+
 		//Vec2f vecNewPosition = Vec2f((float32)xpos, ypos);
 		Vec2i vecNewPosition = BXGX::get()->getCursorPosition();
 		if (g_vecLastMousePosition.x != 0.0f && g_vecLastMousePosition.y != 0.0f)
 		{
 			const Vec2f vecCursorMoveMultiplier = { 0.3f, 0.3f };
-			Vec3f vecCameraRotation(0.0f, 0.0f, 0.0f);
+
 			Vec2f vecPositionDifference = Vec2f(vecNewPosition.x - g_vecLastMousePosition.x, vecNewPosition.y - g_vecLastMousePosition.y);
+			rotateCameraLookAt(vecPositionDifference.x * vecCursorMoveMultiplier.x, vecPositionDifference.y * vecCursorMoveMultiplier.y);
+
+			/*
+			Vec3f vecCameraRotation = getCameraRotation();
+			//Vec2f vecPositionDifference = Vec2f(0.0f, 0.0f);
 			vecCameraRotation.z += Math::convertDegreesToRadians(vecPositionDifference.x * vecCursorMoveMultiplier.x);
 			vecCameraRotation.x += Math::convertDegreesToRadians(vecPositionDifference.y * vecCursorMoveMultiplier.y);
 
-			m_vecCameraLookAtPosition = Math::getPositionInFrontOfPosition(m_vecCameraPosition, vecCameraRotation.z, Math::getDistanceBetweenPoints(m_vecCameraPosition, m_vecCameraLookAtPosition));
+			Vec3f vecPos2 = Math::getPositionInFrontOfPosition(m_vecCameraPosition, vecCameraRotation.z, Math::getDistanceBetweenPoints(m_vecCameraPosition, m_vecCameraLookAtPosition));
+			m_vecCameraLookAtPosition.x = vecPos2.x;
+			m_vecCameraLookAtPosition.y = vecPos2.y;
+			*/
+
 			render3D();
 		}
 
 		g_vecLastMousePosition = Vec2f(vecNewPosition.x, vecNewPosition.y);
+
+		return true;
+	}
+	else
+	{
+		m_bPanningCamera = false;
 	}
 }
 
@@ -1062,6 +1082,17 @@ void						CollisionEditorTab::moveCamera(float32 fAngleDeg, float32 fRadius)
 	m_vecCameraLookAtPosition = Math::getPositionInFrontOfPosition(m_vecCameraLookAtPosition, getCameraZRotation() + Math::convertDegreesToRadians(fAngleDeg), fRadius);
 }
 
+void						CollisionEditorTab::rotateCameraLookAt(float32 fZAngleDeg, float32 fXAngleDeg)
+{
+	Vec3f vecCameraRotation = getCameraRotation();
+	fZAngleDeg -= 90.0f;
+	fXAngleDeg -= 90.0f;
+	float32 fRadius = Math::getDistanceBetweenPoints(m_vecCameraPosition, m_vecCameraLookAtPosition);
+	Vec3f vecCameraPositionOffset = Math::getCartesianFromSpherical(fRadius, vecCameraRotation.x - Math::convertDegreesToRadians(fXAngleDeg), vecCameraRotation.z + Math::convertDegreesToRadians(fZAngleDeg));
+	vecCameraPositionOffset.z = -vecCameraPositionOffset.z;
+	m_vecCameraLookAtPosition = m_vecCameraPosition + vecCameraPositionOffset;
+}
+
 void						CollisionEditorTab::zoomCamera(float32 fRadius)
 {
 	Vec3f vecCameraRotation = getCameraRotation();
@@ -1203,10 +1234,10 @@ void						CollisionEditorTab::renderCollisionObjects(void)
 {
 	glColor3ub(255, 255, 255);
 
-	renderCollisionMeshes();
-	renderCollisionCuboids();
 	renderCollisionSpheres();
-	renderCollisionLines();
+	renderCollisionCuboids();
+	renderCollisionLinesOrCones();
+	renderCollisionMeshes();
 }
 
 void						CollisionEditorTab::renderCollisionMeshes(void)
@@ -1296,12 +1327,8 @@ void						CollisionEditorTab::renderCollisionSpheres(void)
 		glColor3ub(colors[i2][0], colors[i2][1], colors[i2][2]);
 
 		glPushMatrix();
-		glTranslatef(collisionSphere.m_vecCenter.x, collisionSphere.m_vecCenter.z, collisionSphere.m_vecCenter.y); 
-		// todo gluSphere(gluNewQuadric(), collisionSphere.m_fRadius, 100, 100);
-		//if (!isEntryChanging() && i2 < m_vecCollisionSpheresGL.size() && m_vecCollisionSpheresGL[i2] != nullptr)
-		//{
-			//m_vecCollisionSpheresGL[i2]->draw(collisionSphere.m_vecCenter.x, collisionSphere.m_vecCenter.z, collisionSphere.m_vecCenter.y);
-		//}
+		SolidSphere sphere(collisionSphere.m_fRadius, 15, 15);
+		sphere.draw(collisionSphere.m_vecCenter.x, collisionSphere.m_vecCenter.z, collisionSphere.m_vecCenter.y);
 		glPopMatrix();
 
 		i2++;
@@ -1309,29 +1336,20 @@ void						CollisionEditorTab::renderCollisionSpheres(void)
 	}
 }
 
+void						CollisionEditorTab::renderCollisionLinesOrCones(void)
+{
+	renderCollisionLines();
+	//renderCollisionCones();
+}
+
 void						CollisionEditorTab::renderCollisionLines(void)
 {
-	COLEntry *pCOLEntry = getActiveEntry();
+	// lines or cones not present in COL file
+}
 
-	// draw collision mesh faces & vertices
-	glBegin(GL_TRIANGLES);
-	glColor3ub(255, 0, 0);
-	/*
-	todo
-	for (TFace& face : pCOLEntry->getCollisionLines())
-	{
-		TVertex& vecVector1 = pCOLEntry->getCollisionMeshVertices()[face.m_uiA];
-		TVertex& vecVector2 = pCOLEntry->getCollisionMeshVertices()[face.m_uiB];
-		TVertex& vecVector3 = pCOLEntry->getCollisionMeshVertices()[face.m_uiC];
-		//Debugger::log("vecVector1: " + String::toString(vecVector1.x) + ", " + String::toString(vecVector1.y) + ", " + String::toString(vecVector1.z));
-		//Debugger::log("vecVector2: " + String::toString(vecVector2.x) + ", " + String::toString(vecVector2.y) + ", " + String::toString(vecVector2.z));
-		//Debugger::log("vecVector3: " + String::toString(vecVector3.x) + ", " + String::toString(vecVector3.y) + ", " + String::toString(vecVector3.z));
-		glVertex3f(vecVector1.x, vecVector1.z, vecVector1.y);
-		glVertex3f(vecVector2.x, vecVector2.z, vecVector2.y);
-		glVertex3f(vecVector3.x, vecVector3.z, vecVector3.y);
-	}
-	*/
-	glEnd();
+void						CollisionEditorTab::renderCollisionCones(void)
+{
+	// lines or cones not present in COL file
 }
 
 // utility

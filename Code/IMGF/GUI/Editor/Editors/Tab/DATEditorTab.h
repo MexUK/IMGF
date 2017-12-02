@@ -28,6 +28,8 @@ public:
 	void						merge(std::string& strFilePath);
 	void						mergeViaData(std::string& strFileData);
 
+	void						split(std::vector<std::string>& vecTextLines, std::string& strFilePathOut, uint32 uiFileVersionOut);
+
 	void						setAllLinesSelected(bool bIsSelected);
 	std::vector<std::string>	getSelectedTextLines(void);
 	uint32						getSelectedEntryCount(void);
@@ -36,6 +38,13 @@ public:
 
 	void*						addEntryViaFile(std::string& strEntryFilePath, std::string strEntryName = "");
 	void*						addEntryViaData(std::string strEntryName, std::string& strEntryData);
+
+	void						removeSelectedText(void);
+	void						removeAllText(void);
+
+	void						shiftSelectedEntries(int32 iRowCountOffset);
+
+	void						copySelectedEntryData(uint32 uiFieldId);
 
 private:
 	bxgi::DATLoaderFormat*		m_pDATFile;
