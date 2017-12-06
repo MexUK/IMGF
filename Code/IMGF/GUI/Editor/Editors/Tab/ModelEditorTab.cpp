@@ -18,6 +18,7 @@
 #include "Format/RW/Sections/RWSection_Frame.h"
 #include "BXGX.h"
 #include "Event/EInputEvent.h"
+#include <stack>
 
 /*
 #include <include/GLFW/glfw3.h>
@@ -45,6 +46,8 @@ ModelEditorTab::ModelEditorTab(void) :
 	m_bInitialized(false),
 	m_bInitializing(false)
 {
+	m_vecRenderSize.x = 200;
+	m_vecRenderSize.y = 200;
 }
 
 // controls
@@ -66,7 +69,8 @@ void						ModelEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 		return;
 	}
 
-	Vec2u vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
+	//Vec2u vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
+	m_vecRenderSize = Vec2u(300, 300);
 
 	mutexRendering.lock();
 
@@ -75,14 +79,10 @@ void						ModelEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 		DeleteObject(m_hbm);
 	}
 
-	m_hbm = CreateCompatibleBitmap(m_hdcWindow, vecRenderSize.x, vecRenderSize.y);
+	m_hbm = CreateCompatibleBitmap(m_hdcWindow, m_vecRenderSize.x, m_vecRenderSize.y);
 	SelectObject(m_hDC, m_hbm);
 
-	//glViewport(0, 0, vecRenderSize.x, vecRenderSize.y);
-	//const float64 ar = ((float64)vecRenderSize.x) / ((float64)vecRenderSize.y);
-	//perspectiveGL(45.0, ar, 1.0, 1500.0);
-
-	update3DRenderSize(vecRenderSize);
+	reshape();
 
 	mutexRendering.unlock();
 }
@@ -196,24 +196,8 @@ void						ModelEditorTab::render(void)
 	render3D();
 }
 
-void *GetAnyGLFuncAddress(const char *name)
-{
-	void *p = (void *)wglGetProcAddress(name);
-	if (p == 0 ||
-		(p == (void*)0x1) || (p == (void*)0x2) || (p == (void*)0x3) ||
-		(p == (void*)-1))
-	{
-		HMODULE module = LoadLibraryA("opengl32.dll");
-		p = (void *)GetProcAddress(module, name);
-	}
-
-	return p;
-}
-
 void						ModelEditorTab::render3D(void)
 {
-	Vec2u vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
-
 	if (!m_pTXDFile)
 	{
 		return;
@@ -229,600 +213,73 @@ void						ModelEditorTab::render3D(void)
 	{
 		m_bInitializing = true;
 		
-
-
-
-
-		//glfwInit();
-
-		//glewExperimental = GL_TRUE;
-		//GLenum err = glewInit();
-
-		
-
-
-
-
-
-
-		//hDC = GetDC(m_pWindow->getWindowHandle());
+		m_vecRenderSize = Vec2u(300, 300);
+		//m_vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
 		m_hdcWindow = GetDC(m_pWindow->getWindowHandle());
 
-		/*
-		m_hDC = CreateCompatibleDC(m_hdcWindow);
-
-		m_hbm = CreateCompatibleBitmap(m_hdcWindow, vecRenderSize.x, vecRenderSize.y);
-
-		SelectObject(m_hDC, m_hbm);
-
-		if (!m_hDC)
-		{
-			MessageBox(NULL, L"ERROR 1", L"A", MB_OK);
-			return;
-		}
-
-		int bits = 32;
-		static PIXELFORMATDESCRIPTOR pfd =	// pfd Tells Windows How We Want Things To Be
-		{
-			sizeof(PIXELFORMATDESCRIPTOR),	// Size Of This Pixel Format Descriptor
-			1,								// Version Number
-											/////////PFD_DRAW_TO_WINDOW |///////////			// Format Must Support Window
-											PFD_DRAW_TO_BITMAP |
-											//PFD_SUPPORT_GDI
-			PFD_SUPPORT_OPENGL, // |			// Format Must Support OpenGL
-								//PFD_DOUBLEBUFFER,				// Must Support Double Buffering
-			PFD_TYPE_RGBA,					// Request An RGBA Format
-			bits,							// Select Our Color Depth
-			0, 0, 0, 0, 0, 0,				// Color Bits Ignored
-			0,								// No Alpha Buffer
-			0,								// Shift Bit Ignored
-			0,								// No Accumulation Buffer
-			0, 0, 0, 0,						// Accumulation Bits Ignored
-			16,								// 16Bit Z-Buffer (Depth Buffer)
-			0,								// No Stencil Buffer
-			0,								// No Auxiliary Buffer
-			PFD_MAIN_PLANE,					// Main Drawing Layer
-			0,								// Reserved
-			0, 0, 0							// Layer Masks Ignored
-		};
-
-		GLuint PixelFormat = ChoosePixelFormat(m_hDC, &pfd);
-		if (!PixelFormat)
-		{
-			MessageBox(NULL, L"ERROR 2", L"A", MB_OK);
-			return;
-		}
-
-		BOOL bResult = SetPixelFormat(m_hDC, PixelFormat, &pfd);
-		if (!bResult)
-		{
-			MessageBox(NULL, L"ERROR 3", L"A", MB_OK);
-			return;
-		}
-
-		HGLRC hRC_temp = wglCreateContext(m_hDC);
-		if (!hRC_temp)
-		{
-			MessageBox(NULL, L"ERROR 4", L"A", MB_OK);
-			return;
-		}
-
-		bResult = wglMakeCurrent(m_hDC, hRC_temp);
-		if (!bResult)
-		{
-			MessageBox(NULL, L"ERROR 5", L"A", MB_OK);
-			return;
-		}
-
-
-
-
-
-
-		wglMakeCurrent(NULL, NULL);
-		wglDeleteContext(hRC_temp);
-		*/
-
-
-
-
-
-
-
-
-		//if (bGlewInitialized)return true;
-
-		//RegisterSimpleOpenGLClass(hInstance);
-
-		HWND hWndFake = CreateWindow(L"a", L"FAKE", WS_OVERLAPPEDWINDOW | WS_MAXIMIZE | WS_CLIPCHILDREN,
-			0, 0, CW_USEDEFAULT, CW_USEDEFAULT, NULL,
-			NULL, NULL, GetModuleHandle(NULL), NULL);
-
-		HDC hDC = GetDC(hWndFake);
-
-		// First, choose false pixel format
-
-		PIXELFORMATDESCRIPTOR pfd2;
-		memset(&pfd2, 0, sizeof(PIXELFORMATDESCRIPTOR));
-		pfd2.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-		pfd2.nVersion = 1;
-		pfd2.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
-		pfd2.iPixelType = PFD_TYPE_RGBA;
-		pfd2.cColorBits = 32;
-		pfd2.cDepthBits = 32;
-		pfd2.iLayerType = PFD_MAIN_PLANE;
-
-		int iPixelFormat = ChoosePixelFormat(hDC, &pfd2);
-		if (iPixelFormat == 0)return;
-
-		if (!SetPixelFormat(hDC, iPixelFormat, &pfd2))return;
-
-		// Create the false, old style context (OpenGL 2.1 and before)
-
-		HGLRC hRCFake = wglCreateContext(hDC);
-		wglMakeCurrent(hDC, hRCFake);
-
-		bool bResult = true;
-
-		//if (!bGlewInitialized)
-		//{
-			//glewExperimental = GL_TRUE;
-			if (glewInit() != GLEW_OK)
-			{
-				MessageBox(m_pWindow->getWindowHandle(), L"Couldn't initialize GLEW!", L"Fatal Error", MB_ICONERROR);
-				bResult = false;
-			}
-			//bGlewInitialized = true;
-		//}
-
-		wglMakeCurrent(NULL, NULL);
-		wglDeleteContext(hRCFake);
-		DestroyWindow(hWndFake);
-
-
-
-
-
-
-
-
-
-
-		int32 iMajorVersion = 2;
-
-		//if (!initGLEW(hInstance))return false;
-
-		m_hDC = CreateCompatibleDC(m_hdcWindow);
-		m_hbm = CreateCompatibleBitmap(m_hdcWindow, vecRenderSize.x, vecRenderSize.y);
-		SelectObject(m_hDC, m_hbm);
-
-		//HWND hWnd = m_pWindow->getWindowHandle();
-		//hDC = GetDC(hWnd);
-
-		bool bError = false;
-		PIXELFORMATDESCRIPTOR pfd3;
-
-		if (iMajorVersion <= 2)
-		{
-			memset(&pfd3, 0, sizeof(PIXELFORMATDESCRIPTOR));
-			pfd3.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-			pfd3.nVersion = 1;
-			pfd3.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
-			pfd3.iPixelType = PFD_TYPE_RGBA;
-			pfd3.cColorBits = 32;
-			pfd3.cDepthBits = 32;
-			pfd3.iLayerType = PFD_MAIN_PLANE;
-
-			int iPixelFormat = ChoosePixelFormat(m_hDC, &pfd3);
-			if (iPixelFormat == 0)return;
-
-			if (!SetPixelFormat(m_hDC, iPixelFormat, &pfd3))return;
-
-			// Create the old style context (OpenGL 2.1 and before)
-			m_hRC = wglCreateContext(m_hDC); // local?
-			if (m_hRC)
-				wglMakeCurrent(m_hDC, m_hRC);
-			else
-				bError = true;
-		}
-		/*
-		else if (WGLEW_ARB_create_context && WGLEW_ARB_pixel_format)
-		{
-			const int iPixelFormatAttribList[] =
-			{
-				WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
-				WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
-				WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
-				WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
-				WGL_COLOR_BITS_ARB, 32,
-				WGL_DEPTH_BITS_ARB, 24,
-				WGL_STENCIL_BITS_ARB, 8,
-				0 // End of attributes list
-			};
-			int iContextAttribs[] =
-			{
-				WGL_CONTEXT_MAJOR_VERSION_ARB, iMajorVersion,
-				WGL_CONTEXT_MINOR_VERSION_ARB, iMinorVersion,
-				WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
-				0 // End of attributes list
-			};
-
-			int iPixelFormat, iNumFormats;
-			wglChoosePixelFormatARB(hDC, iPixelFormatAttribList, NULL, 1, &iPixelFormat, (UINT*)&iNumFormats);
-
-			// PFD seems to be only redundant parameter now
-			if (!SetPixelFormat(hDC, iPixelFormat, &pfd))return false;
-
-			hRC = wglCreateContextAttribsARB(hDC, 0, iContextAttribs);
-			// If everything went OK
-			if (hRC) wglMakeCurrent(hDC, hRC);
-			else bError = true;
-
-		}
-		*/
-
-
-
-
-
-
-
-
-
-
-
-
-		//GLeeInit();
-
-		//glewExperimental = GL_TRUE;
-		//GLenum result = glewInit();
-
-		/*
-		int attribs[] =
-		{
-			WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
-			WGL_CONTEXT_MINOR_VERSION_ARB, 1,
-			WGL_CONTEXT_FLAGS_ARB, 0,
-			0
-		};
-
-		if (wglewIsSupported("WGL_ARB_create_context") == 1)
-		{
-			int b = 1;
-			b++;
-		}
-
-		HGLRC hrc = wglCreateContextAttribsARB(m_hDC, 0, attribs);
-
-		wglMakeCurrent(NULL, NULL);
-		wglDeleteContext(hRC_temp);
-		wglMakeCurrent(m_hDC, hrc);
-		*/
-
-
-
-
-
-		glViewport(0, 0, vecRenderSize.x, vecRenderSize.y);
-
-		//glEnable(GL_CULL_FACE);
-		//glEnable(GL_BLEND);
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		
-		glEnable(GL_TEXTURE_2D);
-		//glShadeModel(GL_FLAT);
-		//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-		//glShadeModel(GL_SMOOTH);
-		//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		//glClearDepth(1.0f);                         // Depth Buffer Setup
-		//glEnable(GL_DEPTH_TEST);                        // Enables Depth Testing
-
-		glEnable(GL_DEPTH_TEST);
-		//glDisable(GL_ALPHA_TEST);
-		//glDisable(GL_STENCIL_TEST);
-		//glDisable(GL_SCISSOR_TEST);
-
-		glDepthFunc(GL_LEQUAL);                         // The Type Of Depth Test To Do
-														//glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);          // Really Nice Perspective Calculations
-
-		float32 fHighestDistance = 1.5f;
-		float32 fDistanceMultiplier = 2.0f;
-		m_vecCameraPosition = { -2.0f, -2.0f, 2.0f };
-		//vecCameraPosition = { 0.0f, 0.0f, 0.0f };
-		//vecCameraPosition = Math::getPositionInFrontOfPosition(vecCameraPosition, Math::convertDegreesToRadians(45.0f), fHighestDistance * fDistanceMultiplier);
-		//vecCameraRotation = { 0.0f, Math::convertDegreesToRadians(45.0f + 90), 0.0f };
-
-
-		
-
-
-		if (m_pTXDFile)
-		{
-			///*
-			const GLubyte *aaaaa = glGetString(GL_VERSION);
-
-			uint32 uiGeometryCount = m_pDFFFile->getSectionCountByType(RW_SECTION_GEOMETRY);
-
-			//m_pGeometryVertexPositionBuffers = new GLuint[uiGeometryCount];
-
-			m_pGeometryVertexPositionBuffers.resize(uiGeometryCount);
-			m_pGeometryVertexNormalBuffers.resize(uiGeometryCount);
-			m_pGeometryTexturePositionBuffers.resize(uiGeometryCount);
-			m_pBinMeshDataIndexBuffers.resize(uiGeometryCount);
-
-			m_pVertexPositionBuffer.resize(uiGeometryCount);
-			m_pDataIndexBuffer.resize(uiGeometryCount);
-
-			//GetAnyGLFuncAddress("glGenBuffers");
-			//glGenBuffers(uiGeometryCount, &m_pGeometryVertexPositionBuffers[0]);
-			//glGenBuffers(uiGeometryCount, &m_pGeometryVertexPositionBuffers[0]);
-
-			// prepare 3d buffers
-			uint32 uiGeometryIndex = 0;
-			for (RWSection *pRWSection : m_pDFFFile->getSectionsByType(RW_SECTION_GEOMETRY))
-			{
-				RWSection_Geometry *pGeometry = (RWSection_Geometry*)pRWSection;
-				RWSection_BinMeshPLG *pBinMeshPLG = (RWSection_BinMeshPLG*)m_pDFFFile->getSectionsByType(RW_SECTION_BIN_MESH_PLG)[uiGeometryIndex];
-
-
-
-				//GLuint g[2] = { 0, 0 };
-				//glGenBuffers(2, &g[0]);
-
-				//GLuint h = 12345;
-				//glGenBuffers(1, &h);
-
-				//int c = glGetError();
-
-
-
-				// vertex positions
-				uint32 uiSize1 = pGeometry->getVertexPositions().size() * sizeof(float32) * 3;
-				string strData1 = "";
-				for (Vec3f& vecPosition : pGeometry->getVertexPositions())
-				{
-					strData1 += String::packVector3D(vecPosition, false);
-				}
-				m_pVertexPositionBuffer[uiGeometryIndex] = strData1.c_str();
-
-				m_pGeometryVertexPositionBuffers[uiGeometryIndex] = 0;
-				glGenBuffers(1, &m_pGeometryVertexPositionBuffers[uiGeometryIndex]);
-
-				glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryVertexPositionBuffers[uiGeometryIndex]);
-				glBufferData(GL_ARRAY_BUFFER, uiSize1, m_pVertexPositionBuffer[uiGeometryIndex], GL_STATIC_DRAW);
-
-				//////////////////////////
-				// vertex normals
-				glGenBuffers(1, &m_pGeometryVertexNormalBuffers[uiGeometryIndex]);
-
-				glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryVertexNormalBuffers[uiGeometryIndex]);
-				glBufferData(GL_ARRAY_BUFFER, pGeometry->getVertexNormals().size() * sizeof(float32) * 3, pGeometry->getVertexNormals().data(), GL_STATIC_DRAW);
-
-				// texture coordinates
-				glGenBuffers(1, &m_pGeometryTexturePositionBuffers[uiGeometryIndex]);
-
-				glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryTexturePositionBuffers[uiGeometryIndex]);
-				glBufferData(GL_ARRAY_BUFFER, pGeometry->getTextureCoordinates().size() * sizeof(float32) * 2, pGeometry->getTextureCoordinates().data(), GL_STATIC_DRAW);
-				//////////////////////////
-
-				// data indices
-				m_pBinMeshDataIndexBuffers[uiGeometryIndex].resize(pBinMeshPLG->getMeshCount());
-				m_pDataIndexBuffer[uiGeometryIndex].resize(pBinMeshPLG->getMeshCount());
-
-				uint32 uiGeometryMeshIndex = 0;
-				for (RWEntry_BinMeshPLG_Mesh *pMesh : pBinMeshPLG->getMeshes())
-				{
-					uint32 uiSize2 = pMesh->getVertexIndices().size() * sizeof(uint32);
-					string strData2 = "";
-					for (uint32 uiDataIndex : pMesh->getVertexIndices())
-					{
-						strData2 += String::packUint32(uiDataIndex, false);
-					}
-					m_pDataIndexBuffer[uiGeometryIndex][uiGeometryMeshIndex] = strData2.c_str();
-
-
-					
-
-
-					glGenBuffers(1, &m_pBinMeshDataIndexBuffers[uiGeometryIndex][uiGeometryMeshIndex]);
-
-					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBinMeshDataIndexBuffers[uiGeometryIndex][uiGeometryMeshIndex]);
-					glBufferData(GL_ELEMENT_ARRAY_BUFFER, uiSize2, m_pDataIndexBuffer[uiGeometryIndex][uiGeometryMeshIndex], GL_STATIC_DRAW);
-
-					uiGeometryMeshIndex++;
-				}
-
-
-
-
-
-				uiGeometryIndex++;
-			}
-
-
-			vector<RWSection*> vecTextures = m_pTXDFile->getSectionsByType(RW_SECTION_TEXTURE_NATIVE);
-			uint32 uiTextureCount = vecTextures.size();
-
-			textureIDs = new GLuint[uiTextureCount];
-			textureIndices.clear();
-
-			// Create multiple OpenGL textures
-			glGenTextures(uiTextureCount, &textureIDs[0]);
-
-			uint32 i = 0;
-			for (RWSection *pRWSection : vecTextures)
-			{
-				RWSection_TextureNative *pTextureNative = (RWSection_TextureNative*)pRWSection;
-				string strTextureRasterData = pTextureNative->getMipMaps().getFirstEntry()->getRasterDataBGRA32();
-				string strTextureNameLower = String::toLowerCase(pTextureNative->getDiffuseName());
-
-				// "Bind" the newly created texture : all future texture functions will modify this texture
-				glBindTexture(GL_TEXTURE_2D, textureIDs[i]);
-
-				//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-				//
-				//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-				//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-				//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-				//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-
-				// Give the image to OpenGL
-				char * a = new char[strTextureRasterData.length()];
-				memcpy(a, strTextureRasterData.c_str(), strTextureRasterData.length());
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, pTextureNative->getImageSize().x, pTextureNative->getImageSize().y, 0, GL_BGRA, GL_UNSIGNED_BYTE, a);
-
-				glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-				if (pTextureNative->getEntryCount() > 1)
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-				else
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-				textureIndices[strTextureNameLower] = textureIDs[i];
-
-				i++;
-			}
-			//*/
-
-
-			//GLuint Texture = loadBMP_custom("uvtemplate.bmp");
-
-
-
-			/*
-			string strVertexShader = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\VertexShader.glsl"));
-			string strFragmentShader = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\FragmentShader.glsl"));
-			const GLcharARB *pVertexShader = (GLcharARB *)strVertexShader.c_str();
-			const GLcharARB *pFragmentShader = (GLcharARB *)strFragmentShader.c_str();
-			const GLint iVertexShaderLength = strVertexShader.length();
-			const GLint iFragmentShaderLength = strFragmentShader.length();
-			
-			GLuint vertexShader, fragmentShader;
-			vertexShader = glCreateShader(GL_VERTEX_SHADER);
-			fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-			glShaderSourceARB(vertexShader, 1, &pVertexShader, &iVertexShaderLength);
-			glShaderSourceARB(fragmentShader, 1, &pFragmentShader, &iFragmentShaderLength);
-
-			glCompileShaderARB(vertexShader);
-			glCompileShaderARB(fragmentShader);
-
-			//GLint compiled;
-			//glGetObjectParameteriv(ShaderObject, GL_COMPILE_STATUS, &compiled);
-			//if (compiled)
-			//{
-			//	//... // yes it compiled!
-			//}
-
-			
-
-			GLuint uiProgramObject = glCreateProgram();
-
-			glAttachShader(uiProgramObject, vertexShader);
-			glAttachShader(uiProgramObject, fragmentShader);
-
-			glLinkProgram(uiProgramObject);
-
-			//GLint linked;
-			//glGetProgramiv(uiProgramObject, GL_LINK_STATUS, &linked);
-			//if (linked)
-			//{
-			//}
-			*/
-		}
-
-
-
-
+		createGLContext();
+		prepareScene();
+		reshape();
 
 		m_bInitialized = true;
 		m_bInitializing = false;
 	}
 	mutexInitializing3DRender_ModelEditor.unlock();
 
-	//mutexRendering.lock();
 
 
 
-	//HANDLE hOld = SelectObject(hDC, hbm);
-
-
-	update3DRenderSize(vecRenderSize);
-
-
-	//prepare2DRender();
-	//if (glGetError()) Input::showMessage("test1.5 error", "Error"); 
-	//renderBackground();
-
-	//if (glGetError()) Input::showMessage("test2 error", "Error");
-
-	//prepare3DRender();
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);         // Clear The Screen And The Depth Buffer
-	//glClear(GL_COLOR_BUFFER_BIT);
-	//glLoadIdentity();
+	glBindFramebuffer(GL_FRAMEBUFFER, fb);
+	int c = glGetError();
+	if (c != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
 
-	//glFlush();
+	///glBindVertexArray(axisBuffer);		// select first VAO
+	//glVertexAttrib3f((GLuint)1, 0.8f, 0.0, 0.0); // set constant color attribute
+	///glDrawArrays(GL_LINES, 0, 6*3);	// draw first object
 
-	renderCamera();
-	renderAxis();
-	//renderModel();
+	///glBindVertexArray(0);
 
-	//glTranslatef(vecCameraPosition.x, vecCameraPosition.z, vecCameraPosition.y);
+	renderModel();
 
-	//glTranslatef(vecCameraPosition.x, vecCameraPosition.z, vecCameraPosition.y);
-
-	//if (glGetError()) Input::showMessage("test3 error", "Error");
-
-	//prepare2DRender();
-	//if (glGetError()) Input::showMessage("test3.5 error", "Error");
-	//render2DObjects();
-
-	//if (glGetError()) Input::showMessage("test4 error", "Error");
-
-	//glDisable(GL_SCISSOR_TEST);
-
-	//glDrawBuffers(1, GetBuffer(GL_BACK);
-
-
-
-	glFinish();
+	glBindVertexArray(0);
 
 	//SwapBuffers(m_hDC);
 
+	
+
+	
+
+
+
+	
+
+	// render opengl to bitmap
+
+	//HDC hdcScreen = GetDC(NULL);
 	HDC hdc2 = CreateCompatibleDC(m_hdcWindow);
 	//HBITMAP hbm2 = CreateCompatibleBitmap(m_hdcWindow, vecRenderSize.x, vecRenderSize.y);
 
-	uint32 uiDataSize = vecRenderSize.x * vecRenderSize.y * 3;
-	char *pData = nullptr;// = new char[uiDataSize];
+	BITMAPINFO bitmapInfo;
+	{
+		::memset(&bitmapInfo, 0, sizeof(BITMAPINFO));
+		bitmapInfo.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+		bitmapInfo.bmiHeader.biPlanes = 1;
+		bitmapInfo.bmiHeader.biBitCount = 32;
+		bitmapInfo.bmiHeader.biCompression = BI_RGB;
+		bitmapInfo.bmiHeader.biWidth = m_vecRenderSize.x;
+		bitmapInfo.bmiHeader.biHeight = m_vecRenderSize.y;
+		bitmapInfo.bmiHeader.biSizeImage = m_vecRenderSize.x * m_vecRenderSize.y * 4; // Size 4, assuming RGBA from OpenGL
+	}
 
-	BITMAPINFOHEADER bmih = {
-		/* .biSize          = */ sizeof(bmih),
-		/* .biWidth         = */ vecRenderSize.x,
-		/* .bi.Height       = */ vecRenderSize.y,
-		/* .biPlanes        = */ 1,                   /* mandatory */
-		/* .biBitCount      = */ 24,                  /* 8 bits per pixel */
-		/* .biCompression   = */ BI_RGB,              /* uncompressed */
-		/* .biSizeImage     = */ 0,                   /* implicit */
-		/* .biXPelsPerMeter = */ vecRenderSize.x, /* ignored */
-		/* .biYPelsPerMeter = */ vecRenderSize.y, /* ignored */
-		/* .biClrUsed       = */ 0,                   /* no palette */
-		/* .biClrImportant  = */ 0
-	};
-
-	HBITMAP hbm2 = CreateDIBSection(
-		hdc2, /* may be different than the DC used for OpenGL */
-		(PBITMAPINFO)&bmih, /* can do this cast, because no palette is used */
-		DIB_RGB_COLORS,
-		(void**)&pData,
-		NULL,
-		0
-	);
+	void *pixels2 = nullptr;
+	HBITMAP hbm2 = ::CreateDIBSection(m_hdcWindow, &bitmapInfo, DIB_RGB_COLORS, &pixels2, NULL, 0);
 
 	glPixelStorei(GL_PACK_SWAP_BYTES, GL_FALSE);
 	glPixelStorei(GL_PACK_LSB_FIRST, GL_TRUE);
@@ -832,83 +289,42 @@ void						ModelEditorTab::render3D(void)
 	glPixelStorei(GL_PACK_SKIP_ROWS, 0);
 	glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
-	glReadPixels(0, 0, vecRenderSize.x, vecRenderSize.y, GL_RGBA, GL_UNSIGNED_BYTE, pData);
-	
-	//SetBitmapBits(hbm2, uiDataSize, );
+	//SetBitmapBits(hbm2, vecRenderSize.x * vecRenderSize.y * 4, pixels);
 
+	//memcpy(pixels2, pixels, vecRenderSize.x * vecRenderSize.y * 4);
+	//delete[] pixels;
+
+	//glReadBuffer(GL_BACK);
+
+	//-------------------------
+	//GLubyte *pixels = new GLubyte[vecRenderSize.x * vecRenderSize.y * 4];
+	glReadPixels(0, 0, m_vecRenderSize.x, m_vecRenderSize.y, GL_BGRA, GL_UNSIGNED_BYTE, pixels2);
+	if (memchr(pixels2, '\x01', m_vecRenderSize.x * m_vecRenderSize.y * 4))
+	{
+		bool b = true;
+		b = !b;
+	}
+	if (memchr(pixels2, '\x02', m_vecRenderSize.x * m_vecRenderSize.y * 4))
+	{
+		bool b = true;
+		b = !b;
+	}
+	//pixels 0, 1, 2 should be white
+	//pixel 4 should be black
+	//----------------
+	//Bind 0, which means render to back buffer
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	glFinish();
+
+	// gdi - draw 2d bitmap
 	HGDIOBJ hOld2 = SelectObject(hdc2, hbm2);
-	BitBlt(m_hdcWindow, 139 + 139 + 250, 192, vecRenderSize.x, vecRenderSize.y, hdc2, 0, 0, SRCCOPY);
+	BitBlt(m_hdcWindow, 139 + 139 + 250, 192, m_vecRenderSize.x, m_vecRenderSize.y, hdc2, 0, 0, SRCCOPY);
 	SelectObject(hdc2, hOld2);
 
+	// clean up gdi
 	DeleteObject(hbm2);
 	DeleteDC(hdc2);
-
-	//delete[] pData;
-
-
-	//SelectObject(hDC, hOld);
-	//DeleteObject(hbm);
-	//DeleteDC(hDC);
-
-
-
-
-	//mutexRendering.unlock();
-}
-
-void						ModelEditorTab::update3DRenderSize(Vec2u& vecRenderSize)
-{
-	//mutexRendering.lock();
-
-	const float64 ar = ((float64)vecRenderSize.x) / ((float64)vecRenderSize.y);
-
-	/*
-	glViewport(0, 0, vecRenderSize.x, vecRenderSize.y);
-	//glScissor(x, y, w, h);
-	//glEnable(GL_SCISSOR_TEST);
-	//glClear(GL_DEPTH_BUFFER_BIT);
-	GLenum a = glGetError();
-	if (a != GL_NO_ERROR)
-	{
-	//MessageBox(NULL, L"AAA", L"BBB", MB_OK);
-	}
-	*/
-
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	glViewport(0, 0, vecRenderSize.x, vecRenderSize.y);
-
-	//glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
-
-	//gluPerspective(60.0, ar, 0.1, 100.0);
-	//gluPerspective(50.0, 1.0, 1.0, 50.0);
-	perspectiveGL_ModelEditor(45.0, ar, 1.0, 1500.0);
-
-	//glLoadMatrixf(fData);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	//mutexRendering.unlock();
-}
-
-// utility
-void						perspectiveGL_ModelEditor(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar)
-{
-	const GLdouble pi = 3.1415926535897932384626433832795;
-	GLdouble fW, fH;
-
-	//fH = tan( (fovY / 2) / 180 * pi ) * zNear;
-	fH = tan(fovY / 360 * pi) * zNear;
-	fW = fH * aspect;
-
-	glFrustum(-fW, fW, -fH, fH, zNear, zFar);
 }
 
 // camera
@@ -965,27 +381,6 @@ void						ModelEditorTab::renderCamera(void)
 	//vecCameraRotation.z += Math::convertDegreesToRadians(0.03f);
 }
 
-void						ModelEditorTab::renderAxis(void)
-{
-	glBegin(GL_LINE_STRIP);
-	glColor3ub(255, 0, 0);
-	glVertex3f(-5000.0f, 0.0f, 0.0f);
-	glVertex3f(5000.0f, 0.0f, 0.0f);
-	glEnd();
-
-	glBegin(GL_LINE_STRIP);
-	glColor3ub(0, 255, 0);
-	glVertex3f(0.0f, 0.0f, -5000.0f);
-	glVertex3f(0.0f, 0.0f, 5000.0f);
-	glEnd();
-
-	glBegin(GL_LINE_STRIP);
-	glColor3ub(0, 0, 255);
-	glVertex3f(0.0f, -5000.0f, 0.0f);
-	glVertex3f(0.0f, 5000.0f, 0.0f);
-	glEnd();
-}
-
 void						ModelEditorTab::renderModel(void)
 {
 	vector<RWSection*> vecAtomics = m_pDFFFile->getSectionsByType(RW_SECTION_ATOMIC);
@@ -1020,8 +415,9 @@ void						ModelEditorTab::renderModel(void)
 
 void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFrame, bool bIsParentFrame)
 {
-	glPushMatrix();
-	glColor4f(1.0, 1.0, 1.0, 1.0);
+	//glPushMatrix();
+	m_matModelViewMatrix.push(m_matModelViewMatrix.top());
+	glColor4f(1.0, 0.2, 1.0, 1.0);
 
 	vector<RWSection*> vecAtomics = m_pDFFFile->getSectionsByType(RW_SECTION_ATOMIC);
 	unordered_map<uint32, RWSection_Atomic*> umapAtomics;
@@ -1045,28 +441,29 @@ void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFra
 
 	if (!bIsParentFrame)
 	{
-		float32 vecMultMatrix[16];
+		//float32 vecMultMatrix[16];
+		glm::mat4 matMultMatrix;
 
 		///*
-		vecMultMatrix[0] = pFrameList->m_vecMatRow1[uiFrameIndex].x;
-		vecMultMatrix[1] = pFrameList->m_vecMatRow1[uiFrameIndex].z;
-		vecMultMatrix[2] = pFrameList->m_vecMatRow1[uiFrameIndex].y;
-		vecMultMatrix[3] = 0;
+		matMultMatrix[0].x = pFrameList->m_vecMatRow1[uiFrameIndex].x;
+		matMultMatrix[0].y = pFrameList->m_vecMatRow1[uiFrameIndex].z;
+		matMultMatrix[0].z = pFrameList->m_vecMatRow1[uiFrameIndex].y;
+		matMultMatrix[0].w = 0;
 
-		vecMultMatrix[4] = pFrameList->m_vecMatRow3[uiFrameIndex].x;
-		vecMultMatrix[5] = pFrameList->m_vecMatRow3[uiFrameIndex].z;
-		vecMultMatrix[6] = pFrameList->m_vecMatRow3[uiFrameIndex].y;
-		vecMultMatrix[7] = 0;
+		matMultMatrix[1].x = pFrameList->m_vecMatRow3[uiFrameIndex].x;
+		matMultMatrix[1].y = pFrameList->m_vecMatRow3[uiFrameIndex].z;
+		matMultMatrix[1].z = pFrameList->m_vecMatRow3[uiFrameIndex].y;
+		matMultMatrix[1].w = 0;
 
-		vecMultMatrix[8] = pFrameList->m_vecMatRow2[uiFrameIndex].x;
-		vecMultMatrix[9] = pFrameList->m_vecMatRow2[uiFrameIndex].z;
-		vecMultMatrix[10] = pFrameList->m_vecMatRow2[uiFrameIndex].y;
-		vecMultMatrix[11] = 0;
+		matMultMatrix[2].x = pFrameList->m_vecMatRow2[uiFrameIndex].x;
+		matMultMatrix[2].y = pFrameList->m_vecMatRow2[uiFrameIndex].z;
+		matMultMatrix[2].z = pFrameList->m_vecMatRow2[uiFrameIndex].y;
+		matMultMatrix[2].w = 0;
 
-		vecMultMatrix[12] = pFrameList->m_vecPosition[uiFrameIndex].x;
-		vecMultMatrix[13] = pFrameList->m_vecPosition[uiFrameIndex].z;
-		vecMultMatrix[14] = pFrameList->m_vecPosition[uiFrameIndex].y;
-		vecMultMatrix[15] = 1;
+		matMultMatrix[3].x = pFrameList->m_vecPosition[uiFrameIndex].x;
+		matMultMatrix[3].y = pFrameList->m_vecPosition[uiFrameIndex].z;
+		matMultMatrix[3].z = pFrameList->m_vecPosition[uiFrameIndex].y;
+		matMultMatrix[3].w = 1;
 		//*/
 
 		/*
@@ -1091,7 +488,9 @@ void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFra
 		vecMultMatrix[15] = 1;
 		*/
 
-		glMultMatrixf(&vecMultMatrix[0]);
+		//glMultMatrixf(&vecMultMatrix[0]);
+		m_matModelViewMatrix.top() *= matMultMatrix;
+		//m_matProjectionMatrix *= matMultMatrix;
 	}
 
 	if (umapAtomics.count(uiFrameIndex) != 0)
@@ -1125,33 +524,40 @@ void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFra
 					if (bMeshUsesTexture)
 					{
 						GLuint uiTextureID = textureIndices[strTextureNameLower];
-						//glBindTexture(GL_TEXTURE_2D, uiTextureID);
+						glBindTexture(GL_TEXTURE_2D, uiTextureID);
 					}
 				}
 			}
 
 			
-			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pGeometryVertexNormalBuffers[uiGeometryIndex]);
-			//glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryTexturePositionBuffers[uiGeometryIndex]);
-			//glBindBuffer(GL_ARRAY_BUFFER, m_pBinMeshDataIndexBuffers[uiGeometryIndex][uiMeshIndex]);
+			glBindVertexArray(m_pGeometryVertexArrayBuffers[uiGeometryIndex]);
+			glVertexAttrib3f((GLuint)1, 0.8f, 0.0, 0.0); // set constant color attribute
+			glDrawArrays(pBinMeshPLG->getFlags() == 0 ? GL_TRIANGLES : GL_TRIANGLE_STRIP, 0, pGeometry->getVertexPositions().size());
 
-			//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			//glEnableClientState(GL_NORMAL_ARRAY);
+			/*
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pGeometryVertexNormalBuffers[uiGeometryIndex]);
+			glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryTexturePositionBuffers[uiGeometryIndex]);
+			glBindBuffer(GL_ARRAY_BUFFER, m_pBinMeshDataIndexBuffers[uiGeometryIndex][uiMeshIndex]);
+
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glEnableClientState(GL_NORMAL_ARRAY);
 			glEnableClientState(GL_VERTEX_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryVertexPositionBuffers[uiGeometryIndex]);
+			//glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryVertexPositionBuffers[uiGeometryIndex]);
 
-			//glTexCoordPointer(3, GL_FLOAT, sizeof(GLfloat) * 8, (float*)(sizeof(GLfloat) * 5));
-			//glNormalPointer(GL_FLOAT, sizeof(GLfloat) * 8, (float*)(sizeof(GLfloat) * 3));
+			glTexCoordPointer(3, GL_FLOAT, sizeof(GLfloat) * 8, (float*)(sizeof(GLfloat) * 5));
+			glNormalPointer(GL_FLOAT, sizeof(GLfloat) * 8, (float*)(sizeof(GLfloat) * 3));
 			glVertexPointer(3, GL_FLOAT, 0, (void*)0);
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBinMeshDataIndexBuffers[uiGeometryIndex][uiMeshIndex]);
 
+			//glVertexAttrib3f((GLuint)1, 1.0, 0.5f, 0.0); // set constant color attribute
+
 			glDrawElements(pBinMeshPLG->getFlags() == 0 ? GL_TRIANGLES : GL_TRIANGLE_STRIP, pMesh->getVertexIndices().size(), GL_UNSIGNED_INT, 0);
 
 			glDisableClientState(GL_VERTEX_ARRAY);
-			//glDisableClientState(GL_NORMAL_ARRAY);
-			//glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
+			glDisableClientState(GL_NORMAL_ARRAY);
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			*/
 
 			/*
 			if (pBinMeshPLG->getFlags() == 0)
@@ -1230,5 +636,597 @@ void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFra
 		}
 	}
 
-	glPopMatrix();
+	//glPopMatrix();
+	m_matModelViewMatrix.pop();
+}
+
+
+
+void						ModelEditorTab::createGLContext(void)
+{
+	//if (bGlewInitialized)return true;
+
+	//RegisterSimpleOpenGLClass(hInstance);
+
+	HWND hWndFake = CreateWindow(L"a", L"FAKE", WS_OVERLAPPEDWINDOW | WS_MAXIMIZE | WS_CLIPCHILDREN,
+		0, 0, CW_USEDEFAULT, CW_USEDEFAULT, NULL,
+		NULL, NULL, GetModuleHandle(NULL), NULL);
+
+	HDC hDC = GetDC(hWndFake);
+
+	// First, choose false pixel format
+
+	PIXELFORMATDESCRIPTOR pfd2;
+	memset(&pfd2, 0, sizeof(PIXELFORMATDESCRIPTOR));
+	pfd2.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+	pfd2.nVersion = 1;
+	pfd2.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
+	pfd2.iPixelType = PFD_TYPE_RGBA;
+	pfd2.cColorBits = 32;
+	pfd2.cDepthBits = 32;
+	pfd2.iLayerType = PFD_MAIN_PLANE;
+
+	int iPixelFormat = ChoosePixelFormat(hDC, &pfd2);
+	if (iPixelFormat == 0)return;
+
+	if (!SetPixelFormat(hDC, iPixelFormat, &pfd2))return;
+
+	// Create the false, old style context (OpenGL 2.1 and before)
+
+	HGLRC hRCFake = wglCreateContext(hDC);
+	wglMakeCurrent(hDC, hRCFake);
+
+	bool bResult = true;
+
+	//if (!bGlewInitialized)
+	//{
+	//glewExperimental = GL_TRUE;
+	if (glewInit() != GLEW_OK)
+	{
+		MessageBox(m_pWindow->getWindowHandle(), L"Couldn't initialize GLEW!", L"Fatal Error", MB_ICONERROR);
+		bResult = false;
+	}
+	//bGlewInitialized = true;
+	//}
+
+	wglMakeCurrent(NULL, NULL);
+	wglDeleteContext(hRCFake);
+	DestroyWindow(hWndFake);
+
+
+
+
+
+
+
+
+
+
+	int32 iMajorVersion = 3;
+	int iMinorVersion = 0;
+
+	//if (!initGLEW(hInstance))return false;
+
+	m_hDC = CreateCompatibleDC(m_hdcWindow);
+	m_hbm = CreateCompatibleBitmap(m_hdcWindow, m_vecRenderSize.x, m_vecRenderSize.y);
+	SelectObject(m_hDC, m_hbm);
+
+	//HWND hWnd = m_pWindow->getWindowHandle();
+	//hDC = GetDC(hWnd);
+
+	bool bError = false;
+	PIXELFORMATDESCRIPTOR pfd3;
+
+	if (iMajorVersion <= 2)
+	{
+		memset(&pfd3, 0, sizeof(PIXELFORMATDESCRIPTOR));
+		pfd3.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+		pfd3.nVersion = 1;
+		pfd3.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
+		pfd3.iPixelType = PFD_TYPE_RGBA;
+		pfd3.cColorBits = 32;
+		pfd3.cDepthBits = 32;
+		pfd3.iLayerType = PFD_MAIN_PLANE;
+
+		int iPixelFormat = ChoosePixelFormat(m_hDC, &pfd3);
+		if (iPixelFormat == 0)return;
+
+		if (!SetPixelFormat(m_hDC, iPixelFormat, &pfd3))return;
+
+		// Create the old style context (OpenGL 2.1 and before)
+		m_hRC = wglCreateContext(m_hDC); // local?
+		if (m_hRC)
+			wglMakeCurrent(m_hDC, m_hRC);
+		else
+			bError = true;
+	}
+	else if (WGLEW_ARB_create_context && WGLEW_ARB_pixel_format)
+	{
+		const int iPixelFormatAttribList[] =
+		{
+			WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
+			WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
+			WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
+			WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
+			WGL_COLOR_BITS_ARB, 32,
+			WGL_DEPTH_BITS_ARB, 24,
+			WGL_STENCIL_BITS_ARB, 8,
+			//GL_ARB_framebuffer_object, GL_TRUE,
+			0 // End of attributes list
+		};
+		int iContextAttribs[] =
+		{
+			WGL_CONTEXT_MAJOR_VERSION_ARB, iMajorVersion,
+			WGL_CONTEXT_MINOR_VERSION_ARB, iMinorVersion,
+			WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+			0 // End of attributes list
+		};
+
+		int iPixelFormat, iNumFormats;
+		wglChoosePixelFormatARB(m_hDC, iPixelFormatAttribList, NULL, 1, &iPixelFormat, (UINT*)&iNumFormats);
+
+		// PFD seems to be only redundant parameter now
+		if (!SetPixelFormat(m_hDC, iPixelFormat, &pfd3))return;
+
+		m_hRC = wglCreateContextAttribsARB(m_hDC, 0, iContextAttribs);
+		// If everything went OK
+		if (m_hRC) wglMakeCurrent(m_hDC, m_hRC);
+		else bError = true;
+
+	}
+
+
+
+
+
+	int c = glGetError();
+	if (c != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
+}
+
+void						ModelEditorTab::prepareScene(void)
+{
+	prepareGLStates();
+	prepareShaders();
+	prepareShaderData();
+	prepareFBO();
+	prepareAxis();
+	prepareMeshes();
+	prepareTextures();
+}
+
+void						ModelEditorTab::reshape(void)
+{
+	glViewport(0, 0, m_vecRenderSize.x, m_vecRenderSize.y);
+}
+
+void						ModelEditorTab::drawScene(void)
+{
+}
+
+void						ModelEditorTab::destroyScene(void)
+{
+}
+
+void						ModelEditorTab::prepareShaders(void)
+{
+	// setup shader 1
+
+	string strVertexShader = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\VertexShader.glsl"), false); // todo
+	const char *pVertexShader = strVertexShader.c_str();
+	const GLint uiVertexShaderLength = strVertexShader.length();
+
+	GLuint shader = glCreateShader(GL_VERTEX_SHADER);
+
+	int ee4 = glGetError();
+	if (ee4 != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
+
+	glShaderSource(shader, 1, &pVertexShader, NULL);
+
+	int ee3 = glGetError();
+	if (ee3 != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
+
+	glCompileShader(shader);
+
+	int ee = glGetError();
+	if (ee != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
+
+	GLint isCompiled = 0;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+	int h = 0;
+	h++;
+
+	// setup shader 2
+
+	string strFragmentShader = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\FragmentShader.glsl"), false); // todo
+	const char *pFragmentShader = strFragmentShader.c_str();
+	const GLint uiFragmentShaderLength = strFragmentShader.length();
+
+	GLuint shader2 = glCreateShader(GL_FRAGMENT_SHADER);
+
+	int ee41 = glGetError();
+	if (ee41 != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
+
+	glShaderSource(shader2, 1, &pFragmentShader, NULL);
+
+	int ee31 = glGetError();
+	if (ee31 != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
+
+	glCompileShader(shader2);
+
+	int ee33 = glGetError();
+	if (ee33 != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
+
+	GLint isCompiled2 = 0;
+	glGetShaderiv(shader2, GL_COMPILE_STATUS, &isCompiled2);
+	int h2 = 0;
+	h2++;
+
+	// create opengl program
+
+	m_program = glCreateProgram();
+	
+	glAttachShader(m_program, shader);
+	glAttachShader(m_program, shader2);
+
+	glBindAttribLocation(m_program, 0, "in_Position");
+	glBindAttribLocation(m_program, 1, "in_Color");
+
+	glLinkProgram(m_program);
+
+	glUseProgram(m_program);
+}
+
+void							ModelEditorTab::prepareAxis(void)
+{
+	float32 axisCoordinates[6][3];
+
+	// X
+	axisCoordinates[0][0] = -5000.0f;
+	axisCoordinates[0][1] = 0.0f;
+	axisCoordinates[0][2] = 0.0f;
+
+	axisCoordinates[1][0] = 5000.0f;
+	axisCoordinates[1][1] = 0.0f;
+	axisCoordinates[1][2] = 0.0f;
+
+	// Y
+	axisCoordinates[2][0] = 0.0f;
+	axisCoordinates[2][1] = 0.0f;
+	axisCoordinates[2][2] = -5000.0f;
+
+	axisCoordinates[3][0] = 0.0f;
+	axisCoordinates[3][1] = 0.0f;
+	axisCoordinates[3][2] = 5000.0f;
+
+	// Z
+	axisCoordinates[4][0] = 0.0f;
+	axisCoordinates[4][1] = -5000.0f;
+	axisCoordinates[4][2] = 0.0f;
+
+	axisCoordinates[5][0] = 0.0f;
+	axisCoordinates[5][1] = 5000.0f;
+	axisCoordinates[5][2] = 0.0f;
+
+	// axis colours
+	float32 axisColours[6][3];
+	
+	// X
+	axisColours[0][0] = 1.0f;
+	axisColours[0][1] = 0.0f;
+	axisColours[0][2] = 0.0f;
+
+	axisColours[1][0] = 1.0f;
+	axisColours[1][1] = 0.0f;
+	axisColours[1][2] = 0.0f;
+
+	// Y
+	axisColours[2][0] = 0.0f;
+	axisColours[2][1] = 1.0f;
+	axisColours[2][2] = 0.0f;
+
+	axisColours[3][0] = 0.0f;
+	axisColours[3][1] = 1.0f;
+	axisColours[3][2] = 0.0f;
+
+	// Z
+	axisColours[4][0] = 0.0f;
+	axisColours[4][1] = 0.0f;
+	axisColours[4][2] = 1.0f;
+
+	axisColours[5][0] = 0.0f;
+	axisColours[5][1] = 0.0f;
+	axisColours[5][2] = 1.0f;
+
+	glGenVertexArrays(1, &axisBuffer);
+	glBindVertexArray(axisBuffer);
+
+	glGenBuffers(1, &m_vboID);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float32) * 3 * 6, &axisCoordinates[0][0], GL_STATIC_DRAW);
+	glVertexAttribPointer(glGetAttribLocation(m_program, "in_Position"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(glGetAttribLocation(m_program, "in_Position"));
+	
+	glGenBuffers(1, &m_vboColours);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vboColours);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 3 * 6, axisColours, GL_STATIC_DRAW);
+	glVertexAttribPointer(glGetAttribLocation(m_program, "in_Color"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(glGetAttribLocation(m_program, "in_Color"));
+}
+
+void							ModelEditorTab::prepareMeshes(void)
+{
+	uint32 uiGeometryCount = m_pDFFFile->getSectionCountByType(RW_SECTION_GEOMETRY);
+
+	//m_pGeometryVertexPositionBuffers = new GLuint[uiGeometryCount];
+
+	m_pGeometryVertexPositionBuffers.resize(uiGeometryCount);
+	m_pGeometryVertexNormalBuffers.resize(uiGeometryCount);
+	m_pGeometryTexturePositionBuffers.resize(uiGeometryCount);
+	m_pBinMeshDataIndexBuffers.resize(uiGeometryCount);
+
+	m_pGeometryVertexArrayBuffers.resize(uiGeometryCount);
+
+	m_pVertexPositionBuffer.resize(uiGeometryCount);
+	m_pDataIndexBuffer.resize(uiGeometryCount);
+
+	//GetAnyGLFuncAddress("glGenBuffers");
+	//glGenBuffers(uiGeometryCount, &m_pGeometryVertexPositionBuffers[0]);
+	//glGenBuffers(uiGeometryCount, &m_pGeometryVertexPositionBuffers[0]);
+
+	// prepare 3d buffers
+	uint32 uiGeometryIndex = 0;
+	for (RWSection *pRWSection : m_pDFFFile->getSectionsByType(RW_SECTION_GEOMETRY))
+	{
+		RWSection_Geometry *pGeometry = (RWSection_Geometry*)pRWSection;
+		RWSection_BinMeshPLG *pBinMeshPLG = (RWSection_BinMeshPLG*)m_pDFFFile->getSectionsByType(RW_SECTION_BIN_MESH_PLG)[uiGeometryIndex];
+
+
+
+		//GLuint g[2] = { 0, 0 };
+		//glGenBuffers(2, &g[0]);
+
+		//GLuint h = 12345;
+		//glGenBuffers(1, &h);
+
+		//int c = glGetError();
+
+
+
+		// vertex positions
+		uint32 uiSize1 = pGeometry->getVertexPositions().size() * sizeof(float32) * 3;
+		string strData1 = "";
+		for (Vec3f& vecPosition : pGeometry->getVertexPositions())
+		{
+			strData1 += String::packVector3D(vecPosition, false);
+		}
+		m_pVertexPositionBuffer[uiGeometryIndex] = strData1.c_str();
+
+		m_pGeometryVertexPositionBuffers[uiGeometryIndex] = 0;
+		glGenVertexArrays(1, &m_pGeometryVertexArrayBuffers[uiGeometryIndex]);
+		glBindVertexArray(m_pGeometryVertexArrayBuffers[uiGeometryIndex]);
+		glGenBuffers(1, &m_pGeometryVertexPositionBuffers[uiGeometryIndex]);
+
+		glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryVertexPositionBuffers[uiGeometryIndex]);
+		glBufferData(GL_ARRAY_BUFFER, uiSize1, m_pVertexPositionBuffer[uiGeometryIndex], GL_STATIC_DRAW);
+
+		glVertexAttribPointer(glGetAttribLocation(m_program, "in_Position"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(glGetAttribLocation(m_program, "in_Position"));
+
+		//////////////////////////
+		// vertex normals
+		glGenBuffers(1, &m_pGeometryVertexNormalBuffers[uiGeometryIndex]);
+
+		glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryVertexNormalBuffers[uiGeometryIndex]);
+		glBufferData(GL_ARRAY_BUFFER, pGeometry->getVertexNormals().size() * sizeof(float32) * 3, pGeometry->getVertexNormals().data(), GL_STATIC_DRAW);
+
+		// texture coordinates
+		glGenBuffers(1, &m_pGeometryTexturePositionBuffers[uiGeometryIndex]);
+
+		glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryTexturePositionBuffers[uiGeometryIndex]);
+		glBufferData(GL_ARRAY_BUFFER, pGeometry->getTextureCoordinates().size() * sizeof(float32) * 2, pGeometry->getTextureCoordinates().data(), GL_STATIC_DRAW);
+		glVertexAttribPointer(glGetAttribLocation(m_program, "in_Texcoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(glGetAttribLocation(m_program, "in_Texcoord"));
+
+		glVertexAttribPointer(glGetAttribLocation(m_program, "in_Texcoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(glGetAttribLocation(m_program, "in_Texcoord"));
+		//////////////////////////
+
+		// data indices
+		m_pBinMeshDataIndexBuffers[uiGeometryIndex].resize(pBinMeshPLG->getMeshCount());
+		m_pDataIndexBuffer[uiGeometryIndex].resize(pBinMeshPLG->getMeshCount());
+
+		uint32 uiGeometryMeshIndex = 0;
+		for (RWEntry_BinMeshPLG_Mesh *pMesh : pBinMeshPLG->getMeshes())
+		{
+			uint32 uiSize2 = pMesh->getVertexIndices().size() * sizeof(uint32);
+			string strData2 = "";
+			for (uint32 uiDataIndex : pMesh->getVertexIndices())
+			{
+				strData2 += String::packUint32(uiDataIndex, false);
+			}
+			m_pDataIndexBuffer[uiGeometryIndex][uiGeometryMeshIndex] = strData2.c_str();
+
+
+
+
+
+			glGenBuffers(1, &m_pBinMeshDataIndexBuffers[uiGeometryIndex][uiGeometryMeshIndex]);
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBinMeshDataIndexBuffers[uiGeometryIndex][uiGeometryMeshIndex]);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, uiSize2, m_pDataIndexBuffer[uiGeometryIndex][uiGeometryMeshIndex], GL_STATIC_DRAW);
+
+			uiGeometryMeshIndex++;
+		}
+
+		uiGeometryIndex++;
+	}
+}
+
+void					ModelEditorTab::prepareTextures(void)
+{
+	vector<RWSection*> vecTextures = m_pTXDFile->getSectionsByType(RW_SECTION_TEXTURE_NATIVE);
+	uint32 uiTextureCount = vecTextures.size();
+
+	textureIDs = new GLuint[uiTextureCount];
+	textureIndices.clear();
+
+	// Create multiple OpenGL textures
+	glGenTextures(uiTextureCount, &textureIDs[0]);
+
+	uint32 i = 0;
+	for (RWSection *pRWSection : vecTextures)
+	{
+		RWSection_TextureNative *pTextureNative = (RWSection_TextureNative*)pRWSection;
+		string strTextureRasterData = pTextureNative->getMipMaps().getFirstEntry()->getRasterDataBGRA32();
+		string strTextureNameLower = String::toLowerCase(pTextureNative->getDiffuseName());
+
+		// "Bind" the newly created texture : all future texture functions will modify this texture
+		glBindTexture(GL_TEXTURE_2D, textureIDs[i]);
+
+		//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+		//
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+
+		// Give the image to OpenGL
+		char * a = new char[strTextureRasterData.length()];
+		memcpy(a, strTextureRasterData.c_str(), strTextureRasterData.length());
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, pTextureNative->getImageSize().x, pTextureNative->getImageSize().y, 0, GL_BGRA, GL_UNSIGNED_BYTE, a);
+
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		if (pTextureNative->getEntryCount() > 1)
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+		else
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+		textureIndices[strTextureNameLower] = textureIDs[i];
+
+		i++;
+	}
+}
+
+void					ModelEditorTab::prepareGLStates(void)
+{
+	glClearColor(1.0, 1.0, 1.0, 0.0);
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+}
+
+void							ModelEditorTab::prepareShaderData(void)
+{
+	//return;
+
+	// setup projection matrix
+
+	m_matProjectionMatrix.push(glm::mat4(1.0f));
+	m_matProjectionMatrix.top() *= glm::perspective(45.0f, (float32)m_vecRenderSize.x / (float32)m_vecRenderSize.y, 0.1f, 200.0f);
+
+
+	// setup modelview matrix (look down the negative z-axis)
+
+	m_matModelViewMatrix.push(glm::mat4(1.0f));
+	m_matModelViewMatrix.top() *= glm::lookAt(glm::vec3(-2.0f, -2.0f, -0.8f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+
+	// create and upload modelviewprojection matrix
+
+	int rrr = glGetError();
+	if (rrr != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
+
+	//m_matModelViewProjectionMatrix = m_matProjectionMatrix * m_matModelViewMatrix;
+	GLint vvv = glGetUniformLocation(m_program, "Projection");
+
+	int rrrr = glGetError();
+	if (rrrr != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
+
+	glUniformMatrix4fv(glGetUniformLocation(m_program, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(m_program, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix));
+	
+	int rr = glGetError();
+	if (rr != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
+}
+
+void									ModelEditorTab::prepareFBO(void)
+{
+	glGenTextures(1, &color_tex);
+	glBindTexture(GL_TEXTURE_2D, color_tex);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	//NULL means reserve texture memory, but texels are undefined
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_vecRenderSize.x, m_vecRenderSize.y, 0, GL_BGRA, GL_UNSIGNED_BYTE, NULL);
+	//-------------------------
+	glGenFramebuffers(1, &fb);
+	glBindFramebuffer(GL_FRAMEBUFFER, fb);
+	//Attach 2D texture to this FBO
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, color_tex, 0);
+	//-------------------------
+	glGenRenderbuffers(1, &depth_rb);
+	glBindRenderbuffer(GL_RENDERBUFFER, depth_rb);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT32, m_vecRenderSize.x, m_vecRenderSize.y);
+	//-------------------------
+	//Attach depth buffer to FBO
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depth_rb);
+	//-------------------------
+	//Does the GPU support current FBO configuration?
+	GLenum status;
+	status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	int b;
+	///*
+	switch (status)
+	{
+	case GL_FRAMEBUFFER_COMPLETE:
+		b = 1;
+		b++;
+		break;
+		//default:
+		//HANDLE_THE_ERROR;
+	}
+	//*/
 }

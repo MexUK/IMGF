@@ -1,14 +1,15 @@
 #version 150
 
-uniform mat4 mvp;
+// Simple example with transformation matrices
 
-in vec2 position;
-in vec2 texcoord;
+in  vec3 in_Position;
+in  vec2 in_Texcoord;
+uniform mat4 Projection;
+uniform mat4 ModelView;
+out  vec2 texcoord;
 
-out vec2 Texcoord;
-
-
-void main() {
-    Texcoord = texcoord;
-    gl_Position =  mvp * vec4(position, 0.0, 1.0) ;
+void main(void)
+{
+	gl_Position = Projection * ModelView * vec4(in_Position, 1.0);
+	texcoord = in_Texcoord;
 }

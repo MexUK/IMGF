@@ -45,7 +45,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>../../../../Output/Final/IMGF/$(Configuration).$(Platform)/</OutDir>
     <IntDir>../../../../Output/Intermediate/IMGF/IMGF/$(Configuration).$(Platform)/</IntDir>
-    <IncludePath>../../../Code/IMGF.ThirdParty/GLEW/;$(IncludePath);$(UniversalCRT_IncludePath);../../../Code/IMGF/;../../../Code/IMGF/Format/;../../../../BXCF/Code/BXCF/;../../../../BXCF/Code/BXCF.ThirdParty/;../../../../BXGX/Code/BXGX/;../../../../BXGX/Code/BXGX.ThirdParty/;../../../../BXGI/Code/BXGI/;../../../Code/IMGF.ThirdParty/;../../../Code/IMGF.ThirdParty/Freetype/include/;../../../Code/IMGF.ThirdParty/GLFW/include/;../../../Code/IMGF.ThirdParty/Bitmap/;../../../Code/IMGF.ThirdParty/GLFW/;../../../Code/IMGF.ThirdParty/freetype-gl/</IncludePath>
+    <IncludePath>../../../Code/IMGF.ThirdParty/GLEW/;$(IncludePath);$(UniversalCRT_IncludePath);../../../Code/IMGF/;../../../Code/IMGF/Format/;../../../../BXCF/Code/BXCF/;../../../../BXCF/Code/BXCF.ThirdParty/;../../../../BXGX/Code/BXGX/;../../../../BXGX/Code/BXGX.ThirdParty/;../../../../BXGI/Code/BXGI/;../../../Code/IMGF.ThirdParty/;../../../Code/IMGF.ThirdParty/Freetype/include/;../../../Code/IMGF.ThirdParty/GLFW/include/;../../../Code/IMGF.ThirdParty/Bitmap/;../../../Code/IMGF.ThirdParty/GLFW/;../../../Code/IMGF.ThirdParty/freetype-gl/;../../../Code/IMGF.ThirdParty/GLM/</IncludePath>
     <LibraryPath>../../../../Input/;$(LibraryPath);../../../../Output/Final/IMGF/$(Configuration).$(Platform)/;../../../../Output/Final/BXGX/$(Configuration).$(Platform)/;../../../../Output/Final/BXGI/$(Configuration).$(Platform)/;../../../../Output/Final/BXCF/$(Configuration).$(Platform)/</LibraryPath>
     <TargetName>IMG Factory</TargetName>
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
@@ -53,7 +53,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>../../../../Output/Final/IMGF/$(Configuration).$(Platform)/</OutDir>
     <IntDir>../../../../Output/Intermediate/IMGF/IMGF/$(Configuration).$(Platform)/</IntDir>
-    <IncludePath>../../../Code/IMGF.ThirdParty/GLEW/;$(IncludePath);$(UniversalCRT_IncludePath);../../../Code/IMGF/;../../../Code/IMGF/Format/;../../../../BXCF/Code/BXCF/;../../../../BXCF/Code/BXCF.ThirdParty/;../../../../BXGX/Code/BXGX/;../../../../BXGX/Code/BXGX.ThirdParty/;../../../../BXGI/Code/BXGI/;../../../Code/IMGF.ThirdParty/;../../../Code/IMGF.ThirdParty/Freetype/include/;../../../Code/IMGF.ThirdParty/GLFW/include/;../../../Code/IMGF.ThirdParty/Bitmap/;../../../Code/IMGF.ThirdParty/GLFW/;../../../Code/IMGF.ThirdParty/freetype-gl/</IncludePath>
+    <IncludePath>../../../Code/IMGF.ThirdParty/GLEW/;$(IncludePath);$(UniversalCRT_IncludePath);../../../Code/IMGF/;../../../Code/IMGF/Format/;../../../../BXCF/Code/BXCF/;../../../../BXCF/Code/BXCF.ThirdParty/;../../../../BXGX/Code/BXGX/;../../../../BXGX/Code/BXGX.ThirdParty/;../../../../BXGI/Code/BXGI/;../../../Code/IMGF.ThirdParty/;../../../Code/IMGF.ThirdParty/Freetype/include/;../../../Code/IMGF.ThirdParty/GLFW/include/;../../../Code/IMGF.ThirdParty/Bitmap/;../../../Code/IMGF.ThirdParty/GLFW/;../../../Code/IMGF.ThirdParty/freetype-gl/;../../../Code/IMGF.ThirdParty/GLM/</IncludePath>
     <LibraryPath>../../../../Input/;$(LibraryPath);../../../../Output/Final/IMGF/$(Configuration).$(Platform)/;../../../../Output/Final/BXGX/$(Configuration).$(Platform)/;../../../../Output/Final/BXGI/$(Configuration).$(Platform)/;../../../../Output/Final/BXCF/$(Configuration).$(Platform)/</LibraryPath>
     <TargetName>IMG Factory</TargetName>
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
@@ -64,7 +64,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <PreprocessorDefinitions>GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_AFXDLL;NOMINMAX;UNICODE;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowIncludes>false</ShowIncludes>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <MinimalRebuild>true</MinimalRebuild>
@@ -95,7 +95,7 @@
       <SDLCheck>true</SDLCheck>
       <ShowIncludes>false</ShowIncludes>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <PreprocessorDefinitions>GLEW_STATIC;_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_AFXDLL;NOMINMAX;UNICODE;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>

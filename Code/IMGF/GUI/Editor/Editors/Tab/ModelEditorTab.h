@@ -7,13 +7,19 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <stack>
+
+//#include <windows.h>
+//#include <algorithm>
+
+#include "glm.hpp"
+#include "gtc/matrix_transform.hpp"
+#include "gtc/type_ptr.hpp"
 
 //#include "GLEE/GLee.h"
 //#include "GL/glew.h"
 //#include "GL/wglew.h"
 //#include <Windows.h>
-
-void						perspectiveGL_ModelEditor(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar); // todo - namespace - duplicated too
 
 class imgf::ModelEditorTab : public imgf::EditorTab
 {
@@ -53,6 +59,26 @@ public:
 	bxgi::DFFFormat*			getDFFFile(void) { return m_pDFFFile; }
 
 private:
+	void						perspectiveGL_ModelEditor(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar);
+
+
+
+
+	void						createGLContext(void);
+	void						prepareScene(void);
+	void						reshape(void);
+	void						drawScene(void);
+	void						destroyScene(void);
+
+	void						prepareShaders(void);
+	void						prepareAxis(void);
+	void						prepareMeshes(void);
+	void						prepareTextures(void);
+	void						prepareGLStates(void);
+	void						prepareShaderData(void);
+	void						prepareFBO(void);
+
+private:
 	bxgi::DFFFormat*			m_pDFFFile;
 	bxgi::TXDFormat*			m_pTXDFile;
 	bool						m_bInitialized;
@@ -66,6 +92,7 @@ private:
 	HBITMAP						m_hbm;
 	HGLRC						m_hRC;
 
+	GLuint						m_program;
 	GLuint*						textureIDs; // todo - prefix
 	std::unordered_map<std::string, GLuint>		textureIndices; // todo - prefix // GLuint: gl texture id
 
@@ -74,8 +101,24 @@ private:
 	std::vector<GLuint>			m_pGeometryTexturePositionBuffers;	// GLuint: gl buffer id
 	std::vector<std::vector<GLuint>>	m_pBinMeshDataIndexBuffers;	// GLuint: gl buffer id
 
+	std::vector<GLuint>			m_pGeometryVertexArrayBuffers;		// GLuint: gl vertex array buffer id
+
 	//GLuint*						m_pGeometryVertexPositionBuffers;	// GLuint: gl buffer id
 
 	std::vector<const char*>					m_pVertexPositionBuffer;
 	std::vector<std::vector<const char*>>		m_pDataIndexBuffer;
+
+	std::stack<glm::mat4>		m_matProjectionMatrix;
+	std::stack<glm::mat4>		m_matModelViewMatrix;
+	//glm::mat4					m_matModelViewProjectionMatrix;
+
+	bxcf::Vec2u					m_vecRenderSize;
+
+	GLuint						axisBuffer;
+	GLuint						axisIndexBuffer;
+	GLuint						fb;
+	GLuint						color_tex;
+	GLuint						depth_rb;
+	GLuint						m_vboID;
+	GLuint						m_vboColours;
 };

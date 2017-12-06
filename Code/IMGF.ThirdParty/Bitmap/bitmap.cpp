@@ -22,12 +22,25 @@
 
 #pragma comment (lib, "gdiplus.lib")
 
+
+#define NOMINMAX
+#include <algorithm>
+namespace Gdiplus
+{
+	using std::min;
+	using std::max;
+};
+//... your other includes.
+
+
+
 #include <windows.h>
 #include <cmath>
 #include <cstring>
 #include <cstdlib>
 #include <vector>
 #include <memory>
+//#include <algorithm>
 #include "bitmap.h"
 
 namespace

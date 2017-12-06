@@ -2,6 +2,15 @@
 
 #include "Type/Types.h"
 #include "GL/glew.h"
+#include "GL/wglew.h"
+
+#define NOMINMAX
+#include <algorithm>
+namespace Gdiplus
+{
+	using std::min;
+	using std::max;
+}
 
 namespace imgf
 {
