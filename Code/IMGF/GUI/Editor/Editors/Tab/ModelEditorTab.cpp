@@ -383,6 +383,8 @@ void						ModelEditorTab::renderCamera(void)
 
 void						ModelEditorTab::renderModel(void)
 {
+	glEnable(GL_TEXTURE_2D);
+
 	vector<RWSection*> vecAtomics = m_pDFFFile->getSectionsByType(RW_SECTION_ATOMIC);
 	unordered_map<uint32, RWSection_Atomic*> umapAtomics;
 	unordered_map<uint32, uint32> umapGeometryIndices;
@@ -411,6 +413,8 @@ void						ModelEditorTab::renderModel(void)
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glDisable(GL_TEXTURE_2D);
 }
 
 void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFrame, bool bIsParentFrame)
@@ -467,25 +471,25 @@ void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFra
 		//*/
 
 		/*
-		vecMultMatrix[0] = pFrameList->m_vecMatRow3[uiFrameIndex].x;
-		vecMultMatrix[1] = pFrameList->m_vecMatRow3[uiFrameIndex].z;
-		vecMultMatrix[2] = pFrameList->m_vecMatRow3[uiFrameIndex].y;
-		vecMultMatrix[3] = 0;
+		matMultMatrix[0].x = pFrameList->m_vecMatRow1[uiFrameIndex].x;
+		matMultMatrix[0].y = pFrameList->m_vecMatRow1[uiFrameIndex].y;
+		matMultMatrix[0].z = pFrameList->m_vecMatRow1[uiFrameIndex].z;
+		matMultMatrix[0].w = 0;
 
-		vecMultMatrix[4] = pFrameList->m_vecMatRow1[uiFrameIndex].x;
-		vecMultMatrix[5] = pFrameList->m_vecMatRow1[uiFrameIndex].z;
-		vecMultMatrix[6] = pFrameList->m_vecMatRow1[uiFrameIndex].y;
-		vecMultMatrix[7] = 0;
+		matMultMatrix[1].x = pFrameList->m_vecMatRow3[uiFrameIndex].x;
+		matMultMatrix[1].y = pFrameList->m_vecMatRow3[uiFrameIndex].y;
+		matMultMatrix[1].z = pFrameList->m_vecMatRow3[uiFrameIndex].z;
+		matMultMatrix[1].w = 0;
 
-		vecMultMatrix[8] = pFrameList->m_vecMatRow2[uiFrameIndex].x;
-		vecMultMatrix[9] = pFrameList->m_vecMatRow2[uiFrameIndex].z;
-		vecMultMatrix[10] = pFrameList->m_vecMatRow[uiFrameIndex].y;
-		vecMultMatrix[11] = 0;
+		matMultMatrix[2].x = pFrameList->m_vecMatRow2[uiFrameIndex].x;
+		matMultMatrix[2].y = pFrameList->m_vecMatRow2[uiFrameIndex].y;
+		matMultMatrix[2].z = pFrameList->m_vecMatRow2[uiFrameIndex].z;
+		matMultMatrix[2].w = 0;
 
-		vecMultMatrix[12] = pFrameList->m_vecPosition[uiFrameIndex].x;
-		vecMultMatrix[13] = pFrameList->m_vecPosition[uiFrameIndex].z;
-		vecMultMatrix[14] = pFrameList->m_vecPosition[uiFrameIndex].y;
-		vecMultMatrix[15] = 1;
+		matMultMatrix[3].x = pFrameList->m_vecPosition[uiFrameIndex].x;
+		matMultMatrix[3].y = pFrameList->m_vecPosition[uiFrameIndex].y;
+		matMultMatrix[3].z = pFrameList->m_vecPosition[uiFrameIndex].z;
+		matMultMatrix[3].w = 1;
 		*/
 
 		//glMultMatrixf(&vecMultMatrix[0]);
@@ -530,9 +534,36 @@ void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFra
 			}
 
 			
+			glEnableClientState(GL_VERTEX_ARRAY);
 			glBindVertexArray(m_pGeometryVertexArrayBuffers[uiGeometryIndex]);
-			glVertexAttrib3f((GLuint)1, 0.8f, 0.0, 0.0); // set constant color attribute
-			glDrawArrays(pBinMeshPLG->getFlags() == 0 ? GL_TRIANGLES : GL_TRIANGLE_STRIP, 0, pGeometry->getVertexPositions().size());
+			//glVertexAttrib3f((GLuint)1, 0.8f, 0.0, 0.0); // set constant color attribute
+			
+			/*
+			glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryTexturePositionBuffers[uiGeometryIndex]);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pGeometryVertexNormalBuffers[uiGeometryIndex]);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBinMeshDataIndexBuffers[uiGeometryIndex][uiMeshIndex]);
+
+			
+			glEnableClientState(GL_NORMAL_ARRAY);
+			
+
+			glTexCoordPointer(3, GL_FLOAT, 0, 0);
+			glNormalPointer(GL_FLOAT, 0, 0);
+			*/
+
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryTexturePositionBuffers[uiGeometryIndex]);
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBinMeshDataIndexBuffers[uiGeometryIndex][uiMeshIndex]);
+
+			//glDrawArrays(pBinMeshPLG->getFlags() == 0 ? GL_TRIANGLES : GL_TRIANGLE_STRIP, 0, pGeometry->getVertexPositions().size());
+			glDrawElements(pBinMeshPLG->getFlags() == 0 ? GL_TRIANGLES : GL_TRIANGLE_STRIP, pMesh->getVertexIndices().size(), GL_UNSIGNED_INT, 0);
+
+			///*
+			glDisableClientState(GL_VERTEX_ARRAY);
+			//glDisableClientState(GL_NORMAL_ARRAY);
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			//*/
 
 			/*
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pGeometryVertexNormalBuffers[uiGeometryIndex]);
@@ -793,7 +824,7 @@ void						ModelEditorTab::prepareScene(void)
 	prepareShaders();
 	prepareShaderData();
 	prepareFBO();
-	prepareAxis();
+	//prepareAxis();
 	prepareMeshes();
 	prepareTextures();
 }
@@ -1025,7 +1056,9 @@ void							ModelEditorTab::prepareMeshes(void)
 		string strData1 = "";
 		for (Vec3f& vecPosition : pGeometry->getVertexPositions())
 		{
-			strData1 += String::packVector3D(vecPosition, false);
+			strData1 += String::packFloat32(vecPosition.x, false);
+			strData1 += String::packFloat32(vecPosition.z, false);
+			strData1 += String::packFloat32(vecPosition.y, false);
 		}
 		m_pVertexPositionBuffer[uiGeometryIndex] = strData1.c_str();
 
@@ -1040,24 +1073,23 @@ void							ModelEditorTab::prepareMeshes(void)
 		glVertexAttribPointer(glGetAttribLocation(m_program, "in_Position"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 		glEnableVertexAttribArray(glGetAttribLocation(m_program, "in_Position"));
 
-		//////////////////////////
 		// vertex normals
 		glGenBuffers(1, &m_pGeometryVertexNormalBuffers[uiGeometryIndex]);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryVertexNormalBuffers[uiGeometryIndex]);
 		glBufferData(GL_ARRAY_BUFFER, pGeometry->getVertexNormals().size() * sizeof(float32) * 3, pGeometry->getVertexNormals().data(), GL_STATIC_DRAW);
 
+		glVertexAttribPointer(glGetAttribLocation(m_program, "inNormal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(glGetAttribLocation(m_program, "inNormal"));
+
 		// texture coordinates
 		glGenBuffers(1, &m_pGeometryTexturePositionBuffers[uiGeometryIndex]);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryTexturePositionBuffers[uiGeometryIndex]);
 		glBufferData(GL_ARRAY_BUFFER, pGeometry->getTextureCoordinates().size() * sizeof(float32) * 2, pGeometry->getTextureCoordinates().data(), GL_STATIC_DRAW);
+		
 		glVertexAttribPointer(glGetAttribLocation(m_program, "in_Texcoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
 		glEnableVertexAttribArray(glGetAttribLocation(m_program, "in_Texcoord"));
-
-		glVertexAttribPointer(glGetAttribLocation(m_program, "in_Texcoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
-		glEnableVertexAttribArray(glGetAttribLocation(m_program, "in_Texcoord"));
-		//////////////////////////
 
 		// data indices
 		m_pBinMeshDataIndexBuffers[uiGeometryIndex].resize(pBinMeshPLG->getMeshCount());
@@ -1142,7 +1174,9 @@ void					ModelEditorTab::prepareGLStates(void)
 {
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
+	//glDisable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 }
 
 void							ModelEditorTab::prepareShaderData(void)
@@ -1180,8 +1214,8 @@ void							ModelEditorTab::prepareShaderData(void)
 		d++;
 	}
 
-	glUniformMatrix4fv(glGetUniformLocation(m_program, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix));
-	glUniformMatrix4fv(glGetUniformLocation(m_program, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(m_program, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
+	glUniformMatrix4fv(glGetUniformLocation(m_program, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
 	
 	int rr = glGetError();
 	if (rr != GL_NO_ERROR)
