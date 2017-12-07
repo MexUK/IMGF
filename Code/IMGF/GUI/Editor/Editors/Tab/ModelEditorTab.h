@@ -93,6 +93,7 @@ private:
 	HGLRC						m_hRC;
 
 	GLuint						m_program;
+	GLuint						m_program2;
 	GLuint*						textureIDs; // todo - prefix
 	std::unordered_map<std::string, GLuint>		textureIndices; // todo - prefix // GLuint: gl texture id
 	std::unordered_map<std::string, uint32>		m_umapGeometryIndexByTextureNameLower;

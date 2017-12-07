@@ -228,23 +228,35 @@ void						ModelEditorTab::render3D(void)
 		d++;
 	}
 
+
+	
+	
+	
+
+
+
+	// render model
+	glUseProgram(m_program);
+
+	glUniformMatrix4fv(glGetUniformLocation(m_program, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
+	glUniformMatrix4fv(glGetUniformLocation(m_program, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
+
+	renderModel();
+	
+	//glBindVertexArray(0);
+
+	//SwapBuffers(m_hDC);
+
+	
+
+	
 	// render axis
-	//glBindVertexArray(axisBuffer);		// select first VAO
-	//glVertexAttrib3f((GLuint)1, 0.8f, 0.0, 0.0); // set constant color attribute
-	//glDrawArrays(GL_LINES, 0, 6*3);	// draw first object
-	///glBindVertexArray(0);
-
-	//glUseProgram(m_program);
-	//glUniformMatrix4fv(glGetUniformLocation(m_program, "Projection"), 1, GL_TRUE, glm::value_ptr(m_matProjectionMatrix.top()));
-	//glUniformMatrix4fv(glGetUniformLocation(m_program, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
-
-
-
-
+	///*
+	glUseProgram(m_program2);
 
 	// Get the variables from the shader to which data will be passed
-	GLint ploc = glGetUniformLocation(m_program, "Projection");
-	GLint mvloc = glGetUniformLocation(m_program, "ModelView");
+	GLint ploc = glGetUniformLocation(m_program2, "Projection");
+	GLint mvloc = glGetUniformLocation(m_program2, "ModelView");
 
 	// Pass the model-view matrix to the shader
 	//GLfloat mvMat[16];
@@ -256,20 +268,12 @@ void						ModelEditorTab::render3D(void)
 	//glGetFloatv(GL_PROJECTION_MATRIX, pMat);
 	glUniformMatrix4fv(ploc, 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
 
-
-
-
-
-	renderModel();
-	
-	//glBindVertexArray(0);
-
-	//SwapBuffers(m_hDC);
-
-	
-
-	
-
+	glBindVertexArray(axisBuffer);		// select first VAO
+										//glVertexAttrib3f((GLuint)1, 0.8f, 0.0, 0.0); // set constant color attribute
+	glDrawArrays(GL_LINES, 0, 6);	// draw first object
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//*/
 
 
 	
@@ -313,6 +317,7 @@ void						ModelEditorTab::render3D(void)
 	//-------------------------
 	//GLubyte *pixels = new GLubyte[vecRenderSize.x * vecRenderSize.y * 4];
 	glReadPixels(0, 0, m_vecRenderSize.x, m_vecRenderSize.y, GL_BGRA, GL_UNSIGNED_BYTE, pixels2);
+	/*
 	if (memchr(pixels2, '\x01', m_vecRenderSize.x * m_vecRenderSize.y * 4))
 	{
 		bool b = true;
@@ -323,6 +328,7 @@ void						ModelEditorTab::render3D(void)
 		bool b = true;
 		b = !b;
 	}
+	*/
 	//pixels 0, 1, 2 should be white
 	//pixel 4 should be black
 	//----------------
@@ -479,7 +485,11 @@ void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFra
 		m_matModelViewMatrix.top() *= matMultMatrix;
 		//m_matProjectionMatrix *= matMultMatrix;
 
-		//glUniformMatrix4fv(glGetUniformLocation(m_program, "ModelView"), 1, GL_TRUE, glm::value_ptr(m_matModelViewMatrix.top()));
+		glUseProgram(m_program2);
+		glUniformMatrix4fv(glGetUniformLocation(m_program2, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
+
+		glUseProgram(m_program);
+		glUniformMatrix4fv(glGetUniformLocation(m_program, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
 	}
 
 	if (umapAtomics.count(uiFrameIndex) != 0)
@@ -498,18 +508,39 @@ void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFra
 			vector<RWSection*> vecStrings = pMaterial->getSectionsByType(RW_SECTION_STRING);
 			bool bMeshUsesTexture = vecStrings.size() > 0;
 			bool bUsesNormals = pGeometry->getBoundingInfo().doesHaveNormals();
+			string strTextureNameLower;
+			if (bMeshUsesTexture)
+			{
+				strTextureNameLower = String::toLowerCase(((RWSection_String*)vecStrings[0])->getData());
+			}
 
 			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_NORMAL_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			if (bUsesNormals)
+			{
+				glEnableClientState(GL_NORMAL_ARRAY);
+			}
+			if (bMeshUsesTexture)
+			{
+				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			}
 
 			//glBindVertexArray(m_pGeometryVertexArrayBuffers[uiGeometryIndex][uiMeshIndex]);
 			glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryVertexPositionBuffers[uiGeometryIndex]);
 			glVertexAttribPointer(glGetAttribLocation(m_program, "in_Position"), 3, GL_FLOAT, GL_FALSE, 0, 0);
-			glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryVertexNormalBuffers[uiGeometryIndex]);
-			glVertexAttribPointer(glGetAttribLocation(m_program, "inNormal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
-			glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryTexturePositionBuffers[uiGeometryIndex]);
-			glVertexAttribPointer(glGetAttribLocation(m_program, "in_Texcoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
+			if (bUsesNormals)
+			{
+				glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryVertexNormalBuffers[uiGeometryIndex]);
+				glVertexAttribPointer(glGetAttribLocation(m_program, "inNormal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+			}
+			if (bMeshUsesTexture)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, textureIndices[strTextureNameLower]);
+				glUniform1i(glGetUniformLocation(m_program, "tex"), 0);
+
+				glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryTexturePositionBuffers[uiGeometryIndex]);
+				glVertexAttribPointer(glGetAttribLocation(m_program, "in_Texcoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
+			}
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBinMeshDataIndexBuffers[uiGeometryIndex][uiMeshIndex]);
 
 			//glVertexPointer(3, GL_FLOAT, sizeof(GLfloat) * 3, (void*)0);
@@ -521,8 +552,15 @@ void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFra
 
 			//glBindVertexArray(0);
 
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_NORMAL_ARRAY);
+			if (bMeshUsesTexture)
+			{
+				glBindTexture(GL_TEXTURE_2D, 0);
+				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			}
+			if (bUsesNormals)
+			{
+				glDisableClientState(GL_NORMAL_ARRAY);
+			}
 			glDisableClientState(GL_VERTEX_ARRAY);
 
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -717,7 +755,7 @@ void						ModelEditorTab::prepareScene(void)
 	prepareShaders();
 	prepareShaderData();
 	prepareFBO();
-	//prepareAxis();
+	prepareAxis();
 	prepareMeshes();
 	prepareTextures();
 }
@@ -739,7 +777,7 @@ void						ModelEditorTab::prepareShaders(void)
 {
 	// setup shader 1
 
-	string strVertexShader = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\VertexShader.glsl"), false); // todo
+	string strVertexShader = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\VertexShader-Texture.glsl"), false); // todo
 	const char *pVertexShader = strVertexShader.c_str();
 	const GLint uiVertexShaderLength = strVertexShader.length();
 
@@ -777,7 +815,7 @@ void						ModelEditorTab::prepareShaders(void)
 
 	// setup shader 2
 
-	string strFragmentShader = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\FragmentShader.glsl"), false); // todo
+	string strFragmentShader = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\FragmentShader-Texture.glsl"), false); // todo
 	const char *pFragmentShader = strFragmentShader.c_str();
 	const GLint uiFragmentShaderLength = strFragmentShader.length();
 
@@ -826,37 +864,132 @@ void						ModelEditorTab::prepareShaders(void)
 	glLinkProgram(m_program);
 
 	glUseProgram(m_program);
+
+
+
+
+	// setup shader 3 and 4 and program 2
+
+	string strVertexShader2 = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\VertexShader-Colour.glsl"), false); // todo
+	const char *pVertexShader2 = strVertexShader2.c_str();
+	const GLint uiVertexShaderLength2 = strVertexShader2.length();
+
+	GLuint shader4 = glCreateShader(GL_VERTEX_SHADER);
+
+	int ee4c = glGetError();
+	if (ee4c != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
+
+	glShaderSource(shader4, 1, &pVertexShader2, NULL);
+
+	int ee3c = glGetError();
+	if (ee3c != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
+
+	glCompileShader(shader4);
+
+	int eec = glGetError();
+	if (eec != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
+
+	GLint isCompiled4 = 0;
+	glGetShaderiv(shader4, GL_COMPILE_STATUS, &isCompiled4);
+	int h4 = 0;
+	h4++;
+
+
+
+	string strFragmentShader2 = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\FragmentShader-Colour.glsl"), false); // todo
+	const char *pFragmentShader2 = strFragmentShader2.c_str();
+	const GLint uiFragmentShaderLength2 = strFragmentShader2.length();
+
+	GLuint shader3 = glCreateShader(GL_FRAGMENT_SHADER);
+
+	int ee41b = glGetError();
+	if (ee41b != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
+
+	glShaderSource(shader3, 1, &pFragmentShader2, NULL);
+
+	int ee31b = glGetError();
+	if (ee31b != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
+
+	glCompileShader(shader3);
+
+	int ee33b = glGetError();
+	if (ee33b != GL_NO_ERROR)
+	{
+		int d = 5;
+		d++;
+	}
+
+	GLint isCompiled3 = 0;
+	glGetShaderiv(shader3, GL_COMPILE_STATUS, &isCompiled3);
+	int h3 = 0;
+	h3++;
+
+	// create opengl program
+
+	m_program2 = glCreateProgram();
+
+	glAttachShader(m_program2, shader4);
+	glAttachShader(m_program2, shader3);
+
+	glLinkProgram(m_program2);
+
+	glUseProgram(m_program2);
 }
 
 void							ModelEditorTab::prepareAxis(void)
 {
+	glUseProgram(m_program2);
+
+	float32 fMin = -5000.0f;
+	float32 fMax = 5000.0f;
+
 	float32 axisCoordinates[6][3];
 
 	// X
-	axisCoordinates[0][0] = -5000.0f;
+	axisCoordinates[0][0] = fMin;
 	axisCoordinates[0][1] = 0.0f;
 	axisCoordinates[0][2] = 0.0f;
 
-	axisCoordinates[1][0] = 5000.0f;
+	axisCoordinates[1][0] = fMax;
 	axisCoordinates[1][1] = 0.0f;
 	axisCoordinates[1][2] = 0.0f;
 
 	// Y
 	axisCoordinates[2][0] = 0.0f;
 	axisCoordinates[2][1] = 0.0f;
-	axisCoordinates[2][2] = -5000.0f;
+	axisCoordinates[2][2] = fMin;
 
 	axisCoordinates[3][0] = 0.0f;
 	axisCoordinates[3][1] = 0.0f;
-	axisCoordinates[3][2] = 5000.0f;
+	axisCoordinates[3][2] = fMax;
 
 	// Z
 	axisCoordinates[4][0] = 0.0f;
-	axisCoordinates[4][1] = -5000.0f;
+	axisCoordinates[4][1] = fMin;
 	axisCoordinates[4][2] = 0.0f;
 
 	axisCoordinates[5][0] = 0.0f;
-	axisCoordinates[5][1] = 5000.0f;
+	axisCoordinates[5][1] = fMax;
 	axisCoordinates[5][2] = 0.0f;
 
 	// axis colours
@@ -889,13 +1022,13 @@ void							ModelEditorTab::prepareAxis(void)
 	axisColours[5][1] = 0.0f;
 	axisColours[5][2] = 1.0f;
 
-	uint32 indexBuffer[6];
-	indexBuffer[0] = 0;
-	indexBuffer[1] = 2;
-	indexBuffer[2] = 1;
-	indexBuffer[3] = 3;
-	indexBuffer[4] = 4;
-	indexBuffer[5] = 5;
+	//uint32 indexBuffer[6];
+	//indexBuffer[0] = 0;
+	//indexBuffer[1] = 2;
+	//indexBuffer[2] = 1;
+	//indexBuffer[3] = 3;
+	//indexBuffer[4] = 4;
+	//indexBuffer[5] = 5;
 
 	glGenVertexArrays(1, &axisBuffer);
 	glBindVertexArray(axisBuffer);
@@ -903,22 +1036,27 @@ void							ModelEditorTab::prepareAxis(void)
 	glGenBuffers(1, &m_vboID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float32) * 3 * 6, &axisCoordinates[0][0], GL_STATIC_DRAW);
-	glVertexAttribPointer(glGetAttribLocation(m_program, "in_Position"), 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(glGetAttribLocation(m_program, "in_Position"));
+	glVertexAttribPointer(glGetAttribLocation(m_program2, "in_Position"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(glGetAttribLocation(m_program2, "in_Position"));
 	
 	glGenBuffers(1, &m_vboColours);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboColours);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 3 * 6, axisColours, GL_STATIC_DRAW);
-	glVertexAttribPointer(glGetAttribLocation(m_program, "in_Color"), 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(glGetAttribLocation(m_program, "in_Color"));
+	glVertexAttribPointer(glGetAttribLocation(m_program2, "in_Color"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(glGetAttribLocation(m_program2, "in_Color"));
 
-	glGenBuffers(1, &m_iboID);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iboID);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32) * 6, indexBuffer, GL_STATIC_DRAW);
+	//glGenBuffers(1, &m_iboID);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iboID);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32) * 6, indexBuffer, GL_STATIC_DRAW);
+
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void							ModelEditorTab::prepareMeshes(void)
 {
+	glUseProgram(m_program);
+
 	uint32 uiGeometryCount = m_pDFFFile->getSectionCountByType(RW_SECTION_GEOMETRY);
 
 	m_pGeometryVertexPositionBuffers.resize(uiGeometryCount);
@@ -1053,6 +1191,8 @@ void							ModelEditorTab::prepareMeshes(void)
 
 void					ModelEditorTab::prepareTextures(void)
 {
+	glUseProgram(m_program);
+
 	vector<RWSection*> vecTextures = m_pTXDFile->getSectionsByType(RW_SECTION_TEXTURE_NATIVE);
 	uint32 uiTextureCount = vecTextures.size();
 
@@ -1074,9 +1214,9 @@ void					ModelEditorTab::prepareTextures(void)
 		//glBindVertexArray(m_pGeometryVertexArrayBuffers[uiGeometryIndex]);
 
 		// "Bind" the newly created texture : all future texture functions will modify this texture
-		//glUniform1i(glGetUniformLocation(m_program, "tex"), 0);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureIDs[i]);
+		glUniform1i(glGetUniformLocation(m_program, "tex"), 0);
 
 		//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
@@ -1103,6 +1243,8 @@ void					ModelEditorTab::prepareTextures(void)
 
 		i++;
 	}
+
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void					ModelEditorTab::prepareGLStates(void)
@@ -1144,7 +1286,7 @@ void							ModelEditorTab::prepareShaderData(void)
 	// setup modelview matrix (look down the negative z-axis)
 
 	m_matModelViewMatrix.push(glm::mat4(1.0f));
-	m_matModelViewMatrix.top() *= glm::lookAt(glm::vec3(-8.5f, -8.9f, 1.5f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	m_matModelViewMatrix.top() *= glm::lookAt(glm::vec3(-4.0f, 1.5f, -4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 
 	// create and upload modelviewprojection matrix
@@ -1157,6 +1299,8 @@ void							ModelEditorTab::prepareShaderData(void)
 	}
 
 	//m_matModelViewProjectionMatrix = m_matProjectionMatrix * m_matModelViewMatrix;
+	glUseProgram(m_program);
+	
 	GLint vvv = glGetUniformLocation(m_program, "Projection");
 
 	int rrrr = glGetError();
@@ -1165,18 +1309,22 @@ void							ModelEditorTab::prepareShaderData(void)
 		int d = 5;
 		d++;
 	}
-
+	
 	glUniformMatrix4fv(glGetUniformLocation(m_program, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
 	glUniformMatrix4fv(glGetUniformLocation(m_program, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
+	glUniform1i(glGetUniformLocation(m_program, "tex"), 0); // Texture unit 0
+
+	glUseProgram(m_program2);
 	
+	glUniformMatrix4fv(glGetUniformLocation(m_program2, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
+	glUniformMatrix4fv(glGetUniformLocation(m_program2, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
+
 	int rr = glGetError();
 	if (rr != GL_NO_ERROR)
 	{
 		int d = 5;
 		d++;
 	}
-
-	glUniform1i(glGetUniformLocation(m_program, "tex"), 0); // Texture unit 0
 }
 
 void									ModelEditorTab::prepareFBO(void)
