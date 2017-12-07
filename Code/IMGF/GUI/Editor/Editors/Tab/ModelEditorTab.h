@@ -95,17 +95,20 @@ private:
 	GLuint						m_program;
 	GLuint*						textureIDs; // todo - prefix
 	std::unordered_map<std::string, GLuint>		textureIndices; // todo - prefix // GLuint: gl texture id
+	std::unordered_map<std::string, uint32>		m_umapGeometryIndexByTextureNameLower;
 
 	std::vector<GLuint>			m_pGeometryVertexPositionBuffers;	// GLuint: gl buffer id
 	std::vector<GLuint>			m_pGeometryVertexNormalBuffers;		// GLuint: gl buffer id
 	std::vector<GLuint>			m_pGeometryTexturePositionBuffers;	// GLuint: gl buffer id
 	std::vector<std::vector<GLuint>>	m_pBinMeshDataIndexBuffers;	// GLuint: gl buffer id
 
-	std::vector<GLuint>			m_pGeometryVertexArrayBuffers;		// GLuint: gl vertex array buffer id
+	std::vector<std::vector<GLuint>>	m_pGeometryVertexArrayBuffers;		// GLuint: gl vertex array buffer id
 
 	//GLuint*						m_pGeometryVertexPositionBuffers;	// GLuint: gl buffer id
 
 	std::vector<const char*>					m_pVertexPositionBuffer;
+	std::vector<const char*>					m_pVertexNormalBuffer;
+	std::vector<const char*>					m_pTextureCoordinateBuffer;
 	std::vector<std::vector<const char*>>		m_pDataIndexBuffer;
 
 	std::stack<glm::mat4>		m_matProjectionMatrix;
@@ -121,4 +124,5 @@ private:
 	GLuint						depth_rb;
 	GLuint						m_vboID;
 	GLuint						m_vboColours;
+	GLuint						m_iboID;
 };
