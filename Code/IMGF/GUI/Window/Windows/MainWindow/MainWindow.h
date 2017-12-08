@@ -13,6 +13,7 @@
 #include "GUI/Editor/Editors/TextureEditor.h"
 #include "GUI/Editor/Editors/AnimationEditor.h"
 #include "GUI/Editor/Editors/RadarEditor.h"
+#include "GUI/Editor/Editors/MapEditor.h"
 #include <string>
 #include <vector>
 
@@ -85,6 +86,7 @@ public:
 	TextureEditor*				m_pTextureEditor;
 	AnimationEditor*			m_pAnimationEditor;
 	RadarEditor*				m_pRadarEditor;
+	MapEditor*					m_pMapEditor;
 
 	bxgx::Menu*					m_pFormatsMenu;
 	bxgx::Menu*					m_pSettingsMenu;

@@ -183,7 +183,7 @@ void						EditorTab::processThreadOnce(void)
 	
 	if (this == pActiveEditor->getActiveEditorTab())
 	{
-		if (uiActiveEditor == MODEL_EDITOR || uiActiveEditor == COLLISION_EDITOR || uiActiveEditor == ANIMATION_EDITOR)
+		if (uiActiveEditor == MODEL_EDITOR || uiActiveEditor == COLLISION_EDITOR || uiActiveEditor == ANIMATION_EDITOR || uiActiveEditor == MAP_EDITOR)
 		{
 			render();
 		}

@@ -100,7 +100,6 @@ IMGF::~IMGF(void)
 {
 	// destruct objects stored by IMGF
 	delete m_pInputManager;
-	delete m_pEntryViewerManager;
 	delete m_pLanguageManager;
 	delete m_pLSTProcessingManager;
 	delete m_pRecentlyOpenManager;

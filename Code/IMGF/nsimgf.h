@@ -45,12 +45,6 @@ namespace imgf
 		enum ETask;
 	};
 
-	class CollisionViewer;
-	class EntryViewer;
-	class EntryViewerManager;
-	class TextureViewer;
-	enum EEntryViewerDisplayType;
-
 	enum EEvent;
 
 	class DBEntry;
@@ -78,6 +72,7 @@ namespace imgf
 	class TextureEditor;
 	class AnimationEditor;
 	class RadarEditor;
+	class MapEditor;
 
 	class LeftEntryList;
 
@@ -90,6 +85,7 @@ namespace imgf
 	class TextureEditorTab;
 	class AnimationEditorTab;
 	class RadarEditorTab;
+	class MapEditorTab;
 
 	struct TextureEditorTabEntry;
 	struct RadarEditorTabEntry;

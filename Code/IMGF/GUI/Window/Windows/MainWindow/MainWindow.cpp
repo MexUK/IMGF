@@ -148,6 +148,7 @@ void					MainWindow::initEditors(void)
 	m_pTextureEditor = addEditor<TextureEditor>();
 	m_pAnimationEditor = addEditor<AnimationEditor>();
 	m_pRadarEditor = addEditor<RadarEditor>();
+	m_pMapEditor = addEditor<MapEditor>();
 }
 
 void					MainWindow::initMainLayer(void)

@@ -26,7 +26,6 @@ class imgf::LanguageManager;
 class imgf::DumpManager;
 class imgf::SettingsManager;
 class imgf::SortManager;
-class imgf::EntryViewerManager;
 class imgf::UpdateManager;
 class imgf::LastUsedValueManager;
 class imgf::WindowManager;
@@ -55,7 +54,6 @@ public:
 	
 	InputManager*				getInputManager(void) { return m_pInputManager; }
 	DumpManager*				getDumpManager(void) { return m_pDumpManager; }
-	EntryViewerManager*			getEntryViewerManager(void) { return m_pEntryViewerManager; }
 	LanguageManager*			getLanguageManager(void) { return m_pLanguageManager; }
 	LSTProcessingManager*		getLSTProcessingManager(void) { return m_pLSTProcessingManager; }
 	WindowManager*				getWindowManager(void) { return m_pWindowManager; }
@@ -102,7 +100,6 @@ private:
 
 	InputManager*				m_pInputManager;
 	DumpManager*				m_pDumpManager;
-	EntryViewerManager*			m_pEntryViewerManager;
 	LanguageManager*			m_pLanguageManager;
 	LSTProcessingManager*		m_pLSTProcessingManager;
 	WindowManager*				m_pWindowManager;

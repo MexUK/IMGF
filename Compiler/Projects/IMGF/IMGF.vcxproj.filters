@@ -28,9 +28,6 @@
     <Filter Include="Source Files\GUI">
       <UniqueIdentifier>{b95746be-11d6-4425-9d78-5daa239d480f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GUI\Window">
-      <UniqueIdentifier>{5ecce35a-62a1-4dcb-aafd-d4d5b1985640}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GUI\Editor">
       <UniqueIdentifier>{0bff4621-726e-4d35-87e5-e9c4516e5ce1}</UniqueIdentifier>
     </Filter>
@@ -154,9 +151,6 @@
     <Filter Include="Source Files\GUI\Layer\Layers\MainMenu">
       <UniqueIdentifier>{f0545247-05dd-4574-94cd-bbf28d3c9cc3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GUI\Window\Windows">
-      <UniqueIdentifier>{4e253473-55bd-4c05-92cb-6d78b8871be6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GUI\Editor\Editors">
       <UniqueIdentifier>{46b844b6-ec38-46f3-aa08-a8d55cf86880}</UniqueIdentifier>
     </Filter>
@@ -174,9 +168,6 @@
     </Filter>
     <Filter Include="Source Files\GUI\Layer\Layers\IPLInputWindow">
       <UniqueIdentifier>{0e1826a5-d0c0-47e8-aee0-03a35edd4a01}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GUI\Window\Windows\MainWindow">
-      <UniqueIdentifier>{0d27507a-78c6-450b-9e3e-d6881b784122}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\GUI\Layer\Layers\AboutWindow">
       <UniqueIdentifier>{97b57ad1-ce7d-41f5-b506-581fb5d1513e}</UniqueIdentifier>
@@ -309,6 +300,15 @@
     </Filter>
     <Filter Include="Header Files\GUI\Editor\Components">
       <UniqueIdentifier>{efb455a3-96af-4831-9e1a-e87cbbfbeb8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Window">
+      <UniqueIdentifier>{5ecce35a-62a1-4dcb-aafd-d4d5b1985640}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Window\Windows">
+      <UniqueIdentifier>{4e253473-55bd-4c05-92cb-6d78b8871be6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Window\Windows\MainWindow">
+      <UniqueIdentifier>{0d27507a-78c6-450b-9e3e-d6881b784122}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -521,6 +521,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Components\LeftEntryList.cpp">
       <Filter>Source Files\GUI\Editor\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\MapEditorTab.cpp">
+      <Filter>Source Files\GUI\Editor\Editors\Tab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\MapEditor.cpp">
+      <Filter>Source Files\GUI\Editor\Editors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -817,6 +823,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Components\LeftEntryList.h">
       <Filter>Header Files\GUI\Editor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\Tab\MapEditorTab.h">
+      <Filter>Header Files\GUI\Editor\Editors\Tab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\MapEditor.h">
+      <Filter>Header Files\GUI\Editor\Editors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
