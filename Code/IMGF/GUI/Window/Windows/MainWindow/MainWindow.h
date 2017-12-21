@@ -86,6 +86,10 @@ public:
 	TextureEditor*				m_pTextureEditor;
 	AnimationEditor*			m_pAnimationEditor;
 	RadarEditor*				m_pRadarEditor;
+	RadarEditor*				m_pWaterEditor;
+	RadarEditor*				m_pPathsEditor;
+	RadarEditor*				m_pPaintEditor;
+	RadarEditor*				m_pZonsEditor;
 	MapEditor*					m_pMapEditor;
 
 	bxgx::Menu*					m_pFormatsMenu;

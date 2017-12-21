@@ -134,10 +134,10 @@ void		MainLayer::addMenus(void)
 	*/
 
 	// top menu - buttons
-	x = 139 + 139;
+	x = 139;
 	y = uiTitleBarHeight;
-	w = 139;
-	h = uiButtonHeight;
+	w = 90;
+	h = 25;
 	w2 = w;
 	strStyleGroup = "topMenu";
 
@@ -241,7 +241,7 @@ void		MainLayer::addMenus(void)
 
 	
 
-	pMenu1 = addMenu(x, y, w, h, VERTICAL, strStyleGroup, SECOND_LEFT_MENU, -200);
+	pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, SECOND_LEFT_MENU, -200);
 
 	// import
 	pMenuItem1 = pMenu1->addMenuItem("Import", IMPORT_MENU);

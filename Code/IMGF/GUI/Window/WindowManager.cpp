@@ -53,7 +53,7 @@ MainWindow*				WindowManager::openWindow(void)
 	LPWSTR pIcon = MAKEINTRESOURCE(IDI_ICON1);
 	uint32 uiIcon = (uint32) pIcon;
 
-	m_pMainWindow = bxgx::get()->addWindow<MainWindow>(-1, -1, 1300, 700, uiIcon);
+	m_pMainWindow = bxgx::get()->addWindow<MainWindow>(-1, -1, 1300, 800, uiIcon);
 	if (!m_pMainWindow)
 	{
 		return nullptr;

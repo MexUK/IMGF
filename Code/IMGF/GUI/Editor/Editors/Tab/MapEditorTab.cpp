@@ -139,7 +139,7 @@ bool						MapEditorTab::unserializeFile(void)
 	{
 		//if (uiFileCount == 4) break;
 
-		if (String::toLowerCase(strRelativeIDEFilePath).find("down") == string::npos)
+		if (String::toLowerCase(strRelativeIDEFilePath).find("golf") == string::npos)
 		{
 			continue;
 		}
@@ -181,7 +181,7 @@ bool						MapEditorTab::unserializeFile(void)
 	{
 		//if (uiFileCount == 4) break;
 
-		if (String::toLowerCase(strRelativeIPLFilePath).find("down") == string::npos)
+		if (String::toLowerCase(strRelativeIPLFilePath).find("golf") == string::npos)
 		{
 			continue;
 		}
@@ -362,6 +362,11 @@ void						MapEditorTab::render3D(void)
 	}
 
 
+
+
+
+
+	
 	
 	
 	
@@ -372,13 +377,20 @@ void						MapEditorTab::render3D(void)
 	glUseProgram(m_program);
 
 	glUniformMatrix4fv(glGetUniformLocation(m_program, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
-	glUniformMatrix4fv(glGetUniformLocation(m_program, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
+	glUniformMatrix4fv(glGetUniformLocation(m_program, "Model"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
 
 	renderMap();
 
 	//SwapBuffers(m_hDC);
 
+
+
+
+
 	
+
+
+
 
 	
 	// render axis
@@ -387,7 +399,7 @@ void						MapEditorTab::render3D(void)
 
 	// Get the variables from the shader to which data will be passed
 	GLint ploc = glGetUniformLocation(m_program2, "Projection");
-	GLint mvloc = glGetUniformLocation(m_program2, "ModelView");
+	GLint mvloc = glGetUniformLocation(m_program2, "Model");
 
 	// Pass the model-view matrix to the shader
 	//GLfloat mvMat[16];
@@ -550,15 +562,7 @@ void						MapEditorTab::renderMap(void)
 
 
 
-		///*
-		m_matModelViewMatrix.top() = glm::translate(m_matModelViewMatrix.top(), glm::vec3(pMapObject->m_vecPosition.x, pMapObject->m_vecPosition.z, pMapObject->m_vecPosition.y));
-
-		glUseProgram(m_program2);
-		glUniformMatrix4fv(glGetUniformLocation(m_program2, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
-
-		glUseProgram(m_program);
-		glUniformMatrix4fv(glGetUniformLocation(m_program, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
-		//*/
+		
 
 
 
@@ -567,19 +571,41 @@ void						MapEditorTab::renderMap(void)
 
 		if (m_umapDFFsByModelNameLower.count(strDFFNameLower))
 		{
+			///*
+			m_matModelViewMatrix.top() = glm::translate(m_matModelViewMatrix.top(), glm::vec3(pMapObject->m_vecPosition.x, pMapObject->m_vecPosition.z, pMapObject->m_vecPosition.y));
+			//m_matModelViewMatrix.top() = glm::translate(m_matModelViewMatrix.top(), glm::vec3(654.1593018, 0, -1550.650391));
+
+			glUseProgram(m_program2);
+			glUniformMatrix4fv(glGetUniformLocation(m_program2, "Model"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
+
+			glUseProgram(m_program);
+			glUniformMatrix4fv(glGetUniformLocation(m_program, "Model"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
+			//*/
+
+
+
+
+
+
+
+
 			renderModel(m_umapDFFsByModelNameLower[strDFFNameLower]);
+
+
+
+
+
+
+
+
+			m_matModelViewMatrix.top() = glm::translate(m_matModelViewMatrix.top(), glm::vec3(-pMapObject->m_vecPosition.x, -pMapObject->m_vecPosition.z, -pMapObject->m_vecPosition.y));
+
+			glUseProgram(m_program2);
+			glUniformMatrix4fv(glGetUniformLocation(m_program2, "Model"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
+
+			glUseProgram(m_program);
+			glUniformMatrix4fv(glGetUniformLocation(m_program, "Model"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
 		}
-
-
-
-
-		m_matModelViewMatrix.top() = glm::translate(m_matModelViewMatrix.top(), glm::vec3(-pMapObject->m_vecPosition.x, -pMapObject->m_vecPosition.z, -pMapObject->m_vecPosition.y));
-
-		glUseProgram(m_program2);
-		glUniformMatrix4fv(glGetUniformLocation(m_program2, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
-
-		glUseProgram(m_program);
-		glUniformMatrix4fv(glGetUniformLocation(m_program, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
 	}
 }
 
@@ -668,10 +694,10 @@ void						MapEditorTab::renderFrame(DFFFormat *pDFFFile, uint32 uiFrameIndex, RW
 		//m_matProjectionMatrix *= matMultMatrix;
 
 		glUseProgram(m_program2);
-		glUniformMatrix4fv(glGetUniformLocation(m_program2, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
+		glUniformMatrix4fv(glGetUniformLocation(m_program2, "Model"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
 
 		glUseProgram(m_program);
-		glUniformMatrix4fv(glGetUniformLocation(m_program, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
+		glUniformMatrix4fv(glGetUniformLocation(m_program, "Model"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
 	}
 
 	if (umapAtomics.count(uiFrameIndex) != 0)
@@ -1289,6 +1315,7 @@ void							MapEditorTab::prepareModel(DFFFormat *pDFFFile)
 			m_umapGeometryIndexByTextureNameLower[strTextureNameLower] = uiGeometryIndex;
 		}
 
+		/*
 		uint32 uiSize1 = pGeometry->getVertexPositions().size() * sizeof(float32) * 3;
 		string strData1 = "";
 		for (Vec3f& vecPosition : pGeometry->getVertexPositions())
@@ -1317,6 +1344,16 @@ void							MapEditorTab::prepareModel(DFFFormat *pDFFFile)
 			strData3 += String::packFloat32(vecTextureCoordinates.y, false);
 		}
 		m_pTextureCoordinateBuffer[pDFFFile][uiGeometryIndex] = strData3.c_str();
+		*/
+
+		uint32 uiSize1 = pGeometry->getVertexPositions().size() * sizeof(float32) * 3;
+		m_pVertexPositionBuffer[pDFFFile][uiGeometryIndex] = (char*) pGeometry->getVertexPositions().data();
+
+		uint32 uiSize4 = pGeometry->getVertexNormals().size() * sizeof(float32) * 3;
+		m_pVertexNormalBuffer[pDFFFile][uiGeometryIndex] = (char*) pGeometry->getVertexNormals().data();
+
+		uint32 uiSize3 = pGeometry->getTextureCoordinates().size() * sizeof(float32) * 2;
+		m_pTextureCoordinateBuffer[pDFFFile][uiGeometryIndex] = (char*) pGeometry->getTextureCoordinates().data();
 
 		
 		
@@ -1333,8 +1370,8 @@ void							MapEditorTab::prepareModel(DFFFormat *pDFFFile)
 		for (RWEntry_BinMeshPLG_Mesh *pMesh : pBinMeshPLG->getMeshes())
 		{
 			// VAO
-			glGenVertexArrays(1, &m_pGeometryVertexArrayBuffers[pDFFFile][uiGeometryIndex][uiGeometryMeshIndex]);
-			glBindVertexArray(m_pGeometryVertexArrayBuffers[pDFFFile][uiGeometryIndex][uiGeometryMeshIndex]);
+			//glGenVertexArrays(1, &m_pGeometryVertexArrayBuffers[pDFFFile][uiGeometryIndex][uiGeometryMeshIndex]);
+			//glBindVertexArray(m_pGeometryVertexArrayBuffers[pDFFFile][uiGeometryIndex][uiGeometryMeshIndex]);
 
 			// vertex positions
 			m_pGeometryVertexPositionBuffers[pDFFFile][uiGeometryIndex] = 0;
@@ -1488,9 +1525,61 @@ void							MapEditorTab::prepareShaderData(void)
 
 	// setup modelview matrix (look down the negative z-axis)
 
-	Vec3f vecCameraPosition = Vec3f(-700, 1200, 180);
+	//Vec3f vecCameraPosition = Vec3f(-700, 1200, 180);
 	m_matModelViewMatrix.push(glm::mat4(1.0f));
-	m_matModelViewMatrix.top() *= glm::lookAt(glm::vec3(vecCameraPosition.x, vecCameraPosition.z, vecCameraPosition.y), glm::vec3(-500, 1000, 0), glm::vec3(0.0f, 1.0f, 0.0f));
+	//m_matModelViewMatrix.top() *= glm::lookAt(glm::vec3(vecCameraPosition.x, vecCameraPosition.z, vecCameraPosition.y), glm::vec3(-700, 1200, 0), glm::vec3(0.0f, 1.0f, 0.0f));
+
+
+	// render camera
+	//Vec3f vecCameraPosition = Vec3f(-700, 1200, 180);
+	//Vec3f vecCameraLookAtPosition = Vec3f(-700, 1200, 0);
+	//Vec3f vecCameraPosition = Vec3f(-654.1593018, 1550.650391, 50.0);
+	//Vec3f vecCameraLookAtPosition = Vec3f(-654.1593018, 1550.650391, 10.0);
+	Vec3f vecCameraPosition = Vec3f(5, 5, 5);
+	Vec3f vecCameraLookAtPosition = Vec3f(0, 0, 0);
+
+	//m_matModelViewMatrix.push(glm::mat4(1.0f));
+	//m_matModelViewMatrix.top() *= glm::lookAt(glm::vec3(vecCameraPosition.x, vecCameraPosition.z, vecCameraPosition.y), glm::vec3(vecCameraLookAtPosition.x, vecCameraLookAtPosition.z, vecCameraLookAtPosition.y), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	static float zRot = 0.0f;
+	m_vecCameraPosition = Vec3f(5, 5, 5);
+	//zRot += 5.0f;
+
+	float _verticalAngle = 45;
+	float _horizontalAngle = Math::convertRadiansToDegrees(Math::getAngleBetweenPoints(vecCameraLookAtPosition, vecCameraPosition)) - 90;
+	glm::mat4 orientation;
+	orientation = glm::rotate(orientation, _verticalAngle, glm::vec3(1, 0, 0));
+	orientation = glm::rotate(orientation, _horizontalAngle, glm::vec3(0, 1, 0));
+	//_horizontalAngle += 20;
+	//_verticalAngle += 20;
+
+	glm::vec3 camPosition = glm::vec3(m_vecCameraPosition.x, m_vecCameraPosition.z, m_vecCameraPosition.y);
+	glm::mat4 camera = glm::perspective(45.0f, (float32)m_vecRenderSize.x / (float32)m_vecRenderSize.y, 0.1f, 1500.0f);
+	camera *= orientation;
+	camera = glm::translate(camera, -camPosition);
+	
+
+	//glm::mat4 matCameraPosition = glm::mat4(1.0f) * glm::lookAt(glm::vec3(vecCameraPosition.x, vecCameraPosition.z, vecCameraPosition.y), glm::vec3(vecCameraLookAtPosition.x, vecCameraLookAtPosition.z, vecCameraLookAtPosition.y), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	glUseProgram(m_program);
+	glUniformMatrix4fv(glGetUniformLocation(m_program, "Model"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
+	glUniformMatrix4fv(glGetUniformLocation(m_program, "Camera"), 1, GL_FALSE, glm::value_ptr(camera));
+
+	glUseProgram(m_program2);
+	glUniformMatrix4fv(glGetUniformLocation(m_program2, "Model"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
+	glUniformMatrix4fv(glGetUniformLocation(m_program2, "Camera"), 1, GL_FALSE, glm::value_ptr(camera));
+
+	//m_matModelViewMatrix.pop();
+
+
+
+
+
+
+
+
+
+
 
 
 	// create and upload modelviewprojection matrix
@@ -1515,13 +1604,13 @@ void							MapEditorTab::prepareShaderData(void)
 	}
 	
 	glUniformMatrix4fv(glGetUniformLocation(m_program, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
-	glUniformMatrix4fv(glGetUniformLocation(m_program, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
+	glUniformMatrix4fv(glGetUniformLocation(m_program, "Model"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
 	glUniform1i(glGetUniformLocation(m_program, "tex"), 0); // Texture unit 0
 
 	glUseProgram(m_program2);
 	
 	glUniformMatrix4fv(glGetUniformLocation(m_program2, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
-	glUniformMatrix4fv(glGetUniformLocation(m_program2, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
+	glUniformMatrix4fv(glGetUniformLocation(m_program2, "Model"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
 
 	int rr = glGetError();
 	if (rr != GL_NO_ERROR)

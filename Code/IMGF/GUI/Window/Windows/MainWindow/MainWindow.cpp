@@ -106,6 +106,9 @@ void					MainWindow::initLayers(void)
 
 	bindEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
 
+	/*
+	todo
+
 	int32 iLastEditorUsedIndex = String::toUint32(getIMGF()->getSettingsManager()->getSetting("LastEditorUsedIndex"));
 	if (iLastEditorUsedIndex < m_vecEditors.getEntryCount())
 	{
@@ -115,6 +118,7 @@ void					MainWindow::initLayers(void)
 	{
 		setActiveEditor(m_vecEditors.getFirstEntry());
 	}
+	*/
 }
 
 void					MainWindow::onDropEntries(void *m_pEditorTab, vector<string> vecFileNames, vector<string> vecFileDatas)
@@ -141,13 +145,17 @@ void					MainWindow::initEditors(void)
 {
 	m_pDATEditor = addEditor<DATEditor>();
 	m_pIMGEditor = addEditor<IMGEditor>();
+	m_pTextureEditor = addEditor<TextureEditor>();
+	m_pCollisionEditor = addEditor<CollisionEditor>();
+	m_pModelEditor = addEditor<ModelEditor>();
+	m_pRadarEditor = addEditor<RadarEditor>();
+	m_pWaterEditor = addEditor<RadarEditor>(); // todo - Water
+	m_pPathsEditor = addEditor<RadarEditor>(); // todo - Paths
+	m_pPaintEditor = addEditor<RadarEditor>(); // todo - Paint
+	m_pZonsEditor = addEditor<RadarEditor>(); // todo - Zons
+	m_pAnimationEditor = addEditor<AnimationEditor>();
 	m_pItemDefinitionEditor = addEditor<ItemDefinitionEditor>();
 	m_pItemPlacementEditor = addEditor<ItemPlacementEditor>();
-	m_pModelEditor = addEditor<ModelEditor>();
-	m_pCollisionEditor = addEditor<CollisionEditor>();
-	m_pTextureEditor = addEditor<TextureEditor>();
-	m_pAnimationEditor = addEditor<AnimationEditor>();
-	m_pRadarEditor = addEditor<RadarEditor>();
 	m_pMapEditor = addEditor<MapEditor>();
 }
 
@@ -168,7 +176,7 @@ void					MainWindow::initMainLayerNoTabsOpen(void)
 void					MainWindow::initMainMenuLayers(void)
 {
 	int32
-		x, y, y2, w, h, h2;
+		x, y, y2, w, h, w2, h2;
 	uint32
 		uiButtonHeight = 37;
 	Menu
@@ -183,14 +191,73 @@ void					MainWindow::initMainMenuLayers(void)
 	y = getTitleBarHeight() + 40;
 	y2 = y;
 	w = 139;
-	h = uiButtonHeight;
-	h2 = h;
+	h = 29;
+	w2 = 10;
+	h2 = 10;
 	strStyleGroup = "leftMenu";
 
-	m_pFormatsMenu = pFormatsLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -200);
-	vector<MenuItem*> vecMenuItems = m_pFormatsMenu->addMenuItems(19, "IMG", "TXD", "COL", "Radar", "Water", "Paths", "Paint", "Zones", "Anims", "Root Dat", "IDE / IPL", "2DFX / IFX", "Text Editor", "Map Editor", "Weapon", "Vehicle", "Ped", "Cuts", "More ->");
-	m_pFormatsMenu->setItemIds(500);
-	m_pFormatsMenu->setActiveMenuItem(vecMenuItems[6]);
+	//m_pFormatsMenu = pFormatsLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -200);
+	//vector<MenuItem*> vecMenuItems = m_pFormatsMenu->addMenuItems(23, "Root Dat", "IMG", "Tex", "COL", "Model", "Radar", "Water", "Path", "Paint", "Zone", "Animation", "IDE", "IPL", "2DFX / IFX", "Text Editor", "Map Editor", "Weapon", "Cut Scene", "Vehicle", "Pedestrian", "Carcol", "Timecyc", "More ->");
+	//m_pFormatsMenu->setItemIds(500);
+	//m_pFormatsMenu->setActiveMenuItem(vecMenuItems[6]);
+
+	getMainLayer()->addButton(x, y, w, h, "Root Dat");
+	y += h + h2;
+	w = 65;
+	getMainLayer()->addButton(x, y, w, h, "IMG");
+	x += w + w2;
+	getMainLayer()->addButton(x, y, w, h, "Tex");
+	y += h + h2;
+	x -= w + w2;
+	getMainLayer()->addButton(x, y, w, h, "COL");
+	x += w + w2;
+	getMainLayer()->addButton(x, y, w, h, "Model");
+	y += h + h2;
+	x -= w + w2;
+	w = 139;
+	getMainLayer()->addButton(x, y, w, h, "Radar");
+	y += h + h2;
+	getMainLayer()->addButton(x, y, w, h, "Water");
+	y += h + h2;
+	getMainLayer()->addButton(x, y, w, h, "Paths");
+	y += h + h2;
+	getMainLayer()->addButton(x, y, w, h, "Paint");
+	y += h + h2;
+	getMainLayer()->addButton(x, y, w, h, "Zones");
+	y += h + h2;
+	getMainLayer()->addButton(x, y, w, h, "Anims");
+	y += h + (h2 * 4);
+	w = 65;
+	getMainLayer()->addButton(x, y, w, h, "IDE");
+	x += w + w2;
+	getMainLayer()->addButton(x, y, w, h, "IPL");
+	y += h + h2;
+	x -= w + w2;
+	w = 139;
+	getMainLayer()->addButton(x, y, w, h, "2DFX / IFX");
+	y += h + h2;
+	getMainLayer()->addButton(x, y, w, h, "Text Editor");
+	y += h + h2;
+	getMainLayer()->addButton(x, y, w, h, "Map Editor");
+	y += h + h2;
+	w = 65;
+	getMainLayer()->addButton(x, y, w, h, "Weap");
+	x += w + w2;
+	getMainLayer()->addButton(x, y, w, h, "Cuts");
+	y += h + h2;
+	x -= w + w2;
+	getMainLayer()->addButton(x, y, w, h, "Vehicle");
+	x += w + w2;
+	getMainLayer()->addButton(x, y, w, h, "Ped");
+	x -= w + w2;
+	y += h + h2;
+	w = 139;
+	getMainLayer()->addButton(x, y, w, h, "Car Cols");
+	y += h + h2;
+	getMainLayer()->addButton(x, y, w, h, "Timecyc");
+	y += h + h2;
+	getMainLayer()->addButton(x, y, w, h, "More ->");
+	y += h + h2;
 
 	// utility menu
 	Layer *pUtilityLayer = addLayer(UTILITY_MENU, false);
