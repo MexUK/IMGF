@@ -259,6 +259,7 @@ string								Editor::getEditorName(EEditor uiEditor)
 	case MODEL_EDITOR:				return "Model";
 	case COLLISION_EDITOR:			return "Collision";
 	case TEXTURE_EDITOR:			return "Texture";
+//	case TEXT_EDITOR:				return "Text";
 	case ANIMATION_EDITOR:			return "Animation";
 	case RADAR_EDITOR:				return "Radar";
 	}

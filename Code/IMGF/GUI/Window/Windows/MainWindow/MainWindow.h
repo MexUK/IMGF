@@ -43,6 +43,7 @@ public:
 	ModelEditor*				getModelEditor(void) { return m_pModelEditor; }
 	CollisionEditor*			getCollisionEditor(void) { return m_pCollisionEditor; }
 	TextureEditor*				getTextureEditor(void) { return m_pTextureEditor; }
+//	TextEditor*					getTextEditor(vold) { return m_pTextEditor; }
 	AnimationEditor*			getAnimationEditor(void) { return m_pAnimationEditor; }
 	RadarEditor*				getRadarEditor(void) { return m_pRadarEditor; }
 
@@ -84,6 +85,7 @@ public:
 	ModelEditor*				m_pModelEditor;
 	CollisionEditor*			m_pCollisionEditor;
 	TextureEditor*				m_pTextureEditor;
+//	TextEditor*                 m_TextEditor;
 	AnimationEditor*			m_pAnimationEditor;
 	RadarEditor*				m_pRadarEditor;
 	RadarEditor*				m_pWaterEditor;

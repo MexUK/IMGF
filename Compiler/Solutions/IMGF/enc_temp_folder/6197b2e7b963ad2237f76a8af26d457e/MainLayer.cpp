@@ -544,20 +544,7 @@ void		MainLayer::addMenus(void)
 
 	/*if (bIsTextEditor)
 	{
-		pMenu2->addMenuItem("Undo", UNDO);
-		pMenu2->addMenuItem("Redo", REDO);
-		// add line in menu...
-		pMenu2->addMenuItem("Cut", CUT);
-		pMenu2->addMenuItem("Copy", COPY);
-		pMenu2->addMenuItem("Copy Clip", COPYCLIP);
-		pMenu2->addMenuItem("Paste", PASTE);
-		pMenu2->addMenuItem("DELETE", DELETE);
-		pMenu2->addMenuItem("Selete All", SELECTALL);
-		pMenu2->addMenuItem("Selete Inverse", SELECTIVS);
-		pMenu2->addMenuItem("Begin /End Select", SELEND);
-		// add line in menu...
-		pMenu2->addMenuItem("Convert Case to", CONVCASE);
-		pMenu2->addMenuItem("# Un-Comment", COMMENT);
+		pMenu2->addMenuItem("Rename", RENAMER);
 	}
 	*/
 		// tools
@@ -606,49 +593,6 @@ void		MainLayer::addMenus(void)
 		pMenu2->addMenuItem("Texture List", TEXTURE_LIST);
 		pMenu2->addMenuItem("Stats", STATS);
 
-		//Search
-		/*if (bIsTextEditorLCVCSA)
-		{
-		pMenu2->addMenuItem("Find", FIND);
-		pMenu2->addMenuItem("Find in Tabs", FINDT);
-		pMenu2->addMenuItem("Find in Files", FINDF);
-		pMenu2->addMenuItem("Find Next", FINDN);
-		pMenu2->addMenuItem("Find Previous", FINDP);
-		pMenu2->addMenuItem("Find and Select Next", FINDSN);
-		pMenu2->addMenuItem("Find amd Select Previous", FINDSP);
-		pMenu2->addMenuItem("Find (Volatile) Next", FINDVN);
-		pMenu2->addMenuItem("Find (Volatile) Previous", FINDVP);
-		// add line in menu...
-		pMenu2->addMenuItem("Replace", REPLACE);
-		pMenu2->addMenuItem("Find and Replace", FREPLACE);
-		pMenu2->addMenuItem("Find and Replace All", FREPLACEA);
-		pMenu2->addMenuItem("Find, Replace in Taps", FREPLACET);
-		pMenu2->addMenuItem("Find, Replace in Files", FREPLACEF);
-		// add line in menu...
-		pMenu2->addMenuItem("ID, in Assending Order (IPL)", IDASSENDING); // Changes IDs in assending order.
-		pMenu2->addMenuItem("Sort in Assending Order (IPL)", IDSORTIPL); // Just sorts IPL in assanding order.
-		pMenu2->addMenuItem("ID, ModelName Assending (IPL/IDE)", IDMODASSEND); // Changes IDs & Modelnames in assending order.
-		pMenu2->addMenuItem("Check IPL by IDE", CHECKIPL);
-		pMenu2->addMenuItem("Check IPL by IMG", CHECKIPLIMG);
-		pMenu2->addMenuItem("Check IPL by COL", CHECKIPLIMG);
-		pMenu2->addMenuItem("Check IDE by IMG", CHECKIDECOL);
-		pMenu2->addMenuItem("Check IDE by COL", CHECKIDECOL);
-		pMenu2->addMenuItem("Check Model by IDE", MODELIDE);
-		pMenu2->addMenuItem("Check Texture by IDE", MTEXIDE);
-		pMenu2->addMenuItem("Sort IPL/IFX By IDE", SORTIDE);
-		pMenu2->addMenuItem("Remove dup entries IDE", REMDUPIDE);
-		pMenu2->addMenuItem("Remove dup entries IPL", REMDUPIPL);
-		pMenu2->addMenuItem("Valdate .Dat by .IDE", SELEND);
-		pMenu2->addMenuItem("Simulate Loading", SIMLOAD);
-		// add line in menu...
-		pMenu2->addMenuItem("Shift ID from", SHIFTID);
-		pMenu2->addMenuItem("Shift Select IDs from", SHIFTIDS);
-		pMenu2->addMenuItem("Rotate IPL models", ROTIPLMOD);
-		pMenu2->addMenuItem("Convert IDE/IPL to SA", CONVERTSA);
-		pMenu2->addMenuItem("Convert IDE/IPL to VC", CONVERTVC);
-		pMenu2->addMenuItem("Convert IDE/IPL to LC", CONVERTLC);
-		}
-		*/
 	
 }
 
