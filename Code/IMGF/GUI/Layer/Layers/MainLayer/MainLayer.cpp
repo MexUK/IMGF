@@ -137,7 +137,7 @@ void		MainLayer::addMenus(void)
 	x = 139;
 	y = uiTitleBarHeight;
 	w = 90;
-	h = 25;
+	h = 20; //original value was 25
 	w2 = w;
 	strStyleGroup = "topMenu";
 
@@ -229,8 +229,8 @@ void		MainLayer::addMenus(void)
 	// 2nd left menu - actions
 	x = 139;
 	y = uiTitleBarHeight + uiButtonHeight;
-	w = 139;
-	h = uiButtonHeight;
+	w = 100; // 139 was original value
+	h = 20; // uiButtonHeight was original value
 	h2 = h;
 	h3 = h2 + 0;
 	strStyleGroup = "secondLeftMenu";
