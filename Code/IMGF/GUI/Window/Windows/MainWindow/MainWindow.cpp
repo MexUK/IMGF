@@ -130,6 +130,9 @@ void					MainWindow::initLayers(void)
 	initEditors();
 
 	setActiveEditor(m_vecEditors.getFirstEntry());
+
+	Button *pButton = (Button*)getItemById(1004);
+	pButton->setActiveItem();
 }
 
 void					MainWindow::onDropEntries(void *m_pEditorTab, vector<string> vecFileNames, vector<string> vecFileDatas)
@@ -212,7 +215,8 @@ void					MainWindow::initMainMenuLayers(void)
 	//m_pFormatsMenu->setItemIds(500);
 	//m_pFormatsMenu->setActiveMenuItem(vecMenuItems[6]);
 
-	getMainLayer()->addButton(x, y, w, h, "Root Dat");
+	Button *pButton = getMainLayer()->addButton(x, y, w, h, "Root Dat");
+	
 	y += h + h2;
 	w = 65;
 	getMainLayer()->addButton(x, y, w, h, "IMG");

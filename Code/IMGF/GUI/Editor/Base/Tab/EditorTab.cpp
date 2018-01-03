@@ -227,8 +227,12 @@ void						EditorTab::onChangeTextBox(TextBox *pTextBox)
 // controls
 void						EditorTab::addControls(void)
 {
-	m_pProgressBar = (ProgressBar*)m_pEditor->getMainWindow()->getItemById(80);
-	m_pLog = (TextBox*)m_pEditor->getMainWindow()->getItemById(81);
+	MainWindow *pMainWindow = m_pEditor->getMainWindow();
+
+	m_pProgressBar = (ProgressBar*)pMainWindow->getItemById(80);
+	m_pLog = (TextBox*)pMainWindow->getItemById(81);
+	m_pText_FilePath = (Text*)pMainWindow->getItemById(91);
+	m_pText_FileEntryCount = (Text*)pMainWindow->getItemById(92);
 
 	/*
 	todo
