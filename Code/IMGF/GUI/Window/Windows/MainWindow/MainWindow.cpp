@@ -12,6 +12,7 @@
 #include "Static/File.h"
 #include "Static/Path.h"
 #include "Static/String.h"
+#include "Static/DataPath.h"
 #include "Type/Colour/Colour.h"
 #include "GUI/Layer/Layers/MainLayer/MainLayer.h"
 #include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
@@ -95,11 +96,12 @@ void					MainWindow::initWindow(void)
 
 void					MainWindow::initLayers(void)
 {
-	initEditors();
+	/*
 	initMainLayer();
 	initMainLayerNoTabsOpen();
 	initMainMenuLayers();
 	initSettingsMenuLayer();
+	*/
 
 	bindEventRef(RESIZE_WINDOW, &MainWindow::repositionAndResizeControls);
 	repositionAndResizeControls(Vec2i(0, 0));
@@ -119,6 +121,15 @@ void					MainWindow::initLayers(void)
 		setActiveEditor(m_vecEditors.getFirstEntry());
 	}
 	*/
+
+	for (string& strLayerFilePath : File::getFilePaths(DataPath::getDataPath() + "Layers/"))
+	{
+		loadLayerFile(strLayerFilePath);
+	}
+
+	initEditors();
+
+	setActiveEditor(m_vecEditors.getFirstEntry());
 }
 
 void					MainWindow::onDropEntries(void *m_pEditorTab, vector<string> vecFileNames, vector<string> vecFileDatas)
@@ -316,26 +327,48 @@ void					MainWindow::addEditor(Editor *pEditor)
 void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 {
 	bool bDiff = m_pActiveEditor != pActiveEditor;
+	Layer *pBlankLayer = getLayerById(99);
 
-	if (m_pActiveEditor && bDiff && m_pActiveEditor->isEnabled())
+	// disable previous editor
+	if (m_pActiveEditor && bDiff && m_pActiveEditor == getActiveEditor())
 	{
 		//m_pActiveEditor->unbindEvents();
-		m_pActiveEditor->setEnabled(false);
+		if (m_pActiveEditor->getEditorTabs().getEntryCount() == 0)
+		{
+			pBlankLayer->setEnabled(false);
+		}
+		else
+		{
+			m_pActiveEditor->getActiveEditorTab()->getLayer()->setEnabled(false);
+		}
 	}
 
+	// set next editor
 	m_pActiveEditor = pActiveEditor;
 
-	if (pActiveEditor && bDiff && !pActiveEditor->isEnabled())
+	// enable next editor
+	if (pActiveEditor && bDiff && pActiveEditor != getActiveEditor())
 	{
-		getIMGF()->getSettingsManager()->setSetting("LastEditorUsedIndex", String::toString(getEditorIndex(pActiveEditor)));
-		pActiveEditor->setEnabled(true);
+		//getIMGF()->getSettingsManager()->setSetting("LastEditorUsedIndex", String::toString(getEditorIndex(pActiveEditor)));
+		//pActiveEditor->getLayer()->setEnabled(true);
+		if (pActiveEditor->getEditorTabs().getEntryCount() == 0)
+		{
+			pBlankLayer->setEnabled(true);
+		}
+		else
+		{
+			pActiveEditor->getActiveEditorTab()->getLayer()->setEnabled(true);
+		}
 		//pActiveEditor->bindEvents();
 	}
 
-	m_pMainLayer->removeMenus();
-	m_pMainLayer->addMenus();
-	m_pMainLayer->setCertainMenuItemsEnabled(pActiveEditor && (pActiveEditor->getEditorTabs().getEntryCount() > 0));
+	// todo
+	//m_pMainLayer->removeMenus();
+	//m_pMainLayer->addMenus();
+	//m_pMainLayer->setCertainMenuItemsEnabled(pActiveEditor && (pActiveEditor->getEditorTabs().getEntryCount() > 0));
 
+	/*
+	todo
 	if (m_pActiveEditor)
 	{
 		getIMGF()->getRecentlyOpenManager()->unloadRecentlyOpenEntries(m_pActiveEditor->getEditorType());
@@ -344,22 +377,23 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 		getIMGF()->getFileGroupManager()->unloadFileGroups(m_pActiveEditor->getEditorType());
 		getIMGF()->getFileGroupManager()->loadFileGroups(m_pActiveEditor->getEditorType());
 	}
+	*/
 
+	// todo
 	bool bEnableLayerWithNoTabsOpen = pActiveEditor && pActiveEditor->getEditorTabs().getEntryCount() == 0;
-	Layer *pLayerWithNoTabsOpen = getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen();
-	if (pLayerWithNoTabsOpen->isEnabled() != bEnableLayerWithNoTabsOpen)
+	if (pBlankLayer->isEnabled() != bEnableLayerWithNoTabsOpen)
 	{
-		pLayerWithNoTabsOpen->setEnabled(bEnableLayerWithNoTabsOpen);
+		pBlankLayer->setEnabled(bEnableLayerWithNoTabsOpen);
 	}
 
 	uint32 uiEditorIndex = m_vecEditors.getIndexByEntry(pActiveEditor);
-	MenuItem *pActiveMenuItem = m_pFormatsMenu->getEntryByIndex(uiEditorIndex);
-	m_pFormatsMenu->setActiveMenuItem(pActiveMenuItem);
+	//MenuItem *pActiveMenuItem = m_pFormatsMenu->getEntryByIndex(uiEditorIndex);
+	//m_pFormatsMenu->setActiveMenuItem(pActiveMenuItem);
 
-	string strEditorTitleNoSpaces = String::replace(pActiveMenuItem->getText(), " ", "");
-	string strWindowStyleGroup = "window windowEditorTab_" + strEditorTitleNoSpaces;
-	resetStyleGroups();
-	setStyleGroups(strWindowStyleGroup);
+	//string strEditorTitleNoSpaces = String::replace(pActiveMenuItem->getText(), " ", "");
+	//string strWindowStyleGroup = "window windowEditorTab_" + strEditorTitleNoSpaces;
+	//resetStyleGroups();
+	//setStyleGroups(strWindowStyleGroup);
 	render();
 }
 
@@ -408,7 +442,7 @@ void					MainWindow::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	h = uiButtonHeight;
 	x = getSize().x - w;
 
-	m_pSettingsMenu->setPosition(Vec2i(x, y));
+	// todo m_pSettingsMenu->setPosition(Vec2i(x, y));
 }
 
 // main menu type

@@ -74,6 +74,9 @@ RadarEditorTab::RadarEditorTab(void) :
 // controls
 void						RadarEditorTab::addControls(void)
 {
+	/*
+	todo
+
 	int32 x, y;
 	uint32 w, h, uiLogWidth;
 
@@ -100,11 +103,12 @@ void						RadarEditorTab::addControls(void)
 	x = 139 + 139 + 250;
 	y = 192;
 	w = 15;
-	h = m_pWindow->getSize().y - y;
+	h = getLayer()->getWindow()->getSize().y - y;
 	x -= w;
 
 	m_pVScrollBar = addScrollBar(x, y, w, h, "", -1, 50);
 	m_pVScrollBar->setScrollOrientation(VERTICAL);
+	*/
 }
 
 void						RadarEditorTab::initControls(void)
@@ -118,7 +122,7 @@ void						RadarEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 
 	// entry list vertical scroll bar
 	// todo m_pVScrollBar->setSize(m_pVScrollBar->getSize() + Vec2u(0, vecSizeChange.y));
-	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, m_pWindow->getSize().y - m_pVScrollBar->getPosition().y));
+	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, getLayer()->getWindow()->getSize().y - m_pVScrollBar->getPosition().y));
 }
 
 // events
@@ -159,7 +163,7 @@ void						RadarEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 		fVProgress = m_pVScrollBar->getProgress();
 
 	for (uint32
-		uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
+		uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 193, uiRowHeight),
 		uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
 		uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount);
 		uiEntryIndex < uiEntryEndIndexExclusive;
@@ -184,9 +188,9 @@ void						RadarEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 	}
 	if (pActiveTabEntry != nullptr)
 	{
-		if (m_pWindow->isMovingWindow())
+		if (getLayer()->getWindow()->isMovingWindow())
 		{
-			m_pWindow->checkToStopMovingOrResizingWindow();
+			getLayer()->getWindow()->checkToStopMovingOrResizingWindow();
 		}
 
 		m_pMouseDownOriginEntry = pActiveTabEntry;
@@ -195,7 +199,7 @@ void						RadarEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 			clearActiveEntries();
 		}
 		setActiveEntry(pActiveTabEntry);
-		m_pWindow->render();
+		getLayer()->getWindow()->render();
 	}
 }
 
@@ -243,7 +247,7 @@ void						RadarEditorTab::onKeyDown2(uint16 uiKey)
 				yCurrentScroll = 0;
 			}
 		}
-		m_pWindow->render();
+		getLayer()->getWindow()->render();
 		break;
 
 	case VK_NEXT:
@@ -258,7 +262,7 @@ void						RadarEditorTab::onKeyDown2(uint16 uiKey)
 		{
 			yCurrentScroll += ((pTexData->m_rect.bottom - pTexData->m_rect.top) + 1) * 5;
 		}
-		m_pWindow->render();
+		getLayer()->getWindow()->render();
 		break;
 
 	case VK_UP:
@@ -275,7 +279,7 @@ void						RadarEditorTab::onKeyDown2(uint16 uiKey)
 					yCurrentScroll = 0;
 				}
 			}
-			m_pWindow->render();
+			getLayer()->getWindow()->render();
 		}
 		break;
 
@@ -289,7 +293,7 @@ void						RadarEditorTab::onKeyDown2(uint16 uiKey)
 			{
 				yCurrentScroll += (pTexData->m_rect.bottom - pTexData->m_rect.top) + 1;
 			}
-			m_pWindow->render();
+			getLayer()->getWindow()->render();
 		}
 		break;
 
@@ -297,7 +301,7 @@ void						RadarEditorTab::onKeyDown2(uint16 uiKey)
 		if (getEntryCount() > 0)
 		{
 			setActiveEntry(getFirstEntry());
-			m_pWindow->render();
+			getLayer()->getWindow()->render();
 		}
 		wScrollNotify = SB_TOP;
 		break;
@@ -306,7 +310,7 @@ void						RadarEditorTab::onKeyDown2(uint16 uiKey)
 		if (getEntryCount() > 0)
 		{
 			setActiveEntry(getLastEntry());
-			m_pWindow->render();
+			getLayer()->getWindow()->render();
 		}
 		wScrollNotify = SB_BOTTOM;
 		break;
@@ -320,7 +324,7 @@ void						RadarEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 	fNewProgress = Math::limit(fNewProgress, 0.0f, 1.0f);
 	m_pVScrollBar->setProgress(fNewProgress);
 
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 // unserialize entry
@@ -403,7 +407,7 @@ void						RadarEditorTab::onFileLoaded(void)
 	setFileInfoText();
 
 	// render
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 // file info text
@@ -518,7 +522,7 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 		return String::toUint32(Path::removeFileExtension(pIMGEntry1->getEntryName()).substr(5)) < String::toUint32(Path::removeFileExtension(pIMGEntry2->getEntryName()).substr(5));
 	});
 
-	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
+	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 193);
 	m_pVScrollBar->setItemCount(VERTICAL, vecRadarIMGEntries.size() * 50);
 
 	m_vecTXDFiles.clear();
@@ -535,7 +539,7 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 		vector<RWSection_TextureNative*> vecTextures = m_vecTXDFiles[uiIndex]->getTextures();
 
 		// todo
-		//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
+		//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 193);
 		//m_pVScrollBar->setItemCount(VERTICAL, vecTextures.size() * 50);
 
 		uint32 uiTextureIndex = 0;
@@ -613,7 +617,7 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 	});
 	*/
 
-	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
+	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 193);
 	m_pVScrollBar->setItemCount(VERTICAL, vecRadarIMGEntries.size() * 50);
 
 	m_vecTXDFiles.clear();
@@ -639,7 +643,7 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 		vector<WTDEntry*> vecWTDEntries = m_vecWTDFiles[uiIndex]->getEntries();
 
 		// todo
-		//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
+		//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 193);
 		//m_pVScrollBar->setItemCount(VERTICAL, vecTextures.size() * 50);
 
 		uint32 uiTextureIndex = 0;
@@ -715,7 +719,7 @@ void						RadarEditorTab::render_Type1(void)
 
 
 
-	Vec2u vecAreaSize(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
+	Vec2u vecAreaSize(getLayer()->getWindow()->getSize().x - 335 - 139 - 139 - 250, getLayer()->getWindow()->getSize().y - 192);
 	uint32 uiTileCount = getEntryCount();
 	if (uiTileCount == 0)
 	{
@@ -776,7 +780,7 @@ void						RadarEditorTab::render_Type1(void)
 // render editor
 void						RadarEditorTab::renderEntryList(void)
 {
-	HWND hwnd = getWindow()->getWindowHandle();
+	HWND hwnd = getLayer()->getWindow()->getWindowHandle();
 
 	HDC memDC, hdc = GetWindowDC(hwnd);
 	HGDIOBJ old = nullptr;
@@ -856,7 +860,7 @@ void						RadarEditorTab::renderEntryList(void)
 		fVProgress = m_pVScrollBar->getProgress();
 
 	for(uint32
-			uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
+			uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 193, uiRowHeight),
 			uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
 			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount),
 			uiDisplayedEntryCount = 0,
@@ -920,14 +924,14 @@ void						RadarEditorTab::renderEntryList(void)
 		// draw active texture background colour
 		RECT rect2 = pImageData->m_rect;
 
-		m_pWindow->setRenderingStyleGroups("leftEntryPanel");
+		getLayer()->getWindow()->setRenderingStyleGroups("leftEntryPanel");
 		if (pImageData->m_bIsActive)
 		{
-			m_pWindow->setRenderingStyleStatus(EStyleStatus::ACTIVE);
+			getLayer()->getWindow()->setRenderingStyleStatus(EStyleStatus::ACTIVE);
 		}
 		pGFX->drawRectangle(Vec2i(rect2.left, rect2.top), Vec2u(rect2.right - rect2.left, rect2.bottom - rect2.top));
-		m_pWindow->resetRenderingStyleGroups();
-		m_pWindow->resetRenderingStyleStatus();
+		getLayer()->getWindow()->resetRenderingStyleGroups();
+		getLayer()->getWindow()->resetRenderingStyleStatus();
 
 		// draw texture number
 		HFONT hFont = CreateFont(22, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
@@ -1093,7 +1097,7 @@ void					RadarEditorTab::recreateEntryList(void)
 	mutexRendering.unlock();
 	calculateDisplayedEntryCount();
 	updateEntryCountText();
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 void					RadarEditorTab::removeAllEntries(void)
@@ -1152,7 +1156,7 @@ void					RadarEditorTab::setEntriesSelected(vector<FormatEntry*>& vecEntries, bo
 			pTabEntry->m_bIsActive = bIsSelected;
 		}
 	}
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 void					RadarEditorTab::clearActiveEntries(void)

@@ -26,7 +26,7 @@ ItemPlacementEditorTab::ItemPlacementEditorTab(void) :
 // controls
 void						ItemPlacementEditorTab::addControls(void)
 {
-	m_pTextBox = addTextBox(139 + 139, 192, 600, 512, "", true, "textBasedEditorTextBox");
+	// todo m_pTextBox = addTextBox(139 + 139, 192, 600, 512, "", true, "textBasedEditorTextBox");
 
 	repositionAndResizeControls(Vec2i(0, 0));
 }
@@ -61,13 +61,17 @@ void						ItemPlacementEditorTab::onFileLoaded(void)
 	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
 
 	// show file content
-	m_pTextBox->setText(File::getFileContent(getFile()->getFilePath()));
+	m_pTextBox->getTextLines() = String::split(String::fixEOLs(File::getFileContent(getFile()->getFilePath(), false), "\n"), "\n");
+	if (m_pTextBox->getTextLines().size() == 0)
+	{
+		m_pTextBox->getTextLines().push_back("");
+	}
 
 	// display file info
 	setFileInfoText();
 
 	// render
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 // file info text

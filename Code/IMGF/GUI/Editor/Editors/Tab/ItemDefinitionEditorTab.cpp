@@ -26,7 +26,7 @@ ItemDefinitionEditorTab::ItemDefinitionEditorTab(void) :
 // controls
 void						ItemDefinitionEditorTab::addControls(void)
 {
-	m_pTextBox = addTextBox(139 + 139, 192, 600, 512, "", true, "textBasedEditorTextBox");
+	// todo m_pTextBox = addTextBox(139 + 139, 192, 600, 512, "", true, "textBasedEditorTextBox");
 
 	repositionAndResizeControls(Vec2i(0,0));
 }
@@ -61,7 +61,7 @@ void						ItemDefinitionEditorTab::onFileLoaded(void)
 	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
 
 	// show file content
-	m_pTextBox->getTextLines() = String::split(File::getFileContent(getFile()->getFilePath(), false), "\n");
+	m_pTextBox->getTextLines() = String::split(String::fixEOLs(File::getFileContent(getFile()->getFilePath(), false), "\n"), "\n");
 	if (m_pTextBox->getTextLines().size() == 0)
 	{
 		m_pTextBox->getTextLines().push_back("");
@@ -71,7 +71,7 @@ void						ItemDefinitionEditorTab::onFileLoaded(void)
 	setFileInfoText();
 
 	// render
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 // file info text
@@ -199,7 +199,7 @@ void						ItemDefinitionEditorTab::mergeViaData(string& strFileData)
 	//addEntryAfter(pResult);
 	updateEntryCountText();
 
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 // split

@@ -1991,7 +1991,7 @@ void		Tasks::rename(void)
 	FormatEntry *pEntry = getTab()->getSelectedEntry();
 
 	m_pTaskManager->onPauseTask();
-	string strNewEntryName = getTab()->getWindow()->showSingleLineTextBoxWindow("New Entry Name", "Choose a new name for the entry:", pEntry->getEntryName());
+	string strNewEntryName = getTab()->getLayer()->getWindow()->showSingleLineTextBoxWindow("New Entry Name", "Choose a new name for the entry:", pEntry->getEntryName());
 	m_pTaskManager->onResumeTask();
 	if (strNewEntryName == "")
 	{
@@ -2021,7 +2021,7 @@ void		Tasks::rename(void)
 
 	getTab()->setFileUnsaved(true);
 
-	getTab()->getWindow()->render();
+	getTab()->getLayer()->getWindow()->render();
 
 	onCompleteTask();
 }
@@ -2062,7 +2062,7 @@ void		Tasks::replaceByFiles(void)
 	{
 		getTab()->setFileUnsaved(true);
 		getTab()->recreateEntryList();
-		getTab()->getWindow()->render();
+		getTab()->getLayer()->getWindow()->render();
 	}
 
 	getTab()->logf("Replaced %u entries by file.", uiReplacedEntryCount);
@@ -2644,7 +2644,7 @@ void		Tasks::splitSelected(void)
 	EFileType uiEditorFileType = getTab()->getEditor()->getEditorFileType();
 	vector<string> vecDropDownOptions = FormatVersionManager::get()->getEntriesVersionsText(uiEditorFileType);
 	m_pTaskManager->onPauseTask();
-	int32 iNewFileVersionOptionIndex = getTab()->getWindow()->showDropDownWindow("Choose Output File Version", "Create output with version (cancel for same version)", vecDropDownOptions);
+	int32 iNewFileVersionOptionIndex = getTab()->getLayer()->getWindow()->showDropDownWindow("Choose Output File Version", "Create output with version (cancel for same version)", vecDropDownOptions);
 	m_pTaskManager->onResumeTask();
 
 	FormatVersion *pFormatVersion = nullptr;
@@ -2715,7 +2715,7 @@ void		Tasks::splitByIDE(void)
 	}
 
 	m_pTaskManager->onPauseTask();
-	int32 iNewIMGVersionOptionIndex = getIMGTab()->getWindow()->showDropDownWindow("Choose Output IMG Version", "Create output IMG with version (cancel for same version)", IMGManager::getVersionsText());
+	int32 iNewIMGVersionOptionIndex = getTab()->getLayer()->getWindow()->showDropDownWindow("Choose Output IMG Version", "Create output IMG with version (cancel for same version)", IMGManager::getVersionsText());
 	m_pTaskManager->onResumeTask();
 	EIMGVersion uiNewIMGVersion = IMGManager::getVersionFromVersionIndex(iNewIMGVersionOptionIndex);
 	if (uiNewIMGVersion == IMG_UNKNOWN)
@@ -2808,7 +2808,7 @@ void		Tasks::splitByEntryNames(void)
 	EFileType uiEditorFileType = getTab()->getEditor()->getEditorFileType();
 	vector<string> vecDropDownOptions = FormatVersionManager::get()->getEntriesVersionsText(uiEditorFileType);
 	m_pTaskManager->onPauseTask();
-	int32 iNewFileVersionOptionIndex = getIMGTab()->getWindow()->showDropDownWindow("Choose Output File Version", "Create output file with version (cancel for same version)", vecDropDownOptions);
+	int32 iNewFileVersionOptionIndex = getTab()->getLayer()->getWindow()->showDropDownWindow("Choose Output File Version", "Create output file with version (cancel for same version)", vecDropDownOptions);
 	m_pTaskManager->onResumeTask();
 
 	FormatVersion *pFormatVersion = nullptr;
@@ -2859,7 +2859,7 @@ void		Tasks::convertIMGVersion(void)
 
 	// show new version selection window
 	m_pTaskManager->onPauseTask();
-	int32 iNewIMGVersionOptionIndex = getIMGTab()->getWindow()->showDropDownWindow("Convert IMG Version", "Convert IMG to version", IMGManager::getVersionsText());
+	int32 iNewIMGVersionOptionIndex = getTab()->getLayer()->getWindow()->showDropDownWindow("Convert IMG Version", "Convert IMG to version", IMGManager::getVersionsText());
 	m_pTaskManager->onResumeTask();
 	if (iNewIMGVersionOptionIndex == -1)
 	{
@@ -3143,7 +3143,7 @@ void		Tasks::convertSelectedTXDRWVersion(void)
 	{
 		getTab()->setFileUnsaved(true);
 		getTab()->setFileInfoText();
-		getTab()->getWindow()->render();
+		getTab()->getLayer()->getWindow()->render();
 	}
 
 	getTab()->logf("Converted TXD version to %s for %u entries.", strNewRWVersionText.c_str(), uiConvertedEntryCount);
@@ -3229,7 +3229,7 @@ void		Tasks::convertSelectedTXDToGame(void)
 		getTab()->setFileUnsaved(true);
 		getTab()->setFileInfoText();
 		getTab()->recreateEntryList();
-		getTab()->getWindow()->render();
+		getTab()->getLayer()->getWindow()->render();
 	}
 
 	getTab()->logf("Converted TXD to game %s for %u entries.", strNewPlatformedGameText.c_str(), uiConvertedEntryCount);
@@ -3315,7 +3315,7 @@ void		Tasks::convertSelectedTXDToTextureFormat(void)
 		getTab()->setFileUnsaved(true);
 		getTab()->setFileInfoText();
 		getTab()->recreateEntryList();
-		getTab()->getWindow()->render();
+		getTab()->getLayer()->getWindow()->render();
 	}
 
 	getTab()->logf("Converted TXD to texture format %s for %u entries.", strNewRasterDataFormatText.c_str(), uiConvertedEntryCount);
@@ -3395,7 +3395,7 @@ void			Tasks::convertWTDFileToTXDFile(void)
 	{
 		getTab()->setFileUnsaved(true);
 		getTab()->setFileInfoText();
-		getTab()->getWindow()->render();
+		getTab()->getLayer()->getWindow()->render();
 	}
 
 	getTab()->logf("Converted %u WTD entries to TXD entries.", uiConvertedEntryCount);

@@ -28,7 +28,7 @@
 class bxgx::TabBar;
 class bxgx::TextBox;
 
-class imgf::Editor : public bxgx::Layer, public bxcf::EventBindable
+class imgf::Editor : public bxcf::EventBindable
 {
 public:
 	Editor(EEditor uiEditorType);
@@ -122,15 +122,17 @@ EditorTabType*							imgf::Editor::_addEditorTab(std::string& strFilePath, bool 
 	// disable other layers
 	if (m_pActiveEditorTab)
 	{
-		m_pActiveEditorTab->setEnabled(false);
+		m_pActiveEditorTab->getLayer()->setEnabled(false);
 	}
 	else
 	{
-		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(false);
+		getIMGF()->getWindowManager()->getMainWindow()->getBlankLayer()->setEnabled(false);
 	}
 
 	// add editor tab
-	EditorTabType *pEditorTab = m_pWindow->addLayer<EditorTabType>(-1, true, -50);
+	//EditorTabType *pEditorTab = m_pMainWindow->addLayer<EditorTabType>(-1, true, -50);
+	//m_vecEditorTabs.addEntry(pEditorTab);
+	EditorTabType *pEditorTab = new EditorTabType;
 	m_vecEditorTabs.addEntry(pEditorTab);
 
 	// initialize editor tab

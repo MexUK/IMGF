@@ -96,6 +96,9 @@ RecentlyOpenEntry*		RecentlyOpenManager::addRecentlyOpenEntry(EEditor uiEditor, 
 	uint32 uiRecentlyOpenedMaxCount = 15;
 	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, "Count"));
 
+	/*
+	todo
+
 	Menu *pRecentlyOpenMenu = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pRecentlyOpenMenu;
 
 	if (uiRecentlyOpenedCount == 0)
@@ -125,6 +128,7 @@ RecentlyOpenEntry*		RecentlyOpenManager::addRecentlyOpenEntry(EEditor uiEditor, 
 		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, "Count", String::toString(uiRecentlyOpenedCount + 1));
 		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, String::toString(uiRecentlyOpenedCount + 1), strFilePath);
 	}
+	*/
 
 	return pRecentlyOpenEntry;
 }

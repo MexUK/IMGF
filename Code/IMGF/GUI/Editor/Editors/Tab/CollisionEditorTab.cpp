@@ -59,7 +59,7 @@ CollisionEditorTab::CollisionEditorTab(void) :
 // events
 void					CollisionEditorTab::bindEvents(void)
 {
-	markEventUsage(MOVE_MOUSE);
+	///markEventUsage(MOVE_MOUSE);
 
 	bindEvent(RESIZE_WINDOW, &CollisionEditorTab::repositionAndResizeControls);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
@@ -73,7 +73,7 @@ void					CollisionEditorTab::bindEvents(void)
 
 void					CollisionEditorTab::unbindEvents(void)
 {
-	unmarkEventUsage(MOVE_MOUSE);
+	///unmarkEventUsage(MOVE_MOUSE);
 
 	unbindEvent(RESIZE_WINDOW, &CollisionEditorTab::repositionAndResizeControls);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
@@ -88,6 +88,9 @@ void					CollisionEditorTab::unbindEvents(void)
 // controls
 void					CollisionEditorTab::addControls(void)
 {
+	/*
+	todo
+
 	int32 x, y;
 	uint32 w, h, uiLogWidth;
 
@@ -102,11 +105,12 @@ void					CollisionEditorTab::addControls(void)
 	x = 139 + 139 + 250;
 	y = 192;
 	w = 15;
-	h = m_pWindow->getSize().y - y;
+	h = getLayer()->getWindow()->getSize().y - y;
 	x -= w;
 
 	m_pVScrollBar = addScrollBar(x, y, w, h, "", -1, 50);
 	m_pVScrollBar->setScrollOrientation(VERTICAL);
+	*/
 }
 
 void					CollisionEditorTab::initControls(void)
@@ -125,9 +129,9 @@ void					CollisionEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 
 	// entry list vertical scroll bar
 	// todo m_pVScrollBar->setSize(m_pVScrollBar->getSize() + Vec2u(0, vecSizeChange.y));
-	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, m_pWindow->getSize().y - m_pVScrollBar->getPosition().y));
+	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, getLayer()->getWindow()->getSize().y - m_pVScrollBar->getPosition().y));
 
-	Vec2u vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
+	Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 335 - 139 - 139 - 250, getLayer()->getWindow()->getSize().y - 192);
 
 
 
@@ -179,7 +183,7 @@ void					CollisionEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 	rectCOLEntry.bottom = rectCOLEntry.top + 55;
 
 	for (uint32
-			uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
+			uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 193, uiRowHeight),
 			uiEntryIndex = Math::getEntryStartIndex(m_pCOLFile->getEntryCount(), uiMaxEntryCount, fVProgress),
 			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(m_pCOLFile->getEntryCount(), uiEntryIndex, uiMaxEntryCount);
 		uiEntryIndex < uiEntryEndIndexExclusive;
@@ -208,7 +212,7 @@ void					CollisionEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 	if (pActiveCOLEntry != nullptr)
 	{
 		setActiveEntry(pActiveCOLEntry);
-		m_pWindow->render();
+		getLayer()->getWindow()->render();
 	}
 }
 
@@ -275,7 +279,7 @@ void					CollisionEditorTab::onKeyDown2(uint16 uiKey)
 			}
 			pCOLEntry = m_pCOLFile->getEntryByIndex(iNextTextureIndex);
 			setActiveEntry(pCOLEntry);
-			m_pWindow->render();
+			getLayer()->getWindow()->render();
 			break;
 
 		case VK_NEXT:
@@ -286,7 +290,7 @@ void					CollisionEditorTab::onKeyDown2(uint16 uiKey)
 			}
 			pCOLEntry = m_pCOLFile->getEntryByIndex(iNextTextureIndex);
 			setActiveEntry(pCOLEntry);
-			m_pWindow->render();
+			getLayer()->getWindow()->render();
 			break;
 
 		case VK_UP:
@@ -295,7 +299,7 @@ void					CollisionEditorTab::onKeyDown2(uint16 uiKey)
 			{
 				pCOLEntry = m_pCOLFile->getEntryByIndex(iNextTextureIndex);
 				setActiveEntry(pCOLEntry);
-				m_pWindow->render();
+				getLayer()->getWindow()->render();
 			}
 			break;
 
@@ -305,7 +309,7 @@ void					CollisionEditorTab::onKeyDown2(uint16 uiKey)
 			{
 				pCOLEntry = m_pCOLFile->getEntryByIndex(iNextTextureIndex);
 				setActiveEntry(pCOLEntry);
-				m_pWindow->render();
+				getLayer()->getWindow()->render();
 			}
 			break;
 
@@ -313,7 +317,7 @@ void					CollisionEditorTab::onKeyDown2(uint16 uiKey)
 			if (m_pCOLFile->getEntryCount() > 0)
 			{
 				setActiveEntry(m_pCOLFile->getFirstEntry());
-				m_pWindow->render();
+				getLayer()->getWindow()->render();
 			}
 			wScrollNotify = SB_TOP;
 			break;
@@ -322,7 +326,7 @@ void					CollisionEditorTab::onKeyDown2(uint16 uiKey)
 			if (m_pCOLFile->getEntryCount() > 0)
 			{
 				setActiveEntry(m_pCOLFile->getLastEntry());
-				m_pWindow->render();
+				getLayer()->getWindow()->render();
 			}
 			wScrollNotify = SB_BOTTOM;
 			break;
@@ -412,7 +416,7 @@ void					CollisionEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 		zoomCamera((float32)-iDelta * fMouseWheelScrollMultiplier);
 	}
 
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 // file unserialization
@@ -462,7 +466,7 @@ void					CollisionEditorTab::onFileLoaded(void)
 	setFileInfoText();
 
 	// render
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 // prepare render data
@@ -470,7 +474,7 @@ bool						CollisionEditorTab::prepareRenderData(void)
 {
 	vector<COLEntry*> vecCollisions = m_pCOLFile->getEntries();
 
-	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
+	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 193);
 	m_pVScrollBar->setItemCount(VERTICAL, vecCollisions.size() * 50);
 
 	/*
@@ -570,7 +574,7 @@ void						CollisionEditorTab::renderNotOnProcess(void)
 // render editor 2d
 void						CollisionEditorTab::render2D(void)
 {
-	HWND hwnd = getWindow()->getWindowHandle();
+	HWND hwnd = getLayer()->getWindow()->getWindowHandle();
 
 	HDC memDC, hdc = GetWindowDC(hwnd);
 	HGDIOBJ old = nullptr;
@@ -657,7 +661,7 @@ void						CollisionEditorTab::render2D(void)
 	rectCOLEntry.bottom = rectCOLEntry.top + 55;
 
 	for(uint32
-			uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
+			uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 193, uiRowHeight),
 			uiEntryIndex = Math::getEntryStartIndex(m_pCOLFile->getEntryCount(), uiMaxEntryCount, fVProgress),
 			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(m_pCOLFile->getEntryCount(), uiEntryIndex, uiMaxEntryCount);
 		uiEntryIndex < uiEntryEndIndexExclusive;
@@ -683,14 +687,14 @@ void						CollisionEditorTab::render2D(void)
 		//}
 
 		// draw active texture background colour
-		m_pWindow->setRenderingStyleGroups("leftEntryPanel");
+		getLayer()->getWindow()->setRenderingStyleGroups("leftEntryPanel");
 		if (pCOLEntry == getActiveEntry())
 		{
-			m_pWindow->setRenderingStyleStatus(EStyleStatus::ACTIVE);
+			getLayer()->getWindow()->setRenderingStyleStatus(EStyleStatus::ACTIVE);
 		}
 		pGFX->drawRectangle(Vec2i(rectCOLEntry.left, rectCOLEntry.top), Vec2u(rectCOLEntry.right - rectCOLEntry.left, rectCOLEntry.bottom - rectCOLEntry.top));
-		m_pWindow->resetRenderingStyleGroups();
-		m_pWindow->resetRenderingStyleStatus();
+		getLayer()->getWindow()->resetRenderingStyleGroups();
+		getLayer()->getWindow()->resetRenderingStyleStatus();
 
 		// draw collision number
 		HFONT hFont = CreateFont(22, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
@@ -778,12 +782,12 @@ void						CollisionEditorTab::render2D(void)
 		rectCOLEntry.bottom += 55;
 	}
 
-	m_pWindow->setRenderingStyleGroups("centerEntryPanel");
+	getLayer()->getWindow()->setRenderingStyleGroups("centerEntryPanel");
 	Vec2u vecRectSize;
-	vecRectSize.x = m_pWindow->getSize().x - (vecMainPanelPosition.x + 250);
-	vecRectSize.y = m_pWindow->getSize().y - vecMainPanelPosition.y;
+	vecRectSize.x = getLayer()->getWindow()->getSize().x - (vecMainPanelPosition.x + 250);
+	vecRectSize.y = getLayer()->getWindow()->getSize().y - vecMainPanelPosition.y;
 	pGFX->drawRectangle(Vec2i(vecMainPanelPosition.x + 250, vecMainPanelPosition.y), vecRectSize);
-	m_pWindow->resetRenderingStyleGroups();
+	getLayer()->getWindow()->resetRenderingStyleGroups();
 
 	if (pActiveCOLEntry)
 	{
@@ -824,7 +828,7 @@ void						CollisionEditorTab::prepareInitial3DRender(void)
 // render editor 3d
 void						CollisionEditorTab::render3D(void)
 {
-	Vec2u vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
+	Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 335 - 139 - 139 - 250, getLayer()->getWindow()->getSize().y - 192);
 
 	mutexInitializing3DRender.lock();
 	if (!m_bInitialized)
@@ -845,8 +849,8 @@ void						CollisionEditorTab::render3D(void)
 
 		
 
-		//hDC = GetDC(m_pWindow->getWindowHandle());
-		m_hdcWindow = GetDC(m_pWindow->getWindowHandle());
+		//hDC = GetDC(getLayer()->getWindow()->getWindowHandle());
+		m_hdcWindow = GetDC(getLayer()->getWindow()->getWindowHandle());
 		m_hDC = CreateCompatibleDC(m_hdcWindow);
 
 		m_hbm = CreateCompatibleBitmap(m_hdcWindow, vecRenderSize.x, vecRenderSize.y);
@@ -1066,7 +1070,7 @@ void						CollisionEditorTab::prepare3DRender(void)
 	//GLFWwindow window;
 	//glfwGetWindowSize(&window, &w, &h);
 	//const float64 ar = ((float64)w) / ((float64)h);
-	//const float64 ar = ((float64)m_pWindow->getSize().x) / ((float64)m_pWindow->getSize().y);
+	//const float64 ar = ((float64)getLayer()->getWindow()->getSize().x) / ((float64)getLayer()->getWindow()->getSize().y);
 	//const float64 ar = ((float64)300) / ((float64)300);
 
 	
@@ -1378,7 +1382,7 @@ bool						CollisionEditorTab::isPointOverEntryList(Vec2i& vecPoint)
 	y = 162 + 30;
 
 	w = 250;
-	h = m_pWindow->getSize().y - y;
+	h = getLayer()->getWindow()->getSize().y - y;
 
 	return Math::isPointInRectangle(vecPoint, Vec2i(x, y), Vec2u(w, h));
 }

@@ -58,7 +58,7 @@ void						AnimationEditorTab::onFileLoaded(void)
 	setFileInfoText();
 
 	// render
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 // file info text

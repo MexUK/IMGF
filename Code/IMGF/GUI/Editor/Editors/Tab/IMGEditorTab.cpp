@@ -187,11 +187,14 @@ void					IMGEditorTab::onFileLoaded(void)
 // controls
 void					IMGEditorTab::addControls(void)
 {
+	/*
+	todo
+
 	int32 x, y, w, h, y2, w2, h2;
 	uint32 uiTitleBarHeight, uiButtonHeight, uiLogWidth;
 	string strStyleGroup;
 
-	uiTitleBarHeight = m_pWindow->getTitleBarHeight();
+	uiTitleBarHeight = getLayer()->getWindow()->getTitleBarHeight();
 	uiButtonHeight = 37;
 	uiLogWidth = 335;
 
@@ -200,8 +203,8 @@ void					IMGEditorTab::addControls(void)
 
 	x = 139 + 139;
 	y = 162 + 30;
-	w = m_pWindow->getSize().x - x - uiLogWidth;
-	h = m_pWindow->getSize().y - y;
+	w = getLayer()->getWindow()->getSize().x - x - uiLogWidth;
+	h = getLayer()->getWindow()->getSize().y - y;
 	strStyleGroup = "imgEditor_grid";
 
 	m_pEntryGrid = addGrid(x, y, w, h);
@@ -210,7 +213,7 @@ void					IMGEditorTab::addControls(void)
 	// filter - entry type
 	w = 140;
 	w2 = w;
-	x = m_pWindow->getSize().x - w - w2 - uiLogWidth - 10;
+	x = getLayer()->getWindow()->getSize().x - w - w2 - uiLogWidth - 10;
 	y = uiButtonHeight + 82;
 	h = 24;
 	strStyleGroup = "filter filterDropDown";
@@ -220,11 +223,14 @@ void					IMGEditorTab::addControls(void)
 
 	// filter - entry version
 	w = w2;
-	x = m_pWindow->getSize().x - w - uiLogWidth - 10;
+	x = getLayer()->getWindow()->getSize().x - w - uiLogWidth - 10;
 
 	m_pEntryVersionFilter = addDropDown(x, y, w, h, "Entry Version", strStyleGroup, -1, -100);
 	m_pEntryVersionFilter->addItem("No file is open", false, false);
 	m_pEntryVersionFilter->addLinkedItem(m_pEntryTypeFilter);
+	*/
+
+	setLayer(m_pEditor->getMainWindow()->getLayerById(101));
 }
 
 void					IMGEditorTab::initControls(void)
@@ -272,8 +278,9 @@ void					IMGEditorTab::onUnserializeEntry(IMGFormat *img)
 
 void					IMGEditorTab::removeControls(void)
 {
-	removeControl(m_pEntryGrid);
-	m_pEntryGrid = nullptr;
+	// todo
+	//removeControl(m_pEntryGrid);
+	//m_pEntryGrid = nullptr;
 }
 
 void					IMGEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
@@ -294,8 +301,8 @@ void					IMGEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 
 	// grid
 	size = m_pEntryGrid->getSize();
-	iNewWidth = (int32)m_pWindow->getSize().x - m_pEntryGrid->getPosition().x - (int32)uiLogWidth;
-	iNewHeight = (int32)m_pWindow->getSize().y - m_pEntryGrid->getPosition().y;
+	iNewWidth = (int32)getLayer()->getWindow()->getSize().x - m_pEntryGrid->getPosition().x - (int32)uiLogWidth;
+	iNewHeight = (int32)getLayer()->getWindow()->getSize().y - m_pEntryGrid->getPosition().y;
 	Vec2i vecNewSize2 = Vec2i(iNewWidth, iNewHeight);
 	if (vecNewSize2.x < 20)
 	{
@@ -318,12 +325,12 @@ void					IMGEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 
 	// filter - entry type
 	point = m_pEntryTypeFilter->getPosition();
-	iNewX = m_pWindow->getSize().x - m_pEntryTypeFilter->getSize().x - m_pEntryVersionFilter->getSize().x - uiLogWidth - 10;
+	iNewX = getLayer()->getWindow()->getSize().x - m_pEntryTypeFilter->getSize().x - m_pEntryVersionFilter->getSize().x - uiLogWidth - 10;
 	m_pEntryTypeFilter->setPosition(Vec2i(iNewX, point.y));
 
 	// filter - entry version
 	point = m_pEntryVersionFilter->getPosition();
-	iNewX = m_pWindow->getSize().x - m_pEntryVersionFilter->getSize().x - uiLogWidth - 10;
+	iNewX = getLayer()->getWindow()->getSize().x - m_pEntryVersionFilter->getSize().x - uiLogWidth - 10;
 	m_pEntryVersionFilter->setPosition(Vec2i(iNewX, point.y));
 }
 
@@ -1534,7 +1541,7 @@ void				IMGEditorTab::recreateEntryList(void)
 	readdGridEntries();
 	loadFilter_Type();
 	loadFilter_Version();
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 void				IMGEditorTab::setEntriesSelected(vector<FormatEntry*>& vecEntries, bool bIsSelected)

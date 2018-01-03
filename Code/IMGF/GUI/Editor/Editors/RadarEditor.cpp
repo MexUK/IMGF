@@ -57,10 +57,10 @@ void									RadarEditor::renderBefore(void)
 		return;
 	}
 
-	m_pWindow->resetRenderingStyleGroups();
-	m_pWindow->resetRenderingControlComponent();
-	m_pWindow->resetRenderingStyleFragment();
-	m_pWindow->resetRenderingStyleStatus();
+	m_pMainWindow->resetRenderingStyleGroups();
+	m_pMainWindow->resetRenderingControlComponent();
+	m_pMainWindow->resetRenderingStyleFragment();
+	m_pMainWindow->resetRenderingStyleStatus();
 
 	if (m_pActiveEditorTab)
 	{

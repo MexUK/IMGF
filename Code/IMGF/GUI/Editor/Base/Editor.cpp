@@ -32,21 +32,21 @@ Editor::Editor(EEditor uiEditorType) :
 // initialization
 void								Editor::init(void)
 {
-	int32 x, y;
-	uint32 w, h, uiLogWidth;
-	string strStyleGroup;
+	/*
+	todo
+	
+	CoordinateSet x, y, w, h;
+	x = a;
+	y = a;
+	w = a;
+	h = a;
+	uint32 uiItemId = 0;
 
-	uiLogWidth = 335;
+	TabBar *pTabBar = getMainWindow()->getMainLayer()->addTabBar(x, y, w, h, "", uiItemId);
+	pTabBar->setEnabled(false);
+	*/
 
-	// tab bar
-	x = 139 + 139;
-	y = 162;
-	w = m_pWindow->getSize().x - x - uiLogWidth;
-	h = 30;
-	strStyleGroup = "fileTabBar";
-
-	m_pTabBar = addTabBar(x, y, w, h, strStyleGroup);
-	m_pTabBar->setDefaultText("No tabs to display");
+	setTabBar((TabBar*)m_pMainWindow->getItemById(90));
 }
 
 // events
@@ -55,7 +55,7 @@ void								Editor::bindEvents(void)
 	bindEvent(RESIZE_WINDOW, &Editor::repositionAndResizeControls);
 	bindEvent(DRAG_ENTRIES_OVER, &Editor::onDragEntriesOver);
 
-	Layer::bindEvents();
+	//getLayer()->bindEvents();
 }
 
 void								Editor::unbindEvents(void)
@@ -63,7 +63,7 @@ void								Editor::unbindEvents(void)
 	unbindEvent(RESIZE_WINDOW, &Editor::repositionAndResizeControls);
 	unbindEvent(DRAG_ENTRIES_OVER, &Editor::onDragEntriesOver);
 
-	Layer::unbindEvents();
+	//getLayer()->unbindEvents();
 }
 
 // controls
@@ -79,7 +79,7 @@ void								Editor::initControls(void)
 // events
 void								Editor::repositionAndResizeControls(Vec2i& vecSizeChange)
 {
-	m_pTabBar->setSize(Vec2u(m_pWindow->getSize().x - 335 - 139 - 139, m_pTabBar->getSize().y));
+	//m_pTabBar->setSize(Vec2u(getLayer()->getWindow()->getSize().x - 335 - 139 - 139, m_pTabBar->getSize().y));
 }
 
 void								Editor::onDragEntriesOver(Vec2i vecCursorPosition)
@@ -123,9 +123,9 @@ void								Editor::removeEditorTab(EditorTab *pEditorTab)
 	// unmark items to render
 	for (RenderItem *pRenderItem : pEditorTab->getRenderItems().getEntries())
 	{
-		if (m_pWindow->isRenderItemMarkedForRender(pRenderItem))
+		if (getMainWindow()->isRenderItemMarkedForRender(pRenderItem))
 		{
-			m_pWindow->setRenderItemMarkedForRender(pRenderItem, false);
+			m_pMainWindow->setRenderItemMarkedForRender(pRenderItem, false);
 		}
 	}
 
@@ -199,19 +199,19 @@ void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 		pEditorTab->repositionAndResizeControls(Vec2i(0,0));
 
 		// hide no-tabs-open layer
-		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(false);
+		getIMGF()->getWindowManager()->getMainWindow()->getBlankLayer()->setEnabled(false);
 	}
 	else
 	{
 		// show no-tabs-open layer
-		setEnabled(true); // e.g. IMGEditor
-		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(true);
+		// todo getLayer()->setEnabled(true); // e.g. IMGEditor
+		getIMGF()->getWindowManager()->getMainWindow()->getBlankLayer()->setEnabled(true);
 	}
 
 	/*
 	if(pEditorTab)
 	{
-		pEditorTab->bindEvents();
+		pEditorTab->getLayer()->bindEvents();
 	}
 	*/
 }

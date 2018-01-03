@@ -102,10 +102,10 @@ void						TextureEditor::renderBefore(void)
 		return;
 	}
 
-	m_pWindow->resetRenderingStyleGroups();
-	m_pWindow->resetRenderingControlComponent();
-	m_pWindow->resetRenderingStyleFragment();
-	m_pWindow->resetRenderingStyleStatus();
+	m_pMainWindow->resetRenderingStyleGroups();
+	m_pMainWindow->resetRenderingControlComponent();
+	m_pMainWindow->resetRenderingStyleFragment();
+	m_pMainWindow->resetRenderingStyleStatus();
 
 	/*
 	int32 startx, starty, x, y, x2, y2;

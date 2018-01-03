@@ -48,7 +48,9 @@ EditorTab::EditorTab(void) :
 	m_pTab(nullptr),
 	m_pLog(nullptr),
 	m_pSearchBox(nullptr),
-	m_pProgressBar(nullptr)
+	m_pProgressBar(nullptr),
+
+	m_pLayer(nullptr)
 {
 }
 
@@ -65,7 +67,7 @@ void						EditorTab::bindEvents(void)
 	bindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
 	bindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
 
-	Layer::bindEvents();
+	getLayer()->bindEvents();
 }
 
 void						EditorTab::unbindEvents(void)
@@ -75,7 +77,7 @@ void						EditorTab::unbindEvents(void)
 	unbindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
 	unbindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
 
-	Layer::unbindEvents();
+	getLayer()->unbindEvents();
 }
 
 // initialization
@@ -91,16 +93,11 @@ bool						EditorTab::init(bool bIsNewFile)
 	m_pEditor->addControls();
 	*/
 
-	// add base editor tab controls
-	EditorTab::addControls();
-	EditorTab::initControls();
+	// set layer
+	setLayer(m_pEditor->getMainWindow()->getLayerById(100));
 
-	// add derived editor tab controls
-	addControls();
-	initControls();
-
-	// add thread
-	m_thread = thread([&]() { processThread(); });
+	// display editor tab
+	//getLayer()->setEnabled(true);
 
 	// add gui tab
 	string strTabText = Path::getFileName(m_pFile->getFilePath());
@@ -112,10 +109,21 @@ bool						EditorTab::init(bool bIsNewFile)
 
 	TabBar *pTabBar = m_pEditor->getTabBar();
 	m_pTab = pTabBar->addTab(strTabText, true);
-	pTabBar->bindTabLayer(m_pTab, this);
+	pTabBar->bindTabLayer(m_pTab, getLayer());
 
 	// set active editor tab
 	m_pEditor->setActiveEditorTab(this);
+
+	// add base editor tab controls
+	EditorTab::addControls();
+	EditorTab::initControls();
+
+	// add derived editor tab controls
+	addControls();
+	initControls();
+
+	// add thread
+	m_thread = thread([&]() { processThread(); });
 
 	// unserialize file
 	if (!bIsNewFile && !unserializeFile())
@@ -126,18 +134,15 @@ bool						EditorTab::init(bool bIsNewFile)
 	// on file loaded
 	onFileLoaded();
 
-	// display editor tab
-	//getEditor()->setEnabled(true);
-
 	// set certain menu items enabled
-	m_pEditor->getMainWindow()->getMainLayer()->setCertainMenuItemsEnabled(true);
+	// todo m_pEditor->getMainWindow()->getMainLayer()->setCertainMenuItemsEnabled(true);
 
 	// log
 	string strFileName = Path::getFileName(m_pFile->getFilePath());
 	logf("Opened %s", strFileName.c_str());
 
 	// render
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 
 	return true;
 }
@@ -222,6 +227,12 @@ void						EditorTab::onChangeTextBox(TextBox *pTextBox)
 // controls
 void						EditorTab::addControls(void)
 {
+	m_pProgressBar = (ProgressBar*)m_pEditor->getMainWindow()->getItemById(80);
+	m_pLog = (TextBox*)m_pEditor->getMainWindow()->getItemById(81);
+
+	/*
+	todo
+
 	int32 x, y, y2;
 	uint32 w, h, w2, h2, uiTitleBarHeight, uiButtonHeight, uiLogWidth;
 	string strStyleGroup;
@@ -290,6 +301,7 @@ void						EditorTab::addControls(void)
 	m_pText_FileGame = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
 	y += h2;
 	m_pText_FileEntryCount = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
+	*/
 }
 
 void						EditorTab::initControls(void)
@@ -300,6 +312,9 @@ void						EditorTab::initControls(void)
 
 void						EditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 {
+	/*
+	todo
+
 	Vec2i point;
 	Vec2u size;
 	int32 iNewX, iNewWidth;
@@ -322,6 +337,7 @@ void						EditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	point = m_pLog->getPosition();
 	iNewX = m_pWindow->getSize().x - uiLogWidth;
 	m_pLog->setPosition(Vec2i(iNewX, point.y));
+	*/
 }
 
 // progress bar
@@ -723,7 +739,7 @@ vector<FormatEntry*>			EditorTab::getEntriesByStringMultiOptionValues(uint32 uiE
 // drag drop
 void								EditorTab::startDragDrop(EditorTab *pEditorTab, string strFileExtension)
 {
-	MainWindow *pMainWindow = (MainWindow*)m_pWindow;
+	MainWindow *pMainWindow = (MainWindow*)getLayer()->getWindow();
 	pMainWindow->m_bDragDropOutIsOccurring = true;
 
 	vector<string>

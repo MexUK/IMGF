@@ -21,7 +21,7 @@ class bxgx::Tab;
 class bxgx::TextBox;
 class bxgx::ProgressBar;
 
-class imgf::EditorTab : public bxgx::Layer, public bxcf::EventBindable
+class imgf::EditorTab : public bxcf::EventBindable
 {
 public:
 	EditorTab(void);
@@ -118,7 +118,7 @@ public:
 	void								log(std::string strText);
 	void								logf(std::string strFormatText, ...);
 
-	bxcf::VectorPool<RenderItem*>		getRenderItems(void) { return m_vecRenderItems; }
+	bxcf::VectorPool<bxgx::RenderItem*>	getRenderItems(void) { return m_vecRenderItems; }
 	bxcf::VectorPool<std::string>		getLogLines(void) { return m_vecLogLines; }
 
 	bxgx::ProgressBar*					getProgressBar(void) { return m_pProgressBar; }
@@ -130,6 +130,9 @@ public:
 
 	void								setFileUnsaved(bool bFileUnsaved) { m_bFileUnsaved = bFileUnsaved; }
 	bool								isFileUnsaved(void) { return m_bFileUnsaved; }
+
+	void								setLayer(bxgx::Layer *pLayer) { m_pLayer = pLayer; }
+	bxgx::Layer*						getLayer(void) { return m_pLayer; }
 
 	void								onChangeTextBox(bxgx::TextBox *pTextBox);
 
@@ -152,8 +155,10 @@ private:
 	bool								m_bThreadHasTerminated;
 	bool								m_bFileUnsaved;
 
+	bxgx::Layer*						m_pLayer;
+
 	bxgx::ProgressBar*					m_pProgressBar;
-	bxcf::VectorPool<RenderItem*>		m_vecRenderItems;
+	bxcf::VectorPool<bxgx::RenderItem*>	m_vecRenderItems;
 	bxcf::VectorPool<std::string>		m_vecLogLines;
 	std::vector<bxgx::Button*>			m_vecButtonsPressed;
 	std::vector<bxgx::Button*>			m_vecButtonsPressedPending;
@@ -179,7 +184,7 @@ T										imgf::EditorTab::_addEntry(std::string& strEntryFilePathOrData, bool 
 	}
 	addEntryAfter(pResult);
 	updateEntryCountText();
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 
 	return pResult;
 }

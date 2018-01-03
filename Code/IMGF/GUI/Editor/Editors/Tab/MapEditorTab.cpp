@@ -118,7 +118,7 @@ void						MapEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 		zoomCamera((float32)-iDelta * fMouseWheelScrollMultiplier);
 	}
 
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 // file loading
@@ -270,7 +270,7 @@ void						MapEditorTab::onFileLoaded(void)
 	setFileInfoText();
 
 	// render
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 // file info text
@@ -335,7 +335,7 @@ void						MapEditorTab::render3D(void)
 		
 		m_vecRenderSize = Vec2u(800, 800);
 		//m_vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
-		m_hdcWindow = GetDC(m_pWindow->getWindowHandle());
+		m_hdcWindow = GetDC(getLayer()->getWindow()->getWindowHandle());
 
 		createGLContext();
 		prepareScene();
@@ -853,7 +853,7 @@ void						MapEditorTab::createGLContext(void)
 	//glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
 	{
-		MessageBox(m_pWindow->getWindowHandle(), L"Couldn't initialize GLEW!", L"Fatal Error", MB_ICONERROR);
+		MessageBox(getLayer()->getWindow()->getWindowHandle(), L"Couldn't initialize GLEW!", L"Fatal Error", MB_ICONERROR);
 		bResult = false;
 	}
 	//bGlewInitialized = true;

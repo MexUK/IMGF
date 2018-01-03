@@ -35,6 +35,7 @@ public:
 
 	MainLayer*					getMainLayer(void) { return m_pMainLayer; }
 	MainLayerNoTabsOpen*		getMainLayerNoTabsOpen(void) { return m_pMainLayerNoTabsOpen; }
+	bxgx::Layer*				getBlankLayer(void) { return getLayerById(99); }
 	
 	DATEditor*					getDATEditor(void) { return m_pDATEditor; }
 	IMGEditor*					getIMGEditor(void) { return m_pIMGEditor; }
@@ -106,8 +107,9 @@ private:
 template <class T>
 T*								imgf::MainWindow::addEditor(void)
 {
-	T *pEditor = addLayer<T>(-1, false, 0);
-	pEditor->setWindow(this);
+	//T *pEditor = addLayer<T>(-1, false, 0);
+	T *pEditor = new T;
+	//pEditor->setWindow(this);
 	pEditor->setMainWindow(this);
 	pEditor->init();
 	addEditor(pEditor);

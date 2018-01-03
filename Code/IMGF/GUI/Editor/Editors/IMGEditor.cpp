@@ -211,7 +211,7 @@ void						IMGEditor::removeEditorTab(IMGEditorTab *pIMGEditorTab)
 
 	mutexRenderItems.lock();
 
-	m_pWindow->removeLayer(pIMGEditorTab);
+	m_pMainWindow->removeLayer(pIMGEditorTab->getLayer());
 	delete pIMGEditorTab;
 
 	mutexRenderItems.unlock();
@@ -220,13 +220,13 @@ void						IMGEditor::removeEditorTab(IMGEditorTab *pIMGEditorTab)
 
 	if (getEditorTabs().getEntryCount() == 0)
 	{
-		setEnabled(true);
+		// todo getLayer()->setEnabled(true);
 		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(true);
 		m_pMainWindow->getMainLayer()->setCertainMenuItemsEnabled(false);
 	}
 	else
 	{
-		m_pActiveEditorTab->setEnabled(true);
+		m_pActiveEditorTab->getLayer()->setEnabled(true);
 	}
 
 	mutexRendering.unlock();

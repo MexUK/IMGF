@@ -81,6 +81,9 @@ void					TextureEditorTab::unbindEvents(void)
 // controls
 void					TextureEditorTab::addControls(void)
 {
+	/*
+	todo
+
 	int32 x, y;
 	uint32 w, h, uiLogWidth;
 	
@@ -106,6 +109,7 @@ void					TextureEditorTab::addControls(void)
 
 	m_pVScrollBar = addScrollBar(x, y, w, h, "", -1, 50);
 	m_pVScrollBar->setScrollOrientation(VERTICAL);
+	*/
 }
 
 void					TextureEditorTab::initControls(void)
@@ -124,7 +128,7 @@ void					TextureEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 
 	// entry list vertical scroll bar
 	// todo m_pVScrollBar->setSize(m_pVScrollBar->getSize() + Vec2u(0, vecSizeChange.y));
-	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, m_pWindow->getSize().y - m_pVScrollBar->getPosition().y));
+	//m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, m_pWindow->getSize().y - m_pVScrollBar->getPosition().y));
 }
 
 // add entry
@@ -164,7 +168,7 @@ bool						TextureEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 		fVProgress = m_pVScrollBar ? m_pVScrollBar->getProgress() : 0.0f;
 
 	for (uint32
-		uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
+		uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 193, uiRowHeight),
 		uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
 		uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount);
 		uiEntryIndex < uiEntryEndIndexExclusive;
@@ -189,9 +193,9 @@ bool						TextureEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 	}
 	if (pActiveTabEntry != nullptr)
 	{
-		if (m_pWindow->isMovingWindow())
+		if (getLayer()->getWindow()->isMovingWindow())
 		{
-			m_pWindow->checkToStopMovingOrResizingWindow();
+			getLayer()->getWindow()->checkToStopMovingOrResizingWindow();
 		}
 
 		m_pMouseDownOriginEntry = pActiveTabEntry;
@@ -200,7 +204,7 @@ bool						TextureEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 			clearActiveEntries();
 		}
 		setActiveEntry(pActiveTabEntry);
-		m_pWindow->render();
+		getLayer()->getWindow()->render();
 
 		return false;
 	}
@@ -252,7 +256,7 @@ void						TextureEditorTab::onKeyDown2(uint16 uiKey)
 				yCurrentScroll = 0;
 			}
 		}
-		m_pWindow->render();
+		getLayer()->getWindow()->render();
 		break;
 
 	case VK_NEXT:
@@ -267,7 +271,7 @@ void						TextureEditorTab::onKeyDown2(uint16 uiKey)
 		{
 			yCurrentScroll += ((pTexData->m_rect.bottom - pTexData->m_rect.top) + 1) * 5;
 		}
-		m_pWindow->render();
+		getLayer()->getWindow()->render();
 		break;
 
 	case VK_UP:
@@ -284,7 +288,7 @@ void						TextureEditorTab::onKeyDown2(uint16 uiKey)
 					yCurrentScroll = 0;
 				}
 			}
-			m_pWindow->render();
+			getLayer()->getWindow()->render();
 		}
 		break;
 
@@ -298,7 +302,7 @@ void						TextureEditorTab::onKeyDown2(uint16 uiKey)
 			{
 				yCurrentScroll += (pTexData->m_rect.bottom - pTexData->m_rect.top) + 1;
 			}
-			m_pWindow->render();
+			getLayer()->getWindow()->render();
 		}
 		break;
 
@@ -306,7 +310,7 @@ void						TextureEditorTab::onKeyDown2(uint16 uiKey)
 		if (getEntryCount() > 0)
 		{
 			setActiveEntry(getFirstEntry());
-			m_pWindow->render();
+			getLayer()->getWindow()->render();
 		}
 		wScrollNotify = SB_TOP;
 		break;
@@ -315,7 +319,7 @@ void						TextureEditorTab::onKeyDown2(uint16 uiKey)
 		if (getEntryCount() > 0)
 		{
 			setActiveEntry(getLastEntry());
-			m_pWindow->render();
+			getLayer()->getWindow()->render();
 		}
 		wScrollNotify = SB_BOTTOM;
 		break;
@@ -329,7 +333,7 @@ void					TextureEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 	fNewProgress = Math::limit(fNewProgress, 0.0f, 1.0f);
 	m_pVScrollBar->setProgress(fNewProgress);
 
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 // file unserialization
@@ -400,7 +404,7 @@ void					TextureEditorTab::onFileLoaded(void)
 	calculateDisplayedEntryCount();
 
 	// render
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 
 	// display TXD info
 	setFileInfoText();
@@ -428,7 +432,7 @@ bool						TextureEditorTab::prepareRenderData_TXD(void)
 
 	if (m_pVScrollBar)
 	{
-		m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, m_pWindow->getSize().y - 193);
+		m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 193);
 		m_pVScrollBar->setItemCount(VERTICAL, vecTextures.size() * 50);
 	}
 
@@ -542,7 +546,7 @@ bool						TextureEditorTab::doesTabEntryMatchFilter(TextureEditorTabEntry *pTabE
 // render editor
 void						TextureEditorTab::renderDisplayType_Single(void)
 {
-	HWND hwnd = getWindow()->getWindowHandle();
+	HWND hwnd = getLayer()->getWindow()->getWindowHandle();
 
 	HDC memDC, hdc = GetWindowDC(hwnd);
 	HGDIOBJ old = nullptr;
@@ -622,7 +626,7 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		fVProgress = m_pVScrollBar ? m_pVScrollBar->getProgress() : 0.0f;
 
 	for(uint32
-			uiMaxEntryCount = Math::getMaxEntryCount(m_pWindow->getSize().y - 193, uiRowHeight),
+			uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 193, uiRowHeight),
 			uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
 			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount),
 			uiDisplayedEntryCount = 0,
@@ -686,14 +690,14 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		// draw active texture background colour
 		RECT rect2 = pImageData->m_rect;
 
-		m_pWindow->setRenderingStyleGroups("leftEntryPanel");
+		getLayer()->getWindow()->setRenderingStyleGroups("leftEntryPanel");
 		if (pImageData->m_bIsActive)
 		{
-			m_pWindow->setRenderingStyleStatus(EStyleStatus::ACTIVE);
+			getLayer()->getWindow()->setRenderingStyleStatus(EStyleStatus::ACTIVE);
 		}
 		pGFX->drawRectangle(Vec2i(rect2.left, rect2.top), Vec2u(rect2.right - rect2.left, rect2.bottom - rect2.top));
-		m_pWindow->resetRenderingStyleGroups();
-		m_pWindow->resetRenderingStyleStatus();
+		getLayer()->getWindow()->resetRenderingStyleGroups();
+		getLayer()->getWindow()->resetRenderingStyleStatus();
 
 		// draw texture number
 		HFONT hFont = CreateFont(22, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
@@ -787,12 +791,12 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 	string strText = "Zoom:";
 	pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
 
-	m_pWindow->setRenderingStyleGroups("centerEntryPanel");
+	getLayer()->getWindow()->setRenderingStyleGroups("centerEntryPanel");
 	Vec2u vecRectSize;
-	vecRectSize.x = m_pWindow->getSize().x - (vecMainPanelPosition.x + 250);
-	vecRectSize.y = m_pWindow->getSize().y - vecMainPanelPosition.y;
+	vecRectSize.x = getLayer()->getWindow()->getSize().x - (vecMainPanelPosition.x + 250);
+	vecRectSize.y = getLayer()->getWindow()->getSize().y - vecMainPanelPosition.y;
 	pGFX->drawRectangle(Vec2i(vecMainPanelPosition.x + 250, vecMainPanelPosition.y), vecRectSize);
-	m_pWindow->resetRenderingStyleGroups();
+	getLayer()->getWindow()->resetRenderingStyleGroups();
 
 	if (pActiveImageData)
 	{
@@ -987,7 +991,7 @@ void					TextureEditorTab::recreateEntryList(void)
 	}
 	calculateDisplayedEntryCount();
 	updateEntryCountText();
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 void					TextureEditorTab::removeAllEntries(void)
@@ -1067,7 +1071,7 @@ void					TextureEditorTab::setEntriesSelected(vector<FormatEntry*>& vecEntries, 
 			pTabEntry->m_bIsActive = bIsSelected;
 		}
 	}
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 void					TextureEditorTab::setEntrySelected(FormatEntry *pEntry, bool bIsSelected)

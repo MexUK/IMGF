@@ -8,11 +8,13 @@
 #include "Control/Controls/Text.h"
 #include "Game/GameManager.h"
 #include "GUI/Editor/Base/Editor.h"
+#include "GUI/Window/Windows/MainWindow/MainWindow.h"
 #include "Event/EInputEvent.h"
 
 using namespace std;
 using namespace bxcf;
 using namespace bxgi;
+using namespace bxgx;
 using namespace bxgx::events;
 using namespace imgf;
 
@@ -25,9 +27,18 @@ DATEditorTab::DATEditorTab(void) :
 // controls
 void						DATEditorTab::addControls(void)
 {
-	m_pTextBox = addTextBox(139 + 139, 192, 600, 512, "", true, "textBasedEditorTextBox");
+	//setLayer(m_pEditor->getMainWindow()->getLayerById(100));
+	//getLayer()->setEnabled(true);
+
+	// todo m_pTextBox = addTextBox(139 + 139, 192, 600, 512, "", true, "textBasedEditorTextBox");
+	m_pTextBox = (TextBox*)getLayer()->getItemById(1100);
 
 	repositionAndResizeControls(Vec2i(0, 0));
+
+	m_pText_FilePath = (Text*)m_pEditor->getMainWindow()->getItemById(70);
+	m_pText_FileGame = (Text*)m_pEditor->getMainWindow()->getItemById(70);
+	m_pText_FileVersion = (Text*)m_pEditor->getMainWindow()->getItemById(70);
+	m_pText_FileEntryCount = (Text*)m_pEditor->getMainWindow()->getItemById(70);
 }
 
 // events
@@ -60,13 +71,17 @@ void						DATEditorTab::onFileLoaded(void)
 	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
 
 	// show file content
-	m_pTextBox->setText(File::getFileContent(getFile()->getFilePath()));
+	m_pTextBox->getTextLines() = String::split(String::fixEOLs(File::getFileContent(getFile()->getFilePath(), false), "\n"), "\n");
+	if (m_pTextBox->getTextLines().size() == 0)
+	{
+		m_pTextBox->getTextLines().push_back("");
+	}
 
 	// display file info
 	setFileInfoText();
 
 	// render
-	m_pWindow->render();
+	getLayer()->getWindow()->render();
 }
 
 // file info text
@@ -103,6 +118,9 @@ void						DATEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 {
 	EditorTab::repositionAndResizeControls(vecSizeDifference);
 
+	/*
+	todo
+
 	uint32 x, y;
 	uint32 uiLogWidth;
 
@@ -116,6 +134,7 @@ void						DATEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	x = m_pTextBox->getWindow()->getSize().x - uiLogWidth - 139 * 2;
 	y = m_pTextBox->getWindow()->getSize().y - 200;
 	m_pTextBox->setSize(Vec2u(x, y));
+	*/
 }
 
 // entry selection
