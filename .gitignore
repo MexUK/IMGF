@@ -45,3 +45,5 @@
 *.db-shm
 *.ipch
 *.suo
+Compiler/Projects/IMGF.Installer/Resource.rc
+*.rc

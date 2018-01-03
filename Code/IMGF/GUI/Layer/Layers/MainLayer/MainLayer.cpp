@@ -137,14 +137,14 @@ void		MainLayer::addMenus(void)
 	x = 139;
 	y = uiTitleBarHeight;
 	w = 90;
-	h = 25;
+	h = 20; //original value was 25
 	w2 = w;
 	strStyleGroup = "topMenu";
 
 	pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, TOP_MENU, -200);
 
-	pMenuItem1 = pMenu1->addMenuItem("New");
-	pMenu2 = pMenuItem1->addMenu(VERTICAL);
+	pMenuItem2 = pMenu1->addMenuItem("File");
+	pMenu2 = pMenuItem2->addMenu(VERTICAL);
 	if (m_pMainWindow->getActiveEditor())
 	{
 		for (string& strEditorFileExtension : m_pMainWindow->getActiveEditor()->getEditorFileFormats())
@@ -167,15 +167,16 @@ void		MainLayer::addMenus(void)
 		pMenu2->addMenuItem("New File", NEW_FILE);
 	}
 	pMenu2->addMenuItem("New Window", NEW_WINDOW);
-
-	pMenuItem1 = pMenu1->addMenuItem("Open");
-	pMenu2 = pMenuItem1->addMenu(VERTICAL);
+	//pMenuItem1 = pMenu1->addMenuItem("File");
+	pMenu2 = pMenuItem2->addMenu(VERTICAL);
+	pMenu2->addMenuItem("LST Import", LST);
 	pMenu2->addMenuItem("Open File(s)", OPEN_FILES);
 	pMenu2->addMenuItem("Open Folder", OPEN_FOLDER);
 	pMenu2->addMenuItem("Open Folder Recursively", OPEN_FOLDER_RECURSIVELY);
 	pMenu2->addMenuItem("Reopen", REOPEN_FILE);
 	pMenu2->addMenuItem("Open Last Closed File", OPEN_LAST_CLOSED_FILE);
-
+	pMenu2->addMenuItem("Rename", RENAME);
+	pMenu2->addMenuItem("Renamer", RENAMER);
 	pMenuItem2 = pMenu2->addMenuItem("Recently Open");
 	m_pRecentlyOpenMenu = pMenuItem2->addMenu(VERTICAL);
 
@@ -185,32 +186,33 @@ void		MainLayer::addMenus(void)
 	pMenu2->addMenuItem("Open File Folder in Explorer", OPEN_FILE_FOLDER_IN_EXPLORER);
 
 	pMenuItem2 = pMenu2->addMenuItem("Logs");
-	pMenu3 = pMenuItem2->addMenu(VERTICAL);
-	pMenu3->addMenuItem("Open Today's Logs File", OPEN_TODAYS_LOGS_FILE);
-	pMenu3->addMenuItem("Open Logs Folder", OPEN_LOGS_FOLDER);
-
+	// add line in menu...
 	pMenu2->addMenuItem("Repeat Last Task", REPEAST_LAST_TASK);
-
-	pMenuItem1 = pMenu1->addMenuItem("Save", SAVE_MENU);
-	pMenu2 = pMenuItem1->addMenu(VERTICAL);
+	// add line in menu...
 	pMenu2->addMenuItem("Save File", SAVE_FILE);
 	pMenu2->addMenuItem("Save As", SAVE_FILE_AS);
+	//pMenu2->addMenuItem("Save A Copy As ", SAVE_COPY_AS);
+	/*if (bIsTextEditor)
+	{
+		pMenu2->addMenuItem("Print", PRINT);
+	}
+	*/
 	pMenu2->addMenuItem("Save All", SAVE_ALL_FILES);
+	// add line in menu...
 	pMenu2->addMenuItem("Clone File", CLONE_FILE);
-	pMenu2->addMenuItem("Save File Group", SAVE_FILE_GROUP);
-
-	pMenuItem2 = pMenu2->addMenuItem("Logs", SAVE_LOGS_MENU);
-	pMenu3 = pMenuItem2->addMenu(VERTICAL);
-	pMenu3->addMenuItem("Save Logs", SAVE_LOGS);
-	pMenu3->addMenuItem("Save Logs for All Tabs", SAVE_LOGS_ALL_TABS);
-	pMenu3->addMenuItem("Clear Logs", CLEAR_LOGS);
-	pMenu3->addMenuItem("Clear Logs for All Tabs", CLEAR_LOGS_ALL_TABS);
-
-	pMenuItem1 = pMenu1->addMenuItem("Close");
-	pMenu2 = pMenuItem1->addMenu(VERTICAL);
 	pMenu2->addMenuItem("Close File", CLOSE_FILE);
 	pMenu2->addMenuItem("Close All", CLOSE_ALL_FILES);
+	// add line in menu...
+	pMenu2->addMenuItem("Open Today's Logs File", OPEN_TODAYS_LOGS_FILE);
+	pMenu2->addMenuItem("Open Logs Folder", OPEN_LOGS_FOLDER);
+	pMenu2->addMenuItem("Clear Logs", CLEAR_LOGS);
+	pMenu2->addMenuItem("Clear Logs for All Tabs", CLEAR_LOGS_ALL_TABS);
+	pMenu2->addMenuItem("Save Logs", SAVE_LOGS);
+	pMenu2->addMenuItem("Save Logs for All Tabs", SAVE_LOGS_ALL_TABS);
+	pMenu2->addMenuItem("Save File Group", SAVE_FILE_GROUP);
+	// add line in menu...
 	pMenu2->addMenuItem("Exit Tool", EXIT_TOOL);
+	//pMenu2->addMenuItem("Save, Exit Tool", SEXIT_TOOL);
 
 	// settings icon
 	x += w;
@@ -227,41 +229,36 @@ void		MainLayer::addMenus(void)
 	m_pSettingsButton->addLinkedItem(m_pSettingsButtonLine3);
 
 	// 2nd left menu - actions
-	x = 139;
-	y = uiTitleBarHeight + uiButtonHeight;
-	w = 139;
-	h = uiButtonHeight;
-	h2 = h;
-	h3 = h2 + 0;
-	strStyleGroup = "secondLeftMenu";
+	//x = 139;
+	//y = uiTitleBarHeight + uiButtonHeight;
+	//w = 100; // 139 was original value
+	//h = 20; // uiButtonHeight was original value
+	//h2 = h;
+	//h3 = h2 + 0;
+	//strStyleGroup = "secondLeftMenu";
 
+	//pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, SECOND_LEFT_MENU, -200);
 
-
-
-
+	// import - this should reflect the editor in the main window and change to match, only showing what is needed
+	pMenuItem1 = pMenu1->addMenuItem("EDIT", IMPORT_MENU);
 	
-
-	pMenu1 = addMenu(x, y, h, w, HORIZONTAL, strStyleGroup, SECOND_LEFT_MENU, -200);
-
-	// import
-	pMenuItem1 = pMenu1->addMenuItem("Import", IMPORT_MENU);
-
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Import by File(s)", IMPORT_BY_FILES);
 
 	pMenuItem2 = pMenu2->addMenuItem("Import by Folder(s)", IMPORT_BY_FOLDERS_MENU);
-	pMenu3 = pMenuItem2->addMenu();
-	pMenu3->addMenuItem("Import by Single Folder", IMPORT_BY_SINGLE_FOLDER);
-	pMenu3->addMenuItem("Import by Folder Recursively", IMPORT_BY_FOLDER_RECURSIVELY);
+	pMenu2 = pMenuItem2->addMenu();
+	pMenu2->addMenuItem("Import by Single Folder", IMPORT_BY_SINGLE_FOLDER);
+	pMenu2->addMenuItem("Import by Folder Recursively", IMPORT_BY_FOLDER_RECURSIVELY);
 
 	if (bIsIMGEditor)
 	{
 		pMenu2->addMenuItem("Import by IDE", IMPORT_BY_IDE);
+		//pMenu2->addMenuItem("Import by IPL", IMPORT_BY_IPL);
 	}
 	pMenu2->addMenuItem("Import by Entry Names", IMPORT_BY_ENTRY_NAMES);
 
 	// export
-	pMenuItem1 = pMenu1->addMenuItem("Export", EXPORT_MENU);
+	//pMenuItem1 = pMenu1->addMenuItem("Export", EXPORT_MENU);
 
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Export Selection", EXPORT_SELECTED);
@@ -298,6 +295,7 @@ void		MainLayer::addMenus(void)
 			pMenu2->addMenuItem("Export by IDE", EXPORT_BY_IDE);
 			pMenu2->addMenuItem("Export by IPL", EXPORT_BY_IPL);
 			pMenu2->addMenuItem("Export by DAT", EXPORT_BY_DAT);
+	    //	pMenu2->addMenuItem("Export by OPJ", EXPORT_BY_OPJ); // Objects.dat (import all, missing entries)
 		}
 		pMenu2->addMenuItem("Export by Entry Names", EXPORT_BY_ENTRY_NAMES);
 		if (bIsIMGEditor)
@@ -307,11 +305,11 @@ void		MainLayer::addMenus(void)
 	}
 
 	// quick export
-	pMenu1->addMenuItem("Quick Export", QUICK_EXPORT);
+	//pMenu1->addMenuItem("Quick Export", QUICK_EXPORT);
 
 	// rename
 	pMenuItem1 = pMenu1->addMenuItem("Rename", RENAME);
-	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
+	//pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
 	// replace
 	pMenuItem1 = pMenu1->addMenuItem("Replace", REPLACE_MENU);
@@ -374,8 +372,8 @@ void		MainLayer::addMenus(void)
 	}
 
 	// convert
-	pMenuItem1 = pMenu1->addMenuItem("Convert", CONVERT_MENU);
-	pMenu2 = pMenuItem1->addMenu();
+	//pMenuItem1 = pMenu1->addMenuItem("Convert", CONVERT_MENU);
+	//pMenu2 = pMenuItem1->addMenu();
 
 	if (bIsIMGEditor || bIsRadarEditor)
 	{
@@ -417,8 +415,8 @@ void		MainLayer::addMenus(void)
 	}
 
 	// select
-	pMenuItem1 = pMenu1->addMenuItem("Select", SELECT_MENU);
-	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
+	//pMenuItem1 = pMenu1->addMenuItem("Select", SELECT_MENU);
+	//pMenuItem1->setStyleGroups(string("thirdItemVertically"));
 
 	pMenu2 = pMenuItem1->addMenu();
 	pMenu2->addMenuItem("Select All Entries", SELECT_ALL);
@@ -458,7 +456,7 @@ void		MainLayer::addMenus(void)
 	}
 
 	// sort
-	pMenuItem1 = pMenu1->addMenuItem("Sort", SORT_MENU);
+	pMenuItem2= pMenu2->addMenuItem("Sort", SORT_MENU);
 
 	pMenu2 = pMenuItem1->addMenu();
 	pMenuItem2 = pMenu2->addMenuItem("Sort by Index..", SORT_BY_INDEX_MENU);
@@ -505,9 +503,7 @@ void		MainLayer::addMenus(void)
 		pMenu2->addMenuItem("Sort by Multiple Types", SORT_BY_MULTIPLE_TYPES);
 	}
 
-	// LST
-	pMenu1->addMenuItem("LST", LST);
-
+	
 	// entry
 	pMenuItem1 = pMenu1->addMenuItem("Entry", ENTRY_MENU);
 	pMenuItem1->setStyleGroups(string("thirdItemVertically"));
@@ -546,16 +542,24 @@ void		MainLayer::addMenus(void)
 	pMenu3->addMenuItem("Shift Entries Down 100 Rows", SHIFT_ENTRY_DOWN_100_ROWS);
 	pMenu3->addMenuItem("Shift Entries Down 1000 Rows", SHIFT_ENTRY_DOWN_1000_ROWS);
 
-	if (bIsIMGEditor)
+	/*if (bIsTextEditor)
 	{
-		// orphan entries
-		pMenuItem1 = pMenu1->addMenuItem("Orphan Entries", ORPHAN_ENTRIES_MENU);
-		pMenu2 = pMenuItem1->addMenu();
-		pMenu2->addMenuItem("Remove Orphan Textures from DFF Entries", REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES);
-		pMenu2->addMenuItem("Find Orphan IMG Entries not in IDE", FIND_ORPHAN_IMG_ENTRIES_NOT_IN_IDE);
-		pMenu2->addMenuItem("Find Orphan IDE Entries not in IMG", FIND_ORPHAN_IDE_ENTRIES_NOT_IN_IMG);
-		pMenu2->addMenuItem("Find Orphan TXD Textures for DFFs in IMG by IDE", FIND_ORPHAN_TXD_TEXTURES_FOR_DFFS_IN_IMG_BY_IDE);
-
+		pMenu2->addMenuItem("Undo", UNDO);
+		pMenu2->addMenuItem("Redo", REDO);
+		// add line in menu...
+		pMenu2->addMenuItem("Cut", CUT);
+		pMenu2->addMenuItem("Copy", COPY);
+		pMenu2->addMenuItem("Copy Clip", COPYCLIP);
+		pMenu2->addMenuItem("Paste", PASTE);
+		pMenu2->addMenuItem("DELETE", DELETE);
+		pMenu2->addMenuItem("Selete All", SELECTALL);
+		pMenu2->addMenuItem("Selete Inverse", SELECTIVS);
+		pMenu2->addMenuItem("Begin /End Select", SELEND);
+		// add line in menu...
+		pMenu2->addMenuItem("Convert Case to", CONVCASE);
+		pMenu2->addMenuItem("# Un-Comment", COMMENT);
+	}
+	*/
 		// tools
 		pMenuItem1 = pMenu1->addMenuItem("Tools");
 		pMenuItem1->setStyleGroups(string("thirdItemVertically"));
@@ -568,21 +572,19 @@ void		MainLayer::addMenus(void)
 		pMenu2->addMenuItem("TXD Organizer", TXD_ORGANIZER);
 		pMenu2->addMenuItem("DAT Paths Mover", DAT_PATHS_MOVER);
 		pMenu2->addMenuItem("Map Mover and ID Shifter", MAP_MOVER_AND_ID_SHIFTER);
-
 		// other
-		pMenuItem1 = pMenu1->addMenuItem("Other");
-
-		pMenu2 = pMenuItem1->addMenu();
-		pMenu2->addMenuItem("Texture List", TEXTURE_LIST);
-		pMenu2->addMenuItem("Stats", STATS);
-
-		pMenuItem2 = pMenu2->addMenuItem("Find Duplicate Entries");
+	   	pMenuItem2 = pMenu2->addMenuItem("Find Duplicate Entries");
 		pMenu3 = pMenuItem2->addMenu();
 		pMenu3->addMenuItem("Find Duplicate Entries in Selection", FIND_DUPLICATE_ENTRIES_IN_SELECTION);
 		pMenu3->addMenuItem("Find Duplicate Entries in Tab", FIND_DUPLICATE_ENTRIES_IN_TAB);
 		pMenu3->addMenuItem("Find Duplicate Entries in All Tabs", FIND_DUPLICATE_ENTRIES_IN_ALL_TABS);
 		pMenu3->addMenuItem("Find Duplicate Entries by DAT", FIND_DUPLICATE_ENTRIES_BY_DAT);
-
+		// orphan entries
+		pMenu2->addMenuItem("Remove Orphan Textures from DFF Entries", REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES);
+		pMenu2->addMenuItem("Find Orphan IMG Entries not in IDE", FIND_ORPHAN_IMG_ENTRIES_NOT_IN_IDE);
+		pMenu2->addMenuItem("Find Orphan IDE Entries not in IMG", FIND_ORPHAN_IDE_ENTRIES_NOT_IN_IMG);
+		pMenu2->addMenuItem("Find Orphan TXD Textures for DFFs in IMG by IDE", FIND_ORPHAN_TXD_TEXTURES_FOR_DFFS_IN_IMG_BY_IDE);
+		// Other
 		pMenu2->addMenuItem("Compare IMGs", COMPARE_IMGS);
 		pMenu2->addMenuItem("Model List for IDE/IPL by DAT", MODEL_LIST_FOR_IDE_AND_IPL_BY_DAT);
 		pMenu2->addMenuItem("Save IMG Signature", SAVE_IMG_SIGNATURE);
@@ -595,7 +597,59 @@ void		MainLayer::addMenus(void)
 		pMenu2->addMenuItem("Extract 2DFX into DFFs", EXTRACT_2DFX_INTO_DFFS);
 		pMenu2->addMenuItem("IMG Compression", IMG_COMPRESSION);
 		pMenu2->addMenuItem("Generate COL from DFF", GENERATE_COL_FROM_DFF);
-	}
+		// Add Create Type 1 COL for DFF
+		// Add Create Type 2 COL for DFF
+		// Add Create Type 3 COL for DFF
+		// Add Create Type 4 COL for DFF
+		pMenu2 = pMenuItem1->addMenu();
+		pMenuItem1 = pMenu1->addMenuItem("Other");
+		pMenu2->addMenuItem("Texture List", TEXTURE_LIST);
+		pMenu2->addMenuItem("Stats", STATS);
+
+		//Search
+		/*if (bIsTextEditorLCVCSA)
+		{
+		pMenu2->addMenuItem("Find", FIND);
+		pMenu2->addMenuItem("Find in Tabs", FINDT);
+		pMenu2->addMenuItem("Find in Files", FINDF);
+		pMenu2->addMenuItem("Find Next", FINDN);
+		pMenu2->addMenuItem("Find Previous", FINDP);
+		pMenu2->addMenuItem("Find and Select Next", FINDSN);
+		pMenu2->addMenuItem("Find amd Select Previous", FINDSP);
+		pMenu2->addMenuItem("Find (Volatile) Next", FINDVN);
+		pMenu2->addMenuItem("Find (Volatile) Previous", FINDVP);
+		// add line in menu...
+		pMenu2->addMenuItem("Replace", REPLACE);
+		pMenu2->addMenuItem("Find and Replace", FREPLACE);
+		pMenu2->addMenuItem("Find and Replace All", FREPLACEA);
+		pMenu2->addMenuItem("Find, Replace in Taps", FREPLACET);
+		pMenu2->addMenuItem("Find, Replace in Files", FREPLACEF);
+		// add line in menu...
+		pMenu2->addMenuItem("ID, in Assending Order (IPL)", IDASSENDING); // Changes IDs in assending order.
+		pMenu2->addMenuItem("Sort in Assending Order (IPL)", IDSORTIPL); // Just sorts IPL in assanding order.
+		pMenu2->addMenuItem("ID, ModelName Assending (IPL/IDE)", IDMODASSEND); // Changes IDs & Modelnames in assending order.
+		pMenu2->addMenuItem("Check IPL by IDE", CHECKIPL);
+		pMenu2->addMenuItem("Check IPL by IMG", CHECKIPLIMG);
+		pMenu2->addMenuItem("Check IPL by COL", CHECKIPLIMG);
+		pMenu2->addMenuItem("Check IDE by IMG", CHECKIDECOL);
+		pMenu2->addMenuItem("Check IDE by COL", CHECKIDECOL);
+		pMenu2->addMenuItem("Check Model by IDE", MODELIDE);
+		pMenu2->addMenuItem("Check Texture by IDE", MTEXIDE);
+		pMenu2->addMenuItem("Sort IPL/IFX By IDE", SORTIDE);
+		pMenu2->addMenuItem("Remove dup entries IDE", REMDUPIDE);
+		pMenu2->addMenuItem("Remove dup entries IPL", REMDUPIPL);
+		pMenu2->addMenuItem("Valdate .Dat by .IDE", SELEND);
+		pMenu2->addMenuItem("Simulate Loading", SIMLOAD);
+		// add line in menu...
+		pMenu2->addMenuItem("Shift ID from", SHIFTID);
+		pMenu2->addMenuItem("Shift Select IDs from", SHIFTIDS);
+		pMenu2->addMenuItem("Rotate IPL models", ROTIPLMOD);
+		pMenu2->addMenuItem("Convert IDE/IPL to SA", CONVERTSA);
+		pMenu2->addMenuItem("Convert IDE/IPL to VC", CONVERTVC);
+		pMenu2->addMenuItem("Convert IDE/IPL to LC", CONVERTLC);
+		}
+		*/
+	
 }
 
 void						MainLayer::removeMenus(void)
@@ -615,6 +669,7 @@ void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
 		bIsIMGEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getIMGEditor(),
 		bIsModelEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getModelEditor(),
 		bIsTextureEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getTextureEditor(),
+//		bIsTextEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getTextEditor(),
 		bIsCollisionEditor = m_pMainWindow->getActiveEditor() == m_pMainWindow->getCollisionEditor();
 
 	// disable certain menu items
@@ -773,6 +828,7 @@ void						MainLayer::setCertainMenuItemsEnabled(bool bEnabled)
 	{
 		StdVector::addToVector(vecMenuItemIds, vector<EInputItem>({
 			IMPORT_BY_IDE,
+//			IMPORT_BY_IPL,
 			EXPORT_BY_IDE,
 			EXPORT_BY_IDE_FROM_ALL_TABS,
 			EXPORT_BY_IPL,
