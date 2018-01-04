@@ -19,6 +19,8 @@ public:
 	bool						unserializeFile(void);
 	void						onFileLoaded(void);
 
+	void						render(void);
+
 	uint32								getTotalEntryCount(void);
 	std::vector<bxcf::FormatEntry*>		getSelectedEntries(void);
 	uint32								getSelectedEntryCount(void);
@@ -56,6 +58,8 @@ public:
 protected:
 	void						addControls(void);
 	void						initControls(void);
+
+	void						initLayer(void);
 
 	void						onSelectDropDownItem(bxgx::DropDownItem *pItem);
 	bool						onLeftMouseDown(bxcf::Vec2i vecCursorPosition);

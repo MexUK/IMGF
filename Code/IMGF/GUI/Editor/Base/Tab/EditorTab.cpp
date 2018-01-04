@@ -93,8 +93,7 @@ bool						EditorTab::init(bool bIsNewFile)
 	m_pEditor->addControls();
 	*/
 
-	// set layer
-	setLayer(m_pEditor->getMainWindow()->getLayerById(100));
+	initLayer();
 
 	// display editor tab
 	//getLayer()->setEnabled(true);

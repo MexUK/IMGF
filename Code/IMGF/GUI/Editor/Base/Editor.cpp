@@ -13,6 +13,8 @@
 #include "Control/Controls/TabBar.h"
 #include "GUI/Editor/EEditor.h"
 #include "GUI/Input/EInputItem.h"
+#include "Tab/EditorTab.h"
+#include "Control/Controls/Text.h"
 
 using namespace std;
 using namespace bxcf;
@@ -117,6 +119,10 @@ void								Editor::onDragEntriesOver(Vec2i vecCursorPosition)
 // remove editor tab
 void								Editor::removeEditorTab(EditorTab *pEditorTab)
 {
+	// clear texts
+	pEditorTab->m_pText_FilePath->setText(string(""));
+	pEditorTab->m_pText_FileEntryCount->setText(string("0"));
+
 	// remove tab from tab bar
 	m_pTabBar->removeTab(pEditorTab->getTab());
 
@@ -152,7 +158,7 @@ void								Editor::removeEditorTab(EditorTab *pEditorTab)
 	}
 
 	// update menus
-	getMainWindow()->getMainLayer()->setCertainMenuItemsEnabled(getEditorTabs().getEntryCount() > 0);
+	// todo getMainWindow()->getMainLayer()->setCertainMenuItemsEnabled(getEditorTabs().getEntryCount() > 0);
 
 	// render window
 	m_pMainWindow->renderNow();
@@ -171,7 +177,7 @@ void								Editor::removeActiveEditorTab(void)
 // set active file
 void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 {
-	/*
+	///*
 	if (m_pActiveEditorTab)
 	{
 		m_pActiveEditorTab->unbindEvents();
@@ -181,7 +187,7 @@ void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 	{
 		Editor::unbindEvents();
 	}
-	*/
+	//*/
 
 	// store editor tab
 	m_pActiveEditorTab = pEditorTab;
@@ -208,12 +214,12 @@ void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 		getIMGF()->getWindowManager()->getMainWindow()->getBlankLayer()->setEnabled(true);
 	}
 
-	/*
+	///*
 	if(pEditorTab)
 	{
-		pEditorTab->getLayer()->bindEvents();
+		pEditorTab->bindEvents();
 	}
-	*/
+	//*/
 }
 
 // displayed info
@@ -259,7 +265,6 @@ string								Editor::getEditorName(EEditor uiEditor)
 	case MODEL_EDITOR:				return "Model";
 	case COLLISION_EDITOR:			return "Collision";
 	case TEXTURE_EDITOR:			return "Texture";
-//	case TEXT_EDITOR:				return "Text";
 	case ANIMATION_EDITOR:			return "Animation";
 	case RADAR_EDITOR:				return "Radar";
 	}

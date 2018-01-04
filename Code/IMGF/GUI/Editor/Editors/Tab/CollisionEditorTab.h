@@ -88,6 +88,8 @@ public:
 	void						bindEvents(void);
 	void						unbindEvents(void);
 
+	void						initLayer(void);
+
 	bool						unserializeFile(void);
 	void						onFileLoaded(void);
 

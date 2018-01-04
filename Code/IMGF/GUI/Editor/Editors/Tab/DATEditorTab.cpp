@@ -44,6 +44,12 @@ void						DATEditorTab::addControls(void)
 
 }
 
+// layer
+void						DATEditorTab::initLayer(void)
+{
+	setLayer(m_pEditor->getMainWindow()->getLayerById(100));
+}
+
 // events
 void						DATEditorTab::bindEvents(void)
 {

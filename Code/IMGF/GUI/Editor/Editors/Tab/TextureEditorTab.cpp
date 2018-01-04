@@ -26,6 +26,7 @@
 #include "GUI/Editor/Base/Editor.h"
 #include "Engine/RW/RWManager.h"
 #include "Engine/RW/RWVersionManager.h"
+#include "GUI/Window/windows/MainWindow/MainWindow.h"
 
 using namespace std;
 using namespace bxcf;
@@ -52,7 +53,7 @@ TextureEditorTab::TextureEditorTab(void) :
 // events
 void					TextureEditorTab::bindEvents(void)
 {
-	bindEvent(RESIZE_WINDOW, &TextureEditorTab::repositionAndResizeControls);
+	bindEvent(RENDER, &TextureEditorTab::render);
 	bindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
 	bindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
@@ -66,7 +67,7 @@ void					TextureEditorTab::bindEvents(void)
 
 void					TextureEditorTab::unbindEvents(void)
 {
-	unbindEvent(RESIZE_WINDOW, &TextureEditorTab::repositionAndResizeControls);
+	unbindEvent(RENDER, &TextureEditorTab::render);
 	unbindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
@@ -129,6 +130,12 @@ void					TextureEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 	// entry list vertical scroll bar
 	// todo m_pVScrollBar->setSize(m_pVScrollBar->getSize() + Vec2u(0, vecSizeChange.y));
 	//m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, m_pWindow->getSize().y - m_pVScrollBar->getPosition().y));
+}
+
+// layer
+void					TextureEditorTab::initLayer(void)
+{
+	setLayer(m_pEditor->getMainWindow()->getLayerById(103));
 }
 
 // add entry
@@ -389,7 +396,7 @@ void					TextureEditorTab::onFileLoaded(void)
 	updateTabText();
 
 	// add file path to recently opened files list
-	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), strFilePath);
+	//getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), strFilePath);
 
 	// prepare render data
 	if (String::toUpperCase(Path::getFileExtension(strFilePath)) == "TXD")
@@ -539,11 +546,19 @@ void						TextureEditorTab::prepareTexture_WTD(WTDEntry *pWTDEntry)
 // filter
 bool						TextureEditorTab::doesTabEntryMatchFilter(TextureEditorTabEntry *pTabEntry)
 {
+	return true;
+	/*
 	string strSearchTextUpper = String::toUpperCase(m_pSearchBox->getText());
 	return strSearchTextUpper == "" || String::isIn(String::toUpperCase(pTabEntry->m_strDiffuseName), strSearchTextUpper, false);
+	*/
 }
 
 // render editor
+void						TextureEditorTab::render(void)
+{
+	renderDisplayType_Single();
+}
+
 void						TextureEditorTab::renderDisplayType_Single(void)
 {
 	HWND hwnd = getLayer()->getWindow()->getWindowHandle();
@@ -557,8 +572,8 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 	uint32 x, y;
 	Vec2i vecMainPanelPosition;
 
-	x = 139 + 139;
-	y = 162 + 30;
+	x = 130;
+	y = 120;
 	vecMainPanelPosition = Vec2i(x, y);
 
 	float32 yCurrentScroll = 0;
@@ -833,13 +848,13 @@ void					TextureEditorTab::setFileInfoText(void)
 		string strVersionText = RWManager::get()->getVersionManager()->getVersionText(getTXDFile()->getRawVersion());
 		string strVersionGames = getTXDFile()->getRWVersion() ? getTXDFile()->getRWVersion()->getGamesAsString() : "Unknown";
 
-		m_pText_FileVersion->setText(strVersionText);
-		m_pText_FileGame->setText(strVersionGames);
+		//m_pText_FileVersion->setText(strVersionText);
+		//m_pText_FileGame->setText(strVersionGames);
 	}
 	else
 	{
-		m_pText_FileVersion->setText(string("Unknown"), false);
-		m_pText_FileGame->setText(string("GTA IV"));
+		//m_pText_FileVersion->setText(string("Unknown"), false);
+		//m_pText_FileGame->setText(string("GTA IV"));
 	}
 
 	updateEntryCountText();

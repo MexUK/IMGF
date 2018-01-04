@@ -35,6 +35,8 @@ public:
 	virtual void						addControls(void);
 	virtual void						initControls(void);
 
+	virtual void						initLayer(void) {}
+
 	virtual bool						unserializeFile(void) = 0;
 	virtual void						onFileLoaded(void) = 0;
 
@@ -136,14 +138,15 @@ public:
 
 	void								onChangeTextBox(bxgx::TextBox *pTextBox);
 
-protected:
-	bxcf::Format*						m_pFile;
-	Editor*								m_pEditor;
-
+public:
 	bxgx::Text*							m_pText_FilePath;
 	bxgx::Text*							m_pText_FileVersion;
 	bxgx::Text*							m_pText_FileGame;
 	bxgx::Text*							m_pText_FileEntryCount;
+
+protected:
+	bxcf::Format*						m_pFile;
+	Editor*								m_pEditor;
 
 	bxgx::TextBox*						m_pSearchBox;
 	bxgx::Tab*							m_pTab;

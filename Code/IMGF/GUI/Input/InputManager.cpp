@@ -469,30 +469,37 @@ void					InputManager::img(void)
 
 void					InputManager::itemDefinition(void)
 {
+	m_pMainWindow->setActiveEditor(m_pMainWindow->m_pItemDefinitionEditor);
 }
 
 void					InputManager::itemPlacement(void)
 {
+	m_pMainWindow->setActiveEditor(m_pMainWindow->m_pItemPlacementEditor);
 }
 
 void					InputManager::models(void)
 {
+	m_pMainWindow->setActiveEditor(m_pMainWindow->m_pModelEditor);
 }
 
 void					InputManager::collisions(void)
 {
+	m_pMainWindow->setActiveEditor(m_pMainWindow->m_pCollisionEditor);
 }
 
 void					InputManager::textures(void)
 {
+	m_pMainWindow->setActiveEditor(m_pMainWindow->m_pTextureEditor);
 }
 
 void					InputManager::animations(void)
 {
+	m_pMainWindow->setActiveEditor(m_pMainWindow->m_pAnimationEditor);
 }
 
 void					InputManager::radar(void)
 {
+	m_pMainWindow->setActiveEditor(m_pMainWindow->m_pRadarEditor);
 }
 
 // button press - file menu

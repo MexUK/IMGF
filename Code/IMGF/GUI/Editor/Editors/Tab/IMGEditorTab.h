@@ -38,6 +38,8 @@ public:
 	void						initControls(void);
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 
+	void						initLayer(void);
+
 	bool						unserializeFile(void);
 
 	void						onUnserializeEntry(bxgi::IMGFormat *img);

@@ -20,6 +20,7 @@
 #include "../BXGI/Event/EEvent.h"
 #include "Event/EInputEvent.h"
 #include "GUI/Editor/Editors/CollisionEditor.h"
+#include "GUI/Window/windows/MainWindow/MainWindow.h"
 
 /*
 #include <include/GLFW/glfw3.h>
@@ -61,7 +62,7 @@ void					CollisionEditorTab::bindEvents(void)
 {
 	///markEventUsage(MOVE_MOUSE);
 
-	bindEvent(RESIZE_WINDOW, &CollisionEditorTab::repositionAndResizeControls);
+	bindEvent(RENDER, &CollisionEditorTab::render);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	bindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	//bindEvent(MOVE_MOUSE, &CollisionEditorTab::onMouseMove2);
@@ -75,7 +76,7 @@ void					CollisionEditorTab::unbindEvents(void)
 {
 	///unmarkEventUsage(MOVE_MOUSE);
 
-	unbindEvent(RESIZE_WINDOW, &CollisionEditorTab::repositionAndResizeControls);
+	unbindEvent(RENDER, &CollisionEditorTab::render);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	//unbindEvent(MOVE_MOUSE, &CollisionEditorTab::onMouseMove2);
@@ -111,6 +112,8 @@ void					CollisionEditorTab::addControls(void)
 	m_pVScrollBar = addScrollBar(x, y, w, h, "", -1, 50);
 	m_pVScrollBar->setScrollOrientation(VERTICAL);
 	*/
+
+	m_pVScrollBar = (ScrollBar*)m_pEditor->getMainWindow()->getItemById(95);
 }
 
 void					CollisionEditorTab::initControls(void)
@@ -153,6 +156,12 @@ void					CollisionEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 	update3DRenderSize(vecRenderSize);
 	
 	mutexRendering.unlock();
+}
+
+// layer
+void					CollisionEditorTab::initLayer(void)
+{
+	setLayer(m_pEditor->getMainWindow()->getLayerById(102));
 }
 
 // editor input
@@ -457,7 +466,7 @@ void					CollisionEditorTab::onFileLoaded(void)
 	updateTabText();
 
 	// add file path to recently opened files list
-	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), strFilePath);
+	//getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), strFilePath);
 
 	// prepare render data
 	prepareRenderData();
@@ -527,13 +536,13 @@ void						CollisionEditorTab::setFileInfoText(void)
 	m_pText_FilePath->setText(Path::getDisplayableFilePath(getFile()->getFilePath()));
 	if (getCOLFile()->getEntryCount() > 0)
 	{
-		m_pText_FileVersion->setText(COLManager::get()->getVersionManager()->getVersionText(getCOLFile()->getFirstEntry()->getCOLVersion()), false);
-		m_pText_FileGame->setText(COLManager::get()->getVersionManager()->getGamesAsString(getCOLFile()->getFirstEntry()->getCOLVersion()));
+		//m_pText_FileVersion->setText(COLManager::get()->getVersionManager()->getVersionText(getCOLFile()->getFirstEntry()->getCOLVersion()), false);
+		//m_pText_FileGame->setText(COLManager::get()->getVersionManager()->getGamesAsString(getCOLFile()->getFirstEntry()->getCOLVersion()));
 	}
 	else
 	{
-		m_pText_FileVersion->setText(string("COL 1"), false);
-		m_pText_FileGame->setText(string("GTA III"));
+		//m_pText_FileVersion->setText(string("COL 1"), false);
+		//m_pText_FileGame->setText(string("GTA III"));
 	}
 	updateEntryCountText();
 }

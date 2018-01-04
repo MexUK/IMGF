@@ -30,6 +30,8 @@ public:
 	void						initControls(void);
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeChange);
 
+	void						initLayer(void);
+
 	void						bindEvents(void);
 	void						unbindEvents(void);
 

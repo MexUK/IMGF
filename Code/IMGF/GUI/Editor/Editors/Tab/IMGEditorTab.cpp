@@ -139,8 +139,8 @@ void					IMGEditorTab::onFileLoaded(void)
 
 	m_pEntryGrid->setActiveItem();
 
-	loadFilter_Type();
-	loadFilter_Version();
+	///loadFilter_Type();
+	///loadFilter_Version();
 
 	setFileInfoText();
 
@@ -230,7 +230,7 @@ void					IMGEditorTab::addControls(void)
 	m_pEntryVersionFilter->addLinkedItem(m_pEntryTypeFilter);
 	*/
 
-	setLayer(m_pEditor->getMainWindow()->getLayerById(101));
+	m_pEntryGrid = (Grid*)getLayer()->getItemById(1200);
 }
 
 void					IMGEditorTab::initControls(void)
@@ -240,6 +240,13 @@ void					IMGEditorTab::initControls(void)
 	repositionAndResizeControls(Vec2i(0, 0));
 }
 
+// layer
+void					IMGEditorTab::initLayer(void)
+{
+	setLayer(m_pEditor->getMainWindow()->getLayerById(101));
+}
+
+// grid headers
 void					IMGEditorTab::addGridHeaders(EIMGVersion uiIMGVersionValue)
 {
 	m_pEntryGrid->addHeader("Index", 50);
@@ -285,6 +292,7 @@ void					IMGEditorTab::removeControls(void)
 
 void					IMGEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 {
+	/*
 	EditorTab::repositionAndResizeControls(vecSizeDifference);
 
 	if (!m_pEntryGrid)
@@ -332,6 +340,7 @@ void					IMGEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
 	point = m_pEntryVersionFilter->getPosition();
 	iNewX = getLayer()->getWindow()->getSize().x - m_pEntryVersionFilter->getSize().x - uiLogWidth - 10;
 	m_pEntryVersionFilter->setPosition(Vec2i(iNewX, point.y));
+	*/
 }
 
 // file unserialization
@@ -849,6 +858,7 @@ void					IMGEditorTab::addGridEntries(void)
 {
 	//m_bTabReadyToClose = false;
 
+	/*
 	DropDownItem
 		*pTypeFilterItem = m_pEntryTypeFilter->getActiveItem(),
 		*pVersionFilterItem = m_pEntryVersionFilter->getActiveItem();
@@ -859,7 +869,9 @@ void					IMGEditorTab::addGridEntries(void)
 		iVersionFilterSelectedIndex = m_pEntryVersionFilter->getSelectedItemIndex();
 	uint32
 		uiFileType,
-		uiEntryIndex = 0,
+	*/uint32
+		uiEntryCount = m_pIMGFile->getEntryCount(),
+		uiEntryIndex = 0;/*
 		uiEntryCount = m_pIMGFile->getEntryCount(),
 		uiSelectedFileType = pTypeFilterItem ? pTypeFilterItem->getUserdata() : -1,
 		uiSelectedFileVersion = pVersionFilterItem ? pVersionFilterItem->getUserdata() : -1,
@@ -869,10 +881,11 @@ void					IMGEditorTab::addGridEntries(void)
 		bTypeFilterIsDynamicItem = iTypeFilterSelectedIndex > 0,
 		bVersionFilterIsDynamicItem = iVersionFilterSelectedIndex > 0,
 		bSearchFilterIsActive = pSearchBoxFilter->doesContainText();
+	*/
 	TaskManager
 		*pTaskManager = getIMGF()->getTaskManager();
-	string
-		strSearchFilterText = pSearchBoxFilter->getTextAtLine(0);
+	//string
+	//	strSearchFilterText = pSearchBoxFilter->getTextAtLine(0);
 
 	// m_pEntryGrid->getEntries().resize(m_pIMGFile->getEntryCount()); // todo - still needed?
 
@@ -890,7 +903,8 @@ void					IMGEditorTab::addGridEntries(void)
 
 	for (IMGEntry *pIMGEntry : m_pIMGFile->getEntries())
 	{
-		bAddEntry = true;
+		bool bAddEntry = true;
+		/*
 		uiFileType = pIMGEntry->getFileType();
 
 		if (bTypeFilterIsDynamicItem && uiFileType != uiSelectedFileType)
@@ -907,6 +921,7 @@ void					IMGEditorTab::addGridEntries(void)
 		{
 			bAddEntry = false;
 		}
+		*/
 
 		if (bAddEntry)
 		{
@@ -1038,8 +1053,8 @@ uint32			IMGEditorTab::getMainListViewItemIndexByItemData(IMGEntry *pIMGEntry)
 void					IMGEditorTab::setFileInfoText(void)
 {
 	m_pText_FilePath->setText(Path::getDisplayableFilePath(getIMGFile()->getIMGFilePath()));
-	m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
-	m_pText_FileGame->setText(IMGManager::getVersionGames(getIMGFile()->getVersion()));
+	//m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
+	//m_pText_FileGame->setText(IMGManager::getVersionGames(getIMGFile()->getVersion()));
 
 	updateEntryCountText();
 }

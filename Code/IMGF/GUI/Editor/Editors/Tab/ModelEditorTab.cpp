@@ -19,7 +19,9 @@
 #include "Format/RW/Sections/RWSection_Frame.h"
 #include "BXGX.h"
 #include "Event/EInputEvent.h"
+#include "GUI/Window/windows/MainWindow/MainWindow.h"
 #include <stack>
+#include <mutex>
 
 using namespace std;
 using namespace bxcf;
@@ -27,6 +29,8 @@ using namespace bxgx;
 using namespace bxgx::events;
 using namespace bxgi;
 using namespace imgf;
+
+recursive_mutex mutexRendering2;
 
 ModelEditorTab::ModelEditorTab(void) :
 	m_pDFFFile(nullptr),
@@ -74,9 +78,16 @@ void						ModelEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 	mutexRendering.unlock();
 }
 
+// layer
+void						ModelEditorTab::initLayer(void)
+{
+	setLayer(m_pEditor->getMainWindow()->getLayerById(104));
+}
+
 // events
 void						ModelEditorTab::bindEvents(void)
 {
+	bindEvent(RENDER, &ModelEditorTab::render);
 	bindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
 
 	EditorTab::bindEvents();
@@ -84,6 +95,7 @@ void						ModelEditorTab::bindEvents(void)
 
 void						ModelEditorTab::unbindEvents(void)
 {
+	unbindEvent(RENDER, &ModelEditorTab::render);
 	unbindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
 
 	EditorTab::unbindEvents();
@@ -124,7 +136,7 @@ void						ModelEditorTab::onFileLoaded(void)
 	updateTabText();
 
 	// add file path to recently opened files list
-	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
+	//getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
 
 	// display file info
 	setFileInfoText();
@@ -144,8 +156,8 @@ void						ModelEditorTab::onFileLoaded(void)
 void						ModelEditorTab::setFileInfoText(void)
 {
 	m_pText_FilePath->setText(Path::getDisplayableFilePath(getFile()->getFilePath()));
-	m_pText_FileVersion->setText(getDFFFile()->getRWVersion()->getVersionText(), false);
-	m_pText_FileGame->setText(getDFFFile()->getRWVersion()->getGamesAsString());
+	//m_pText_FileVersion->setText(getDFFFile()->getRWVersion()->getVersionText(), false);
+	//m_pText_FileGame->setText(getDFFFile()->getRWVersion()->getGamesAsString());
 
 	updateEntryCountText();
 }
@@ -180,7 +192,9 @@ mutex mutexInitializing3DRender_ModelEditor; // todo
 
 void						ModelEditorTab::render(void)
 {
+	mutexRendering2.lock();
 	render3D();
+	mutexRendering2.unlock();
 }
 
 void						ModelEditorTab::render3D(void)
