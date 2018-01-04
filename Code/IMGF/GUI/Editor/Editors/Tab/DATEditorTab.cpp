@@ -31,6 +31,7 @@ void						DATEditorTab::addControls(void)
 	//getLayer()->setEnabled(true);
 
 	// todo m_pTextBox = addTextBox(139 + 139, 192, 600, 512, "", true, "textBasedEditorTextBox");
+
 	m_pTextBox = (TextBox*)getLayer()->getItemById(1100);
 
 	repositionAndResizeControls(Vec2i(0, 0));

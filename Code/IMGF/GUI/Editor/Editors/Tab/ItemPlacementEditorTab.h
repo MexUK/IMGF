@@ -11,6 +11,8 @@ public:
 
 	void						addControls(void);
 
+	void						initLayer(void);
+
 	void						bindEvents(void);
 	void						unbindEvents(void);
 

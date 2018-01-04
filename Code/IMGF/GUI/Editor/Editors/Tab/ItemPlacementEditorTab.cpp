@@ -10,10 +10,12 @@
 #include "Control/Controls/Text.h"
 #include "GUI/Editor/Base/Editor.h"
 #include "Event/EInputEvent.h"
+#include "GUI/Window/Windows/MainWindow/MainWindow.h"
 
 using namespace std;
 using namespace bxcf;
 using namespace bxgi;
+using namespace bxgx;
 using namespace bxgx::events;
 using namespace imgf;
 
@@ -28,7 +30,15 @@ void						ItemPlacementEditorTab::addControls(void)
 {
 	// todo m_pTextBox = addTextBox(139 + 139, 192, 600, 512, "", true, "textBasedEditorTextBox");
 
+	m_pTextBox = (TextBox*)getLayer()->getItemById(1600);
+
 	repositionAndResizeControls(Vec2i(0, 0));
+}
+
+// layer
+void						ItemPlacementEditorTab::initLayer(void)
+{
+	setLayer(m_pEditor->getMainWindow()->getLayerById(106));
 }
 
 // events
@@ -58,7 +68,7 @@ void						ItemPlacementEditorTab::onFileLoaded(void)
 	updateTabText();
 
 	// add file path to recently opened files list
-	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
+	//getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
 
 	// show file content
 	m_pTextBox->getTextLines() = String::split(String::fixEOLs(File::getFileContent(getFile()->getFilePath(), false), "\n"), "\n");
@@ -81,15 +91,15 @@ void						ItemPlacementEditorTab::setFileInfoText(void)
 
 	if (getIPLFile()->getEntriesBySection<IPLEntry_INST>(IPL_SECTION_INST).size() == 0)
 	{
-		m_pText_FileGame->setText(string("Unknown"));
-		m_pText_FileVersion->setText(string("Unknown"));
+		//m_pText_FileGame->setText(string("Unknown"));
+		//m_pText_FileVersion->setText(string("Unknown"));
 	}
 	else
 	{
 		uint32 uiIPLGames = ((IPLEntry_INST*)(getIPLFile()->getEntriesBySection<IPLEntry_INST>(IPL_SECTION_INST)[0]))->getFormatGames();
 
-		m_pText_FileGame->setText(IDEManager::getFormatGamesAsString(uiIPLGames));
-		m_pText_FileVersion->setText(IDEManager::getVersionText(uiIPLGames));
+		//m_pText_FileGame->setText(IDEManager::getFormatGamesAsString(uiIPLGames));
+		//m_pText_FileVersion->setText(IDEManager::getVersionText(uiIPLGames));
 	}
 
 	updateEntryCountText();

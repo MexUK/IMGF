@@ -111,6 +111,8 @@ void					TextureEditorTab::addControls(void)
 	m_pVScrollBar = addScrollBar(x, y, w, h, "", -1, 50);
 	m_pVScrollBar->setScrollOrientation(VERTICAL);
 	*/
+
+	m_pVScrollBar = (ScrollBar*)getLayer()->getWindow()->getItemById(95);
 }
 
 void					TextureEditorTab::initControls(void)

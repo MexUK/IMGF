@@ -25,6 +25,7 @@
 #include "GUI/Editor/Base/Editor.h"
 #include "Style/Parts/EStyleStatus.h"
 #include "Event/EInternalEvent.h"
+#include "GUI/Window/Windows/MainWindow/MainWindow.h"
 
 using namespace std;
 using namespace bxcf;
@@ -109,6 +110,8 @@ void						RadarEditorTab::addControls(void)
 	m_pVScrollBar = addScrollBar(x, y, w, h, "", -1, 50);
 	m_pVScrollBar->setScrollOrientation(VERTICAL);
 	*/
+
+	m_pVScrollBar = (ScrollBar*)getLayer()->getWindow()->getItemById(96);
 }
 
 void						RadarEditorTab::initControls(void)
@@ -122,13 +125,19 @@ void						RadarEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 
 	// entry list vertical scroll bar
 	// todo m_pVScrollBar->setSize(m_pVScrollBar->getSize() + Vec2u(0, vecSizeChange.y));
-	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, getLayer()->getWindow()->getSize().y - m_pVScrollBar->getPosition().y));
+	//m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, getLayer()->getWindow()->getSize().y - m_pVScrollBar->getPosition().y));
+}
+
+// layer
+void						RadarEditorTab::initLayer(void)
+{
+	setLayer(m_pEditor->getMainWindow()->getLayerById(104));
 }
 
 // events
 void						RadarEditorTab::bindEvents(void)
 {
-	bindEvent(RESIZE_WINDOW, &RadarEditorTab::repositionAndResizeControls);
+	bindEvent(RENDER, &RadarEditorTab::render);
 	bindEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
 	bindEvent(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
 	bindEvent(LEFT_MOUSE_UP, &RadarEditorTab::onLeftMouseUp);
@@ -141,7 +150,7 @@ void						RadarEditorTab::bindEvents(void)
 
 void						RadarEditorTab::unbindEvents(void)
 {
-	unbindEvent(RESIZE_WINDOW, &RadarEditorTab::repositionAndResizeControls);
+	unbindEvent(RENDER, &RadarEditorTab::render);
 	unbindEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
 	unbindEvent(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
 	unbindEvent(LEFT_MOUSE_UP, &RadarEditorTab::onLeftMouseUp);
@@ -160,7 +169,7 @@ void						RadarEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 		uiActiveImageIndex,
 		uiRowHeight = 50;
 	float32
-		fVProgress = m_pVScrollBar->getProgress();
+		fVProgress = m_pVScrollBar ? m_pVScrollBar->getProgress() : 0.0f;
 
 	for (uint32
 		uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 193, uiRowHeight),
@@ -178,7 +187,7 @@ void						RadarEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 
 		if (vecCursorPosition.x >= pImageData->m_rect.left
 			&& vecCursorPosition.y >= pImageData->m_rect.top
-			&& vecCursorPosition.x <= (pImageData->m_rect.right - m_pVScrollBar->getSize().x)
+			&& vecCursorPosition.x <= (pImageData->m_rect.right - (m_pVScrollBar ? m_pVScrollBar->getSize().x : 0))
 			&& vecCursorPosition.y <= pImageData->m_rect.bottom)
 		{
 			uiActiveImageIndex = uiEntryIndex;
@@ -414,40 +423,40 @@ void						RadarEditorTab::onFileLoaded(void)
 void						RadarEditorTab::setFileInfoText(void)
 {
 	m_pText_FilePath->setText(Path::getDisplayableFilePath(getIMGFile()->getIMGFilePath()));
-	m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
+	//m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
 
-	m_pAlphaCheckBox->setMarked(false);
+	//m_pAlphaCheckBox->setMarked(false);
 
 	if (getEntryCount() == 64 && getFirstEntry()->m_ucBPP == 32)
 	{
 		// GTA III
-		m_pText_FileGame->setText(string("GTA III"));
+		//m_pText_FileGame->setText(string("GTA III"));
 		m_pAlphaCheckBox->setMarked(true);
 	}
 	else if (getEntryCount() == 64 && getFirstEntry()->m_strAlphaName == "" && getFirstEntry()->m_ucBPP == 16)
 	{
 		// GTA VC
-		m_pText_FileGame->setText(string("GTA VC"));
+		//m_pText_FileGame->setText(string("GTA VC"));
 	}
 	else if (getEntryCount() == 128 && getFirstEntry()->m_strAlphaName == "" && getFirstEntry()->m_ucBPP == 16)
 	{
 		// GTA SA
-		m_pText_FileGame->setText(string("GTA SA"));
+		//m_pText_FileGame->setText(string("GTA SA"));
 	}
 	else if (getEntryCount() == 63)
 	{
 		// GTA IV
-		m_pText_FileGame->setText(string("GTA IV"));
+		//m_pText_FileGame->setText(string("GTA IV"));
 	}
 	else if (getEntryCount() == 1296)
 	{
 		// SOL
-		m_pText_FileGame->setText(string("SOL"));
+		//m_pText_FileGame->setText(string("SOL"));
 	}
 	else
 	{
 		// Unknown
-		m_pText_FileGame->setText(IMGManager::getVersionGames(getIMGFile()->getVersion()));
+		//m_pText_FileGame->setText(IMGManager::getVersionGames(getIMGFile()->getVersion()));
 	}
 
 	updateEntryCountText();
@@ -498,8 +507,9 @@ void						RadarEditorTab::calculateDisplayedEntryCount(void)
 
 bool						RadarEditorTab::doesTabEntryMatchFilter(RadarEditorTabEntry *pTabEntry)
 {
-	string strSearchTextUpper = String::toUpperCase(m_pSearchBox->getText());
-	return strSearchTextUpper == "" || String::isIn(String::toUpperCase(pTabEntry->m_strDiffuseName), strSearchTextUpper, false);
+	return true;
+	//string strSearchTextUpper = String::toUpperCase(m_pSearchBox->getText());
+	//return strSearchTextUpper == "" || String::isIn(String::toUpperCase(pTabEntry->m_strDiffuseName), strSearchTextUpper, false);
 }
 
 // prepare render data
@@ -522,8 +532,8 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 		return String::toUint32(Path::removeFileExtension(pIMGEntry1->getEntryName()).substr(5)) < String::toUint32(Path::removeFileExtension(pIMGEntry2->getEntryName()).substr(5));
 	});
 
-	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 193);
-	m_pVScrollBar->setItemCount(VERTICAL, vecRadarIMGEntries.size() * 50);
+	//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 193);
+	//m_pVScrollBar->setItemCount(VERTICAL, vecRadarIMGEntries.size() * 50);
 
 	m_vecTXDFiles.clear();
 	m_vecWTDFiles.clear();
@@ -617,8 +627,8 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 	});
 	*/
 
-	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 193);
-	m_pVScrollBar->setItemCount(VERTICAL, vecRadarIMGEntries.size() * 50);
+	//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 193);
+	//m_pVScrollBar->setItemCount(VERTICAL, vecRadarIMGEntries.size() * 50);
 
 	m_vecTXDFiles.clear();
 	m_vecWTDFiles.clear();
@@ -698,6 +708,12 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 }
 
 // render editor
+void						RadarEditorTab::render(void)
+{
+	renderEntryList();
+	render_Type1();
+}
+
 void						RadarEditorTab::render_Type1(void)
 {
 	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
@@ -719,7 +735,7 @@ void						RadarEditorTab::render_Type1(void)
 
 
 
-	Vec2u vecAreaSize(getLayer()->getWindow()->getSize().x - 335 - 139 - 139 - 250, getLayer()->getWindow()->getSize().y - 192);
+	Vec2u vecAreaSize(getLayer()->getWindow()->getSize().x - 10 - 130 - 250, getLayer()->getWindow()->getSize().y - 120);
 	uint32 uiTileCount = getEntryCount();
 	if (uiTileCount == 0)
 	{
@@ -759,18 +775,18 @@ void						RadarEditorTab::render_Type1(void)
 		Vec2i vecImagePosition;
 		if (getIMGFile()->getVersion() == IMG_3)
 		{
-			vecImagePosition = Vec2i(139 + 139 + 250 + (x * vecImageSize.x), 192 + (y * vecImageSize.y));
+			vecImagePosition = Vec2i(130 + 250 + (x * vecImageSize.x), 192 + (y * vecImageSize.y));
 		}
 		else
 		{
-			vecImagePosition = Vec2i(139 + 139 + 250 + (x * vecImageSize.x), 192 + (y * vecImageSize.y));
+			vecImagePosition = Vec2i(130 + 250 + (x * vecImageSize.x), 192 + (y * vecImageSize.y));
 		}
 
-		if (m_pDiffuseCheckBox->isMarked())
+		if (true)//m_pDiffuseCheckBox->isMarked())
 		{
 			pGFX->drawImage(vecImagePosition, pTabEntry->m_hDiffuseBitmap, vecImageSize);
 		}
-		if (m_pAlphaCheckBox->isMarked())
+		if (true)//m_pAlphaCheckBox->isMarked())
 		{
 			pGFX->drawImage(vecImagePosition, pTabEntry->m_hAlphaBitmap, vecImageSize);
 		}
@@ -791,8 +807,8 @@ void						RadarEditorTab::renderEntryList(void)
 	uint32 x, y;
 	Vec2i vecMainPanelPosition;
 
-	x = 139 + 139;
-	y = 162 + 30;
+	x = 130;
+	y = 120;
 	vecMainPanelPosition = Vec2i(x, y);
 
 	float32 yCurrentScroll = 0;
@@ -857,7 +873,7 @@ void						RadarEditorTab::renderEntryList(void)
 	bool
 		bTexturePreviewIsEnabled = false;
 	float32
-		fVProgress = m_pVScrollBar->getProgress();
+		fVProgress = m_pVScrollBar ? m_pVScrollBar->getProgress() : 0.0f;
 
 	for(uint32
 			uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 193, uiRowHeight),

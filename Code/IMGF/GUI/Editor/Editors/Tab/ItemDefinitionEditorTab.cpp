@@ -10,10 +10,12 @@
 #include "Control/Controls/Text.h"
 #include "GUI/Editor/Base/Editor.h"
 #include "Event/EInputEvent.h"
+#include "GUI/Window/Windows/MainWindow/MainWindow.h"
 
 using namespace std;
 using namespace bxcf;
 using namespace bxgi;
+using namespace bxgx;
 using namespace bxgx::events;
 using namespace imgf;
 
@@ -28,7 +30,15 @@ void						ItemDefinitionEditorTab::addControls(void)
 {
 	// todo m_pTextBox = addTextBox(139 + 139, 192, 600, 512, "", true, "textBasedEditorTextBox");
 
+	m_pTextBox = (TextBox*)getLayer()->getItemById(1500);
+
 	repositionAndResizeControls(Vec2i(0,0));
+}
+
+// layer
+void						ItemDefinitionEditorTab::initLayer(void)
+{
+	setLayer(m_pEditor->getMainWindow()->getLayerById(105));
 }
 
 // events
@@ -58,7 +68,7 @@ void						ItemDefinitionEditorTab::onFileLoaded(void)
 	updateTabText();
 
 	// add file path to recently opened files list
-	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
+	//getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
 
 	// show file content
 	m_pTextBox->getTextLines() = String::split(String::fixEOLs(File::getFileContent(getFile()->getFilePath(), false), "\n"), "\n");
@@ -82,13 +92,13 @@ void						ItemDefinitionEditorTab::setFileInfoText(void)
 	uint32 uiIDEGames = getIDEFile()->getFormatGames();
 	if (uiIDEGames == 0)
 	{
-		m_pText_FileGame->setText(string("Unknown"));
-		m_pText_FileVersion->setText(string("Unknown"));
+		//m_pText_FileGame->setText(string("Unknown"));
+		//_pText_FileVersion->setText(string("Unknown"));
 	}
 	else
 	{
-		m_pText_FileGame->setText(IDEManager::getFormatGamesAsString(uiIDEGames));
-		m_pText_FileVersion->setText(IDEManager::getVersionText(uiIDEGames));
+		//m_pText_FileGame->setText(IDEManager::getFormatGamesAsString(uiIDEGames));
+		//m_pText_FileVersion->setText(IDEManager::getVersionText(uiIDEGames));
 	}
 
 	updateEntryCountText();

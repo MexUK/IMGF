@@ -16,6 +16,8 @@ public:
 	void						addControls(void);
 	void						initControls(void);
 
+	void						initLayer(void);
+
 	void						bindEvents(void);
 	void						unbindEvents(void);
 
@@ -31,6 +33,7 @@ public:
 	void								setEntriesSelected(std::vector<bxcf::FormatEntry*>& vecEntries, bool bIsSelected);
 	void								merge(std::string& strFilePath);
 
+	void						render(void);
 	void						renderEntryList(void);
 	void						render_Type1(void);
 
