@@ -775,18 +775,18 @@ void						RadarEditorTab::render_Type1(void)
 		Vec2i vecImagePosition;
 		if (getIMGFile()->getVersion() == IMG_3)
 		{
-			vecImagePosition = Vec2i(130 + 250 + (x * vecImageSize.x), 192 + (y * vecImageSize.y));
+			vecImagePosition = Vec2i(130 + 250 + (x * vecImageSize.x), 120 + (y * vecImageSize.y));
 		}
 		else
 		{
-			vecImagePosition = Vec2i(130 + 250 + (x * vecImageSize.x), 192 + (y * vecImageSize.y));
+			vecImagePosition = Vec2i(130 + 250 + (x * vecImageSize.x), 120 + (y * vecImageSize.y));
 		}
 
 		if (true)//m_pDiffuseCheckBox->isMarked())
 		{
 			pGFX->drawImage(vecImagePosition, pTabEntry->m_hDiffuseBitmap, vecImageSize);
 		}
-		if (true)//m_pAlphaCheckBox->isMarked())
+		if (false)//m_pAlphaCheckBox->isMarked())
 		{
 			pGFX->drawImage(vecImagePosition, pTabEntry->m_hAlphaBitmap, vecImageSize);
 		}
