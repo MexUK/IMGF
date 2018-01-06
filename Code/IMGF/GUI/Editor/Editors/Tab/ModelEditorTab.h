@@ -54,7 +54,7 @@ public:
 	void						renderFrame(uint32 uiFrameIndex, bxgi::RWSection_Frame *pFrame, bool bIsParentFrame);
 
 	void						zoomCamera(float32 fRadius);
-	bxcf::Vec3f					getCameraRotation(void);
+	glm::vec3					getCameraRotation(void);
 	float32						getCameraZRotation(void); // result is in radians
 
 	void						setDFFFile(bxgi::DFFFormat *pDFFFile) { m_pDFFFile = pDFFFile; }
@@ -79,6 +79,9 @@ private:
 	void						prepareGLStates(void);
 	void						prepareShaderData(void);
 	void						prepareFBO(void);
+	void						prepareCamera(void);
+	
+	void						updateCameraMatrix(void);
 
 private:
 	bxgi::DFFFormat*			m_pDFFFile;
@@ -87,8 +90,8 @@ private:
 	bool						m_bPanningCamera;
 	bool						m_bInitializing;
 
-	bxcf::Vec3f					m_vecCameraPosition;
-	bxcf::Vec3f					m_vecCameraLookAtPosition;
+	glm::vec3					m_vecCameraPosition;
+	glm::vec3					m_vecCameraRotation;
 	HDC							m_hdcWindow;
 	HDC							m_hDC;
 	HBITMAP						m_hbm;
@@ -115,7 +118,8 @@ private:
 	std::vector<std::vector<const char*>>		m_pDataIndexBuffer;
 
 	std::stack<glm::mat4>		m_matProjectionMatrix;
-	std::stack<glm::mat4>		m_matModelViewMatrix;
+	std::stack<glm::mat4>		m_stkModels;
+	glm::mat4					m_matCamera;
 	//glm::mat4					m_matModelViewProjectionMatrix;
 
 	bxcf::Vec2u					m_vecRenderSize;

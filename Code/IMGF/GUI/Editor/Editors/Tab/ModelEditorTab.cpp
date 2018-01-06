@@ -20,6 +20,7 @@
 #include "BXGX.h"
 #include "Event/EInputEvent.h"
 #include "GUI/Window/windows/MainWindow/MainWindow.h"
+#include "Static/DataPath.h"
 #include <stack>
 #include <mutex>
 
@@ -37,8 +38,12 @@ ModelEditorTab::ModelEditorTab(void) :
 	m_bInitialized(false),
 	m_bInitializing(false)
 {
-	m_vecRenderSize.x = 800;
-	m_vecRenderSize.y = 800;
+	m_vecRenderSize.x = 600;
+	m_vecRenderSize.y = 600;
+
+	m_vecCameraPosition = glm::vec3(-2.0f, -2.0f, 2.0f);
+	m_vecCameraRotation = glm::vec3(0.0f, 0.0f, 0.0f);
+	//m_vecCameraLookAtPosition = Vec3f(0.0f, 0.0f, 0.0f);
 }
 
 // controls
@@ -61,7 +66,7 @@ void						ModelEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 	}
 
 	//Vec2u vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
-	m_vecRenderSize = Vec2u(800, 800);
+	m_vecRenderSize = Vec2u(600, 600);
 
 	mutexRendering.lock();
 
@@ -87,7 +92,7 @@ void						ModelEditorTab::initLayer(void)
 // events
 void						ModelEditorTab::bindEvents(void)
 {
-	bindEvent(RENDER, &ModelEditorTab::render);
+	//bindEvent(RENDER, &ModelEditorTab::render);
 	bindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
 
 	EditorTab::bindEvents();
@@ -95,7 +100,7 @@ void						ModelEditorTab::bindEvents(void)
 
 void						ModelEditorTab::unbindEvents(void)
 {
-	unbindEvent(RENDER, &ModelEditorTab::render);
+	//unbindEvent(RENDER, &ModelEditorTab::render);
 	unbindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
 
 	EditorTab::unbindEvents();
@@ -192,13 +197,18 @@ mutex mutexInitializing3DRender_ModelEditor; // todo
 
 void						ModelEditorTab::render(void)
 {
-	mutexRendering2.lock();
+	//mutexRendering2.lock();
 	render3D();
-	mutexRendering2.unlock();
+	//mutexRendering2.unlock();
 }
 
 void						ModelEditorTab::render3D(void)
 {
+	if (!m_pDFFFile)
+	{
+		return;
+	}
+
 	if (!m_pTXDFile)
 	{
 		return;
@@ -214,7 +224,7 @@ void						ModelEditorTab::render3D(void)
 	{
 		m_bInitializing = true;
 		
-		m_vecRenderSize = Vec2u(800, 800);
+		m_vecRenderSize = Vec2u(600, 600);
 		//m_vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
 		m_hdcWindow = GetDC(getLayer()->getWindow()->getWindowHandle());
 
@@ -227,13 +237,8 @@ void						ModelEditorTab::render3D(void)
 	}
 	mutexInitializing3DRender_ModelEditor.unlock();
 
-
-
-
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	
 	glBindFramebuffer(GL_FRAMEBUFFER, fb);
 	int c = glGetError();
 	if (c != GL_NO_ERROR)
@@ -242,55 +247,9 @@ void						ModelEditorTab::render3D(void)
 		d++;
 	}
 
-
-	
-	
-	
-
-
-
-	// render model
-	glUseProgram(m_program);
-
-	glUniformMatrix4fv(glGetUniformLocation(m_program, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
-	glUniformMatrix4fv(glGetUniformLocation(m_program, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
-
+	renderCamera();
+	renderAxis();
 	renderModel();
-	
-	//glBindVertexArray(0);
-
-	//SwapBuffers(m_hDC);
-
-	
-
-	
-	// render axis
-	///*
-	glUseProgram(m_program2);
-
-	// Get the variables from the shader to which data will be passed
-	GLint ploc = glGetUniformLocation(m_program2, "Projection");
-	GLint mvloc = glGetUniformLocation(m_program2, "ModelView");
-
-	// Pass the model-view matrix to the shader
-	//GLfloat mvMat[16];
-	//glGetFloatv(GL_MODELVIEW_MATRIX, mvMat);
-	glUniformMatrix4fv(mvloc, 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
-
-	// Pass the projection matrix to the shader
-	//GLfloat pMat[16];
-	//glGetFloatv(GL_PROJECTION_MATRIX, pMat);
-	glUniformMatrix4fv(ploc, 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
-
-	glBindVertexArray(axisBuffer);		// select first VAO
-										//glVertexAttrib3f((GLuint)1, 0.8f, 0.0, 0.0); // set constant color attribute
-	glDrawArrays(GL_LINES, 0, 6);	// draw first object
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	//*/
-
-
-	
 
 	// render opengl to bitmap
 
@@ -321,12 +280,8 @@ void						ModelEditorTab::render3D(void)
 	glPixelStorei(GL_PACK_SKIP_ROWS, 0);
 	glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
-	//SetBitmapBits(hbm2, vecRenderSize.x * vecRenderSize.y * 4, pixels);
-
 	//memcpy(pixels2, pixels, vecRenderSize.x * vecRenderSize.y * 4);
 	//delete[] pixels;
-
-	//glReadBuffer(GL_BACK);
 
 	//-------------------------
 	//GLubyte *pixels = new GLubyte[vecRenderSize.x * vecRenderSize.y * 4];
@@ -343,17 +298,15 @@ void						ModelEditorTab::render3D(void)
 		b = !b;
 	}
 	*/
-	//pixels 0, 1, 2 should be white
-	//pixel 4 should be black
-	//----------------
-	//Bind 0, which means render to back buffer
+
+	// Bind 0, which means render to back buffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	glFinish();
 
 	// gdi - draw 2d bitmap
 	HGDIOBJ hOld2 = SelectObject(hdc2, hbm2);
-	BitBlt(m_hdcWindow, 0, 0, m_vecRenderSize.x, m_vecRenderSize.y, hdc2, 0, 0, SRCCOPY);
+	BitBlt(m_hdcWindow, 130+250, 120, m_vecRenderSize.x, m_vecRenderSize.y, hdc2, 0, 0, SRCCOPY);
 	SelectObject(hdc2, hOld2);
 
 	// clean up gdi
@@ -361,20 +314,47 @@ void						ModelEditorTab::render3D(void)
 	DeleteDC(hdc2);
 }
 
+// render components
+void						ModelEditorTab::renderAxis(void)
+{
+	glUseProgram(m_program2);
+
+	// Get the variables from the shader to which data will be passed
+	//GLint ploc = glGetUniformLocation(m_program2, "Projection");
+	//GLint mvloc = glGetUniformLocation(m_program2, "model");
+
+	// Pass the model-view matrix to the shader
+	//GLfloat mvMat[16];
+	//glGetFloatv(GL_MODELVIEW_MATRIX, mvMat);
+	//glUniformMatrix4fv(mvloc, 1, GL_FALSE, glm::value_ptr(m_stkModels.top()));
+
+	// Pass the projection matrix to the shader
+	//GLfloat pMat[16];
+	//glGetFloatv(GL_PROJECTION_MATRIX, pMat);
+	//glUniformMatrix4fv(ploc, 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
+
+	glBindVertexArray(axisBuffer);		// select first VAO
+										//glVertexAttrib3f((GLuint)1, 0.8f, 0.0, 0.0); // set constant color attribute
+	glDrawArrays(GL_LINES, 0, 6);	// draw first object
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
 // camera
 void						ModelEditorTab::zoomCamera(float32 fRadius)
 {
-	Vec3f vecCameraRotation = getCameraRotation();
+	glm::vec3 vecCameraRotation = getCameraRotation();
 	float32 fXAngle = vecCameraRotation.x;// Math::convertDegreesToRadians(90.0f);
 	float32 fZAngle = vecCameraRotation.z - Math::convertDegreesToRadians(90.0f);
 	Vec3f vecCameraPositionOffset = Math::getCartesianFromSpherical(fRadius, fXAngle, fZAngle);
 	vecCameraPositionOffset.z = -vecCameraPositionOffset.z;
-	m_vecCameraPosition = m_vecCameraPosition + vecCameraPositionOffset;
-	m_vecCameraLookAtPosition = m_vecCameraLookAtPosition + vecCameraPositionOffset;
+	///////////m_vecCameraPosition = m_vecCameraPosition + vecCameraPositionOffset;
+	///////////m_vecCameraLookAtPosition = m_vecCameraLookAtPosition + vecCameraPositionOffset;
 }
 
-Vec3f						ModelEditorTab::getCameraRotation(void)
+glm::vec3					ModelEditorTab::getCameraRotation(void)
 {
+	/*
 	Vec3f vecCameraRotation = Vec3f{
 		Math::getAngleBetweenPoints(Vec3f(m_vecCameraPosition.x, m_vecCameraPosition.z, 0.0f), Vec3f(m_vecCameraLookAtPosition.x, m_vecCameraLookAtPosition.z, 0.0f)) + Math::convertDegreesToRadians(90.0f), // X
 		0.0f, // Y
@@ -387,17 +367,20 @@ Vec3f						ModelEditorTab::getCameraRotation(void)
 	while (vecCameraRotation.z > 3.142) vecCameraRotation.z -= 3.142;
 	while (vecCameraRotation.z < -3.142) vecCameraRotation.z += 3.142;
 	return vecCameraRotation;
+	*/
+	return m_vecCameraRotation;
 }
 
 float32						ModelEditorTab::getCameraZRotation(void)
 {
-	return Math::getAngleBetweenPoints(m_vecCameraPosition, m_vecCameraLookAtPosition) + Math::convertDegreesToRadians(90.0f); // Z
+	//return Math::getAngleBetweenPoints(m_vecCameraPosition, m_vecCameraLookAtPosition) + Math::convertDegreesToRadians(90.0f); // Z
+	return m_vecCameraRotation.z;
 }
 
 // render 3d components
 void						ModelEditorTab::renderCamera(void)
 {
-	Vec3f vecCameraRotation = getCameraRotation();
+	glm::vec3 vecCameraRotation = getCameraRotation();
 	//f += 0.03f;
 
 	//vecCameraRotation.z = -vecCameraRotation.z;
@@ -417,6 +400,11 @@ void						ModelEditorTab::renderCamera(void)
 
 void						ModelEditorTab::renderModel(void)
 {
+	glUseProgram(m_program);
+
+	//glUniformMatrix4fv(glGetUniformLocation(m_program, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
+	glUniformMatrix4fv(glGetUniformLocation(m_program, "model"), 1, GL_FALSE, glm::value_ptr(m_stkModels.top()));
+
 	glEnable(GL_TEXTURE_2D);
 
 	vector<RWSection*> vecAtomics = m_pDFFFile->getSectionsByType(RW_SECTION_ATOMIC);
@@ -453,7 +441,7 @@ void						ModelEditorTab::renderModel(void)
 
 void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFrame, bool bIsParentFrame)
 {
-	m_matModelViewMatrix.push(m_matModelViewMatrix.top());
+	m_stkModels.push(m_stkModels.top());
 	glColor4f(1.0, 0.2, 1.0, 1.0);
 
 	vector<RWSection*> vecAtomics = m_pDFFFile->getSectionsByType(RW_SECTION_ATOMIC);
@@ -496,14 +484,14 @@ void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFra
 		matMultMatrix[3].w = 1;
 
 		//glMultMatrixf(&vecMultMatrix[0]);
-		m_matModelViewMatrix.top() *= matMultMatrix;
+		m_stkModels.top() *= matMultMatrix;
 		//m_matProjectionMatrix *= matMultMatrix;
 
 		glUseProgram(m_program2);
-		glUniformMatrix4fv(glGetUniformLocation(m_program2, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
+		glUniformMatrix4fv(glGetUniformLocation(m_program2, "model"), 1, GL_FALSE, glm::value_ptr(m_stkModels.top()));
 
 		glUseProgram(m_program);
-		glUniformMatrix4fv(glGetUniformLocation(m_program, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
+		glUniformMatrix4fv(glGetUniformLocation(m_program, "model"), 1, GL_FALSE, glm::value_ptr(m_stkModels.top()));
 	}
 
 	if (umapAtomics.count(uiFrameIndex) != 0)
@@ -613,7 +601,7 @@ void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFra
 		}
 	}
 
-	m_matModelViewMatrix.pop();
+	m_stkModels.pop();
 }
 
 
@@ -768,7 +756,10 @@ void						ModelEditorTab::prepareScene(void)
 	prepareGLStates();
 	prepareShaders();
 	prepareShaderData();
+	
 	prepareFBO();
+
+	prepareCamera();
 	prepareAxis();
 	prepareMeshes();
 	prepareTextures();
@@ -791,7 +782,7 @@ void						ModelEditorTab::prepareShaders(void)
 {
 	// setup shader 1
 
-	string strVertexShader = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\VertexShader-Texture.glsl"), false); // todo
+	string strVertexShader = File::getFileContent(DataPath::getDataPath() + "Shaders/VertexShader-Texture.glsl", false);
 	const char *pVertexShader = strVertexShader.c_str();
 	const GLint uiVertexShaderLength = strVertexShader.length();
 
@@ -829,7 +820,7 @@ void						ModelEditorTab::prepareShaders(void)
 
 	// setup shader 2
 
-	string strFragmentShader = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\FragmentShader-Texture.glsl"), false); // todo
+	string strFragmentShader = File::getFileContent(DataPath::getDataPath() + "Shaders/FragmentShader-Texture.glsl", false);
 	const char *pFragmentShader = strFragmentShader.c_str();
 	const GLint uiFragmentShaderLength = strFragmentShader.length();
 
@@ -884,7 +875,7 @@ void						ModelEditorTab::prepareShaders(void)
 
 	// setup shader 3 and 4 and program 2
 
-	string strVertexShader2 = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\VertexShader-Colour.glsl"), false); // todo
+	string strVertexShader2 = File::getFileContent(DataPath::getDataPath() + "Shaders/VertexShader-Colour.glsl", false);
 	const char *pVertexShader2 = strVertexShader2.c_str();
 	const GLint uiVertexShaderLength2 = strVertexShader2.length();
 
@@ -922,7 +913,7 @@ void						ModelEditorTab::prepareShaders(void)
 
 
 
-	string strFragmentShader2 = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\FragmentShader-Colour.glsl"), false); // todo
+	string strFragmentShader2 = File::getFileContent(DataPath::getDataPath() + "Shaders/FragmentShader-Colour.glsl", false);
 	const char *pFragmentShader2 = strFragmentShader2.c_str();
 	const GLint uiFragmentShaderLength2 = strFragmentShader2.length();
 
@@ -968,6 +959,33 @@ void						ModelEditorTab::prepareShaders(void)
 	glLinkProgram(m_program2);
 
 	glUseProgram(m_program2);
+}
+
+void							ModelEditorTab::prepareCamera(void)
+{
+	m_vecCameraPosition = glm::vec3(0, 0, 0.5f);
+	m_vecCameraRotation = glm::vec3(0, 0, 135);
+
+	updateCameraMatrix();
+}
+
+void							ModelEditorTab::updateCameraMatrix(void)
+{
+	glm::mat4 orientation;
+
+	orientation = glm::rotate(orientation, Math::convertDegreesToRadians(m_vecCameraRotation.x), glm::vec3(1, 0, 0));
+	orientation = glm::rotate(orientation, Math::convertDegreesToRadians(m_vecCameraRotation.z), glm::vec3(0, 1, 0));
+	//orientation = glm::rotate(orientation, yAngle, glm::vec3(0, 0, 1));
+
+	m_matCamera = glm::perspective(45.0f, (float)m_vecRenderSize.x / (float)m_vecRenderSize.y, 0.1f, 1500.0f);
+	m_matCamera *= orientation;
+	m_matCamera = glm::translate(m_matCamera, -glm::vec3(m_vecCameraPosition.x, m_vecCameraPosition.z, m_vecCameraPosition.y));
+
+	glUseProgram(m_program);
+	glUniformMatrix4fv(glGetUniformLocation(m_program, "camera"), 1, GL_FALSE, glm::value_ptr(m_matCamera));
+	glUseProgram(m_program2);
+	glUniformMatrix4fv(glGetUniformLocation(m_program2, "camera"), 1, GL_FALSE, glm::value_ptr(m_matCamera));
+	glUseProgram(m_program);
 }
 
 void							ModelEditorTab::prepareAxis(void)
@@ -1263,7 +1281,7 @@ void					ModelEditorTab::prepareTextures(void)
 
 void					ModelEditorTab::prepareGLStates(void)
 {
-	glClearColor(1.0, 1.0, 1.0, 0.0);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 	//glEnable(GL_CULL_FACE);
@@ -1299,8 +1317,8 @@ void							ModelEditorTab::prepareShaderData(void)
 
 	// setup modelview matrix (look down the negative z-axis)
 
-	m_matModelViewMatrix.push(glm::mat4(1.0f));
-	m_matModelViewMatrix.top() *= glm::lookAt(glm::vec3(-4.0f, 1.5f, -4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	m_stkModels.push(glm::mat4(1.0f));
+	m_stkModels.top() *= glm::lookAt(glm::vec3(-4.0f, 1.5f, -4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 
 	// create and upload modelviewprojection matrix
@@ -1312,7 +1330,7 @@ void							ModelEditorTab::prepareShaderData(void)
 		d++;
 	}
 
-	//m_matModelViewProjectionMatrix = m_matProjectionMatrix * m_matModelViewMatrix;
+	//m_matModelViewProjectionMatrix = m_matProjectionMatrix * m_stkModels;
 	glUseProgram(m_program);
 	
 	GLint vvv = glGetUniformLocation(m_program, "Projection");
@@ -1324,14 +1342,14 @@ void							ModelEditorTab::prepareShaderData(void)
 		d++;
 	}
 	
-	glUniformMatrix4fv(glGetUniformLocation(m_program, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
-	glUniformMatrix4fv(glGetUniformLocation(m_program, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
+	//glUniformMatrix4fv(glGetUniformLocation(m_program, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
+	glUniformMatrix4fv(glGetUniformLocation(m_program, "model"), 1, GL_FALSE, glm::value_ptr(m_stkModels.top()));
 	glUniform1i(glGetUniformLocation(m_program, "tex"), 0); // Texture unit 0
 
 	glUseProgram(m_program2);
 	
-	glUniformMatrix4fv(glGetUniformLocation(m_program2, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
-	glUniformMatrix4fv(glGetUniformLocation(m_program2, "ModelView"), 1, GL_FALSE, glm::value_ptr(m_matModelViewMatrix.top()));
+	//glUniformMatrix4fv(glGetUniformLocation(m_program2, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
+	glUniformMatrix4fv(glGetUniformLocation(m_program2, "model"), 1, GL_FALSE, glm::value_ptr(m_stkModels.top()));
 
 	int rr = glGetError();
 	if (rr != GL_NO_ERROR)

@@ -62,7 +62,7 @@ void					CollisionEditorTab::bindEvents(void)
 {
 	///markEventUsage(MOVE_MOUSE);
 
-	bindEvent(RENDER, &CollisionEditorTab::render);
+	//bindEvent(RENDER, &CollisionEditorTab::render);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	bindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	//bindEvent(MOVE_MOUSE, &CollisionEditorTab::onMouseMove2);
@@ -76,7 +76,7 @@ void					CollisionEditorTab::unbindEvents(void)
 {
 	///unmarkEventUsage(MOVE_MOUSE);
 
-	unbindEvent(RENDER, &CollisionEditorTab::render);
+	//unbindEvent(RENDER, &CollisionEditorTab::render);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	//unbindEvent(MOVE_MOUSE, &CollisionEditorTab::onMouseMove2);
