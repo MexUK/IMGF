@@ -40,10 +40,6 @@ ModelEditorTab::ModelEditorTab(void) :
 {
 	m_vecRenderSize.x = 600;
 	m_vecRenderSize.y = 600;
-
-	m_vecCameraPosition = glm::vec3(-2.0f, -2.0f, 2.0f);
-	m_vecCameraRotation = glm::vec3(0.0f, 0.0f, 0.0f);
-	//m_vecCameraLookAtPosition = Vec3f(0.0f, 0.0f, 0.0f);
 }
 
 // controls
@@ -247,9 +243,13 @@ void						ModelEditorTab::render3D(void)
 		d++;
 	}
 
+	m_stkModels.push(m_stkModels.top());
+
 	renderCamera();
-	renderAxis();
 	renderModel();
+	renderAxis();
+
+	m_stkModels.pop();
 
 	// render opengl to bitmap
 
@@ -319,20 +319,6 @@ void						ModelEditorTab::renderAxis(void)
 {
 	glUseProgram(m_program2);
 
-	// Get the variables from the shader to which data will be passed
-	//GLint ploc = glGetUniformLocation(m_program2, "Projection");
-	//GLint mvloc = glGetUniformLocation(m_program2, "model");
-
-	// Pass the model-view matrix to the shader
-	//GLfloat mvMat[16];
-	//glGetFloatv(GL_MODELVIEW_MATRIX, mvMat);
-	//glUniformMatrix4fv(mvloc, 1, GL_FALSE, glm::value_ptr(m_stkModels.top()));
-
-	// Pass the projection matrix to the shader
-	//GLfloat pMat[16];
-	//glGetFloatv(GL_PROJECTION_MATRIX, pMat);
-	//glUniformMatrix4fv(ploc, 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
-
 	glBindVertexArray(axisBuffer);		// select first VAO
 										//glVertexAttrib3f((GLuint)1, 0.8f, 0.0, 0.0); // set constant color attribute
 	glDrawArrays(GL_LINES, 0, 6);	// draw first object
@@ -401,8 +387,6 @@ void						ModelEditorTab::renderCamera(void)
 void						ModelEditorTab::renderModel(void)
 {
 	glUseProgram(m_program);
-
-	//glUniformMatrix4fv(glGetUniformLocation(m_program, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
 	glUniformMatrix4fv(glGetUniformLocation(m_program, "model"), 1, GL_FALSE, glm::value_ptr(m_stkModels.top()));
 
 	glEnable(GL_TEXTURE_2D);
@@ -485,7 +469,6 @@ void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFra
 
 		//glMultMatrixf(&vecMultMatrix[0]);
 		m_stkModels.top() *= matMultMatrix;
-		//m_matProjectionMatrix *= matMultMatrix;
 
 		glUseProgram(m_program2);
 		glUniformMatrix4fv(glGetUniformLocation(m_program2, "model"), 1, GL_FALSE, glm::value_ptr(m_stkModels.top()));
@@ -780,191 +763,69 @@ void						ModelEditorTab::destroyScene(void)
 
 void						ModelEditorTab::prepareShaders(void)
 {
-	// setup shader 1
-
-	string strVertexShader = File::getFileContent(DataPath::getDataPath() + "Shaders/VertexShader-Texture.glsl", false);
-	const char *pVertexShader = strVertexShader.c_str();
-	const GLint uiVertexShaderLength = strVertexShader.length();
-
-	GLuint shader = glCreateShader(GL_VERTEX_SHADER);
-
-	int ee4 = glGetError();
-	if (ee4 != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	glShaderSource(shader, 1, &pVertexShader, NULL);
-
-	int ee3 = glGetError();
-	if (ee3 != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	glCompileShader(shader);
-
-	int ee = glGetError();
-	if (ee != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	GLint isCompiled = 0;
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
-	int h = 0;
-	h++;
-
-	// setup shader 2
-
-	string strFragmentShader = File::getFileContent(DataPath::getDataPath() + "Shaders/FragmentShader-Texture.glsl", false);
-	const char *pFragmentShader = strFragmentShader.c_str();
-	const GLint uiFragmentShaderLength = strFragmentShader.length();
-
-	GLuint shader2 = glCreateShader(GL_FRAGMENT_SHADER);
-
-	int ee41 = glGetError();
-	if (ee41 != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	glShaderSource(shader2, 1, &pFragmentShader, NULL);
-
-	int ee31 = glGetError();
-	if (ee31 != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	glCompileShader(shader2);
-
-	int ee33 = glGetError();
-	if (ee33 != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	GLint isCompiled2 = 0;
-	glGetShaderiv(shader2, GL_COMPILE_STATUS, &isCompiled2);
-	int h2 = 0;
-	h2++;
+	// setup program 1
+	GLuint shader1 = initShader(GL_VERTEX_SHADER, DataPath::getDataPath() + "Shaders/ModelEditor/VertexShader-Texture.glsl");
+	GLuint shader2 = initShader(GL_FRAGMENT_SHADER, DataPath::getDataPath() + "Shaders/ModelEditor/FragmentShader-Texture.glsl");
 
 	// create opengl program
-
 	m_program = glCreateProgram();
 	
-	glAttachShader(m_program, shader);
+	glAttachShader(m_program, shader1);
 	glAttachShader(m_program, shader2);
 
-	//glBindAttribLocation(m_program, 0, "in_Position");
-	//glBindAttribLocation(m_program, 1, "in_Color");
-
 	glLinkProgram(m_program);
-
 	glUseProgram(m_program);
 
-
-
-
-	// setup shader 3 and 4 and program 2
-
-	string strVertexShader2 = File::getFileContent(DataPath::getDataPath() + "Shaders/VertexShader-Colour.glsl", false);
-	const char *pVertexShader2 = strVertexShader2.c_str();
-	const GLint uiVertexShaderLength2 = strVertexShader2.length();
-
-	GLuint shader4 = glCreateShader(GL_VERTEX_SHADER);
-
-	int ee4c = glGetError();
-	if (ee4c != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	glShaderSource(shader4, 1, &pVertexShader2, NULL);
-
-	int ee3c = glGetError();
-	if (ee3c != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	glCompileShader(shader4);
-
-	int eec = glGetError();
-	if (eec != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	GLint isCompiled4 = 0;
-	glGetShaderiv(shader4, GL_COMPILE_STATUS, &isCompiled4);
-	int h4 = 0;
-	h4++;
-
-
-
-	string strFragmentShader2 = File::getFileContent(DataPath::getDataPath() + "Shaders/FragmentShader-Colour.glsl", false);
-	const char *pFragmentShader2 = strFragmentShader2.c_str();
-	const GLint uiFragmentShaderLength2 = strFragmentShader2.length();
-
-	GLuint shader3 = glCreateShader(GL_FRAGMENT_SHADER);
-
-	int ee41b = glGetError();
-	if (ee41b != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	glShaderSource(shader3, 1, &pFragmentShader2, NULL);
-
-	int ee31b = glGetError();
-	if (ee31b != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	glCompileShader(shader3);
-
-	int ee33b = glGetError();
-	if (ee33b != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	GLint isCompiled3 = 0;
-	glGetShaderiv(shader3, GL_COMPILE_STATUS, &isCompiled3);
-	int h3 = 0;
-	h3++;
-
-	// create opengl program
+	// setup program 2
+	GLuint shader3 = initShader(GL_VERTEX_SHADER, DataPath::getDataPath() + "Shaders/ModelEditor/VertexShader-Colour.glsl");
+	GLuint shader4 = initShader(GL_FRAGMENT_SHADER, DataPath::getDataPath() + "Shaders/ModelEditor/FragmentShader-Colour.glsl");
 
 	m_program2 = glCreateProgram();
 
-	glAttachShader(m_program2, shader4);
 	glAttachShader(m_program2, shader3);
+	glAttachShader(m_program2, shader4);
 
 	glLinkProgram(m_program2);
-
 	glUseProgram(m_program2);
+}
+
+GLuint							ModelEditorTab::initShader(GLuint uiShaderType, string strShaderFilePath)
+{
+	string strShaderCode = File::getFileContent(strShaderFilePath, true);
+	const char *pShaderCode = strShaderCode.c_str();
+
+	GLuint uiShader = glCreateShader(uiShaderType);
+	if (glGetError() != GL_NO_ERROR)
+	{
+		MessageBox(NULL, String::convertStdStringToStdWString("glCreateShader Failed\n\n" + strShaderFilePath).c_str(), L"Error", MB_OK);
+	}
+
+	glShaderSource(uiShader, 1, &pShaderCode, NULL);
+	if (glGetError() != GL_NO_ERROR)
+	{
+		MessageBox(NULL, String::convertStdStringToStdWString("glShaderSource Failed\n\n" + strShaderFilePath).c_str(), L"Error", MB_OK);
+	}
+
+	glCompileShader(uiShader);
+	if (glGetError() != GL_NO_ERROR)
+	{
+		MessageBox(NULL, String::convertStdStringToStdWString("glCompileShader Failed\n\n" + strShaderFilePath).c_str(), L"Error", MB_OK);
+	}
+
+	GLint uiIsCompiled = 0;
+	glGetShaderiv(uiShader, GL_COMPILE_STATUS, &uiIsCompiled);
+	if (uiIsCompiled == 0)
+	{
+		MessageBox(NULL, String::convertStdStringToStdWString("Failed to compile shader (GL_COMPILE_STATUS)\n\n" + strShaderFilePath).c_str(), L"Error", MB_OK);
+	}
+
+	return uiShader;
 }
 
 void							ModelEditorTab::prepareCamera(void)
 {
-	m_vecCameraPosition = glm::vec3(0, 0, 0.5f);
-	m_vecCameraRotation = glm::vec3(0, 0, 135);
+	m_vecCameraPosition = glm::vec3(-4.0f, -4.0f, 4.0f);
+	m_vecCameraRotation = glm::vec3(45, 0, 135);
 
 	updateCameraMatrix();
 }
@@ -1290,65 +1151,14 @@ void					ModelEditorTab::prepareGLStates(void)
 
 void							ModelEditorTab::prepareShaderData(void)
 {
-	//return;
-
-	// setup projection matrix
-
-	m_matProjectionMatrix.push(glm::mat4(1.0f));
-	//m_matProjectionMatrix.top() *= glm::perspective(45.0f, (float32)m_vecRenderSize.x / (float32)m_vecRenderSize.y, 0.1f, 200.0f);
-
-
-
-	///*
-	GLdouble fovY = 45.0;
-	GLdouble aspect = (float32)m_vecRenderSize.x / (float32)m_vecRenderSize.y;
-	GLdouble zNear = 1.0;
-	GLdouble zFar = 1500.0;
-	const GLdouble pi = 3.1415926535897932384626433832795;
-	GLdouble fW, fH;
-	//fH = tan( (fovY / 2) / 180 * pi ) * zNear;
-	fH = tan(fovY / 360 * pi) * zNear;
-	fW = fH * aspect;
-	m_matProjectionMatrix.top() *= glm::frustum<float32>(-fW, fW, -fH, fH, zNear, zFar);
-	//*/
-
-
-
-
-	// setup modelview matrix (look down the negative z-axis)
-
 	m_stkModels.push(glm::mat4(1.0f));
-	m_stkModels.top() *= glm::lookAt(glm::vec3(-4.0f, 1.5f, -4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//m_stkModels.top() *= glm::lookAt(glm::vec3(-4.0f, 1.5f, -4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
-
-	// create and upload modelviewprojection matrix
-
-	int rrr = glGetError();
-	if (rrr != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	//m_matModelViewProjectionMatrix = m_matProjectionMatrix * m_stkModels;
 	glUseProgram(m_program);
-	
-	GLint vvv = glGetUniformLocation(m_program, "Projection");
-
-	int rrrr = glGetError();
-	if (rrrr != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-	
-	//glUniformMatrix4fv(glGetUniformLocation(m_program, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
 	glUniformMatrix4fv(glGetUniformLocation(m_program, "model"), 1, GL_FALSE, glm::value_ptr(m_stkModels.top()));
 	glUniform1i(glGetUniformLocation(m_program, "tex"), 0); // Texture unit 0
 
 	glUseProgram(m_program2);
-	
-	//glUniformMatrix4fv(glGetUniformLocation(m_program2, "Projection"), 1, GL_FALSE, glm::value_ptr(m_matProjectionMatrix.top()));
 	glUniformMatrix4fv(glGetUniformLocation(m_program2, "model"), 1, GL_FALSE, glm::value_ptr(m_stkModels.top()));
 
 	int rr = glGetError();

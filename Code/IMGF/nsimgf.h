@@ -12,6 +12,12 @@ namespace Gdiplus
 	using std::max;
 }
 
+/*
+#include "glm.hpp"
+#include "gtc/matrix_transform.hpp"
+#include "gtc/type_ptr.hpp"
+*/
+
 namespace imgf
 {
 	namespace layers

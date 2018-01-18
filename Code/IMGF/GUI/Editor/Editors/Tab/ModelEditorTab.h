@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nsbxcf.h"
 #include "nsbxgi.h"
 #include "nsimgf.h"
 #include "GUI/Editor/Base/Tab/EditorTab.h"
@@ -12,9 +13,9 @@
 //#include <windows.h>
 //#include <algorithm>
 
-#include "glm.hpp"
-#include "gtc/matrix_transform.hpp"
-#include "gtc/type_ptr.hpp"
+//////////////////#include "glm.hpp"
+////////#include "gtc/matrix_transform.hpp"
+//////////#include "gtc/type_ptr.hpp"
 
 //#include "GLEE/GLee.h"
 //#include "GL/glew.h"
@@ -80,6 +81,8 @@ private:
 	void						prepareShaderData(void);
 	void						prepareFBO(void);
 	void						prepareCamera(void);
+
+	GLuint						initShader(GLuint uiShaderType, std::string strShaderFilePath);
 	
 	void						updateCameraMatrix(void);
 

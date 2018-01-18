@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nsbxcf.h"
 #include "nsbxgi.h"
 #include "nsimgf.h"
 #include "GUI/Editor/Base/Tab/EditorTab.h"
@@ -10,9 +11,9 @@
 #include <unordered_map>
 #include <stack>
 
-#include "glm.hpp"
-#include "gtc/matrix_transform.hpp"
-#include "gtc/type_ptr.hpp"
+////////////#include "glm.hpp"
+//////////#include "gtc/matrix_transform.hpp"
+/////////#include "gtc/type_ptr.hpp"
 
 struct MapModel
 {
