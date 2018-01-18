@@ -1,0 +1,239 @@
+// main colours
+
+.blackFill
+fill 0 0 0
+
+.whiteFill
+fill 255 255 255
+
+.darkgreyFill
+fill 68 68 68
+
+.midgreyFill
+fill 140 140 140
+
+
+
+
+.darkenFillTen
+fill darken 10%
+
+.darkenFillTwenty
+fill darken 20%
+
+.darkenFillThirty
+fill darken 30%
+
+.darkenFillFourty
+fill darken 40%
+
+.lightenFillTen
+fill lighten 10%
+
+.lightenFillTwenty
+fill lighten 20%
+
+.lightenFillThirty
+fill lighten 30%
+
+.lightenFillFourty
+fill lighten 40%
+
+
+
+
+.blackLine
+line 0 0 0
+
+.whiteLine
+line 255 255 255
+
+
+
+
+.blackText
+text 0 0 0
+
+.whiteText
+text 255 255 255
+
+.lightgreyText
+text 200 200 200
+
+.disabledText
+text 0 0 0
+
+
+
+
+.background_fill_1
+fill 0 0 0
+
+
+
+// control styles
+
+text .blackText
+
+
+
+
+// window
+
+.window .blackLine
+fill 68 68 68
+
+.titleBar .blackFill .whiteText
+
+.titleBarIcon
+line 230 230 230
+
+.titleBarIcon:hover
+fill 25 25 25
+
+.titleBarIcon:hover2
+fill 80 0 0
+
+
+
+
+
+// utility
+
+.noLeftLine
+line left false
+
+.noTopLine
+line top false
+
+.firstItemHorizontally .noLeftLine
+.firstItemHorizontally:tab .noLeftLine
+
+.firstItemVertically .noTopLine
+
+.thirdItemVertically
+line top 0 0 0
+
+.thirdItemVertically:item
+line top 0 0 0
+
+.thirdItemVertically:item:active
+line top 0 0 0
+
+.thirdItemVertically:item:hover
+line top 0 0 0
+
+.main_lineLeft
+line left 49 49 49
+
+.main_lineTop
+line top 49 49 49
+
+.main_textAlign
+text left center
+
+.main_textAlignLeft
+text left top
+
+.main_textAlignCenter
+text center center
+
+.main_spacing
+spacing x 8
+
+
+
+
+// controls
+menu:item .main_textAlign .main_spacing .darkgreyFill .lightgreyText
+line left 190 190 190
+line top 190 190 190
+line right 0 0 0
+line bottom 0 0 0
+
+menu:item:active .lightenFillTwenty
+menu:item:hover .lightenFillFourty
+menu:item:disabled .disabledText
+menu:itemIcon .whiteFill
+menu:itemIcon:disabled .darkgreyFill
+
+button .blackFill .whiteText .main_textAlignCenter
+button:active .lightenFillTwenty
+button:hover .lightenFillFourty
+
+tabBar .darkgreyFill
+tabBar:defaultText .blackText
+tabBar:tab .main_textAlignCenter .main_spacing .blackFill .whiteText
+tabBar:tab:active .lightenFillTwenty .whiteText
+
+scrollBar .blackFill
+scrollBar:hover .lightenFillFourty
+scrollBar:arrow .blackFill
+scrollBar:itemIcon .whiteFill
+scrollBar:seekBar .blackFill
+scrollBar:seekBar:hover .lightenFillFourty
+
+text .whiteFill .lightgreyText
+
+grid .whiteFill
+grid:headerRow .blackFill
+grid:headerCell .main_textAlign .main_spacing .whiteText
+grid:row:n1 .blackFill
+grid:row:n2 .darkgreyFill
+grid:row:selected .lightenFillTwenty
+grid:row:mainSelected .lightenFillFourty
+grid:cell .main_textAlign .main_spacing .whiteText
+grid:cell:mainSelected .blackText
+grid:cell:selected .blackText
+
+progressBar .midgreyFill
+progressBar:innerBar .blackFill
+
+dropDown .blackFill .whiteText .main_lineLeft .main_textAlign .main_spacing
+dropDown:hover .lightenFillTwenty
+dropDown:arrow .whiteFill
+dropDown:listRow .whiteFill .blackText .main_textAlign .main_spacing .blackText
+dropDown:listRow:hover .lightenFillTwenty
+
+textBox .blackFill .whiteText .main_textAlignLeft .main_spacing
+textBox:caret .main_textAlign .main_spacing .whiteLine
+textBox:selection .midgreyFill .main_spacing
+.singleline .main_textAlign
+
+checkBox:icon .blackLine
+checkBox:icon:active .blackFill
+
+radioButton:icon .blackLine
+radioButton:icon:active .blackFill
+
+
+
+
+// main layer
+.leftMenu:item
+spacing y 5
+
+.settingsMenuLine .blackLine
+
+.settingsMenuButton .whiteFill
+
+.log .main_textAlignLeft
+
+
+
+// tetxure editor
+.leftEntryPanel
+fill 85 85 85
+
+.leftEntryPanel:active
+fill 98 98 98
+
+.centerEntryPanel
+fill 104 104 104
+
+
+
+
+// text based editor
+.textBasedEditorTextBox .main_textAlignLeft .whiteText
+.textBasedEditorTextBox:caret .main_textAlignLeft
