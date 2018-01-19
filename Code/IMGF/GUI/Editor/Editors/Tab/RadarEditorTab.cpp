@@ -167,12 +167,12 @@ void						RadarEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 		*pActiveTabEntry = nullptr;
 	uint32
 		uiActiveImageIndex,
-		uiRowHeight = 50;
+		uiRowHeight = 55;
 	float32
 		fVProgress = m_pVScrollBar ? m_pVScrollBar->getProgress() : 0.0f;
 
 	for (uint32
-		uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 193, uiRowHeight),
+		uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 160, uiRowHeight),
 		uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
 		uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount);
 		uiEntryIndex < uiEntryEndIndexExclusive;
@@ -532,7 +532,7 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 		return String::toUint32(Path::removeFileExtension(pIMGEntry1->getEntryName()).substr(5)) < String::toUint32(Path::removeFileExtension(pIMGEntry2->getEntryName()).substr(5));
 	});
 
-	//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 193);
+	//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 160);
 	//m_pVScrollBar->setItemCount(VERTICAL, vecRadarIMGEntries.size() * 50);
 
 	m_vecTXDFiles.clear();
@@ -549,7 +549,7 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 		vector<RWSection_TextureNative*> vecTextures = m_vecTXDFiles[uiIndex]->getTextures();
 
 		// todo
-		//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 193);
+		//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 160);
 		//m_pVScrollBar->setItemCount(VERTICAL, vecTextures.size() * 50);
 
 		uint32 uiTextureIndex = 0;
@@ -627,7 +627,7 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 	});
 	*/
 
-	//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 193);
+	//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 160);
 	//m_pVScrollBar->setItemCount(VERTICAL, vecRadarIMGEntries.size() * 50);
 
 	m_vecTXDFiles.clear();
@@ -653,7 +653,7 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 		vector<WTDEntry*> vecWTDEntries = m_vecWTDFiles[uiIndex]->getEntries();
 
 		// todo
-		//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 193);
+		//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 160);
 		//m_pVScrollBar->setItemCount(VERTICAL, vecTextures.size() * 50);
 
 		uint32 uiTextureIndex = 0;
@@ -735,7 +735,7 @@ void						RadarEditorTab::render_Type1(void)
 
 
 
-	Vec2u vecAreaSize(getLayer()->getWindow()->getSize().x - 10 - 120 - 250, getLayer()->getWindow()->getSize().y - 130);
+	Vec2u vecAreaSize(getLayer()->getWindow()->getSize().x - 5 - 120 - 250, getLayer()->getWindow()->getSize().y - 160);
 	uint32 uiTileCount = getEntryCount();
 	if (uiTileCount == 0)
 	{
@@ -867,7 +867,7 @@ void						RadarEditorTab::renderEntryList(void)
 		uiHighestImageInRow = 0,
 		uiCalculatedWidth,
 		uiTextureIndex = 0,
-		uiRowHeight = 50;
+		uiRowHeight = 55;
 	RadarEditorTabEntry
 		*pActiveImageData = getActiveEntry();
 	bool
@@ -876,7 +876,7 @@ void						RadarEditorTab::renderEntryList(void)
 		fVProgress = m_pVScrollBar ? m_pVScrollBar->getProgress() : 0.0f;
 
 	for(uint32
-			uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 193, uiRowHeight),
+			uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 160, uiRowHeight),
 			uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
 			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount),
 			uiDisplayedEntryCount = 0,
@@ -885,7 +885,7 @@ void						RadarEditorTab::renderEntryList(void)
 		uiEntryIndex++
 	)
 	{
-		if (uiDisplayedEntryCount > uiMaxEntryCount)
+		if (uiDisplayedEntryCount >= uiMaxEntryCount)
 		{
 			break;
 		}

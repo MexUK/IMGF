@@ -38,6 +38,8 @@ void						TextureEditor::init(void)
 	setEditorFileFormats({ "TXD", "WTD" });
 	setImportEditorFileFormats({ "BMP", "PNG", "GIF", "JPG", "JPEG", "ICO", "CUR", "DDS" });
 
+	m_pEditorButton = (Button*)m_pMainWindow->getItemById(1010);
+
 	Editor::init();
 
 	int32 startx, starty, x, y, x2, y2;

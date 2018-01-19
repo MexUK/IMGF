@@ -134,7 +134,7 @@ void					CollisionEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 	// todo m_pVScrollBar->setSize(m_pVScrollBar->getSize() + Vec2u(0, vecSizeChange.y));
 	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, getLayer()->getWindow()->getSize().y - m_pVScrollBar->getPosition().y));
 
-	Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 10, getLayer()->getWindow()->getSize().y - 130 - 10);
+	Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 5, getLayer()->getWindow()->getSize().y - 130 - 30);
 
 
 
@@ -180,7 +180,7 @@ void					CollisionEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 		*pActiveCOLEntry = nullptr;
 	uint32
 		uiActiveImageIndex,
-		uiRowHeight = 50;
+		uiRowHeight = 55;
 	float32
 		fVProgress = m_pVScrollBar ? m_pVScrollBar->getProgress() : 0.0f;
 	RECT
@@ -192,7 +192,7 @@ void					CollisionEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 	rectCOLEntry.bottom = rectCOLEntry.top + 55;
 
 	for (uint32
-			uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 193, uiRowHeight),
+			uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 160, uiRowHeight),
 			uiEntryIndex = Math::getEntryStartIndex(m_pCOLFile->getEntryCount(), uiMaxEntryCount, fVProgress),
 			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(m_pCOLFile->getEntryCount(), uiEntryIndex, uiMaxEntryCount);
 		uiEntryIndex < uiEntryEndIndexExclusive;
@@ -483,7 +483,7 @@ bool						CollisionEditorTab::prepareRenderData(void)
 {
 	vector<COLEntry*> vecCollisions = m_pCOLFile->getEntries();
 
-	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 193);
+	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 160);
 	m_pVScrollBar->setItemCount(VERTICAL, vecCollisions.size() * 50);
 
 	/*
@@ -655,7 +655,7 @@ void						CollisionEditorTab::render2D(void)
 		uiHighestImageInRow = 0,
 		uiCalculatedWidth,
 		uiTextureIndex = 0,
-		uiRowHeight = 50;
+		uiRowHeight = 55;
 	COLEntry
 		*pActiveCOLEntry = getActiveEntry();
 	bool
@@ -671,7 +671,7 @@ void						CollisionEditorTab::render2D(void)
 	rectCOLEntry.bottom = rectCOLEntry.top + 55;
 
 	for(uint32
-			uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 193, uiRowHeight),
+			uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 160, uiRowHeight),
 			uiEntryIndex = Math::getEntryStartIndex(m_pCOLFile->getEntryCount(), uiMaxEntryCount, fVProgress),
 			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(m_pCOLFile->getEntryCount(), uiEntryIndex, uiMaxEntryCount);
 		uiEntryIndex < uiEntryEndIndexExclusive;
@@ -794,8 +794,8 @@ void						CollisionEditorTab::render2D(void)
 
 	getLayer()->getWindow()->setRenderingStyleGroups("centerEntryPanel");
 	Vec2u vecRectSize;
-	vecRectSize.x = getLayer()->getWindow()->getSize().x - (vecMainPanelPosition.x + 250);
-	vecRectSize.y = getLayer()->getWindow()->getSize().y - vecMainPanelPosition.y;
+	vecRectSize.x = getLayer()->getWindow()->getSize().x - (120 + 250 + 5);
+	vecRectSize.y = getLayer()->getWindow()->getSize().y - 160;
 	pGFX->drawRectangle(Vec2i(vecMainPanelPosition.x + 250, vecMainPanelPosition.y), vecRectSize);
 	getLayer()->getWindow()->resetRenderingStyleGroups();
 
@@ -838,7 +838,7 @@ void						CollisionEditorTab::prepareInitial3DRender(void)
 // render editor 3d
 void						CollisionEditorTab::render3D(void)
 {
-	Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 10, getLayer()->getWindow()->getSize().y - 130 - 10);
+	Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 5, getLayer()->getWindow()->getSize().y - 130 - 30);
 
 	mutexInitializing3DRender.lock();
 	if (!m_bInitialized)

@@ -3,6 +3,7 @@
 
 using namespace std;
 using namespace bxcf::fileType;
+using namespace bxgx;
 using namespace bxgi;
 using namespace imgf;
 
@@ -11,6 +12,8 @@ void								ItemPlacementEditor::init(void)
 	setEditorFileType(ITEM_PLACEMENT);
 	setEditorFileFormats({ "IPL" });
 	//setImportEditorFileFormats({});
+
+	m_pEditorButton = (Button*)m_pMainWindow->getItemById(1007);
 
 	Editor::init();
 }

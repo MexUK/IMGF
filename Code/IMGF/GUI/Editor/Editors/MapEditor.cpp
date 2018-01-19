@@ -15,6 +15,8 @@ void									MapEditor::init(void)
 	setEditorFileFormats({ "DAT" });
 	setImportEditorFileFormats({ "3dmesh" });
 
+	m_pEditorButton = (Button*)m_pMainWindow->getItemById(1004);
+
 	Editor::init();
 }
 

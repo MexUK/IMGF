@@ -87,12 +87,15 @@ public:
 
 	void								onDragEntriesOver(bxcf::Vec2i vecCursorPosition);
 
+	bxgx::Button*						getEditorButton(void) { return m_pEditorButton; }
+
 protected:
 	EEditor								m_uiEditorType;
 	MainWindow*							m_pMainWindow;
 	EditorTab*							m_pActiveEditorTab;
 	bxgx::TabBar*						m_pTabBar;
 	bxcf::fileType::EFileType			m_uiEditorFileType;
+	bxgx::Button*						m_pEditorButton;
 	std::vector<std::string>			m_vecEditorFileFormats;
 	std::vector<std::string>			m_vecImportEditorFileFormats;
 	bxcf::VectorPool<imgf::EditorTab*>	m_vecEditorTabs;

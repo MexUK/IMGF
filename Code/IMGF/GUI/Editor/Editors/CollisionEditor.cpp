@@ -20,6 +20,8 @@ void					CollisionEditor::init(void)
 	setEditorFileFormats({ "COL" });
 	setImportEditorFileFormats({ "3dmesh" });
 
+	m_pEditorButton = (Button*)m_pMainWindow->getItemById(1009);
+
 	Editor::init();
 }
 

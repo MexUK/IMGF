@@ -61,8 +61,7 @@ void						ModelEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 		return;
 	}
 
-	//Vec2u vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
-	m_vecRenderSize = Vec2u(600, 600);
+	m_vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 5, getLayer()->getWindow()->getSize().y - 130 - 30);
 
 	mutexRendering.lock();
 
@@ -219,9 +218,8 @@ void						ModelEditorTab::render3D(void)
 	if (!m_bInitialized)
 	{
 		m_bInitializing = true;
-		
-		m_vecRenderSize = Vec2u(600, 600);
-		//m_vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
+
+		m_vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 5, getLayer()->getWindow()->getSize().y - 130 - 30);
 		m_hdcWindow = GetDC(getLayer()->getWindow()->getWindowHandle());
 
 		createGLContext();

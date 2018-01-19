@@ -15,6 +15,8 @@ void									ModelEditor::init(void)
 	setEditorFileFormats({ "DFF" });
 	setImportEditorFileFormats({ "3dmesh" });
 
+	m_pEditorButton = (Button*)m_pMainWindow->getItemById(1008);
+
 	Editor::init();
 }
 

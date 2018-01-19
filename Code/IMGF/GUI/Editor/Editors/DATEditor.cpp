@@ -4,6 +4,7 @@
 
 using namespace std;
 using namespace bxcf::fileType;
+using namespace bxgx;
 using namespace bxgi;
 using namespace imgf;
 
@@ -12,6 +13,8 @@ void							DATEditor::init(void)
 	setEditorFileType(DAT_LOADER);
 	setEditorFileFormats({ "DAT" });
 	setImportEditorFileFormats({ "IDE", "IPL", "IMG", "COL" });
+
+	m_pEditorButton = (Button*)m_pMainWindow->getItemById(1004);
 
 	Editor::init();
 }

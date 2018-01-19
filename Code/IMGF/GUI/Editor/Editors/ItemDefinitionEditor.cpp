@@ -4,6 +4,7 @@
 
 using namespace std;
 using namespace bxcf::fileType;
+using namespace bxgx;
 using namespace bxgi;
 using namespace imgf;
 
@@ -13,6 +14,8 @@ void									ItemDefinitionEditor::init(void)
 	setEditorFileFormats({ "IDE" });
 	//setImportEditorFileFormats({ "DFF", "COL" }); // todo
 	setImportEditorFileFormats({ "IDE" });
+
+	m_pEditorButton = (Button*)m_pMainWindow->getItemById(1006);
 
 	Editor::init();
 }

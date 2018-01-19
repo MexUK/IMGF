@@ -334,9 +334,10 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 	//Layer *pBlankLayer = getLayerById(99);
 
 	// disable previous editor
-	if (m_pActiveEditor && bDiff && m_pActiveEditor == getActiveEditor())
+	if (m_pActiveEditor && bDiff)
 	{
 		//m_pActiveEditor->unbindEvents();
+		m_pActiveEditor->getEditorButton()->resetStyleGroups();
 		if (m_pActiveEditor->getEditorTabs().getEntryCount() == 0)
 		{
 			//pBlankLayer->setEnabled(false);
@@ -351,10 +352,11 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 	m_pActiveEditor = pActiveEditor;
 
 	// enable next editor
-	if (pActiveEditor && bDiff && pActiveEditor != getActiveEditor())
+	if (pActiveEditor && bDiff)
 	{
 		//getIMGF()->getSettingsManager()->setSetting("LastEditorUsedIndex", String::toString(getEditorIndex(pActiveEditor)));
 		//pActiveEditor->getLayer()->setEnabled(true);
+		pActiveEditor->getEditorButton()->setStyleGroups(string("activeEditorButton"));
 		if (pActiveEditor->getEditorTabs().getEntryCount() == 0)
 		{
 			//pBlankLayer->setEnabled(true);

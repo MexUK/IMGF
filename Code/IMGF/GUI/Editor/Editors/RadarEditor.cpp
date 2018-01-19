@@ -19,6 +19,8 @@ void									RadarEditor::init(void)
 	//setImportEditorFileFormats({ "BMP", "PNG", "GIF", "JPG", "JPEG", "ICO", "CUR", "DDS" });
 	setImportEditorFileFormats({ "TXD", "WTD" });
 
+	m_pEditorButton = (Button*)m_pMainWindow->getItemById(1012);
+
 	Editor::init();
 }
 

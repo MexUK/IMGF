@@ -4,6 +4,7 @@
 
 using namespace std;
 using namespace bxcf::fileType;
+using namespace bxgx;
 using namespace bxgi;
 using namespace imgf;
 
@@ -12,6 +13,8 @@ void								AnimationEditor::init(void)
 	setEditorFileType(ANIMATION);
 	setEditorFileFormats({ "IFP" });
 	setImportEditorFileFormats({ "3dmesh" });
+
+	m_pEditorButton = (Button*)m_pMainWindow->getItemById(1011);
 
 	Editor::init();
 }

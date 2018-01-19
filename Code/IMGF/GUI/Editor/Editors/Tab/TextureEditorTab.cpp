@@ -172,12 +172,12 @@ bool						TextureEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 		*pActiveTabEntry = nullptr;
 	uint32
 		uiActiveImageIndex,
-		uiRowHeight = 50;
+		uiRowHeight = 55;
 	float32
 		fVProgress = m_pVScrollBar ? m_pVScrollBar->getProgress() : 0.0f;
 
 	for (uint32
-		uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 193, uiRowHeight),
+		uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 160, uiRowHeight),
 		uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
 		uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount);
 		uiEntryIndex < uiEntryEndIndexExclusive;
@@ -441,7 +441,7 @@ bool						TextureEditorTab::prepareRenderData_TXD(void)
 
 	if (m_pVScrollBar)
 	{
-		m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 193);
+		m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 160);
 		m_pVScrollBar->setItemCount(VERTICAL, vecTextures.size() * 50);
 	}
 
@@ -634,7 +634,7 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		uiHighestImageInRow = 0,
 		uiCalculatedWidth,
 		uiTextureIndex = 0,
-		uiRowHeight = 50;
+		uiRowHeight = 55;
 	TextureEditorTabEntry
 		*pActiveImageData = getActiveEntry();
 	bool
@@ -643,7 +643,7 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		fVProgress = m_pVScrollBar ? m_pVScrollBar->getProgress() : 0.0f;
 
 	for(uint32
-			uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 193, uiRowHeight),
+			uiMaxEntryCount = Math::getMaxEntryCount(getLayer()->getWindow()->getSize().y - 160, uiRowHeight),
 			uiEntryIndex = Math::getEntryStartIndex(getEntryCount(), uiMaxEntryCount, fVProgress),
 			uiEntryEndIndexExclusive = Math::getEntryEndIndexExclusive(getEntryCount(), uiEntryIndex, uiMaxEntryCount),
 			uiDisplayedEntryCount = 0,
@@ -652,7 +652,7 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		uiEntryIndex++
 	)
 	{
-		if (uiDisplayedEntryCount > uiMaxEntryCount)
+		if (uiDisplayedEntryCount >= uiMaxEntryCount)
 		{
 			break;
 		}
@@ -810,8 +810,8 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 
 	getLayer()->getWindow()->setRenderingStyleGroups("centerEntryPanel");
 	Vec2u vecRectSize;
-	vecRectSize.x = getLayer()->getWindow()->getSize().x - (vecMainPanelPosition.x + 250);
-	vecRectSize.y = getLayer()->getWindow()->getSize().y - vecMainPanelPosition.y;
+	vecRectSize.x = getLayer()->getWindow()->getSize().x - (120 + 250 + 5);
+	vecRectSize.y = getLayer()->getWindow()->getSize().y - 160;
 	pGFX->drawRectangle(Vec2i(vecMainPanelPosition.x + 250, vecMainPanelPosition.y), vecRectSize);
 	getLayer()->getWindow()->resetRenderingStyleGroups();
 
