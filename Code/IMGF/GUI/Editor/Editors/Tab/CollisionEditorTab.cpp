@@ -134,7 +134,7 @@ void					CollisionEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 	// todo m_pVScrollBar->setSize(m_pVScrollBar->getSize() + Vec2u(0, vecSizeChange.y));
 	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, getLayer()->getWindow()->getSize().y - m_pVScrollBar->getPosition().y));
 
-	Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 130 - 250 - 10, getLayer()->getWindow()->getSize().y - 120 - 10);
+	Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 10, getLayer()->getWindow()->getSize().y - 130 - 10);
 
 
 
@@ -186,8 +186,8 @@ void					CollisionEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 	RECT
 		rectCOLEntry;
 
-	rectCOLEntry.left = 130;
-	rectCOLEntry.top = 120;
+	rectCOLEntry.left = 120;
+	rectCOLEntry.top = 130;
 	rectCOLEntry.right = rectCOLEntry.left + 250;
 	rectCOLEntry.bottom = rectCOLEntry.top + 55;
 
@@ -595,8 +595,8 @@ void						CollisionEditorTab::render2D(void)
 	uint32 x, y;
 	Vec2i vecMainPanelPosition;
 
-	x = 130;
-	y = 120;
+	x = 120;
+	y = 130;
 	vecMainPanelPosition = Vec2i(x, y);
 
 	float32 yCurrentScroll = 0;
@@ -665,8 +665,8 @@ void						CollisionEditorTab::render2D(void)
 	RECT
 		rectCOLEntry;
 
-	rectCOLEntry.left = 130;
-	rectCOLEntry.top = 120;
+	rectCOLEntry.left = 120;
+	rectCOLEntry.top = 130;
 	rectCOLEntry.right = rectCOLEntry.left + 250;
 	rectCOLEntry.bottom = rectCOLEntry.top + 55;
 
@@ -838,7 +838,7 @@ void						CollisionEditorTab::prepareInitial3DRender(void)
 // render editor 3d
 void						CollisionEditorTab::render3D(void)
 {
-	Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 130 - 250 - 10, getLayer()->getWindow()->getSize().y - 120 - 10);
+	Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 10, getLayer()->getWindow()->getSize().y - 130 - 10);
 
 	mutexInitializing3DRender.lock();
 	if (!m_bInitialized)
@@ -1014,7 +1014,7 @@ void						CollisionEditorTab::render3D(void)
 	//SwapBuffers(m_hdcWindow);
 	
 
-	BitBlt(m_hdcWindow, 130+250, 120, vecRenderSize.x, vecRenderSize.y, m_hDC, 0, 0, SRCCOPY);
+	BitBlt(m_hdcWindow, 120+250, 130, vecRenderSize.x, vecRenderSize.y, m_hDC, 0, 0, SRCCOPY);
 	
 
 
@@ -1388,8 +1388,8 @@ bool						CollisionEditorTab::isPointOverEntryList(Vec2i& vecPoint)
 	int32 x, y;
 	uint32 w, h;
 
-	x = 130;
-	y = 120;
+	x = 120;
+	y = 130;
 
 	w = 250;
 	h = getLayer()->getWindow()->getSize().y - y;

@@ -574,8 +574,8 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 	uint32 x, y;
 	Vec2i vecMainPanelPosition;
 
-	x = 130;
-	y = 120;
+	x = 120;
+	y = 130;
 	vecMainPanelPosition = Vec2i(x, y);
 
 	float32 yCurrentScroll = 0;

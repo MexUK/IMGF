@@ -306,7 +306,7 @@ void						ModelEditorTab::render3D(void)
 
 	// gdi - draw 2d bitmap
 	HGDIOBJ hOld2 = SelectObject(hdc2, hbm2);
-	BitBlt(m_hdcWindow, 130+250, 120, m_vecRenderSize.x, m_vecRenderSize.y, hdc2, 0, 0, SRCCOPY);
+	BitBlt(m_hdcWindow, 120+250, 130, m_vecRenderSize.x, m_vecRenderSize.y, hdc2, 0, 0, SRCCOPY);
 	SelectObject(hdc2, hOld2);
 
 	// clean up gdi

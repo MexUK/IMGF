@@ -735,7 +735,7 @@ void						RadarEditorTab::render_Type1(void)
 
 
 
-	Vec2u vecAreaSize(getLayer()->getWindow()->getSize().x - 10 - 130 - 250, getLayer()->getWindow()->getSize().y - 120);
+	Vec2u vecAreaSize(getLayer()->getWindow()->getSize().x - 10 - 120 - 250, getLayer()->getWindow()->getSize().y - 130);
 	uint32 uiTileCount = getEntryCount();
 	if (uiTileCount == 0)
 	{
@@ -775,11 +775,11 @@ void						RadarEditorTab::render_Type1(void)
 		Vec2i vecImagePosition;
 		if (getIMGFile()->getVersion() == IMG_3)
 		{
-			vecImagePosition = Vec2i(130 + 250 + (x * vecImageSize.x), 120 + (y * vecImageSize.y));
+			vecImagePosition = Vec2i(120 + 250 + (x * vecImageSize.x), 130 + (y * vecImageSize.y));
 		}
 		else
 		{
-			vecImagePosition = Vec2i(130 + 250 + (x * vecImageSize.x), 120 + (y * vecImageSize.y));
+			vecImagePosition = Vec2i(120 + 250 + (x * vecImageSize.x), 130 + (y * vecImageSize.y));
 		}
 
 		if (true)//m_pDiffuseCheckBox->isMarked())
@@ -807,8 +807,8 @@ void						RadarEditorTab::renderEntryList(void)
 	uint32 x, y;
 	Vec2i vecMainPanelPosition;
 
-	x = 130;
-	y = 120;
+	x = 120;
+	y = 130;
 	vecMainPanelPosition = Vec2i(x, y);
 
 	float32 yCurrentScroll = 0;
