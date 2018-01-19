@@ -78,7 +78,7 @@ void						DATEditorTab::onFileLoaded(void)
 	updateTabText();
 
 	// add file path to recently opened files list
-	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
+	// todo getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
 
 	// show file content
 	m_pTextBox->getTextLines() = String::split(String::fixEOLs(File::getFileContent(getFile()->getFilePath(), false), "\n"), "\n");

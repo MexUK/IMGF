@@ -67,7 +67,8 @@ void						EditorTab::bindEvents(void)
 	bindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
 	bindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
 
-	getLayer()->bindEvents();
+	//getBaseLayer()->bindEvents();
+	//getLayer()->bindEvents();
 }
 
 void						EditorTab::unbindEvents(void)
@@ -77,7 +78,8 @@ void						EditorTab::unbindEvents(void)
 	unbindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
 	unbindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
 
-	getLayer()->unbindEvents();
+	//getBaseLayer()->unbindEvents();
+	//getLayer()->unbindEvents();
 }
 
 // initialization
@@ -101,9 +103,10 @@ bool						EditorTab::init(bool bIsNewFile)
 
 	// derived layer
 	initLayer();
-
-	// display editor tab
-	//getLayer()->setEnabled(true);
+	m_pLayer = m_pLayer->copyLayer();
+	m_pLayer->setId(-1);
+	m_pLayer->setEnabled(true);
+	m_pEditor->getMainWindow()->addLayer(m_pLayer);
 
 	// add gui tab
 	string strTabText = Path::getFileName(m_pFile->getFilePath());
