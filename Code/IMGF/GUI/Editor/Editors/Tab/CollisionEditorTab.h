@@ -105,6 +105,8 @@ public:
 	void						setFileInfoText(void);
 	void						updateEntryCountText(void);
 
+	bool						doesTabEntryMatchFilter(bxgi::COLEntry *pCOLEntry);
+
 protected:
 	void						addControls(void);
 	void						initControls(void);

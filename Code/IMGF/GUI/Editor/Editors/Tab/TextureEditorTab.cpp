@@ -548,11 +548,8 @@ void						TextureEditorTab::prepareTexture_WTD(WTDEntry *pWTDEntry)
 // filter
 bool						TextureEditorTab::doesTabEntryMatchFilter(TextureEditorTabEntry *pTabEntry)
 {
-	return true;
-	/*
 	string strSearchTextUpper = String::toUpperCase(m_pSearchBox->getText());
 	return strSearchTextUpper == "" || String::isIn(String::toUpperCase(pTabEntry->m_strDiffuseName), strSearchTextUpper, false);
-	*/
 }
 
 // render editor

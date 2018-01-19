@@ -507,9 +507,8 @@ void						RadarEditorTab::calculateDisplayedEntryCount(void)
 
 bool						RadarEditorTab::doesTabEntryMatchFilter(RadarEditorTabEntry *pTabEntry)
 {
-	return true;
-	//string strSearchTextUpper = String::toUpperCase(m_pSearchBox->getText());
-	//return strSearchTextUpper == "" || String::isIn(String::toUpperCase(pTabEntry->m_strDiffuseName), strSearchTextUpper, false);
+	string strSearchTextUpper = String::toUpperCase(m_pSearchBox->getText());
+	return strSearchTextUpper == "" || String::isIn(String::toUpperCase(pTabEntry->m_strDiffuseName), strSearchTextUpper, false);
 }
 
 // prepare render data

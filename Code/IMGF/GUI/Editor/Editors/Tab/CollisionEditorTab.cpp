@@ -684,6 +684,11 @@ void						CollisionEditorTab::render2D(void)
 			continue; // in case of render() between vector.resize() and vector.setEntryAtIndex()
 		}
 
+		if (!doesTabEntryMatchFilter(pCOLEntry))
+		{
+			continue;
+		}
+
 		uiCalculatedWidth = 0;
 
 		// calculate max width out of: image, diffuse text and alpha text
@@ -1395,4 +1400,11 @@ bool						CollisionEditorTab::isPointOverEntryList(Vec2i& vecPoint)
 	h = getLayer()->getWindow()->getSize().y - y;
 
 	return Math::isPointInRectangle(vecPoint, Vec2i(x, y), Vec2u(w, h));
+}
+
+// filter
+bool						CollisionEditorTab::doesTabEntryMatchFilter(COLEntry *pCOLEntry)
+{
+	string strSearchTextUpper = String::toUpperCase(m_pSearchBox->getText());
+	return strSearchTextUpper == "" || String::isIn(String::toUpperCase(pCOLEntry->getModelName()), strSearchTextUpper, false);
 }

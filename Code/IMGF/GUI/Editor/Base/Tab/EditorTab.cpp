@@ -240,7 +240,7 @@ void						EditorTab::addControls(void)
 	m_pLog = (TextBox*)m_pBaseLayer->getItemById(81);
 	m_pText_FilePath = (Text*)m_pBaseLayer->getItemById(91);
 	m_pText_FileEntryCount = (Text*)m_pBaseLayer->getItemById(92);
-	m_pSearchBox = (TextBox*)m_pBaseLayer->getItemById(20);
+	m_pSearchBox = (TextBox*)m_pBaseLayer->getItemById(85);
 
 	/*
 	todo

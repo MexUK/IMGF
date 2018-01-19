@@ -136,6 +136,8 @@ public:
 	void						updateTabText(void);
 	void						updateIMGText(void);
 
+	bool						doesTabEntryMatchFilter(bxgi::IMGEntry *pTabEntry);
+
 	void						storeFilterOptions(void);
 	void						restoreFilterOptions(void);
 	bool						isFilterActive(void);
