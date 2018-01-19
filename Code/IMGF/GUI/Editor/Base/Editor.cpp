@@ -205,13 +205,13 @@ void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 		pEditorTab->repositionAndResizeControls(Vec2i(0,0));
 
 		// hide no-tabs-open layer
-		getIMGF()->getWindowManager()->getMainWindow()->getBlankLayer()->setEnabled(false);
+		//getIMGF()->getWindowManager()->getMainWindow()->getBlankLayer()->setEnabled(false);
 	}
 	else
 	{
 		// show no-tabs-open layer
 		// todo getLayer()->setEnabled(true); // e.g. IMGEditor
-		getIMGF()->getWindowManager()->getMainWindow()->getBlankLayer()->setEnabled(true);
+		//getIMGF()->getWindowManager()->getMainWindow()->getBlankLayer()->setEnabled(true);
 	}
 
 	///*

@@ -331,7 +331,7 @@ void					MainWindow::addEditor(Editor *pEditor)
 void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 {
 	bool bDiff = m_pActiveEditor != pActiveEditor;
-	Layer *pBlankLayer = getLayerById(99);
+	//Layer *pBlankLayer = getLayerById(99);
 
 	// disable previous editor
 	if (m_pActiveEditor && bDiff && m_pActiveEditor == getActiveEditor())
@@ -339,7 +339,7 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 		//m_pActiveEditor->unbindEvents();
 		if (m_pActiveEditor->getEditorTabs().getEntryCount() == 0)
 		{
-			pBlankLayer->setEnabled(false);
+			//pBlankLayer->setEnabled(false);
 		}
 		else
 		{
@@ -357,7 +357,7 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 		//pActiveEditor->getLayer()->setEnabled(true);
 		if (pActiveEditor->getEditorTabs().getEntryCount() == 0)
 		{
-			pBlankLayer->setEnabled(true);
+			//pBlankLayer->setEnabled(true);
 		}
 		else
 		{
@@ -384,11 +384,11 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 	*/
 
 	// todo
-	bool bEnableLayerWithNoTabsOpen = pActiveEditor && pActiveEditor->getEditorTabs().getEntryCount() == 0;
-	if (pBlankLayer->isEnabled() != bEnableLayerWithNoTabsOpen)
-	{
-		pBlankLayer->setEnabled(bEnableLayerWithNoTabsOpen);
-	}
+	//bool bEnableLayerWithNoTabsOpen = pActiveEditor && pActiveEditor->getEditorTabs().getEntryCount() == 0;
+	//if (pBlankLayer->isEnabled() != bEnableLayerWithNoTabsOpen)
+	//{
+	//	pBlankLayer->setEnabled(bEnableLayerWithNoTabsOpen);
+	//}
 
 	uint32 uiEditorIndex = m_vecEditors.getIndexByEntry(pActiveEditor);
 	//MenuItem *pActiveMenuItem = m_pFormatsMenu->getEntryByIndex(uiEditorIndex);

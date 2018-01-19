@@ -126,7 +126,7 @@ EditorTabType*							imgf::Editor::_addEditorTab(std::string& strFilePath, bool 
 	}
 	else
 	{
-		getIMGF()->getWindowManager()->getMainWindow()->getBlankLayer()->setEnabled(false);
+		//getIMGF()->getWindowManager()->getMainWindow()->getBlankLayer()->setEnabled(false);
 	}
 
 	// add editor tab

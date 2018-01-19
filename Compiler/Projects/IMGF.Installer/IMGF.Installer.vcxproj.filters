@@ -83,7 +83,7 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\..\..\..\..\IMGF Installer Files\Settings\RegularSettings.ini" />
-    <None Include="..\..\..\..\..\IMGF Installer Files\Program\IMG Factory.exe" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Builds\IMG Factory.exe" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\IMGF Installer Files\Images\Logo.png">

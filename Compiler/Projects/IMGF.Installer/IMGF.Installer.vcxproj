@@ -151,7 +151,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\IMGF Installer Files\Program\IMG Factory.exe" />
+    <None Include="..\..\..\..\..\IMGF Installer Files\Builds\IMG Factory.exe" />
     <None Include="..\..\..\..\..\IMGF Installer Files\Settings\RegularSettings.ini" />
     <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main (dark).bxs" />
     <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main (orange and yellow).bxs" />
