@@ -337,13 +337,17 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 	if (m_pActiveEditor && bDiff)
 	{
 		//m_pActiveEditor->unbindEvents();
+		
+		m_pActiveEditor->getLayer()->setEnabled(false);
 		m_pActiveEditor->getEditorButton()->resetStyleGroups();
+
 		if (m_pActiveEditor->getEditorTabs().getEntryCount() == 0)
 		{
 			//pBlankLayer->setEnabled(false);
 		}
 		else
 		{
+			m_pActiveEditor->getActiveEditorTab()->getBaseLayer()->setEnabled(false);
 			m_pActiveEditor->getActiveEditorTab()->getLayer()->setEnabled(false);
 		}
 	}
@@ -355,14 +359,17 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 	if (pActiveEditor && bDiff)
 	{
 		//getIMGF()->getSettingsManager()->setSetting("LastEditorUsedIndex", String::toString(getEditorIndex(pActiveEditor)));
-		//pActiveEditor->getLayer()->setEnabled(true);
+		
 		pActiveEditor->getEditorButton()->setStyleGroups(string("activeEditorButton"));
+		pActiveEditor->getLayer()->setEnabled(true);
+
 		if (pActiveEditor->getEditorTabs().getEntryCount() == 0)
 		{
 			//pBlankLayer->setEnabled(true);
 		}
 		else
 		{
+			pActiveEditor->getActiveEditorTab()->getBaseLayer()->setEnabled(true);
 			pActiveEditor->getActiveEditorTab()->getLayer()->setEnabled(true);
 		}
 		//pActiveEditor->bindEvents();

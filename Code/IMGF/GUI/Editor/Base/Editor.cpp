@@ -48,7 +48,11 @@ void								Editor::init(void)
 	pTabBar->setEnabled(false);
 	*/
 
-	setTabBar((TabBar*)m_pMainWindow->getItemById(90));
+	m_pLayer = m_pMainWindow->getLayerById(98)->copyLayer();
+	m_pLayer->setId(-1);
+	m_pMainWindow->addLayer(m_pLayer);
+
+	setTabBar((TabBar*)m_pLayer->getItemById(90));
 }
 
 // events

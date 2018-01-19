@@ -136,6 +136,9 @@ public:
 	void								setLayer(bxgx::Layer *pLayer) { m_pLayer = pLayer; }
 	bxgx::Layer*						getLayer(void) { return m_pLayer; }
 
+	void								setBaseLayer(bxgx::Layer *pBaseLayer) { m_pBaseLayer = pBaseLayer; }
+	bxgx::Layer*						getBaseLayer(void) { return m_pBaseLayer; }
+
 	void								onChangeTextBox(bxgx::TextBox *pTextBox);
 
 public:
@@ -159,6 +162,7 @@ private:
 	bool								m_bFileUnsaved;
 
 	bxgx::Layer*						m_pLayer;
+	bxgx::Layer*						m_pBaseLayer;
 
 	bxgx::ProgressBar*					m_pProgressBar;
 	bxcf::VectorPool<bxgx::RenderItem*>	m_vecRenderItems;

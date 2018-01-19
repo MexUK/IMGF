@@ -93,6 +93,13 @@ bool						EditorTab::init(bool bIsNewFile)
 	m_pEditor->addControls();
 	*/
 
+	// base layer
+	m_pBaseLayer = m_pEditor->getMainWindow()->getLayerById(90)->copyLayer();
+	m_pBaseLayer->setId(-1);
+	m_pBaseLayer->setEnabled(true);
+	m_pEditor->getMainWindow()->addLayer(m_pBaseLayer);
+
+	// derived layer
 	initLayer();
 
 	// display editor tab
@@ -226,12 +233,11 @@ void						EditorTab::onChangeTextBox(TextBox *pTextBox)
 // controls
 void						EditorTab::addControls(void)
 {
-	MainWindow *pMainWindow = m_pEditor->getMainWindow();
-
-	m_pProgressBar = (ProgressBar*)pMainWindow->getItemById(80);
-	m_pLog = (TextBox*)pMainWindow->getItemById(81);
-	m_pText_FilePath = (Text*)pMainWindow->getItemById(91);
-	m_pText_FileEntryCount = (Text*)pMainWindow->getItemById(92);
+	m_pProgressBar = (ProgressBar*)m_pBaseLayer->getItemById(80);
+	m_pLog = (TextBox*)m_pBaseLayer->getItemById(81);
+	m_pText_FilePath = (Text*)m_pBaseLayer->getItemById(91);
+	m_pText_FileEntryCount = (Text*)m_pBaseLayer->getItemById(92);
+	m_pSearchBox = (TextBox*)m_pBaseLayer->getItemById(20);
 
 	/*
 	todo

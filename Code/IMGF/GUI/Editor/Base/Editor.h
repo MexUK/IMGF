@@ -89,6 +89,8 @@ public:
 
 	bxgx::Button*						getEditorButton(void) { return m_pEditorButton; }
 
+	bxgx::Layer*						getLayer(void) { return m_pLayer; }
+
 protected:
 	EEditor								m_uiEditorType;
 	MainWindow*							m_pMainWindow;
@@ -96,6 +98,7 @@ protected:
 	bxgx::TabBar*						m_pTabBar;
 	bxcf::fileType::EFileType			m_uiEditorFileType;
 	bxgx::Button*						m_pEditorButton;
+	bxgx::Layer*						m_pLayer;
 	std::vector<std::string>			m_vecEditorFileFormats;
 	std::vector<std::string>			m_vecImportEditorFileFormats;
 	bxcf::VectorPool<imgf::EditorTab*>	m_vecEditorTabs;
@@ -125,6 +128,7 @@ EditorTabType*							imgf::Editor::_addEditorTab(std::string& strFilePath, bool 
 	// disable other layers
 	if (m_pActiveEditorTab)
 	{
+		m_pActiveEditorTab->getBaseLayer()->setEnabled(false);
 		m_pActiveEditorTab->getLayer()->setEnabled(false);
 	}
 	else
@@ -134,7 +138,6 @@ EditorTabType*							imgf::Editor::_addEditorTab(std::string& strFilePath, bool 
 
 	// add editor tab
 	//EditorTabType *pEditorTab = m_pMainWindow->addLayer<EditorTabType>(-1, true, -50);
-	//m_vecEditorTabs.addEntry(pEditorTab);
 	EditorTabType *pEditorTab = new EditorTabType;
 	m_vecEditorTabs.addEntry(pEditorTab);
 
