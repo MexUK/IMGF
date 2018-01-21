@@ -285,8 +285,8 @@ bool								Editor::isFileExtensionImportable(string& strFileExtension)
 vector<string>						Editor::getFileFormatsForChooseFile(void)
 {
 	vector<string> vecData = getEditorFileFormats();
-	string strEditorFileTypeName = getEditorName(m_uiEditorType);
-	vecData.insert(vecData.begin(), strEditorFileTypeName + " Files");
+	//string strEditorFileTypeName = getEditorName(m_uiEditorType);
+	//vecData.insert(vecData.begin(), strEditorFileTypeName + " Files");
 	return vecData;
 }
 
