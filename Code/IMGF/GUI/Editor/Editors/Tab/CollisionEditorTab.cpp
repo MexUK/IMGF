@@ -62,7 +62,7 @@ void					CollisionEditorTab::bindEvents(void)
 {
 	///markEventUsage(MOVE_MOUSE);
 
-	//bindEvent(RENDER, &CollisionEditorTab::render);
+	bindEvent(RENDER, &CollisionEditorTab::render);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	bindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	//bindEvent(MOVE_MOUSE, &CollisionEditorTab::onMouseMove2);
@@ -76,7 +76,7 @@ void					CollisionEditorTab::unbindEvents(void)
 {
 	///unmarkEventUsage(MOVE_MOUSE);
 
-	//unbindEvent(RENDER, &CollisionEditorTab::render);
+	unbindEvent(RENDER, &CollisionEditorTab::render);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	//unbindEvent(MOVE_MOUSE, &CollisionEditorTab::onMouseMove2);
@@ -113,12 +113,12 @@ void					CollisionEditorTab::addControls(void)
 	m_pVScrollBar->setScrollOrientation(VERTICAL);
 	*/
 
-	m_pVScrollBar = (ScrollBar*)m_pEditor->getMainWindow()->getItemById(95);
+	m_pVScrollBar = (ScrollBar*)getLayer()->getItemById(95);
 }
 
 void					CollisionEditorTab::initControls(void)
 {
-	repositionAndResizeControls(Vec2i(0, 0));
+	//repositionAndResizeControls(Vec2i(0, 0));
 }
 
 void					CollisionEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
@@ -570,8 +570,8 @@ void						CollisionEditorTab::updateEntryCountText(void)
 // render
 void						CollisionEditorTab::render(void)
 {
-	render2D();
-	render3D();
+	//render2D();
+	//render3D();
 }
 
 // render on process
@@ -703,18 +703,24 @@ void						CollisionEditorTab::render2D(void)
 
 		// draw active texture background colour
 		getLayer()->getWindow()->setRenderingStyleGroups("leftEntryPanel");
+		
 		if (pCOLEntry == getActiveEntry())
 		{
 			getLayer()->getWindow()->setRenderingStyleStatus(EStyleStatus::ACTIVE);
 		}
+		else
+		{
+			getLayer()->getWindow()->setRenderingStyleStatus(EStyleStatus::DEFAULT_STYLE_STATUS);
+		}
+
 		pGFX->drawRectangle(Vec2i(rectCOLEntry.left, rectCOLEntry.top), Vec2u(rectCOLEntry.right - rectCOLEntry.left, rectCOLEntry.bottom - rectCOLEntry.top));
 		getLayer()->getWindow()->resetRenderingStyleGroups();
 		getLayer()->getWindow()->resetRenderingStyleStatus();
-
+		
 		// draw collision number
 		HFONT hFont = CreateFont(22, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
 			CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, VARIABLE_PITCH, TEXT("Verdana"));
-		old = SelectObject(hdc, hFont);
+		HGDIOBJ old2 = SelectObject(hdc, hFont);
 
 		SetTextColor(hdc, RGB(0, 0, 0));
 		SetBkMode(hdc, TRANSPARENT);
@@ -795,14 +801,19 @@ void						CollisionEditorTab::render2D(void)
 		uiTextureIndex++;
 		rectCOLEntry.top += 55;
 		rectCOLEntry.bottom += 55;
+
+		SelectObject(hdc, old2);
+		DeleteObject(hFont);
 	}
 
+	/*
 	getLayer()->getWindow()->setRenderingStyleGroups("centerEntryPanel");
 	Vec2u vecRectSize;
 	vecRectSize.x = getLayer()->getWindow()->getSize().x - (120 + 250 + 5);
 	vecRectSize.y = getLayer()->getWindow()->getSize().y - 160;
 	pGFX->drawRectangle(Vec2i(vecMainPanelPosition.x + 250, vecMainPanelPosition.y), vecRectSize);
 	getLayer()->getWindow()->resetRenderingStyleGroups();
+	*/
 
 	if (pActiveCOLEntry)
 	{

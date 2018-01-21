@@ -148,6 +148,10 @@ void								Editor::removeEditorTab(EditorTab *pEditorTab)
 
 	// remove tab object
 	pEditorTab->unbindEvents();
+	
+	pEditorTab->getLayer()->removeAllControls();
+	pEditorTab->getLayer()->removeAllShapes();
+
 	m_vecEditorTabs.removeEntry(pEditorTab);
 
 	// update active file

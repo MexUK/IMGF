@@ -62,7 +62,7 @@ EditorTab::~EditorTab(void)
 // events
 void						EditorTab::bindEvents(void)
 {
-	bindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
+	//bindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
 	bindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
 	bindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
 	bindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
@@ -73,7 +73,7 @@ void						EditorTab::bindEvents(void)
 
 void						EditorTab::unbindEvents(void)
 {
-	unbindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
+	//unbindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
 	unbindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
 	unbindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
 	unbindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);

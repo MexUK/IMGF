@@ -354,6 +354,7 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 		
 		m_pActiveEditor->getLayer()->setEnabled(false);
 		m_pActiveEditor->getEditorButton()->resetStyleGroups();
+		m_pActiveEditor->unbindEvents();
 
 		if (m_pActiveEditor->getEditorTabs().getEntryCount() == 0)
 		{
@@ -361,6 +362,7 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 		}
 		else
 		{
+			m_pActiveEditor->getActiveEditorTab()->unbindEvents();
 			m_pActiveEditor->getActiveEditorTab()->getBaseLayer()->setEnabled(false);
 			m_pActiveEditor->getActiveEditorTab()->getLayer()->setEnabled(false);
 		}
@@ -376,6 +378,7 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 		
 		pActiveEditor->getEditorButton()->setStyleGroups(string("activeEditorButton"));
 		pActiveEditor->getLayer()->setEnabled(true);
+		pActiveEditor->bindEvents();
 
 		if (pActiveEditor->getEditorTabs().getEntryCount() == 0)
 		{
@@ -383,6 +386,7 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 		}
 		else
 		{
+			pActiveEditor->getActiveEditorTab()->bindEvents();
 			pActiveEditor->getActiveEditorTab()->getBaseLayer()->setEnabled(true);
 			pActiveEditor->getActiveEditorTab()->getLayer()->setEnabled(true);
 		}
