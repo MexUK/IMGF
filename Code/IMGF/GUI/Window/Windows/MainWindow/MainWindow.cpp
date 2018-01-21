@@ -108,6 +108,8 @@ void					MainWindow::initLayers(void)
 
 	bindEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
 
+	bindEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
+
 	/*
 	todo
 
@@ -133,6 +135,18 @@ void					MainWindow::initLayers(void)
 
 	Button *pButton = (Button*)getItemById(1004);
 	pButton->setActiveItem();
+}
+
+void					MainWindow::reloadLayers(void)
+{
+	Layer *pLayer;
+	while(pLayer = getEntryByIndex(0))
+		removeLayer(pLayer);
+
+	for (string& strLayerFilePath : File::getFilePaths(DataPath::getDataPath() + "Layers/"))
+	{
+		loadLayerFile(strLayerFilePath);
+	}
 }
 
 void					MainWindow::onDropEntries(void *m_pEditorTab, vector<string> vecFileNames, vector<string> vecFileDatas)

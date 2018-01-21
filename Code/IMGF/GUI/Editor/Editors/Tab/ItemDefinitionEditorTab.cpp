@@ -38,7 +38,7 @@ void						ItemDefinitionEditorTab::addControls(void)
 // layer
 void						ItemDefinitionEditorTab::initLayer(void)
 {
-	setLayer(m_pEditor->getMainWindow()->getLayerById(105));
+	setLayer(m_pEditor->getMainWindow()->getLayerById(106));
 }
 
 // events

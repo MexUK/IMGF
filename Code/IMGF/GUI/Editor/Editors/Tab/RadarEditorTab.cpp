@@ -111,7 +111,7 @@ void						RadarEditorTab::addControls(void)
 	m_pVScrollBar->setScrollOrientation(VERTICAL);
 	*/
 
-	m_pVScrollBar = (ScrollBar*)getLayer()->getWindow()->getItemById(96);
+	m_pVScrollBar = (ScrollBar*)getLayer()->getItemById(96);
 }
 
 void						RadarEditorTab::initControls(void)
@@ -131,7 +131,7 @@ void						RadarEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 // layer
 void						RadarEditorTab::initLayer(void)
 {
-	setLayer(m_pEditor->getMainWindow()->getLayerById(104));
+	setLayer(m_pEditor->getMainWindow()->getLayerById(105));
 }
 
 // events

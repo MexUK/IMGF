@@ -61,6 +61,8 @@ public:
 	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 	void						onDropEntries(void *m_pEditorTab, std::vector<std::string> vecFileNames, std::vector<std::string> vecFileDatas);
 
+	void						reloadLayers(void);
+
 private:
 	void						initWindow(void);
 	void						initLayers(void);

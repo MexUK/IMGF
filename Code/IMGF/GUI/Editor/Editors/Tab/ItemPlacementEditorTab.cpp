@@ -38,7 +38,7 @@ void						ItemPlacementEditorTab::addControls(void)
 // layer
 void						ItemPlacementEditorTab::initLayer(void)
 {
-	setLayer(m_pEditor->getMainWindow()->getLayerById(106));
+	setLayer(m_pEditor->getMainWindow()->getLayerById(107));
 }
 
 // events
