@@ -1,0 +1,15 @@
+layer disabled 90
+
+text 120 1.0-25 "Search"
+textbox 190 1.0-25 170 20 "" "" 85
+
+text 450 1.0-25 "Entry Count"
+text 540 1.0-25 "0" "" 92
+
+text 1.0-200 1.0-25 "Progress"
+progressBar 1.0-125 1.0-25 120 20 "" 80
+
+text 120 109 "" "" 91
+
+textbox 1.0 1.0 50 50 "" multiline "" 81
+

@@ -80,8 +80,7 @@ text .blackText
 
 // window
 
-.window .blackLine
-fill 68 68 68
+.window .blackLine .darkgreyFill
 
 .titleBar .blackFill .whiteText
 
@@ -132,7 +131,7 @@ line top 49 49 49
 .main_textAlign
 text left center
 
-.main_textAlignLeft
+.main_textAlignLeftTop
 text left top
 
 .main_textAlignCenter
@@ -157,14 +156,14 @@ menu:item:disabled .disabledText
 menu:itemIcon .whiteFill
 menu:itemIcon:disabled .darkgreyFill
 
-button .blackFill .whiteText .main_textAlignCenter
-button:active .lightenFillTwenty
+button .blackFill .lightgreyText .main_textAlignCenter
 button:hover .lightenFillFourty
+button:disabled .lightenFillFourty
 
 tabBar .darkgreyFill
-tabBar:defaultText .blackText
-tabBar:tab .main_textAlignCenter .main_spacing .blackFill .whiteText
-tabBar:tab:active .lightenFillTwenty .whiteText
+tabBar:defaultText .lightgreyText
+tabBar:tab .main_textAlignCenter .main_spacing .blackFill .lightgreyText
+tabBar:tab:active .lightenFillTwenty .lightgreyText
 
 scrollBar .blackFill
 scrollBar:hover .lightenFillFourty
@@ -173,7 +172,7 @@ scrollBar:itemIcon .whiteFill
 scrollBar:seekBar .blackFill
 scrollBar:seekBar:hover .lightenFillFourty
 
-text .whiteFill .lightgreyText
+text .darkgreyFill .lightgreyText .main_textAlignLeft
 
 grid .whiteFill
 grid:headerRow .blackFill
@@ -195,10 +194,11 @@ dropDown:arrow .whiteFill
 dropDown:listRow .whiteFill .blackText .main_textAlign .main_spacing .blackText
 dropDown:listRow:hover .lightenFillTwenty
 
-textBox .blackFill .whiteText .main_textAlignLeft .main_spacing
-textBox:caret .main_textAlign .main_spacing .whiteLine
+textBox .blackFill .whiteText .main_spacing
+textBox:caret .main_spacing .whiteLine
 textBox:selection .midgreyFill .main_spacing
-.singleline .main_textAlign
+.singleline .main_textAlignLeft
+.multiline .main_textAlignLeftTop
 
 checkBox:icon .blackLine
 checkBox:icon:active .blackFill
@@ -210,6 +210,10 @@ radioButton:icon:active .blackFill
 
 
 // main layer
+.activeEditorButton .lightenFillTen .blackText
+
+
+
 .leftMenu:item
 spacing y 5
 

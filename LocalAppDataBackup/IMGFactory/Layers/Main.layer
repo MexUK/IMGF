@@ -2,13 +2,13 @@ image 5 33 0 0 "%DATAPATH%/Images/Logo.png"
 
 button 120 32 110 22 "New" "" 1048
 button 240 32 110 22 "Open" "" 1052
-button 360 32 110 22 "Rebuild" "" 1063
-button 480 32 110 22 "Rebuild+"
+button 360 32 110 22 "Save" "" 1063
+button 480 32 110 22 "Save+"
 button 600 32 110 22 "Close" "" 1072
 button 720 32 110 22 "Close+"
 
-button 120 59 200 22 "Second row of buttons here"
-button 330 59 200 22 "Second row of buttons here"
+button 120 59 200 22 "Second row of buttons here" "" 0 -1 disabled
+button 330 59 200 22 "Second row of buttons here" "" 0 -1 disabled
 
 button 5 80 110 22 "Root Dat" "" 1004
 
@@ -19,43 +19,27 @@ button 5 140 50 22 "COL" "" 1009
 button 65 140 50 22 "Mod" "" 1008
 
 button 5 170 110 22 "Radar" "" 1012
-button 5 200 110 22 "Water" "" 1004
-button 5 230 110 22 "Paths" "" 1004
-button 5 260 110 22 "Paint" "" 1004
-button 5 290 110 22 "Zons" "" 1004
-button 5 320 110 22 "Anims" "" 1011
+button 5 200 110 22 "Water" "" 99999 -1 disabled
+button 5 230 110 22 "Paths" "" 99999 -1 disabled
+button 5 260 110 22 "Paint" "" 99999 -1 disabled
+button 5 290 110 22 "Zons" "" 99999 -1 disabled
+button 5 320 110 22 "Anims" "" 1011 -1 disabled
 
 button 5 380 50 22 "IDE" "" 1006
 button 65 380 50 22 "IPL" "" 1007
 
-button 5 410 110 22 "2DFX / IFX" "" 1004
-button 5 440 110 22 "Text Editor" "" 1004
-button 5 470 110 22 "Map Editor" "" 1004
+button 5 410 110 22 "2DFX / IFX" "" 99999 -1 disabled
+button 5 440 110 22 "Text Editor" "" 99999 -1 disabled
+button 5 470 110 22 "Map Editor" "" 99999 -1 disabled
 
-button 5 500 50 22 "Weap" "" 1004
-button 65 500 50 22 "Cuts" "" 1004
+button 5 500 50 22 "Weap" "" 99999 -1 disabled
+button 65 500 50 22 "Cuts" "" 99999 -1 disabled
 
-button 5 530 50 22 "Veh" "" 1004
-button 65 530 50 22 "Ped" "" 1004
+button 5 530 50 22 "Veh" "" 99999 -1 disabled
+button 65 530 50 22 "Ped" "" 99999 -1 disabled
 
-button 5 560 110 22 "Car Cols" "" 1004
-button 5 590 110 22 "Timecyc" "" 1004
+button 5 560 110 22 "Car Cols" "" 99999 -1 disabled
+button 5 590 110 22 "Timecyc" "" 99999 -1 disabled
 
-button 5 620 110 22 "More >" "" 1004
-
-text 120 1.0-25 "Search"
-textbox 190 1.0-25 170 20
-
-text 450 1.0-25 "Entry Count"
-text 540 1.0-25 "0" "" 92
-
-text 1.0-200 1.0-25 "Progress"
-progressBar 1.0-130 1.0-25 120 20 "" 80
-
-text 120 109 "" "" 91
-
-
-
-
-textbox 1.0 1.0 50 50 "" multiline "" 81
+button 5 620 110 22 "More >" "" 99999 -1 disabled
 
