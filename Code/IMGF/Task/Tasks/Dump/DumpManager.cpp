@@ -187,7 +187,7 @@ bool		DumpManager::process(void)
 		for (IMGEntry *pIMGEntry : vecIMGEntries)
 		{
 			string strExtension = String::toUpperCase(Path::getFileExtension(pIMGEntry->getEntryName()));
-			if (pIMGEntry->getFileType() == COLLISION)
+			if (pIMGEntry->getEntryType() == COLLISION)
 			{
 				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "Collision") != dumpWindowResult.m_vecEntryTypes.end())
 				{
@@ -195,7 +195,7 @@ bool		DumpManager::process(void)
 					pIMGFile->exportSingle(pIMGEntry, dumpWindowResult.m_strOutputFolderPath + strExtension + "/");
 				}
 			}
-			else if (pIMGEntry->getFileType() == MODEL)
+			else if (pIMGEntry->getEntryType() == MODEL)
 			{
 				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "Model") != dumpWindowResult.m_vecEntryTypes.end())
 				{
@@ -203,7 +203,7 @@ bool		DumpManager::process(void)
 					pIMGFile->exportSingle(pIMGEntry, dumpWindowResult.m_strOutputFolderPath + strExtension + "/");
 				}
 			}
-			else if (pIMGEntry->getFileType() == ITEM_PLACEMENT)
+			else if (pIMGEntry->getEntryType() == ITEM_PLACEMENT)
 			{
 				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "Item Placement") != dumpWindowResult.m_vecEntryTypes.end())
 				{
@@ -211,7 +211,7 @@ bool		DumpManager::process(void)
 					pIMGFile->exportSingle(pIMGEntry, dumpWindowResult.m_strOutputFolderPath + strExtension + "/");
 				}
 			}
-			else if (pIMGEntry->getFileType() == TEXTURE) // todo - rename to TEXTURE_SET
+			else if (pIMGEntry->getEntryType() == TEXTURE) // todo - rename to TEXTURE_SET
 			{
 				if (std::find(dumpWindowResult.m_vecEntryTypes.begin(), dumpWindowResult.m_vecEntryTypes.end(), "Texture Set") != dumpWindowResult.m_vecEntryTypes.end())
 				{
@@ -630,7 +630,7 @@ bool		DumpManager::process(void)
 										
 										pBMPFile->setSkipBMPFileHeaderForSerialize(true);
 										pBMPFile->setBMPVersion(3);
-										File::storeFile(strICOFilePath, strICOHeaderData + pBMPFile->serialize(), false, true);
+										File::setBinaryFile(strICOFilePath, strICOHeaderData + pBMPFile->serialize());
 									}
 									else if (strImageType == "CUR")
 									{
@@ -660,7 +660,7 @@ bool		DumpManager::process(void)
 										
 										pBMPFile->setSkipBMPFileHeaderForSerialize(true);
 										pBMPFile->setBMPVersion(3);
-										File::storeFile(strCURFilePath, strCURHeaderData + pBMPFile->serialize(), false, true);
+										File::setBinaryFile(strCURFilePath, strCURHeaderData + pBMPFile->serialize());
 									}
 									else if (strImageType == "DDS")
 									{

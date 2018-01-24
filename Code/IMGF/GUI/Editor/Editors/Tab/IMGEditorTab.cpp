@@ -489,7 +489,7 @@ void					IMGEditorTab::log(string strText, bool bExtendedModeOnly)
 			{
 				string strExtendedLogPath = Path::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
 				strExtendedLogPath += String::getDateTextForFolder() + "/" + LocalizationManager::get()->getTranslatedText("LogFilename_Extended");
-				File::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
+				File::addToTextFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n");
 			}
 		}
 	}
@@ -507,7 +507,7 @@ void					IMGEditorTab::log(string strText, bool bExtendedModeOnly)
 			{
 				string strExtendedLogPath = Path::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
 				strExtendedLogPath += String::getDateTextForFolder() + "/" + LocalizationManager::get()->getTranslatedText("LogFilename_Basic");
-				File::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
+				File::addToTextFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n");
 			}
 			
 			// extended file
@@ -515,7 +515,7 @@ void					IMGEditorTab::log(string strText, bool bExtendedModeOnly)
 			{
 				string strExtendedLogPath = Path::addSlashToEnd(getIMGF()->getSettingsManager()->getSettingString("AutomaticLoggingPath"));
 				strExtendedLogPath += String::getDateTextForFolder() + "/" + LocalizationManager::get()->getTranslatedText("LogFilename_Extended");
-				File::storeFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n", true, false);
+				File::addToTextFile(strExtendedLogPath, strLogEntryWithTimestampAndIMG + "\n");
 			}
 		}
 	}
@@ -907,7 +907,7 @@ void					IMGEditorTab::addGridEntries(void)
 	{
 		bool bAddEntry = true;
 
-		uiFileType = pIMGEntry->getFileType();
+		uiFileType = pIMGEntry->getEntryType();
 
 		//if (bTypeFilterIsDynamicItem && uiFileType != uiSelectedFileType)
 		//{

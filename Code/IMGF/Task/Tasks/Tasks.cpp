@@ -1889,7 +1889,7 @@ void		Tasks::exportTextureNameList(void)
 	uint32 uiTextureNumber = 1;
 	for (IMGEntry *pIMGEntry : (vector<IMGEntry*>&)getIMGTab()->getSelectedEntries())
 	{
-		if (pIMGEntry->getFileType() == MODEL)
+		if (pIMGEntry->getEntryType() == MODEL)
 		{
 			if (pIMGEntry->getRageResourceType() && pIMGEntry->getRageResourceType()->getResourceTypeId() == RAGE_MODEL)
 			{
@@ -5441,7 +5441,7 @@ void		Tasks::datPathsMover(void)
 	{
 		uint32 uiAreaId = String::toNumber(Path::removeFileExtension(strFileName).substr(5)); // example filename: nodes0.dat, nodes1.dat, nodes63.dat
 
-		DATPathFormat *pDATFile = DATPathManager::get()->unserializeMemory(File::getFileContent(datPathsMoverWindowResult.m_strDATInputFolderPath + strFileName, true));//////, uiAreaId///////);
+		DATPathFormat *pDATFile = DATPathManager::get()->unserializeMemory(File::getBinaryFile(datPathsMoverWindowResult.m_strDATInputFolderPath + strFileName));//////, uiAreaId///////);
 		if (!pDATFile->doesHaveError())
 		{
 			vecDATInputFiles.push_back(pDATFile);
@@ -5643,7 +5643,7 @@ void		Tasks::datPathsMover(void)
 	uint32 i = 0;
 	for (DATPathFormat *pDATFile : vecDATOutputFiles)
 	{
-		File::storeFile(datPathsMoverWindowResult.m_strDATOutputFolderPath + "nodes" + String::toString(i) + ".dat", pDATFile->serialize(), false, true);
+		File::setBinaryFile(datPathsMoverWindowResult.m_strDATOutputFolderPath + "nodes" + String::toString(i) + ".dat", pDATFile->serialize());
 		increaseProgress();
 		i++;
 	}
@@ -5686,15 +5686,15 @@ void						Tasks::mapMoverAndIDShifter(void)
 	;
 	if (File::doesFileExist(strModelNamesPath_PC_GTA_III))
 	{
-		umapIgnoreDefaultObjectFileNamesVector[PC_GTA_III] = String::split(File::getFileContent(strModelNamesPath_PC_GTA_III), ", ");
+		umapIgnoreDefaultObjectFileNamesVector[PC_GTA_III] = String::split(File::getTextFile(strModelNamesPath_PC_GTA_III), ", ");
 	}
 	if (File::doesFileExist(strModelNamesPath_PC_GTA_VC))
 	{
-		umapIgnoreDefaultObjectFileNamesVector[PC_GTA_VC] = String::split(File::getFileContent(strModelNamesPath_PC_GTA_VC), ", ");
+		umapIgnoreDefaultObjectFileNamesVector[PC_GTA_VC] = String::split(File::getTextFile(strModelNamesPath_PC_GTA_VC), ", ");
 	}
 	if (File::doesFileExist(strModelNamesPath_PC_GTA_SA))
 	{
-		umapIgnoreDefaultObjectFileNamesVector[PC_GTA_SA] = String::split(File::getFileContent(strModelNamesPath_PC_GTA_SA), ", ");
+		umapIgnoreDefaultObjectFileNamesVector[PC_GTA_SA] = String::split(File::getTextFile(strModelNamesPath_PC_GTA_SA), ", ");
 	}
 
 	unordered_map<string, bool> umapIgnoreDefaultObjectFileNames;
@@ -6890,7 +6890,7 @@ void				Tasks::extractDVCAndNVCIntoDFFs(void)
 		delete pDFFFile_Colours;
 
 		//DFFFormat *pDFFFile_Model = DFFManager::get()->unserializeFile(strDFFInputFolderForModels + strDFFFilename_Model);
-		DFFFormat *pDFFFile_Model = DFFManager::get()->unserializeMemory(File::getFileContent(strDFFModelDataFolderPath + strDFFFilename_Model, true));
+		DFFFormat *pDFFFile_Model = DFFManager::get()->unserializeMemory(File::getBinaryFile(strDFFModelDataFolderPath + strDFFFilename_Model));
 		if (pDFFFile_Model->doesHaveError())
 		{
 			pDFFFile_Model->unload();
@@ -7237,7 +7237,7 @@ void		Tasks::update(bool bOnlyShowWindowIfUpdateIsAvailable)
 	string strLockedFileDirectory = Path::getDirectory(strRunningProgramPath);
 	string strNewProgramPath = File::getNextIncrementingFileName(strLockedFileDirectory + strNewProgramFileName);
 
-	File::storeFile(strNewProgramPath, strNewProgramData, false, true);
+	File::setBinaryFile(strNewProgramPath, strNewProgramData);
 
 	// mark previous version to be deleted
 	if (getIMGF()->getSettingsManager()->getSettingBool("RemoveOldVersionOnUpdate"))
@@ -7393,7 +7393,7 @@ void		Tasks::onRequestAutoUpdate(void)
 			string strLockedFileDirectory = Path::getDirectory(strRunningProgramPath);
 			string strNewProgramPath = strLockedFileDirectory + strLatestVersionFileName;
 			//rename(strRunningProgramPath.c_str(), (strLockedFileDirectory + "Temp File").c_str());
-			File::storeFile(strNewProgramPath, strNewProgramData, false, true);
+			File::setBinaryFile(strNewProgramPath, strNewProgramData);
 
 			// delete previous version's exe file
 			if (getIMGF()->getSettingsManager()->getSettingBool("RemoveOldVersionOnUpdate"))

@@ -224,7 +224,7 @@ bool						MapEditorTab::unserializeFile(void)
 			{
 				string strEntryNameLower = String::toLowerCase(Path::removeFileExtension(pIMGEntry->getEntryName()));
 
-				if (pIMGEntry->getFileType() == MODEL)
+				if (pIMGEntry->getEntryType() == MODEL)
 				{
 					if (umapModelsUsedByIDE.count(strEntryNameLower) == 0)
 					{
@@ -237,7 +237,7 @@ bool						MapEditorTab::unserializeFile(void)
 						m_umapDFFsByModelNameLower[strEntryNameLower] = pDFFFile;
 					}
 				}
-				else if (pIMGEntry->getFileType() == TEXTURE)
+				else if (pIMGEntry->getEntryType() == TEXTURE)
 				{
 					if (umapTexturesUsedByIDE.count(strEntryNameLower) == 0)
 					{
@@ -984,7 +984,7 @@ void						MapEditorTab::prepareShaders(void)
 {
 	// setup shader 1
 
-	string strVertexShader = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\VertexShader-Texture.glsl"), false); // todo
+	string strVertexShader = File::getTextFile(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\VertexShader-Texture.glsl"), false); // todo
 	const char *pVertexShader = strVertexShader.c_str();
 	const GLint uiVertexShaderLength = strVertexShader.length();
 
@@ -1022,7 +1022,7 @@ void						MapEditorTab::prepareShaders(void)
 
 	// setup shader 2
 
-	string strFragmentShader = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\FragmentShader-Texture.glsl"), false); // todo
+	string strFragmentShader = File::getTextFile(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\FragmentShader-Texture.glsl"), false); // todo
 	const char *pFragmentShader = strFragmentShader.c_str();
 	const GLint uiFragmentShaderLength = strFragmentShader.length();
 
@@ -1077,7 +1077,7 @@ void						MapEditorTab::prepareShaders(void)
 
 	// setup shader 3 and 4 and program 2
 
-	string strVertexShader2 = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\VertexShader-Colour.glsl"), false); // todo
+	string strVertexShader2 = File::getTextFile(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\VertexShader-Colour.glsl"), false); // todo
 	const char *pVertexShader2 = strVertexShader2.c_str();
 	const GLint uiVertexShaderLength2 = strVertexShader2.length();
 
@@ -1115,7 +1115,7 @@ void						MapEditorTab::prepareShaders(void)
 
 
 
-	string strFragmentShader2 = File::getFileContent(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\FragmentShader-Colour.glsl"), false); // todo
+	string strFragmentShader2 = File::getTextFile(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\FragmentShader-Colour.glsl"), false); // todo
 	const char *pFragmentShader2 = strFragmentShader2.c_str();
 	const GLint uiFragmentShaderLength2 = strFragmentShader2.length();
 

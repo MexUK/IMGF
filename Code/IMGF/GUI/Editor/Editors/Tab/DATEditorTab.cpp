@@ -81,7 +81,7 @@ void						DATEditorTab::onFileLoaded(void)
 	// todo getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
 
 	// show file content
-	m_pTextBox->getTextLines() = String::split(String::fixEOLs(File::getFileContent(getFile()->getFilePath(), false), "\n"), "\n");
+	m_pTextBox->getTextLines() = String::split(String::fixEOLs(File::getTextFile(getFile()->getFilePath()), "\n"), "\n");
 	if (m_pTextBox->getTextLines().size() == 0)
 	{
 		m_pTextBox->getTextLines().push_back("");
@@ -203,7 +203,7 @@ vector<string>				DATEditorTab::getTextLines(void)
 // merge
 void						DATEditorTab::merge(string& strFilePath)
 {
-	mergeViaData(File::getFileContent(strFilePath));
+	mergeViaData(File::getTextFile(strFilePath));
 }
 
 void						DATEditorTab::mergeViaData(string& strFileData)

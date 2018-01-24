@@ -789,7 +789,7 @@ void						ModelEditorTab::prepareShaders(void)
 
 GLuint							ModelEditorTab::initShader(GLuint uiShaderType, string strShaderFilePath)
 {
-	string strShaderCode = File::getFileContent(strShaderFilePath, true);
+	string strShaderCode = File::getBinaryFile(strShaderFilePath);
 	const char *pShaderCode = strShaderCode.c_str();
 
 	GLuint uiShader = glCreateShader(uiShaderType);
