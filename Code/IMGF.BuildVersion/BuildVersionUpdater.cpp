@@ -1,5 +1,7 @@
 #include "BuildVersionUpdater.h"
+#include "nsbxcf.h"
 #include "Static/String.h"
+#include "Static/Math.h"
 #include "Static/File.h"
 
 #define PATH_TO_BUILD_VERSION_H std::string("../../../Code/IMGF/Program/BuildVersion.h") // relative to .vcxproj file
@@ -63,5 +65,5 @@ void				updateMinorBuildNumber(void)
 		uiLineIndex++;
 	}
 
-	File::setFileContent(PATH_TO_BUILD_VERSION_H, String::join(vecNewFileLines, "\n"), false);
+	File::setTextFile(PATH_TO_BUILD_VERSION_H, String::join(vecNewFileLines, "\n"));
 }
