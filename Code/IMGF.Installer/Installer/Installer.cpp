@@ -221,7 +221,7 @@ void					Installer::createFile(HMODULE hModule, int iResourceId, string strFileP
 	void *pData = LockResource(hResource);
 	uint64 uiFileDataLength = SizeofResource(hModule, hResourceFindResult);
 
-	File::storeFile(strFilePath, string((char*)pData, uiFileDataLength), false, true);
+	File::setBinaryFile(strFilePath, string((char*)pData, uiFileDataLength));
 
 	UnlockResource(hResource);
 	FreeResource(hResource);
