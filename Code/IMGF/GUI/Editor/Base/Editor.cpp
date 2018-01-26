@@ -204,9 +204,9 @@ void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 	{
 		// set active tab in tab bar
 		uint32 uiTabIndex = pEditorTab->getTabIndex();
-		mutexTabs.lock();
+		TabBar::m_mutexTabs.lock();
 		Tab *pTab = m_pTabBar->getEntryByIndex(uiTabIndex);
-		mutexTabs.unlock();
+		TabBar::m_mutexTabs.unlock();
 		m_pTabBar->setActiveTab(pTab);
 
 		// reposition controls
