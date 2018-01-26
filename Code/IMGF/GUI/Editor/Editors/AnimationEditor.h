@@ -8,11 +8,10 @@
 #include "IMGF.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 
 #include <string>
 
-class PLGFormat : public bxcf::Format // temp here
+class PLGFormat : public bxcf::Format // todo - temp here
 {
 public:
 	PLGFormat(void) : bxcf::Format(true) {}

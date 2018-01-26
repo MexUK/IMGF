@@ -2,8 +2,6 @@
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
 #include "GUI/Editor/Editors/Tab/TextureEditorTab.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayer.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 #include "BXGX.h"
 #include "GraphicsLibrary/Base/GraphicsLibrary.h"
 #include "Style/Parts/EStyleStatus.h"

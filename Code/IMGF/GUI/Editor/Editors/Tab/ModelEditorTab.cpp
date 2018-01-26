@@ -43,11 +43,7 @@ ModelEditorTab::ModelEditorTab(void) :
 }
 
 // controls
-void						ModelEditorTab::addControls(void)
-{
-}
-
-void						ModelEditorTab::initControls(void)
+void						ModelEditorTab::storeControls(void)
 {
 }
 
@@ -84,7 +80,6 @@ void						ModelEditorTab::initLayer(void)
 // events
 void						ModelEditorTab::bindEvents(void)
 {
-	//bindEvent(RENDER, &ModelEditorTab::render);
 	bindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
 	bindEvent(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
 
@@ -93,7 +88,6 @@ void						ModelEditorTab::bindEvents(void)
 
 void						ModelEditorTab::unbindEvents(void)
 {
-	//unbindEvent(RENDER, &ModelEditorTab::render);
 	unbindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
 	unbindEvent(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
 

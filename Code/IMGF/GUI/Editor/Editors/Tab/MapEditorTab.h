@@ -32,9 +32,6 @@ class imgf::MapEditorTab : public imgf::EditorTab
 public:
 	MapEditorTab(void);
 
-	void						addControls(void);
-	void						initControls(void);
-
 	void						bindEvents(void);
 	void						unbindEvents(void);
 
@@ -63,6 +60,9 @@ public:
 	void						zoomCamera(float32 fRadius);
 	bxcf::Vec3f					getCameraRotation(void);
 	float32						getCameraZRotation(void); // result is in radians
+
+protected:
+	void						storeControls(void);
 
 private:
 	void						perspectiveGL_ModelEditor(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar);

@@ -6,8 +6,6 @@
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayer.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 #include "Static/String.h"
 #include "Control/Controls/TextBox.h"
 #include "Control/Controls/TabBar.h"
@@ -71,11 +69,7 @@ void								Editor::unbindEvents(void)
 }
 
 // controls
-void								Editor::addControls(void)
-{
-}
-
-void								Editor::initControls(void)
+void								Editor::storeControls(void)
 {
 }
 

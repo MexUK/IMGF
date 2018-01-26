@@ -37,7 +37,7 @@ using namespace imgf;
 
 BOOL bPremultipledAlphaApplied = FALSE; // todo - namespace
 
-inline void PremultiplyBitmapAlpha(HDC hDC, HBITMAP hBmp)
+inline void PremultiplyBitmapAlpha(HDC hDC, HBITMAP hBmp) // todo - namespace
 {
 	BITMAP bm = { 0 };
 	GetObject(hBmp, sizeof(bm), &bm);
@@ -73,49 +73,9 @@ RadarEditorTab::RadarEditorTab(void) :
 }
 
 // controls
-void						RadarEditorTab::addControls(void)
+void						RadarEditorTab::storeControls(void)
 {
-	/*
-	todo
-
-	int32 x, y;
-	uint32 w, h, uiLogWidth;
-
-	uiLogWidth = 335;
-
-	x = 139 + 139 + 250 + 100 + 51;
-	y = ((162 + 30) - 50) - 1;
-	w = 80;
-	h = 20;
-
-	// zoom dropdown
-	w = 20;
-	h = 20;
-
-	x = 139 + 139 + 250 + 50;
-	m_pDiffuseCheckBox = addCheckBox(Vec2i(x, y), Vec2u(w, h), "Diffuse");
-	m_pDiffuseCheckBox->setMarked(true);
-
-	x += 90;
-	m_pAlphaCheckBox = addCheckBox(Vec2i(x, y), Vec2u(w, h), "Alpha");
-	m_pAlphaCheckBox->setMarked(true);
-
-	// vertical scroll bar
-	x = 139 + 139 + 250;
-	y = 192;
-	w = 15;
-	h = getLayer()->getWindow()->getSize().y - y;
-	x -= w;
-
-	m_pVScrollBar = addScrollBar(x, y, w, h, "", -1, 50);
-	m_pVScrollBar->setScrollOrientation(VERTICAL);
-	*/
-
 	m_pVScrollBar = (ScrollBar*)getLayer()->getItemById(96);
-}
-
-void						RadarEditorTab::initControls(void)
-{
 }
 
 // layer

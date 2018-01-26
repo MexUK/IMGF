@@ -35,7 +35,6 @@
 #include "GUI/Editor/Editors/IMGEditor.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayer.h"
 #include "GUI/Input/EInputItem.h"
 #include "Control/Controls/Text.h"
 #include "Control/Controls/TabBar.h"
@@ -183,57 +182,10 @@ void					IMGEditorTab::onFileLoaded(void)
 }
 
 // controls
-void					IMGEditorTab::addControls(void)
+void					IMGEditorTab::storeControls(void)
 {
-	/*
-	todo
-
-	int32 x, y, w, h, y2, w2, h2;
-	uint32 uiTitleBarHeight, uiButtonHeight, uiLogWidth;
-	string strStyleGroup;
-
-	uiTitleBarHeight = getLayer()->getWindow()->getTitleBarHeight();
-	uiButtonHeight = 37;
-	uiLogWidth = 335;
-
-	// grid
-	//Grid *pBlankGrid = m_pIMGEditor->getEntryGrid();
-
-	x = 139 + 139;
-	y = 162 + 30;
-	w = getLayer()->getWindow()->getSize().x - x - uiLogWidth;
-	h = getLayer()->getWindow()->getSize().y - y;
-	strStyleGroup = "imgEditor_grid";
-
-	m_pEntryGrid = addGrid(x, y, w, h);
-	m_pEntryGrid->setStyleGroups(strStyleGroup);
-
-	// filter - entry type
-	w = 140;
-	w2 = w;
-	x = getLayer()->getWindow()->getSize().x - w - w2 - uiLogWidth - 10;
-	y = uiButtonHeight + 82;
-	h = 24;
-	strStyleGroup = "filter filterDropDown";
-
-	m_pEntryTypeFilter = addDropDown(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally", -1, -100);
-	m_pEntryTypeFilter->addItem("No file is open", false, false);
-
-	// filter - entry version
-	w = w2;
-	x = getLayer()->getWindow()->getSize().x - w - uiLogWidth - 10;
-
-	m_pEntryVersionFilter = addDropDown(x, y, w, h, "Entry Version", strStyleGroup, -1, -100);
-	m_pEntryVersionFilter->addItem("No file is open", false, false);
-	m_pEntryVersionFilter->addLinkedItem(m_pEntryTypeFilter);
-	*/
-
 	m_pEntryGrid = (Grid*)getLayer()->getItemById(1200);
-}
 
-void					IMGEditorTab::initControls(void)
-{
-	// todo bindEvents();
 	addGridHeaders(getIMGFile()->getVersion());
 }
 

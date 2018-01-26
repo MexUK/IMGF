@@ -9,8 +9,6 @@ class imgf::AnimationEditorTab : public imgf::EditorTab
 public:
 	AnimationEditorTab(void);
 
-	void						addControls(void);
-
 	void						bindEvents(void);
 	void						unbindEvents(void);
 
@@ -22,8 +20,11 @@ public:
 	void						setFileInfoText(void);
 	void						updateEntryCountText(void);
 
-	//void						setIFPFile(bxgi::IFPFormat *pIFPFile) { m_pIFPFile = pIFPFile; }
+	//void						setIFPFile(bxgi::IFPFormat *pIFPFile) { m_pIFPFile = pIFPFile; } // todo
 	//bxgi::IFPFormat*			getIFPFile(void) { return m_pIFPFile; }
+
+protected:
+	void						storeControls(void);
 
 private:
 	//bxgi::IFPFormat*			m_pIFPFile;

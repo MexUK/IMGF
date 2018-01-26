@@ -60,12 +60,9 @@ CollisionEditorTab::CollisionEditorTab(void) :
 // events
 void					CollisionEditorTab::bindEvents(void)
 {
-	//markEventUsage(MOVE_MOUSE);
-
 	bindEvent(RENDER, &CollisionEditorTab::render);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	bindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
-	//bindEvent(MOVE_MOUSE, &CollisionEditorTab::onMouseMove2);
 	bindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
 	bindEvent(MOVE_MOUSE_WHEEL, &CollisionEditorTab::onMouseWheelMove2);
 	bindEvent(RESIZE_WINDOW, &CollisionEditorTab::onResizeWindow);
@@ -75,12 +72,9 @@ void					CollisionEditorTab::bindEvents(void)
 
 void					CollisionEditorTab::unbindEvents(void)
 {
-	//unmarkEventUsage(MOVE_MOUSE);
-
 	unbindEvent(RENDER, &CollisionEditorTab::render);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
-	//unbindEvent(MOVE_MOUSE, &CollisionEditorTab::onMouseMove2);
 	unbindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
 	unbindEvent(MOVE_MOUSE_WHEEL, &CollisionEditorTab::onMouseWheelMove2);
 	unbindEvent(RESIZE_WINDOW, &CollisionEditorTab::onResizeWindow);
@@ -89,37 +83,9 @@ void					CollisionEditorTab::unbindEvents(void)
 }
 
 // controls
-void					CollisionEditorTab::addControls(void)
+void					CollisionEditorTab::storeControls(void)
 {
-	/*
-	todo
-
-	int32 x, y;
-	uint32 w, h, uiLogWidth;
-
-	uiLogWidth = 335;
-
-	x = 139 + 139 + 250 + 100 + 51;
-	y = ((162 + 30) - 50) - 1;
-	w = 80;
-	h = 20;
-
-	// vertical scroll bar
-	x = 139 + 139 + 250;
-	y = 192;
-	w = 15;
-	h = getLayer()->getWindow()->getSize().y - y;
-	x -= w;
-
-	m_pVScrollBar = addScrollBar(x, y, w, h, "", -1, 50);
-	m_pVScrollBar->setScrollOrientation(VERTICAL);
-	*/
-
 	m_pVScrollBar = (ScrollBar*)getLayer()->getItemById(95);
-}
-
-void					CollisionEditorTab::initControls(void)
-{
 }
 
 void					CollisionEditorTab::onResizeWindow(Vec2i& vecSizeChange)
@@ -217,6 +183,8 @@ Vec2f g_vecLastMousePosition = Vec2f(0.0f, 0.0f); // todo
 
 bool					CollisionEditorTab::onMouseMove(Vec2i& vecCursorPosition)
 {
+	// todo
+
 	if ((GetKeyState(VK_LBUTTON) & 0x100) != 0)
 	{
 		m_bPanningCamera = true;

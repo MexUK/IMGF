@@ -56,8 +56,7 @@ public:
 	void						addEntryAfter(bxcf::FormatEntry *pEntry);
 
 protected:
-	void						addControls(void);
-	void						initControls(void);
+	void						storeControls(void);
 
 	void						initLayer(void);
 

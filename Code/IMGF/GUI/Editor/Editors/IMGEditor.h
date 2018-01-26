@@ -77,9 +77,6 @@ public:
 	std::string					getResolvedFilePath(std::string& strFilePath);
 
 private:
-	void						addControls(void);
-	void						initControls(void);
-
 	void						initMenu(void);
 	void						loadRightClickMenu(int xPos, int yPos);
 

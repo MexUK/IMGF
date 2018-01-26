@@ -11,8 +11,6 @@ class imgf::ItemDefinitionEditorTab : public imgf::EditorTab
 public:
 	ItemDefinitionEditorTab(void);
 
-	void						addControls(void);
-
 	void						initLayer(void);
 
 	void						bindEvents(void);
@@ -58,6 +56,9 @@ public:
 	void						shiftSelectedEntries(int32 iRowCountOffset);
 
 	void						copySelectedEntryData(uint32 uiFieldId);
+
+protected:
+	void						storeControls(void);
 
 private:
 	bxgi::IDEFormat*			m_pIDEFile;

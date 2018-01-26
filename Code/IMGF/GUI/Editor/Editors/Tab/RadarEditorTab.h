@@ -13,9 +13,6 @@ class imgf::RadarEditorTab : public imgf::EditorTab, public bxcf::VectorPool<img
 public:
 	RadarEditorTab(void);
 
-	void						addControls(void);
-	void						initControls(void);
-
 	void						initLayer(void);
 
 	void						bindEvents(void);
@@ -59,6 +56,8 @@ public:
 	bool						doesTabEntryMatchFilter(RadarEditorTabEntry *pTabEntry);
 
 protected:
+	void						storeControls(void);
+
 	void						onLeftMouseDown(bxcf::Vec2i vecCursorPosition);
 	void						onKeyDown2(uint16 uiKey);
 	void						onMouseWheelMove2(int16 iRotationDistance);

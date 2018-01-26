@@ -21,7 +21,6 @@
 #include "Control/Controls/Grid.h"
 #include "GUI/Editor/Editors/EEditorItem.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayer.h"
 #include "Control/Controls/TabBar.h"
 #include "Control/Controls/ProgressBar.h"
 #include "Control/Controls/TextBox.h"
@@ -33,7 +32,6 @@
 #include "../BXGI/Event/EEvent.h"
 #include "../IMGF/Event/EEvent.h"
 #include "GUI/Window/WindowManager.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 #include "GUI/Editor/EEditor.h"
 
 // for menu start - todo
@@ -82,11 +80,8 @@ void						IMGEditor::init(void)
 
 	Editor::init();
 
-	Editor::addControls();
-	Editor::initControls();
-
-	addControls();
-	initControls();
+	Editor::storeControls();
+	storeControls();
 }
 
 // events
@@ -219,8 +214,8 @@ void						IMGEditor::removeEditorTab(IMGEditorTab *pIMGEditorTab)
 	if (getEditorTabs().getEntryCount() == 0)
 	{
 		// todo getLayer()->setEnabled(true);
-		getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(true);
-		m_pMainWindow->getMainLayer()->setCertainMenuItemsEnabled(false);
+		//getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(true);
+		//m_pMainWindow->getMainLayer()->setCertainMenuItemsEnabled(false);
 	}
 	else
 	{
@@ -1044,69 +1039,6 @@ void					IMGEditor::loadRightClickMenu(int xPos, int yPos)
 string					IMGEditor::getResolvedFilePath(string& strFilePath)
 {
 	return Path::replaceFileExtensionWithCase(strFilePath, "img");
-}
-
-// controls
-void		IMGEditor::addControls(void)
-{
-	/*
-	todo
-
-	Vec2i
-		point;
-	Vec2u
-		size;
-	int32
-		x, y, w, h, w2;
-	uint32
-		uiLogWidth;
-	uint32
-		uiButtonHeight = 37;
-	Colour
-		borderColour(50, 50, 50);
-	string
-		strStyleGroup;
-
-	uiLogWidth = 335;
-
-	// grid
-	x = 139 + 139;
-	y = 162 + 30;
-	w = m_pWindow->getSize().x - x - uiLogWidth;
-	h = m_pWindow->getSize().y - y;
-	strStyleGroup = "imgEditor_grid";
-
-	m_pEntryGrid = addGrid(x, y, w, h, strStyleGroup, IMG_GRID);
-
-	w -= m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(VERTICAL)->getBackgroundBarSize().x;
-	h -= m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(HORIZONTAL)->getBackgroundBarSize().y;
-	m_pEntryGrid->setSize(Vec2u(w, h));
-
-	// filter - entry type
-	w = 140;
-	w2 = w;
-	x = m_pWindow->getSize().x - w - w2 - uiLogWidth - 10;
-	y = uiButtonHeight + 82;
-	h = 24;
-	strStyleGroup = "filter filterDropDown";
-
-	m_pEntryTypeFilter = addDropDown(x, y, w, h, "Entry Type", strStyleGroup + " firstItemHorizontally", -1, -100);
-	m_pEntryTypeFilter->addItem("No file is open", false, false);
-
-	// filter - entry version
-	w = w2;
-	x = m_pWindow->getSize().x - w - uiLogWidth - 10;
-
-	m_pEntryVersionFilter = addDropDown(x, y, w, h, "Entry Version", strStyleGroup, -1, -100);
-	m_pEntryVersionFilter->addItem("No file is open", false, false);
-	*/
-}
-
-void		IMGEditor::initControls(void)
-{
-	// todo
-
-	//addColumnsToMainListView(IMG_UNKNOWN);
 }
 
 // render

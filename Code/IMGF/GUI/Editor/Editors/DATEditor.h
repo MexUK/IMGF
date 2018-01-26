@@ -9,7 +9,6 @@
 #include "IMGF.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 
 #include <string>
 

@@ -26,10 +26,8 @@ ItemDefinitionEditorTab::ItemDefinitionEditorTab(void) :
 }
 
 // controls
-void						ItemDefinitionEditorTab::addControls(void)
+void						ItemDefinitionEditorTab::storeControls(void)
 {
-	// todo m_pTextBox = addTextBox(139 + 139, 192, 600, 512, "", true, "textBasedEditorTextBox");
-
 	m_pTextBox = (TextBox*)getLayer()->getItemById(1500);
 }
 

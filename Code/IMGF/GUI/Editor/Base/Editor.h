@@ -12,7 +12,6 @@
 //#include "IMGF.h"
 //#include "GUI/Window/WindowManager.h"
 //#include "GUI/Window/Windows/MainWindow/MainWindow.h"
-//#include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 #include "Event/EventBindable.h"
 #include "Task/Tasks/Tasks.h"
 #include "Static/Path.h"
@@ -38,8 +37,7 @@ public:
 	virtual void						bindEvents(void);
 	virtual void	 					unbindEvents(void);
 
-	virtual void						addControls(void);
-	virtual void						initControls(void);
+	virtual void						storeControls(void);
 
 	virtual imgf::EditorTab*					addEditorTab(std::string& strFilePath) = 0;
 	virtual imgf::EditorTab*					addBlankEditorTab(std::string& strFilePath) = 0;

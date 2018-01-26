@@ -10,8 +10,6 @@
 #include "Settings/SettingsManager.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayer.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 #include "GUI/Editor/Editors/IMGEditor.h"
 #include "Control/Controls/ProgressBar.h"
 #include "GUI/Input/EInputItem.h"
@@ -291,12 +289,12 @@ void							TaskManager::onTaskProgressTick(void)
 	if (getIMGF()->getWindowManager()->getMainWindow()->getActiveEditor()->getActiveEditorTab())
 	{
 		pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getActiveEditor()->getActiveEditorTab()->getProgressBar();
+		pProgressBar->increaseCurrent();
 	}
 	else
 	{
-		pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->getProgressBar();
+		// todo pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->getProgressBar();
 	}
-	pProgressBar->increaseCurrent();
 }
 
 void							TaskManager::onTaskProgressComplete(void)
@@ -322,12 +320,12 @@ void							TaskManager::setTaskMaxProgressTickCount(uint32 uiProgressMaxTicks, b
 	if (getIMGF()->getWindowManager()->getMainWindow()->getIMGEditor()->getActiveTab())
 	{
 		pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getIMGEditor()->getActiveTab()->getProgressBar();
+		pProgressBar->setMax(uiProgressMaxTicks, bResetCurrent);
 	}
 	else
 	{
-		pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->getProgressBar();
+		// todo pProgressBar = getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->getProgressBar();
 	}
-	pProgressBar->setMax(uiProgressMaxTicks, bResetCurrent);
 
 	/*
 	todo

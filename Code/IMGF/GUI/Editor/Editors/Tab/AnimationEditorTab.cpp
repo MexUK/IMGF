@@ -19,7 +19,7 @@ AnimationEditorTab::AnimationEditorTab(void)// :
 }
 
 // controls
-void						AnimationEditorTab::addControls(void)
+void						AnimationEditorTab::storeControls(void)
 {
 }
 

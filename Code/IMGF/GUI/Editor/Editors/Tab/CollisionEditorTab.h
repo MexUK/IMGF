@@ -110,8 +110,7 @@ public:
 	void						onResizeWindow(bxcf::Vec2i& vecSizeChange);
 	
 protected:
-	void						addControls(void);
-	void						initControls(void);
+	void						storeControls(void);
 
 	void						onSelectDropDownItem(bxgx::DropDownItem *pItem);
 	void						onLeftMouseDown(bxcf::Vec2i vecCursorPosition);

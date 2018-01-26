@@ -25,22 +25,9 @@ DATEditorTab::DATEditorTab(void) :
 }
 
 // controls
-void						DATEditorTab::addControls(void)
+void						DATEditorTab::storeControls(void)
 {
-	//setLayer(m_pEditor->getMainWindow()->getLayerById(100));
-	//getLayer()->setEnabled(true);
-
-	// todo m_pTextBox = addTextBox(139 + 139, 192, 600, 512, "", true, "textBasedEditorTextBox");
-
 	m_pTextBox = (TextBox*)getLayer()->getItemById(1100);
-
-	/*
-	m_pText_FilePath = (Text*)m_pEditor->getMainWindow()->getItemById(70);
-	m_pText_FileGame = (Text*)m_pEditor->getMainWindow()->getItemById(70);
-	m_pText_FileVersion = (Text*)m_pEditor->getMainWindow()->getItemById(70);
-	m_pText_FileEntryCount = (Text*)m_pEditor->getMainWindow()->getItemById(70);
-	*/
-
 }
 
 // layer

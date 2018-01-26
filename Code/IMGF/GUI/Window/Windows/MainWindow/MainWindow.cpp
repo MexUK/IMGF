@@ -14,8 +14,6 @@
 #include "Static/String.h"
 #include "Static/DataPath.h"
 #include "Type/Colour/Colour.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayer.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 #include "GUI/Layer/Layers/MainMenu/EMainMenuType.h"
 #include "GUI/Layer/Layers/ELayer.h"
 #include "Control/Controls/Menu.h"
@@ -85,7 +83,7 @@ void					MainWindow::init(void)
 // item fetching
 ProgressBar*			MainWindow::getProgressBar(void)
 {
-	return m_pMainLayerNoTabsOpen->getProgressBar();
+	return nullptr; // todo
 }
 
 // window initialization
@@ -189,16 +187,16 @@ void					MainWindow::initEditors(void)
 
 void					MainWindow::initMainLayer(void)
 {
-	m_pMainLayer = addLayer<MainLayer>(-1, true);
-	m_pMainLayer->setIMGFWindow(this);
-	m_pMainLayer->init();
+	//m_pMainLayer = addLayer<MainLayer>(-1, true);
+	//m_pMainLayer->setIMGFWindow(this);
+	//m_pMainLayer->init();
 }
 
 void					MainWindow::initMainLayerNoTabsOpen(void)
 {
-	m_pMainLayerNoTabsOpen = addLayer<MainLayerNoTabsOpen>(-1, true);
-	m_pMainLayerNoTabsOpen->setIMGFWindow(this);
-	m_pMainLayerNoTabsOpen->init();
+	//m_pMainLayerNoTabsOpen = addLayer<MainLayerNoTabsOpen>(-1, true);
+	//m_pMainLayerNoTabsOpen->setIMGFWindow(this);
+	//m_pMainLayerNoTabsOpen->init();
 }
 
 void					MainWindow::initMainMenuLayers(void)
@@ -229,6 +227,7 @@ void					MainWindow::initMainMenuLayers(void)
 	//m_pFormatsMenu->setItemIds(500);
 	//m_pFormatsMenu->setActiveMenuItem(vecMenuItems[6]);
 
+	/*
 	Button *pButton = getMainLayer()->addButton(x, y, w, h, "Root Dat");
 	
 	y += h + h2;
@@ -300,6 +299,7 @@ void					MainWindow::initMainMenuLayers(void)
 
 	pMenu = pUtilityLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -200);
 	pMenu->addMenuItems(2, "Export Game", "Mod Includer");
+	*/
 }
 
 void					MainWindow::initSettingsMenuLayer(void)

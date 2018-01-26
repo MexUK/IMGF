@@ -10,7 +10,6 @@
 #include "Static/AppDataPath.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayer.h"
 #include "Control/Controls/Menu.h"
 #include "Event/EInputEvent.h"
 
@@ -36,9 +35,10 @@ void		FileGroupManager::loadFileGroups(EEditor uiEditor)
 {
 	removeAllEntries();
 
-	Menu *pMenu = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pFileGroupMenu;
+	// todo
+	//Menu *pMenu = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pFileGroupMenu;
 
-	pMenu->removeAllMenuItems();
+	//pMenu->removeAllMenuItems();
 	getIMGF()->getFileGroupManager()->getFileGroupsContainer().clear();
 
 	string strINISectionName = Editor::getEditorName(uiEditor);
@@ -59,7 +59,7 @@ void		FileGroupManager::loadFileGroups(EEditor uiEditor)
 		}
 
 		string strMenuItemText = String::toString((uiSessionCount - i) + 1) + ") " + strSessionName + " (" + String::toString(j2) + " tab" + (j2 == 1 ? "" : "s") + ")";
-		pMenu->addMenuItem(strMenuItemText, 1900 + i);
+		//pMenu->addMenuItem(strMenuItemText, 1900 + i);
 
 		getIMGF()->getFileGroupManager()->getFileGroupsContainer()[1900 + i] = strIMGPaths;
 
@@ -71,7 +71,7 @@ void		FileGroupManager::loadFileGroups(EEditor uiEditor)
 
 	if (uiSessionCount == 0)
 	{
-		pMenu->addMenuItem("There are currently no file groups.", 1981);
+		//pMenu->addMenuItem("There are currently no file groups.", 1981);
 	}
 }
 

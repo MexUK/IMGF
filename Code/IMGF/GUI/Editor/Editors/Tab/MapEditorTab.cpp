@@ -47,11 +47,7 @@ MapEditorTab::MapEditorTab(void) :
 }
 
 // controls
-void						MapEditorTab::addControls(void)
-{
-}
-
-void						MapEditorTab::initControls(void)
+void						MapEditorTab::storeControls(void)
 {
 	onResizeWindow(Vec2i(0, 0));
 }

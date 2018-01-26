@@ -13,7 +13,6 @@
 #include "Static/AppDataPath.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayer.h"
 #include "Control/Controls/Menu.h"
 #include "Event/EInputEvent.h"
 #include "GUI/Input/EInputItem.h"
@@ -39,6 +38,9 @@ void					RecentlyOpenManager::uninit(void)
 // load/unload entries
 void					RecentlyOpenManager::loadRecentlyOpenEntries(EEditor uiEditor)
 {
+	// todo
+
+	/*
 	m_umapFilePaths[uiEditor].removeAllEntries();
 
 	Menu *pRecentlyOpenMenu = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pRecentlyOpenMenu;
@@ -67,6 +69,7 @@ void					RecentlyOpenManager::loadRecentlyOpenEntries(EEditor uiEditor)
 	}
 
 	pRecentlyOpenMenu->addMenuItem("Clear Recently Open Files", CLEAR_RECENTLY_OPEN_FILES);
+	*/
 }
 
 void					RecentlyOpenManager::unloadRecentlyOpenEntries(EEditor uiEditor)
@@ -135,6 +138,9 @@ RecentlyOpenEntry*		RecentlyOpenManager::addRecentlyOpenEntry(EEditor uiEditor, 
 
 void					RecentlyOpenManager::removeRecentlyOpenedEntries(EEditor uiEditor)
 {
+	// todo
+
+	/*
 	string strINISectionName = Editor::getEditorName(uiEditor);
 	Menu *pRecentlyOpenMenu = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pRecentlyOpenMenu;
 
@@ -154,6 +160,7 @@ void					RecentlyOpenManager::removeRecentlyOpenedEntries(EEditor uiEditor)
 	INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, "Count", "0");
 
 	loadRecentlyOpenEntries(uiEditor);
+	*/
 }
 
 void					RecentlyOpenManager::removeRecentlyOpenEntry(EEditor uiEditor, RecentlyOpenEntry *pRecentlyOpenEntry)

@@ -32,9 +32,6 @@ public:
 	virtual void						bindEvents(void);
 	virtual void						unbindEvents(void);
 
-	virtual void						addControls(void);
-	virtual void						initControls(void);
-
 	virtual void						initLayer(void) {}
 
 	virtual bool						unserializeFile(void) = 0;
@@ -138,6 +135,9 @@ public:
 	bxgx::Layer*						getBaseLayer(void) { return m_pBaseLayer; }
 
 	void								onChangeTextBox(bxgx::TextBox *pTextBox);
+
+protected:
+	virtual void						storeControls(void);
 
 public:
 	bxgx::Text*							m_pText_FilePath;

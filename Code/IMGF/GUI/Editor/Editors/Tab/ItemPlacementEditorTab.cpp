@@ -26,10 +26,8 @@ ItemPlacementEditorTab::ItemPlacementEditorTab(void) :
 }
 
 // controls
-void						ItemPlacementEditorTab::addControls(void)
+void						ItemPlacementEditorTab::storeControls(void)
 {
-	// todo m_pTextBox = addTextBox(139 + 139, 192, 600, 512, "", true, "textBasedEditorTextBox");
-
 	m_pTextBox = (TextBox*)getLayer()->getItemById(1600);
 }
 

@@ -9,8 +9,6 @@ class imgf::ItemPlacementEditorTab : public imgf::EditorTab
 public:
 	ItemPlacementEditorTab(void);
 
-	void						addControls(void);
-
 	void						initLayer(void);
 
 	void						bindEvents(void);
@@ -45,6 +43,9 @@ public:
 	void						shiftSelectedEntries(int32 iRowCountOffset);
 
 	void						copySelectedEntryData(uint32 uiFieldId);
+
+protected:
+	void						storeControls(void);
 
 private:
 	bxgi::IPLFormat*			m_pIPLFile;

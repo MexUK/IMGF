@@ -9,8 +9,6 @@
 #include "GUI/Input/InputManager.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayer.h"
-#include "GUI/Layer/Layers/MainLayer/MainLayerNoTabsOpen.h"
 #include "Task/TaskManager.h"
 #include "Settings/SettingsManager.h"
 #include "Static/File.h"
@@ -83,16 +81,6 @@ void						EditorTab::unbindEvents(void)
 // initialization
 bool						EditorTab::init(bool bIsNewFile)
 {
-	/*
-	todo
-
-	// add base editor controls
-	m_pEditor->Editor::addControls();
-
-	// add derived editor controls
-	m_pEditor->addControls();
-	*/
-
 	// base layer
 	m_pBaseLayer = m_pEditor->getMainWindow()->getLayerById(90)->copyLayer();
 	m_pBaseLayer->setId(-1);
@@ -121,13 +109,9 @@ bool						EditorTab::init(bool bIsNewFile)
 	// set active editor tab
 	m_pEditor->setActiveEditorTab(this);
 
-	// add base editor tab controls
-	EditorTab::addControls();
-	EditorTab::initControls();
-
-	// add derived editor tab controls
-	addControls();
-	initControls();
+	// store controls - base and derived
+	EditorTab::storeControls();
+	storeControls();
 
 	// add thread
 	m_thread = thread([&]() { processThread(); });
@@ -232,7 +216,7 @@ void						EditorTab::onChangeTextBox(TextBox *pTextBox)
 }
 
 // controls
-void						EditorTab::addControls(void)
+void						EditorTab::storeControls(void)
 {
 	m_pProgressBar = (ProgressBar*)m_pBaseLayer->getItemById(80);
 	m_pLog = (TextBox*)m_pBaseLayer->getItemById(81);
@@ -312,11 +296,6 @@ void						EditorTab::addControls(void)
 	y += h2;
 	m_pText_FileEntryCount = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
 	*/
-}
-
-void						EditorTab::initControls(void)
-{
-	// todo bindEvents();
 }
 
 // progress bar

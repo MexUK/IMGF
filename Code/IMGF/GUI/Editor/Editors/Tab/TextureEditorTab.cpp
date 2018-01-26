@@ -80,43 +80,9 @@ void					TextureEditorTab::unbindEvents(void)
 }
 
 // controls
-void					TextureEditorTab::addControls(void)
+void					TextureEditorTab::storeControls(void)
 {
-	/*
-	todo
-
-	int32 x, y;
-	uint32 w, h, uiLogWidth;
-	
-	uiLogWidth = 335;
-
-	x = 139 + 139 + 250 + 100 + 51;
-	y = ((162 + 30) - 50) - 1;
-	w = 80;
-	h = 20;
-	
-	// zoom dropdown
-	m_pZoomDropDown = addDropDown(Vec2i(x, y), Vec2u(w, h), "");
-	vector<string> vecZoomDropDownItems = { "25%", "50%", "100%", "200%", "400%", "800%", "1600%" };
-	m_pZoomDropDown->addItems(vecZoomDropDownItems);
-	m_pZoomDropDown->setActiveItem(m_pZoomDropDown->getEntryByIndex(2));
-
-	// vertical scroll bar
-	x = 139 + 139 + 250;
-	y = 192;
-	w = 15;
-	h = m_pWindow->getSize().y - y;
-	x -= w;
-
-	m_pVScrollBar = addScrollBar(x, y, w, h, "", -1, 50);
-	m_pVScrollBar->setScrollOrientation(VERTICAL);
-	*/
-
 	m_pVScrollBar = (ScrollBar*)getLayer()->getItemById(95);
-}
-
-void					TextureEditorTab::initControls(void)
-{
 }
 
 // layer

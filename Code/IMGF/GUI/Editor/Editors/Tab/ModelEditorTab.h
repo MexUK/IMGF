@@ -26,9 +26,6 @@ class imgf::ModelEditorTab : public imgf::EditorTab
 {
 public:
 	ModelEditorTab(void);
-
-	void						addControls(void);
-	void						initControls(void);
 	
 	void						initLayer(void);
 
@@ -62,6 +59,9 @@ public:
 
 	void						onResizeWindow(bxcf::Vec2i& vecSizeChange);
 	
+protected:
+	void						storeControls(void);
+
 private:
 	void						perspectiveGL_ModelEditor(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar);
 

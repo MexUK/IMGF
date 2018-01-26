@@ -33,9 +33,7 @@ public:
 
 	void						setFileInfoText(void);
 
-	void						addControls(void);
 	void						removeControls(void);
-	void						initControls(void);
 
 	void						initLayer(void);
 
@@ -161,6 +159,9 @@ public:
 	void						checkForUnknownRWVersionEntries(void);
 
 	DBFormat*					m_pDBFile; // todo - make private
+
+protected:
+	void						storeControls(void);
 
 private:
 	void						loadProtectedEntryState(bxgi::IMGEntry *pIMGEntry);
