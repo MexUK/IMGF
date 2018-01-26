@@ -909,11 +909,11 @@ void		MainLayer::initControls(void)
 	bindEventConst<void>(CHANGE_TAB, &MainLayer::onChangeTab);
 	bindEvent(REMOVE_TAB, &MainLayer::onRemoveTab);
 
-	bindEvent(RESIZE_WINDOW, &MainLayer::repositionAndResizeControls);
-	repositionAndResizeControls(Vec2i(0, 0));
+	bindEvent(RESIZE_WINDOW, &MainLayer::onResizeWindow);
+	onResizeWindow(Vec2i(0, 0));
 }
 
-void		MainLayer::repositionAndResizeControls(Vec2i& vecSizeDifference)
+void		MainLayer::onResizeWindow(Vec2i& vecSizeDifference)
 {
 	Window *pWindow = getWindow();
 

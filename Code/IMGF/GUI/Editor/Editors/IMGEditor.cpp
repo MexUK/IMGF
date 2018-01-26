@@ -92,8 +92,6 @@ void						IMGEditor::init(void)
 // events
 void						IMGEditor::bindEvents(void)
 {
-	bindEvent(RESIZE_WINDOW, &IMGEditor::repositionAndResizeControls);
-
 	Editor::bindEvents();
 
 	if (m_pActiveEditorTab)
@@ -104,8 +102,6 @@ void						IMGEditor::bindEvents(void)
 
 void						IMGEditor::unbindEvents(void)
 {
-	unbindEvent(RESIZE_WINDOW, &IMGEditor::repositionAndResizeControls);
-
 	Editor::unbindEvents();
 
 	if (m_pActiveEditorTab)
@@ -1111,56 +1107,6 @@ void		IMGEditor::initControls(void)
 	// todo
 
 	//addColumnsToMainListView(IMG_UNKNOWN);
-
-	//repositionAndResizeControls(Vec2i(0, 0));
-}
-
-void		IMGEditor::repositionAndResizeControls(Vec2i& vecSizeDifference)
-{
-	/*
-	todo
-
-	Vec2i point;
-	Vec2u size, newSize;
-	int32 iNewX, iNewWidth, iNewHeight;
-	uint32 uiLogWidth;
-
-	uiLogWidth = 335;
-
-	// grid
-	size = m_pEntryGrid->getSize();
-	iNewWidth = (int32)m_pWindow->getSize().x - m_pEntryGrid->getPosition().x - (int32)uiLogWidth;
-	iNewHeight = (int32)m_pWindow->getSize().y - m_pEntryGrid->getPosition().y;
-	Vec2i vecNewSize2 = Vec2i(iNewWidth, iNewHeight);
-	if (vecNewSize2.x < 20)
-	{
-		vecNewSize2.x = 20;
-	}
-	else if (vecNewSize2.x >= m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(VERTICAL)->getBackgroundBarSize().x)
-	{
-		vecNewSize2.x -= m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(VERTICAL)->getBackgroundBarSize().x;
-	}
-	if (vecNewSize2.y < 20)
-	{
-		vecNewSize2.y = 20;
-	}
-	else if (vecNewSize2.y > m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(HORIZONTAL)->getBackgroundBarSize().y)
-	{
-		vecNewSize2.y -= m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(HORIZONTAL)->getBackgroundBarSize().y;
-	}
-	Vec2u vecNewSize = Vec2u(vecNewSize2.x, vecNewSize2.y);
-	m_pEntryGrid->setSize(vecNewSize);
-
-	// filter - entry type
-	point = m_pEntryTypeFilter->getPosition();
-	iNewX = (m_pWindow->getSize().x - m_pEntryTypeFilter->getSize().x) - m_pEntryVersionFilter->getSize().x - uiLogWidth - 10;
-	m_pEntryTypeFilter->setPosition(Vec2i(iNewX, point.y));
-
-	// filter - entry version
-	point = m_pEntryVersionFilter->getPosition();
-	iNewX = m_pWindow->getSize().x - m_pEntryVersionFilter->getSize().x - uiLogWidth - 10;
-	m_pEntryVersionFilter->setPosition(Vec2i(iNewX, point.y));
-	*/
 }
 
 // render

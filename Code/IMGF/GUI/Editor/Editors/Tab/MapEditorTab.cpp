@@ -53,18 +53,17 @@ void						MapEditorTab::addControls(void)
 
 void						MapEditorTab::initControls(void)
 {
-	repositionAndResizeControls(Vec2i(0, 0));
+	onResizeWindow(Vec2i(0, 0));
 }
 
-void						MapEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
+void						MapEditorTab::onResizeWindow(Vec2i& vecSizeChange)
 {
-	EditorTab::repositionAndResizeControls(vecSizeChange);
-
 	if (!m_bInitialized)
 	{
 		return;
 	}
 
+	// todo
 	//Vec2u vecRenderSize = Vec2u(m_pWindow->getSize().x - 335 - 139 - 139 - 250, m_pWindow->getSize().y - 192);
 	m_vecRenderSize = Vec2u(800, 800);
 
@@ -87,6 +86,7 @@ void						MapEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 void						MapEditorTab::bindEvents(void)
 {
 	bindEvent(MOVE_MOUSE_WHEEL, &MapEditorTab::onMouseWheelMove2);
+	bindEvent(RESIZE_WINDOW, &MapEditorTab::onResizeWindow);
 
 	EditorTab::bindEvents();
 }
@@ -94,7 +94,8 @@ void						MapEditorTab::bindEvents(void)
 void						MapEditorTab::unbindEvents(void)
 {
 	unbindEvent(MOVE_MOUSE_WHEEL, &MapEditorTab::onMouseWheelMove2);
-
+	unbindEvent(RESIZE_WINDOW, &MapEditorTab::onResizeWindow);
+	
 	EditorTab::unbindEvents();
 }
 

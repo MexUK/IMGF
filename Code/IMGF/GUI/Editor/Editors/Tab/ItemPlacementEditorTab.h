@@ -25,8 +25,6 @@ public:
 	void						setIPLFile(bxgi::IPLFormat *pIPLFile) { m_pIPLFile = pIPLFile; }
 	bxgi::IPLFormat*			getIPLFile(void) { return m_pIPLFile; }
 
-	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
-
 	void						merge(std::string& strFilePath);
 	void						mergeViaData(std::string& strFileData);
 

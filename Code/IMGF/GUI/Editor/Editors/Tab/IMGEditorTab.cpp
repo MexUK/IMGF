@@ -80,7 +80,6 @@ IMGEditorTab::~IMGEditorTab(void)
 // events
 void					IMGEditorTab::bindEvents(void)
 {
-	bindEvent(RESIZE_WINDOW, &IMGEditorTab::repositionAndResizeControls);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &IMGEditorTab::onSelectDropEntry);
 	bindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
 	bindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
@@ -92,7 +91,6 @@ void					IMGEditorTab::bindEvents(void)
 
 void					IMGEditorTab::unbindEvents(void)
 {
-	unbindEvent(RESIZE_WINDOW, &IMGEditorTab::repositionAndResizeControls);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &IMGEditorTab::onSelectDropEntry);
 	unbindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
 	unbindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
@@ -237,7 +235,6 @@ void					IMGEditorTab::initControls(void)
 {
 	// todo bindEvents();
 	addGridHeaders(getIMGFile()->getVersion());
-	repositionAndResizeControls(Vec2i(0, 0));
 }
 
 // layer
@@ -288,59 +285,6 @@ void					IMGEditorTab::removeControls(void)
 	// todo
 	//removeControl(m_pEntryGrid);
 	//m_pEntryGrid = nullptr;
-}
-
-void					IMGEditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
-{
-	/*
-	EditorTab::repositionAndResizeControls(vecSizeDifference);
-
-	if (!m_pEntryGrid)
-	{
-		return;
-	}
-
-	Vec2i point;
-	Vec2u size, newSize;
-	int32 iNewX, iNewWidth, iNewHeight;
-	uint32 uiLogWidth;
-
-	uiLogWidth = 335;
-
-	// grid
-	size = m_pEntryGrid->getSize();
-	iNewWidth = (int32)getLayer()->getWindow()->getSize().x - m_pEntryGrid->getPosition().x - (int32)uiLogWidth;
-	iNewHeight = (int32)getLayer()->getWindow()->getSize().y - m_pEntryGrid->getPosition().y;
-	Vec2i vecNewSize2 = Vec2i(iNewWidth, iNewHeight);
-	if (vecNewSize2.x < 20)
-	{
-		vecNewSize2.x = 20;
-	}
-	else if (vecNewSize2.x >= m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(VERTICAL)->getBackgroundBarSize().x)
-	{
-		vecNewSize2.x -= m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(VERTICAL)->getBackgroundBarSize().x;
-	}
-	if (vecNewSize2.y < 20)
-	{
-		vecNewSize2.y = 20;
-	}
-	else if (vecNewSize2.y > m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(HORIZONTAL)->getBackgroundBarSize().y)
-	{
-		vecNewSize2.y -= m_pEntryGrid->getScrollBarPool()->getScrollBarByOrientation(HORIZONTAL)->getBackgroundBarSize().y;
-	}
-	Vec2u vecNewSize = Vec2u(vecNewSize2.x, vecNewSize2.y);
-	m_pEntryGrid->setSize(vecNewSize);
-
-	// filter - entry type
-	point = m_pEntryTypeFilter->getPosition();
-	iNewX = getLayer()->getWindow()->getSize().x - m_pEntryTypeFilter->getSize().x - m_pEntryVersionFilter->getSize().x - uiLogWidth - 10;
-	m_pEntryTypeFilter->setPosition(Vec2i(iNewX, point.y));
-
-	// filter - entry version
-	point = m_pEntryVersionFilter->getPosition();
-	iNewX = getLayer()->getWindow()->getSize().x - m_pEntryVersionFilter->getSize().x - uiLogWidth - 10;
-	m_pEntryVersionFilter->setPosition(Vec2i(iNewX, point.y));
-	*/
 }
 
 // file unserialization

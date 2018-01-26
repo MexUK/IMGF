@@ -107,6 +107,8 @@ public:
 
 	bool						doesTabEntryMatchFilter(bxgi::COLEntry *pCOLEntry);
 
+	void						onResizeWindow(bxcf::Vec2i& vecSizeChange);
+	
 protected:
 	void						addControls(void);
 	void						initControls(void);
@@ -117,8 +119,6 @@ protected:
 	bool						onMouseMove(bxcf::Vec2i& vecCursorPosition);
 	void						onKeyDown2(uint16 uiKey);
 	void						onMouseWheelMove2(int16 iRotationDistance);
-
-	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeChange);
 
 private:
 	bool						prepareRenderData(void);

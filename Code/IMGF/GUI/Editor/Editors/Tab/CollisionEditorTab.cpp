@@ -60,7 +60,7 @@ CollisionEditorTab::CollisionEditorTab(void) :
 // events
 void					CollisionEditorTab::bindEvents(void)
 {
-	///markEventUsage(MOVE_MOUSE);
+	//markEventUsage(MOVE_MOUSE);
 
 	bindEvent(RENDER, &CollisionEditorTab::render);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
@@ -68,13 +68,14 @@ void					CollisionEditorTab::bindEvents(void)
 	//bindEvent(MOVE_MOUSE, &CollisionEditorTab::onMouseMove2);
 	bindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
 	bindEvent(MOVE_MOUSE_WHEEL, &CollisionEditorTab::onMouseWheelMove2);
-
+	bindEvent(RESIZE_WINDOW, &CollisionEditorTab::onResizeWindow);
+	
 	EditorTab::bindEvents();
 }
 
 void					CollisionEditorTab::unbindEvents(void)
 {
-	///unmarkEventUsage(MOVE_MOUSE);
+	//unmarkEventUsage(MOVE_MOUSE);
 
 	unbindEvent(RENDER, &CollisionEditorTab::render);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
@@ -82,7 +83,8 @@ void					CollisionEditorTab::unbindEvents(void)
 	//unbindEvent(MOVE_MOUSE, &CollisionEditorTab::onMouseMove2);
 	unbindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
 	unbindEvent(MOVE_MOUSE_WHEEL, &CollisionEditorTab::onMouseWheelMove2);
-
+	unbindEvent(RESIZE_WINDOW, &CollisionEditorTab::onResizeWindow);
+	
 	EditorTab::unbindEvents();
 }
 
@@ -118,27 +120,17 @@ void					CollisionEditorTab::addControls(void)
 
 void					CollisionEditorTab::initControls(void)
 {
-	//repositionAndResizeControls(Vec2i(0, 0));
 }
 
-void					CollisionEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
+void					CollisionEditorTab::onResizeWindow(Vec2i& vecSizeChange)
 {
-	EditorTab::repositionAndResizeControls(vecSizeChange);
-
 	if (!m_bInitialized)
 	{
 		return;
 	}
-
-	// entry list vertical scroll bar
-	// todo m_pVScrollBar->setSize(m_pVScrollBar->getSize() + Vec2u(0, vecSizeChange.y));
-	m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, getLayer()->getWindow()->getSize().y - m_pVScrollBar->getPosition().y));
-
-	Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 5, getLayer()->getWindow()->getSize().y - 130 - 30);
-
-
-
-
+	
+	Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 5, getLayer()->getWindow()->getSize().y - 130 - 30); // todo use m_vecRenderSize
+	
 	mutexRendering.lock();
 
 	if (m_hbm)
@@ -149,12 +141,8 @@ void					CollisionEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
 	m_hbm = CreateCompatibleBitmap(m_hdcWindow, vecRenderSize.x, vecRenderSize.y);
 	SelectObject(m_hDC, m_hbm);
 
-	//glViewport(0, 0, vecRenderSize.x, vecRenderSize.y);
-	//const float64 ar = ((float64)vecRenderSize.x) / ((float64)vecRenderSize.y);
-	//perspectiveGL(45.0, ar, 1.0, 1500.0);
-
 	update3DRenderSize(vecRenderSize);
-	
+
 	mutexRendering.unlock();
 }
 

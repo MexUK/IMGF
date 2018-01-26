@@ -38,8 +38,6 @@ public:
 	//std::vector<bxcf::FormatEntry*>				getAllEntries(void) { return (std::vector<bxcf::FormatEntry*>)(std::vector<bxcf::FormatEntry*>&)m_pTextBox->getTextLines(); }
 	//std::vector<bxcf::FormatEntry*>&			getEntriesRef(void) { return (std::vector<bxcf::FormatEntry*>&)m_pTextBox->getTextLines(); }
 
-	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
-
 	void						setAllLinesSelected(bool bIsSelected);
 	std::vector<std::string>	getSelectedTextLines(void);
 	uint32						getSelectedEntryCount(void);

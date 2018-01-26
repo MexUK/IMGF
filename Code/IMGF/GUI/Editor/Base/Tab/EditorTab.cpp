@@ -62,7 +62,6 @@ EditorTab::~EditorTab(void)
 // events
 void						EditorTab::bindEvents(void)
 {
-	//bindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
 	bindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
 	bindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
 	bindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
@@ -73,7 +72,6 @@ void						EditorTab::bindEvents(void)
 
 void						EditorTab::unbindEvents(void)
 {
-	//unbindEvent(RESIZE_WINDOW, &EditorTab::repositionAndResizeControls);
 	unbindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
 	unbindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
 	unbindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
@@ -319,37 +317,6 @@ void						EditorTab::addControls(void)
 void						EditorTab::initControls(void)
 {
 	// todo bindEvents();
-	repositionAndResizeControls(Vec2i(0, 0));
-}
-
-void						EditorTab::repositionAndResizeControls(Vec2i& vecSizeDifference)
-{
-	/*
-	todo
-
-	Vec2i point;
-	Vec2u size;
-	int32 iNewX, iNewWidth;
-	uint32 uiButtonHeight, uiLogWidth;
-
-	uiButtonHeight = 37;
-	uiLogWidth = 335;
-
-	// progress bar
-	point = m_pProgressBar->getPosition();
-	iNewX = m_pWindow->getSize().x - m_pProgressBar->getSize().x - uiLogWidth - 10;
-	m_pProgressBar->setPosition(Vec2i(iNewX, point.y));
-
-	// search box
-	size = m_pSearchBox->getSize();
-	iNewWidth = (m_pWindow->getSize().x - m_pSearchBox->getPosition().x) - (uiButtonHeight + 1);
-	m_pSearchBox->setSize(Vec2u(iNewWidth, size.y));
-
-	// log
-	point = m_pLog->getPosition();
-	iNewX = m_pWindow->getSize().x - uiLogWidth;
-	m_pLog->setPosition(Vec2i(iNewX, point.y));
-	*/
 }
 
 // progress bar

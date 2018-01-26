@@ -58,7 +58,6 @@ void								Editor::init(void)
 // events
 void								Editor::bindEvents(void)
 {
-	bindEvent(RESIZE_WINDOW, &Editor::repositionAndResizeControls);
 	bindEvent(DRAG_ENTRIES_OVER, &Editor::onDragEntriesOver);
 
 	//getLayer()->bindEvents();
@@ -66,7 +65,6 @@ void								Editor::bindEvents(void)
 
 void								Editor::unbindEvents(void)
 {
-	unbindEvent(RESIZE_WINDOW, &Editor::repositionAndResizeControls);
 	unbindEvent(DRAG_ENTRIES_OVER, &Editor::onDragEntriesOver);
 
 	//getLayer()->unbindEvents();
@@ -79,15 +77,9 @@ void								Editor::addControls(void)
 
 void								Editor::initControls(void)
 {
-	repositionAndResizeControls(Vec2i(0, 0));
 }
 
 // events
-void								Editor::repositionAndResizeControls(Vec2i& vecSizeChange)
-{
-	//m_pTabBar->setSize(Vec2u(getLayer()->getWindow()->getSize().x - 335 - 139 - 139, m_pTabBar->getSize().y));
-}
-
 void								Editor::onDragEntriesOver(Vec2i vecCursorPosition)
 {
 	// check that this editor is the active editor
@@ -208,9 +200,6 @@ void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 		Tab *pTab = m_pTabBar->getEntryByIndex(uiTabIndex);
 		TabBar::m_mutexTabs.unlock();
 		m_pTabBar->setActiveTab(pTab);
-
-		// reposition controls
-		pEditorTab->repositionAndResizeControls(Vec2i(0,0));
 
 		// hide no-tabs-open layer
 		//getIMGF()->getWindowManager()->getMainWindow()->getBlankLayer()->setEnabled(false);

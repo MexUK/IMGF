@@ -40,7 +40,6 @@ public:
 
 	virtual void						addControls(void);
 	virtual void						initControls(void);
-	void								repositionAndResizeControls(bxcf::Vec2i& vecSizeChange);
 
 	virtual imgf::EditorTab*					addEditorTab(std::string& strFilePath) = 0;
 	virtual imgf::EditorTab*					addBlankEditorTab(std::string& strFilePath) = 0;

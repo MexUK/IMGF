@@ -34,7 +34,6 @@ public:
 
 	void						addControls(void);
 	void						initControls(void);
-	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeChange);
 
 	void						bindEvents(void);
 	void						unbindEvents(void);
@@ -47,6 +46,8 @@ public:
 	void						setFileInfoText(void);
 	void						updateEntryCountText(void);
 
+	void						onResizeWindow(bxcf::Vec2i& vecSizeChange);
+	
 	void						render_Type1(void);
 
 	void						render(void);

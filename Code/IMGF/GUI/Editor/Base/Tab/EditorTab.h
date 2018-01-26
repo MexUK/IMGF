@@ -112,8 +112,6 @@ public:
 
 	std::thread&						getThread(void) { return m_thread; }
 
-	virtual void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
-
 	void								onTaskProgress(void);
 	void								onUnserializeFileProgress(bxcf::DataReader *pDataReader);
 

@@ -65,8 +65,6 @@ protected:
 	void						onLeftMouseUp(bxcf::Vec2i vecCursorPosition);
 	void						onMouseMove(bxcf::Vec2i vecCursorPosition);
 
-	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeChange);
-
 	uint32						getFileIndexFromEntry(bxcf::FormatEntry *pFormatEntry);
 
 	RadarEditorTabEntry*		getEntryByIMGEntry(bxgi::IMGEntry *pIMGEntry);

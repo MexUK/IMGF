@@ -29,8 +29,7 @@ public:
 
 	void						addControls(void);
 	void						initControls(void);
-	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeChange);
-
+	
 	void						initLayer(void);
 
 	void						bindEvents(void);
@@ -61,6 +60,8 @@ public:
 	void						setDFFFile(bxgi::DFFFormat *pDFFFile) { m_pDFFFile = pDFFFile; }
 	bxgi::DFFFormat*			getDFFFile(void) { return m_pDFFFile; }
 
+	void						onResizeWindow(bxcf::Vec2i& vecSizeChange);
+	
 private:
 	void						perspectiveGL_ModelEditor(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar);
 

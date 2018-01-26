@@ -36,7 +36,6 @@ public:
 	void						addControls(void);
 	void						removeControls(void);
 	void						initControls(void);
-	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
 
 	void						initLayer(void);
 

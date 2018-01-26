@@ -21,7 +21,7 @@ public:
 
 	void								addControls(void);
 	void								initControls(void);
-	void								repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
+	void								onResizeWindow(bxcf::Vec2i& vecSizeDifference);
 
 	void								setIMGFWindow(MainWindow* pIMGFWindow) { m_pMainWindow = pIMGFWindow; }
 	MainWindow*							getIMGFWindow(void) { return m_pMainWindow; }

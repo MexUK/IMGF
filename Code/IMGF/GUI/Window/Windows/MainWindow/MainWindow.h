@@ -58,7 +58,7 @@ public:
 
 	bxgx::ProgressBar*			getProgressBar(void);
 
-	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
+	void						onResizeWindow(bxcf::Vec2i& vecSizeDifference);
 	void						onDropEntries(void *m_pEditorTab, std::vector<std::string> vecFileNames, std::vector<std::string> vecFileDatas);
 
 	void						reloadLayers(void);

@@ -116,16 +116,6 @@ void						RadarEditorTab::addControls(void)
 
 void						RadarEditorTab::initControls(void)
 {
-	repositionAndResizeControls(Vec2i(0, 0));
-}
-
-void						RadarEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
-{
-	EditorTab::repositionAndResizeControls(vecSizeChange);
-
-	// entry list vertical scroll bar
-	// todo m_pVScrollBar->setSize(m_pVScrollBar->getSize() + Vec2u(0, vecSizeChange.y));
-	//m_pVScrollBar->setSize(Vec2u(m_pVScrollBar->getSize().x, getLayer()->getWindow()->getSize().y - m_pVScrollBar->getPosition().y));
 }
 
 // layer

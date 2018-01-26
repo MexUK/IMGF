@@ -25,8 +25,6 @@ public:
 	void						setDATFile(bxgi::DATLoaderFormat *pDATFile) { m_pDATFile = pDATFile; }
 	bxgi::DATLoaderFormat*		getDATFile(void) { return m_pDATFile; }
 
-	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
-
 	void						merge(std::string& strFilePath);
 	void						mergeViaData(std::string& strFileData);
 

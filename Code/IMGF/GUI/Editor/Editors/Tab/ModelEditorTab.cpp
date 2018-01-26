@@ -49,13 +49,10 @@ void						ModelEditorTab::addControls(void)
 
 void						ModelEditorTab::initControls(void)
 {
-	repositionAndResizeControls(Vec2i(0, 0));
 }
 
-void						ModelEditorTab::repositionAndResizeControls(Vec2i& vecSizeChange)
+void						ModelEditorTab::onResizeWindow(Vec2i& vecSizeChange)
 {
-	EditorTab::repositionAndResizeControls(vecSizeChange);
-
 	if (!m_bInitialized)
 	{
 		return;
@@ -89,6 +86,7 @@ void						ModelEditorTab::bindEvents(void)
 {
 	//bindEvent(RENDER, &ModelEditorTab::render);
 	bindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
+	bindEvent(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
 
 	EditorTab::bindEvents();
 }
@@ -97,6 +95,7 @@ void						ModelEditorTab::unbindEvents(void)
 {
 	//unbindEvent(RENDER, &ModelEditorTab::render);
 	unbindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
+	unbindEvent(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
 
 	EditorTab::unbindEvents();
 }
@@ -466,7 +465,7 @@ void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFra
 		matMultMatrix[3].w = 1;
 
 		//glMultMatrixf(&vecMultMatrix[0]);
-		m_stkModels.top() *= matMultMatrix;
+		m_stkModels.top() = matMultMatrix;
 
 		glUseProgram(m_program2);
 		glUniformMatrix4fv(glGetUniformLocation(m_program2, "model"), 1, GL_FALSE, glm::value_ptr(m_stkModels.top()));

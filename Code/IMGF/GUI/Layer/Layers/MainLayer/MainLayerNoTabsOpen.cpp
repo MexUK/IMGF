@@ -101,11 +101,11 @@ void						MainLayerNoTabsOpen::addControls(void)
 
 void						MainLayerNoTabsOpen::initControls(void)
 {
-	bindEvent(RESIZE_WINDOW, &MainLayerNoTabsOpen::repositionAndResizeControls);
-	repositionAndResizeControls(Vec2i(0, 0));
+	bindEvent(RESIZE_WINDOW, &MainLayerNoTabsOpen::onResizeWindow);
+	onResizeWindow(Vec2i(0, 0));
 }
 
-void						MainLayerNoTabsOpen::repositionAndResizeControls(Vec2i& vecSizeDifference)
+void						MainLayerNoTabsOpen::onResizeWindow(Vec2i& vecSizeDifference)
 {
 	Vec2i point;
 	Vec2u size;

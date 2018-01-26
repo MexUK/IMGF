@@ -35,7 +35,7 @@ private:
 	void						addControls(void);
 	void						initControls(void);
 
-	void						repositionAndResizeControls(bxcf::Vec2i& vecSizeDifference);
+	void						onResizeWindow(bxcf::Vec2i& vecSizeDifference);
 
 public:
 	MainWindow*					m_pMainWindow;

@@ -103,8 +103,8 @@ void					MainWindow::initLayers(void)
 	initSettingsMenuLayer();
 	*/
 
-	bindEventRef(RESIZE_WINDOW, &MainWindow::repositionAndResizeControls);
-	repositionAndResizeControls(Vec2i(0, 0));
+	bindEventRef(RESIZE_WINDOW, &MainWindow::onResizeWindow);
+	onResizeWindow(Vec2i(0, 0));
 
 	bindEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
 
@@ -460,7 +460,7 @@ int32					MainWindow::getEditorIndex(Editor *pEditor)
 }
 
 // layer repositioning and resizing
-void					MainWindow::repositionAndResizeControls(Vec2i& vecSizeDifference)
+void					MainWindow::onResizeWindow(Vec2i& vecSizeDifference)
 {
 	int32
 		x, y, w, h;
