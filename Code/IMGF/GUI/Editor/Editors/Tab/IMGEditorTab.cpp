@@ -864,7 +864,7 @@ void					IMGEditorTab::addGridEntry(IMGEntry *pIMGEntry, uint32 uiEntryIndex, vo
 
 	pRow->setUserData((uint32)pIMGEntry);
 
-	vector<string> vecText;
+	vector<SizedString> vecText;
 	vecText.resize(bIsFastman92IMGFormat ? 8 : 6);
 	vecText[0] = String::addNumberGrouping(String::toString(uiEntryIndex + 1));
 	vecText[1] = pIMGEntry->getEntryExtension();
@@ -913,7 +913,7 @@ void					IMGEditorTab::updateGridEntry(IMGEntry *pIMGEntry)
 	uint32 uiEntryIndex = m_pEntryGrid->getIndexByEntry(pRow);
 	bool bIsFastman92IMGFormat = m_pIMGFile->getVersion() == IMG_FASTMAN92;
 
-	vector<string> vecText;
+	vector<SizedString> vecText;
 	vecText.resize(bIsFastman92IMGFormat ? 8 : 6);
 	vecText[0] = String::addNumberGrouping(String::toString(uiEntryIndex + 1));
 	vecText[1] = pIMGEntry->getEntryExtension();

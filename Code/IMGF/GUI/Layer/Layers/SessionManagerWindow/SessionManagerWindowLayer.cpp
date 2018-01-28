@@ -51,7 +51,7 @@ void					SessionManagerWindowLayer::reloadFileGroupsGrid(void)
 	for (FileGroup *pFileGroup : getIMGF()->getFileGroupManager()->getEntries())
 	{
 		GridRow *pRow = new GridRow;
-		vector<vector<string>> vecRowText = { { "File Group ID", "File Group Name", "File Count", "File Names" } };
+		vector<vector<SizedString>> vecRowText = { { SizedString(string("File Group ID")), SizedString(string("File Group Name")), SizedString(string("File Count")), SizedString(string("File Names")) } };
 		pRow->getText() = vecRowText;
 		pFileGroupGrid->addEntry(pRow);
 	}
@@ -110,7 +110,7 @@ void					SessionManagerWindowLayer::onPressButton(Button *pButton)
 		Grid *pFileGroupGrid = (Grid*)getItemById(190);
 		for (GridRow *pRow : pFileGroupGrid->getSelectedRows())
 		{
-			string strFileGroupName = pRow->getText()[1][0];
+			string strFileGroupName = pRow->getText()[1][0].getString();
 			FileGroup *pFileGroup = getIMGF()->getFileGroupManager()->getFileGroupByName(pWindowManager->getMainWindow()->getActiveEditor()->getEditorType(), strFileGroupName);
 			getIMGF()->getFileGroupManager()->removeFileGroup(pWindowManager->getMainWindow()->getActiveEditor()->getEditorType(), pFileGroup);
 		}
