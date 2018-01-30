@@ -5,6 +5,7 @@
 #include "nsimgf.h"
 #include "GUI/Editor/Base/Tab/EditorTab.h"
 #include "Type/Vector/Vec3f.h"
+#include "3D/OpenGL/OpenGL.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -15,6 +16,8 @@ class imgf::ModelEditorTab : public imgf::EditorTab
 public:
 	ModelEditorTab(void);
 	
+	bool						init(bool bIsNewFile);
+
 	void						initLayer(void);
 
 	void						bindEvents(void);
@@ -33,7 +36,6 @@ public:
 
 	void						render(void);
 	void						render3D(void);
-	void						update3DRenderSize(bxcf::Vec2u& vecRenderSize);
 	void						renderCamera(void);
 	void						renderAxis(void);
 	void						renderModel(void);
@@ -52,8 +54,6 @@ protected:
 	void						storeControls(void);
 
 private:
-	void						perspectiveGL_ModelEditor(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar);
-
 
 
 
@@ -71,12 +71,12 @@ private:
 	void						prepareShaderData(void);
 	void						prepareFBO(void);
 	void						prepareCamera(void);
-
-	GLuint						initShader(GLuint uiShaderType, std::string strShaderFilePath);
 	
 	void						updateCameraMatrix(void);
 
 private:
+	bxcf::OpenGL				m_gl;
+
 	bxgi::DFFFormat*			m_pDFFFile;
 	bxgi::TXDFormat*			m_pTXDFile;
 	bool						m_bInitialized;
@@ -85,10 +85,6 @@ private:
 
 	glm::vec3					m_vecCameraPosition;
 	glm::vec3					m_vecCameraRotation;
-	HDC							m_hdcWindow;
-	HDC							m_hDC;
-	HBITMAP						m_hbm;
-	HGLRC						m_hRC;
 
 	GLuint						m_program;
 	GLuint						m_program2;

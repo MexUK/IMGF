@@ -6,11 +6,7 @@
 #include "GUI/Editor/Base/Tab/EditorTab.h"
 #include "Pool/VectorPool.h"
 #include "Type/Vector/Vec3f.h"
-
-//#include "GLEE/GLee.h"
-//#include "GL/glew.h"
-//#include "GL/wglew.h"
-//#include <Windows.h>
+#include "3D/OpenGL/OpenGL.h"
 
 void						perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar); // todo - namespace
 
@@ -151,6 +147,8 @@ private:
 	bool						isPointOverEntryList(bxcf::Vec2i& vecPoint);
 
 private:
+	bxcf::OpenGL				m_gl;
+
 	bxgi::COLFormat*			m_pCOLFile;
 	bxgi::COLEntry*				m_pActiveEntry;
 

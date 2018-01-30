@@ -26,6 +26,7 @@
 #include "BXGX.h"
 #include "Event/EInputEvent.h"
 #include "Format/EFileType.h"
+#include "Static/DataPath.h"
 #include <stack>
 
 using namespace std;
@@ -979,184 +980,29 @@ void						MapEditorTab::destroyScene(void)
 
 void						MapEditorTab::prepareShaders(void)
 {
-	// setup shader 1
-
-	string strVertexShader = File::getTextFile(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\VertexShader-Texture.glsl")); // todo
-	const char *pVertexShader = strVertexShader.c_str();
-	const GLint uiVertexShaderLength = strVertexShader.length();
-
-	GLuint shader = glCreateShader(GL_VERTEX_SHADER);
-
-	int ee4 = glGetError();
-	if (ee4 != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	glShaderSource(shader, 1, &pVertexShader, NULL);
-
-	int ee3 = glGetError();
-	if (ee3 != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	glCompileShader(shader);
-
-	int ee = glGetError();
-	if (ee != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	GLint isCompiled = 0;
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
-	int h = 0;
-	h++;
-
-	// setup shader 2
-
-	string strFragmentShader = File::getTextFile(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\FragmentShader-Texture.glsl")); // todo
-	const char *pFragmentShader = strFragmentShader.c_str();
-	const GLint uiFragmentShaderLength = strFragmentShader.length();
-
-	GLuint shader2 = glCreateShader(GL_FRAGMENT_SHADER);
-
-	int ee41 = glGetError();
-	if (ee41 != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	glShaderSource(shader2, 1, &pFragmentShader, NULL);
-
-	int ee31 = glGetError();
-	if (ee31 != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	glCompileShader(shader2);
-
-	int ee33 = glGetError();
-	if (ee33 != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	GLint isCompiled2 = 0;
-	glGetShaderiv(shader2, GL_COMPILE_STATUS, &isCompiled2);
-	int h2 = 0;
-	h2++;
+	// setup program 1
+	GLuint shader1 = m_gl.prepareShader(GL_VERTEX_SHADER, DataPath::getDataPath() + "Shaders/MapEditor/VertexShader-Texture.glsl");
+	GLuint shader2 = m_gl.prepareShader(GL_FRAGMENT_SHADER, DataPath::getDataPath() + "Shaders/MapEditor/FragmentShader-Texture.glsl");
 
 	// create opengl program
-
 	m_program = glCreateProgram();
-	
-	glAttachShader(m_program, shader);
+
+	glAttachShader(m_program, shader1);
 	glAttachShader(m_program, shader2);
 
-	//glBindAttribLocation(m_program, 0, "in_Position");
-	//glBindAttribLocation(m_program, 1, "in_Color");
-
 	glLinkProgram(m_program);
-
 	glUseProgram(m_program);
 
-
-
-
-	// setup shader 3 and 4 and program 2
-
-	string strVertexShader2 = File::getTextFile(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\VertexShader-Colour.glsl")); // todo
-	const char *pVertexShader2 = strVertexShader2.c_str();
-	const GLint uiVertexShaderLength2 = strVertexShader2.length();
-
-	GLuint shader4 = glCreateShader(GL_VERTEX_SHADER);
-
-	int ee4c = glGetError();
-	if (ee4c != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	glShaderSource(shader4, 1, &pVertexShader2, NULL);
-
-	int ee3c = glGetError();
-	if (ee3c != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	glCompileShader(shader4);
-
-	int eec = glGetError();
-	if (eec != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	GLint isCompiled4 = 0;
-	glGetShaderiv(shader4, GL_COMPILE_STATUS, &isCompiled4);
-	int h4 = 0;
-	h4++;
-
-
-
-	string strFragmentShader2 = File::getTextFile(string("C:\\Users\\James Baxter\\Desktop\\GitHub Repos\\IMGF\\Code\\IMGF\\GUI\\Editor\\Editors\\Tab\\Shader\\FragmentShader-Colour.glsl")); // todo
-	const char *pFragmentShader2 = strFragmentShader2.c_str();
-	const GLint uiFragmentShaderLength2 = strFragmentShader2.length();
-
-	GLuint shader3 = glCreateShader(GL_FRAGMENT_SHADER);
-
-	int ee41b = glGetError();
-	if (ee41b != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	glShaderSource(shader3, 1, &pFragmentShader2, NULL);
-
-	int ee31b = glGetError();
-	if (ee31b != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	glCompileShader(shader3);
-
-	int ee33b = glGetError();
-	if (ee33b != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
-	GLint isCompiled3 = 0;
-	glGetShaderiv(shader3, GL_COMPILE_STATUS, &isCompiled3);
-	int h3 = 0;
-	h3++;
-
-	// create opengl program
+	// setup program 2
+	GLuint shader3 = m_gl.prepareShader(GL_VERTEX_SHADER, DataPath::getDataPath() + "Shaders/MapEditor/VertexShader-Colour.glsl");
+	GLuint shader4 = m_gl.prepareShader(GL_FRAGMENT_SHADER, DataPath::getDataPath() + "Shaders/MapEditor/FragmentShader-Colour.glsl");
 
 	m_program2 = glCreateProgram();
 
-	glAttachShader(m_program2, shader4);
 	glAttachShader(m_program2, shader3);
+	glAttachShader(m_program2, shader4);
 
 	glLinkProgram(m_program2);
-
 	glUseProgram(m_program2);
 }
 

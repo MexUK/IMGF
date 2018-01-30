@@ -27,7 +27,7 @@ public:
 	EditorTab(void);
 	virtual ~EditorTab(void);
 
-	bool								init(bool bIsNewFile);
+	virtual bool						init(bool bIsNewFile);
 
 	virtual void						bindEvents(void);
 	virtual void						unbindEvents(void);

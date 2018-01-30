@@ -31,7 +31,8 @@ using namespace bxgx::events;
 using namespace bxgi;
 using namespace imgf;
 
-recursive_mutex mutexRendering2;
+recursive_mutex mutexRendering2; // todo
+mutex mutexInitializing3DRender_ModelEditor; // todo
 
 ModelEditorTab::ModelEditorTab(void) :
 	m_pDFFFile(nullptr),
@@ -40,6 +41,16 @@ ModelEditorTab::ModelEditorTab(void) :
 {
 	m_vecRenderSize.x = 600;
 	m_vecRenderSize.y = 600;
+}
+
+// init
+bool						ModelEditorTab::init(bool bIsNewFile)
+{
+	EditorTab::init(bIsNewFile);
+
+	
+
+	return true;
 }
 
 // controls
@@ -54,6 +65,9 @@ void						ModelEditorTab::onResizeWindow(Vec2i& vecSizeChange)
 		return;
 	}
 
+	/*
+	todo
+	
 	m_vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 5, getLayer()->getWindow()->getSize().y - 130 - 30);
 
 	mutexRendering.lock();
@@ -69,6 +83,7 @@ void						ModelEditorTab::onResizeWindow(Vec2i& vecSizeChange)
 	reshape();
 
 	mutexRendering.unlock();
+	*/
 }
 
 // layer
@@ -183,8 +198,6 @@ void						ModelEditorTab::render_Type1(void)
 }
 
 // render 3d
-mutex mutexInitializing3DRender_ModelEditor; // todo
-
 void						ModelEditorTab::render(void)
 {
 	//mutexRendering2.lock();
@@ -194,11 +207,18 @@ void						ModelEditorTab::render(void)
 
 void						ModelEditorTab::onProcess(void)
 {
+	//mutexInitializing3DRender_ModelEditor.lock();
 	render3D();
+	//mutexInitializing3DRender_ModelEditor.unlock();
 }
 
 void						ModelEditorTab::render3D(void)
 {
+	if (!m_bInitialized)
+	{
+		return;
+	}
+
 	if (!m_pDFFFile)
 	{
 		return;
@@ -214,22 +234,30 @@ void						ModelEditorTab::render3D(void)
 		return;
 	}
 
+	
+
+
 	mutexInitializing3DRender_ModelEditor.lock();
-	if (!m_bInitialized)
-	{
-		m_bInitializing = true;
 
-		m_vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 5, getLayer()->getWindow()->getSize().y - 130 - 30);
-		m_hdcWindow = GetDC(getLayer()->getWindow()->getWindowHandle());
+	m_bInitializing = true;
 
-		createGLContext();
-		prepareScene();
-		reshape();
+	m_gl.setRenderSize(m_vecRenderSize);
+	m_gl.setWindow(getLayer()->getWindow()->getWindowHandle());
+	m_gl.setVersion(3, 0);
+	m_gl.setAxisShown(true);
+	m_gl.init();
 
-		m_bInitialized = true;
-		m_bInitializing = false;
-	}
+	prepareScene();
+	reshape();
+
 	mutexInitializing3DRender_ModelEditor.unlock();
+
+	m_bInitialized = true;
+	m_bInitializing = false;
+
+
+
+
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -252,7 +280,7 @@ void						ModelEditorTab::render3D(void)
 	// render opengl to bitmap
 
 	//HDC hdcScreen = GetDC(NULL);
-	HDC hdc2 = CreateCompatibleDC(m_hdcWindow);
+	HDC hdc2 = CreateCompatibleDC(GetWindowDC(m_gl.m_hWindow));
 	//HBITMAP hbm2 = CreateCompatibleBitmap(m_hdcWindow, vecRenderSize.x, vecRenderSize.y);
 
 	BITMAPINFO bitmapInfo;
@@ -268,7 +296,7 @@ void						ModelEditorTab::render3D(void)
 	}
 
 	void *pixels2 = nullptr;
-	HBITMAP hbm2 = ::CreateDIBSection(m_hdcWindow, &bitmapInfo, DIB_RGB_COLORS, &pixels2, NULL, 0);
+	HBITMAP hbm2 = ::CreateDIBSection(GetWindowDC(m_gl.m_hWindow), &bitmapInfo, DIB_RGB_COLORS, &pixels2, NULL, 0);
 
 	glPixelStorei(GL_PACK_SWAP_BYTES, GL_FALSE);
 	glPixelStorei(GL_PACK_LSB_FIRST, GL_TRUE);
@@ -304,7 +332,7 @@ void						ModelEditorTab::render3D(void)
 
 	// gdi - draw 2d bitmap
 	HGDIOBJ hOld2 = SelectObject(hdc2, hbm2);
-	BitBlt(m_hdcWindow, 120+250, 130, m_vecRenderSize.x, m_vecRenderSize.y, hdc2, 0, 0, SRCCOPY);
+	BitBlt(GetWindowDC(m_gl.m_hWindow), 120+250, 130, m_vecRenderSize.x, m_vecRenderSize.y, hdc2, 0, 0, SRCCOPY);
 	SelectObject(hdc2, hOld2);
 
 	// clean up gdi
@@ -585,28 +613,6 @@ void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFra
 	m_stkModels.pop();
 }
 
-
-
-void						ModelEditorTab::createGLContext(void)
-{
-	//if (bGlewInitialized)return true;
-
-	//RegisterSimpleOpenGLClass(hInstance);
-
-	
-
-
-
-
-
-	int c = glGetError();
-	if (c != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-}
-
 void						ModelEditorTab::prepareScene(void)
 {
 	prepareGLStates();
@@ -637,12 +643,12 @@ void						ModelEditorTab::destroyScene(void)
 void						ModelEditorTab::prepareShaders(void)
 {
 	// setup program 1
-	GLuint shader1 = initShader(GL_VERTEX_SHADER, DataPath::getDataPath() + "Shaders/ModelEditor/VertexShader-Texture.glsl");
-	GLuint shader2 = initShader(GL_FRAGMENT_SHADER, DataPath::getDataPath() + "Shaders/ModelEditor/FragmentShader-Texture.glsl");
+	GLuint shader1 = m_gl.prepareShader(GL_VERTEX_SHADER, DataPath::getDataPath() + "Shaders/ModelEditor/VertexShader-Texture.glsl");
+	GLuint shader2 = m_gl.prepareShader(GL_FRAGMENT_SHADER, DataPath::getDataPath() + "Shaders/ModelEditor/FragmentShader-Texture.glsl");
 
 	// create opengl program
 	m_program = glCreateProgram();
-	
+
 	glAttachShader(m_program, shader1);
 	glAttachShader(m_program, shader2);
 
@@ -650,8 +656,8 @@ void						ModelEditorTab::prepareShaders(void)
 	glUseProgram(m_program);
 
 	// setup program 2
-	GLuint shader3 = initShader(GL_VERTEX_SHADER, DataPath::getDataPath() + "Shaders/ModelEditor/VertexShader-Colour.glsl");
-	GLuint shader4 = initShader(GL_FRAGMENT_SHADER, DataPath::getDataPath() + "Shaders/ModelEditor/FragmentShader-Colour.glsl");
+	GLuint shader3 = m_gl.prepareShader(GL_VERTEX_SHADER, DataPath::getDataPath() + "Shaders/ModelEditor/VertexShader-Colour.glsl");
+	GLuint shader4 = m_gl.prepareShader(GL_FRAGMENT_SHADER, DataPath::getDataPath() + "Shaders/ModelEditor/FragmentShader-Colour.glsl");
 
 	m_program2 = glCreateProgram();
 
@@ -660,39 +666,6 @@ void						ModelEditorTab::prepareShaders(void)
 
 	glLinkProgram(m_program2);
 	glUseProgram(m_program2);
-}
-
-GLuint							ModelEditorTab::initShader(GLuint uiShaderType, string strShaderFilePath)
-{
-	string strShaderCode = File::getBinaryFile(strShaderFilePath);
-	const char *pShaderCode = strShaderCode.c_str();
-
-	GLuint uiShader = glCreateShader(uiShaderType);
-	if (glGetError() != GL_NO_ERROR)
-	{
-		MessageBox(NULL, String::convertStdStringToStdWString("glCreateShader Failed\n\n" + strShaderFilePath).c_str(), L"Error", MB_OK);
-	}
-
-	glShaderSource(uiShader, 1, &pShaderCode, NULL);
-	if (glGetError() != GL_NO_ERROR)
-	{
-		MessageBox(NULL, String::convertStdStringToStdWString("glShaderSource Failed\n\n" + strShaderFilePath).c_str(), L"Error", MB_OK);
-	}
-
-	glCompileShader(uiShader);
-	if (glGetError() != GL_NO_ERROR)
-	{
-		MessageBox(NULL, String::convertStdStringToStdWString("glCompileShader Failed\n\n" + strShaderFilePath).c_str(), L"Error", MB_OK);
-	}
-
-	GLint uiIsCompiled = 0;
-	glGetShaderiv(uiShader, GL_COMPILE_STATUS, &uiIsCompiled);
-	if (uiIsCompiled == 0)
-	{
-		MessageBox(NULL, String::convertStdStringToStdWString("Failed to compile shader (GL_COMPILE_STATUS)\n\n" + strShaderFilePath).c_str(), L"Error", MB_OK);
-	}
-
-	return uiShader;
 }
 
 void							ModelEditorTab::prepareCamera(void)

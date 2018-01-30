@@ -5,24 +5,20 @@
 #include "nsimgf.h"
 #include "GUI/Editor/Base/Tab/EditorTab.h"
 #include "Type/Vector/Vec3f.h"
-
+#include "3D/OpenGL/OpenGL.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
 #include <stack>
 
-////////////#include "glm.hpp"
-//////////#include "gtc/matrix_transform.hpp"
-/////////#include "gtc/type_ptr.hpp"
-
-struct MapModel
+struct MapModel // todo - namespace
 {
 	uint32			m_uiObjectId;
 	std::string		m_strModelName;
 	std::string		m_strTXDName;
 };
 
-struct MapObject
+struct MapObject // todo - namespace
 {
 	bxcf::Vec3f		m_vecPosition;
 };
@@ -85,6 +81,9 @@ private:
 
 	void						prepareModel(bxgi::DFFFormat *pDFFFile);
 	void						prepareTXD(bxgi::TXDFormat *pTXDFile);
+
+private:
+	bxcf::OpenGL				m_gl;
 
 public: // todo
 	bxgi::DATLoaderFormat*			m_pDATLoaderFile;
