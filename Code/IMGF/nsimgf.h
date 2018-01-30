@@ -1,10 +1,13 @@
 #pragma once
 
 #include "Type/Types.h"
-#include "GL/glew.h"
-#include "GL/wglew.h"
+//#include "GL/glew.h"
+//#include "GL/wglew.h"
 
-#define NOMINMAX
+#include <Windows.h>
+#include <unknwn.h>
+#include <Gdiplus.h>
+
 #include <algorithm>
 namespace Gdiplus
 {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "nsimgf.h"
-#include <Windows.h>
+////////#include <Windows.h>
 #include <string>
 
 struct imgf::TextureEditorTabEntry

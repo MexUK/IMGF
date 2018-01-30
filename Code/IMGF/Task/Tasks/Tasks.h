@@ -9,7 +9,7 @@
 #include "Event/EventBindable.h"
 #include <string>
 #include <vector>
-#include <Windows.h>
+////////#include <Windows.h>
 
 class bxcf::RasterDataFormat;
 class bxgi::RWVersion;

@@ -90,7 +90,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;_AFXDLL;NOMINMAX;UNICODE;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;_AFXDLL;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>MSIMG32.LIB;Ws2_32.lib;legacy_stdio_definitions.lib;freetype261-$(Configuration).lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -117,7 +117,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;_AFXDLL;NOMINMAX;UNICODE;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;_AFXDLL;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -266,21 +266,6 @@
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\vpnotify.h" />
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\vptype.h" />
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\DXSDK\DXF\DXSDK\include\xprtdefs.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\edtaa3func.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\font-manager.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\freetype-gl.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\markup.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\mat4.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\opengl.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\platform.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\shader.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\text-buffer.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\texture-atlas.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\texture-font.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vec234.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vector.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-attribute.h" />
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-buffer.h" />
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\config\ftconfig.h" />
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\config\ftheader.h" />
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\config\ftmodule.h" />
@@ -514,18 +499,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\Bitmap\bitmap.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\edtaa3func.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\font-manager.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\makefont.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\mat4.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\platform.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\shader.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\text-buffer.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\texture-atlas.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\texture-font.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vector.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-attribute.c" />
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-buffer.c" />
     <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\glm.cpp" />
   </ItemGroup>
   <ItemGroup>

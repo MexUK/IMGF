@@ -82,6 +82,7 @@ void						ModelEditorTab::bindEvents(void)
 {
 	bindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
 	bindEvent(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
+	bindEvent(PROCESS, &ModelEditorTab::onProcess);
 
 	EditorTab::bindEvents();
 }
@@ -90,6 +91,7 @@ void						ModelEditorTab::unbindEvents(void)
 {
 	unbindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
 	unbindEvent(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
+	unbindEvent(PROCESS, &ModelEditorTab::onProcess);
 
 	EditorTab::unbindEvents();
 }
@@ -186,8 +188,13 @@ mutex mutexInitializing3DRender_ModelEditor; // todo
 void						ModelEditorTab::render(void)
 {
 	//mutexRendering2.lock();
-	render3D();
+	//render3D();
 	//mutexRendering2.unlock();
+}
+
+void						ModelEditorTab::onProcess(void)
+{
+	render3D();
 }
 
 void						ModelEditorTab::render3D(void)
@@ -500,13 +507,13 @@ void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFra
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			}
 
-			//glBindVertexArray(m_pGeometryVertexArrayBuffers[uiGeometryIndex][uiMeshIndex]);
-			glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryVertexPositionBuffers[uiGeometryIndex]);
-			glVertexAttribPointer(glGetAttribLocation(m_program, "in_Position"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+			glBindVertexArray(m_pGeometryVertexArrayBuffers[uiGeometryIndex][uiMeshIndex]);
+			/////glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryVertexPositionBuffers[uiGeometryIndex]);
+			/////glVertexAttribPointer(glGetAttribLocation(m_program, "in_Position"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 			if (bUsesNormals)
 			{
-				glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryVertexNormalBuffers[uiGeometryIndex]);
-				glVertexAttribPointer(glGetAttribLocation(m_program, "inNormal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+				/////glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryVertexNormalBuffers[uiGeometryIndex]);
+				/////glVertexAttribPointer(glGetAttribLocation(m_program, "inNormal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 			}
 			if (bMeshUsesTexture)
 			{
@@ -514,8 +521,8 @@ void						ModelEditorTab::renderFrame(uint32 uiFrameIndex, RWSection_Frame *pFra
 				glBindTexture(GL_TEXTURE_2D, textureIndices[strTextureNameLower]);
 				glUniform1i(glGetUniformLocation(m_program, "tex"), 0);
 
-				glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryTexturePositionBuffers[uiGeometryIndex]);
-				glVertexAttribPointer(glGetAttribLocation(m_program, "in_Texcoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
+				/////glBindBuffer(GL_ARRAY_BUFFER, m_pGeometryTexturePositionBuffers[uiGeometryIndex]);
+				/////glVertexAttribPointer(glGetAttribLocation(m_program, "in_Texcoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
 			}
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBinMeshDataIndexBuffers[uiGeometryIndex][uiMeshIndex]);
 
@@ -586,132 +593,7 @@ void						ModelEditorTab::createGLContext(void)
 
 	//RegisterSimpleOpenGLClass(hInstance);
 
-	HWND hWndFake = CreateWindow(L"a", L"FAKE", WS_OVERLAPPEDWINDOW | WS_MAXIMIZE | WS_CLIPCHILDREN,
-		0, 0, CW_USEDEFAULT, CW_USEDEFAULT, NULL,
-		NULL, NULL, GetModuleHandle(NULL), NULL);
-
-	HDC hDC = GetDC(hWndFake);
-
-	// First, choose false pixel format
-
-	PIXELFORMATDESCRIPTOR pfd2;
-	memset(&pfd2, 0, sizeof(PIXELFORMATDESCRIPTOR));
-	pfd2.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-	pfd2.nVersion = 1;
-	pfd2.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
-	pfd2.iPixelType = PFD_TYPE_RGBA;
-	pfd2.cColorBits = 32;
-	pfd2.cDepthBits = 32;
-	pfd2.iLayerType = PFD_MAIN_PLANE;
-
-	int iPixelFormat = ChoosePixelFormat(hDC, &pfd2);
-	if (iPixelFormat == 0)return;
-
-	if (!SetPixelFormat(hDC, iPixelFormat, &pfd2))return;
-
-	// Create the false, old style context (OpenGL 2.1 and before)
-
-	HGLRC hRCFake = wglCreateContext(hDC);
-	wglMakeCurrent(hDC, hRCFake);
-
-	bool bResult = true;
-
-	//if (!bGlewInitialized)
-	//{
-	//glewExperimental = GL_TRUE;
-	if (glewInit() != GLEW_OK)
-	{
-		MessageBox(getLayer()->getWindow()->getWindowHandle(), L"Couldn't initialize GLEW!", L"Fatal Error", MB_ICONERROR);
-		bResult = false;
-	}
-	//bGlewInitialized = true;
-	//}
-
-	wglMakeCurrent(NULL, NULL);
-	wglDeleteContext(hRCFake);
-	DestroyWindow(hWndFake);
-
-
-
-
-
-
-
-
-
-
-	int32 iMajorVersion = 3;
-	int iMinorVersion = 0;
-
-	//if (!initGLEW(hInstance))return false;
-
-	m_hDC = CreateCompatibleDC(m_hdcWindow);
-	m_hbm = CreateCompatibleBitmap(m_hdcWindow, m_vecRenderSize.x, m_vecRenderSize.y);
-	SelectObject(m_hDC, m_hbm);
-
-	//HWND hWnd = m_pWindow->getWindowHandle();
-	//hDC = GetDC(hWnd);
-
-	bool bError = false;
-	PIXELFORMATDESCRIPTOR pfd3;
-
-	if (iMajorVersion <= 2)
-	{
-		memset(&pfd3, 0, sizeof(PIXELFORMATDESCRIPTOR));
-		pfd3.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-		pfd3.nVersion = 1;
-		pfd3.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
-		pfd3.iPixelType = PFD_TYPE_RGBA;
-		pfd3.cColorBits = 32;
-		pfd3.cDepthBits = 32;
-		pfd3.iLayerType = PFD_MAIN_PLANE;
-
-		int iPixelFormat = ChoosePixelFormat(m_hDC, &pfd3);
-		if (iPixelFormat == 0)return;
-
-		if (!SetPixelFormat(m_hDC, iPixelFormat, &pfd3))return;
-
-		// Create the old style context (OpenGL 2.1 and before)
-		m_hRC = wglCreateContext(m_hDC); // local?
-		if (m_hRC)
-			wglMakeCurrent(m_hDC, m_hRC);
-		else
-			bError = true;
-	}
-	else if (WGLEW_ARB_create_context && WGLEW_ARB_pixel_format)
-	{
-		const int iPixelFormatAttribList[] =
-		{
-			WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
-			WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
-			WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
-			WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
-			WGL_COLOR_BITS_ARB, 32,
-			WGL_DEPTH_BITS_ARB, 24,
-			WGL_STENCIL_BITS_ARB, 8,
-			//GL_ARB_framebuffer_object, GL_TRUE,
-			0 // End of attributes list
-		};
-		int iContextAttribs[] =
-		{
-			WGL_CONTEXT_MAJOR_VERSION_ARB, iMajorVersion,
-			WGL_CONTEXT_MINOR_VERSION_ARB, iMinorVersion,
-			WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
-			0 // End of attributes list
-		};
-
-		int iPixelFormat, iNumFormats;
-		wglChoosePixelFormatARB(m_hDC, iPixelFormatAttribList, NULL, 1, &iPixelFormat, (UINT*)&iNumFormats);
-
-		// PFD seems to be only redundant parameter now
-		if (!SetPixelFormat(m_hDC, iPixelFormat, &pfd3))return;
-
-		m_hRC = wglCreateContextAttribsARB(m_hDC, 0, iContextAttribs);
-		// If everything went OK
-		if (m_hRC) wglMakeCurrent(m_hDC, m_hRC);
-		else bError = true;
-
-	}
+	
 
 
 

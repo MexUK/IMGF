@@ -31,12 +31,6 @@
     <Filter Include="Source Files\Freetype">
       <UniqueIdentifier>{5a880f43-da26-4244-b7a2-c3de6f4fd4ab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\freetype-gl">
-      <UniqueIdentifier>{aea6f685-8ce2-42d8-a04b-626f25d2ffb2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\freetype-gl">
-      <UniqueIdentifier>{a3d7b9c5-9467-454b-8bc4-6ffd7bee42a7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GLEW">
       <UniqueIdentifier>{826d0b46-2519-47cd-a60b-35506483df9e}</UniqueIdentifier>
     </Filter>
@@ -696,51 +690,6 @@
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\Freetype\include\freetype\internal\services\svfntfmt.h">
       <Filter>Header Files\Freetype\freetype\internal\services</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\texture-atlas.h">
-      <Filter>Header Files\freetype-gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\texture-font.h">
-      <Filter>Header Files\freetype-gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vec234.h">
-      <Filter>Header Files\freetype-gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vector.h">
-      <Filter>Header Files\freetype-gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-attribute.h">
-      <Filter>Header Files\freetype-gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-buffer.h">
-      <Filter>Header Files\freetype-gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\edtaa3func.h">
-      <Filter>Header Files\freetype-gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\font-manager.h">
-      <Filter>Header Files\freetype-gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\freetype-gl.h">
-      <Filter>Header Files\freetype-gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\markup.h">
-      <Filter>Header Files\freetype-gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\mat4.h">
-      <Filter>Header Files\freetype-gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\opengl.h">
-      <Filter>Header Files\freetype-gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\platform.h">
-      <Filter>Header Files\freetype-gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\shader.h">
-      <Filter>Header Files\freetype-gl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\text-buffer.h">
-      <Filter>Header Files\freetype-gl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF.ThirdParty\GLM\mat3x4.hpp">
       <Filter>Header Files\GLM</Filter>
     </ClInclude>
@@ -1171,42 +1120,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\Bitmap\bitmap.cpp">
       <Filter>Source Files\Bitmap</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\text-buffer.c">
-      <Filter>Source Files\freetype-gl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\texture-atlas.c">
-      <Filter>Source Files\freetype-gl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\texture-font.c">
-      <Filter>Source Files\freetype-gl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vector.c">
-      <Filter>Source Files\freetype-gl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-attribute.c">
-      <Filter>Source Files\freetype-gl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\vertex-buffer.c">
-      <Filter>Source Files\freetype-gl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\edtaa3func.c">
-      <Filter>Source Files\freetype-gl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\font-manager.c">
-      <Filter>Source Files\freetype-gl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\makefont.c">
-      <Filter>Source Files\freetype-gl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\mat4.c">
-      <Filter>Source Files\freetype-gl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\platform.c">
-      <Filter>Source Files\freetype-gl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\freetype-gl\shader.c">
-      <Filter>Source Files\freetype-gl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF.ThirdParty\GLM\detail\glm.cpp">
       <Filter>Source Files\GLM\detail</Filter>

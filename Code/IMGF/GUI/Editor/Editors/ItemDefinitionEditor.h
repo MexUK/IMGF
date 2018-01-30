@@ -1,11 +1,11 @@
 #pragma once
 
-#include "nsimgf.h"
 #include "GUI/Editor/Base/Editor.h"
 #include "GUI/Editor/Editors/Tab/ItemDefinitionEditorTab.h"
 
 #include "Globals.h"
 #include "IMGF.h"
+#include "nsimgf.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
 

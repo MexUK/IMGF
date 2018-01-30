@@ -10,18 +10,6 @@
 #include <unordered_map>
 #include <stack>
 
-//#include <windows.h>
-//#include <algorithm>
-
-//////////////////#include "glm.hpp"
-////////#include "gtc/matrix_transform.hpp"
-//////////#include "gtc/type_ptr.hpp"
-
-//#include "GLEE/GLee.h"
-//#include "GL/glew.h"
-//#include "GL/wglew.h"
-//#include <Windows.h>
-
 class imgf::ModelEditorTab : public imgf::EditorTab
 {
 public:
@@ -33,6 +21,7 @@ public:
 	void						unbindEvents(void);
 
 	void						onMouseWheelMove2(int16 iRotationDistance);
+	void						onProcess(void);
 
 	bool						unserializeFile(void);
 	void						onFileLoaded(void);

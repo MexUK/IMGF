@@ -6,12 +6,12 @@
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
-#include "Static/String.h"
-#include "Control/Controls/TextBox.h"
-#include "Control/Controls/TabBar.h"
 #include "GUI/Editor/EEditor.h"
 #include "GUI/Input/EInputItem.h"
 #include "Tab/EditorTab.h"
+#include "Static/String.h"
+#include "Control/Controls/TextBox.h"
+#include "Control/Controls/TabBar.h"
 #include "Control/Controls/Text.h"
 
 using namespace std;

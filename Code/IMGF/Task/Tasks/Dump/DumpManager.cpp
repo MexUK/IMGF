@@ -1,5 +1,6 @@
 #pragma warning(disable : 4005)
 
+#include "nsimgf.h"
 #include "DumpManager.h"
 #include "IMGF.h"
 #include "Globals.h"
@@ -40,7 +41,6 @@
 #include "GUI/Layer/Layers/DumpWindow/DumpWindowResult.h"
 #include "Format/EFileType.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
-#include <gdiplus.h>
 
 using namespace std;
 using namespace bxcf;

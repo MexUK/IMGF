@@ -1,5 +1,6 @@
 #pragma warning(disable : 4005)
 
+#include "nsimgf.h"
 #include "Tasks.h"
 #include "Task/TaskManager.h"
 #include "IMGF.h"
@@ -140,9 +141,8 @@
 #include "Engine/RAGE/RageResourceType.h"
 #include "Format/FormatVersionManager.h"
 #include "Format/FormatVersion.h"
-#include <gdiplus.h>
-#include <stdio.h>
 #include <algorithm>
+#include <stdio.h>
 #include <Shellapi.h>
 
 using namespace std;

@@ -8,7 +8,7 @@
 #include "Format/FormatEntry.h"
 #include <string>
 #include <vector>
-#include <Windows.h>
+////////#include <Windows.h>
 
 class bxgi::IMGFormat;
 class bxgi::IMGEntry;

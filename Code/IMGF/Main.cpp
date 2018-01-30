@@ -1,4 +1,4 @@
-#include <Windows.h>
+////////#include <Windows.h>
 #include "Globals.h"
 #include "IMGF.h"
 #include "BXGX.h"

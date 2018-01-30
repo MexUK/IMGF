@@ -3,8 +3,7 @@
 #include "nsimgf.h"
 #include "Format/FormatManager.h"
 #include "Object/Singleton.h"
-
-class imgf::LSTFormat;
+#include "LSTFormat.h"
 
 class imgf::LSTManager : public bxcf::FormatManager<LSTFormat>, public bxcf::Singleton<LSTManager>
 {
