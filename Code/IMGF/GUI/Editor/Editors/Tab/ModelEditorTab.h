@@ -37,7 +37,6 @@ public:
 	void						render(void);
 	void						render3D(void);
 	void						renderCamera(void);
-	void						renderAxis(void);
 	void						renderModel(void);
 	void						renderFrame(uint32 uiFrameIndex, bxgi::RWSection_Frame *pFrame, bool bIsParentFrame);
 
@@ -54,17 +53,10 @@ protected:
 	void						storeControls(void);
 
 private:
-
-
-
-	void						createGLContext(void);
 	void						prepareScene(void);
-	void						reshape(void);
 	void						drawScene(void);
 	void						destroyScene(void);
 
-	void						prepareShaders(void);
-	void						prepareAxis(void);
 	void						prepareMeshes(void);
 	void						prepareTextures(void);
 	void						prepareGLStates(void);
@@ -86,10 +78,7 @@ private:
 	glm::vec3					m_vecCameraPosition;
 	glm::vec3					m_vecCameraRotation;
 
-	GLuint						m_program;
-	GLuint						m_program2;
-	GLuint*						textureIDs; // todo - prefix
-	std::unordered_map<std::string, GLuint>		textureIndices; // todo - prefix // GLuint: gl texture id
+	std::unordered_map<std::string, bxcf::GLTexture*>		m_umapTexturesByNameLower;
 	std::unordered_map<std::string, uint32>		m_umapGeometryIndexByTextureNameLower;
 
 	std::vector<GLuint>			m_pGeometryVertexPositionBuffers;	// GLuint: gl buffer id
@@ -97,9 +86,7 @@ private:
 	std::vector<GLuint>			m_pGeometryTexturePositionBuffers;	// GLuint: gl buffer id
 	std::vector<std::vector<GLuint>>	m_pBinMeshDataIndexBuffers;	// GLuint: gl buffer id
 
-	std::vector<std::vector<GLuint>>	m_pGeometryVertexArrayBuffers;		// GLuint: gl vertex array buffer id
-
-	//GLuint*						m_pGeometryVertexPositionBuffers;	// GLuint: gl buffer id
+	std::vector<GLuint>			m_pGeometryVertexArrayBuffers;		// GLuint: gl vertex array buffer id
 
 	std::vector<const char*>					m_pVertexPositionBuffer;
 	std::vector<const char*>					m_pVertexNormalBuffer;
@@ -109,12 +96,9 @@ private:
 	std::stack<glm::mat4>		m_matProjectionMatrix;
 	std::stack<glm::mat4>		m_stkModels;
 	glm::mat4					m_matCamera;
-	//glm::mat4					m_matModelViewProjectionMatrix;
 
 	bxcf::Vec2u					m_vecRenderSize;
 
-	GLuint						axisBuffer;
-	GLuint						axisIndexBuffer;
 	GLuint						fb;
 	GLuint						color_tex;
 	GLuint						depth_rb;
