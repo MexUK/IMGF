@@ -30,12 +30,10 @@ public:
 	void						setFileInfoText(void);
 	void						updateEntryCountText(void);
 
+	void						render(void);
 	void						render_Type1(void);
 
-	void						render(void);
 	void						render3D(void);
-
-	void						zoomCamera(float32 fRadius);
 
 	void						setDFFFile(bxgi::DFFFormat *pDFFFile) { m_pDFFFile = pDFFFile; }
 	bxgi::DFFFormat*			getDFFFile(void) { return m_pDFFFile; }
@@ -67,4 +65,7 @@ private:
 	std::unordered_map<std::string, uint32>		m_umapGeometryIndexByTextureNameLower;
 
 	GLuint						fb;
+
+	GLuint						color_tex;
+	GLuint						depth_rb;
 };

@@ -104,7 +104,7 @@ void						ModelEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 	{
 		float32 fMouseWheelScrollMultiplier = 1.2f;
 		int iDelta = -(iRotationDistance / WHEEL_DELTA);
-		zoomCamera((float32)-iDelta * fMouseWheelScrollMultiplier);
+		m_gl.zoomCamera((float32)-iDelta * fMouseWheelScrollMultiplier);
 	}
 
 	getLayer()->getWindow()->render();
@@ -169,18 +169,15 @@ void						ModelEditorTab::updateEntryCountText(void)
 }
 
 // render 2d
+void						ModelEditorTab::render(void)
+{
+}
+
 void						ModelEditorTab::render_Type1(void)
 {
 }
 
 // render 3d
-void						ModelEditorTab::render(void)
-{
-	//mutexRendering2.lock();
-	//render3D();
-	//mutexRendering2.unlock();
-}
-
 void						ModelEditorTab::onProcess(void)
 {
 	if (!getLayer()->getWindow()->isWindowDisplayed())
@@ -188,9 +185,7 @@ void						ModelEditorTab::onProcess(void)
 		return;
 	}
 
-	//mutexInitializing3DRender_ModelEditor.lock();
 	render3D();
-	//mutexInitializing3DRender_ModelEditor.unlock();
 }
 
 void						ModelEditorTab::render3D(void)
@@ -216,7 +211,9 @@ void						ModelEditorTab::render3D(void)
 
 		m_bInitializing = true;
 
-		m_gl.setRenderSize(m_vecRenderSize);
+		Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 5, getLayer()->getWindow()->getSize().y - 130 - 30);
+
+		m_gl.setRenderSize(vecRenderSize);
 		m_gl.setWindow(getLayer()->getWindow()->getWindowHandle());
 		m_gl.setVersion(3, 0);
 		m_gl.initOpenGL();
@@ -265,9 +262,9 @@ void						ModelEditorTab::render3D(void)
 		bitmapInfo.bmiHeader.biPlanes = 1;
 		bitmapInfo.bmiHeader.biBitCount = 32;
 		bitmapInfo.bmiHeader.biCompression = BI_RGB;
-		bitmapInfo.bmiHeader.biWidth = m_vecRenderSize.x;
-		bitmapInfo.bmiHeader.biHeight = m_vecRenderSize.y;
-		bitmapInfo.bmiHeader.biSizeImage = m_vecRenderSize.x * m_vecRenderSize.y * 4; // Size 4, assuming RGBA from OpenGL
+		bitmapInfo.bmiHeader.biWidth = m_gl.getRenderSize().x;
+		bitmapInfo.bmiHeader.biHeight = m_gl.getRenderSize().y;
+		bitmapInfo.bmiHeader.biSizeImage = m_gl.getRenderSize().x * m_gl.getRenderSize().y * 4; // Size 4, assuming RGBA from OpenGL
 	}
 
 	void *pixels2 = nullptr;
@@ -286,7 +283,7 @@ void						ModelEditorTab::render3D(void)
 
 	//-------------------------
 	//GLubyte *pixels = new GLubyte[vecRenderSize.x * vecRenderSize.y * 4];
-	glReadPixels(0, 0, m_vecRenderSize.x, m_vecRenderSize.y, GL_BGRA, GL_UNSIGNED_BYTE, pixels2);
+	glReadPixels(0, 0, m_gl.getRenderSize().x, m_gl.getRenderSize().y, GL_BGRA, GL_UNSIGNED_BYTE, pixels2);
 	/*
 	if (memchr(pixels2, '\x01', m_vecRenderSize.x * m_vecRenderSize.y * 4))
 	{
@@ -305,28 +302,14 @@ void						ModelEditorTab::render3D(void)
 
 	m_gl.postRender();
 
-	glFinish();
-
 	// gdi - draw 2d bitmap
 	HGDIOBJ hOld2 = SelectObject(hdc2, hbm2);
-	BitBlt(GetWindowDC(m_gl.m_hWindow), 120+250, 130, m_vecRenderSize.x, m_vecRenderSize.y, hdc2, 0, 0, SRCCOPY);
+	BitBlt(GetWindowDC(m_gl.m_hWindow), 120+250, 130, m_gl.getRenderSize().x, m_gl.getRenderSize().y, hdc2, 0, 0, SRCCOPY);
 	SelectObject(hdc2, hOld2);
 
 	// clean up gdi
 	DeleteObject(hbm2);
 	DeleteDC(hdc2);
-}
-
-// camera
-void						ModelEditorTab::zoomCamera(float32 fRadius)
-{
-	glm::vec3 vecCameraRotation = m_gl.getCameraRotation();
-	float32 fXAngle = vecCameraRotation.x;// Math::convertDegreesToRadians(90.0f);
-	float32 fZAngle = vecCameraRotation.z - Math::convertDegreesToRadians(90.0f);
-	Vec3f vecCameraPositionOffset = Math::getCartesianFromSpherical(fRadius, fXAngle, fZAngle);
-	vecCameraPositionOffset.z = -vecCameraPositionOffset.z;
-	///////////m_vecCameraPosition = m_vecCameraPosition + vecCameraPositionOffset;
-	///////////m_vecCameraLookAtPosition = m_vecCameraLookAtPosition + vecCameraPositionOffset;
 }
 
 // entity preparation
@@ -453,7 +436,7 @@ void									ModelEditorTab::prepareFBO(void)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	//NULL means reserve texture memory, but texels are undefined
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_vecRenderSize.x, m_vecRenderSize.y, 0, GL_BGRA, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_gl.getRenderSize().x, m_gl.getRenderSize().y, 0, GL_BGRA, GL_UNSIGNED_BYTE, NULL);
 	//-------------------------
 	glGenFramebuffers(1, &fb);
 	glBindFramebuffer(GL_FRAMEBUFFER, fb);
@@ -462,7 +445,7 @@ void									ModelEditorTab::prepareFBO(void)
 	//-------------------------
 	glGenRenderbuffers(1, &depth_rb);
 	glBindRenderbuffer(GL_RENDERBUFFER, depth_rb);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT32, m_vecRenderSize.x, m_vecRenderSize.y);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT32, m_gl.getRenderSize().x, m_gl.getRenderSize().y);
 	//-------------------------
 	//Attach depth buffer to FBO
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depth_rb);

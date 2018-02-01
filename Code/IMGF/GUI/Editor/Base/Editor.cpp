@@ -133,10 +133,10 @@ void								Editor::removeEditorTab(EditorTab *pEditorTab)
 	}
 
 	// remove tab object
-	pEditorTab->unbindEvents();
+	//pEditorTab->unbindEvents();
 	
-	pEditorTab->getLayer()->removeAllControls();
-	pEditorTab->getLayer()->removeAllShapes();
+	//pEditorTab->getLayer()->removeAllControls();
+	//pEditorTab->getLayer()->removeAllShapes();
 
 	m_vecEditorTabs.removeEntry(pEditorTab);
 
