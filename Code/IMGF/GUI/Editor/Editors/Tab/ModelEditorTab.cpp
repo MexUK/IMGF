@@ -218,6 +218,7 @@ void						ModelEditorTab::render3D(void)
 		m_gl.setVersion(3, 0);
 		m_gl.initOpenGL();
 		m_gl.setAxisShown(true);
+		m_gl.setFBOEnabled(true);
 		m_gl.setShaders(
 			DataPath::getDataPath() + "Shaders/ModelEditor/shader1.vert",
 			DataPath::getDataPath() + "Shaders/ModelEditor/shader1.frag"
@@ -238,76 +239,17 @@ void						ModelEditorTab::render3D(void)
 	}
 
 	m_gl.preRender();
-
-	glBindFramebuffer(GL_FRAMEBUFFER, fb);
-	int c = glGetError();
-	if (c != GL_NO_ERROR)
-	{
-		int d = 5;
-		d++;
-	}
-
 	m_gl.render();
-
-	// render opengl to bitmap
-
-	//HDC hdcScreen = GetDC(NULL);
-	HDC hdc2 = CreateCompatibleDC(GetWindowDC(m_gl.m_hWindow));
-	//HBITMAP hbm2 = CreateCompatibleBitmap(m_hdcWindow, vecRenderSize.x, vecRenderSize.y);
-
-	BITMAPINFO bitmapInfo;
-	{
-		::memset(&bitmapInfo, 0, sizeof(BITMAPINFO));
-		bitmapInfo.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-		bitmapInfo.bmiHeader.biPlanes = 1;
-		bitmapInfo.bmiHeader.biBitCount = 32;
-		bitmapInfo.bmiHeader.biCompression = BI_RGB;
-		bitmapInfo.bmiHeader.biWidth = m_gl.getRenderSize().x;
-		bitmapInfo.bmiHeader.biHeight = m_gl.getRenderSize().y;
-		bitmapInfo.bmiHeader.biSizeImage = m_gl.getRenderSize().x * m_gl.getRenderSize().y * 4; // Size 4, assuming RGBA from OpenGL
-	}
-
-	void *pixels2 = nullptr;
-	HBITMAP hbm2 = ::CreateDIBSection(GetWindowDC(m_gl.m_hWindow), &bitmapInfo, DIB_RGB_COLORS, &pixels2, NULL, 0);
-
-	glPixelStorei(GL_PACK_SWAP_BYTES, GL_FALSE);
-	glPixelStorei(GL_PACK_LSB_FIRST, GL_TRUE);
-	glPixelStorei(GL_PACK_ROW_LENGTH, 0);
-	glPixelStorei(GL_PACK_IMAGE_HEIGHT, 0);
-	glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
-	glPixelStorei(GL_PACK_SKIP_ROWS, 0);
-	glPixelStorei(GL_PACK_ALIGNMENT, 1);
-
-	//memcpy(pixels2, pixels, vecRenderSize.x * vecRenderSize.y * 4);
-	//delete[] pixels;
-
-	//-------------------------
-	//GLubyte *pixels = new GLubyte[vecRenderSize.x * vecRenderSize.y * 4];
-	glReadPixels(0, 0, m_gl.getRenderSize().x, m_gl.getRenderSize().y, GL_BGRA, GL_UNSIGNED_BYTE, pixels2);
-	/*
-	if (memchr(pixels2, '\x01', m_vecRenderSize.x * m_vecRenderSize.y * 4))
-	{
-		bool b = true;
-		b = !b;
-	}
-	if (memchr(pixels2, '\x02', m_vecRenderSize.x * m_vecRenderSize.y * 4))
-	{
-		bool b = true;
-		b = !b;
-	}
-	*/
-
-	// Bind 0, which means render to back buffer
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 	m_gl.postRender();
 
 	// gdi - draw 2d bitmap
+	HDC hdc2 = CreateCompatibleDC(GetWindowDC(m_gl.m_hWindow));
+	HBITMAP hbm2 = m_gl.getFBOBitmap();
+
 	HGDIOBJ hOld2 = SelectObject(hdc2, hbm2);
 	BitBlt(GetWindowDC(m_gl.m_hWindow), 120+250, 130, m_gl.getRenderSize().x, m_gl.getRenderSize().y, hdc2, 0, 0, SRCCOPY);
 	SelectObject(hdc2, hOld2);
 
-	// clean up gdi
 	DeleteObject(hbm2);
 	DeleteDC(hdc2);
 }
@@ -317,7 +259,6 @@ void						ModelEditorTab::prepareScene(void)
 {
 	glUseProgram(m_gl.m_uiShaderProgram);
 
-	prepareFBO();
 	prepareTextures();
 	prepareMeshes();
 }
@@ -425,44 +366,4 @@ void						ModelEditorTab::prepareMeshes(void)
 	}
 
 	m_gl.reset();
-}
-
-void									ModelEditorTab::prepareFBO(void)
-{
-	glGenTextures(1, &color_tex);
-	glBindTexture(GL_TEXTURE_2D, color_tex);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	//NULL means reserve texture memory, but texels are undefined
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_gl.getRenderSize().x, m_gl.getRenderSize().y, 0, GL_BGRA, GL_UNSIGNED_BYTE, NULL);
-	//-------------------------
-	glGenFramebuffers(1, &fb);
-	glBindFramebuffer(GL_FRAMEBUFFER, fb);
-	//Attach 2D texture to this FBO
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, color_tex, 0);
-	//-------------------------
-	glGenRenderbuffers(1, &depth_rb);
-	glBindRenderbuffer(GL_RENDERBUFFER, depth_rb);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT32, m_gl.getRenderSize().x, m_gl.getRenderSize().y);
-	//-------------------------
-	//Attach depth buffer to FBO
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depth_rb);
-	//-------------------------
-	//Does the GPU support current FBO configuration?
-	GLenum status;
-	status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-	int b;
-	///*
-	switch (status)
-	{
-	case GL_FRAMEBUFFER_COMPLETE:
-		b = 1;
-		b++;
-		break;
-		//default:
-		//HANDLE_THE_ERROR;
-	}
-	//*/
 }

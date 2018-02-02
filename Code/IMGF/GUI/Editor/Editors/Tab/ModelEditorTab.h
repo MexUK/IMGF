@@ -48,7 +48,6 @@ private:
 
 	void						prepareMeshes(void);
 	void						prepareTextures(void);
-	void						prepareFBO(void);
 
 private:
 	bxcf::OpenGL				m_gl;
@@ -62,10 +61,5 @@ private:
 	bool						m_bPanningCamera;
 
 	std::unordered_map<std::string, bxcf::GLTexture*>		m_umapTexturesByNameLower;
-	std::unordered_map<std::string, uint32>		m_umapGeometryIndexByTextureNameLower;
-
-	GLuint						fb;
-
-	GLuint						color_tex;
-	GLuint						depth_rb;
+	std::unordered_map<std::string, uint32>					m_umapGeometryIndexByTextureNameLower;
 };
