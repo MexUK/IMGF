@@ -46,7 +46,7 @@ protected:
 private:
 	void						prepareScene(void);
 
-	void						prepareMeshes(void);
+	void						prepareEntities(void);
 	void						prepareTextures(void);
 
 private:

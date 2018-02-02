@@ -260,7 +260,7 @@ void						ModelEditorTab::prepareScene(void)
 	glUseProgram(m_gl.m_uiShaderProgram);
 
 	prepareTextures();
-	prepareMeshes();
+	prepareEntities();
 }
 
 void					ModelEditorTab::prepareTextures(void)
@@ -287,10 +287,11 @@ void					ModelEditorTab::prepareTextures(void)
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void						ModelEditorTab::prepareMeshes(void)
+void						ModelEditorTab::prepareEntities(void)
 {
 	uint32 uiGeometryCount = m_pDFFFile->getSectionCountByType(RW_SECTION_GEOMETRY);
 
+	glm::mat4 matEntityMatrix = glm::mat4(1.0f);
 	/*
 	RWSection_FrameList *pFrameList = (RWSection_FrameList *)m_pDFFFile->getSectionsByType(RW_SECTION_FRAME_LIST)[0];
 	uint32 uiParentFrameIndex = pFrameList->m_uiCurrentFrameIndex[uiFrameIndex];
@@ -318,14 +319,17 @@ void						ModelEditorTab::prepareMeshes(void)
 		matMultMatrix[3].z = pFrameList->m_vecPosition[uiFrameIndex].y;
 		matMultMatrix[3].w = 1;
 
+		matEntityMatrix = matMultMatrix;
+
 		//glMultMatrixf(&vecMultMatrix[0]);
-		m_stkModels.top() = matMultMatrix;
+		//m_stkModels.top() = matMultMatrix;
 
 		//pGLMesh->setRotationMatrix(matMultMatrix);
 
 		//glUniformMatrix4fv(glGetUniformLocation(m_gl.m_uiShaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(m_stkModels.top()));
 	}
 	*/
+	GLEntity *pGLEntity = m_gl.addEntity(matEntityMatrix);
 
 	// prepare 3d buffers
 	uint32 uiGeometryIndex = 0;
@@ -343,7 +347,7 @@ void						ModelEditorTab::prepareMeshes(void)
 			m_umapGeometryIndexByTextureNameLower[strTextureNameLower] = uiGeometryIndex;
 		}
 
-		GLMesh *pGLMesh = m_gl.addMesh(
+		GLMesh *pGLMesh = pGLEntity->addMesh(
 			m_gl.swapVec3YZ(*(vector<glm::vec3>*)(&pGeometry->getVertexPositions())),
 			*(vector<glm::vec2>*)(&pGeometry->getTextureCoordinates()),
 			StdVector::convertStdVectorBXCFVec4u8ToGLMVec3(pGeometry->getVertexColours()),
