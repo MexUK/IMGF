@@ -36,6 +36,7 @@ mutex mutexInitializing3DRender_ModelEditor; // todo
 
 ModelEditorTab::ModelEditorTab(void) :
 	m_pDFFFile(nullptr),
+	m_pGLEntity(nullptr),
 	m_bInitialized(false),
 	m_bInitializing(false)
 {
@@ -289,16 +290,45 @@ void					ModelEditorTab::prepareTextures(void)
 
 void						ModelEditorTab::prepareEntities(void)
 {
-	uint32 uiGeometryCount = m_pDFFFile->getSectionCountByType(RW_SECTION_GEOMETRY);
+	m_pGLEntity = m_gl.addEntity();
 
-	glm::mat4 matEntityMatrix = glm::mat4(1.0f);
-	/*
 	RWSection_FrameList *pFrameList = (RWSection_FrameList *)m_pDFFFile->getSectionsByType(RW_SECTION_FRAME_LIST)[0];
+
+	uint32 uiFrameIndex = 0;
+	for (RWSection *pRWSection : m_pDFFFile->getSectionsByType(RW_SECTION_FRAME))
+	{
+		RWSection_Frame *pFrame = (RWSection_Frame*)pRWSection;
+		uint32 uiParentFrameIndex = pFrameList->m_uiCurrentFrameIndex[uiFrameIndex];
+
+		if (uiParentFrameIndex == -1)
+		{
+			prepareFrame(uiFrameIndex, pFrame, true);
+		}
+
+		uiFrameIndex++;
+	}
+}
+
+void						ModelEditorTab::prepareFrame(uint32 uiFrameIndex, RWSection_Frame *pFrame, bool bIsParentFrame)
+{
+	vector<RWSection*> vecAtomics = m_pDFFFile->getSectionsByType(RW_SECTION_ATOMIC);
+	unordered_map<uint32, RWSection_Atomic*> umapAtomics;
+	unordered_map<uint32, uint32> umapGeometryIndices;
+	for (RWSection *pRWSection : vecAtomics)
+	{
+		RWSection_Atomic *pAtomic = (RWSection_Atomic *)pRWSection;
+		int32 iFrameIndex = pAtomic->getFrameIndex();
+		umapAtomics[iFrameIndex] = pAtomic;
+		umapGeometryIndices[iFrameIndex] = pAtomic->getGeometryIndex();
+	}
+
+	RWSection_FrameList *pFrameList = (RWSection_FrameList *)m_pDFFFile->getSectionsByType(RW_SECTION_FRAME_LIST)[0];
+
 	uint32 uiParentFrameIndex = pFrameList->m_uiCurrentFrameIndex[uiFrameIndex];
+
+	glm::mat4 matMultMatrix = glm::mat4(1.0f);
 	if (!bIsParentFrame)
 	{
-		glm::mat4 matMultMatrix;
-
 		matMultMatrix[0].x = pFrameList->m_vecMatRow1[uiFrameIndex].x;
 		matMultMatrix[0].y = pFrameList->m_vecMatRow1[uiFrameIndex].z;
 		matMultMatrix[0].z = pFrameList->m_vecMatRow1[uiFrameIndex].y;
@@ -318,56 +348,83 @@ void						ModelEditorTab::prepareEntities(void)
 		matMultMatrix[3].y = pFrameList->m_vecPosition[uiFrameIndex].z;
 		matMultMatrix[3].z = pFrameList->m_vecPosition[uiFrameIndex].y;
 		matMultMatrix[3].w = 1;
-
-		matEntityMatrix = matMultMatrix;
-
-		//glMultMatrixf(&vecMultMatrix[0]);
-		//m_stkModels.top() = matMultMatrix;
-
-		//pGLMesh->setRotationMatrix(matMultMatrix);
-
-		//glUniformMatrix4fv(glGetUniformLocation(m_gl.m_uiShaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(m_stkModels.top()));
 	}
-	*/
-	GLEntity *pGLEntity = m_gl.addEntity(matEntityMatrix);
 
-	// prepare 3d buffers
-	uint32 uiGeometryIndex = 0;
-	for (RWSection *pRWSection : m_pDFFFile->getSectionsByType(RW_SECTION_GEOMETRY))
+	if (umapAtomics.count(uiFrameIndex) != 0)
 	{
-		RWSection_Geometry *pGeometry = (RWSection_Geometry*)pRWSection;
+		RWSection_Atomic *pAtomic = (RWSection_Atomic*)umapAtomics[uiFrameIndex];
+		uint32 uiGeometryIndex = pAtomic->getGeometryIndex();
 		RWSection_BinMeshPLG *pBinMeshPLG = (RWSection_BinMeshPLG*)m_pDFFFile->getSectionsByType(RW_SECTION_BIN_MESH_PLG)[uiGeometryIndex];
 
-		vector<RWSection*> vecStrings = pGeometry->getSectionsByType(RW_SECTION_STRING);
-		bool bMeshUsesTexture = vecStrings.size() > 0;
-		string strTextureNameLower;
-		if (bMeshUsesTexture)
-		{
-			strTextureNameLower = String::toLowerCase(((RWSection_String*)vecStrings[0])->getData());
-			m_umapGeometryIndexByTextureNameLower[strTextureNameLower] = uiGeometryIndex;
-		}
-
-		GLMesh *pGLMesh = pGLEntity->addMesh(
-			m_gl.swapVec3YZ(*(vector<glm::vec3>*)(&pGeometry->getVertexPositions())),
-			*(vector<glm::vec2>*)(&pGeometry->getTextureCoordinates()),
-			StdVector::convertStdVectorBXCFVec4u8ToGLMVec3(pGeometry->getVertexColours()),
-			m_gl.swapVec3YZ(*(vector<glm::vec3>*)(&pGeometry->getVertexNormals()))
-		);
-
-		uint32 uiGeometryMeshIndex = 0;
+		uint32 uiMeshIndex = 0;
 		for (RWEntry_BinMeshPLG_Mesh *pMesh : pBinMeshPLG->getMeshes())
 		{
-			pGLMesh->addFaceGroup(
-				pBinMeshPLG->getFlags() == 0 ? GL_TRIANGLES : GL_TRIANGLE_STRIP,
-				pMesh->getVertexIndices(),
-				strTextureNameLower == "" ? nullptr : m_umapTexturesByNameLower[strTextureNameLower]
+			uint32 uiMaterialIndex = pMesh->getMaterialIndex();
+			vector<RWSection*> vecMaterials = pBinMeshPLG->getParentNode()->getParentNode()->getSectionsByType(RW_SECTION_MATERIAL);
+			RWSection_Material *pMaterial = (RWSection_Material*)vecMaterials[uiMaterialIndex];
+			RWSection_Geometry *pGeometry = (RWSection_Geometry*)m_pDFFFile->getSectionsByType(RW_SECTION_GEOMETRY)[uiGeometryIndex];
+			vector<RWSection*> vecStrings = pMaterial->getSectionsByType(RW_SECTION_STRING);
+			bool bMeshUsesTexture = vecStrings.size() > 0;
+			bool bUsesNormals = pGeometry->getBoundingInfo().doesHaveNormals();
+			string strTextureNameLower;
+			if (bMeshUsesTexture)
+			{
+				strTextureNameLower = String::toLowerCase(((RWSection_String*)vecStrings[0])->getData());
+			}
+
+			GLMesh *pGLMesh = m_pGLEntity->addMesh(
+				m_gl.swapVec3YZ(*(vector<glm::vec3>*)(&pGeometry->getVertexPositions())),
+				*(vector<glm::vec2>*)(&pGeometry->getTextureCoordinates()),
+				StdVector::convertStdVectorBXCFVec4u8ToGLMVec3(pGeometry->getVertexColours()),
+				m_gl.swapVec3YZ(*(vector<glm::vec3>*)(&pGeometry->getVertexNormals())),
+				0,
+				matMultMatrix
 			);
 
-			uiGeometryMeshIndex++;
-		}
+			uint32 uiGeometryMeshIndex = 0;
+			for (RWEntry_BinMeshPLG_Mesh *pMesh : pBinMeshPLG->getMeshes())
+			{
+				pGLMesh->addFaceGroup(
+					pBinMeshPLG->getFlags() == 0 ? GL_TRIANGLES : GL_TRIANGLE_STRIP,
+					pMesh->getVertexIndices(),
+					strTextureNameLower == "" ? nullptr : m_umapTexturesByNameLower[strTextureNameLower]
+				);
 
-		uiGeometryIndex++;
+				m_gl.reset();
+
+				uiGeometryMeshIndex++;
+			}
+
+			uiGeometryIndex++;
+		}
 	}
 
-	m_gl.reset();
+	for (uint32 uiFrameIndex2 = 0, j = pFrameList->getFrameCount(); uiFrameIndex2 < j; uiFrameIndex2++)
+	{
+		RWSection_Frame *pFrame = (RWSection_Frame*)m_pDFFFile->getSectionsByType(RW_SECTION_FRAME)[uiFrameIndex2];
+		if (uiFrameIndex == pFrameList->m_uiCurrentFrameIndex[uiFrameIndex2])
+		{
+			string strFrameName = String::trim(pFrame->getData());
+			uint32 uiFrameNameLength = strFrameName.length();
+			if (uiFrameNameLength >= 3)
+			{
+				if (strFrameName.c_str()[uiFrameNameLength - 2] == '_' && (String::toUpperCase(strFrameName).c_str()[uiFrameNameLength - 1] == 'L'))
+				{
+					int32 iFrameValue = String::toInt32(strFrameName);
+					if (iFrameValue <= 0)
+					{
+						prepareFrame(uiFrameIndex2, pFrame, true);
+					}
+				}
+				else if (strFrameName.substr(1, 3) != "Col")
+				{
+					prepareFrame(uiFrameIndex2, pFrame, false);
+				}
+			}
+			else
+			{
+				prepareFrame(uiFrameIndex2, pFrame, false);
+			}
+		}
+	}
 }

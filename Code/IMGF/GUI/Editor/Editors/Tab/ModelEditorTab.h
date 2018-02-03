@@ -46,11 +46,13 @@ protected:
 private:
 	void						prepareScene(void);
 
-	void						prepareEntities(void);
 	void						prepareTextures(void);
+	void						prepareEntities(void);
+	void						prepareFrame(uint32 uiFrameIndex, bxgi::RWSection_Frame *pFrame, bool bIsParentFrame);
 
 private:
 	bxcf::OpenGL				m_gl;
+	bxcf::GLEntity*				m_pGLEntity;
 
 	bxgi::DFFFormat*			m_pDFFFile;
 	bxgi::TXDFormat*			m_pTXDFile;
