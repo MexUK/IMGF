@@ -382,9 +382,11 @@ void						ModelEditorTab::prepareFrame(uint32 uiFrameIndex, RWSection_Frame *pFr
 
 	uint32 uiParentFrameIndex = pFrameList->m_uiCurrentFrameIndex[uiFrameIndex];
 
-	glm::mat4 matMultMatrix = glm::mat4(1.0f);
+	//glm::mat4 matMultMatrix = glm::mat4(1.0f);
 	if (!bIsParentFrame)
 	{
+		glm::mat4 matMultMatrix;
+
 		matMultMatrix[0].x = pFrameList->m_vecMatRow1[uiFrameIndex].x;
 		matMultMatrix[0].y = pFrameList->m_vecMatRow1[uiFrameIndex].z;
 		matMultMatrix[0].z = pFrameList->m_vecMatRow1[uiFrameIndex].y;
@@ -404,9 +406,14 @@ void						ModelEditorTab::prepareFrame(uint32 uiFrameIndex, RWSection_Frame *pFr
 		matMultMatrix[3].y = pFrameList->m_vecPosition[uiFrameIndex].z;
 		matMultMatrix[3].z = pFrameList->m_vecPosition[uiFrameIndex].y;
 		matMultMatrix[3].w = 1;
+
+		g_stkModels.top() *= matMultMatrix;
+
+		//g_stkModels.top() = glm::translate(g_stkModels.top(), glm::vec3(pFrameList->m_vecPosition[uiFrameIndex].x, pFrameList->m_vecPosition[uiFrameIndex].z, pFrameList->m_vecPosition[uiFrameIndex].y));
+		//g_stkModels.top() = glm::rotate(g_stkModels.top(), glm::vec3(pFrameList->m_vecPosition[uiFrameIndex].x, pFrameList->m_vecPosition[uiFrameIndex].z, pFrameList->m_vecPosition[uiFrameIndex].y));
 	}
 
-	g_stkModels.top() *= matMultMatrix;
+	//g_stkModels.top() *= matMultMatrix;
 
 	if (umapAtomics.count(uiFrameIndex) != 0)
 	{
@@ -432,11 +439,12 @@ void						ModelEditorTab::prepareFrame(uint32 uiFrameIndex, RWSection_Frame *pFr
 
 			GLTexture *pGLTexture = strTextureNameLower == "" ? nullptr : m_umapTexturesByNameLower[strTextureNameLower];
 
-			m_pGLEntity->m_vecRenderData.push_back({
-				uiGeometryIndex,
-				pGLTexture,
-				g_stkModels.top()
-			});
+			GLRenderData renderData;
+			renderData.m_uiGeometryIndex = uiGeometryIndex;
+			renderData.m_pGLTexture = pGLTexture;
+			renderData.m_matMultMatrix = g_stkModels.top();
+
+			m_pGLEntity->m_vecRenderData.push_back(renderData);
 
 			//m_gl.reset();
 		}
