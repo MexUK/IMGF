@@ -33,6 +33,7 @@ using namespace imgf;
 
 recursive_mutex mutexRendering2; // todo
 mutex mutexInitializing3DRender_ModelEditor; // todo
+std::stack<glm::mat4> g_stkModels; // todo
 
 ModelEditorTab::ModelEditorTab(void) :
 	m_pDFFFile(nullptr),
@@ -216,7 +217,7 @@ void						ModelEditorTab::render3D(void)
 
 		m_gl.setRenderSize(vecRenderSize);
 		m_gl.setWindow(getLayer()->getWindow()->getWindowHandle());
-		m_gl.setVersion(3, 0);
+		m_gl.setVersion(3, 3);
 		m_gl.initOpenGL();
 		m_gl.setAxisShown(true);
 		m_gl.setFBOEnabled(true);
@@ -228,10 +229,10 @@ void						ModelEditorTab::render3D(void)
 		m_gl.setCameraRotation(glm::vec3(45, 0, 135));
 		m_gl.setModel(glm::mat4(1.0f));
 		m_gl.prepareState();
+		m_gl.resizeScene();
 		m_gl.init();
 
 		prepareScene();
-		m_gl.resizeScene();
 
 		mutexInitializing3DRender_ModelEditor.unlock();
 
@@ -264,7 +265,7 @@ void						ModelEditorTab::prepareScene(void)
 	prepareEntities();
 }
 
-void					ModelEditorTab::prepareTextures(void)
+void						ModelEditorTab::prepareTextures(void)
 {
 	vector<RWSection*> vecTextures = m_pTXDFile->getSectionsByType(RW_SECTION_TEXTURE_NATIVE);
 	uint32 uiTextureCount = vecTextures.size();
@@ -296,6 +297,9 @@ void						ModelEditorTab::prepareEntities(void)
 void						ModelEditorTab::prepareModel(void)
 {
 	m_pGLEntity = m_gl.addEntity();
+
+	g_stkModels.push(glm::mat4(1.0f));
+
 	prepareGeometries();
 	prepareRenderData();
 }
@@ -361,6 +365,8 @@ void						ModelEditorTab::prepareRenderData(void)
 
 void						ModelEditorTab::prepareFrame(uint32 uiFrameIndex, RWSection_Frame *pFrame, bool bIsParentFrame)
 {
+	g_stkModels.push(g_stkModels.top());
+
 	vector<RWSection*> vecAtomics = m_pDFFFile->getSectionsByType(RW_SECTION_ATOMIC);
 	unordered_map<uint32, RWSection_Atomic*> umapAtomics;
 	unordered_map<uint32, uint32> umapGeometryIndices;
@@ -398,29 +404,9 @@ void						ModelEditorTab::prepareFrame(uint32 uiFrameIndex, RWSection_Frame *pFr
 		matMultMatrix[3].y = pFrameList->m_vecPosition[uiFrameIndex].z;
 		matMultMatrix[3].z = pFrameList->m_vecPosition[uiFrameIndex].y;
 		matMultMatrix[3].w = 1;
-
-		/*
-		matMultMatrix[0].x = pFrameList->m_vecMatRow1[uiFrameIndex].x;
-		matMultMatrix[0].y = pFrameList->m_vecMatRow1[uiFrameIndex].y;
-		matMultMatrix[0].z = pFrameList->m_vecMatRow1[uiFrameIndex].z;
-		matMultMatrix[0].w = 0;
-
-		matMultMatrix[1].x = pFrameList->m_vecMatRow2[uiFrameIndex].x;
-		matMultMatrix[1].y = pFrameList->m_vecMatRow2[uiFrameIndex].y;
-		matMultMatrix[1].z = pFrameList->m_vecMatRow2[uiFrameIndex].z;
-		matMultMatrix[1].w = 0;
-
-		matMultMatrix[2].x = pFrameList->m_vecMatRow3[uiFrameIndex].x;
-		matMultMatrix[2].y = pFrameList->m_vecMatRow3[uiFrameIndex].y;
-		matMultMatrix[2].z = pFrameList->m_vecMatRow3[uiFrameIndex].z;
-		matMultMatrix[2].w = 0;
-
-		matMultMatrix[3].x = pFrameList->m_vecPosition[uiFrameIndex].x;
-		matMultMatrix[3].y = pFrameList->m_vecPosition[uiFrameIndex].y;
-		matMultMatrix[3].z = pFrameList->m_vecPosition[uiFrameIndex].z;
-		matMultMatrix[3].w = 1;
-		*/
 	}
+
+	g_stkModels.top() *= matMultMatrix;
 
 	if (umapAtomics.count(uiFrameIndex) != 0)
 	{
@@ -449,7 +435,7 @@ void						ModelEditorTab::prepareFrame(uint32 uiFrameIndex, RWSection_Frame *pFr
 			m_pGLEntity->m_vecRenderData.push_back({
 				uiGeometryIndex,
 				pGLTexture,
-				matMultMatrix
+				g_stkModels.top()
 			});
 
 			//m_gl.reset();
@@ -484,4 +470,6 @@ void						ModelEditorTab::prepareFrame(uint32 uiFrameIndex, RWSection_Frame *pFr
 			}
 		}
 	}
+
+	g_stkModels.pop();
 }
