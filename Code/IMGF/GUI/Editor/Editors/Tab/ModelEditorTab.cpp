@@ -290,8 +290,58 @@ void					ModelEditorTab::prepareTextures(void)
 
 void						ModelEditorTab::prepareEntities(void)
 {
-	m_pGLEntity = m_gl.addEntity();
+	prepareModel();
+}
 
+void						ModelEditorTab::prepareModel(void)
+{
+	m_pGLEntity = m_gl.addEntity();
+	prepareGeometries();
+	prepareRenderData();
+}
+
+void						ModelEditorTab::prepareGeometries(void)
+{
+	uint32 uiGeometryIndex = 0;
+	for (RWSection *pGeometry : m_pDFFFile->getSectionsByType(RW_SECTION_GEOMETRY))
+	{
+		prepareGeometry(uiGeometryIndex, (RWSection_Geometry*)pGeometry);
+		uiGeometryIndex++;
+	}
+}
+
+void						ModelEditorTab::prepareGeometry(uint32 uiGeometryIndex, RWSection_Geometry *pGeometry)
+{
+	GLMesh *pGLMesh = m_pGLEntity->addMesh(
+		m_gl.swapVec3YZ(*(vector<glm::vec3>*)(&pGeometry->getVertexPositions())),
+		*(vector<glm::vec2>*)(&pGeometry->getTextureCoordinates()),
+		StdVector::convertStdVectorBXCFVec4u8ToGLMVec3(pGeometry->getVertexColours()),
+		m_gl.swapVec3YZ(*(vector<glm::vec3>*)(&pGeometry->getVertexNormals()))
+	);
+	
+	RWSection_BinMeshPLG *pBinMeshPLG = (RWSection_BinMeshPLG*)m_pDFFFile->getSectionsByType(RW_SECTION_BIN_MESH_PLG)[uiGeometryIndex];
+
+	vector<RWSection*> vecStrings = pGeometry->getSectionsByType(RW_SECTION_STRING);
+	bool bMeshUsesTexture = vecStrings.size() > 0;
+	string strTextureNameLower;
+	if (bMeshUsesTexture)
+	{
+		strTextureNameLower = String::toLowerCase(((RWSection_String*)vecStrings[0])->getData());
+		m_umapGeometryIndexByTextureNameLower[strTextureNameLower] = uiGeometryIndex;
+	}
+
+	for (RWEntry_BinMeshPLG_Mesh *pMesh : pBinMeshPLG->getMeshes())
+	{
+		pGLMesh->addFaceGroup(
+			pBinMeshPLG->getFlags() == 0 ? GL_TRIANGLES : GL_TRIANGLE_STRIP,
+			pMesh->getVertexIndices(),
+			strTextureNameLower == "" ? nullptr : m_umapTexturesByNameLower[strTextureNameLower]
+		);
+	}
+}
+
+void						ModelEditorTab::prepareRenderData(void)
+{
 	RWSection_FrameList *pFrameList = (RWSection_FrameList *)m_pDFFFile->getSectionsByType(RW_SECTION_FRAME_LIST)[0];
 
 	uint32 uiFrameIndex = 0;
@@ -348,6 +398,28 @@ void						ModelEditorTab::prepareFrame(uint32 uiFrameIndex, RWSection_Frame *pFr
 		matMultMatrix[3].y = pFrameList->m_vecPosition[uiFrameIndex].z;
 		matMultMatrix[3].z = pFrameList->m_vecPosition[uiFrameIndex].y;
 		matMultMatrix[3].w = 1;
+
+		/*
+		matMultMatrix[0].x = pFrameList->m_vecMatRow1[uiFrameIndex].x;
+		matMultMatrix[0].y = pFrameList->m_vecMatRow1[uiFrameIndex].y;
+		matMultMatrix[0].z = pFrameList->m_vecMatRow1[uiFrameIndex].z;
+		matMultMatrix[0].w = 0;
+
+		matMultMatrix[1].x = pFrameList->m_vecMatRow2[uiFrameIndex].x;
+		matMultMatrix[1].y = pFrameList->m_vecMatRow2[uiFrameIndex].y;
+		matMultMatrix[1].z = pFrameList->m_vecMatRow2[uiFrameIndex].z;
+		matMultMatrix[1].w = 0;
+
+		matMultMatrix[2].x = pFrameList->m_vecMatRow3[uiFrameIndex].x;
+		matMultMatrix[2].y = pFrameList->m_vecMatRow3[uiFrameIndex].y;
+		matMultMatrix[2].z = pFrameList->m_vecMatRow3[uiFrameIndex].z;
+		matMultMatrix[2].w = 0;
+
+		matMultMatrix[3].x = pFrameList->m_vecPosition[uiFrameIndex].x;
+		matMultMatrix[3].y = pFrameList->m_vecPosition[uiFrameIndex].y;
+		matMultMatrix[3].z = pFrameList->m_vecPosition[uiFrameIndex].z;
+		matMultMatrix[3].w = 1;
+		*/
 	}
 
 	if (umapAtomics.count(uiFrameIndex) != 0)
@@ -356,13 +428,13 @@ void						ModelEditorTab::prepareFrame(uint32 uiFrameIndex, RWSection_Frame *pFr
 		uint32 uiGeometryIndex = pAtomic->getGeometryIndex();
 		RWSection_BinMeshPLG *pBinMeshPLG = (RWSection_BinMeshPLG*)m_pDFFFile->getSectionsByType(RW_SECTION_BIN_MESH_PLG)[uiGeometryIndex];
 
-		uint32 uiMeshIndex = 0;
 		for (RWEntry_BinMeshPLG_Mesh *pMesh : pBinMeshPLG->getMeshes())
 		{
 			uint32 uiMaterialIndex = pMesh->getMaterialIndex();
 			vector<RWSection*> vecMaterials = pBinMeshPLG->getParentNode()->getParentNode()->getSectionsByType(RW_SECTION_MATERIAL);
+			vector<RWSection*> vecGeometries = m_pDFFFile->getSectionsByType(RW_SECTION_GEOMETRY);
 			RWSection_Material *pMaterial = (RWSection_Material*)vecMaterials[uiMaterialIndex];
-			RWSection_Geometry *pGeometry = (RWSection_Geometry*)m_pDFFFile->getSectionsByType(RW_SECTION_GEOMETRY)[uiGeometryIndex];
+			RWSection_Geometry *pGeometry = (RWSection_Geometry*)vecGeometries[uiGeometryIndex];// todo (RWSection_Geometry*)pBinMeshPLG->getParentNode()->getParentNode();
 			vector<RWSection*> vecStrings = pMaterial->getSectionsByType(RW_SECTION_STRING);
 			bool bMeshUsesTexture = vecStrings.size() > 0;
 			bool bUsesNormals = pGeometry->getBoundingInfo().doesHaveNormals();
@@ -372,30 +444,15 @@ void						ModelEditorTab::prepareFrame(uint32 uiFrameIndex, RWSection_Frame *pFr
 				strTextureNameLower = String::toLowerCase(((RWSection_String*)vecStrings[0])->getData());
 			}
 
-			GLMesh *pGLMesh = m_pGLEntity->addMesh(
-				m_gl.swapVec3YZ(*(vector<glm::vec3>*)(&pGeometry->getVertexPositions())),
-				*(vector<glm::vec2>*)(&pGeometry->getTextureCoordinates()),
-				StdVector::convertStdVectorBXCFVec4u8ToGLMVec3(pGeometry->getVertexColours()),
-				m_gl.swapVec3YZ(*(vector<glm::vec3>*)(&pGeometry->getVertexNormals())),
-				0,
+			GLTexture *pGLTexture = strTextureNameLower == "" ? nullptr : m_umapTexturesByNameLower[strTextureNameLower];
+
+			m_pGLEntity->m_vecRenderData.push_back({
+				uiGeometryIndex,
+				pGLTexture,
 				matMultMatrix
-			);
+			});
 
-			uint32 uiGeometryMeshIndex = 0;
-			for (RWEntry_BinMeshPLG_Mesh *pMesh : pBinMeshPLG->getMeshes())
-			{
-				pGLMesh->addFaceGroup(
-					pBinMeshPLG->getFlags() == 0 ? GL_TRIANGLES : GL_TRIANGLE_STRIP,
-					pMesh->getVertexIndices(),
-					strTextureNameLower == "" ? nullptr : m_umapTexturesByNameLower[strTextureNameLower]
-				);
-
-				m_gl.reset();
-
-				uiGeometryMeshIndex++;
-			}
-
-			uiGeometryIndex++;
+			//m_gl.reset();
 		}
 	}
 

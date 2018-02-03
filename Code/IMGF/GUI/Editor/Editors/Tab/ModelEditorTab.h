@@ -48,6 +48,13 @@ private:
 
 	void						prepareTextures(void);
 	void						prepareEntities(void);
+
+	void						prepareModel(void);
+
+	void						prepareGeometries(void);
+	void						prepareGeometry(uint32 uiGeometryIndex, bxgi::RWSection_Geometry *pGeometry);
+
+	void						prepareRenderData(void);
 	void						prepareFrame(uint32 uiFrameIndex, bxgi::RWSection_Frame *pFrame, bool bIsParentFrame);
 
 private:
