@@ -210,7 +210,8 @@ radioButton:icon:active .blackFill
 
 
 // main layer
-.activeEditorButton .lightenFillTen .blackText
+.activeEditorButton .blackText
+fill 200 200 200
 
 
 

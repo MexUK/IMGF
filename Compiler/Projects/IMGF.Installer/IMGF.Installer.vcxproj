@@ -151,21 +151,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\IMGF Installer Files\Builds\IMG Factory.exe" />
     <None Include="..\..\..\..\..\IMGF Installer Files\Settings\RegularSettings.ini" />
-    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main (dark).bxs" />
-    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main (orange and yellow).bxs" />
-    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main-1 (grey).bxs" />
-    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main-2 (blue and yellow).bxs" />
-    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main.bxs" />
-    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Black.bxs" />
-    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Blue.bxs" />
-    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Blueish.bxs" />
-    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Green.bxs" />
-    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_LightGreen.bxs" />
-    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Orange.bxs" />
-    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Purple.bxs" />
-    <None Include="..\..\..\..\..\IMGF Installer Files\Styles\Main_Red.bxs" />
     <None Include="..\..\..\..\..\imgf installer files\styles\rcdata20.bin" />
   </ItemGroup>
   <ItemGroup>

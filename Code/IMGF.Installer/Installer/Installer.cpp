@@ -88,6 +88,8 @@ void					Installer::openWindow(void)
 	Vec2u vecWindowSize = Vec2u(530, 280);
 
 	m_pWindow = BXGX::get()->addWindow(vecWindowSize.x, vecWindowSize.y);
+	BXGX::get()->getGraphicsLibrary()->setWindow(m_pWindow);
+
 	m_pWindow->addTitleBar("IMG Factory Installer - Version 2.0 Alpha");
 
 	Layer *pLayer;
@@ -192,19 +194,35 @@ void					Installer::createFiles(void)
 		createFile(hModule, IDR_RCDATA21, strIMGFDataFolderPath + "Settings/RegularSettings.ini");
 	}
 
-	createFile(hModule, IDR_RCDATA6, strIMGFDataFolderPath + "Styles/Main (dark).bxs");
-	createFile(hModule, IDR_RCDATA7, strIMGFDataFolderPath + "Styles/Main (orange and yellow).bxs");
-	createFile(hModule, IDR_RCDATA8, strIMGFDataFolderPath + "Styles/Main.bxs");
-	createFile(hModule, IDR_RCDATA9, strIMGFDataFolderPath + "Styles/Main_Black.bxs");
-	createFile(hModule, IDR_RCDATA10, strIMGFDataFolderPath + "Styles/Main_Blue.bxs");
-	createFile(hModule, IDR_RCDATA11, strIMGFDataFolderPath + "Styles/Main_Blueish.bxs");
-	createFile(hModule, IDR_RCDATA12, strIMGFDataFolderPath + "Styles/Main_Green.bxs");
-	createFile(hModule, IDR_RCDATA13, strIMGFDataFolderPath + "Styles/Main_LightGreen.bxs");
-	createFile(hModule, IDR_RCDATA14, strIMGFDataFolderPath + "Styles/Main_Orange.bxs");
-	createFile(hModule, IDR_RCDATA15, strIMGFDataFolderPath + "Styles/Main_Purple.bxs");
-	createFile(hModule, IDR_RCDATA16, strIMGFDataFolderPath + "Styles/Main_Red.bxs");
-	createFile(hModule, IDR_RCDATA17, strIMGFDataFolderPath + "Styles/Main-1 (grey).bxs");
-	createFile(hModule, IDR_RCDATA18, strIMGFDataFolderPath + "Styles/Main-2 (blue and yellow).bxs");
+	createFile(hModule, IDR_RCDATA6, strIMGFDataFolderPath + "Themes/Main (dark).theme");
+	createFile(hModule, IDR_RCDATA7, strIMGFDataFolderPath + "Themes/Main (orange and yellow).theme");
+	createFile(hModule, IDR_RCDATA8, strIMGFDataFolderPath + "Themes/Main.theme");
+	createFile(hModule, IDR_RCDATA9, strIMGFDataFolderPath + "Themes/Main_Black.theme");
+	createFile(hModule, IDR_RCDATA10, strIMGFDataFolderPath + "Themes/Main_Blue.theme");
+	createFile(hModule, IDR_RCDATA11, strIMGFDataFolderPath + "Themes/Main_Blueish.theme");
+	createFile(hModule, IDR_RCDATA12, strIMGFDataFolderPath + "Themes/Main_Green.theme");
+	createFile(hModule, IDR_RCDATA13, strIMGFDataFolderPath + "Themes/Main_LightGreen.theme");
+	createFile(hModule, IDR_RCDATA14, strIMGFDataFolderPath + "Themes/Main_Orange.theme");
+	createFile(hModule, IDR_RCDATA15, strIMGFDataFolderPath + "Themes/Main_Purple.theme");
+	createFile(hModule, IDR_RCDATA16, strIMGFDataFolderPath + "Themes/Main_Red.theme");
+	createFile(hModule, IDR_RCDATA17, strIMGFDataFolderPath + "Themes/Main-1 (grey).theme");
+	createFile(hModule, IDR_RCDATA18, strIMGFDataFolderPath + "Themes/Main-2 (blue and yellow).theme");
+
+	createFile(hModule, IDR_RCDATA50, strIMGFDataFolderPath + "Layers/Editor.layer");
+	createFile(hModule, IDR_RCDATA51, strIMGFDataFolderPath + "Layers/EditorTab.COL.layer");
+	createFile(hModule, IDR_RCDATA52, strIMGFDataFolderPath + "Layers/EditorTab.DAT.layer");
+	createFile(hModule, IDR_RCDATA53, strIMGFDataFolderPath + "Layers/EditorTab.IDE.layer");
+	createFile(hModule, IDR_RCDATA54, strIMGFDataFolderPath + "Layers/EditorTab.IMG.layer");
+	createFile(hModule, IDR_RCDATA55, strIMGFDataFolderPath + "Layers/EditorTab.IPL.layer");
+	createFile(hModule, IDR_RCDATA56, strIMGFDataFolderPath + "Layers/EditorTab.layer");
+	createFile(hModule, IDR_RCDATA57, strIMGFDataFolderPath + "Layers/EditorTab.Mod.layer");
+	createFile(hModule, IDR_RCDATA58, strIMGFDataFolderPath + "Layers/EditorTab.Radar.layer");
+	createFile(hModule, IDR_RCDATA59, strIMGFDataFolderPath + "Layers/EditorTab.Tex.layer");
+	createFile(hModule, IDR_RCDATA60, strIMGFDataFolderPath + "Layers/Main.layer");
+
+	createFile(hModule, IDR_RCDATA90, strIMGFDataFolderPath + "Shaders/ModelEditor/shader1.frag");
+	createFile(hModule, IDR_RCDATA91, strIMGFDataFolderPath + "Shaders/ModelEditor/shader1.vert");
+
 	createFile(hModule, IDR_RCDATA23, strIMGFDataFolderPath + "DefaultFiles/ModelNames/Model Names - PC GTA III.txt");
 	createFile(hModule, IDR_RCDATA24, strIMGFDataFolderPath + "DefaultFiles/ModelNames/Model Names - PC GTA VC.txt");
 	createFile(hModule, IDR_RCDATA25, strIMGFDataFolderPath + "DefaultFiles/ModelNames/Model Names - PC GTA SA.txt");

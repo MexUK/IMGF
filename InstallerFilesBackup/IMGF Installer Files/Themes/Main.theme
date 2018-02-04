@@ -7,7 +7,7 @@ fill 0 0 0
 fill 255 255 255
 
 .darkgreyFill
-fill 45 45 45
+fill 68 68 68
 
 .midgreyFill
 fill 140 140 140
@@ -57,8 +57,11 @@ text 0 0 0
 .whiteText
 text 255 255 255
 
+.lightgreyText
+text 200 200 200
+
 .disabledText
-text 75 75 75
+text 0 0 0
 
 
 
@@ -77,7 +80,7 @@ text .blackText
 
 // window
 
-.window .whiteFill .blackLine
+.window .blackLine .darkgreyFill
 
 .titleBar .blackFill .whiteText
 
@@ -128,7 +131,7 @@ line top 49 49 49
 .main_textAlign
 text left center
 
-.main_textAlignLeft
+.main_textAlignLeftTop
 text left top
 
 .main_textAlignCenter
@@ -141,29 +144,35 @@ spacing x 8
 
 
 // controls
-menu:item .main_lineLeft .main_textAlign .main_spacing .blackFill .whiteText
+menu:item .main_textAlign .main_spacing .darkgreyFill .lightgreyText
+line left 190 190 190
+line top 190 190 190
+line right 0 0 0
+line bottom 0 0 0
+
 menu:item:active .lightenFillTwenty
 menu:item:hover .lightenFillFourty
 menu:item:disabled .disabledText
 menu:itemIcon .whiteFill
 menu:itemIcon:disabled .darkgreyFill
 
-button .blackFill .whiteText .main_textAlignCenter
-button:hover .darkenFillTwenty
+button .blackFill .lightgreyText .main_textAlignCenter
+button:hover .lightenFillFourty
+button:disabled .lightenFillFourty
 
-tabBar .whiteFill
-tabBar:defaultText .blackText
-tabBar:tab .main_textAlignCenter .main_spacing .blackFill .whiteText
-tabBar:tab:active .lightenFillTwenty .whiteText
+tabBar .darkgreyFill
+tabBar:defaultText .lightgreyText
+tabBar:tab .main_textAlignCenter .main_spacing .blackFill .lightgreyText
+tabBar:tab:active .lightenFillTwenty .lightgreyText
 
-scrollBar .whiteFill
+scrollBar .blackFill
 scrollBar:hover .lightenFillFourty
 scrollBar:arrow .blackFill
 scrollBar:itemIcon .whiteFill
 scrollBar:seekBar .blackFill
 scrollBar:seekBar:hover .lightenFillFourty
 
-text .whiteFill .blackText
+text .darkgreyFill .lightgreyText .main_textAlignLeft
 
 grid .whiteFill
 grid:headerRow .blackFill
@@ -185,9 +194,11 @@ dropDown:arrow .whiteFill
 dropDown:listRow .whiteFill .blackText .main_textAlign .main_spacing .blackText
 dropDown:listRow:hover .lightenFillTwenty
 
-textBox .blackFill .whiteText .main_textAlign .main_spacing
-textBox:caret .main_textAlign .main_spacing .whiteLine
+textBox .blackFill .whiteText .main_spacing
+textBox:caret .main_spacing .whiteLine
 textBox:selection .midgreyFill .main_spacing
+.singleline .main_textAlignLeft
+.multiline .main_textAlignLeftTop
 
 checkBox:icon .blackLine
 checkBox:icon:active .blackFill
@@ -199,6 +210,14 @@ radioButton:icon:active .blackFill
 
 
 // main layer
+.activeEditorButton .blackText
+fill 200 200 200
+
+
+
+.leftMenu:item
+spacing y 5
+
 .settingsMenuLine .blackLine
 
 .settingsMenuButton .whiteFill
@@ -209,13 +228,13 @@ radioButton:icon:active .blackFill
 
 // tetxure editor
 .leftEntryPanel
-fill 229 234 245
+fill 85 85 85
 
 .leftEntryPanel:active
-fill 255 255 0
+fill 98 98 98
 
 .centerEntryPanel
-fill 219 223 232
+fill 104 104 104
 
 
 
