@@ -45,9 +45,7 @@ public:
 
 	void						render(void);
 	void						render3D(void);
-	void						update3DRenderSize(bxcf::Vec2u& vecRenderSize);
 	void						renderCamera(void);
-	void						renderAxis(void);
 	void						renderMap(void);
 
 	void						renderModel(bxgi::DFFFormat *pDFFFile);
@@ -61,36 +59,31 @@ protected:
 	void						storeControls(void);
 
 private:
-	void						perspectiveGL_ModelEditor(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar);
-
-
-
-
-	void						createGLContext(void);
 	void						prepareScene(void);
-	void						reshape(void);
 	void						drawScene(void);
-	void						destroyScene(void);
 
-	void						prepareShaders(void);
-	void						prepareAxis(void);
 	void						prepareMap(void);
-	void						prepareGLStates(void);
-	void						prepareShaderData(void);
-	void						prepareFBO(void);
-
 	void						prepareModel(bxgi::DFFFormat *pDFFFile);
 	void						prepareTXD(bxgi::TXDFormat *pTXDFile);
 
+	void						prepareGeometries(void);
+	void						prepareGeometry(uint32 uiGeometryIndex, bxgi::RWSection_Geometry *pGeometry);
+	
+	void						prepareRenderData(void);
+	void						prepareFrame(uint32 uiFrameIndex, bxgi::RWSection_Frame *pFrame, bool bIsParentFrame);
+
 private:
 	bxcf::OpenGL				m_gl;
+	bxcf::GLEntity*				m_pGLEntity;
 
 public: // todo
 	bxgi::DATLoaderFormat*			m_pDATLoaderFile;
+	bxgi::DFFFormat*				m_pDFFFile;
 	std::vector<bxgi::IDEFormat*>	m_vecIDEFiles;
 	std::vector<bxgi::IPLFormat*>	m_vecIPLFiles;
 	std::vector<bxgi::DFFFormat*>	m_vecDFFFiles;
 	std::vector<bxgi::TXDFormat*>	m_vecTXDFiles;
+	std::unordered_map<std::string, bxcf::GLTexture*>		m_umapTexturesByNameLower;
 
 private:
 	bool						m_bInitialized;
