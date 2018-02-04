@@ -45,15 +45,6 @@ public:
 
 	void						render(void);
 	void						render3D(void);
-	void						renderCamera(void);
-	void						renderMap(void);
-
-	void						renderModel(bxgi::DFFFormat *pDFFFile);
-	void						renderFrame(bxgi::DFFFormat *pDFFFile, uint32 uiFrameIndex, bxgi::RWSection_Frame *pFrame, bool bIsParentFrame);
-
-	void						zoomCamera(float32 fRadius);
-	bxcf::Vec3f					getCameraRotation(void);
-	float32						getCameraZRotation(void); // result is in radians
 
 protected:
 	void						storeControls(void);
@@ -110,24 +101,13 @@ private:
 
 	std::unordered_map<bxgi::DFFFormat*, std::vector<std::vector<GLuint>>>	m_pGeometryVertexArrayBuffers;		// GLuint: gl vertex array buffer id
 
-	//GLuint*						m_pGeometryVertexPositionBuffers;	// GLuint: gl buffer id
-
 	std::unordered_map<bxgi::DFFFormat*, std::vector<const char*>>					m_pVertexPositionBuffer;
 	std::unordered_map<bxgi::DFFFormat*, std::vector<const char*>>					m_pVertexNormalBuffer;
 	std::unordered_map<bxgi::DFFFormat*, std::vector<const char*>>					m_pTextureCoordinateBuffer;
 	std::unordered_map<bxgi::DFFFormat*, std::vector<std::vector<const char*>>>		m_pDataIndexBuffer;
 
-	std::stack<glm::mat4>		m_matProjectionMatrix;
-	std::stack<glm::mat4>		m_matModelViewMatrix;
-	//glm::mat4					m_matModelViewProjectionMatrix;
-
 	bxcf::Vec2u					m_vecRenderSize;
 
-	GLuint						axisBuffer;
-	GLuint						axisIndexBuffer;
-	GLuint						fb;
-	GLuint						color_tex;
-	GLuint						depth_rb;
 	GLuint						m_vboID;
 	GLuint						m_vboColours;
 	GLuint						m_iboID;

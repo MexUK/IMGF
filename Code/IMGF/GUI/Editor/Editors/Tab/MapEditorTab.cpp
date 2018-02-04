@@ -46,8 +46,6 @@ MapEditorTab::MapEditorTab(void) :
 	m_bInitializing(false),
 	m_bFilesAreInitialized(false)
 {
-	m_vecRenderSize.x = 800;
-	m_vecRenderSize.y = 800;
 }
 
 // controls

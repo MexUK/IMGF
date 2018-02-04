@@ -118,15 +118,19 @@ protected:
 private:
 	bool						prepareRenderData(void);
 
+	void						prepareScene(void);
+	void						prepareEntities(void);
+	void						prepareCollision(void);
+	
+	void						prepareLinesOrCones(void);
+	void						prepareSpheres(void);
+	void						prepareCuboids(void);
+	void						prepareMeshes(void);
+
 	void						setActiveEntry(bxgi::COLEntry *pCOLEntry) { m_pActiveEntry = pCOLEntry; }
 	bxgi::COLEntry*				getActiveEntry(void) { return m_pActiveEntry; }
 
-	void						update3DRenderSize(bxcf::Vec2u& vecRenderSize);
-
 	void						prepareInitial3DRender(void);
-	void						prepare3DRender(void);
-	void						renderCamera(void);
-	void						renderAxis(void);
 	void						renderCollisionObjects(void);
 	void						renderBoundingSphere(void);
 	void						renderBoundingCuboid(void);
@@ -138,22 +142,18 @@ private:
 	void						renderCollisionCones(void);
 	void						renderCollisionLines(void);
 
-	void						moveCamera(float32 fAngleDeg, float32 fRadius);
-	void						rotateCameraLookAt(float32 fZAngleDeg, float32 fXAngleDeg);
-	void						zoomCamera(float32 fRadius);
-	bxcf::Vec3f					getCameraRotation(void);
-	float32						getCameraZRotation(void); // result is in radians
-
 	bool						isPointOverEntryList(bxcf::Vec2i& vecPoint);
 
 private:
 	bxcf::OpenGL				m_gl;
+	bxcf::GLEntity*				m_pGLEntity;
 
 	bxgi::COLFormat*			m_pCOLFile;
 	bxgi::COLEntry*				m_pActiveEntry;
 
 	bxgx::ScrollBar*			m_pVScrollBar;
 
+	bool						m_bInitializing;
 	bool						m_bInitialized;
 	bool						m_bPanningCamera;
 

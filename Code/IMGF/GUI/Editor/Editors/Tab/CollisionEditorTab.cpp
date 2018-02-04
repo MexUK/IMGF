@@ -21,18 +21,7 @@
 #include "Event/EInputEvent.h"
 #include "GUI/Editor/Editors/CollisionEditor.h"
 #include "GUI/Window/windows/MainWindow/MainWindow.h"
-
-/*
-#include <include/GLFW/glfw3.h>
-#define GLFW_EXPOSE_NATIVE_WIN32 1
-#define GLFW_EXPOSE_NATIVE_WGL 1
-#include <include/GLFW/glfw3native.h>
-*/
-
-//#define GL_GLEXT_PROTOTYPES 1
-//#define GL3_PROTOTYPES 1
-//#include "GL3.h"
-//#include <gl\glu.h>
+#include "Static/DataPath.h"
 
 using namespace std;
 using namespace bxcf;
@@ -42,14 +31,16 @@ using namespace bxgx::styles::statuses;
 using namespace bxgi;
 using namespace imgf;
 
-mutex mutexInitializing3DRender; // todo
+mutex mutexInitializing3DRender_CollisionEditor; // todo
 
 CollisionEditorTab::CollisionEditorTab(void) :
+	m_pGLEntity(nullptr),
 	m_pCOLFile(nullptr),
 	m_pActiveEntry(nullptr),
 
 	m_pVScrollBar(nullptr),
 
+	m_bInitializing(false),
 	m_bInitialized(false),
 	m_bPanningCamera(false)
 {
@@ -94,21 +85,13 @@ void					CollisionEditorTab::onResizeWindow(Vec2i& vecSizeChange)
 	{
 		return;
 	}
-	
-	Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 5, getLayer()->getWindow()->getSize().y - 130 - 30); // todo use m_vecRenderSize
-	
+
+	Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 5, getLayer()->getWindow()->getSize().y - 130 - 30);
+
 	mutexRendering.lock();
-
-	if (m_hbm)
-	{
-		DeleteObject(m_hbm);
-	}
-
-	m_hbm = CreateCompatibleBitmap(m_hdcWindow, vecRenderSize.x, vecRenderSize.y);
-	SelectObject(m_hDC, m_hbm);
-
-	update3DRenderSize(vecRenderSize);
-
+	m_gl.setRenderSize(vecRenderSize);
+	m_gl.recreateBitmap();
+	m_gl.resizeScene();
 	mutexRendering.unlock();
 }
 
@@ -196,7 +179,7 @@ bool					CollisionEditorTab::onMouseMove(Vec2i& vecCursorPosition)
 			const Vec2f vecCursorMoveMultiplier = { 0.3f, 0.3f };
 
 			Vec2f vecPositionDifference = Vec2f(vecNewPosition.x - g_vecLastMousePosition.x, vecNewPosition.y - g_vecLastMousePosition.y);
-			rotateCameraLookAt(vecPositionDifference.x * vecCursorMoveMultiplier.x, vecPositionDifference.y * vecCursorMoveMultiplier.y);
+			// todo m_gl.rotateCameraLookAt(vecPositionDifference.x * vecCursorMoveMultiplier.x, vecPositionDifference.y * vecCursorMoveMultiplier.y);
 
 			/*
 			Vec3f vecCameraRotation = getCameraRotation();
@@ -303,63 +286,59 @@ void					CollisionEditorTab::onKeyDown2(uint16 uiKey)
 		bool bControlKey = (GetKeyState(VK_CONTROL) & 0x8000) == 0x8000;
 		switch (uiKey)
 		{
-		case VK_DOWN:
-			if (bControlKey)
-			{
-				m_vecCameraPosition.z -= 0.2f;
-				m_vecCameraLookAtPosition.z -= 0.2f;
-			}
-			else
-			{
-				moveCamera(90.0f, 0.2f);
-			}
-			break;
 		case VK_UP:
 			if (bControlKey)
 			{
-				m_vecCameraPosition.z += 0.2f;
-				m_vecCameraLookAtPosition.z += 0.2f;
+				m_gl.moveCameraZ(0.2f);
 			}
 			else
 			{
-				moveCamera(90.0f, -0.2f);
+				m_gl.moveCameraXY(90.0f, -0.2f);
+			}
+			break;
+		case VK_DOWN:
+			if (bControlKey)
+			{
+				m_gl.moveCameraZ(-0.2f);
+			}
+			else
+			{
+				m_gl.moveCameraXY(90.0f, 0.2f);
 			}
 			break;
 		case VK_LEFT:
-			moveCamera(0.0f, -0.2f);
+			m_gl.moveCameraXY(0.0f, -0.2f);
 			break;
 		case VK_RIGHT:
-			moveCamera(0.0f, 0.2f);
+			m_gl.moveCameraXY(0.0f, 0.2f);
 			break;
 
 
 		case 87: // W
 			if (bControlKey)
 			{
-				m_vecCameraPosition.z += 0.2f;
-				m_vecCameraLookAtPosition.z += 0.2f;
+				m_gl.moveCameraZ(0.2f);
 			}
 			else
 			{
-				moveCamera(90.0f, -0.2f);
+				m_gl.moveCameraXY(90.0f, -0.2f);
 			}
 			break;
 		case 83: // S
 			if (bControlKey)
 			{
-				m_vecCameraPosition.z -= 0.2f;
-				m_vecCameraLookAtPosition.z -= 0.2f;
+				m_gl.moveCameraZ(-0.2f);
 			}
 			else
 			{
-				moveCamera(90.0f, 0.2f);
+				m_gl.moveCameraXY(90.0f, 0.2f);
 			}
 			break;
 		case 65: // A
-			moveCamera(0.0f, -0.2f);
+			m_gl.moveCameraXY(0.0f, -0.2f);
 			break;
 		case 68: // D
-			moveCamera(0.0f, 0.2f);
+			m_gl.moveCameraXY(0.0f, 0.2f);
 			break;
 		}
 	}
@@ -378,7 +357,7 @@ void					CollisionEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 	{
 		float32 fMouseWheelScrollMultiplier = 1.2f;
 		int iDelta = -(iRotationDistance / WHEEL_DELTA);
-		zoomCamera((float32)-iDelta * fMouseWheelScrollMultiplier);
+		m_gl.zoomCamera((float32)-iDelta * fMouseWheelScrollMultiplier);
 	}
 
 	getLayer()->getWindow()->render();
@@ -523,6 +502,28 @@ void						CollisionEditorTab::updateEntryCountText(void)
 	m_pText_FileEntryCount->setText(strEntryCountText);
 }
 
+// entry list
+bool						CollisionEditorTab::isPointOverEntryList(Vec2i& vecPoint)
+{
+	int32 x, y;
+	uint32 w, h;
+
+	x = 120;
+	y = 130;
+
+	w = 250;
+	h = getLayer()->getWindow()->getSize().y - y;
+
+	return Math::isPointInRectangle(vecPoint, Vec2i(x, y), Vec2u(w, h));
+}
+
+// filter
+bool						CollisionEditorTab::doesTabEntryMatchFilter(COLEntry *pCOLEntry)
+{
+	string strSearchTextUpper = String::toUpperCase(m_pSearchBox->getText());
+	return strSearchTextUpper == "" || String::isIn(String::toUpperCase(pCOLEntry->getModelName()), strSearchTextUpper, false);
+}
+
 // render
 void						CollisionEditorTab::render(void)
 {
@@ -557,37 +558,6 @@ void						CollisionEditorTab::render2D(void)
 
 	float32 yCurrentScroll = 0;
 
-	/*
-	todo
-	BOOL bPremultipledAlphaApplied = FALSE; /////
-
-	if (!bPremultipledAlphaApplied)
-	{
-		for (auto pImageData : getIMGF()->getEntryViewerManager()->getTextureViewer()->getEntries())
-		{
-			PremultiplyBitmapAlpha(hdc, pImageData->m_hBitmap);
-		}
-		bPremultipledAlphaApplied = true;
-	}
-	*/
-
-	/*
-	todo
-	if (fSize)
-	{
-		BitBlt(ps.hdc,
-			0, 0,
-			800, getIMGF()->getEntryViewerManager()->getTextureViewer()->getWindowScrollbarMaxRange(),
-			hdcScreenCompat,
-			0, yCurrentScroll,
-			SRCCOPY);
-
-		fSize = FALSE;
-	}
-	*/
-
-	//getIMGF()->getEntryViewerManager()->getTextureViewer()->clearWindowBackground(hdc);
-
 	GetClientRect(hwnd, &clientRect);
 	width = clientRect.right - clientRect.left;
 	height = clientRect.bottom - clientRect.top;
@@ -595,10 +565,6 @@ void						CollisionEditorTab::render2D(void)
 	memDC = CreateCompatibleDC(NULL);
 
 	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
-
-
-
-
 
 	// display type: Single
 	const uint32
@@ -652,11 +618,6 @@ void						CollisionEditorTab::render2D(void)
 		GetTextExtentPoint32(hdc, String::convertStdStringToStdWString(pCOLEntry->getModelName()).c_str(), pCOLEntry->getModelName().length(), &textSize);
 		uiCalculatedWidth = textSize.cx;
 
-		//if (pImageData->m_uiWidth > uiCalculatedWidth)
-		//{
-		//	uiCalculatedWidth = pImageData->m_uiWidth;
-		//}
-
 		// draw active texture background colour
 		getLayer()->getWindow()->setRenderingStyleGroups("leftEntryPanel");
 		
@@ -697,58 +658,7 @@ void						CollisionEditorTab::render2D(void)
 		uiEntryRectY += 15;
 		uiEntryRectY += 15;
 
-		/*
-		todo
-
-		// draw texture size
-		rect.left = uiEntryRectX + uiXOffset1;
-		rect.top = uiEntryRectY + 5 - yCurrentScroll;
-		strText = String::toString(pImageData->m_uiWidth) + " x " + String::toString(pImageData->m_uiHeight);
-		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
-
-		// draw texture BPP
-		rect.left = uiEntryRectX + uiXOffset1 + 85;
-		rect.top = uiEntryRectY + 5 - yCurrentScroll;
-		strText = String::toString(pImageData->m_ucBPP) + " BPP";
-		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
-
-		// draw texture raster format
-		rect.left = uiEntryRectX + uiXOffset1 + 85 + 55;
-		rect.top = uiEntryRectY + 5 - yCurrentScroll;
-		strText = pImageData->m_strTextureFormat;
-		pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
-		*/
 		uiEntryRectY += 15;
-
-		/*
-		todo
-
-		// draw texture image preview
-		if (bTexturePreviewIsEnabled)
-		{
-			//old = (HBITMAP)SelectObject(memDC, pImageData->m_hBitmap);
-
-			uint32 uiImageWidthWhenHeightIs128 = (uint32)(((float32)128.0f / (float32)pImageData->m_uiHeight) * (float32)pImageData->m_uiWidth);
-			uint32 uiImageHeightWhenWidthIs128 = (uint32)(((float32)128.0f / (float32)pImageData->m_uiWidth) * (float32)pImageData->m_uiHeight);
-
-			uint32 uiDestWidth;
-			uint32 uiDestHeight;
-			if (uiImageWidthWhenHeightIs128 > uiImageHeightWhenWidthIs128)
-			{
-				uiDestWidth = 128;
-				uiDestHeight = uiImageHeightWhenWidthIs128;
-			}
-			else
-			{
-				uiDestWidth = uiImageWidthWhenHeightIs128;
-				uiDestHeight = 128;
-			}
-			
-			pGFX->drawImage(Vec2i(uiEntryRectX + 20, uiEntryRectY - yCurrentScroll), pImageData->m_hBitmap, Vec2u(pActiveImageData->m_uiWidth, pActiveImageData->m_uiHeight));
-			uiEntryRectY += 128;
-		}
-		*/
-
 		uiEntryRectY += 10;
 
 		// horizontal line below texture image
@@ -760,41 +670,6 @@ void						CollisionEditorTab::render2D(void)
 
 		SelectObject(hdc, old2);
 		DeleteObject(hFont);
-	}
-
-	/*
-	getLayer()->getWindow()->setRenderingStyleGroups("centerEntryPanel");
-	Vec2u vecRectSize;
-	vecRectSize.x = getLayer()->getWindow()->getSize().x - (120 + 250 + 5);
-	vecRectSize.y = getLayer()->getWindow()->getSize().y - 160;
-	pGFX->drawRectangle(Vec2i(vecMainPanelPosition.x + 250, vecMainPanelPosition.y), vecRectSize);
-	getLayer()->getWindow()->resetRenderingStyleGroups();
-	*/
-
-	if (pActiveCOLEntry)
-	{
-		// todo
-
-		//uint32 uiDestinationWidth = (uint32)((float32)pActiveCOLEntry->m_uiWidth * getZoomLevel());
-		//uint32 uiDestinationHeight = (uint32)((float32)pActiveCOLEntry->m_uiHeight * getZoomLevel());
-		
-		//pGFX->drawImage(Vec2i(vecMainPanelPosition.x + 250, vecMainPanelPosition.y), pActiveImageData->m_hBitmap, Vec2u(uiDestinationWidth, uiDestinationHeight));
-
-		//render3D();
-	}
-	
-	//getIMGF()->getEntryViewerManager()->getTextureViewer()->setWindowScrollbarMaxRange(uiImageY + 200);
-
-	if (false)
-	{
-		// todo
-		uint32 uiMaxXPosition = uiEntryRectX + uiCalculatedWidth + uiImagePaddingRight;
-		if (clientRect.bottom > (int32)uiMaxXPosition)
-		{
-			uiMaxXPosition = clientRect.bottom;
-		}
-		uiMaxXPosition += 100;
-		//getIMGF()->getEntryViewerManager()->getTextureViewer()->setSingleDisplayTypeTopScrollbarMaxXPosition(uiMaxXPosition);
 	}
 
 	SelectObject(memDC, old);
@@ -810,353 +685,119 @@ void						CollisionEditorTab::prepareInitial3DRender(void)
 // render editor 3d
 void						CollisionEditorTab::render3D(void)
 {
-	Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 5, getLayer()->getWindow()->getSize().y - 130 - 30);
-
-	mutexInitializing3DRender.lock();
+	// initialize opengl
 	if (!m_bInitialized)
 	{
-		
+		mutexInitializing3DRender_CollisionEditor.lock();
 
+		m_bInitializing = true;
 
+		Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 5, getLayer()->getWindow()->getSize().y - 130 - 30);
 
+		m_gl.setRenderSize(vecRenderSize);
+		m_gl.setWindow(getLayer()->getWindow()->getWindowHandle());
+		m_gl.setVersion(3, 3);
+		m_gl.initOpenGL();
+		m_gl.setAxisShown(true);
+		m_gl.setFBOEnabled(true);
+		m_gl.setShaders(
+			DataPath::getDataPath() + "Shaders/ModelEditor/shader1.vert",
+			DataPath::getDataPath() + "Shaders/ModelEditor/shader1.frag"
+		);
+		m_gl.setCameraPosition(glm::vec3(-4.0f, -4.0f, 4.0f));
+		m_gl.setCameraRotation(glm::vec3(45, 0, 135));
+		m_gl.setModel(glm::mat4(1.0f));
+		m_gl.prepareState();
+		m_gl.resizeScene();
+		m_gl.init();
 
+		prepareScene();
 
-		//glfwInit();
-
-		//glewExperimental = GL_TRUE;
-		//GLenum err = glewInit();
-
-		
-
-
-		
-
-		//hDC = GetDC(getLayer()->getWindow()->getWindowHandle());
-		m_hdcWindow = GetDC(getLayer()->getWindow()->getWindowHandle());
-		m_hDC = CreateCompatibleDC(m_hdcWindow);
-
-		m_hbm = CreateCompatibleBitmap(m_hdcWindow, vecRenderSize.x, vecRenderSize.y);
-
-		SelectObject(m_hDC, m_hbm);
-
-		if (!m_hDC)
-		{
-			MessageBox(NULL, L"ERROR 1", L"A", MB_OK);
-			return;
-		}
-
-		int bits = 32;
-		static PIXELFORMATDESCRIPTOR pfd =	// pfd Tells Windows How We Want Things To Be
-		{
-			sizeof(PIXELFORMATDESCRIPTOR),	// Size Of This Pixel Format Descriptor
-			1,								// Version Number
-			/*PFD_DRAW_TO_WINDOW |*/			// Format Must Support Window
-			PFD_DRAW_TO_BITMAP |
-			//PFD_SUPPORT_GDI
-			PFD_SUPPORT_OPENGL, // |			// Format Must Support OpenGL
-			//PFD_DOUBLEBUFFER,				// Must Support Double Buffering
-			PFD_TYPE_RGBA,					// Request An RGBA Format
-			bits,							// Select Our Color Depth
-			0, 0, 0, 0, 0, 0,				// Color Bits Ignored
-			0,								// No Alpha Buffer
-			0,								// Shift Bit Ignored
-			0,								// No Accumulation Buffer
-			0, 0, 0, 0,						// Accumulation Bits Ignored
-			16,								// 16Bit Z-Buffer (Depth Buffer)
-			0,								// No Stencil Buffer
-			0,								// No Auxiliary Buffer
-			PFD_MAIN_PLANE,					// Main Drawing Layer
-			0,								// Reserved
-			0, 0, 0							// Layer Masks Ignored
-		};
-
-		GLuint PixelFormat = ChoosePixelFormat(m_hDC, &pfd);
-		if (!PixelFormat)
-		{
-			MessageBox(NULL, L"ERROR 2", L"A", MB_OK);
-			return;
-		}
-
-		BOOL bResult = SetPixelFormat(m_hDC, PixelFormat, &pfd);
-		if (!bResult)
-		{
-			MessageBox(NULL, L"ERROR 3", L"A", MB_OK);
-			return;
-		}
-
-		HGLRC hRC = wglCreateContext(m_hDC);
-		if (!hRC)
-		{
-			MessageBox(NULL, L"ERROR 4", L"A", MB_OK);
-			return;
-		}
-
-		bResult = wglMakeCurrent(m_hDC, hRC);
-		if (!bResult)
-		{
-			MessageBox(NULL, L"ERROR 5", L"A", MB_OK);
-			return;
-		}
-
-
-
-		glViewport(0, 0, vecRenderSize.x, vecRenderSize.y);
-		
-		glEnable(GL_CULL_FACE);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-		//glShadeModel(GL_SMOOTH);
-		//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		//glClearDepth(1.0f);                         // Depth Buffer Setup
-		//glEnable(GL_DEPTH_TEST);                        // Enables Depth Testing
-		
-		glDisable(GL_DEPTH_TEST);
-		//glDisable(GL_ALPHA_TEST);
-		//glDisable(GL_STENCIL_TEST);
-		//glDisable(GL_SCISSOR_TEST);
-		
-		glDepthFunc(GL_LEQUAL);                         // The Type Of Depth Test To Do
-		//glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);          // Really Nice Perspective Calculations
-
-		float32 fHighestDistance = 1.5f;
-		float32 fDistanceMultiplier = 2.0f;
-		m_vecCameraPosition = { -2.0f, -2.0f, 2.0f };
-		//vecCameraPosition = { 0.0f, 0.0f, 0.0f };
-		//vecCameraPosition = Math::getPositionInFrontOfPosition(vecCameraPosition, Math::convertDegreesToRadians(45.0f), fHighestDistance * fDistanceMultiplier);
-		//vecCameraRotation = { 0.0f, Math::convertDegreesToRadians(45.0f + 90), 0.0f };
+		mutexInitializing3DRender_CollisionEditor.unlock();
 
 		m_bInitialized = true;
+		m_bInitializing = false;
 	}
-	mutexInitializing3DRender.unlock();
 
-	//mutexRendering.lock();
+	// render to opengl
+	m_gl.preRender();
+	m_gl.render();
+	m_gl.postRender();
 	
+	// render to gdi
+	HDC hdc2 = CreateCompatibleDC(GetWindowDC(m_gl.m_hWindow));
+	HBITMAP hbm2 = m_gl.getFBOBitmap();
 
+	HGDIOBJ hOld2 = SelectObject(hdc2, hbm2);
+	BitBlt(GetWindowDC(m_gl.m_hWindow), 120 + 250, 130, m_gl.getRenderSize().x, m_gl.getRenderSize().y, hdc2, 0, 0, SRCCOPY);
+	SelectObject(hdc2, hOld2);
 
-	//HANDLE hOld = SelectObject(hDC, hbm);
-	
-	
-	update3DRenderSize(vecRenderSize);
-
-
-	//prepare2DRender();
-	//if (glGetError()) Input::showMessage("test1.5 error", "Error"); 
-	//renderBackground();
-
-	//if (glGetError()) Input::showMessage("test2 error", "Error");
-
-	//prepare3DRender();
-	
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);         // Clear The Screen And The Depth Buffer
-	//glClear(GL_COLOR_BUFFER_BIT);
-	//glLoadIdentity();
-	
-	
-	renderCamera();
-	renderAxis();
-	
-	if (getActiveEntry())
-	{
-		renderBoundingSphere();
-		renderBoundingCuboid();
-		renderCollisionObjects();
-	}
-	
-	//glTranslatef(vecCameraPosition.x, vecCameraPosition.z, vecCameraPosition.y);
-
-	//glTranslatef(vecCameraPosition.x, vecCameraPosition.z, vecCameraPosition.y);
-
-	//if (glGetError()) Input::showMessage("test3 error", "Error");
-
-	//prepare2DRender();
-	//if (glGetError()) Input::showMessage("test3.5 error", "Error");
-	//render2DObjects();
-
-	//if (glGetError()) Input::showMessage("test4 error", "Error");
-
-	//glDisable(GL_SCISSOR_TEST);
-
-	//glDrawBuffers(1, GetBuffer(GL_BACK);
-	
-	
-
-	glFinish();
-
-	//SwapBuffers(m_hdcWindow);
-	
-
-	BitBlt(m_hdcWindow, 120+250, 130, vecRenderSize.x, vecRenderSize.y, m_hDC, 0, 0, SRCCOPY);
-	
-
-
-
-	//SelectObject(hDC, hOld);
-	//DeleteObject(hbm);
-	//DeleteDC(hDC);
-
-
-
-
-	//mutexRendering.unlock();
+	DeleteObject(hbm2);
+	DeleteDC(hdc2);
 }
 
-void						CollisionEditorTab::update3DRenderSize(Vec2u& vecRenderSize)
+// entity preparation
+void						CollisionEditorTab::prepareScene(void)
 {
-	//mutexRendering.lock();
+	glUseProgram(m_gl.m_uiShaderProgram);
 
-	const float64 ar = ((float64)vecRenderSize.x) / ((float64)vecRenderSize.y);
-
-	/*
-	glViewport(0, 0, vecRenderSize.x, vecRenderSize.y);
-	//glScissor(x, y, w, h);
-	//glEnable(GL_SCISSOR_TEST);
-	//glClear(GL_DEPTH_BUFFER_BIT);
-	GLenum a = glGetError();
-	if (a != GL_NO_ERROR)
-	{
-		//MessageBox(NULL, L"AAA", L"BBB", MB_OK);
-	}
-	*/
-
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	glViewport(0, 0, vecRenderSize.x, vecRenderSize.y);
-
-	//glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
-
-	//gluPerspective(60.0, ar, 0.1, 100.0);
-	//gluPerspective(50.0, 1.0, 1.0, 50.0);
-	perspectiveGL(45.0, ar, 1.0, 1500.0);
-
-	//glLoadMatrixf(fData);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	//mutexRendering.unlock();
+	prepareEntities();
 }
 
-void						CollisionEditorTab::prepare3DRender(void)
+void						CollisionEditorTab::prepareEntities(void)
 {
-	//glUseProgram(ProgramObject_3DScene);
-	//if (glGetError()) Input::showMessage("glUseProgram error", "Error");
-
-	int w, h;
-	//GLFWwindow window;
-	//glfwGetWindowSize(&window, &w, &h);
-	//const float64 ar = ((float64)w) / ((float64)h);
-	//const float64 ar = ((float64)getLayer()->getWindow()->getSize().x) / ((float64)getLayer()->getWindow()->getSize().y);
-	//const float64 ar = ((float64)300) / ((float64)300);
-
-	
-	
-	/*
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	
-
-	glClear(GL_DEPTH_BUFFER_BIT);
-	*/
+	prepareCollision();
 }
 
-void						CollisionEditorTab::moveCamera(float32 fAngleDeg, float32 fRadius)
+void						CollisionEditorTab::prepareCollision(void)
 {
-	m_vecCameraPosition = Math::getPositionInFrontOfPosition(m_vecCameraPosition, getCameraZRotation() + Math::convertDegreesToRadians(fAngleDeg), fRadius);
-	m_vecCameraLookAtPosition = Math::getPositionInFrontOfPosition(m_vecCameraLookAtPosition, getCameraZRotation() + Math::convertDegreesToRadians(fAngleDeg), fRadius);
+	m_pGLEntity = m_gl.addEntity();
+
+	prepareLinesOrCones();
+	prepareSpheres();
+	prepareCuboids();
+	prepareMeshes();
 }
 
-void						CollisionEditorTab::rotateCameraLookAt(float32 fZAngleDeg, float32 fXAngleDeg)
+void						CollisionEditorTab::prepareLinesOrCones(void)
 {
-	Vec3f vecCameraRotation = getCameraRotation();
-	fZAngleDeg -= 90.0f;
-	fXAngleDeg -= 90.0f;
-	float32 fRadius = Math::getDistanceBetweenPoints(m_vecCameraPosition, m_vecCameraLookAtPosition);
-	Vec3f vecCameraPositionOffset = Math::getCartesianFromSpherical(fRadius, vecCameraRotation.x - Math::convertDegreesToRadians(fXAngleDeg), vecCameraRotation.z + Math::convertDegreesToRadians(fZAngleDeg));
-	vecCameraPositionOffset.z = -vecCameraPositionOffset.z;
-	m_vecCameraLookAtPosition = m_vecCameraPosition + vecCameraPositionOffset;
 }
 
-void						CollisionEditorTab::zoomCamera(float32 fRadius)
+void						CollisionEditorTab::prepareSpheres(void)
 {
-	Vec3f vecCameraRotation = getCameraRotation();
-	float32 fXAngle = vecCameraRotation.x;// Math::convertDegreesToRadians(90.0f);
-	float32 fZAngle = vecCameraRotation.z - Math::convertDegreesToRadians(90.0f);
-	Vec3f vecCameraPositionOffset = Math::getCartesianFromSpherical(fRadius, fXAngle, fZAngle);
-	vecCameraPositionOffset.z = -vecCameraPositionOffset.z;
-	m_vecCameraPosition = m_vecCameraPosition + vecCameraPositionOffset;
-	m_vecCameraLookAtPosition = m_vecCameraLookAtPosition + vecCameraPositionOffset;
 }
 
-Vec3f						CollisionEditorTab::getCameraRotation(void)
+void						CollisionEditorTab::prepareCuboids(void)
 {
-	Vec3f vecCameraRotation = Vec3f{
-		Math::getAngleBetweenPoints(Vec3f(m_vecCameraPosition.x, m_vecCameraPosition.z, 0.0f), Vec3f(m_vecCameraLookAtPosition.x, m_vecCameraLookAtPosition.z, 0.0f)) + Math::convertDegreesToRadians(90.0f), // X
-		0.0f, // Y
-		Math::getAngleBetweenPoints(m_vecCameraPosition, m_vecCameraLookAtPosition) + Math::convertDegreesToRadians(90.0f) // Z
-	};
-	while (vecCameraRotation.x > 3.142) vecCameraRotation.x -= 3.142;
-	while (vecCameraRotation.x < -3.142) vecCameraRotation.x += 3.142;
-	while (vecCameraRotation.y > 3.142) vecCameraRotation.y -= 3.142;
-	while (vecCameraRotation.y < -3.142) vecCameraRotation.y += 3.142;
-	while (vecCameraRotation.z > 3.142) vecCameraRotation.z -= 3.142;
-	while (vecCameraRotation.z < -3.142) vecCameraRotation.z += 3.142;
-	return vecCameraRotation;
 }
 
-float32						CollisionEditorTab::getCameraZRotation(void)
+void						CollisionEditorTab::prepareMeshes(void)
 {
-	return Math::getAngleBetweenPoints(m_vecCameraPosition, m_vecCameraLookAtPosition) + Math::convertDegreesToRadians(90.0f); // Z
 }
 
-float f = 0.0f; // todo
-
-void						CollisionEditorTab::renderCamera(void)
+// render
+void						CollisionEditorTab::renderCollisionObjects(void)
 {
-	Vec3f vecCameraRotation = getCameraRotation();
-	//f += 0.03f;
-	
-	//vecCameraRotation.z = -vecCameraRotation.z;
-
-	// camera rotation
-	glRotatef(Math::convertRadiansToDegrees(vecCameraRotation.x), 1.0f, 0.0f, 0.0f); // Rotate our camera on the x-axis (looking up and down)
-	glRotatef(Math::convertRadiansToDegrees(vecCameraRotation.z), 0.0f, 1.0f, 0.0f); // Rotate our camera on the y-axis (looking left and right)
-	glRotatef(Math::convertRadiansToDegrees(vecCameraRotation.y), 0.0f, 0.0f, 1.0f);
-
-	// camera position
-	glTranslatef(-m_vecCameraPosition.x, -m_vecCameraPosition.z, -m_vecCameraPosition.y);
-
-	//vecCameraRotation.x += Math::convertDegreesToRadians(0.1f);
-	//vecCameraRotation.z += Math::convertDegreesToRadians(0.1f);
-	//vecCameraRotation.z += Math::convertDegreesToRadians(0.03f);
+	renderCollisionSpheres();
+	renderCollisionCuboids();
+	renderCollisionLinesOrCones();
+	renderCollisionMeshes();
 }
 
-void						CollisionEditorTab::renderAxis(void)
-{
-	glBegin(GL_LINE_STRIP);
-	glColor3ub(255, 0, 0);
-	glVertex3f(-5000.0f, 0.0f, 0.0f);
-	glVertex3f(5000.0f, 0.0f, 0.0f);
-	glEnd();
 
-	glBegin(GL_LINE_STRIP);
-	glColor3ub(0, 255, 0);
-	glVertex3f(0.0f, 0.0f, -5000.0f);
-	glVertex3f(0.0f, 0.0f, 5000.0f);
-	glEnd();
 
-	glBegin(GL_LINE_STRIP);
-	glColor3ub(0, 0, 255);
-	glVertex3f(0.0f, -5000.0f, 0.0f);
-	glVertex3f(0.0f, 5000.0f, 0.0f);
-	glEnd();
-}
+
+
+
+
+
+
+
+
+
+
+
+
 
 void						CollisionEditorTab::renderBoundingSphere(void)
 {
@@ -1220,15 +861,7 @@ void						CollisionEditorTab::renderBoundingCuboid(void)
 	}
 }
 
-void						CollisionEditorTab::renderCollisionObjects(void)
-{
-	glColor3ub(255, 255, 255);
 
-	renderCollisionSpheres();
-	renderCollisionCuboids();
-	renderCollisionLinesOrCones();
-	renderCollisionMeshes();
-}
 
 void						CollisionEditorTab::renderCollisionMeshes(void)
 {
@@ -1342,36 +975,3 @@ void						CollisionEditorTab::renderCollisionCones(void)
 	// lines or cones not present in COL file
 }
 
-// utility
-void						perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar)
-{
-	const GLdouble pi = 3.1415926535897932384626433832795;
-	GLdouble fW, fH;
-
-	//fH = tan( (fovY / 2) / 180 * pi ) * zNear;
-	fH = tan(fovY / 360 * pi) * zNear;
-	fW = fH * aspect;
-
-	glFrustum(-fW, fW, -fH, fH, zNear, zFar);
-}
-
-bool						CollisionEditorTab::isPointOverEntryList(Vec2i& vecPoint)
-{
-	int32 x, y;
-	uint32 w, h;
-
-	x = 120;
-	y = 130;
-
-	w = 250;
-	h = getLayer()->getWindow()->getSize().y - y;
-
-	return Math::isPointInRectangle(vecPoint, Vec2i(x, y), Vec2u(w, h));
-}
-
-// filter
-bool						CollisionEditorTab::doesTabEntryMatchFilter(COLEntry *pCOLEntry)
-{
-	string strSearchTextUpper = String::toUpperCase(m_pSearchBox->getText());
-	return strSearchTextUpper == "" || String::isIn(String::toUpperCase(pCOLEntry->getModelName()), strSearchTextUpper, false);
-}
