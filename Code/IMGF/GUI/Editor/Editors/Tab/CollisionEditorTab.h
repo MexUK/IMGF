@@ -122,25 +122,17 @@ private:
 	void						prepareEntities(void);
 	void						prepareCollision(void);
 	
-	void						prepareLinesOrCones(void);
-	void						prepareSpheres(void);
-	void						prepareCuboids(void);
-	void						prepareMeshes(void);
+	void						prepareLinesOrCones(bxgi::COLEntry *pCOLEntry);
+	void						prepareSpheres(bxgi::COLEntry *pCOLEntry);
+	void						prepareCuboids(bxgi::COLEntry *pCOLEntry);
+	void						prepareMeshes(bxgi::COLEntry *pCOLEntry);
 
 	void						setActiveEntry(bxgi::COLEntry *pCOLEntry) { m_pActiveEntry = pCOLEntry; }
 	bxgi::COLEntry*				getActiveEntry(void) { return m_pActiveEntry; }
 
 	void						prepareInitial3DRender(void);
-	void						renderCollisionObjects(void);
 	void						renderBoundingSphere(void);
 	void						renderBoundingCuboid(void);
-
-	void						renderCollisionMeshes(void);
-	void						renderCollisionCuboids(void);
-	void						renderCollisionSpheres(void);
-	void						renderCollisionLinesOrCones(void);
-	void						renderCollisionCones(void);
-	void						renderCollisionLines(void);
 
 	bool						isPointOverEntryList(bxcf::Vec2i& vecPoint);
 

@@ -22,6 +22,7 @@
 #include "GUI/Editor/Editors/CollisionEditor.h"
 #include "GUI/Window/windows/MainWindow/MainWindow.h"
 #include "Static/DataPath.h"
+#include "Static/StdVector.h"
 
 using namespace std;
 using namespace bxcf;
@@ -52,6 +53,7 @@ CollisionEditorTab::CollisionEditorTab(void) :
 void					CollisionEditorTab::bindEvents(void)
 {
 	bindEvent(RENDER, &CollisionEditorTab::render);
+	bindEvent(PROCESS, &CollisionEditorTab::render3D);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	bindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	bindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
@@ -64,6 +66,7 @@ void					CollisionEditorTab::bindEvents(void)
 void					CollisionEditorTab::unbindEvents(void)
 {
 	unbindEvent(RENDER, &CollisionEditorTab::render);
+	unbindEvent(PROCESS, &CollisionEditorTab::render3D);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	unbindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
@@ -192,7 +195,7 @@ bool					CollisionEditorTab::onMouseMove(Vec2i& vecCursorPosition)
 			m_vecCameraLookAtPosition.y = vecPos2.y;
 			*/
 
-			render3D();
+			//render3D();
 		}
 
 		g_vecLastMousePosition = Vec2f(vecNewPosition.x, vecNewPosition.y);
@@ -535,7 +538,7 @@ void						CollisionEditorTab::render(void)
 void						CollisionEditorTab::renderNotOnProcess(void)
 {
 	render2D();
-	render3D();
+	//render3D();
 }
 
 // render editor 2d
@@ -753,35 +756,91 @@ void						CollisionEditorTab::prepareCollision(void)
 {
 	m_pGLEntity = m_gl.addEntity();
 
-	prepareLinesOrCones();
-	prepareSpheres();
-	prepareCuboids();
-	prepareMeshes();
+	for (COLEntry *pCOLEntry : m_pCOLFile->getEntries())
+	{
+		prepareLinesOrCones(pCOLEntry);
+		prepareSpheres(pCOLEntry);
+		prepareCuboids(pCOLEntry);
+		prepareMeshes(pCOLEntry);
+
+		break;
+	}
 }
 
-void						CollisionEditorTab::prepareLinesOrCones(void)
+void						CollisionEditorTab::prepareLinesOrCones(COLEntry *pCOLEntry)
 {
+	/*
+	todo
+	if (true) // todo
+	{
+		for (TLine& line : pCOLEntry->getCollisionLines())
+		{
+			GLMesh *pMesh = m_pGLEntity->addMesh(line.m_vecPosition, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
+		}
+	}
+	else
+	{
+		for (TCone& cone : pCOLEntry->getCollisionCones())
+		{
+			vector<glm::vec3> vecVertices = Math::getConeVertices(sphere.m_vecCenter, sphere.m_fRadius, 100);
+			GLMesh *pMesh = m_pGLEntity->addMesh(vecVertices, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
+		}
+	}
+	*/
 }
 
-void						CollisionEditorTab::prepareSpheres(void)
+void						CollisionEditorTab::prepareSpheres(COLEntry *pCOLEntry)
 {
+	for (TSphere& sphere : pCOLEntry->getCollisionSpheres())
+	{
+		// todo
+		vector<glm::vec3> vecVertices = Math::getSphereVertices(glm::vec3(sphere.m_vecCenter.x, sphere.m_vecCenter.y, sphere.m_vecCenter.z), sphere.m_fRadius, 100);
+		GLMesh *pMesh = m_pGLEntity->addMesh(vecVertices, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_TRIANGLES);
+
+		/*
+		vector<Vec3f> vecVertexPositions;
+		for (uint32 i = 0, j = 360, step = 1; i < j; i += step)
+		{
+			Vec3f vecPosition = Math::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, Math::convertDegreesToRadians((float32)i), Math::convertDegreesToRadians(0.0f));
+			vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
+			vecVertexPositions.push_back(vecPosition);
+		}
+		GLMesh *pMesh = m_pGLEntity->addMesh(StdVector::convertStdVectorBXCFVec3fToGLMVec3(vecVertexPositions), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINE_LOOP);
+
+		vecVertexPositions.clear();
+		for (uint32 i = 0, j = 360, step = 1; i < j; i += step)
+		{
+			Vec3f vecPosition = Math::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, Math::convertDegreesToRadians(90.0f), Math::convertDegreesToRadians((float32)i));
+			vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
+			vecVertexPositions.push_back(vecPosition);
+		}
+		pMesh = m_pGLEntity->addMesh(StdVector::convertStdVectorBXCFVec3fToGLMVec3(vecVertexPositions), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINE_LOOP);
+
+		vecVertexPositions.clear();
+		for (uint32 i = 0, j = 360, step = 1; i < j; i += step)
+		{
+			Vec3f vecPosition = Math::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, Math::convertDegreesToRadians((float32)i), Math::convertDegreesToRadians(90.0f));
+			vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
+			vecVertexPositions.push_back(vecPosition);
+		}
+		pMesh = m_pGLEntity->addMesh(StdVector::convertStdVectorBXCFVec3fToGLMVec3(vecVertexPositions), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINE_LOOP);
+		*/
+	}
 }
 
-void						CollisionEditorTab::prepareCuboids(void)
+void						CollisionEditorTab::prepareCuboids(COLEntry *pCOLEntry)
 {
+	for (TBox& box : pCOLEntry->getCollisionBoxes())
+	{
+		vector<glm::vec3> vecVertices = StdVector::convertStdVectorBXCFVec3fToGLMVec3(Math::getCuboidFaceVerticesAsQuads(box.m_min, box.m_max));
+		GLMesh *pMesh = m_pGLEntity->addMesh(vecVertices, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
+	}
 }
 
-void						CollisionEditorTab::prepareMeshes(void)
+void						CollisionEditorTab::prepareMeshes(COLEntry *pCOLEntry)
 {
-}
-
-// render
-void						CollisionEditorTab::renderCollisionObjects(void)
-{
-	renderCollisionSpheres();
-	renderCollisionCuboids();
-	renderCollisionLinesOrCones();
-	renderCollisionMeshes();
+	vector<glm::vec3> vecVertices = *(std::vector<glm::vec3>*)&pCOLEntry->getCollisionMeshVertices();
+	GLMesh *pMesh = m_pGLEntity->addMesh(vecVertices, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
 }
 
 
@@ -798,7 +857,7 @@ void						CollisionEditorTab::renderCollisionObjects(void)
 
 
 
-
+// old
 void						CollisionEditorTab::renderBoundingSphere(void)
 {
 	COLEntry *pCOLEntry = getActiveEntry();
@@ -860,118 +919,3 @@ void						CollisionEditorTab::renderBoundingCuboid(void)
 		}
 	}
 }
-
-
-
-void						CollisionEditorTab::renderCollisionMeshes(void)
-{
-	COLEntry *pCOLEntry = getActiveEntry();
-
-	// draw collision mesh faces & vertices
-	glBegin(GL_TRIANGLES);
-	glColor3ub(255, 0, 0);
-	for (TFace& face : pCOLEntry->getCollisionMeshFaces())
-	{
-		TVertex& vecVector1 = pCOLEntry->getCollisionMeshVertices()[face.m_uiA];
-		TVertex& vecVector2 = pCOLEntry->getCollisionMeshVertices()[face.m_uiB];
-		TVertex& vecVector3 = pCOLEntry->getCollisionMeshVertices()[face.m_uiC];
-		//Debugger::log("vecVector1: " + String::toString(vecVector1.x) + ", " + String::toString(vecVector1.y) + ", " + String::toString(vecVector1.z));
-		//Debugger::log("vecVector2: " + String::toString(vecVector2.x) + ", " + String::toString(vecVector2.y) + ", " + String::toString(vecVector2.z));
-		//Debugger::log("vecVector3: " + String::toString(vecVector3.x) + ", " + String::toString(vecVector3.y) + ", " + String::toString(vecVector3.z));
-		glVertex3f(vecVector1.x, vecVector1.z, vecVector1.y);
-		glVertex3f(vecVector2.x, vecVector2.z, vecVector2.y);
-		glVertex3f(vecVector3.x, vecVector3.z, vecVector3.y);
-	}
-	glEnd();
-}
-
-void						CollisionEditorTab::renderCollisionCuboids(void)
-{
-	COLEntry *pCOLEntry = getActiveEntry();
-
-	glBegin(GL_QUADS);
-	//glColor3ub(255, 0, 0);
-
-	//Debugger::log("collisionBox.m_min: " + String::toString(collisionBox.m_min.x) + ", " + String::toString(collisionBox.m_min.y) + ", " + String::toString(collisionBox.m_min.z));
-	//Debugger::log("collisionBox.m_max: " + String::toString(collisionBox.m_max.x) + ", " + String::toString(collisionBox.m_max.y) + ", " + String::toString(collisionBox.m_max.z));
-	uint32 i = 0;
-	int i2 = 0;
-	int colors[6][3] = {
-		{ 255, 0, 0 },
-		{ 0, 255, 0 },
-		{ 0, 0, 255 },
-		{ 255, 255, 0 },
-		{ 255, 128, 0 },
-		{ 50, 50, 50 }
-	};
-	for (TBox& collisionBox : pCOLEntry->getCollisionBoxes())
-	{
-		vector<Vec3f> vecVertices = Math::getCuboidFaceVerticesAsQuads(collisionBox.m_min, collisionBox.m_max);
-		i = 0;
-		i2 = 0;
-		for (auto vecVertex : vecVertices)
-		{
-			//Debugger::log("vecVertex: " + String::toString(vecVertex.x) + ", " + String::toString(vecVertex.y) + ", " + String::toString(vecVertex.z));
-			if ((i % 4) == 0)
-			{
-				glColor3ub(colors[i2][0], colors[i2][1], colors[i2][2]);
-				i2++;
-				i2 = i2 % 6;
-			}
-			if ((i % 4) == 3)
-			{
-				//Debugger::log("--");
-			}
-			glVertex3f(vecVertex.x, vecVertex.z, vecVertex.y);
-			i++;
-		}
-		//Debugger::log("------------------------------");
-	}
-	glEnd();
-}
-
-void						CollisionEditorTab::renderCollisionSpheres(void)
-{
-	COLEntry *pCOLEntry = getActiveEntry();
-
-	int colors[6][3] = {
-		{ 255, 0, 0 },
-		{ 0, 255, 0 },
-		{ 0, 0, 255 },
-		{ 255, 255, 0 },
-		{ 255, 128, 0 },
-		{ 50, 50, 50 }
-	};
-
-	// draw collision spheres
-	uint32 i2 = 0;
-	for (TSphere& collisionSphere : pCOLEntry->getCollisionSpheres())
-	{
-		glColor3ub(colors[i2][0], colors[i2][1], colors[i2][2]);
-
-		glPushMatrix();
-		SolidSphere sphere(collisionSphere.m_fRadius, 15, 15);
-		sphere.draw(collisionSphere.m_vecCenter.x, collisionSphere.m_vecCenter.z, collisionSphere.m_vecCenter.y);
-		glPopMatrix();
-
-		i2++;
-		i2 = i2 % 6;
-	}
-}
-
-void						CollisionEditorTab::renderCollisionLinesOrCones(void)
-{
-	renderCollisionLines();
-	//renderCollisionCones();
-}
-
-void						CollisionEditorTab::renderCollisionLines(void)
-{
-	// lines or cones not present in COL file
-}
-
-void						CollisionEditorTab::renderCollisionCones(void)
-{
-	// lines or cones not present in COL file
-}
-
