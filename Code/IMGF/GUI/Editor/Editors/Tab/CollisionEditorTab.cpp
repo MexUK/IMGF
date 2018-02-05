@@ -33,6 +33,7 @@ using namespace bxgi;
 using namespace imgf;
 
 mutex mutexInitializing3DRender_CollisionEditor; // todo
+recursive_mutex mutex3DRender; // todo
 
 CollisionEditorTab::CollisionEditorTab(void) :
 	m_pGLEntity(nullptr),
@@ -161,7 +162,7 @@ void					CollisionEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 	if (pActiveCOLEntry != nullptr)
 	{
 		setActiveEntry(pActiveCOLEntry);
-		getLayer()->getWindow()->render();
+		prepareEntities();
 	}
 }
 
@@ -688,6 +689,8 @@ void						CollisionEditorTab::prepareInitial3DRender(void)
 // render editor 3d
 void						CollisionEditorTab::render3D(void)
 {
+	mutex3DRender.lock();
+
 	// initialize opengl
 	if (!m_bInitialized)
 	{
@@ -737,6 +740,23 @@ void						CollisionEditorTab::render3D(void)
 
 	DeleteObject(hbm2);
 	DeleteDC(hdc2);
+
+	mutex3DRender.unlock();
+}
+
+// entity colours
+glm::vec3						CollisionEditorTab::getItemColour(uint32 uiItemIndex)
+{
+	vector<glm::vec3> vecItemColours = {
+		{ 1.0f, 0.0f, 0.0f },
+		{ 0.0f, 1.0f, 0.0f },
+		{ 0.0f, 0.0f, 1.0f },
+
+		{ 1.0f, 1.0f, 0.0f },
+		{ 0.0f, 1.0f, 1.0f },
+		{ 1.0f, 0.0f, 1.0f }
+	};
+	return vecItemColours[uiItemIndex % 6];
 }
 
 // entity preparation
@@ -749,22 +769,45 @@ void						CollisionEditorTab::prepareScene(void)
 
 void						CollisionEditorTab::prepareEntities(void)
 {
-	prepareCollision();
+	mutex3DRender.lock();
+	prepareCollisionEntry();
+	mutex3DRender.unlock();
 }
 
-void						CollisionEditorTab::prepareCollision(void)
+void						CollisionEditorTab::prepareCollisionEntry(void)
 {
+	m_gl.reset();
+	if (m_pGLEntity)
+	{
+		m_gl.removeEntity(m_pGLEntity);
+	}
+
 	m_pGLEntity = m_gl.addEntity();
 
-	for (COLEntry *pCOLEntry : m_pCOLFile->getEntries())
-	{
-		prepareLinesOrCones(pCOLEntry);
-		prepareSpheres(pCOLEntry);
-		prepareCuboids(pCOLEntry);
-		prepareMeshes(pCOLEntry);
+	prepareBoundingSphere(m_pActiveEntry);
+	prepareBoundingCuboid(m_pActiveEntry);
 
-		break;
-	}
+	prepareLinesOrCones(m_pActiveEntry);
+	prepareSpheres(m_pActiveEntry);
+	prepareCuboids(m_pActiveEntry);
+	prepareMeshes(m_pActiveEntry);
+}
+
+void						CollisionEditorTab::prepareBoundingSphere(COLEntry *pCOLEntry)
+{
+	glm::vec3 pos = glm::vec3(pCOLEntry->getBoundingObjects().m_vecCenter.x, pCOLEntry->getBoundingObjects().m_vecCenter.z, pCOLEntry->getBoundingObjects().m_vecCenter.y);
+	glm::vec3 vecColour = glm::vec3(1.0f, 0.5f, 0.0f);
+
+	GLMesh *pSphere = m_pGLEntity->addBoundingSphere(pos, pCOLEntry->getBoundingObjects().m_fRadius, vecColour);
+}
+
+void						CollisionEditorTab::prepareBoundingCuboid(COLEntry *pCOLEntry)
+{
+	Vec3f& min = pCOLEntry->getBoundingObjects().m_vecMin;
+	Vec3f& max = pCOLEntry->getBoundingObjects().m_vecMax;
+	glm::vec3 vecColour = glm::vec3(0.0f, 0.5f, 1.0f);
+
+	GLMesh *pCuboid = m_pGLEntity->addBoundingCuboid(glm::vec3(min.x, min.z, min.y), glm::vec3(max.x, max.z, max.y), vecColour);
 }
 
 void						CollisionEditorTab::prepareLinesOrCones(COLEntry *pCOLEntry)
@@ -775,7 +818,9 @@ void						CollisionEditorTab::prepareLinesOrCones(COLEntry *pCOLEntry)
 	{
 		for (TLine& line : pCOLEntry->getCollisionLines())
 		{
-			GLMesh *pMesh = m_pGLEntity->addMesh(line.m_vecPosition, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
+			glm::vec3 pos = line.m_vecPosition;
+			pos = glm::vec3(pos.x, pos.z, pos.y);
+			GLMesh *pMesh = m_pGLEntity->addMesh(pos, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
 		}
 	}
 	else
@@ -783,7 +828,7 @@ void						CollisionEditorTab::prepareLinesOrCones(COLEntry *pCOLEntry)
 		for (TCone& cone : pCOLEntry->getCollisionCones())
 		{
 			vector<glm::vec3> vecVertices = Math::getConeVertices(sphere.m_vecCenter, sphere.m_fRadius, 100);
-			GLMesh *pMesh = m_pGLEntity->addMesh(vecVertices, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
+			GLMesh *pMesh = m_pGLEntity->addMesh(m_gl.swapVec3YZ(vecVertices), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
 		}
 	}
 	*/
@@ -791,131 +836,31 @@ void						CollisionEditorTab::prepareLinesOrCones(COLEntry *pCOLEntry)
 
 void						CollisionEditorTab::prepareSpheres(COLEntry *pCOLEntry)
 {
+	uint32 uiSphereIndex = 0;
 	for (TSphere& sphere : pCOLEntry->getCollisionSpheres())
 	{
-		// todo
-		vector<glm::vec3> vecVertices = Math::getSphereVertices(glm::vec3(sphere.m_vecCenter.x, sphere.m_vecCenter.y, sphere.m_vecCenter.z), sphere.m_fRadius, 100);
-		GLMesh *pMesh = m_pGLEntity->addMesh(vecVertices, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_TRIANGLES);
+		glm::vec3 pos = glm::vec3(sphere.m_vecCenter.x, sphere.m_vecCenter.z, sphere.m_vecCenter.y);
+		glm::vec3 colour = getItemColour(uiSphereIndex);
 
-		/*
-		vector<Vec3f> vecVertexPositions;
-		for (uint32 i = 0, j = 360, step = 1; i < j; i += step)
-		{
-			Vec3f vecPosition = Math::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, Math::convertDegreesToRadians((float32)i), Math::convertDegreesToRadians(0.0f));
-			vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
-			vecVertexPositions.push_back(vecPosition);
-		}
-		GLMesh *pMesh = m_pGLEntity->addMesh(StdVector::convertStdVectorBXCFVec3fToGLMVec3(vecVertexPositions), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINE_LOOP);
-
-		vecVertexPositions.clear();
-		for (uint32 i = 0, j = 360, step = 1; i < j; i += step)
-		{
-			Vec3f vecPosition = Math::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, Math::convertDegreesToRadians(90.0f), Math::convertDegreesToRadians((float32)i));
-			vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
-			vecVertexPositions.push_back(vecPosition);
-		}
-		pMesh = m_pGLEntity->addMesh(StdVector::convertStdVectorBXCFVec3fToGLMVec3(vecVertexPositions), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINE_LOOP);
-
-		vecVertexPositions.clear();
-		for (uint32 i = 0, j = 360, step = 1; i < j; i += step)
-		{
-			Vec3f vecPosition = Math::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, Math::convertDegreesToRadians((float32)i), Math::convertDegreesToRadians(90.0f));
-			vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
-			vecVertexPositions.push_back(vecPosition);
-		}
-		pMesh = m_pGLEntity->addMesh(StdVector::convertStdVectorBXCFVec3fToGLMVec3(vecVertexPositions), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINE_LOOP);
-		*/
+		GLMesh *pSphere = m_pGLEntity->addSphere(pos, sphere.m_fRadius, 100, colour);
+		uiSphereIndex++;
 	}
 }
 
 void						CollisionEditorTab::prepareCuboids(COLEntry *pCOLEntry)
 {
+	uint32 uiCuboidIndex = 0;
 	for (TBox& box : pCOLEntry->getCollisionBoxes())
 	{
-		vector<glm::vec3> vecVertices = StdVector::convertStdVectorBXCFVec3fToGLMVec3(Math::getCuboidFaceVerticesAsQuads(box.m_min, box.m_max));
-		GLMesh *pMesh = m_pGLEntity->addMesh(vecVertices, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
+		glm::vec3 colour = getItemColour(uiCuboidIndex);
+
+		GLMesh *pCuboid = m_pGLEntity->addCuboid(glm::vec3(box.m_min.x, box.m_min.z, box.m_min.y), glm::vec3(box.m_max.x, box.m_max.z, box.m_max.y), colour);
+		uiCuboidIndex++;
 	}
 }
 
 void						CollisionEditorTab::prepareMeshes(COLEntry *pCOLEntry)
 {
 	vector<glm::vec3> vecVertices = *(std::vector<glm::vec3>*)&pCOLEntry->getCollisionMeshVertices();
-	GLMesh *pMesh = m_pGLEntity->addMesh(vecVertices, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// old
-void						CollisionEditorTab::renderBoundingSphere(void)
-{
-	COLEntry *pCOLEntry = getActiveEntry();
-
-	glBegin(GL_LINE_LOOP);
-	glColor3ub(255, 0, 255);
-	for (uint32 i = 0, j = 360, step = 1; i < j; i += step)
-	{
-		Vec3f vecPosition = Math::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, Math::convertDegreesToRadians((float32)i), Math::convertDegreesToRadians(0.0f));
-		vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
-		glVertex3f(vecPosition.x, vecPosition.z, vecPosition.y);
-		//Debugger::log("m_fRadius: " + String::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + String::toString(vecPosition.x) + ", " + String::toString(vecPosition.y) + ", " + String::toString(vecPosition.z));
-	}
-	glEnd();
-
-	glBegin(GL_LINE_LOOP);
-	glColor3ub(255, 0, 255);
-	for (uint32 i = 0, j = 360, step = 1; i < j; i += step)
-	{
-		Vec3f vecPosition = Math::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, Math::convertDegreesToRadians(90.0f), Math::convertDegreesToRadians((float32)i));
-		vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
-		glVertex3f(vecPosition.x, vecPosition.z, vecPosition.y);
-		//Debugger::log("m_fRadius: " + String::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + String::toString(vecPosition.x) + ", " + String::toString(vecPosition.y) + ", " + String::toString(vecPosition.z));
-	}
-	glEnd();
-
-	glBegin(GL_LINE_LOOP);
-	glColor3ub(255, 0, 255);
-	for (uint32 i = 0, j = 360, step = 1; i < j; i += step)
-	{
-		Vec3f vecPosition = Math::getCartesianFromSpherical(pCOLEntry->getBoundingObjects().m_fRadius, Math::convertDegreesToRadians((float32)i), Math::convertDegreesToRadians(90.0f));
-		vecPosition = vecPosition + pCOLEntry->getBoundingObjects().m_vecCenter;
-		glVertex3f(vecPosition.x, vecPosition.z, vecPosition.y);
-		//Debugger::log("m_fRadius: " + String::toString(pCOLEntry->getBoundingObjects().m_fRadius) + ", vecPosition: " + String::toString(vecPosition.x) + ", " + String::toString(vecPosition.y) + ", " + String::toString(vecPosition.z));
-	}
-	glEnd();
-}
-
-void						CollisionEditorTab::renderBoundingCuboid(void)
-{
-	COLEntry *pCOLEntry = getActiveEntry();
-
-	glColor3ub(0, 255, 255);
-	vector<Vec3f> vecVertices = Math::getCuboidFaceVerticesAsQuads(pCOLEntry->getBoundingObjects().m_vecMin, pCOLEntry->getBoundingObjects().m_vecMax);
-	for (uint32 i = 0; i < vecVertices.size(); i += 4)
-	{
-		if ((i % 4) == 0)
-		{
-			glBegin(GL_LINE_LOOP);
-		}
-		for (uint32 i2 = 0; i2 < 4; i2++)
-		{
-			Vec3f& vecPosition = vecVertices[i + i2];
-			glVertex3f(vecPosition.x, vecPosition.z, vecPosition.y);
-		}
-		if ((i % 4) == 0)
-		{
-			glEnd();
-		}
-	}
+	GLMesh *pMesh = m_pGLEntity->addMesh(m_gl.swapVec3YZ(vecVertices), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
 }
