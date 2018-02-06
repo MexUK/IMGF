@@ -94,12 +94,8 @@ void					MainWindow::initWindow(void)
 
 void					MainWindow::initLayers(void)
 {
-	/*
-	initMainLayer();
-	initMainLayerNoTabsOpen();
-	initMainMenuLayers();
-	initSettingsMenuLayer();
-	*/
+	// todo
+	//initSettingsMenuLayer();
 
 	bindEventRef(RESIZE_WINDOW, &MainWindow::onResizeWindow);
 	onResizeWindow(Vec2i(0, 0));
@@ -185,125 +181,9 @@ void					MainWindow::initEditors(void)
 	m_pMapEditor = addEditor<MapEditor>();
 }
 
-void					MainWindow::initMainLayer(void)
-{
-	//m_pMainLayer = addLayer<MainLayer>(-1, true);
-	//m_pMainLayer->setIMGFWindow(this);
-	//m_pMainLayer->init();
-}
-
-void					MainWindow::initMainLayerNoTabsOpen(void)
-{
-	//m_pMainLayerNoTabsOpen = addLayer<MainLayerNoTabsOpen>(-1, true);
-	//m_pMainLayerNoTabsOpen->setIMGFWindow(this);
-	//m_pMainLayerNoTabsOpen->init();
-}
-
-void					MainWindow::initMainMenuLayers(void)
-{
-	int32
-		x, y, y2, w, h, w2, h2;
-	uint32
-		uiButtonHeight = 37;
-	Menu
-		*pMenu;
-	string
-		strStyleGroup;
-
-	// formats menu
-	Layer *pFormatsLayer = addLayer(FORMATS_MENU, true);
-
-	x = 5;
-	y = getTitleBarHeight() + 40;
-	y2 = y;
-	w = 139;
-	h = 29;
-	w2 = 10;
-	h2 = 10;
-	strStyleGroup = "leftMenu";
-
-	//m_pFormatsMenu = pFormatsLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -200);
-	//vector<MenuItem*> vecMenuItems = m_pFormatsMenu->addMenuItems(23, "Root Dat", "IMG", "Tex", "COL", "Model", "Radar", "Water", "Path", "Paint", "Zone", "Animation", "IDE", "IPL", "2DFX / IFX", "Text Editor", "Map Editor", "Weapon", "Cut Scene", "Vehicle", "Pedestrian", "Carcol", "Timecyc", "More ->");
-	//m_pFormatsMenu->setItemIds(500);
-	//m_pFormatsMenu->setActiveMenuItem(vecMenuItems[6]);
-
-	/*
-	Button *pButton = getMainLayer()->addButton(x, y, w, h, "Root Dat");
-	
-	y += h + h2;
-	w = 65;
-	getMainLayer()->addButton(x, y, w, h, "IMG");
-	x += w + w2;
-	getMainLayer()->addButton(x, y, w, h, "Tex");
-	y += h + h2;
-	x -= w + w2;
-	getMainLayer()->addButton(x, y, w, h, "COL");
-	x += w + w2;
-	getMainLayer()->addButton(x, y, w, h, "Model");
-	y += h + h2;
-	x -= w + w2;
-	w = 139;
-	getMainLayer()->addButton(x, y, w, h, "Radar");
-	y += h + h2;
-	getMainLayer()->addButton(x, y, w, h, "Water");
-	y += h + h2;
-	getMainLayer()->addButton(x, y, w, h, "Paths");
-	y += h + h2;
-	getMainLayer()->addButton(x, y, w, h, "Paint");
-	y += h + h2;
-	getMainLayer()->addButton(x, y, w, h, "Zones");
-	y += h + h2;
-	getMainLayer()->addButton(x, y, w, h, "Anims");
-	y += h + (h2 * 4);
-	w = 65;
-	getMainLayer()->addButton(x, y, w, h, "IDE");
-	x += w + w2;
-	getMainLayer()->addButton(x, y, w, h, "IPL");
-	y += h + h2;
-	x -= w + w2;
-	w = 139;
-	getMainLayer()->addButton(x, y, w, h, "2DFX / IFX");
-	y += h + h2;
-	getMainLayer()->addButton(x, y, w, h, "Text Editor");
-	y += h + h2;
-	getMainLayer()->addButton(x, y, w, h, "Map Editor");
-	y += h + h2;
-	w = 65;
-	getMainLayer()->addButton(x, y, w, h, "Weap");
-	x += w + w2;
-	getMainLayer()->addButton(x, y, w, h, "Cuts");
-	y += h + h2;
-	x -= w + w2;
-	getMainLayer()->addButton(x, y, w, h, "Vehicle");
-	x += w + w2;
-	getMainLayer()->addButton(x, y, w, h, "Ped");
-	x -= w + w2;
-	y += h + h2;
-	w = 139;
-	getMainLayer()->addButton(x, y, w, h, "Car Cols");
-	y += h + h2;
-	getMainLayer()->addButton(x, y, w, h, "Timecyc");
-	y += h + h2;
-	getMainLayer()->addButton(x, y, w, h, "More ->");
-	y += h + h2;
-
-	// utility menu
-	Layer *pUtilityLayer = addLayer(UTILITY_MENU, false);
-
-	x = 0;
-	y = y2;
-	w = 139;
-	h = uiButtonHeight;
-	h2 = h;
-	strStyleGroup = "leftMenu";
-
-	pMenu = pUtilityLayer->addMenu(x, y, w, h, VERTICAL, strStyleGroup, -1, -200);
-	pMenu->addMenuItems(2, "Export Game", "Mod Includer");
-	*/
-}
-
 void					MainWindow::initSettingsMenuLayer(void)
 {
+	// todo
 	int32
 		x, y, w, h, h2;
 	uint32
@@ -313,14 +193,6 @@ void					MainWindow::initSettingsMenuLayer(void)
 		strStyleGroup;
 
 	Layer *pSettingsMenuLayer = addLayer(ELayer::SETTINGS_MENU, false);
-
-	/*
-	x = 139 + 139 + 139;
-	y = uiTitleBarHeight;
-	w = uiButtonHeight + 1;
-	h = uiButtonHeight;
-	m_pMainLayer->addMenu(x, y, w, h, VERTICAL, "settingsMenuButton", SETTINGS, 5);
-	*/
 
 	y = getTitleBarHeight() + uiButtonHeight;
 	w = 139;
@@ -350,17 +222,11 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 	// disable previous editor
 	if (m_pActiveEditor && bDiff)
 	{
-		//m_pActiveEditor->unbindEvents();
-		
 		m_pActiveEditor->getLayer()->setEnabled(false);
 		m_pActiveEditor->getEditorButton()->resetStyleGroups();
 		m_pActiveEditor->unbindEvents();
 
-		if (m_pActiveEditor->getEditorTabs().getEntryCount() == 0)
-		{
-			//pBlankLayer->setEnabled(false);
-		}
-		else
+		if (m_pActiveEditor->getEditorTabs().getEntryCount() != 0)
 		{
 			m_pActiveEditor->getActiveEditorTab()->unbindEvents();
 			m_pActiveEditor->getActiveEditorTab()->getBaseLayer()->setEnabled(false);
@@ -374,23 +240,19 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 	// enable next editor
 	if (pActiveEditor && bDiff)
 	{
+		// todo
 		//getIMGF()->getSettingsManager()->setSetting("LastEditorUsedIndex", String::toString(getEditorIndex(pActiveEditor)));
 		
 		pActiveEditor->getEditorButton()->setStyleGroups(string("activeEditorButton"));
 		pActiveEditor->getLayer()->setEnabled(true);
 		pActiveEditor->bindEvents();
 
-		if (pActiveEditor->getEditorTabs().getEntryCount() == 0)
-		{
-			//pBlankLayer->setEnabled(true);
-		}
-		else
+		if (pActiveEditor->getEditorTabs().getEntryCount() != 0)
 		{
 			pActiveEditor->getActiveEditorTab()->bindEvents();
 			pActiveEditor->getActiveEditorTab()->getBaseLayer()->setEnabled(true);
 			pActiveEditor->getActiveEditorTab()->getLayer()->setEnabled(true);
 		}
-		//pActiveEditor->bindEvents();
 	}
 
 	// todo
@@ -410,14 +272,9 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 	}
 	*/
 
-	// todo
-	//bool bEnableLayerWithNoTabsOpen = pActiveEditor && pActiveEditor->getEditorTabs().getEntryCount() == 0;
-	//if (pBlankLayer->isEnabled() != bEnableLayerWithNoTabsOpen)
-	//{
-	//	pBlankLayer->setEnabled(bEnableLayerWithNoTabsOpen);
-	//}
-
 	uint32 uiEditorIndex = m_vecEditors.getIndexByEntry(pActiveEditor);
+
+	// todo
 	//MenuItem *pActiveMenuItem = m_pFormatsMenu->getEntryByIndex(uiEditorIndex);
 	//m_pFormatsMenu->setActiveMenuItem(pActiveMenuItem);
 
@@ -425,6 +282,7 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 	//string strWindowStyleGroup = "window windowEditorTab_" + strEditorTitleNoSpaces;
 	//resetStyleGroups();
 	//setStyleGroups(strWindowStyleGroup);
+
 	render();
 }
 

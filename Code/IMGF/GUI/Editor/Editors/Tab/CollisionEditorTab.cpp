@@ -689,6 +689,11 @@ void						CollisionEditorTab::prepareInitial3DRender(void)
 // render editor 3d
 void						CollisionEditorTab::render3D(void)
 {
+	if (!m_pActiveEntry)
+	{
+		return;
+	}
+
 	mutex3DRender.lock();
 
 	// initialize opengl
