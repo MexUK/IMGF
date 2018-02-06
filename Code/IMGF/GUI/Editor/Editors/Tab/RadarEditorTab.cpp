@@ -36,6 +36,7 @@ using namespace bxgi;
 using namespace imgf;
 
 BOOL bPremultipledAlphaApplied = FALSE; // todo - namespace
+mutex g_mtxRadarEditorRender; // todo
 
 inline void PremultiplyBitmapAlpha(HDC hDC, HBITMAP hBmp) // todo - namespace
 {
@@ -64,6 +65,7 @@ inline void PremultiplyBitmapAlpha(HDC hDC, HBITMAP hBmp) // todo - namespace
 
 RadarEditorTab::RadarEditorTab(void) :
 	m_pIMGFile(nullptr),
+	m_bInitialized(false),
 	m_pActiveTabEntry(nullptr),
 	m_uiDisplayedEntryCount(0),
 	m_pMouseDownOriginEntry(nullptr),
@@ -351,6 +353,7 @@ void						RadarEditorTab::onFileLoaded(void)
 	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
 
 	// prepare render data
+	g_mtxRadarEditorRender.lock();
 	if (getIMGFile()->getVersion() == IMG_3)
 	{
 		prepareRenderData_WTD();
@@ -359,11 +362,15 @@ void						RadarEditorTab::onFileLoaded(void)
 	{
 		prepareRenderData_TXD();
 	}
+	g_mtxRadarEditorRender.unlock();
 
 	calculateDisplayedEntryCount();
 
 	// display file info
 	setFileInfoText();
+
+	// update initialized status
+	m_bInitialized = true;
 
 	// render
 	getLayer()->getWindow()->render();
@@ -659,8 +666,17 @@ void						RadarEditorTab::prepareRenderData_WTD(void)
 // render editor
 void						RadarEditorTab::render(void)
 {
+	if (!m_bInitialized)
+	{
+		return;
+	}
+
+	g_mtxRadarEditorRender.lock();
+
 	renderEntryList();
 	render_Type1();
+
+	g_mtxRadarEditorRender.unlock();
 }
 
 void						RadarEditorTab::render_Type1(void)
@@ -1051,6 +1067,7 @@ void					RadarEditorTab::recreateEntryList(void)
 {
 	VectorPool::removeAllEntries();
 	mutexRendering.lock();
+	g_mtxRadarEditorRender.lock();
 	if (m_pIMGFile->getVersion() != IMG_3)
 	{
 		prepareRenderData_TXD();
@@ -1059,9 +1076,11 @@ void					RadarEditorTab::recreateEntryList(void)
 	{
 		prepareRenderData_WTD();
 	}
+	g_mtxRadarEditorRender.unlock();
 	mutexRendering.unlock();
 	calculateDisplayedEntryCount();
 	updateEntryCountText();
+
 	getLayer()->getWindow()->render();
 }
 

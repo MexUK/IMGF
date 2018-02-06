@@ -66,8 +66,7 @@ void									RadarEditor::renderBefore(void)
 
 	if (m_pActiveEditorTab)
 	{
-		((RadarEditorTab*)m_pActiveEditorTab)->renderEntryList();
-		((RadarEditorTab*)m_pActiveEditorTab)->render_Type1();
+		((RadarEditorTab*)m_pActiveEditorTab)->render();
 	}
 }
 

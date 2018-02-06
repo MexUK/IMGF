@@ -803,7 +803,7 @@ void						CollisionEditorTab::prepareBoundingSphere(COLEntry *pCOLEntry)
 	glm::vec3 pos = glm::vec3(pCOLEntry->getBoundingObjects().m_vecCenter.x, pCOLEntry->getBoundingObjects().m_vecCenter.z, pCOLEntry->getBoundingObjects().m_vecCenter.y);
 	glm::vec3 vecColour = glm::vec3(1.0f, 0.5f, 0.0f);
 
-	GLMesh *pSphere = m_pGLEntity->addBoundingSphere(pos, pCOLEntry->getBoundingObjects().m_fRadius, vecColour);
+	vector<GLMesh*> vecSpheres = m_pGLEntity->addBoundingSphere(pos, pCOLEntry->getBoundingObjects().m_fRadius, vecColour);
 }
 
 void						CollisionEditorTab::prepareBoundingCuboid(COLEntry *pCOLEntry)

@@ -74,6 +74,7 @@ protected:
 
 private:
 	bxgi::IMGFormat*			m_pIMGFile;
+	bool						m_bInitialized;
 	RadarEditorTabEntry*		m_pActiveTabEntry;
 
 	bxgx::ScrollBar*			m_pVScrollBar;
