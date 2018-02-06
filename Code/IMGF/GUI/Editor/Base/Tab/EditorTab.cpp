@@ -55,7 +55,13 @@ EditorTab::EditorTab(void) :
 
 EditorTab::~EditorTab(void)
 {
-	unbindEvents();
+	//EditorTab::unbindEvents();
+
+	unbindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
+	unbindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
+	unbindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
+
+	m_pLayer->getWindow()->removeLayer(m_pLayer);
 }
 
 // events

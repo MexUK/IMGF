@@ -6,21 +6,11 @@
 #include "nsimgf.h"
 #include "Layer/Layer.h"
 #include "Pool/VectorPool.h"
-/////#include "GUI/Editor/Base/Tab/EditorTab.h"
 #include "GUI/Editor/EEditor.h"
-//#include "Globals.h"
-//#include "IMGF.h"
-//#include "GUI/Window/WindowManager.h"
-//#include "GUI/Window/Windows/MainWindow/MainWindow.h"
 #include "Event/EventBindable.h"
 #include "Task/Tasks/Tasks.h"
 #include "Static/Path.h"
 #include "Window/Window.h"
-/*
-#include "GUI/Editor/Editors/Tab/IMGEditorTab.h"
-#include "GUI/Editor/Editors/Tab/TextureEditorTab.h"
-#include "GUI/Editor/Editors/Tab/CollisionEditorTab.h"
-*/
 #include <string>
 #include <vector>
 
@@ -44,6 +34,7 @@ public:
 	template <class FormatType, class EditorTabType>
 	EditorTabType*						_addEditorTab(std::string& strFilePath, bool bNewFile);
 	void								removeEditorTab(EditorTab *pEditorTab);
+	void								removeEditorTab2(EditorTab *pEditorTab);
 	void								removeActiveEditorTab(void);
 
 	EEditor								getEditorType(void) { return m_uiEditorType; }

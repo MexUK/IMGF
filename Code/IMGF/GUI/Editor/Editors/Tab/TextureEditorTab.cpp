@@ -50,6 +50,20 @@ TextureEditorTab::TextureEditorTab(void) :
 {
 }
 
+TextureEditorTab::~TextureEditorTab(void)
+{
+	//unbindEvents();
+
+	unbindEvent(RENDER, &TextureEditorTab::render);
+	unbindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
+	unbindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
+	unbindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
+	unbindEvent(LEFT_MOUSE_UP, &TextureEditorTab::onLeftMouseUp);
+	unbindEvent(MOVE_MOUSE, &TextureEditorTab::onMouseMove);
+	unbindEvent(KEY_DOWN, &TextureEditorTab::onKeyDown2);
+	unbindEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
+}
+
 // events
 void					TextureEditorTab::bindEvents(void)
 {

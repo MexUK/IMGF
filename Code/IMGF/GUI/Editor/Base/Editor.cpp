@@ -13,6 +13,7 @@
 #include "Control/Controls/TextBox.h"
 #include "Control/Controls/TabBar.h"
 #include "Control/Controls/Text.h"
+#include "Timer/Timers.h"
 
 using namespace std;
 using namespace bxcf;
@@ -109,6 +110,12 @@ void								Editor::onDragEntriesOver(Vec2i vecCursorPosition)
 // remove editor tab
 void								Editor::removeEditorTab(EditorTab *pEditorTab)
 {
+	// todo Timers<void, Editor, EditorTab*>::add(&Editor::removeEditorTab2, 50, 1, this, pEditorTab); // remove on different server tick
+	removeEditorTab2(pEditorTab);
+}
+
+void								Editor::removeEditorTab2(EditorTab *pEditorTab)
+{
 	// clear texts
 	pEditorTab->m_pText_FilePath->setText(string(""));
 	pEditorTab->m_pText_FileEntryCount->setText(string("0"));
@@ -132,14 +139,6 @@ void								Editor::removeEditorTab(EditorTab *pEditorTab)
 		Sleep(10);
 	}
 
-	// remove tab object
-	//pEditorTab->unbindEvents();
-	
-	//pEditorTab->getLayer()->removeAllControls();
-	//pEditorTab->getLayer()->removeAllShapes();
-
-	m_vecEditorTabs.removeEntry(pEditorTab);
-
 	// update active file
 	uint32 uiNewActiveFileIndex = m_pTabBar->getActiveIndex();
 	if (uiNewActiveFileIndex == -1)
@@ -150,6 +149,14 @@ void								Editor::removeEditorTab(EditorTab *pEditorTab)
 	{
 		setActiveEditorTab(m_vecEditorTabs.getEntryByIndex(uiNewActiveFileIndex));
 	}
+
+	// remove tab object
+	//pEditorTab->unbindEvents();
+	
+	//pEditorTab->getLayer()->removeAllControls();
+	//pEditorTab->getLayer()->removeAllShapes();
+
+	m_vecEditorTabs.removeEntry(pEditorTab, false); // todo - false should be true to delete the pEditorTab
 
 	// update menus
 	// todo getMainWindow()->getMainLayer()->setCertainMenuItemsEnabled(getEditorTabs().getEntryCount() > 0);

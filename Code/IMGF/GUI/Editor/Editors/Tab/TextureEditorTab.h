@@ -12,6 +12,7 @@ class imgf::TextureEditorTab : public imgf::EditorTab, public imgf::LeftEntryLis
 {
 public:
 	TextureEditorTab(void);
+	~TextureEditorTab(void);
 
 	void						bindEvents(void);
 	void						unbindEvents(void);
