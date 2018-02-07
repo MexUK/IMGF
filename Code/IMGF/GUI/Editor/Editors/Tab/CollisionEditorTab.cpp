@@ -875,5 +875,5 @@ void						CollisionEditorTab::prepareCuboids(COLEntry *pCOLEntry)
 void						CollisionEditorTab::prepareMeshes(COLEntry *pCOLEntry)
 {
 	vector<glm::vec3> vecVertices = *(std::vector<glm::vec3>*)&pCOLEntry->getCollisionMeshVertices();
-	GLMesh *pMesh = m_pGLEntity->addMesh(m_gl.swapVec3YZ(vecVertices), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
+	GLMesh *pMesh = m_pGLEntity->addMesh(m_gl.swapVec3YZ(vecVertices), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_TRIANGLES);
 }
