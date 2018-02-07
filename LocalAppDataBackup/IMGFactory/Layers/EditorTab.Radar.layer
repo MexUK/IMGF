@@ -2,3 +2,6 @@ layer disabled 105
 
 scrollbar 355 130 15 1.0-160 "" 96 50
 
+checkbox 600 40 20 20 "Diffuse"
+checkbox 700 40 20 20 "Alpha"
+

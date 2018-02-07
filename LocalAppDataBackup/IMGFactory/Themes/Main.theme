@@ -144,12 +144,7 @@ spacing x 8
 
 
 // controls
-menu:item .main_textAlign .main_spacing .darkgreyFill .lightgreyText
-line left 190 190 190
-line top 190 190 190
-line right 0 0 0
-line bottom 0 0 0
-
+menu:item .main_textAlign .main_spacing .blackFill .lightgreyText
 menu:item:active .lightenFillTwenty
 menu:item:hover .lightenFillFourty
 menu:item:disabled .disabledText
@@ -200,9 +195,11 @@ textBox:selection .midgreyFill .main_spacing
 .singleline .main_textAlignLeft
 .multiline .main_textAlignLeftTop
 
+checkBox .lightgreyText
 checkBox:icon .blackLine
 checkBox:icon:active .blackFill
 
+radioButton .lightgreyText
 radioButton:icon .blackLine
 radioButton:icon:active .blackFill
 

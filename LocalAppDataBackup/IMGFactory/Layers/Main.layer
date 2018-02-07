@@ -1,15 +1,165 @@
 image 5 33 0 0 "%DATAPATH%/Images/Logo.png"
 
-button 120 32 110 22 "New" "" 1048
-button 240 32 110 22 "Open" "" 1052
-button 360 32 110 22 "Save" "" 1063
-button 480 32 110 22 "Save+"
-button 600 32 110 22 "Close" "" 1072
-button 720 32 110 22 "Close+"
-
-button 120 59 200 22 "Second row of buttons here" "" 0 -1 disabled
-button 330 59 200 22 "Second row of buttons here" "" 0 -1 disabled
-
+menu 120 32 110 22 "New" "" 1048 -1 vertical
+	menu 2 "New IMG v1" "" 100
+	menu 2 "New IMG v2" "" 100
+	menu 2 "New IMG v3" "" 100
+	menu 2 "New IMG version fastman92" "" 100
+	menu 2 "New File" "" 100
+	menu 2 "New Window" "" 100
+	menu 2 "LST Import" "" 100
+	
+menu 240 32 110 22 "Open" "" 1052 -1 vertical
+	menu 2 "Open File(s)" "" 1052
+	menu 2 "Open Folder" "" 100
+	menu 2 "Open Folder Recursively" "" 100
+	menu 2 "Reopen" "" 100
+	menu 2 "Open Last Closed File" "" 100
+	menu 2 "Rename" "" 100
+	menu 2 "Renamer" "" 100
+	menu 2 "Recently Open" "" 100
+		menu 3 "test" "" 100
+	menu 2 "Open File Group" "" 100
+	menu 2 "Open File Folder in Explorer" "" 100
+	menu 2 "Logs" "" 100
+	menu 2 "Repeat Last Task" "" 100
+	
+menu 360 32 110 22 "Save" "" 1063 -1 vertical
+	menu 2 "Save File" "" 100
+	menu 2 "Save As" "" 100
+	menu 2 "Save All" "" 100
+	menu 2 "Clone File" "" 100
+	
+menu 480 32 110 22 "Close" "" 1072 -1 vertical
+	menu 2 "Close File" "" 100
+	menu 2 "Close All" "" 100
+	menu 2 "Open Today's Logs File" "" 100
+	menu 2 "Open Logs Folder" "" 100
+	menu 2 "Clear Logs" "" 100
+	menu 2 "Clear Logs for All Tabs" "" 100
+	menu 2 "Save Logs" "" 100
+	menu 2 "Save Logs for All Tabs" "" 100
+	menu 2 "Save File Group" "" 100
+	menu 2 "Exit Tool" "" 100
+	
+menu 120 57 22 110 "File" "" 0 -1
+	menu 2 "Import"
+		menu 3 "Import by File(s)" "" 100
+		menu 3 "Import by Folder(s)" "" 100
+			menu 4 "Import by Single Folder" "" 200
+			menu 4 "Import by Folder Recursively" "" 300
+		menu 3 "Import by IDE" "" 400
+		menu 3 "Import by Entry Names" "" 500
+	menu 2 "Export"
+		menu 3 "Export Selection" "" 100
+		menu 3 "Export All Entries" "" 100
+		menu 3 "Export by Column" "" 100
+			menu 4 "Export by Index" "" 100
+			menu 4 "Export by Name" "" 100
+			menu 4 "Export by Offset" "" 100
+			menu 4 "Export by Size" "" 100
+			menu 4 "Export by Type" "" 100
+			menu 4 "Export by Version" "" 100
+		menu 3 "Export All Entries into" "" 100
+			Export all entries into Grouped Folders by Type" "" 100
+		menu 3 "Export All Tabs" "" 100
+			menu 4 "Export all entries from all tabs" "" 100
+			menu 4 "Export all entries from all tabs into grouped folders by type" "" 100
+			menu 4 "Export selection from all tabs" "" 100
+			menu 4 "Export by IDE from All Tabs" "" 100
+			menu 4 "Export by Entry Names from All Tabs" "" 100
+		menu 3 "Export by IDE" "" 100
+		menu 3 "Export by IPL" "" 100
+		menu 3 "Export by DAT" "" 100
+		menu 3 "Export by Entry Names" "" 100
+		menu 3 "Export Texture Name List" "" 100
+	menu 2 "Rename" "" 100
+	menu 2 "Replace" "" 100
+		menu 3 "Replace by File(s)" "" 100
+		menu 3 "Replace by Folder" "" 100
+			menu 4 "Replace by Single Folder" "" 100
+			menu 4 "Replace by Folder Recursively" "" 100
+		menu 3 "Replace by IDE" "" 100
+	menu 2 "Remove" "" 100
+		menu 3 "Remove Selection" "" 100
+		menu 3 "Remove All Entries" "" 100
+		menu 3 "Remove by Column" "" 100
+			menu 4 "Remove by Index" "" 100
+			menu 4 "Remove by Name" "" 100
+			menu 4 "Remove by Offset" "" 100
+			menu 4 "Remove by Size" "" 100
+			menu 4 "Remove by Type" "" 100
+			menu 4 "Remove by Version" "" 100
+			menu 4 "Remove by IDE" "" 100
+			menu 4 "Remove by Entry Names" "" 100
+	menu 2 "Merge" "" 100
+	menu 2 "Split" "" 100
+		menu 3 "Split Selection" "" 100
+		menu 3 "Split by IDE" "" 100
+		menu 3 "Split by Entry Names" "" 100
+	menu 2 "Convert" "" 100
+		menu 3 "IMG" "" 100
+			menu 4 "Convert IMG Version" "" 100
+		menu 3 "COL" "" 100
+			menu 4 "Convert COL Version for Selection" "" 100
+		menu 3 "DFF" "" 100
+			menu 4 "Convert DFF RW Version for Selection" "" 100
+			menu 4 "Convert DFF to WDR for Selection" "" 100
+		menu 3 "TXD" "" 100
+			menu 4 "Convert TXD RW Version for Selection" "" 100
+			menu 4 "Convert TXD to Game for Selection" "" 100
+			menu 4 "Convert TXD to Texture Format for Selection" "" 100
+		menu 3 "WTD" "" 100
+			menu 4 "Convert WTD to TXD for Selection" "" 100
+			menu 4 "Convert WTD to TXD" "" 100
+	menu 2 "Select" "" 100
+		menu 3 "Select All Entries" "" 100
+		menu 3 "Unselect All Entries" "" 100
+		menu 3 "Select Inverse" "" 100
+		menu 3 "Select by Column" "" 100
+			menu 4 "Select by Index" "" 100
+			menu 4 "Select by Name" "" 100
+			menu 4 "Select by Offset" "" 100
+			menu 4 "Select by Size" "" 100
+			menu 4 "Select by Type" "" 100
+			menu 4 "Select by Version" "" 100
+		menu 3 "Select by IDE" "" 100
+		menu 3 "Unselect by Column" "" 100
+			menu 4 "Unselect by Index" "" 100
+			menu 4 "Unselect by Name" "" 100
+			menu 4 "Unselect by Offset" "" 100
+			menu 4 "Unselect by Size" "" 100
+			menu 4 "Unselect by Type" "" 100
+			menu 4 "Unselect by Version" "" 100
+		menu 3 "Unselect by IDE" "" 100
+	menu 2 "Sort" "" 100
+		menu 3 "Sort by Index" "" 100
+			menu 4 "Sort by Index (Reverse)" "" 100
+		menu 3 "Sort by Name" "" 100
+				menu 5 "Sort by Name Ascending (0-9, A-Z)" "" 100
+			menu 4 "Sort by Name Descending (Z-A, 9-0)" "" 100
+		menu 3 "Sort by Offset" "" 100
+			menu 4 "Sort by Offset (Low-High)" "" 100
+			menu 4 "Sort by Offset (High-Low)" "" 100
+		menu 3 "Sort by Size" "" 100
+			menu 4 "Sort by Size (Small-Big)" "" 100
+			menu 4 "Sort by Size (Big-Small)" "" 100
+		menu 3 "Sort by Type" "" 100
+			menu 4 "Sort by Type (A-Z)" "" 100
+			menu 4 "Sort by Type (Z-A)" "" 100
+		menu 3 "Sort by Version" "" 100
+			menu 4 "Sort by Version (Old-New)" "" 100
+			menu 4 "Sort by Version (New-Old)" "" 100
+		menu 3 "Sort by IDE" "" 100
+		menu 3 "Sort by COL" "" 100
+		menu 3 "Sort by Multiple Types" "" 100
+	menu 2 "Entry"
+		menu 3 "Entry Name Case" "" 100
+			menu 4 "lower case" "" 100
+			menu 4 "UPPER CASE" "" 100
+			menu 4 "Title Case" "" 100
+			
+			
 button 5 80 110 22 "Root Dat" "" 1004
 
 button 5 110 50 22 "IMG" "" 1005
