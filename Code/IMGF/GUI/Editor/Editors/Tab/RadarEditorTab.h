@@ -63,6 +63,7 @@ protected:
 	void						onMouseWheelMove2(int16 iRotationDistance);
 	void						onLeftMouseUp(bxcf::Vec2i vecCursorPosition);
 	void						onMouseMove(bxcf::Vec2i vecCursorPosition);
+	void						onSelectDropDownItem(bxgx::DropDownItem *pItem);
 
 	uint32						getFileIndexFromEntry(bxcf::FormatEntry *pFormatEntry);
 

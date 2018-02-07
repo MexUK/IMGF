@@ -2,6 +2,9 @@ layer disabled 105
 
 scrollbar 355 130 15 1.0-160 "" 96 50
 
-checkbox 600 40 20 20 "Diffuse"
-checkbox 700 40 20 20 "Alpha"
+checkbox 600 32 20 20 "Diffuse" "" 5484 marked
+checkbox 700 32 20 20 "Alpha" "" 5485
+
+dropdown 800 32 80 20 "Zoom" "" 5500
+dropdown "10%" "25%" "50%" "75%" "100%" "150%" "200%" "500%" "1000%" "5000%" "10000%"
 

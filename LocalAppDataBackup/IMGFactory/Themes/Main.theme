@@ -183,10 +183,11 @@ grid:cell:selected .blackText
 progressBar .midgreyFill
 progressBar:innerBar .blackFill
 
-dropDown .blackFill .whiteText .main_lineLeft .main_textAlign .main_spacing
-dropDown:hover .lightenFillTwenty
+dropDown .lightgreyText .main_textAlign .main_spacing
+dropDown:active .blackFill
+dropDown:hover .lightenFillTwenty .blackText
 dropDown:arrow .whiteFill
-dropDown:listRow .whiteFill .blackText .main_textAlign .main_spacing .blackText
+dropDown:listRow .whiteFill .main_textAlign .main_spacing .blackText
 dropDown:listRow:hover .lightenFillTwenty
 
 textBox .blackFill .whiteText .main_spacing
@@ -197,11 +198,11 @@ textBox:selection .midgreyFill .main_spacing
 
 checkBox .lightgreyText
 checkBox:icon .blackLine
-checkBox:icon:active .blackFill
+checkBox:icon:checked .blackFill
 
 radioButton .lightgreyText
 radioButton:icon .blackLine
-radioButton:icon:active .blackFill
+radioButton:icon:checked .blackFill
 
 
 

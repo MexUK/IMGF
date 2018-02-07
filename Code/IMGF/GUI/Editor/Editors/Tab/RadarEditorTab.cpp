@@ -13,6 +13,7 @@
 #include "Format/TXD/TXDFormat.h"
 #include "Format/WTD/WTDFormat.h"
 #include "Task/Tasks/Tasks.h"
+#include "Control/Controls/DropDown.h"
 #include "Control/Controls/ProgressBar.h"
 #include "Control/Controls/Text.h"
 #include "../bxgi/Event/EEvent.h"
@@ -105,6 +106,7 @@ void						RadarEditorTab::bindEvents(void)
 	bindEvent(MOVE_MOUSE, &RadarEditorTab::onMouseMove);
 	bindEvent(KEY_DOWN, &RadarEditorTab::onKeyDown2);
 	bindEvent(MOVE_MOUSE_WHEEL, &RadarEditorTab::onMouseWheelMove2);
+	bindEvent(SELECT_DROP_DOWN_ITEM, &RadarEditorTab::onSelectDropDownItem);
 
 	EditorTab::bindEvents();
 }
@@ -118,6 +120,7 @@ void						RadarEditorTab::unbindEvents(void)
 	unbindEvent(MOVE_MOUSE, &RadarEditorTab::onMouseMove);
 	unbindEvent(KEY_DOWN, &RadarEditorTab::onKeyDown2);
 	unbindEvent(MOVE_MOUSE_WHEEL, &RadarEditorTab::onMouseWheelMove2);
+	unbindEvent(SELECT_DROP_DOWN_ITEM, &RadarEditorTab::onSelectDropDownItem);
 
 	EditorTab::unbindEvents();
 }
@@ -1072,9 +1075,15 @@ void					RadarEditorTab::merge(string& strFilePath)
 }
 
 
+// editor input
+void					RadarEditorTab::onSelectDropDownItem(DropDownItem *pItem)
+{
+	string strActiveZoomText = m_pZoomDropDown->getActiveItem()->getText();
+	float32 fZoomLevel = ((float32)String::toUint32(strActiveZoomText.substr(0, strActiveZoomText.length() - 1))) / 100.0f;
+	setZoomLevel(fZoomLevel);
+}
 
-
-
+// entry list
 void					RadarEditorTab::recreateEntryList(void)
 {
 	VectorPool::removeAllEntries();

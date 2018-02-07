@@ -158,7 +158,59 @@ menu 120 57 22 110 "File" "" 0 -1
 			menu 4 "lower case" "" 100
 			menu 4 "UPPER CASE" "" 100
 			menu 4 "Title Case" "" 100
-			
+		menu 3 "Copy Entry Data" "" 100
+			menu 4 "Copy Entries Index" "" 100
+			menu 4 "Copy Entries Type" "" 100
+			menu 4 "Copy Entries Name" "" 100
+			menu 4 "Copy Entries Offset" "" 100
+			menu 4 "Copy Entries Size" "" 100
+			menu 4 "Copy Entries Version" "" 100
+			menu 4 "Copy Entries Row Data" "" 100
+		menu 3 "Shift Entry" "" 100
+			menu 4 "Shift Entries Up 1 Row" "" 100
+			menu 4 "Shift Entries Up 5 Rows" "" 100
+			menu 4 "Shift Entries Up 10 Rows" "" 100
+			menu 4 "Shift Entries Up 100 Rows" "" 100
+			menu 4 "Shift Entries Up 1000 Rows" "" 100
+			menu 4 "Shift Entries Down 1 Row" "" 100
+			menu 4 "Shift Entries Down 5 Rows" "" 100
+			menu 4 "Shift Entries Down 10 Rows" "" 100
+			menu 4 "Shift Entries Down 100 Rows" "" 100
+			menu 4 "Shift Entries Down 1000 Rows" "" 100
+	menu 2 "Tools"
+		menu 3 "Dump" "" 100
+		menu 3 "Session Manager" "" 100
+		menu 3 "Renamer" "" 100
+		menu 3 "TXD Builder" "" 100
+		menu 3 "TXD Organizer" "" 100
+		menu 3 "DAT Paths Mover" "" 100
+		menu 3 "Map Mover and ID Shifter" "" 100
+		
+		menu 3 "Find Duplicate Entries" "" 100
+			menu 4 "Find Duplicate Entries in Selection" "" 100
+			menu 4 "Find Duplicate Entries in Tab" "" 100
+			menu 4 "Find Duplicate Entries in All Tabs" "" 100
+			menu 4 "Find Duplicate Entries by DAT" "" 100
+		menu 3 "Orphan Entries" "" 100
+			menu 4 "Remove Orphan Textures from DFF Entries" "" 100
+			menu 4 "Find Orphan IMG Entries not in IDE" "" 100
+			menu 4 "Find Orphan IDE Entries not in IMG" "" 100
+			menu 4 "Find Orphan TXD Textures for DFFs in IMG by IDE" "" 100
+		menu 3 "Other" "" 100
+			menu 4 "Compare IMGs" "" 100
+			menu 4 "Model List for IDE/IPL by DAT" "" 100
+			menu 4 "Save IMG Signature" "" 100
+			menu 4 "Verify IMG Signature" "" 100
+			menu 4 "Validate DFF in Tab" "" 100
+			menu 4 "Validate TXD in Tab" "" 100
+			menu 4 "Center COL Meshes in Selection" "" 100
+			menu 4 "Align COL Meshes to DFF Meshes" "" 100
+			menu 4 "Extract DVC and NVC into DFFs" "" 100
+			menu 4 "Extract 2DFX into DFFs" "" 100
+			menu 4 "IMG Compression" "" 100
+			menu 4 "Generate COL from DFF" "" 100
+			menu 4 "Texture List" "" 100
+			menu 4 "Stats" "" 100
 			
 button 5 80 110 22 "Root Dat" "" 1004
 
