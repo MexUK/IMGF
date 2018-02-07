@@ -69,18 +69,24 @@ RadarEditorTab::RadarEditorTab(void) :
 	m_pActiveTabEntry(nullptr),
 	m_uiDisplayedEntryCount(0),
 	m_pMouseDownOriginEntry(nullptr),
+	m_fZoomLevel(1.0f),
+
 	m_pDiffuseCheckBox(nullptr),
-	m_pAlphaCheckBox(nullptr)
+	m_pAlphaCheckBox(nullptr),
+	m_pZoomDropDown(nullptr),
+	m_pVScrollBar(nullptr)
 {
 }
 
 // controls
 void						RadarEditorTab::storeControls(void)
 {
-	m_pVScrollBar = (ScrollBar*)getLayer()->getItemById(96);
-
 	m_pDiffuseCheckBox = getLayer()->getCheckBox(5484);
 	m_pAlphaCheckBox = getLayer()->getCheckBox(5485);
+
+	m_pZoomDropDown = getLayer()->getDropDown(5500);
+
+	m_pVScrollBar = getLayer()->getScrollBar(96);
 }
 
 // layer
@@ -728,6 +734,8 @@ void						RadarEditorTab::render_Type1(void)
 	{
 		vecImageSize.x = vecImageSize.y;
 	}
+	vecImageSize.x *= getZoomLevel();
+	vecImageSize.y *= getZoomLevel();
 
 	for(RadarEditorTabEntry *pTabEntry : getEntries())
 	{

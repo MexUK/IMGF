@@ -95,13 +95,12 @@ private:
 	};
 	TextureEditorTabEntry*		m_pActiveTabEntry;
 
-	bxgx::DropDown*				m_pZoomDropDown;
-	bxgx::ScrollBar*			m_pVScrollBar;
-
 	float32						m_fZoomLevel;
 	uint32						m_uiDisplayedEntryCount;
 	TextureEditorTabEntry*		m_pMouseDownOriginEntry;
 
 	bxgx::CheckBox*				m_pDiffuseCheckBox;
 	bxgx::CheckBox*				m_pAlphaCheckBox;
+	bxgx::DropDown*				m_pZoomDropDown;
+	bxgx::ScrollBar*			m_pVScrollBar;
 };

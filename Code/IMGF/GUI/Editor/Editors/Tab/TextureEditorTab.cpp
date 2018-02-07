@@ -42,15 +42,14 @@ TextureEditorTab::TextureEditorTab(void) :
 	m_pTXDFile(nullptr),
 	m_pActiveTabEntry(nullptr),
 
-	m_pZoomDropDown(nullptr),
-	m_pVScrollBar(nullptr),
-
 	m_fZoomLevel(1.0f),
 	m_uiDisplayedEntryCount(0),
 	m_pMouseDownOriginEntry(nullptr),
 
 	m_pDiffuseCheckBox(nullptr),
-	m_pAlphaCheckBox(nullptr)
+	m_pAlphaCheckBox(nullptr),
+	m_pZoomDropDown(nullptr),
+	m_pVScrollBar(nullptr)
 {
 }
 
@@ -100,10 +99,12 @@ void					TextureEditorTab::unbindEvents(void)
 // controls
 void					TextureEditorTab::storeControls(void)
 {
-	m_pVScrollBar = (ScrollBar*)getLayer()->getItemById(95);
-
 	m_pDiffuseCheckBox = getLayer()->getCheckBox(5484);
 	m_pAlphaCheckBox = getLayer()->getCheckBox(5485);
+
+	m_pZoomDropDown = getLayer()->getDropDown(5500);
+
+	m_pVScrollBar = getLayer()->getScrollBar(95);
 }
 
 // layer

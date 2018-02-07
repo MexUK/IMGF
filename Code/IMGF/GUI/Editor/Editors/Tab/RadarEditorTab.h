@@ -70,6 +70,9 @@ protected:
 
 	void						addEntryAfter(bxcf::FormatEntry *pEntry);
 
+	void						setZoomLevel(float32 fZoomLevel) { m_fZoomLevel = fZoomLevel; }
+	float32						getZoomLevel(void) { return m_fZoomLevel; }
+
 	void						calculateDisplayedEntryCount(void);
 
 private:
@@ -77,11 +80,13 @@ private:
 	bool						m_bInitialized;
 	RadarEditorTabEntry*		m_pActiveTabEntry;
 
-	bxgx::ScrollBar*			m_pVScrollBar;
+	float32						m_fZoomLevel;
 	uint32						m_uiDisplayedEntryCount;
 	RadarEditorTabEntry*		m_pMouseDownOriginEntry;
 	bxgx::CheckBox*				m_pDiffuseCheckBox;
 	bxgx::CheckBox*				m_pAlphaCheckBox;
+	bxgx::DropDown*				m_pZoomDropDown;
+	bxgx::ScrollBar*			m_pVScrollBar;
 
 	std::vector<bxgi::TXDFormat*>		m_vecTXDFiles;
 	std::vector<bxgi::WTDFormat*>		m_vecWTDFiles;
