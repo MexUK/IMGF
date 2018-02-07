@@ -99,7 +99,7 @@ void						RadarEditorTab::initLayer(void)
 // events
 void						RadarEditorTab::bindEvents(void)
 {
-	bindEvent(RENDER, &RadarEditorTab::render);
+	//bindEvent(RENDER, &RadarEditorTab::render);
 	bindEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
 	bindEvent(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
 	bindEvent(LEFT_MOUSE_UP, &RadarEditorTab::onLeftMouseUp);
@@ -113,7 +113,7 @@ void						RadarEditorTab::bindEvents(void)
 
 void						RadarEditorTab::unbindEvents(void)
 {
-	unbindEvent(RENDER, &RadarEditorTab::render);
+	//unbindEvent(RENDER, &RadarEditorTab::render);
 	unbindEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
 	unbindEvent(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
 	unbindEvent(LEFT_MOUSE_UP, &RadarEditorTab::onLeftMouseUp);
@@ -500,8 +500,8 @@ void						RadarEditorTab::prepareRenderData_TXD(void)
 		return String::toUint32(Path::removeFileExtension(pIMGEntry1->getEntryName()).substr(5)) < String::toUint32(Path::removeFileExtension(pIMGEntry2->getEntryName()).substr(5));
 	});
 
-	//m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 160);
-	//m_pVScrollBar->setItemCount(VERTICAL, vecRadarIMGEntries.size() * 50);
+	m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 160);
+	m_pVScrollBar->setItemCount(VERTICAL, vecRadarIMGEntries.size() * 50);
 
 	m_vecTXDFiles.clear();
 	m_vecWTDFiles.clear();

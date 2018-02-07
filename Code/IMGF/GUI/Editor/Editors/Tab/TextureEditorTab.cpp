@@ -538,7 +538,7 @@ bool						TextureEditorTab::doesTabEntryMatchFilter(TextureEditorTabEntry *pTabE
 // render editor
 void						TextureEditorTab::render(void)
 {
-	renderDisplayType_Single();
+	//renderDisplayType_Single();
 }
 
 void						TextureEditorTab::renderDisplayType_Single(void)
