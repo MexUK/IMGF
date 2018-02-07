@@ -25,13 +25,13 @@ public:
 	void					onMouseEnterItem(bxgx::RenderItem *pRenderItem);
 	void					onMouseExitItem(bxgx::RenderItem *pRenderItem);
 
-	void					onPressButton(bxgx::Button *pMenuItem);
+	void					onPressButton(bxgx::Button *pButton);
 	void					onPressMenuItem(bxgx::MenuItem *pMenuItem);
 	void					onDropFiles(std::vector<std::string> vecDroppedFilePaths);
 
 	void					processMenuItemPress(bxgx::MenuItem *pMenuItem);
 
-	void					processTask(uint32 uiMenuItemId);
+	void					processTask(uint32 uiItemId);
 
 	void					setLastTaskId(uint32 uiLastTaskId) { m_uiLastTaskId = uiLastTaskId; }
 	uint32					getLastTaskId(void) { return m_uiLastTaskId; }

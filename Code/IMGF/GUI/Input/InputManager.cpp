@@ -135,7 +135,108 @@ void					InputManager::onPressButton(Button *pButton)
 		setLastTaskId(uiItemId);
 	}
 
-	// main
+	processTask(uiItemId);
+}
+
+// forward button press
+void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
+{
+	EditorTab *pActiveEditorTab = m_pMainWindow->getIMGEditor()->getActiveEditorTab();
+
+	uint32 uiMenuItemId = pMenuItem->getId();
+	if (uiMenuItemId == -1 && pMenuItem->getExpandableMenu() && pMenuItem->getExpandableMenu()->getEntryCount() > 0)
+	{
+		uiMenuItemId = pMenuItem->getExpandableMenu()->getFirstEntry()->getId();
+	}
+
+	if (pActiveEditorTab && uiMenuItemId != CLOSE_FILE && uiMenuItemId != CLOSE_ALL_FILES && uiMenuItemId != REOPEN_FILE)
+	{
+		mutexControlInput.lock();
+		pActiveEditorTab->getMenuItemsPressed().push_back(pMenuItem);
+		mutexControlInput.unlock();
+	}
+	else
+	{
+		processMenuItemPress(pMenuItem);
+	}
+}
+
+void					InputManager::onDropFiles(vector<string> vecDroppedFilePaths)
+{
+	EditorTab *pActiveEditorTab = m_pMainWindow->getActiveEditor()->getActiveEditorTab();
+	for (string& strDroppedFilePath : vecDroppedFilePaths)
+	{
+		string strFileExtension = Path::getFileExtension(strDroppedFilePath);
+		if (IMGF::isFileExtensionOpenable(strFileExtension))
+		{
+			m_pTasks->_openFile(strDroppedFilePath);
+		}
+		else
+		{
+			if (pActiveEditorTab && pActiveEditorTab->getEditor()->isFileExtensionImportable(strFileExtension))
+			{
+				pActiveEditorTab->addEntryViaFile(strDroppedFilePath);
+			}
+		}
+	}
+}
+
+void					InputManager::processMenuItemPress(MenuItem *pMenuItem)
+{
+	// recently open
+	if (getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer().find(pMenuItem->getId()) != getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer().end())
+	{
+		string strRecentlyOpenFilePath = getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer()[pMenuItem->getId()];
+		getIMGF()->getRecentlyOpenManager()->moveRecentlyOpenEntryToTop(m_pMainWindow->getActiveEditor()->getEditorType(), strRecentlyOpenFilePath);
+		getIMGF()->getIMGEditor()->addEditorTab(strRecentlyOpenFilePath);
+		return;
+	}
+
+	// file group
+	if (getIMGF()->getFileGroupManager()->getFileGroupsContainer().find(pMenuItem->getId()) != getIMGF()->getFileGroupManager()->getFileGroupsContainer().end())
+	{
+		string strFileGroupData = getIMGF()->getFileGroupManager()->getFileGroupsContainer()[pMenuItem->getId()];
+		vector<string> vecFileGroupData = String::split(strFileGroupData, "; ");
+		for (uint32 i = 1, j = vecFileGroupData.size(); i < j; i++)
+		{
+			getIMGF()->getIMGEditor()->addEditorTab(vecFileGroupData[i]);
+		}
+		return;
+	}
+
+	// formats menu
+	if (pMenuItem->getId() >= 500 && pMenuItem->getId() <= 520)
+	{
+		uint32 uiEditorIndex = pMenuItem->getId() - 500;
+		Editor *pEditor = m_pMainWindow->getEditors().getEntryByIndex(uiEditorIndex);
+		if (!pEditor)
+		{
+			return;
+		}
+
+		mutexRendering.lock();
+		m_pMainWindow->setActiveEditor(pEditor);
+		mutexRendering.unlock();
+	}
+
+	uint32 uiMenuItemId;
+
+	if (pMenuItem->getExpandableMenu() && pMenuItem->getExpandableMenu()->getEntryCount() > 0)
+	{
+		// menu item with an expandable menu - choose first item in expandable item list
+		uiMenuItemId = pMenuItem->getExpandableMenu()->getFirstEntry()->getId();
+	}
+	else
+	{
+		// menu item with no expandable menu
+		uiMenuItemId = pMenuItem->getId();
+	}
+
+	processTask(uiMenuItemId);
+}
+
+void					InputManager::processTask(uint32 uiItemId)
+{
 	switch (uiItemId)
 	{
 	case EInputItem::FORMATS:						return formats();
@@ -341,108 +442,6 @@ void					InputManager::onPressButton(Button *pButton)
 	case ABOUT:										return about();
 	case UPDATE:									return update();
 	}
-}
-
-// forward button press
-void					InputManager::onPressMenuItem(MenuItem *pMenuItem)
-{
-	EditorTab *pActiveEditorTab = m_pMainWindow->getIMGEditor()->getActiveEditorTab();
-
-	uint32 uiMenuItemId = pMenuItem->getId();
-	if (uiMenuItemId == -1 && pMenuItem->getExpandableMenu() && pMenuItem->getExpandableMenu()->getEntryCount() > 0)
-	{
-		uiMenuItemId = pMenuItem->getExpandableMenu()->getFirstEntry()->getId();
-	}
-
-	if (pActiveEditorTab && uiMenuItemId != CLOSE_FILE && uiMenuItemId != CLOSE_ALL_FILES && uiMenuItemId != REOPEN_FILE)
-	{
-		mutexControlInput.lock();
-		pActiveEditorTab->getMenuItemsPressed().push_back(pMenuItem);
-		mutexControlInput.unlock();
-	}
-	else
-	{
-		processMenuItemPress(pMenuItem);
-	}
-}
-
-void					InputManager::onDropFiles(vector<string> vecDroppedFilePaths)
-{
-	EditorTab *pActiveEditorTab = m_pMainWindow->getActiveEditor()->getActiveEditorTab();
-	for (string& strDroppedFilePath : vecDroppedFilePaths)
-	{
-		string strFileExtension = Path::getFileExtension(strDroppedFilePath);
-		if (IMGF::isFileExtensionOpenable(strFileExtension))
-		{
-			m_pTasks->_openFile(strDroppedFilePath);
-		}
-		else
-		{
-			if (pActiveEditorTab && pActiveEditorTab->getEditor()->isFileExtensionImportable(strFileExtension))
-			{
-				pActiveEditorTab->addEntryViaFile(strDroppedFilePath);
-			}
-		}
-	}
-}
-
-void					InputManager::processMenuItemPress(MenuItem *pMenuItem)
-{
-	// recently open
-	if (getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer().find(pMenuItem->getId()) != getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer().end())
-	{
-		string strRecentlyOpenFilePath = getIMGF()->getRecentlyOpenManager()->getRecentlyOpenedFilesContainer()[pMenuItem->getId()];
-		getIMGF()->getRecentlyOpenManager()->moveRecentlyOpenEntryToTop(m_pMainWindow->getActiveEditor()->getEditorType(), strRecentlyOpenFilePath);
-		getIMGF()->getIMGEditor()->addEditorTab(strRecentlyOpenFilePath);
-		return;
-	}
-
-	// file group
-	if (getIMGF()->getFileGroupManager()->getFileGroupsContainer().find(pMenuItem->getId()) != getIMGF()->getFileGroupManager()->getFileGroupsContainer().end())
-	{
-		string strFileGroupData = getIMGF()->getFileGroupManager()->getFileGroupsContainer()[pMenuItem->getId()];
-		vector<string> vecFileGroupData = String::split(strFileGroupData, "; ");
-		for (uint32 i = 1, j = vecFileGroupData.size(); i < j; i++)
-		{
-			getIMGF()->getIMGEditor()->addEditorTab(vecFileGroupData[i]);
-		}
-		return;
-	}
-
-	// formats menu
-	if (pMenuItem->getId() >= 500 && pMenuItem->getId() <= 520)
-	{
-		uint32 uiEditorIndex = pMenuItem->getId() - 500;
-		Editor *pEditor = m_pMainWindow->getEditors().getEntryByIndex(uiEditorIndex);
-		if (!pEditor)
-		{
-			return;
-		}
-
-		mutexRendering.lock();
-		m_pMainWindow->setActiveEditor(pEditor);
-		mutexRendering.unlock();
-	}
-
-	uint32 uiMenuItemId;
-
-	if (pMenuItem->getExpandableMenu() && pMenuItem->getExpandableMenu()->getEntryCount() > 0)
-	{
-		// menu item with an expandable menu - choose first item in expandable item list
-		uiMenuItemId = pMenuItem->getExpandableMenu()->getFirstEntry()->getId();
-	}
-	else
-	{
-		// menu item with no expandable menu
-		uiMenuItemId = pMenuItem->getId();
-	}
-
-	processTask(uiMenuItemId);
-}
-
-void					InputManager::processTask(uint32 uiMenuItemId)
-{
-	
 }
 
 // button press - menu type menu
