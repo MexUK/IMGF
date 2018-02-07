@@ -801,6 +801,7 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 
 	SelectObject(memDC, old);
 	DeleteDC(memDC);
+	ReleaseDC(hwnd, hdc);
 }
 
 // file info text

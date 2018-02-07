@@ -1001,6 +1001,7 @@ void						RadarEditorTab::renderEntryList(void)
 
 	SelectObject(memDC, old);
 	DeleteDC(memDC);
+	ReleaseDC(hwnd, hdc);
 }
 
 vector<FormatEntry*>	RadarEditorTab::getSelectedEntries(void)

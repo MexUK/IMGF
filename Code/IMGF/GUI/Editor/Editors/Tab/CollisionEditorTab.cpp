@@ -678,6 +678,8 @@ void						CollisionEditorTab::render2D(void)
 
 	SelectObject(memDC, old);
 	DeleteDC(memDC);
+	
+	ReleaseDC(hwnd, hdc);
 }
 
 // prepare initial render
@@ -736,15 +738,21 @@ void						CollisionEditorTab::render3D(void)
 	m_gl.postRender();
 	
 	// render to gdi
-	HDC hdc2 = CreateCompatibleDC(GetWindowDC(m_gl.m_hWindow));
+	HDC hdcWindow = GetWindowDC(m_gl.m_hWindow);
+	
+	HDC hdc2 = CreateCompatibleDC(hdcWindow);
 	HBITMAP hbm2 = m_gl.getFBOBitmap();
 
 	HGDIOBJ hOld2 = SelectObject(hdc2, hbm2);
-	BitBlt(GetWindowDC(m_gl.m_hWindow), 120 + 250, 130, m_gl.getRenderSize().x, m_gl.getRenderSize().y, hdc2, 0, 0, SRCCOPY);
+	BitBlt(hdcWindow, 120 + 250, 130, m_gl.getRenderSize().x, m_gl.getRenderSize().y, hdc2, 0, 0, SRCCOPY);
 	SelectObject(hdc2, hOld2);
-
+	
 	DeleteObject(hbm2);
 	DeleteDC(hdc2);
+	ReleaseDC(m_gl.m_hWindow, hdcWindow);
+	
+	// reset FBO bitmap
+	m_gl.resetFBOBitmap();
 
 	mutex3DRender.unlock();
 }
