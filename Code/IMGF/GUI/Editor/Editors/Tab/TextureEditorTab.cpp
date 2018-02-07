@@ -4,6 +4,7 @@
 #include "Format/WTD/WTDFormat.h"
 #include "Format/WTD/WTDManager.h"
 #include "Task/Tasks/Tasks.h"
+#include "Control/Controls/CheckBox.h"
 #include "Control/Controls/ProgressBar.h"
 #include "Control/Controls/TabBar.h"
 #include "Control/Controls/Text.h"
@@ -46,7 +47,10 @@ TextureEditorTab::TextureEditorTab(void) :
 
 	m_fZoomLevel(1.0f),
 	m_uiDisplayedEntryCount(0),
-	m_pMouseDownOriginEntry(nullptr)
+	m_pMouseDownOriginEntry(nullptr),
+
+	m_pDiffuseCheckBox(nullptr),
+	m_pAlphaCheckBox(nullptr)
 {
 }
 
@@ -97,6 +101,9 @@ void					TextureEditorTab::unbindEvents(void)
 void					TextureEditorTab::storeControls(void)
 {
 	m_pVScrollBar = (ScrollBar*)getLayer()->getItemById(95);
+
+	m_pDiffuseCheckBox = getLayer()->getCheckBox(5484);
+	m_pAlphaCheckBox = getLayer()->getCheckBox(5485);
 }
 
 // layer
@@ -436,13 +443,18 @@ void						TextureEditorTab::prepareTexture_TXD(RWSection_TextureNative *pRWSecti
 	else
 	{
 		RWEntry_TextureNative_MipMap *pMipmap = pRWSection_TextureNative->getMipMaps().getEntryByIndex(0);
-		string strBMPImageDataStr = pMipmap->getRasterDataBGRA32();
-		const char *pBmpImageData = strBMPImageDataStr.c_str();
 
-		HBITMAP hBitmap = CreateBitmap(pMipmap->getImageSize().x, pMipmap->getImageSize().y, 1, 32, pBmpImageData);
+		string strRasterDataBGRA32 = pMipmap->getRasterDataBGRA32();
+		const char *pRasterDataBGRA32 = strRasterDataBGRA32.c_str();
+		HBITMAP hDiffuseBitmap = CreateBitmap(pMipmap->getImageSize().x, pMipmap->getImageSize().y, 1, 32, pRasterDataBGRA32);
+
+		string strRasterDataBGR24 = ImageManager::convertBGRA32ToAlphaBGRA32(strRasterDataBGRA32);
+		const char *pRasterDataBGR24 = strRasterDataBGR24.c_str();
+		HBITMAP hAlphaBitmap = CreateBitmap(pMipmap->getImageSize().x, pMipmap->getImageSize().y, 1, 32, pRasterDataBGR24);
 
 		pTabEntry->m_uiIndex = getEntryCount();
-		pTabEntry->m_hBitmap = hBitmap;
+		pTabEntry->m_hDiffuseBitmap = hDiffuseBitmap;
+		pTabEntry->m_hAlphaBitmap = hAlphaBitmap;
 		pTabEntry->m_uiWidth = pRWSection_TextureNative->getImageSize().x;
 		pTabEntry->m_uiHeight = pRWSection_TextureNative->getImageSize().y;
 		pTabEntry->m_strDiffuseName = pRWSection_TextureNative->getDiffuseName();
@@ -491,13 +503,18 @@ void						TextureEditorTab::prepareTexture_WTD(WTDEntry *pWTDEntry)
 	else
 	{
 		WTDMipmap *pMipmap = pWTDEntry->getEntryByIndex(0);
-		string strBMPImageDataStr = pMipmap->getRasterDataBGRA32();
-		const char *pBmpImageData = strBMPImageDataStr.c_str();
+		
+		string strRasterDataBGRA32 = pMipmap->getRasterDataBGRA32();
+		const char *pRasterDataBGRA32 = strRasterDataBGRA32.c_str();
+		HBITMAP hDiffuseBitmap = CreateBitmap(pMipmap->getImageSize(true), pMipmap->getImageSize(false), 1, 32, pRasterDataBGRA32);
 
-		HBITMAP hBitmap = CreateBitmap(pWTDEntry->getImageSize(true), pWTDEntry->getImageSize(false), 1, 32, pBmpImageData);
+		string strRasterDataBGR24 = ImageManager::convertBGRA32ToAlphaBGRA32(strRasterDataBGRA32);
+		const char *pRasterDataBGR24 = strRasterDataBGR24.c_str();
+		HBITMAP hAlphaBitmap = CreateBitmap(pMipmap->getImageSize(true), pMipmap->getImageSize(false), 1, 32, pRasterDataBGR24);
 
 		pTabEntry->m_uiIndex = getEntryCount();
-		pTabEntry->m_hBitmap = hBitmap;
+		pTabEntry->m_hDiffuseBitmap = hDiffuseBitmap;
+		pTabEntry->m_hAlphaBitmap = hAlphaBitmap;
 		pTabEntry->m_uiWidth = pWTDEntry->getImageSize(true);
 		pTabEntry->m_uiHeight = pWTDEntry->getImageSize(false);
 		pTabEntry->m_strDiffuseName = pWTDEntry->getEntryName();
@@ -751,7 +768,7 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 				uiDestHeight = 128;
 			}
 			
-			pGFX->drawImage(Vec2i(uiEntryRectX + 20, uiEntryRectY - yCurrentScroll), pImageData->m_hBitmap, Vec2u(pActiveImageData->m_uiWidth, pActiveImageData->m_uiHeight));
+			// todo pGFX->drawImage(Vec2i(uiEntryRectX + 20, uiEntryRectY - yCurrentScroll), pImageData->m_hDiffuseBitmap, Vec2u(pActiveImageData->m_uiWidth, pActiveImageData->m_uiHeight));
 			uiEntryRectY += 128;
 		}
 
@@ -775,7 +792,14 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		uint32 uiDestinationWidth = (uint32)((float32)pActiveImageData->m_uiWidth * getZoomLevel());
 		uint32 uiDestinationHeight = (uint32)((float32)pActiveImageData->m_uiHeight * getZoomLevel());
 		
-		pGFX->drawImage(Vec2i(vecMainPanelPosition.x + 250, vecMainPanelPosition.y), pActiveImageData->m_hBitmap, Vec2u(uiDestinationWidth, uiDestinationHeight));
+		if (m_pDiffuseCheckBox->isMarked())
+		{
+			pGFX->drawImage(Vec2i(vecMainPanelPosition.x + 250, vecMainPanelPosition.y), pActiveImageData->m_hDiffuseBitmap, Vec2u(uiDestinationWidth, uiDestinationHeight));
+		}
+		if (m_pAlphaCheckBox->isMarked())
+		{
+			pGFX->drawImage(Vec2i(vecMainPanelPosition.x + 250, vecMainPanelPosition.y), pActiveImageData->m_hAlphaBitmap, Vec2u(uiDestinationWidth, uiDestinationHeight));
+		}
 	}
 	
 	//getIMGF()->getEntryViewerManager()->getTextureViewer()->setWindowScrollbarMaxRange(uiImageY + 200);

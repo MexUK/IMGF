@@ -101,4 +101,7 @@ private:
 	float32						m_fZoomLevel;
 	uint32						m_uiDisplayedEntryCount;
 	TextureEditorTabEntry*		m_pMouseDownOriginEntry;
+
+	bxgx::CheckBox*				m_pDiffuseCheckBox;
+	bxgx::CheckBox*				m_pAlphaCheckBox;
 };

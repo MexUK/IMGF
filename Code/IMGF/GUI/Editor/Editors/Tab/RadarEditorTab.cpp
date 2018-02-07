@@ -78,6 +78,9 @@ RadarEditorTab::RadarEditorTab(void) :
 void						RadarEditorTab::storeControls(void)
 {
 	m_pVScrollBar = (ScrollBar*)getLayer()->getItemById(96);
+
+	m_pDiffuseCheckBox = getLayer()->getCheckBox(5484);
+	m_pAlphaCheckBox = getLayer()->getCheckBox(5485);
 }
 
 // layer
@@ -382,7 +385,7 @@ void						RadarEditorTab::setFileInfoText(void)
 	m_pText_FilePath->setText(Path::getDisplayableFilePath(getIMGFile()->getIMGFilePath()));
 	//m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
 
-	//m_pAlphaCheckBox->setMarked(false);
+	m_pAlphaCheckBox->setMarked(false);
 
 	if (getEntryCount() == 64 && getFirstEntry()->m_ucBPP == 32)
 	{
@@ -747,11 +750,11 @@ void						RadarEditorTab::render_Type1(void)
 			vecImagePosition = Vec2i(120 + 250 + (x * vecImageSize.x), 130 + (y * vecImageSize.y));
 		}
 
-		if (true)//m_pDiffuseCheckBox->isMarked())
+		if (m_pDiffuseCheckBox->isMarked())
 		{
 			pGFX->drawImage(vecImagePosition, pTabEntry->m_hDiffuseBitmap, vecImageSize);
 		}
-		if (false)//m_pAlphaCheckBox->isMarked())
+		if (m_pAlphaCheckBox->isMarked())
 		{
 			pGFX->drawImage(vecImagePosition, pTabEntry->m_hAlphaBitmap, vecImageSize);
 		}
