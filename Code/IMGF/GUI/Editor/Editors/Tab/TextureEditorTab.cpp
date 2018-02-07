@@ -763,13 +763,6 @@ void						TextureEditorTab::renderDisplayType_Single(void)
 		uiTextureIndex++;
 	}
 
-	// zoom text
-	RECT rect;
-	rect.left = vecMainPanelPosition.x + 250 + 100;
-	rect.top = vecMainPanelPosition.y - 50;
-	string strText = "Zoom:";
-	pGFX->drawText(Vec2i(rect.left, rect.top), Vec2u(250, 20), strText);
-
 	getLayer()->getWindow()->setRenderingStyleGroups("centerEntryPanel");
 	Vec2u vecRectSize;
 	vecRectSize.x = getLayer()->getWindow()->getSize().x - (120 + 250 + 5);

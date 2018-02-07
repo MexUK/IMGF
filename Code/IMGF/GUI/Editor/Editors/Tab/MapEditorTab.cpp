@@ -355,7 +355,7 @@ void						MapEditorTab::render3D(void)
 	// gdi - draw 2d bitmap
 	HDC hdcWindow = GetWindowDC(m_gl.m_hWindow);
 	
-	HDC hdc2 = CreateCompatibleDC(hdcWindow;
+	HDC hdc2 = CreateCompatibleDC(hdcWindow);
 	HBITMAP hbm2 = m_gl.getFBOBitmap();
 
 	HGDIOBJ hOld2 = SelectObject(hdc2, hbm2);
