@@ -47,3 +47,4 @@
 *.suo
 Compiler/Projects/IMGF.Installer/Resource.rc
 *.rc
+*.aps

@@ -54,7 +54,8 @@ CollisionEditorTab::CollisionEditorTab(void) :
 void					CollisionEditorTab::bindEvents(void)
 {
 	bindEvent(RENDER, &CollisionEditorTab::render);
-	bindEvent(PROCESS, &CollisionEditorTab::render3D);
+	bindEvent(END_RENDER, &CollisionEditorTab::endRender);
+	//bindEvent(PROCESS, &CollisionEditorTab::render3D);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	bindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	bindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
@@ -67,7 +68,8 @@ void					CollisionEditorTab::bindEvents(void)
 void					CollisionEditorTab::unbindEvents(void)
 {
 	unbindEvent(RENDER, &CollisionEditorTab::render);
-	unbindEvent(PROCESS, &CollisionEditorTab::render3D);
+	unbindEvent(END_RENDER, &CollisionEditorTab::endRender);
+	//unbindEvent(PROCESS, &CollisionEditorTab::render3D);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	unbindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
@@ -531,14 +533,17 @@ bool						CollisionEditorTab::doesTabEntryMatchFilter(COLEntry *pCOLEntry)
 // render
 void						CollisionEditorTab::render(void)
 {
-	//render2D();
-	//render3D();
+	render2D();
 }
 
-// render on process
+void						CollisionEditorTab::endRender(void)
+{
+	render3D();
+}
+
 void						CollisionEditorTab::renderNotOnProcess(void)
 {
-	render2D();
+	//render2D();
 	//render3D();
 }
 
@@ -691,6 +696,8 @@ void						CollisionEditorTab::prepareInitial3DRender(void)
 // render editor 3d
 void						CollisionEditorTab::render3D(void)
 {
+	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
+
 	if (!m_pActiveEntry)
 	{
 		return;
@@ -736,7 +743,8 @@ void						CollisionEditorTab::render3D(void)
 	m_gl.preRender();
 	m_gl.render();
 	m_gl.postRender();
-	
+
+	///*
 	// render to gdi
 	HDC hdcWindow = GetWindowDC(m_gl.m_hWindow);
 	
@@ -744,17 +752,20 @@ void						CollisionEditorTab::render3D(void)
 	HBITMAP hbm2 = m_gl.getFBOBitmap();
 
 	HGDIOBJ hOld2 = SelectObject(hdc2, hbm2);
-	BitBlt(hdcWindow, 120 + 250, 130, m_gl.getRenderSize().x, m_gl.getRenderSize().y, hdc2, 0, 0, SRCCOPY);
+	BitBlt(pGFX->getMemoryDC(), 120 + 250, 130, m_gl.getRenderSize().x, m_gl.getRenderSize().y, hdc2, 0, 0, SRCCOPY);
 	SelectObject(hdc2, hOld2);
-	
+
 	DeleteObject(hbm2);
 	DeleteDC(hdc2);
 	ReleaseDC(m_gl.m_hWindow, hdcWindow);
 	
 	// reset FBO bitmap
 	m_gl.resetFBOBitmap();
+	//*/
 
 	mutex3DRender.unlock();
+
+	m_gl.finalizeRender();
 }
 
 // entity colours

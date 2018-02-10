@@ -161,10 +161,9 @@ tabBar:tab .main_textAlignCenter .main_spacing .blackFill .lightgreyText
 tabBar:tab:active .lightenFillTwenty .lightgreyText
 
 scrollBar .blackFill
-scrollBar:hover .lightenFillFourty
 scrollBar:arrow .blackFill
 scrollBar:itemIcon .whiteFill
-scrollBar:seekBar .blackFill
+scrollBar:seekBar .midgreyFill
 scrollBar:seekBar:hover .lightenFillFourty
 
 text .darkgreyFill .lightgreyText .main_textAlignLeft
@@ -211,11 +210,6 @@ radioButton:icon:checked .blackFill
 .activeEditorButton .blackText
 fill 200 200 200
 
-
-
-.leftMenu:item
-spacing y 5
-
 .settingsMenuLine .blackLine
 
 .settingsMenuButton .whiteFill
@@ -224,7 +218,7 @@ spacing y 5
 
 
 
-// tetxure editor
+// entry list for editors
 .leftEntryPanel
 fill 85 85 85
 

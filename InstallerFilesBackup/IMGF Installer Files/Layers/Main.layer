@@ -1,15 +1,208 @@
 image 5 33 0 0 "%DATAPATH%/Images/Logo.png"
 
-button 120 32 110 22 "New" "" 1048
-button 240 32 110 22 "Open" "" 1052
-button 360 32 110 22 "Save" "" 1063
-button 480 32 110 22 "Save+"
-button 600 32 110 22 "Close" "" 1072
-button 720 32 110 22 "Close+"
-
-button 120 59 200 22 "Second row of buttons here" "" 0 -1 disabled
-button 330 59 200 22 "Second row of buttons here" "" 0 -1 disabled
-
+menu 120 32 110 22 "New" "" 1048 -1 vertical
+	menu 2 "New IMG v3" "" 1050
+	menu 2 "New WTD" "" 1049
+	menu 2 "New File" "" 1048
+	menu 2 "New Window" "" 1051
+	menu 2 "LST Import" "" 1160
+	
+menu 232 32 110 22 "File" "" 1052 -1 vertical
+	menu 2 "Open File(s)" "" 1052
+	menu 2 "Open Folder" "" 1053
+	menu 2 "Open Folder Recursively" "" 1054
+	menu 2 "Reopen" "" 1055
+	menu 2 "Open Last Closed File" "" 1056
+	menu 2 "Rename" "" 1100
+	menu 2 "Renamer" "" 1187
+	menu 2 "Recently Open" "" 100
+	menu 2 "Open File Group" "" 1059
+	menu 2 "Open File Folder in Explorer" "" 1057
+	menu 2 "Repeat Last Task" "" 1062
+	menu 2 "Save File" "" 1063
+	menu 2 "Save As" "" 1064
+	menu 2 "Save All" "" 1065
+	menu 2 "Clone File" "" 1066
+	menu 2 "Close File" "" 1072
+	menu 2 "Close All" "" 1073
+	menu 2 "Open Today's Logs File" "" 1060
+	menu 2 "Open Logs Folder" "" 1061
+	menu 2 "Clear Logs" "" 1070
+	menu 2 "Clear Logs for All Tabs" "" 1071
+	menu 2 "Save Logs" "" 1068
+	menu 2 "Save Logs for All Tabs" "" 1069
+	menu 2 "Save File Group" "" 1067
+	menu 2 "Exit Tool" "" 1074
+	
+menu 344 32 110 22 "Project" "" -1 vertical
+	menu 2 "Import"
+		menu 3 "Import by File(s)" "" 1075
+		menu 3 "Import by Folder(s)" "" 0
+			menu 4 "Import by Single Folder" "" 1076
+			menu 4 "Import by Folder Recursively" "" 1077
+		menu 3 "Import by IDE" "" 1078
+		menu 3 "Import by Entry Names" "" 1079
+	menu 2 "Export"
+		menu 3 "Export Selection" "" 1080
+		menu 3 "Export All Entries" "" 1081
+		menu 3 "Export by Column" "" 100
+			menu 4 "Export by Index" "" 1082
+			menu 4 "Export by Name" "" 1083
+			menu 4 "Export by Offset" "" 1084
+			menu 4 "Export by Size" "" 1085
+			menu 4 "Export by Type" "" 1086
+			menu 4 "Export by Version" "" 1087
+		menu 3 "Export All Entries into" "" 100
+			Export all entries into Grouped Folders by Type" "" 1088
+		menu 3 "Export All Tabs" "" 100
+			menu 4 "Export all entries from all tabs" "" 1089
+			menu 4 "Export all entries from all tabs into grouped folders by type" "" 1090
+			menu 4 "Export selection from all tabs" "" 1091
+			menu 4 "Export by IDE from All Tabs" "" 1093
+			menu 4 "Export by Entry Names from All Tabs" "" 1097
+		menu 3 "Export by IDE" "" 1092
+		menu 3 "Export by IPL" "" 1094
+		menu 3 "Export by DAT" "" 1095
+		menu 3 "Export by Entry Names" "" 1096
+		menu 3 "Export Texture Name List" "" 1098
+	menu 2 "Rename" "" 1100
+	menu 2 "Replace" "" 100
+		menu 3 "Replace by File(s)" "" 1101
+		menu 3 "Replace by Folder" "" 100
+			menu 4 "Replace by Single Folder" "" 1102
+			menu 4 "Replace by Folder Recursively" "" 1103
+		menu 3 "Replace by IDE" "" 1104
+	menu 2 "Remove" "" 100
+		menu 3 "Remove Selection" "" 1105
+		menu 3 "Remove All Entries" "" 1106
+		menu 3 "Remove by Column" "" 100
+			menu 4 "Remove by Index" "" 1107
+			menu 4 "Remove by Name" "" 1108
+			menu 4 "Remove by Offset" "" 1109
+			menu 4 "Remove by Size" "" 1110
+			menu 4 "Remove by Type" "" 1111
+			menu 4 "Remove by Version" "" 1112
+		menu 3 "Remove by IDE" "" 1113
+		menu 3 "Remove by Entry Names" "" 1114
+	menu 2 "Merge" "" 1115
+	menu 2 "Split" "" 100
+		menu 3 "Split Selection" "" 1116
+		menu 3 "Split by IDE" "" 1117
+		menu 3 "Split by Entry Names" "" 1118
+	menu 2 "Convert" "" 100
+		menu 3 "IMG" "" 100
+			menu 4 "Convert IMG Version" "" 1119
+		menu 3 "COL" "" 100
+			menu 4 "Convert COL Version for Selection" "" 1120
+		menu 3 "DFF" "" 100
+			menu 4 "Convert DFF RW Version for Selection" "" 1121
+			menu 4 "Convert DFF to WDR for Selection" "" 1122
+		menu 3 "TXD" "" 100
+			menu 4 "Convert TXD RW Version for Selection" "" 1123
+			menu 4 "Convert TXD to Game for Selection" "" 1124
+			menu 4 "Convert TXD to Texture Format for Selection" "" 1125
+		menu 3 "WTD" "" 100
+			menu 4 "Convert WTD to TXD for Selection" "" 1126
+	menu 2 "Select" "" 100
+		menu 3 "Select All Entries" "" 1127
+		menu 3 "Unselect All Entries" "" 1128
+		menu 3 "Select Inverse" "" 1129
+		menu 3 "Select by Column" "" 100
+			menu 4 "Select by Index" "" 1130
+			menu 4 "Select by Name" "" 1131
+			menu 4 "Select by Offset" "" 1132
+			menu 4 "Select by Size" "" 1133
+			menu 4 "Select by Type" "" 1134
+			menu 4 "Select by Version" "" 1135
+		menu 3 "Select by IDE" "" 1136
+		menu 3 "Unselect by Column" "" 100
+			menu 4 "Unselect by Index" "" 1137
+			menu 4 "Unselect by Name" "" 1138
+			menu 4 "Unselect by Offset" "" 1139
+			menu 4 "Unselect by Size" "" 1140
+			menu 4 "Unselect by Type" "" 1141
+			menu 4 "Unselect by Version" "" 1142
+		menu 3 "Unselect by IDE" "" 1143
+	menu 2 "Sort" "" 100
+		menu 3 "Sort by Index" "" 100
+			menu 4 "Sort by Index (Reverse)" "" 1144
+		menu 3 "Sort by Name" "" 100
+			menu 4 "Sort by Name Ascending (0-9, A-Z)" "" 1145
+			menu 4 "Sort by Name Descending (Z-A, 9-0)" "" 1146
+		menu 3 "Sort by Offset" "" 100
+			menu 4 "Sort by Offset (Low-High)" "" 1149
+			menu 4 "Sort by Offset (High-Low)" "" 1150
+		menu 3 "Sort by Size" "" 100
+			menu 4 "Sort by Size (Small-Big)" "" 1151
+			menu 4 "Sort by Size (Big-Small)" "" 1152
+		menu 3 "Sort by Type" "" 100
+			menu 4 "Sort by Type (A-Z)" "" 1153
+			menu 4 "Sort by Type (Z-A)" "" 1154
+		menu 3 "Sort by Version" "" 100
+			menu 4 "Sort by Version (Old-New)" "" 1155
+			menu 4 "Sort by Version (New-Old)" "" 1156
+		menu 3 "Sort by IDE" "" 1157
+		menu 3 "Sort by COL" "" 1158
+		menu 3 "Sort by Multiple Types" "" 1159
+	menu 2 "Entry"
+		menu 3 "Entry Name Case" "" 100
+			menu 4 "lower case" "" 1161
+			menu 4 "UPPER CASE" "" 1162
+			menu 4 "Title Case" "" 1163
+		menu 3 "Copy Entry Data" "" 100
+			menu 4 "Copy Entries Index" "" 1164
+			menu 4 "Copy Entries Type" "" 1165
+			menu 4 "Copy Entries Name" "" 1166
+			menu 4 "Copy Entries Offset" "" 1167
+			menu 4 "Copy Entries Size" "" 1168
+			menu 4 "Copy Entries Version" "" 1169
+			menu 4 "Copy Entries Row Data" "" 1170
+		menu 3 "Shift Entry" "" 100
+			menu 4 "Shift Entries Up 1 Row" "" 1171
+			menu 4 "Shift Entries Up 5 Rows" "" 1172
+			menu 4 "Shift Entries Up 10 Rows" "" 1173
+			menu 4 "Shift Entries Up 100 Rows" "" 1174
+			menu 4 "Shift Entries Up 1000 Rows" "" 1175
+			menu 4 "Shift Entries Down 1 Row" "" 1176
+			menu 4 "Shift Entries Down 5 Rows" "" 1177
+			menu 4 "Shift Entries Down 10 Rows" "" 1178
+			menu 4 "Shift Entries Down 100 Rows" "" 1179
+			menu 4 "Shift Entries Down 1000 Rows" "" 1180
+	menu 2 "Tools"
+		menu 3 "Dump" "" 1185
+		menu 3 "Session Manager" "" 1186
+		menu 3 "Renamer" "" 1187
+		menu 3 "TXD Builder" "" 1188
+		menu 3 "TXD Organizer" "" 1189
+		menu 3 "DAT Paths Mover" "" 1190
+		menu 3 "Map Mover and ID Shifter" "" 1191
+		
+		menu 3 "Find Duplicate Entries" "" 100
+			menu 4 "Find Duplicate Entries in Selection" "" 1194
+			menu 4 "Find Duplicate Entries in Tab" "" 1195
+			menu 4 "Find Duplicate Entries in All Tabs" "" 1196
+			menu 4 "Find Duplicate Entries by DAT" "" 1197
+		menu 3 "Orphan Entries" "" 100
+			menu 4 "Remove Orphan Textures from DFF Entries" "" 1181
+			menu 4 "Find Orphan IMG Entries not in IDE" "" 1182
+			menu 4 "Find Orphan IDE Entries not in IMG" "" 1183
+			menu 4 "Find Orphan TXD Textures for DFFs in IMG by IDE" "" 1184
+		menu 3 "Other" "" 100
+			menu 4 "Compare IMGs" "" 1198
+			menu 4 "Model List for IDE/IPL by DAT" "" 1199
+			menu 4 "Save IMG Signature" "" 1200
+			menu 4 "Verify IMG Signature" "" 1201
+			menu 4 "Validate DFF in Tab" "" 1202
+			menu 4 "Validate TXD in Tab" "" 1203
+			menu 4 "Center COL Meshes in Selection" "" 1204
+			menu 4 "Align COL Meshes to DFF Meshes" "" 1205
+			menu 4 "Extract DVC and NVC into DFFs" "" 1206
+			menu 4 "Extract 2DFX into DFFs" "" 1207
+			menu 4 "IMG Compression" "" 1208
+			menu 4 "Generate COL from DFF" "" 1209
+			menu 4 "Texture List" "" 1192
+			menu 4 "Stats" "" 1193
+			
 button 5 80 110 22 "Root Dat" "" 1004
 
 button 5 110 50 22 "IMG" "" 1005

@@ -188,7 +188,7 @@ void						EditorTab::processThreadOnce(void)
 	{
 		if (uiActiveEditor == MODEL_EDITOR || uiActiveEditor == COLLISION_EDITOR || uiActiveEditor == ANIMATION_EDITOR || uiActiveEditor == MAP_EDITOR)
 		{
-			render();
+			//render();
 		}
 	}
 }

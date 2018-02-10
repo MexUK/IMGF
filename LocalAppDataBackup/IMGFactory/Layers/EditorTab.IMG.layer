@@ -1,3 +1,7 @@
 layer disabled 101
 
 grid 120 130 1.0-125 1.0-160 "" 1200
+
+dropdown 600 32 150 20 "Version:"
+dropdown "IMG 1 (GTA 3 / GTA VC)" "IMG 2 (GTA SA)" "IMG 3 [Encrypted] (GTA IV)" "IMG 3 [Unencrypted]" "IMG Fastman92"
+

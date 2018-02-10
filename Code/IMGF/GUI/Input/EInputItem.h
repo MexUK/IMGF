@@ -2,6 +2,8 @@
 
 #include "nsimgf.h"
 
+// NOTE: ONLY add items to bottom of the enum. otherwise it will mess up item ids in .layer files.
+
 enum imgf::mainLayer::input::EInputItem
 {
 	UNKNOWN_TASK = -1,

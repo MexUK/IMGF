@@ -144,12 +144,7 @@ spacing x 8
 
 
 // controls
-menu:item .main_textAlign .main_spacing .darkgreyFill .lightgreyText
-line left 190 190 190
-line top 190 190 190
-line right 0 0 0
-line bottom 0 0 0
-
+menu:item .main_textAlign .main_spacing .blackFill .lightgreyText
 menu:item:active .lightenFillTwenty
 menu:item:hover .lightenFillFourty
 menu:item:disabled .disabledText
@@ -166,10 +161,9 @@ tabBar:tab .main_textAlignCenter .main_spacing .blackFill .lightgreyText
 tabBar:tab:active .lightenFillTwenty .lightgreyText
 
 scrollBar .blackFill
-scrollBar:hover .lightenFillFourty
 scrollBar:arrow .blackFill
 scrollBar:itemIcon .whiteFill
-scrollBar:seekBar .blackFill
+scrollBar:seekBar .midgreyFill
 scrollBar:seekBar:hover .lightenFillFourty
 
 text .darkgreyFill .lightgreyText .main_textAlignLeft
@@ -188,10 +182,11 @@ grid:cell:selected .blackText
 progressBar .midgreyFill
 progressBar:innerBar .blackFill
 
-dropDown .blackFill .whiteText .main_lineLeft .main_textAlign .main_spacing
-dropDown:hover .lightenFillTwenty
+dropDown .lightgreyText .main_textAlign .main_spacing
+dropDown:active .blackFill
+dropDown:hover .lightenFillTwenty .blackText
 dropDown:arrow .whiteFill
-dropDown:listRow .whiteFill .blackText .main_textAlign .main_spacing .blackText
+dropDown:listRow .whiteFill .main_textAlign .main_spacing .blackText
 dropDown:listRow:hover .lightenFillTwenty
 
 textBox .blackFill .whiteText .main_spacing
@@ -200,11 +195,13 @@ textBox:selection .midgreyFill .main_spacing
 .singleline .main_textAlignLeft
 .multiline .main_textAlignLeftTop
 
+checkBox .lightgreyText
 checkBox:icon .blackLine
-checkBox:icon:active .blackFill
+checkBox:icon:checked .blackFill
 
+radioButton .lightgreyText
 radioButton:icon .blackLine
-radioButton:icon:active .blackFill
+radioButton:icon:checked .blackFill
 
 
 
@@ -212,11 +209,6 @@ radioButton:icon:active .blackFill
 // main layer
 .activeEditorButton .blackText
 fill 200 200 200
-
-
-
-.leftMenu:item
-spacing y 5
 
 .settingsMenuLine .blackLine
 
@@ -226,7 +218,7 @@ spacing y 5
 
 
 
-// tetxure editor
+// entry list for editors
 .leftEntryPanel
 fill 85 85 85
 
