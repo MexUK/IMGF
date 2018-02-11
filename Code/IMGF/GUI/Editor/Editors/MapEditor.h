@@ -22,8 +22,6 @@ public:
 	void								bindEvents(void);
 	void								unbindEvents(void);
 
-	void								renderBefore(void);
-
 	MapEditorTab*						addEditorTab(std::string& strFilePath);
 	MapEditorTab*						addBlankEditorTab(std::string& strFilePath);
 };

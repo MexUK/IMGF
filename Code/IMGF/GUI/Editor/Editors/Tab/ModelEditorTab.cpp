@@ -73,18 +73,22 @@ void						ModelEditorTab::initLayer(void)
 // events
 void						ModelEditorTab::bindEvents(void)
 {
+	bindEvent(RENDER, &ModelEditorTab::render);
+	bindEvent(END_RENDER, &ModelEditorTab::endRender);
 	bindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
 	bindEvent(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
-	bindEvent(PROCESS, &ModelEditorTab::onProcess);
+	//bindEvent(PROCESS, &ModelEditorTab::onProcess);
 
 	EditorTab::bindEvents();
 }
 
 void						ModelEditorTab::unbindEvents(void)
 {
+	unbindEvent(RENDER, &ModelEditorTab::render);
+	unbindEvent(END_RENDER, &ModelEditorTab::endRender);
 	unbindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
 	unbindEvent(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
-	unbindEvent(PROCESS, &ModelEditorTab::onProcess);
+	//unbindEvent(PROCESS, &ModelEditorTab::onProcess);
 
 	EditorTab::unbindEvents();
 }
@@ -170,12 +174,19 @@ void						ModelEditorTab::updateEntryCountText(void)
 	m_pText_FileEntryCount->setText(strEntryCountText);
 }
 
-// render 2d
+// render events
 void						ModelEditorTab::render(void)
 {
+	render2D();
 }
 
-void						ModelEditorTab::render_Type1(void)
+void						ModelEditorTab::endRender(void)
+{
+	render3D();
+}
+
+// render 2d
+void						ModelEditorTab::render2D(void)
 {
 }
 
@@ -187,11 +198,13 @@ void						ModelEditorTab::onProcess(void)
 		return;
 	}
 
-	render3D();
+	//render3D();
 }
 
 void						ModelEditorTab::render3D(void)
 {
+	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
+
 	if (!m_pDFFFile)
 	{
 		return;
@@ -240,26 +253,28 @@ void						ModelEditorTab::render3D(void)
 		m_bInitializing = false;
 	}
 
+	// render to opengl
 	m_gl.preRender();
 	m_gl.render();
 	m_gl.postRender();
 
-	// gdi - draw 2d bitmap
+	// render to gdi
 	HDC hdcWindow = GetWindowDC(m_gl.m_hWindow);
-	
 	HDC hdc2 = CreateCompatibleDC(hdcWindow);
+
 	HBITMAP hbm2 = m_gl.getFBOBitmap();
-
 	HGDIOBJ hOld2 = SelectObject(hdc2, hbm2);
-	BitBlt(hdcWindow, 120+250, 130, m_gl.getRenderSize().x, m_gl.getRenderSize().y, hdc2, 0, 0, SRCCOPY);
-	SelectObject(hdc2, hOld2);
 
+	BitBlt(pGFX->getMemoryDC(), 120+250, 130, m_gl.getRenderSize().x, m_gl.getRenderSize().y, hdc2, 0, 0, SRCCOPY);
+	
+	SelectObject(hdc2, hOld2);
 	DeleteObject(hbm2);
 	DeleteDC(hdc2);
 	ReleaseDC(m_gl.m_hWindow, hdcWindow);
-	
-	// reset FBO bitmap
 	m_gl.resetFBOBitmap();
+
+	// finalize render
+	m_gl.finalizeRender();
 }
 
 // entity preparation

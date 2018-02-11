@@ -27,8 +27,6 @@ void					CollisionEditor::init(void)
 // events
 void							CollisionEditor::bindEvents(void)
 {
-	bindEvent(BEFORE_RENDER, &CollisionEditor::renderBefore);
-
 	Editor::bindEvents();
 
 	if (m_pActiveEditorTab)
@@ -39,8 +37,6 @@ void							CollisionEditor::bindEvents(void)
 
 void							CollisionEditor::unbindEvents(void)
 {
-	unbindEvent(BEFORE_RENDER, &CollisionEditor::renderBefore);
-
 	Editor::unbindEvents();
 
 	if (m_pActiveEditorTab)
@@ -85,25 +81,4 @@ CollisionEditorTab*				CollisionEditor::addBlankEditorTab(string& strFilePath)
 		pCollisionEditorTab->init(true);
 	}
 	return pCollisionEditorTab;
-}
-
-// render
-void							CollisionEditor::renderBefore(void)
-{
-	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
-	
-	if (m_pMainWindow->getActiveEditor() != m_pMainWindow->getCollisionEditor() || BXGX::get()->getEventWindow() != m_pMainWindow)
-	{
-		return;
-	}
-
-	m_pMainWindow->resetRenderingStyleGroups();
-	m_pMainWindow->resetRenderingControlComponent();
-	m_pMainWindow->resetRenderingStyleFragment();
-	m_pMainWindow->resetRenderingStyleStatus();
-
-	if (m_pActiveEditorTab)
-	{
-		((CollisionEditorTab*)m_pActiveEditorTab)->renderNotOnProcess();
-	}
 }

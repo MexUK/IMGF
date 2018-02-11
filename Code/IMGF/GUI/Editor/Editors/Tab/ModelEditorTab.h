@@ -31,8 +31,9 @@ public:
 	void						updateEntryCountText(void);
 
 	void						render(void);
-	void						render_Type1(void);
+	void						endRender(void);
 
+	void						render2D(void);
 	void						render3D(void);
 
 	void						setDFFFile(bxgi::DFFFormat *pDFFFile) { m_pDFFFile = pDFFFile; }

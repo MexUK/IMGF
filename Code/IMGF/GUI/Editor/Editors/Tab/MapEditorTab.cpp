@@ -73,6 +73,8 @@ void						MapEditorTab::onResizeWindow(Vec2i& vecSizeChange)
 // events
 void						MapEditorTab::bindEvents(void)
 {
+	bindEvent(RENDER, &MapEditorTab::render);
+	bindEvent(END_RENDER, &MapEditorTab::endRender);
 	bindEvent(MOVE_MOUSE_WHEEL, &MapEditorTab::onMouseWheelMove2);
 	bindEvent(RESIZE_WINDOW, &MapEditorTab::onResizeWindow);
 
@@ -81,6 +83,8 @@ void						MapEditorTab::bindEvents(void)
 
 void						MapEditorTab::unbindEvents(void)
 {
+	unbindEvent(RENDER, &MapEditorTab::render);
+	unbindEvent(END_RENDER, &MapEditorTab::endRender);
 	unbindEvent(MOVE_MOUSE_WHEEL, &MapEditorTab::onMouseWheelMove2);
 	unbindEvent(RESIZE_WINDOW, &MapEditorTab::onResizeWindow);
 	
@@ -293,7 +297,7 @@ void						MapEditorTab::updateEntryCountText(void)
 }
 
 // render 2d
-void						MapEditorTab::render_Type1(void)
+void						MapEditorTab::render2D(void)
 {
 }
 
@@ -302,11 +306,18 @@ mutex mutexInitializing3DRender_MapEditor; // todo
 
 void						MapEditorTab::render(void)
 {
+	render2D();
+}
+
+void						MapEditorTab::endRender(void)
+{
 	render3D();
 }
 
 void						MapEditorTab::render3D(void)
 {
+	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
+
 	if (!m_bFilesAreInitialized)
 	{
 		return;
@@ -348,26 +359,28 @@ void						MapEditorTab::render3D(void)
 		m_bInitializing = false;
 	}
 
+	// render to opengl
 	m_gl.preRender();
 	m_gl.render();
 	m_gl.postRender();
 
-	// gdi - draw 2d bitmap
+	// render to gdi
 	HDC hdcWindow = GetWindowDC(m_gl.m_hWindow);
-	
 	HDC hdc2 = CreateCompatibleDC(hdcWindow);
+
 	HBITMAP hbm2 = m_gl.getFBOBitmap();
-
 	HGDIOBJ hOld2 = SelectObject(hdc2, hbm2);
-	BitBlt(hdcWindow, 120 + 250, 130, m_gl.getRenderSize().x, m_gl.getRenderSize().y, hdc2, 0, 0, SRCCOPY);
-	SelectObject(hdc2, hOld2);
 
+	BitBlt(pGFX->getMemoryDC(), 120 + 250, 130, m_gl.getRenderSize().x, m_gl.getRenderSize().y, hdc2, 0, 0, SRCCOPY);
+
+	SelectObject(hdc2, hOld2);
 	DeleteObject(hbm2);
 	DeleteDC(hdc2);
 	ReleaseDC(m_gl.m_hWindow, hdcWindow);
-	
-	// reset FBO bitmap
 	m_gl.resetFBOBitmap();
+
+	// finalize render
+	m_gl.finalizeRender();
 }
 
 // render 3d components

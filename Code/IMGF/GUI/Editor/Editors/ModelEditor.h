@@ -22,8 +22,6 @@ public:
 	void								bindEvents(void);
 	void								unbindEvents(void);
 
-	void								renderBefore(void);
-
 	ModelEditorTab*						addEditorTab(std::string& strFilePath);
 	ModelEditorTab*						addBlankEditorTab(std::string& strFilePath);
 };

@@ -17,6 +17,4 @@ public:
 
 	CollisionEditorTab*					addEditorTab(std::string& strFilePath);
 	CollisionEditorTab*					addBlankEditorTab(std::string& strFilePath);
-
-	void								renderBefore(void);
 };

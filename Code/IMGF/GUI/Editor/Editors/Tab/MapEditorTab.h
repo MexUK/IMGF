@@ -40,10 +40,11 @@ public:
 	void						updateEntryCountText(void);
 
 	void						onResizeWindow(bxcf::Vec2i& vecSizeChange);
-	
-	void						render_Type1(void);
 
 	void						render(void);
+	void						endRender(void);
+
+	void						render2D(void);
 	void						render3D(void);
 
 protected:

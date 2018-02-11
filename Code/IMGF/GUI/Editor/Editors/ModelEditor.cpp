@@ -23,8 +23,6 @@ void									ModelEditor::init(void)
 // events
 void									ModelEditor::bindEvents(void)
 {
-	bindEvent(BEFORE_RENDER, &TextureEditor::renderBefore);
-
 	Editor::bindEvents();
 
 	if (m_pActiveEditorTab)
@@ -35,8 +33,6 @@ void									ModelEditor::bindEvents(void)
 
 void									ModelEditor::unbindEvents(void)
 {
-	unbindEvent(BEFORE_RENDER, &TextureEditor::renderBefore);
-
 	Editor::unbindEvents();
 
 	if (m_pActiveEditorTab)
@@ -81,25 +77,4 @@ ModelEditorTab*							ModelEditor::addBlankEditorTab(string& strFilePath)
 		pModelEditorTab->init(true);
 	}
 	return pModelEditorTab;
-}
-
-// render
-void									ModelEditor::renderBefore(void)
-{
-	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
-
-	if (m_pMainWindow->getActiveEditor() != m_pMainWindow->getTextureEditor() || BXGX::get()->getEventWindow() != m_pMainWindow)
-	{
-		return;
-	}
-
-	m_pMainWindow->resetRenderingStyleGroups();
-	m_pMainWindow->resetRenderingControlComponent();
-	m_pMainWindow->resetRenderingStyleFragment();
-	m_pMainWindow->resetRenderingStyleStatus();
-
-	if (m_pActiveEditorTab)
-	{
-		((ModelEditorTab*)m_pActiveEditorTab)->render_Type1();
-	}
 }
