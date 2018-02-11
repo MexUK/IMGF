@@ -22,6 +22,8 @@ public:
 	void						unbindEvents(void);
 
 	void						onMouseWheelMove2(int16 iRotationDistance);
+	void						onChangeTab(bxgx::TabBar *pTabBar);
+	void						onRemoveTab(bxgx::Tab *pTab);
 	void						onProcess(void);
 
 	bool						unserializeFile(void);
@@ -46,6 +48,7 @@ protected:
 
 private:
 	void						prepareScene(void);
+	void						unloadScene(void);
 
 	void						prepareTextures(void);
 	void						prepareEntities(void);
@@ -72,4 +75,7 @@ private:
 
 	std::unordered_map<std::string, bxcf::GLTexture*>		m_umapTexturesByNameLower;
 	std::unordered_map<std::string, uint32>					m_umapGeometryIndexByTextureNameLower;
+
+	std::vector<bxcf::GLTexture*>	m_vecGLTextures;
+	std::vector<bxcf::GLMesh*>		m_vecGLMeshes;
 };

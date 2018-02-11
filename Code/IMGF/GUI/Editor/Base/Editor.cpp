@@ -182,7 +182,6 @@ void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 	if (m_pActiveEditorTab)
 	{
 		m_pActiveEditorTab->unbindEvents();
-		//m_pActiveEditorTab->unbindEvents();
 	}
 	else
 	{

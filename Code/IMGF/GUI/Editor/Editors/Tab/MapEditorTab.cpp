@@ -13,6 +13,7 @@
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Static/File.h"
 #include "Static/StdVector.h"
+#include "Control/Controls/TabBar.h"
 #include "Control/Controls/TextBox.h"
 #include "Control/Controls/Text.h"
 #include "GUI/Editor/Base/Editor.h"
@@ -73,6 +74,8 @@ void						MapEditorTab::onResizeWindow(Vec2i& vecSizeChange)
 // events
 void						MapEditorTab::bindEvents(void)
 {
+	bindEvent(CHANGE_TAB, &MapEditorTab::onChangeTab);
+	bindEvent(REMOVE_TAB, &MapEditorTab::onRemoveTab);
 	bindEvent(RENDER, &MapEditorTab::render);
 	bindEvent(END_RENDER, &MapEditorTab::endRender);
 	bindEvent(MOVE_MOUSE_WHEEL, &MapEditorTab::onMouseWheelMove2);
@@ -83,6 +86,8 @@ void						MapEditorTab::bindEvents(void)
 
 void						MapEditorTab::unbindEvents(void)
 {
+	unbindEvent(CHANGE_TAB, &MapEditorTab::onChangeTab);
+	unbindEvent(REMOVE_TAB, &MapEditorTab::onRemoveTab);
 	unbindEvent(RENDER, &MapEditorTab::render);
 	unbindEvent(END_RENDER, &MapEditorTab::endRender);
 	unbindEvent(MOVE_MOUSE_WHEEL, &MapEditorTab::onMouseWheelMove2);
@@ -92,6 +97,25 @@ void						MapEditorTab::unbindEvents(void)
 }
 
 // event callbacks
+void						MapEditorTab::onChangeTab(TabBar *pTabBar)
+{
+	MapEditorTab *pNewActiveEditorTab = (MapEditorTab*)getEditor()->getEditorTabs().getEntryByIndex(pTabBar->getIndexByEntry(pTabBar->getActiveTab()));
+	getEditor()->setActiveEditorTab(pNewActiveEditorTab);
+	pNewActiveEditorTab->m_gl.makeCurrent();
+}
+
+void						MapEditorTab::onRemoveTab(Tab *pTab)
+{
+	MapEditorTab *pEditorTab = (MapEditorTab*)getEditor()->getEditorTabs().getEntryByIndex(pTab->getTabBar()->getIndexByEntry(pTab));
+	getEditor()->removeEditorTab(pEditorTab);
+
+	if (getEditor()->getActiveEditorTab())
+	{
+		MapEditorTab *pNewActiveEditorTab = (MapEditorTab*)getEditor()->getActiveEditorTab();
+		pNewActiveEditorTab->m_gl.makeCurrent();
+	}
+}
+
 void						MapEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 {
 	//if (isPointOverEntryList(BXGX::get()->getCursorPosition()))
@@ -342,8 +366,8 @@ void						MapEditorTab::render3D(void)
 		m_gl.setAxisShown(true);
 		m_gl.setFBOEnabled(true);
 		m_gl.setShaders(
-			DataPath::getDataPath() + "Shaders/ModelEditor/shader1.vert",
-			DataPath::getDataPath() + "Shaders/ModelEditor/shader1.frag"
+			DataPath::getDataPath() + "Shaders/3DEditors/shader1.vert",
+			DataPath::getDataPath() + "Shaders/3DEditors/shader1.frag"
 		);
 		m_gl.setCameraPosition(glm::vec3(-4.0f, -4.0f, 4.0f));
 		m_gl.setCameraRotation(glm::vec3(45, 0, 135));

@@ -220,8 +220,8 @@ void					Installer::createFiles(void)
 	createFile(hModule, IDR_RCDATA59, strIMGFDataFolderPath + "Layers/EditorTab.Tex.layer");
 	createFile(hModule, IDR_RCDATA60, strIMGFDataFolderPath + "Layers/Main.layer");
 
-	createFile(hModule, IDR_RCDATA90, strIMGFDataFolderPath + "Shaders/ModelEditor/shader1.frag");
-	createFile(hModule, IDR_RCDATA91, strIMGFDataFolderPath + "Shaders/ModelEditor/shader1.vert");
+	createFile(hModule, IDR_RCDATA90, strIMGFDataFolderPath + "Shaders/3DEditors/shader1.frag");
+	createFile(hModule, IDR_RCDATA91, strIMGFDataFolderPath + "Shaders/3DEditors/shader1.vert");
 
 	createFile(hModule, IDR_RCDATA23, strIMGFDataFolderPath + "DefaultFiles/ModelNames/Model Names - PC GTA III.txt");
 	createFile(hModule, IDR_RCDATA24, strIMGFDataFolderPath + "DefaultFiles/ModelNames/Model Names - PC GTA VC.txt");

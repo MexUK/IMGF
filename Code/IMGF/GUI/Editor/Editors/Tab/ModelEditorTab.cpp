@@ -7,6 +7,7 @@
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Static/File.h"
 #include "Static/StdVector.h"
+#include "Control/Controls/TabBar.h"
 #include "Control/Controls/TextBox.h"
 #include "Control/Controls/Text.h"
 #include "GUI/Editor/Base/Editor.h"
@@ -73,6 +74,8 @@ void						ModelEditorTab::initLayer(void)
 // events
 void						ModelEditorTab::bindEvents(void)
 {
+	bindEvent(CHANGE_TAB, &ModelEditorTab::onChangeTab);
+	bindEvent(REMOVE_TAB, &ModelEditorTab::onRemoveTab);
 	bindEvent(RENDER, &ModelEditorTab::render);
 	bindEvent(END_RENDER, &ModelEditorTab::endRender);
 	bindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
@@ -84,6 +87,8 @@ void						ModelEditorTab::bindEvents(void)
 
 void						ModelEditorTab::unbindEvents(void)
 {
+	unbindEvent(CHANGE_TAB, &ModelEditorTab::onChangeTab);
+	unbindEvent(REMOVE_TAB, &ModelEditorTab::onRemoveTab);
 	unbindEvent(RENDER, &ModelEditorTab::render);
 	unbindEvent(END_RENDER, &ModelEditorTab::endRender);
 	unbindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
@@ -94,6 +99,25 @@ void						ModelEditorTab::unbindEvents(void)
 }
 
 // event callbacks
+void						ModelEditorTab::onChangeTab(TabBar *pTabBar)
+{
+	ModelEditorTab *pNewActiveEditorTab = (ModelEditorTab*)getEditor()->getEditorTabs().getEntryByIndex(pTabBar->getIndexByEntry(pTabBar->getActiveTab()));
+	getEditor()->setActiveEditorTab(pNewActiveEditorTab);
+	pNewActiveEditorTab->m_gl.makeCurrent();
+}
+
+void						ModelEditorTab::onRemoveTab(Tab *pTab)
+{
+	ModelEditorTab *pEditorTab = (ModelEditorTab*)getEditor()->getEditorTabs().getEntryByIndex(pTab->getTabBar()->getIndexByEntry(pTab));
+	getEditor()->removeEditorTab(pEditorTab);
+
+	if (getEditor()->getActiveEditorTab())
+	{
+		ModelEditorTab *pNewActiveEditorTab = (ModelEditorTab*)getEditor()->getActiveEditorTab();
+		pNewActiveEditorTab->m_gl.makeCurrent();
+	}
+}
+
 void						ModelEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 {
 	//if (isPointOverEntryList(BXGX::get()->getCursorPosition()))
@@ -235,8 +259,8 @@ void						ModelEditorTab::render3D(void)
 		m_gl.setAxisShown(true);
 		m_gl.setFBOEnabled(true);
 		m_gl.setShaders(
-			DataPath::getDataPath() + "Shaders/ModelEditor/shader1.vert",
-			DataPath::getDataPath() + "Shaders/ModelEditor/shader1.frag"
+			DataPath::getDataPath() + "Shaders/3DEditors/shader1.vert",
+			DataPath::getDataPath() + "Shaders/3DEditors/shader1.frag"
 		);
 		m_gl.setCameraPosition(glm::vec3(-4.0f, -4.0f, 4.0f));
 		m_gl.setCameraRotation(glm::vec3(45, 0, 135));
@@ -286,6 +310,21 @@ void						ModelEditorTab::prepareScene(void)
 	prepareEntities();
 }
 
+void						ModelEditorTab::unloadScene(void)
+{
+	/*
+	todo
+	for (GLTexture *pTexture : m_vecGLTextures)
+	{
+		m_gl.removeTexture(pTexture);
+	}
+	for (GLMesh *pMesh : m_vecGLMeshes)
+	{
+		m_gl.removeMesh(pMesh);
+	}
+	*/
+}
+
 void						ModelEditorTab::prepareTextures(void)
 {
 	vector<RWSection*> vecTextures = m_pTXDFile->getSectionsByType(RW_SECTION_TEXTURE_NATIVE);
@@ -303,6 +342,7 @@ void						ModelEditorTab::prepareTextures(void)
 		GLTexture *pTexture = m_gl.addTexture(strTextureRasterData, pTextureNative->getMipMaps().getFirstEntry()->getImageSize());
 
 		m_umapTexturesByNameLower[strTextureNameLower] = pTexture;
+		m_vecGLTextures.push_back(pTexture);
 
 		i++;
 	}
@@ -343,7 +383,8 @@ void						ModelEditorTab::prepareGeometry(uint32 uiGeometryIndex, RWSection_Geom
 		StdVector::convertStdVectorBXCFVec4u8ToGLMVec3(pGeometry->getVertexColours()),
 		m_gl.swapVec3YZ(*(vector<glm::vec3>*)(&pGeometry->getVertexNormals()))
 	);
-	
+	m_vecGLMeshes.push_back(pGLMesh);
+
 	RWSection_BinMeshPLG *pBinMeshPLG = (RWSection_BinMeshPLG*)m_pDFFFile->getSectionsByType(RW_SECTION_BIN_MESH_PLG)[uiGeometryIndex];
 
 	vector<RWSection*> vecStrings = pGeometry->getSectionsByType(RW_SECTION_STRING);

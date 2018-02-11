@@ -41,6 +41,8 @@ public:
 protected:
 	void						storeControls(void);
 
+	void						onChangeTab(bxgx::TabBar *pTabBar);
+	void						onRemoveTab(bxgx::Tab *pTab);
 	void						onSelectDropDownItem(bxgx::DropDownItem *pItem);
 	void						onLeftMouseDown(bxcf::Vec2i vecCursorPosition);
 	//void						onMouseMove2(bxcf::Vec2i vecCursorPosition);

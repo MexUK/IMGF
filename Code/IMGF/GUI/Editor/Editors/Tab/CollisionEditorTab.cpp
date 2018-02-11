@@ -53,6 +53,8 @@ CollisionEditorTab::CollisionEditorTab(void) :
 // events
 void					CollisionEditorTab::bindEvents(void)
 {
+	bindEvent(CHANGE_TAB, &CollisionEditorTab::onChangeTab);
+	bindEvent(REMOVE_TAB, &CollisionEditorTab::onRemoveTab);
 	bindEvent(RENDER, &CollisionEditorTab::render);
 	bindEvent(END_RENDER, &CollisionEditorTab::endRender);
 	//bindEvent(PROCESS, &CollisionEditorTab::render3D);
@@ -67,6 +69,8 @@ void					CollisionEditorTab::bindEvents(void)
 
 void					CollisionEditorTab::unbindEvents(void)
 {
+	unbindEvent(CHANGE_TAB, &CollisionEditorTab::onChangeTab);
+	unbindEvent(REMOVE_TAB, &CollisionEditorTab::onRemoveTab);
 	unbindEvent(RENDER, &CollisionEditorTab::render);
 	unbindEvent(END_RENDER, &CollisionEditorTab::endRender);
 	//unbindEvent(PROCESS, &CollisionEditorTab::render3D);
@@ -108,6 +112,25 @@ void					CollisionEditorTab::initLayer(void)
 }
 
 // editor input
+void					CollisionEditorTab::onChangeTab(TabBar *pTabBar)
+{
+	CollisionEditorTab *pNewActiveEditorTab = (CollisionEditorTab*)getEditor()->getEditorTabs().getEntryByIndex(pTabBar->getIndexByEntry(pTabBar->getActiveTab()));
+	getEditor()->setActiveEditorTab(pNewActiveEditorTab);
+	pNewActiveEditorTab->m_gl.makeCurrent();
+}
+
+void					CollisionEditorTab::onRemoveTab(Tab *pTab)
+{
+	CollisionEditorTab *pEditorTab = (CollisionEditorTab*)getEditor()->getEditorTabs().getEntryByIndex(pTab->getTabBar()->getIndexByEntry(pTab));
+	getEditor()->removeEditorTab(pEditorTab);
+
+	if (getEditor()->getActiveEditorTab())
+	{
+		CollisionEditorTab *pNewActiveEditorTab = (CollisionEditorTab*)getEditor()->getActiveEditorTab();
+		pNewActiveEditorTab->m_gl.makeCurrent();
+	}
+}
+
 void					CollisionEditorTab::onSelectDropDownItem(DropDownItem *pItem)
 {
 }
@@ -726,8 +749,8 @@ void						CollisionEditorTab::render3D(void)
 		m_gl.setAxisShown(true);
 		m_gl.setFBOEnabled(true);
 		m_gl.setShaders(
-			DataPath::getDataPath() + "Shaders/ModelEditor/shader1.vert",
-			DataPath::getDataPath() + "Shaders/ModelEditor/shader1.frag"
+			DataPath::getDataPath() + "Shaders/3DEditors/shader1.vert",
+			DataPath::getDataPath() + "Shaders/3DEditors/shader1.frag"
 		);
 		m_gl.setCameraPosition(glm::vec3(-4.0f, -4.0f, 4.0f));
 		m_gl.setCameraRotation(glm::vec3(45, 0, 135));
