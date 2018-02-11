@@ -182,10 +182,12 @@ void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 	if (m_pActiveEditorTab)
 	{
 		m_pActiveEditorTab->unbindEvents();
+		m_pActiveEditorTab->getLayer()->unbindEvents();
+		m_pActiveEditorTab->getBaseLayer()->unbindEvents();
 	}
 	else
 	{
-		Editor::unbindEvents();
+		Editor::unbindEvents(); // todo - still needed?
 	}
 	//*/
 
@@ -215,6 +217,8 @@ void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 	if(pEditorTab)
 	{
 		pEditorTab->bindEvents();
+		pEditorTab->getLayer()->bindEvents();
+		pEditorTab->getBaseLayer()->bindEvents();
 	}
 	//*/
 }
