@@ -109,6 +109,8 @@ public:
 
 	std::thread&						getThread(void) { return m_thread; }
 
+	void								onChangeTab(bxgx::TabBar *pTabBar);
+	void								onRemoveTab(bxgx::Tab *pTab);
 	void								onTaskProgress(void);
 	void								onUnserializeFileProgress(bxcf::DataReader *pDataReader);
 
@@ -135,6 +137,8 @@ public:
 	bxgx::Layer*						getBaseLayer(void) { return m_pBaseLayer; }
 
 	void								onChangeTextBox(bxgx::TextBox *pTextBox);
+
+	virtual void						makeCurrent(void) {}
 
 protected:
 	virtual void						storeControls(void);

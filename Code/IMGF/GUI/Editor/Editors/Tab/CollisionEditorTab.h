@@ -38,6 +38,8 @@ public:
 
 	void						onResizeWindow(bxcf::Vec2i& vecSizeChange);
 	
+	void						makeCurrent(void);
+
 protected:
 	void						storeControls(void);
 

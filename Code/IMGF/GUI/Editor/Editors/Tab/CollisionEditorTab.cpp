@@ -53,11 +53,8 @@ CollisionEditorTab::CollisionEditorTab(void) :
 // events
 void					CollisionEditorTab::bindEvents(void)
 {
-	bindEvent(CHANGE_TAB, &CollisionEditorTab::onChangeTab);
-	bindEvent(REMOVE_TAB, &CollisionEditorTab::onRemoveTab);
 	bindEvent(RENDER, &CollisionEditorTab::render);
 	bindEvent(END_RENDER, &CollisionEditorTab::endRender);
-	//bindEvent(PROCESS, &CollisionEditorTab::render3D);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	bindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	bindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
@@ -69,11 +66,8 @@ void					CollisionEditorTab::bindEvents(void)
 
 void					CollisionEditorTab::unbindEvents(void)
 {
-	unbindEvent(CHANGE_TAB, &CollisionEditorTab::onChangeTab);
-	unbindEvent(REMOVE_TAB, &CollisionEditorTab::onRemoveTab);
 	unbindEvent(RENDER, &CollisionEditorTab::render);
 	unbindEvent(END_RENDER, &CollisionEditorTab::endRender);
-	//unbindEvent(PROCESS, &CollisionEditorTab::render3D);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	unbindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
@@ -111,26 +105,16 @@ void					CollisionEditorTab::initLayer(void)
 	setLayer(m_pEditor->getMainWindow()->getLayerById(102));
 }
 
-// editor input
-void					CollisionEditorTab::onChangeTab(TabBar *pTabBar)
+// gfx lib context
+void					CollisionEditorTab::makeCurrent(void)
 {
-	CollisionEditorTab *pNewActiveEditorTab = (CollisionEditorTab*)getEditor()->getEditorTabs().getEntryByIndex(pTabBar->getIndexByEntry(pTabBar->getActiveTab()));
-	getEditor()->setActiveEditorTab(pNewActiveEditorTab);
-	pNewActiveEditorTab->m_gl.makeCurrent();
-}
-
-void					CollisionEditorTab::onRemoveTab(Tab *pTab)
-{
-	CollisionEditorTab *pEditorTab = (CollisionEditorTab*)getEditor()->getEditorTabs().getEntryByIndex(pTab->getTabBar()->getIndexByEntry(pTab));
-	getEditor()->removeEditorTab(pEditorTab);
-
-	if (getEditor()->getActiveEditorTab())
+	if (m_gl.m_uiShaderProgram != 0) // todo: use m_gl.isInitialized
 	{
-		CollisionEditorTab *pNewActiveEditorTab = (CollisionEditorTab*)getEditor()->getActiveEditorTab();
-		pNewActiveEditorTab->m_gl.makeCurrent();
+		m_gl.makeCurrent();
 	}
 }
 
+// event callbacks
 void					CollisionEditorTab::onSelectDropDownItem(DropDownItem *pItem)
 {
 }

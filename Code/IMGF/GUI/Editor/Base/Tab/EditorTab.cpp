@@ -57,6 +57,8 @@ EditorTab::~EditorTab(void)
 {
 	//EditorTab::unbindEvents();
 
+	unbindEvent(CHANGE_TAB, &EditorTab::onChangeTab);
+	unbindEvent(REMOVE_TAB, &EditorTab::onRemoveTab);
 	unbindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
 	unbindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
 	unbindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
@@ -67,6 +69,8 @@ EditorTab::~EditorTab(void)
 // events
 void						EditorTab::bindEvents(void)
 {
+	bindEvent(CHANGE_TAB, &EditorTab::onChangeTab);
+	bindEvent(REMOVE_TAB, &EditorTab::onRemoveTab);
 	bindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
 	bindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
 	bindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
@@ -77,6 +81,8 @@ void						EditorTab::bindEvents(void)
 
 void						EditorTab::unbindEvents(void)
 {
+	unbindEvent(CHANGE_TAB, &EditorTab::onChangeTab);
+	unbindEvent(REMOVE_TAB, &EditorTab::onRemoveTab);
 	unbindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
 	unbindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
 	unbindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
@@ -230,85 +236,24 @@ void						EditorTab::storeControls(void)
 	m_pText_FilePath = (Text*)m_pBaseLayer->getItemById(91);
 	m_pText_FileEntryCount = (Text*)m_pBaseLayer->getItemById(92);
 	m_pSearchBox = (TextBox*)m_pBaseLayer->getItemById(85);
-
-	/*
-	todo
-
-	int32 x, y, y2;
-	uint32 w, h, w2, h2, uiTitleBarHeight, uiButtonHeight, uiLogWidth;
-	string strStyleGroup;
-
-	uiTitleBarHeight = m_pWindow->getTitleBarHeight();
-	uiButtonHeight = 37;
-	uiLogWidth = 335;
-
-	// log
-	TextBox *pBlankLog = getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->getLog();
-
-	x = pBlankLog->getPosition().x;
-	y = pBlankLog->getPosition().y;
-	w = pBlankLog->getSize().x;
-	h = pBlankLog->getSize().y;
-
-	m_pLog = addTextBox(x, y, w, h, "", true, "log");
-	m_pLog->setReadOnly(true);
-
-	// search box
-	w2 = 139;
-	x = 139 + 139 + (4 * w2);
-	y = uiTitleBarHeight;
-	w = m_pWindow->getSize().x - x - (uiButtonHeight + 1);
-	h = uiButtonHeight;
-
-	m_pSearchBox = addTextBox(x, y, w, h, "Search", false, "filter filterSearchBox");
-
-	// progress bar
-	w = 150;
-	w2 = 10;
-	h2 = uiButtonHeight + 10;
-	x = m_pWindow->getSize().x - w2 - w - uiLogWidth;
-	y = uiTitleBarHeight + h2;
-	h = 5;
-
-	m_pProgressBar = addProgressBar(x, y, w, h, "progressBar");
-
-	// game information headers
-	x = 149 + 139;
-	y = (uiTitleBarHeight - 1) + uiButtonHeight + 10;
-	y2 = y;
-	w = 80;
-	h = 20;
-	h2 = 20;
-	strStyleGroup = "gameInfoText";
-
-	addText(x, y, w, h, "Path", strStyleGroup, -1, -150);
-	y += h2;
-	addText(x, y, w, h, "Version", strStyleGroup, -1, -150);
-	y += h2;
-	addText(x, y, w, h, "Game", strStyleGroup, -1, -150);
-	y += h2;
-	addText(x, y, w, h, "Entries", strStyleGroup, -1, -150);
-
-	// game information values
-	x += 90;
-	y = y2;
-	w = 415;
-	w2 = 200;
-
-	m_pText_FilePath = addText(x, y, w, h, "Loading..", strStyleGroup, -1, -150);
-	y += h2;
-	m_pText_FileVersion = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
-	y += h2;
-	m_pText_FileGame = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
-	y += h2;
-	m_pText_FileEntryCount = addText(x, y, w2, h, "-", strStyleGroup, -1, -150);
-	*/
 }
 
-// progress bar
+// event callbacks
 void						EditorTab::onTaskProgress(void)
 {
 	getIMGF()->getTaskManager()->onTaskProgressTick();
+}
+
+void						EditorTab::onChangeTab(TabBar *pTabBar)
+{
+	EditorTab *pNewActiveEditorTab = getEditor()->getEditorTabs().getEntryByIndex(pTabBar->getIndexByEntry(pTabBar->getActiveTab()));
+	getEditor()->setActiveEditorTab(pNewActiveEditorTab);
+}
+
+void						EditorTab::onRemoveTab(Tab *pTab)
+{
+	EditorTab *pEditorTab = getEditor()->getEditorTabs().getEntryByIndex(pTab->getTabBar()->getIndexByEntry(pTab));
+	getEditor()->removeEditorTab(pEditorTab);
 }
 
 // log

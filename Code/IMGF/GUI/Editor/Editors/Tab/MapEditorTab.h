@@ -49,6 +49,8 @@ public:
 	void						render2D(void);
 	void						render3D(void);
 
+	void						makeCurrent(void);
+
 protected:
 	void						storeControls(void);
 

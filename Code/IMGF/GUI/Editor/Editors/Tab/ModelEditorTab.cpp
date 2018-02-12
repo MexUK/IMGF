@@ -74,50 +74,34 @@ void						ModelEditorTab::initLayer(void)
 // events
 void						ModelEditorTab::bindEvents(void)
 {
-	bindEvent(CHANGE_TAB, &ModelEditorTab::onChangeTab);
-	bindEvent(REMOVE_TAB, &ModelEditorTab::onRemoveTab);
 	bindEvent(RENDER, &ModelEditorTab::render);
 	bindEvent(END_RENDER, &ModelEditorTab::endRender);
 	bindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
 	bindEvent(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
-	//bindEvent(PROCESS, &ModelEditorTab::onProcess);
 
 	EditorTab::bindEvents();
 }
 
 void						ModelEditorTab::unbindEvents(void)
 {
-	unbindEvent(CHANGE_TAB, &ModelEditorTab::onChangeTab);
-	unbindEvent(REMOVE_TAB, &ModelEditorTab::onRemoveTab);
 	unbindEvent(RENDER, &ModelEditorTab::render);
 	unbindEvent(END_RENDER, &ModelEditorTab::endRender);
 	unbindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
 	unbindEvent(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
-	//unbindEvent(PROCESS, &ModelEditorTab::onProcess);
 
 	EditorTab::unbindEvents();
 }
 
-// event callbacks
-void						ModelEditorTab::onChangeTab(TabBar *pTabBar)
+// gfx lib context
+void						ModelEditorTab::makeCurrent(void)
 {
-	ModelEditorTab *pNewActiveEditorTab = (ModelEditorTab*)getEditor()->getEditorTabs().getEntryByIndex(pTabBar->getIndexByEntry(pTabBar->getActiveTab()));
-	getEditor()->setActiveEditorTab(pNewActiveEditorTab);
-	pNewActiveEditorTab->m_gl.makeCurrent();
-}
-
-void						ModelEditorTab::onRemoveTab(Tab *pTab)
-{
-	ModelEditorTab *pEditorTab = (ModelEditorTab*)getEditor()->getEditorTabs().getEntryByIndex(pTab->getTabBar()->getIndexByEntry(pTab));
-	getEditor()->removeEditorTab(pEditorTab);
-
-	if (getEditor()->getActiveEditorTab())
+	if (m_gl.m_uiShaderProgram != 0) // todo: use m_gl.isInitialized
 	{
-		ModelEditorTab *pNewActiveEditorTab = (ModelEditorTab*)getEditor()->getActiveEditorTab();
-		pNewActiveEditorTab->m_gl.makeCurrent();
+		m_gl.makeCurrent();
 	}
 }
 
+// event callbacks
 void						ModelEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 {
 	//if (isPointOverEntryList(BXGX::get()->getCursorPosition()))

@@ -170,6 +170,7 @@ private:
 	IMGEditor*					m_pIMGEditor;
 
 	bxgx::Grid*					m_pEntryGrid;
+	bxgx::DropDown*				m_pIMGVersionDropDown;
 	bxgx::DropDown*				m_pEntryTypeFilter;
 	bxgx::DropDown*				m_pEntryVersionFilter;
 	bool						m_bTabMarkedForClose;

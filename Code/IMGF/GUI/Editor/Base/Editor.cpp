@@ -216,6 +216,7 @@ void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 	///*
 	if(pEditorTab)
 	{
+		pEditorTab->makeCurrent();
 		pEditorTab->bindEvents();
 		pEditorTab->getLayer()->bindEvents();
 		pEditorTab->getBaseLayer()->bindEvents();

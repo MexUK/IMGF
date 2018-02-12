@@ -62,6 +62,7 @@ using namespace imgf::mainLayer::input;
 IMGEditorTab::IMGEditorTab(void) :
 	m_pIMGEditor(nullptr),
 	m_pEntryGrid(nullptr),
+	m_pIMGVersionDropDown(nullptr),
 	m_pEntryTypeFilter(nullptr),
 	m_pEntryVersionFilter(nullptr),
 	m_bRestoringFilterOptions(false),
@@ -184,7 +185,8 @@ void					IMGEditorTab::onFileLoaded(void)
 // controls
 void					IMGEditorTab::storeControls(void)
 {
-	m_pEntryGrid = (Grid*)getLayer()->getItemById(1200);
+	m_pEntryGrid = getLayer()->getGrid(1200);
+	m_pIMGVersionDropDown = getLayer()->getDropDown(1201);
 
 	addGridHeaders(getIMGFile()->getVersion());
 }
@@ -287,9 +289,28 @@ bool					IMGEditorTab::unserializeFile(void)
 // control events
 void					IMGEditorTab::onSelectDropEntry(DropDownItem *pDropEntry)
 {
-	if(pDropEntry->getDropControl() == m_pEntryTypeFilter || pDropEntry->getDropControl() == m_pEntryVersionFilter)
+	DropDown *pDropDown = pDropEntry->getDropControl();
+
+	if(pDropDown == m_pEntryTypeFilter || pDropDown == m_pEntryVersionFilter)
 	{
 		readdGridEntries();
+	}
+	else if (pDropDown == m_pIMGVersionDropDown)
+	{
+		int32 iSelIdx = m_pIMGVersionDropDown->getSelectedItemIndex();
+		EIMGVersion uiIMGVersions[] = 
+		{
+			IMG_1,
+			IMG_2,
+			IMG_3,
+			IMG_3,
+			IMG_FASTMAN92
+		};
+
+		getIMGFile()->setVersion(uiIMGVersions[iSelIdx]);
+		getIMGFile()->setEncrypted(iSelIdx == 2);
+
+		log("IMG Version Changed.");
 	}
 }
 
