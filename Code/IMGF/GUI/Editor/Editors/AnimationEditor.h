@@ -2,7 +2,7 @@
 
 #include "nsimgf.h"
 #include "GUI/Editor/Base/Editor.h"
-#include "GUI/Editor/Editors/Tab/AnimationEditorTab.h"
+#include "GUI/Editor/Tabs/AnimationEditorTab.h"
 
 #include "Globals.h"
 #include "IMGF.h"

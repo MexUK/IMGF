@@ -107,8 +107,14 @@ void					MainWindow::initLayers(void)
 
 	bindEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
 
-	/*
-	todo
+	for (string& strLayerFilePath : File::getFilePaths(DataPath::getDataPath() + "Layers/"))
+	{
+		loadLayerFile(strLayerFilePath);
+	}
+
+	initEditors();
+
+	initMenuRelatedItems();
 
 	int32 iLastEditorUsedIndex = String::toUint32(getIMGF()->getSettingsManager()->getSetting("LastEditorUsedIndex"));
 	if (iLastEditorUsedIndex < m_vecEditors.getEntryCount())
@@ -119,18 +125,6 @@ void					MainWindow::initLayers(void)
 	{
 		setActiveEditor(m_vecEditors.getFirstEntry());
 	}
-	*/
-
-	for (string& strLayerFilePath : File::getFilePaths(DataPath::getDataPath() + "Layers/"))
-	{
-		loadLayerFile(strLayerFilePath);
-	}
-
-	initEditors();
-
-	initMenuRelatedItems();
-
-	setActiveEditor(m_vecEditors.getFirstEntry());
 
 	Button *pButton = (Button*)getItemById(1004);
 	pButton->setActiveItem();
@@ -255,7 +249,7 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 	if (pActiveEditor && bDiff)
 	{
 		// todo
-		//getIMGF()->getSettingsManager()->setSetting("LastEditorUsedIndex", String::toString(getEditorIndex(pActiveEditor)));
+		getIMGF()->getSettingsManager()->setSetting("LastEditorUsedIndex", String::toString(getEditorIndex(pActiveEditor)));
 		
 		pActiveEditor->getEditorButton()->setStyleGroups(string("activeEditorButton"));
 		pActiveEditor->getLayer()->setEnabled(true);
@@ -320,16 +314,7 @@ Editor*					MainWindow::getEditorFromFileExtension(string& strFileExtension)
 
 int32					MainWindow::getEditorIndex(Editor *pEditor)
 {
-	if (pEditor == m_pDATEditor) return 0;
-	if (pEditor == m_pIMGEditor) return 1;
-	if (pEditor == m_pItemDefinitionEditor) return 2;
-	if (pEditor == m_pItemPlacementEditor) return 3;
-	if (pEditor == m_pModelEditor) return 4;
-	if (pEditor == m_pCollisionEditor) return 5;
-	if (pEditor == m_pTextureEditor) return 6;
-	if (pEditor == m_pAnimationEditor) return 7;
-	if (pEditor == m_pRadarEditor) return 8;
-	return -1;
+	return getEditors().getIndexByEntry(pEditor);
 }
 
 // layer repositioning and resizing

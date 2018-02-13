@@ -3,7 +3,7 @@
 #include "nsbxcf.h"
 #include "nsbxgi.h"
 #include "nsimgf.h"
-#include "GUI/Editor/Base/Tab/EditorTab.h"
+#include "GUI/Editor/Base/EditorTab.h"
 #include "Type/Vector/Vec3f.h"
 #include "3D/OpenGL/OpenGL.h"
 #include <string>

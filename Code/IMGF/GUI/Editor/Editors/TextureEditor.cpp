@@ -1,7 +1,7 @@
 #include "TextureEditor.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
-#include "GUI/Editor/Editors/Tab/TextureEditorTab.h"
+#include "GUI/Editor/Tabs/TextureEditorTab.h"
 #include "BXGX.h"
 #include "GraphicsLibrary/Base/GraphicsLibrary.h"
 #include "Style/Parts/EStyleStatus.h"
@@ -11,7 +11,7 @@
 #include "IMGF.h"
 #include "Engine/RW/RWManager.h"
 #include "Engine/RW/RWVersionManager.h"
-#include "GUI/Editor/EEditor.h"
+#include "GUI/Editor/Base/EEditor.h"
 
 using namespace std;
 using namespace bxcf;

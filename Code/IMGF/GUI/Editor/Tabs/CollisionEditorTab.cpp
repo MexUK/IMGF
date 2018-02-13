@@ -13,7 +13,7 @@
 #include "Format/COL/COLManager.h"
 #include "Format/COL/COLVersionManager.h"
 #include "Format/RW/Sections/RWSection_TextureNative.h"
-#include "GUI/Editor/Editors/Entry/TextureEditorTabEntry.h"
+#include "GUI/Editor/Entries/TextureEditorTabEntry.h"
 #include "GraphicsLibrary/Base/ImageObject.h"
 #include "Style/Parts/EStyleStatus.h"
 #include "Stream/DataReader.h"

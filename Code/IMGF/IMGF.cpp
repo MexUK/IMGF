@@ -25,7 +25,7 @@
 #include "Control/Controls/TextBox.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Editor/Editors/IMGEditor.h"
-#include "GUI/Editor/Editors/Tab/IMGEditorTab.h"
+#include "GUI/Editor/Tabs/IMGEditorTab.h"
 #include "Static/String.h"
 #include "Static/File.h"
 #include "Static/Path.h"

@@ -1,5 +1,5 @@
 #include "DATEditor.h"
-#include "GUI/Editor/Editors/Tab/DATEditorTab.h"
+#include "GUI/Editor/Tabs/DATEditorTab.h"
 #include "Format/DAT/Loader/DATLoaderFormat.h"
 
 using namespace std;

@@ -2,7 +2,7 @@
 
 #include "nsbxgi.h"
 #include "nsimgf.h"
-#include "GUI/Editor/Base/Tab/EditorTab.h"
+#include "GUI/Editor/Base/EditorTab.h"
 #include <string>
 #include <vector>
 

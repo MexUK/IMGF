@@ -2,12 +2,12 @@
 
 #include "nsbxgi.h"
 #include "nsimgf.h"
-#include "GUI/Editor/Base/Tab/EditorTab.h"
+#include "GUI/Editor/Base/EditorTab.h"
 
-class imgf::DATEditorTab : public imgf::EditorTab
+class imgf::ItemPlacementEditorTab : public imgf::EditorTab
 {
 public:
-	DATEditorTab(void);
+	ItemPlacementEditorTab(void);
 
 	void						initLayer(void);
 
@@ -20,8 +20,8 @@ public:
 	void						setFileInfoText(void);
 	void						updateEntryCountText(void);
 
-	void						setDATFile(bxgi::DATLoaderFormat *pDATFile) { m_pDATFile = pDATFile; }
-	bxgi::DATLoaderFormat*		getDATFile(void) { return m_pDATFile; }
+	void						setIPLFile(bxgi::IPLFormat *pIPLFile) { m_pIPLFile = pIPLFile; }
+	bxgi::IPLFormat*			getIPLFile(void) { return m_pIPLFile; }
 
 	void						merge(std::string& strFilePath);
 	void						mergeViaData(std::string& strFileData);
@@ -48,7 +48,7 @@ protected:
 	void						storeControls(void);
 
 private:
-	bxgi::DATLoaderFormat*		m_pDATFile;
+	bxgi::IPLFormat*			m_pIPLFile;
 
 	bxgx::TextBox*				m_pTextBox;
 };

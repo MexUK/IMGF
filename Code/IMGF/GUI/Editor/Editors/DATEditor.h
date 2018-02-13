@@ -2,8 +2,8 @@
 
 #include "nsimgf.h"
 #include "GUI/Editor/Base/Editor.h"
-#include "GUI/Editor/Base/Tab/EditorTab.h"
-#include "GUI/Editor/Editors/Tab/DATEditorTab.h"
+#include "GUI/Editor/Base/EditorTab.h"
+#include "GUI/Editor/Tabs/DATEditorTab.h"
 
 #include "Globals.h"
 #include "IMGF.h"

@@ -3,9 +3,9 @@
 #include "nsimgf.h"
 #include "nsbxgi.h"
 #include "nsbxgx.h"
-#include "GUI/Editor/Base/Tab/EditorTab.h"
+#include "GUI/Editor/Base/EditorTab.h"
 #include "GUI/Editor/Components/LeftEntryList.h"
-#include "GUI/Editor/Editors/Entry/TextureEditorTabEntry.h"
+#include "GUI/Editor/Entries/TextureEditorTabEntry.h"
 #include "Pool/VectorPool.h"
 
 class imgf::TextureEditorTab : public imgf::EditorTab, public imgf::LeftEntryList, public bxcf::VectorPool<imgf::TextureEditorTabEntry*>

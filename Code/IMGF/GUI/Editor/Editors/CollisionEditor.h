@@ -2,7 +2,7 @@
 
 #include "nsimgf.h"
 #include "GUI/Editor/Base/Editor.h"
-#include "GUI/Editor/Editors/Tab/CollisionEditorTab.h"
+#include "GUI/Editor/Tabs/CollisionEditorTab.h"
 #include <string>
 
 class imgf::CollisionEditor : public imgf::Editor

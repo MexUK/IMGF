@@ -4,7 +4,7 @@
 #include "nsbxgi.h"
 #include "Type/Types.h"
 #include "GUI/Editor/Base/Editor.h"
-#include "GUI/Editor/Editors/Tab/TextureEditorTab.h"
+#include "GUI/Editor/Tabs/TextureEditorTab.h"
 #include "Format/TXD/TXDFormat.h"
 #include <string>
 

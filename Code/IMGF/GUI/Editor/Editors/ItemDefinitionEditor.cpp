@@ -1,6 +1,6 @@
 #include "ItemDefinitionEditor.h"
 #include "Format/IDE/IDEFormat.h"
-#include "GUI/Editor/Editors/Tab/ItemDefinitionEditorTab.h"
+#include "GUI/Editor/Tabs/ItemDefinitionEditorTab.h"
 
 using namespace std;
 using namespace bxcf::fileType;

@@ -6,7 +6,7 @@
 #include "nsimgf.h"
 #include "Layer/Layer.h"
 #include "Pool/VectorPool.h"
-#include "GUI/Editor/EEditor.h"
+#include "GUI/Editor/Base/EEditor.h"
 #include "Event/EventBindable.h"
 #include "Task/Tasks/Tasks.h"
 #include "Static/Path.h"

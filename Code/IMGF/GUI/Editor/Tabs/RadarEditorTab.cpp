@@ -20,7 +20,7 @@
 #include "Task/TaskManager.h"
 #include "Format/TXD/TXDManager.h"
 #include "Format/RW/Sections/RWSection_TextureNative.h"
-#include "GUI/Editor/Editors/Entry/RadarEditorTabEntry.h"
+#include "GUI/Editor/Entries/RadarEditorTabEntry.h"
 #include "GraphicsLibrary/Libraries/GFXLibWrapper_GDIPlus.h"
 #include "Image/ImageManager.h"
 #include "GUI/Editor/Base/Editor.h"

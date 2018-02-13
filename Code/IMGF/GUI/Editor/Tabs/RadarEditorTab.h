@@ -2,10 +2,10 @@
 
 #include "nsbxgi.h"
 #include "nsimgf.h"
-#include "GUI/Editor/Base/Tab/EditorTab.h"
+#include "GUI/Editor/Base/EditorTab.h"
 #include "Pool/VectorPool.h"
 #include "Format/FormatEntry.h"
-#include "GUI/Editor/Editors/Entry/RadarEditorTabEntry.h"
+#include "GUI/Editor/Entries/RadarEditorTabEntry.h"
 #include <vector>
 
 class imgf::RadarEditorTab : public imgf::EditorTab, public bxcf::VectorPool<imgf::RadarEditorTabEntry*>

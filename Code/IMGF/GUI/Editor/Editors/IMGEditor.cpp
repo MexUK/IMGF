@@ -32,7 +32,7 @@
 #include "../BXGI/Event/EEvent.h"
 #include "../IMGF/Event/EEvent.h"
 #include "GUI/Window/WindowManager.h"
-#include "GUI/Editor/EEditor.h"
+#include "GUI/Editor/Base/EEditor.h"
 
 // for menu start - todo
 #include "Engine/RW/RWManager.h"

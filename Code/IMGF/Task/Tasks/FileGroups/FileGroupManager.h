@@ -5,7 +5,7 @@
 #include "FileGroup.h"
 #include "Pool/VectorPool.h"
 #include "Event/EventBindable.h"
-#include "GUI/Editor/EEditor.h"
+#include "GUI/Editor/Base/EEditor.h"
 #include <string>
 #include <vector>
 #include <unordered_map>

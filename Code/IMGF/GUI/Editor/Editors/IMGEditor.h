@@ -2,7 +2,7 @@
 
 #include "nsimgf.h"
 #include "Type/Types.h"
-#include "GUI/Editor/Editors/Tab/IMGEditorTab.h"
+#include "GUI/Editor/Tabs/IMGEditorTab.h"
 #include "GUI/Editor/Base/Editor.h"
 #include "Format/IMG/Regular/EIMGVersion.h"
 #include <string>

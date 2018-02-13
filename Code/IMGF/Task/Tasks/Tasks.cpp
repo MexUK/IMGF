@@ -15,7 +15,7 @@
 #include "Static/Registry.h"
 #include "Window/Window.h"
 #include "GUI/Editor/Editors/IMGEditor.h"
-#include "GUI/Editor/Editors/Tab/IMGEditorTab.h"
+#include "GUI/Editor/Tabs/IMGEditorTab.h"
 #include "Format/IMG/Regular/IMGManager.h"
 #include "Format/IMG/Regular/IMGFormat.h"
 #include "Format/IMG/Regular/IMGEntry.h"

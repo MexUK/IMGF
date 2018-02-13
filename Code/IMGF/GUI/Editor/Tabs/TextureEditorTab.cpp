@@ -17,7 +17,7 @@
 #include "Format/TXD/TXDManager.h"
 #include "Format/RW/Sections/RWSection_TextureDictionary.h"
 #include "Format/RW/Sections/RWSection_TextureNative.h"
-#include "GUI/Editor/Editors/Entry/TextureEditorTabEntry.h"
+#include "GUI/Editor/Entries/TextureEditorTabEntry.h"
 #include "GraphicsLibrary/Base/ImageObject.h"
 #include "Style/Parts/EStyleStatus.h"
 #include "Stream/DataReader.h"

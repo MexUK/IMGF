@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GUI/Editor/Base/Editor.h"
-#include "GUI/Editor/Editors/Tab/ItemDefinitionEditorTab.h"
+#include "GUI/Editor/Tabs/ItemDefinitionEditorTab.h"
 
 #include "Globals.h"
 #include "IMGF.h"

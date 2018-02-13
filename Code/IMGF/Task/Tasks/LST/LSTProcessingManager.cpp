@@ -12,7 +12,7 @@
 #include "Task/TaskManager.h"
 #include "Task/Tasks/Tasks.h"
 #include "GUI/Editor/Editors/IMGEditor.h"
-#include "GUI/Editor/Editors/Tab/IMGEditorTab.h"
+#include "GUI/Editor/Tabs/IMGEditorTab.h"
 #include "Format/COL/COLManager.h"
 #include "Format/COL/COLFormat.h"
 #include "Format/COL/COLEntry.h"

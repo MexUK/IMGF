@@ -5,7 +5,7 @@
 #include "IMGF.h"
 #include "Globals.h"
 #include "GUI/Editor/Editors/IMGEditor.h"
-#include "GUI/Editor/Editors/Tab/IMGEditorTab.h"
+#include "GUI/Editor/Tabs/IMGEditorTab.h"
 #include "Format/IMG/Regular/IMGFormat.h"
 #include "Static/Input.h"
 #include "Static/Path.h"

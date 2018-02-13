@@ -2,7 +2,7 @@
 
 #include "nsimgf.h"
 #include "nsbxgi.h"
-#include "GUI/Editor/Base/Tab/EditorTab.h"
+#include "GUI/Editor/Base/EditorTab.h"
 #include "Task/Tasks/Filter/FilterOptions.h"
 #include "Task/TaskManager.h"
 #include "Format/FormatEntry.h"
