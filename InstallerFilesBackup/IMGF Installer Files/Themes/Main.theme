@@ -182,8 +182,7 @@ grid:cell:selected .blackText
 progressBar .midgreyFill
 progressBar:innerBar .blackFill
 
-dropDown .lightgreyText .main_textAlign .main_spacing
-dropDown:active .blackFill
+dropDown .blackFill .lightgreyText .main_textAlign .main_spacing
 dropDown:hover .lightenFillTwenty .blackText
 dropDown:arrow .whiteFill
 dropDown:listRow .whiteFill .main_textAlign .main_spacing .blackText

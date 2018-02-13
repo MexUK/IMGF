@@ -137,8 +137,8 @@ void					IMGEditorTab::onFileLoaded(void)
 
 	m_pEntryGrid->setActiveItem();
 
-	///loadFilter_Type();
-	///loadFilter_Version();
+	loadFilter_Type();
+	loadFilter_Version();
 
 	setFileInfoText();
 
@@ -187,6 +187,8 @@ void					IMGEditorTab::storeControls(void)
 {
 	m_pEntryGrid = getLayer()->getGrid(1200);
 	m_pIMGVersionDropDown = getLayer()->getDropDown(1201);
+	m_pEntryTypeFilter = getLayer()->getDropDown(1210);
+	m_pEntryVersionFilter = getLayer()->getDropDown(1211);
 
 	addGridHeaders(getIMGFile()->getVersion());
 }
@@ -775,31 +777,25 @@ void					IMGEditorTab::addGridEntries(void)
 {
 	//m_bTabReadyToClose = false;
 
-	/*
 	DropDownItem
 		*pTypeFilterItem = m_pEntryTypeFilter->getActiveItem(),
 		*pVersionFilterItem = m_pEntryVersionFilter->getActiveItem();
-	*/
 	TextBox
 		*pSearchBoxFilter = m_pSearchBox;
-	/*
 	int32
 		iTypeFilterSelectedIndex = m_pEntryTypeFilter->getSelectedItemIndex(),
 		iVersionFilterSelectedIndex = m_pEntryVersionFilter->getSelectedItemIndex();
-	*/
 	uint32
 		uiFileType,
 		uiEntryCount = m_pIMGFile->getEntryCount(),
-		uiEntryIndex = 0;/*
-		uiEntryCount = m_pIMGFile->getEntryCount(),
+		uiEntryIndex = 0,
 		uiSelectedFileType = pTypeFilterItem ? pTypeFilterItem->getUserdata() : -1,
 		uiSelectedFileVersion = pVersionFilterItem ? pVersionFilterItem->getUserdata() : -1,
 		uiSelectedFileVersionType = pVersionFilterItem ? pVersionFilterItem->getUserdata2() : -1;
-	*/
 	bool
 		bAddEntry,
-		//bTypeFilterIsDynamicItem = iTypeFilterSelectedIndex > 0,
-		//bVersionFilterIsDynamicItem = iVersionFilterSelectedIndex > 0,
+		bTypeFilterIsDynamicItem = iTypeFilterSelectedIndex > 0,
+		bVersionFilterIsDynamicItem = iVersionFilterSelectedIndex > 0,
 		bSearchFilterIsActive = pSearchBoxFilter->doesContainText();
 	TaskManager
 		*pTaskManager = getIMGF()->getTaskManager();
@@ -826,15 +822,15 @@ void					IMGEditorTab::addGridEntries(void)
 
 		uiFileType = pIMGEntry->getEntryType();
 
-		//if (bTypeFilterIsDynamicItem && uiFileType != uiSelectedFileType)
-		//{
-		//	bAddEntry = false;
-		//}
+		if (bTypeFilterIsDynamicItem && uiFileType != uiSelectedFileType)
+		{
+			bAddEntry = false;
+		}
 
-		//if (bVersionFilterIsDynamicItem && (uiFileType != uiSelectedFileVersionType || uiSelectedFileVersion != pIMGEntry->getRawVersion()))
-		//{
-		//	bAddEntry = false;
-		//}
+		if (bVersionFilterIsDynamicItem && (uiFileType != uiSelectedFileVersionType || uiSelectedFileVersion != pIMGEntry->getRawVersion()))
+		{
+			bAddEntry = false;
+		}
 
 		if (bSearchFilterIsActive && !String::isIn(pIMGEntry->getEntryName(), strSearchFilterText, false))
 		{
@@ -1479,8 +1475,8 @@ void				IMGEditorTab::onEntryChange(FormatEntry *pEntry)
 void				IMGEditorTab::recreateEntryList(void)
 {
 	readdGridEntries();
-	//loadFilter_Type();
-	//loadFilter_Version();
+	loadFilter_Type();
+	loadFilter_Version();
 	getLayer()->getWindow()->render();
 }
 

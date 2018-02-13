@@ -194,9 +194,11 @@ void					Installer::createFiles(void)
 		createFile(hModule, IDR_RCDATA21, strIMGFDataFolderPath + "Settings/RegularSettings.ini");
 	}
 
+	createFile(hModule, IDR_RCDATA8, strIMGFDataFolderPath + "Themes/Main.theme");
+	/*
+	// todo
 	createFile(hModule, IDR_RCDATA6, strIMGFDataFolderPath + "Themes/Main (dark).theme");
 	createFile(hModule, IDR_RCDATA7, strIMGFDataFolderPath + "Themes/Main (orange and yellow).theme");
-	createFile(hModule, IDR_RCDATA8, strIMGFDataFolderPath + "Themes/Main.theme");
 	createFile(hModule, IDR_RCDATA9, strIMGFDataFolderPath + "Themes/Main_Black.theme");
 	createFile(hModule, IDR_RCDATA10, strIMGFDataFolderPath + "Themes/Main_Blue.theme");
 	createFile(hModule, IDR_RCDATA11, strIMGFDataFolderPath + "Themes/Main_Blueish.theme");
@@ -207,6 +209,7 @@ void					Installer::createFiles(void)
 	createFile(hModule, IDR_RCDATA16, strIMGFDataFolderPath + "Themes/Main_Red.theme");
 	createFile(hModule, IDR_RCDATA17, strIMGFDataFolderPath + "Themes/Main-1 (grey).theme");
 	createFile(hModule, IDR_RCDATA18, strIMGFDataFolderPath + "Themes/Main-2 (blue and yellow).theme");
+	*/
 
 	createFile(hModule, IDR_RCDATA50, strIMGFDataFolderPath + "Layers/Editor.layer");
 	createFile(hModule, IDR_RCDATA51, strIMGFDataFolderPath + "Layers/EditorTab.COL.layer");

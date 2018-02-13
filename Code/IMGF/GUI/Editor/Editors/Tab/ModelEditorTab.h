@@ -22,8 +22,6 @@ public:
 	void						unbindEvents(void);
 
 	void						onMouseWheelMove2(int16 iRotationDistance);
-	void						onChangeTab(bxgx::TabBar *pTabBar);
-	void						onRemoveTab(bxgx::Tab *pTab);
 	void						onProcess(void);
 
 	bool						unserializeFile(void);

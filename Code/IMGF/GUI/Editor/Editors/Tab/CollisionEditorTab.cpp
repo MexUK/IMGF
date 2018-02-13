@@ -44,7 +44,9 @@ CollisionEditorTab::CollisionEditorTab(void) :
 
 	m_bInitializing(false),
 	m_bInitialized(false),
-	m_bPanningCamera(false)
+	m_bPanningCamera(false),
+
+	m_uiDisplayedEntryCount(0)
 {
 	m_vecCameraPosition = Vec3f(-2.0f, -2.0f, 2.0f);
 	m_vecCameraLookAtPosition = Vec3f(0.0f, 0.0f, 0.0f);
@@ -420,6 +422,7 @@ void					CollisionEditorTab::onFileLoaded(void)
 	prepareRenderData();
 
 	// display TXD info
+	calculateDisplayedEntryCount();
 	setFileInfoText();
 
 	// render
@@ -498,7 +501,7 @@ void						CollisionEditorTab::setFileInfoText(void)
 void						CollisionEditorTab::updateEntryCountText(void)
 {
 	uint32
-		uiDisplayedEntryCount = getCOLFile()->getEntryCount(),
+		uiDisplayedEntryCount = m_uiDisplayedEntryCount,
 		uiTotalEntryCount = getCOLFile()->getEntryCount();
 	string
 		strEntryCountText;
@@ -513,6 +516,19 @@ void						CollisionEditorTab::updateEntryCountText(void)
 	}
 
 	m_pText_FileEntryCount->setText(strEntryCountText);
+}
+
+void						CollisionEditorTab::calculateDisplayedEntryCount(void)
+{
+	uint32 uiMatchCount = 0;
+	for (COLEntry *pCOLEntry : getCOLFile()->getEntries())
+	{
+		if (doesTabEntryMatchFilter(pCOLEntry))
+		{
+			uiMatchCount++;
+		}
+	}
+	m_uiDisplayedEntryCount = uiMatchCount;
 }
 
 // entry list
@@ -896,4 +912,11 @@ void						CollisionEditorTab::prepareMeshes(COLEntry *pCOLEntry)
 {
 	vector<glm::vec3> vecVertices = *(std::vector<glm::vec3>*)&pCOLEntry->getCollisionMeshVertices();
 	GLMesh *pMesh = m_pGLEntity->addMesh(m_gl.swapVec3YZ(vecVertices), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_TRIANGLES);
+}
+
+void						CollisionEditorTab::recreateEntryList(void)
+{
+	calculateDisplayedEntryCount();
+	updateEntryCountText();
+	getLayer()->getWindow()->render();
 }
