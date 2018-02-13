@@ -286,6 +286,8 @@ void						ModelEditorTab::prepareScene(void)
 {
 	glUseProgram(m_gl.m_uiShaderProgram);
 
+	prepareCamera();
+
 	prepareTextures();
 	prepareEntities();
 }
@@ -303,6 +305,21 @@ void						ModelEditorTab::unloadScene(void)
 		m_gl.removeMesh(pMesh);
 	}
 	*/
+}
+
+void						ModelEditorTab::prepareCamera(void)
+{
+	Vec3f vecCenterPos2 = Vec3f(0.0f, 0.0f, 0.0f);
+	glm::vec3 vecCenterPos = glm::vec3(vecCenterPos2.x, vecCenterPos2.y, vecCenterPos2.z);
+
+	float32 fDFFRadius = 4.0f;
+	float32 fRadius = fDFFRadius * 3.0f;
+	if (fRadius < 5.0f) fRadius = 5.0f;
+	glm::vec2 vecCameraPosOffset = Math::getCartesianFromPolarGLM(fRadius, Math::convertDegreesToRadians(-135.0f));
+	glm::vec3 vecCameraPos = vecCenterPos + glm::vec3(vecCameraPosOffset.x, vecCameraPosOffset.y, 3.0f);
+
+	m_gl.setCameraPosition(vecCameraPos);
+	m_gl.setCameraLookAt(vecCenterPos);
 }
 
 void						ModelEditorTab::prepareTextures(void)

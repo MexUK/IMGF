@@ -61,7 +61,7 @@ text 255 255 255
 text 200 200 200
 
 .disabledText
-text 0 0 0
+text 140 140 140
 
 
 
@@ -183,7 +183,7 @@ progressBar .midgreyFill
 progressBar:innerBar .blackFill
 
 dropDown .blackFill .lightgreyText .main_textAlign .main_spacing
-dropDown:hover .lightenFillTwenty .blackText
+dropDown:hover .lightenFillTwenty
 dropDown:arrow .whiteFill
 dropDown:listRow .whiteFill .main_textAlign .main_spacing .blackText
 dropDown:listRow:hover .lightenFillTwenty
@@ -211,7 +211,7 @@ fill 200 200 200
 
 .settingsMenuLine .blackLine
 
-.settingsMenuButton .whiteFill
+.settingsMenuButton .midgreyFill
 
 .log .main_textAlignLeft
 

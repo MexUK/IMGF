@@ -50,6 +50,8 @@ private:
 	void						prepareScene(void);
 	void						unloadScene(void);
 
+	void						prepareCamera(void);
+
 	void						prepareTextures(void);
 	void						prepareEntities(void);
 

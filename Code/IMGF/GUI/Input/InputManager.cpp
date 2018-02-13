@@ -93,10 +93,6 @@ void					InputManager::onCharDown(uint16 uiKey)
 // mouse enter item
 void					InputManager::onMouseEnterItem(RenderItem *pRenderItem)
 {
-	// todo
-
-	if(true) return;
-	
 	Button *pSettingsButton = (Button*)m_pMainWindow->getItemById(SETTINGS);
 	Layer *pLayer = m_pMainWindow->getLayerById(ELayer::SETTINGS_MENU);
 	if (pSettingsButton == pRenderItem)
@@ -112,9 +108,7 @@ void					InputManager::onMouseExitItem(RenderItem *pRenderItem)
 	Layer *pLayer = m_pMainWindow->getLayerById(ELayer::SETTINGS_MENU);
 	Menu *pMenu = (Menu*)m_pMainWindow->getItemById(EInputItem::SETTINGS_MENU);
 	Vec2i& vecCursorPoint = BXGX::get()->getCursorPosition();
-
-	/*
-	todo
+	
 	if (pRenderItem == pSettingsButton)
 	{
 		if (!pMenu || !pMenu->isPointInBoundingRectangle(vecCursorPoint, 0))
@@ -122,8 +116,7 @@ void					InputManager::onMouseExitItem(RenderItem *pRenderItem)
 			pLayer->setEnabled(false);
 		}
 	}
-	else
-		*/if (pRenderItem == pMenu)
+	else if (pRenderItem == pMenu)
 	{
 		if (!pSettingsButton->isPointInItem(vecCursorPoint))
 		{

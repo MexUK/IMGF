@@ -109,6 +109,11 @@ public:
 	bxgx::Menu*					m_pRecentlyOpenMenu;
 	bxgx::Menu*					m_pFileGroupMenu;
 
+	bxgx::Button*				m_pSettingsButton;
+	bxgx::Line*					m_pSettingsButtonLine1;
+	bxgx::Line*					m_pSettingsButtonLine2;
+	bxgx::Line*					m_pSettingsButtonLine3;
+
 private:
 	imgf::mainLayer::mainMenuType::EMainMenuType	m_uiMainMenuType;
 	bxcf::VectorPool<imgf::Editor*>					m_vecEditors;

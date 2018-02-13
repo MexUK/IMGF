@@ -18,6 +18,7 @@
 #include "GUI/Layer/Layers/ELayer.h"
 #include "Control/Controls/Menu.h"
 #include "Control/Entries/MenuItem.h"
+#include "Shape/Shapes/Line.h"
 #include "Program/BuildVersion.h"
 #include "GUI/Input/EInputItem.h"
 #include "Settings/SettingsManager.h"
@@ -97,9 +98,6 @@ void					MainWindow::initWindow(void)
 
 void					MainWindow::initLayers(void)
 {
-	// todo
-	//initSettingsMenuLayer();
-
 	bindEventRef(RESIZE_WINDOW, &MainWindow::onResizeWindow);
 	onResizeWindow(Vec2i(0, 0));
 
@@ -113,6 +111,8 @@ void					MainWindow::initLayers(void)
 	}
 
 	initEditors();
+
+	initSettingsMenuLayer();
 
 	initMenuRelatedItems();
 
@@ -182,9 +182,46 @@ void					MainWindow::initEditors(void)
 
 void					MainWindow::initSettingsMenuLayer(void)
 {
-	// todo
+	// settings button
+
+	CoordinateSet x, y, w, h;
+
+	x.m_bIsX = true;
+	x.m_fRelative = 1.0f;
+	x.m_iOffsetPx = -50;
+
+	y.m_bIsX = false;
+	y.m_fRelative = 0.0f;
+	y.m_iOffsetPx = 40;
+
+	w.m_bIsX = true;
+	w.m_fRelative = 0.0f;
+	w.m_iOffsetPx = 38;
+
+	h.m_bIsX = false;
+	h.m_fRelative = 0.0f;
+	h.m_iOffsetPx = 38;
+
+	x.px();
+	y.px();
+	w.px();
+	h.px();
+
+	m_pSettingsButton = getLayerById(45)->addButton(x, y, w, h, "", "settingsMenuButton", SETTINGS, 5);
+	m_pSettingsButtonLine1 = getLayerById(45)->addLine(x.m_px + 10, y.m_px + 10, x.m_px + 27, y.m_px + 10, "settingsMenuLine", -1, 10);
+	m_pSettingsButtonLine2 = getLayerById(45)->addLine(x.m_px + 10, y.m_px + 19, x.m_px + 27, y.m_px + 19, "settingsMenuLine", -1, 10);
+	m_pSettingsButtonLine3 = getLayerById(45)->addLine(x.m_px + 10, y.m_px + 28, x.m_px + 27, y.m_px + 28, "settingsMenuLine", -1, 10);
+
+	m_pSettingsButton->addLinkedItem(m_pSettingsButtonLine1);
+	m_pSettingsButton->addLinkedItem(m_pSettingsButtonLine2);
+	m_pSettingsButton->addLinkedItem(m_pSettingsButtonLine3);
+
+
+
+	// settings menu
+
 	int32
-		x, y, w, h, h2;
+		x2, y2, w2, h2, h3;
 	uint32
 		uiButtonHeight = 37,
 		uiTitleBarHeight = getTitleBarHeight();
@@ -193,14 +230,14 @@ void					MainWindow::initSettingsMenuLayer(void)
 
 	Layer *pSettingsMenuLayer = addLayer(ELayer::SETTINGS_MENU, false);
 
-	y = getTitleBarHeight() + uiButtonHeight;
-	w = 139;
-	h = uiButtonHeight;
-	x = getSize().x - w;
-	h2 = h;
+	y2 = getTitleBarHeight() + uiButtonHeight;
+	w2 = 139;
+	h2 = uiButtonHeight;
+	x2 = getSize().x - w2;
+	h3 = h2;
 	strStyleGroup = "settingsMenu";
 
-	m_pSettingsMenu = pSettingsMenuLayer->addMenu(x, y, w, h, VERTICAL, 2, strStyleGroup, EInputItem::SETTINGS_MENU, -200);
+	m_pSettingsMenu = pSettingsMenuLayer->addMenu(x2, y2, w2, h2, VERTICAL, 2, strStyleGroup, EInputItem::SETTINGS_MENU, -200);
 	m_pSettingsMenu->addMenuItem("Settings", SETTINGS);
 	m_pSettingsMenu->addMenuItem("Formats", FORMATS2);
 	m_pSettingsMenu->addMenuItem("Websites", WEBSITES);
@@ -320,18 +357,6 @@ int32					MainWindow::getEditorIndex(Editor *pEditor)
 // layer repositioning and resizing
 void					MainWindow::onResizeWindow(Vec2i& vecSizeDifference)
 {
-	int32
-		x, y, w, h;
-	uint32
-		uiButtonHeight = 37;
-
-	// settings menu buttons
-	y = getTitleBarHeight() + uiButtonHeight;
-	w = 139;
-	h = uiButtonHeight;
-	x = getSize().x - w;
-
-	// todo m_pSettingsMenu->setPosition(Vec2i(x, y));
 }
 
 // main menu type

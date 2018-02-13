@@ -1,13 +1,15 @@
+layer enabled 45
+
 image 5 33 0 0 "%DATAPATH%/Images/Logo.png"
 
-menu 120 32 110 22 "New" "" 1048 -1 vertical
+menu 120 32 110 22 "New" "" 4800 -1 vertical
 	menu 2 "New IMG v3" "" 1050
 	menu 2 "New WTD" "" 1049
 	menu 2 "New File" "" 1048
 	menu 2 "New Window" "" 1051
 	menu 2 "LST Import" "" 1160
 	
-menu 232 32 110 22 "File" "" 1052 -1 vertical
+menu 232 32 110 22 "File" "" 4801 -1 vertical
 	menu 2 "Open File(s)" "" 1052
 	menu 2 "Open Folder" "" 1053
 	menu 2 "Open Folder Recursively" "" 1054
@@ -15,8 +17,8 @@ menu 232 32 110 22 "File" "" 1052 -1 vertical
 	menu 2 "Open Last Closed File" "" 1056
 	menu 2 "Rename" "" 1100
 	menu 2 "Renamer" "" 1187
-	menu 2 "Recently Open" "" 100
-	menu 2 "Open File Group" "" 1059
+	menu 2 "Recently Open" "" 4700
+	menu 2 "File Groups" "" 1059
 	menu 2 "Open File Folder in Explorer" "" 1057
 	menu 2 "Repeat Last Task" "" 1062
 	menu 2 "Save File" "" 1063
@@ -34,7 +36,7 @@ menu 232 32 110 22 "File" "" 1052 -1 vertical
 	menu 2 "Save File Group" "" 1067
 	menu 2 "Exit Tool" "" 1074
 	
-menu 344 32 110 22 "Project" "" -1 vertical
+menu 344 32 110 22 "Project" "" 4802 -1 vertical
 	menu 2 "Import"
 		menu 3 "Import by File(s)" "" 1075
 		menu 3 "Import by Folder(s)" "" 0
