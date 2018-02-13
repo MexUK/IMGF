@@ -120,6 +120,9 @@ void					IMGEditorTab::onFileLoaded(void)
 	// add file path to recently opened files list
 	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), strFilePath);
 
+	// update filename for open last
+	getIMGF()->getWindowManager()->getMainWindow()->setOpenLastFilename(Path::getFileName(getIMGFile()->getFilePath()));
+
 	// store render items
 	getRenderItems().addEntry(m_pEntryGrid);
 	getRenderItems().addEntry(m_pEntryTypeFilter);
@@ -142,10 +145,7 @@ void					IMGEditorTab::onFileLoaded(void)
 
 	setFileInfoText();
 
-
-
-
-
+	/*
 	return;
 
 	// todo
@@ -153,9 +153,6 @@ void					IMGEditorTab::onFileLoaded(void)
 	// add to recently open
 	
 	//getIMGF()->getRecentlyOpenManager()->loadRecentlyOpenEntries();
-
-	// update filename for open last
-	getIMGF()->getActiveWindow()->setOpenLastFilename(Path::getFileName(getIMGFile()->getFilePath()));
 
 	// load corresponding DB file & protected entry states
 	m_pDBFile = nullptr;
@@ -180,6 +177,7 @@ void					IMGEditorTab::onFileLoaded(void)
 
 	// check for unknown RW versions
 	checkForUnknownRWVersionEntries();
+	*/
 }
 
 // controls

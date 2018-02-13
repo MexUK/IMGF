@@ -131,6 +131,9 @@ void					MainWindow::initLayers(void)
 
 	setActiveEditor(m_vecEditors.getFirstEntry());
 
+	//EEditor uiActiveEditorType = getActiveEditor()->getEditorType();
+	//setOpenLastFilename(getIMGF()->getRecentlyOpenManager()->getLastOpenEntry(uiActiveEditorType));
+
 	Button *pButton = (Button*)getItemById(1004);
 	pButton->setActiveItem();
 }
@@ -270,17 +273,22 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 	//m_pMainLayer->addMenus();
 	//m_pMainLayer->setCertainMenuItemsEnabled(pActiveEditor && (pActiveEditor->getEditorTabs().getEntryCount() > 0));
 
-	/*
-	todo
 	if (m_pActiveEditor)
 	{
 		getIMGF()->getRecentlyOpenManager()->unloadRecentlyOpenEntries(m_pActiveEditor->getEditorType());
-		getIMGF()->getRecentlyOpenManager()->loadRecentlyOpenEntries(m_pActiveEditor->getEditorType());
 
-		getIMGF()->getFileGroupManager()->unloadFileGroups(m_pActiveEditor->getEditorType());
-		getIMGF()->getFileGroupManager()->loadFileGroups(m_pActiveEditor->getEditorType());
+		// todo
+		//getIMGF()->getFileGroupManager()->unloadFileGroups(m_pActiveEditor->getEditorType());
 	}
-	*/
+
+	if (pActiveEditor)
+	{
+		getIMGF()->getRecentlyOpenManager()->loadRecentlyOpenEntries(pActiveEditor->getEditorType());
+		setOpenLastFilename(getIMGF()->getRecentlyOpenManager()->getLastOpenEntry(pActiveEditor->getEditorType()));
+
+		// todo
+		//getIMGF()->getFileGroupManager()->loadFileGroups(pActiveEditor->getEditorType());
+	}
 
 	uint32 uiEditorIndex = m_vecEditors.getIndexByEntry(pActiveEditor);
 
@@ -354,4 +362,21 @@ void					MainWindow::setMainMenuType(EMainMenuType uiMainMenuType)
 
 	m_uiMainMenuType = uiMainMenuType;
 	swapLayersEnabled(FORMATS_MENU, UTILITY_MENU);
+}
+
+// open last closed file
+void					MainWindow::setOpenLastFilename(string strFileName)
+{
+	EEditor uiActiveEditorType = getActiveEditor()->getEditorType();
+	string strMenuItemText = "Open Last Closed File" + (getIMGF()->getRecentlyOpenManager()->getLastOpenEntry(uiActiveEditorType) == "" ? "" : " (" + Path::getFileName(getIMGF()->getRecentlyOpenManager()->getLastOpenEntry(uiActiveEditorType)) + ")");
+	MenuItem *pMenuItem = (MenuItem*)getItemById(1056);
+	pMenuItem->setText(strMenuItemText);
+}
+
+void					MainWindow::clearOpenLastFilename(void)
+{
+	EEditor uiActiveEditorType = getActiveEditor()->getEditorType();
+	string strMenuItemText = "Open Last Closed File";
+	MenuItem *pMenuItem = (MenuItem*)getItemById(1056);
+	pMenuItem->setText(strMenuItemText);
 }

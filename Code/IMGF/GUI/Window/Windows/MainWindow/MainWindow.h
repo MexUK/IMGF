@@ -63,6 +63,9 @@ public:
 
 	void						reloadLayers(void);
 
+	void						setOpenLastFilename(std::string strFileName);
+	void						clearOpenLastFilename(void);
+
 private:
 	void						initWindow(void);
 	void						initLayers(void);
