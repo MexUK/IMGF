@@ -1372,7 +1372,7 @@ void				IMGEditorTab::loadFilter_Type(void)
 	m_pEntryTypeFilter->addItem("All Types");
 
 	DropDownItem *pDropEntry;
-	for (auto it : m_pIMGFile->getFileTypesAsMap())
+	for (auto it : m_pIMGFile->getFileTypesAsMap(true))
 	{
 		pDropEntry = m_pEntryTypeFilter->addItem(it.first); // file type text (e.g. "Animation (IFP)")
 		pDropEntry->setUserdata(it.second); // file type id
@@ -1384,7 +1384,7 @@ void				IMGEditorTab::loadFilter_Version(void)
 	m_pEntryVersionFilter->addItem("All Versions");
 
 	DropDownItem *pDropEntry;
-	for (auto it : m_pIMGFile->getFileTypedVersionsAsMap())
+	for (auto it : m_pIMGFile->getFileTypedVersionsAsMap(true))
 	{
 		pDropEntry = m_pEntryVersionFilter->addItem(it.first); // file version text
 		pDropEntry->setUserdata(it.second.first); // file version id

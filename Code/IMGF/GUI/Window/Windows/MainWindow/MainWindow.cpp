@@ -55,7 +55,9 @@ MainWindow::MainWindow(void) :
 
 	m_pActiveEditor(nullptr),
 
-	m_bDragDropOutIsOccurring(false)
+	m_bDragDropOutIsOccurring(false),
+
+	m_pRecentlyOpenMenu(nullptr)
 {
 }
 
@@ -124,6 +126,8 @@ void					MainWindow::initLayers(void)
 	}
 
 	initEditors();
+
+	initMenuRelatedItems();
 
 	setActiveEditor(m_vecEditors.getFirstEntry());
 
@@ -207,6 +211,12 @@ void					MainWindow::initSettingsMenuLayer(void)
 	m_pSettingsMenu->addMenuItem("Websites", WEBSITES);
 	m_pSettingsMenu->addMenuItem("About", ABOUT);
 	m_pSettingsMenu->addMenuItem("Update", UPDATE);
+}
+
+void					MainWindow::initMenuRelatedItems(void)
+{
+	MenuItem *pMenuItem = (MenuItem*)getItemById(4700);
+	m_pRecentlyOpenMenu = pMenuItem->addMenu(VERTICAL, 1);
 }
 
 void					MainWindow::addEditor(Editor *pEditor)

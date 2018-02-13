@@ -14,6 +14,8 @@ public:
 	void					init(void);
 	void					uninit(void);
 
+	void					onToolReady(void);
+
 	void					loadRecentlyOpenEntries(EEditor uiEditor);
 	void					unloadRecentlyOpenEntries(EEditor uiEditor);
 

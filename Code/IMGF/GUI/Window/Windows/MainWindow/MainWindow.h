@@ -67,11 +67,9 @@ private:
 	void						initWindow(void);
 	void						initLayers(void);
 
-	void						initMainLayer(void);
-	void						initMainLayerNoTabsOpen(void);
-	void						initMainMenuLayers(void);
 	void						initSettingsMenuLayer(void);
 	void						initEditors(void);
+	void						initMenuRelatedItems(void);
 
 	template <class T>
 	T*							addEditor(void);
@@ -102,6 +100,8 @@ public:
 	DumpWindowResult			m_dumpWindowResult;
 	Editor*						m_pActiveEditor;
 	bool						m_bDragDropOutIsOccurring;
+
+	bxgx::Menu*					m_pRecentlyOpenMenu;
 
 private:
 	imgf::mainLayer::mainMenuType::EMainMenuType	m_uiMainMenuType;

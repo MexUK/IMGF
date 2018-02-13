@@ -27,23 +27,26 @@ using namespace imgf::mainLayer::input;
 // initialization
 void					RecentlyOpenManager::init(void)
 {
-	// todo bindEvent(BXGX_READY, &RecentlyOpenManager::loadRecentlyOpenEntries);
+	bindEvent(BXGX_READY, &RecentlyOpenManager::onToolReady);
 }
 
 void					RecentlyOpenManager::uninit(void)
 {
-	// todo unloadRecentlyOpenEntries();
+	unloadRecentlyOpenEntries(getIMGF()->getWindowManager()->getMainWindow()->getActiveEditor()->getEditorType());
+}
+
+// event callbacks
+void					RecentlyOpenManager::onToolReady(void)
+{
+	loadRecentlyOpenEntries(getIMGF()->getWindowManager()->getMainWindow()->getActiveEditor()->getEditorType());
 }
 
 // load/unload entries
 void					RecentlyOpenManager::loadRecentlyOpenEntries(EEditor uiEditor)
 {
-	// todo
-
-	/*
 	m_umapFilePaths[uiEditor].removeAllEntries();
 
-	Menu *pRecentlyOpenMenu = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pRecentlyOpenMenu;
+	Menu *pRecentlyOpenMenu = getIMGF()->getWindowManager()->getMainWindow()->m_pRecentlyOpenMenu;
 	
 	pRecentlyOpenMenu->removeAllMenuItems();
 
@@ -69,7 +72,6 @@ void					RecentlyOpenManager::loadRecentlyOpenEntries(EEditor uiEditor)
 	}
 
 	pRecentlyOpenMenu->addMenuItem("Clear Recently Open Files", CLEAR_RECENTLY_OPEN_FILES);
-	*/
 }
 
 void					RecentlyOpenManager::unloadRecentlyOpenEntries(EEditor uiEditor)
@@ -99,10 +101,7 @@ RecentlyOpenEntry*		RecentlyOpenManager::addRecentlyOpenEntry(EEditor uiEditor, 
 	uint32 uiRecentlyOpenedMaxCount = 15;
 	uint32 uiRecentlyOpenedCount = String::toUint32(INIManager::getItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, "Count"));
 
-	/*
-	todo
-
-	Menu *pRecentlyOpenMenu = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pRecentlyOpenMenu;
+	Menu *pRecentlyOpenMenu = getIMGF()->getWindowManager()->getMainWindow()->m_pRecentlyOpenMenu;
 
 	if (uiRecentlyOpenedCount == 0)
 	{
@@ -131,18 +130,14 @@ RecentlyOpenEntry*		RecentlyOpenManager::addRecentlyOpenEntry(EEditor uiEditor, 
 		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, "Count", String::toString(uiRecentlyOpenedCount + 1));
 		INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, String::toString(uiRecentlyOpenedCount + 1), strFilePath);
 	}
-	*/
 
 	return pRecentlyOpenEntry;
 }
 
 void					RecentlyOpenManager::removeRecentlyOpenedEntries(EEditor uiEditor)
 {
-	// todo
-
-	/*
 	string strINISectionName = Editor::getEditorName(uiEditor);
-	Menu *pRecentlyOpenMenu = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pRecentlyOpenMenu;
+	Menu *pRecentlyOpenMenu = getIMGF()->getWindowManager()->getMainWindow()->m_pRecentlyOpenMenu;
 
 	pRecentlyOpenMenu->removeAllMenuItems();
 	m_umapRecentlyOpenedFiles.clear();
@@ -160,7 +155,6 @@ void					RecentlyOpenManager::removeRecentlyOpenedEntries(EEditor uiEditor)
 	INIManager::setItem(AppDataPath::getRecentlyOpenedPath(), strINISectionName, "Count", "0");
 
 	loadRecentlyOpenEntries(uiEditor);
-	*/
 }
 
 void					RecentlyOpenManager::removeRecentlyOpenEntry(EEditor uiEditor, RecentlyOpenEntry *pRecentlyOpenEntry)
