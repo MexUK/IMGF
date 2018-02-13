@@ -46,6 +46,7 @@ void					_3DEditorTab::onKeyDown(uint16 uiKey)
 	switch (uiKey)
 	{
 	case VK_UP:
+	case 'W':
 		if (bControlKey)
 		{
 			m_gl.moveCameraZ(fMoveRadius);
@@ -56,6 +57,7 @@ void					_3DEditorTab::onKeyDown(uint16 uiKey)
 		}
 		break;
 	case VK_DOWN:
+	case 'S':
 		if (bControlKey)
 		{
 			m_gl.moveCameraZ(-fMoveRadius);
@@ -66,37 +68,12 @@ void					_3DEditorTab::onKeyDown(uint16 uiKey)
 		}
 		break;
 	case VK_LEFT:
+	case 'A':
 		m_gl.moveCameraXY(-90.0f, -fMoveRadius);
 		break;
 	case VK_RIGHT:
+	case 'D':
 		m_gl.moveCameraXY(-90.0f, fMoveRadius);
-		break;
-
-	case 87: // W
-		if (bControlKey)
-		{
-			m_gl.moveCameraZ(fMoveRadius);
-		}
-		else
-		{
-			m_gl.moveCameraXY(90.0f, -fMoveRadius);
-		}
-		break;
-	case 83: // S
-		if (bControlKey)
-		{
-			m_gl.moveCameraZ(-fMoveRadius);
-		}
-		else
-		{
-			m_gl.moveCameraXY(90.0f, fMoveRadius);
-		}
-		break;
-	case 65: // A
-		m_gl.moveCameraXY(0.0f, -fMoveRadius);
-		break;
-	case 68: // D
-		m_gl.moveCameraXY(0.0f, fMoveRadius);
 		break;
 	}
 
@@ -124,7 +101,7 @@ void					_3DEditorTab::onMoveMouseWheel(int16 iRotationDistance)
 
 	float32 fMouseWheelScrollMultiplier = 1.2f;
 	int iDelta = -(iRotationDistance / WHEEL_DELTA);
-	m_gl.zoomCamera((float32)-iDelta * fMouseWheelScrollMultiplier);
+	m_gl.zoomCamera((float32)iDelta * fMouseWheelScrollMultiplier);
 
 	getLayer()->getWindow()->render();
 }

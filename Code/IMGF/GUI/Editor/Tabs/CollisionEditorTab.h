@@ -62,6 +62,8 @@ private:
 	void						prepareEntities(void);
 	void						prepareCollisionEntry(void);
 	
+	void						prepareCamera(bxgi::COLEntry *pCOLEntry);
+
 	void						prepareBoundingSphere(bxgi::COLEntry *pCOLEntry);
 	void						prepareBoundingCuboid(bxgi::COLEntry *pCOLEntry);
 
