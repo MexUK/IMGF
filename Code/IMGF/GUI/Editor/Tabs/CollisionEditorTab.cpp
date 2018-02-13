@@ -783,15 +783,12 @@ void						CollisionEditorTab::prepareCollisionEntry(void)
 void						CollisionEditorTab::prepareCamera(COLEntry *pCOLEntry)
 {
 	Vec3f vecCenterPos2 = pCOLEntry->getBoundingObjects().m_vecCenter;
-	glm::vec3 vecCenterPos = glm::vec3(vecCenterPos2.x, vecCenterPos2.y, vecCenterPos2.z);
+	m_vecCenterPosition = glm::vec3(vecCenterPos2.x, vecCenterPos2.y, vecCenterPos2.z);
 
-	float32 fRadius = pCOLEntry->getBoundingObjects().m_fRadius * 3.0f;
-	if (fRadius < 5.0f) fRadius = 5.0f;
-	glm::vec2 vecCameraPosOffset = Math::getCartesianFromPolarGLM(fRadius, Math::convertDegreesToRadians(-135.0f));
-	glm::vec3 vecCameraPos = vecCenterPos + glm::vec3(vecCameraPosOffset.x, vecCameraPosOffset.y, 3.0f);
+	m_fCameraToCenterRadius = pCOLEntry->getBoundingObjects().m_fRadius * 3.0f;
+	if (m_fCameraToCenterRadius < 5.0f) m_fCameraToCenterRadius = 5.0f;
 
-	m_gl.setCameraPosition(vecCameraPos);
-	m_gl.setCameraLookAt(vecCenterPos);
+	updateCamera();
 }
 
 void						CollisionEditorTab::prepareBoundingSphere(COLEntry *pCOLEntry)

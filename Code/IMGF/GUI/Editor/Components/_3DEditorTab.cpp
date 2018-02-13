@@ -1,17 +1,26 @@
 #include "_3DEditorTab.h"
 #include "Event/EInternalEvent.h"
 #include "BXGX.h"
+#include "Static/Math.h"
 
 using namespace bxcf;
 using namespace bxgx;
 using namespace bxgx::events;
 using namespace imgf;
 
+_3DEditorTab::_3DEditorTab(void) :
+	m_fCameraOrbitZRot(-135.0f),
+	m_bCameraOrbittingItem(false)
+{
+}
+
 // event binding
 void					_3DEditorTab::bindEvents(void)
 {
 	bindEvent(KEY_DOWN, &_3DEditorTab::onKeyDown);
 	bindEvent(LEFT_MOUSE_DOWN, &_3DEditorTab::onLeftMouseDown);
+	bindEvent(LEFT_MOUSE_UP, &_3DEditorTab::onLeftMouseUp);
+	bindEvent(MOVE_MOUSE, &_3DEditorTab::onMouseMove);
 	bindEvent(MOVE_MOUSE_WHEEL, &_3DEditorTab::onMoveMouseWheel);
 }
 
@@ -19,6 +28,8 @@ void					_3DEditorTab::unbindEvents(void)
 {
 	unbindEvent(KEY_DOWN, &_3DEditorTab::onKeyDown);
 	unbindEvent(LEFT_MOUSE_DOWN, &_3DEditorTab::onLeftMouseDown);
+	unbindEvent(LEFT_MOUSE_UP, &_3DEditorTab::onLeftMouseUp);
+	unbindEvent(MOVE_MOUSE, &_3DEditorTab::onMouseMove);
 	unbindEvent(MOVE_MOUSE_WHEEL, &_3DEditorTab::onMoveMouseWheel);
 }
 
@@ -87,7 +98,32 @@ void					_3DEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 		return;
 	}
 
-	// todo
+	m_bCameraOrbittingItem = true;
+}
+
+void					_3DEditorTab::onLeftMouseUp(Vec2i vecCursorPosition)
+{
+	if (!m_bCameraOrbittingItem)
+	{
+		return;
+	}
+	
+	m_bCameraOrbittingItem = false;
+}
+
+void					_3DEditorTab::onMouseMove(Vec2i vecCursorPosition)
+{
+	if (!m_bCameraOrbittingItem)
+	{
+		return;
+	}
+
+	Vec2i& vecCursorDiff = BXGX::get()->getCursorMoveDifference();
+	m_fCameraOrbitZRot = Math::limitAngle(m_fCameraOrbitZRot + (float32)vecCursorDiff.x);
+
+	updateCamera();
+
+	Events::setEventCancelled();
 
 	getLayer()->getWindow()->render();
 }
@@ -110,4 +146,14 @@ void					_3DEditorTab::onMoveMouseWheel(int16 iRotationDistance)
 bool					_3DEditorTab::isPointOver3D(Vec2i& vecPoint)
 {
 	return Math::isPointInRectangle(vecPoint,  m_gl.getRenderPosition(), m_gl.getRenderSize());
+}
+
+// camera
+void					_3DEditorTab::updateCamera(void)
+{
+	glm::vec2 vecCameraPosOffset = Math::getCartesianFromPolarGLM(m_fCameraToCenterRadius, Math::convertDegreesToRadians(m_fCameraOrbitZRot));
+	glm::vec3 vecCameraPos = m_vecCenterPosition + glm::vec3(vecCameraPosOffset.x, vecCameraPosOffset.y, 3.0f);
+
+	m_gl.setCameraPosition(vecCameraPos);
+	m_gl.setCameraLookAt(m_vecCenterPosition);
 }

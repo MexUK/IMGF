@@ -315,7 +315,7 @@ void						ModelEditorTab::prepareCamera(void)
 	float32 fDFFRadius = 4.0f;
 	float32 fRadius = fDFFRadius * 3.0f;
 	if (fRadius < 5.0f) fRadius = 5.0f;
-	glm::vec2 vecCameraPosOffset = Math::getCartesianFromPolarGLM(fRadius, Math::convertDegreesToRadians(-135.0f));
+	glm::vec2 vecCameraPosOffset = Math::getCartesianFromPolarGLM(fRadius, Math::convertDegreesToRadians(m_fCameraOrbitZRot));
 	glm::vec3 vecCameraPos = vecCenterPos + glm::vec3(vecCameraPosOffset.x, vecCameraPosOffset.y, 3.0f);
 
 	m_gl.setCameraPosition(vecCameraPos);
