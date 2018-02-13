@@ -17,7 +17,6 @@
 #include "Task/Tasks/Sort/SortPriority.h"
 #include "Task/Tasks/Sort/SortType.h"
 #include "Task/Tasks/Sort/ESortType.h"
-#include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Task/Tasks/Find/SearchEntry.h"
 #include "Task/Tasks/Sort/SortPriorities.h"
 #include "Static/Debug.h"
@@ -116,12 +115,6 @@ void					IMGEditorTab::onFileLoaded(void)
 
 	// update tab text
 	updateTabText();
-
-	// add file path to recently opened files list
-	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), strFilePath);
-
-	// update filename for open last
-	getIMGF()->getWindowManager()->getMainWindow()->setOpenLastFilename(Path::getFileName(getIMGFile()->getFilePath()));
 
 	// store render items
 	getRenderItems().addEntry(m_pEntryGrid);

@@ -21,6 +21,7 @@
 #include "../bxgi/Event/EEvent.h"
 #include "DragDrop/DropSource.h"
 #include "DragDrop/DataObject.h"
+#include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include <stdarg.h>
 #include <Shlobj.h>
 
@@ -134,6 +135,9 @@ bool						EditorTab::init(bool bIsNewFile)
 	{
 		return false;
 	}
+
+	// add file path to recently opened files list
+	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), m_pEditor->getResolvedFilePath(getFile()->getFilePath()));
 
 	// on file loaded
 	onFileLoaded();

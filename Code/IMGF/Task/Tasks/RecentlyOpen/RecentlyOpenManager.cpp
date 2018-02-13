@@ -82,6 +82,8 @@ void					RecentlyOpenManager::unloadRecentlyOpenEntries(EEditor uiEditor)
 // add/remove entries
 RecentlyOpenEntry*		RecentlyOpenManager::addRecentlyOpenEntry(EEditor uiEditor, string strFilePath)
 {
+	getIMGF()->getWindowManager()->getMainWindow()->setOpenLastFilename(Path::getFileName(strFilePath));
+
 	if (doesRecentlyOpenEntryExist(uiEditor, strFilePath))
 	{
 		moveRecentlyOpenEntryToTop(uiEditor, strFilePath);

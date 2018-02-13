@@ -3,7 +3,7 @@
 #include "nsbxcf.h"
 #include "nsbxgi.h"
 #include "nsimgf.h"
-#include "GUI/Editor/Base/EditorTab.h"
+#include "GUI/Editor/Components/_3DEditorTab.h"
 #include "Type/Vector/Vec3f.h"
 #include "3D/OpenGL/OpenGL.h"
 #include <string>
@@ -11,7 +11,7 @@
 #include <unordered_map>
 #include <stack>
 
-class imgf::ModelEditorTab : public imgf::EditorTab
+class imgf::ModelEditorTab : public imgf::_3DEditorTab
 {
 public:
 	ModelEditorTab(void);
@@ -62,7 +62,6 @@ private:
 	void						prepareFrame(uint32 uiFrameIndex, bxgi::RWSection_Frame *pFrame, bool bIsParentFrame);
 
 private:
-	bxcf::OpenGL				m_gl;
 	bxcf::GLEntity*				m_pGLEntity;
 
 	bxgi::DFFFormat*			m_pDFFFile;

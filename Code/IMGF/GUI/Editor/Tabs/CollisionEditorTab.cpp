@@ -48,8 +48,6 @@ CollisionEditorTab::CollisionEditorTab(void) :
 
 	m_uiDisplayedEntryCount(0)
 {
-	m_vecCameraPosition = Vec3f(-2.0f, -2.0f, 2.0f);
-	m_vecCameraLookAtPosition = Vec3f(0.0f, 0.0f, 0.0f);
 }
 
 // events
@@ -63,6 +61,7 @@ void					CollisionEditorTab::bindEvents(void)
 	bindEvent(MOVE_MOUSE_WHEEL, &CollisionEditorTab::onMouseWheelMove2);
 	bindEvent(RESIZE_WINDOW, &CollisionEditorTab::onResizeWindow);
 	
+	_3DEditorTab::bindEvents();
 	EditorTab::bindEvents();
 }
 
@@ -76,6 +75,7 @@ void					CollisionEditorTab::unbindEvents(void)
 	unbindEvent(MOVE_MOUSE_WHEEL, &CollisionEditorTab::onMouseWheelMove2);
 	unbindEvent(RESIZE_WINDOW, &CollisionEditorTab::onResizeWindow);
 	
+	_3DEditorTab::unbindEvents();
 	EditorTab::unbindEvents();
 }
 
@@ -298,64 +298,6 @@ void					CollisionEditorTab::onKeyDown2(uint16 uiKey)
 	else
 	{
 		// 3d item
-		bool bControlKey = (GetKeyState(VK_CONTROL) & 0x8000) == 0x8000;
-		switch (uiKey)
-		{
-		case VK_UP:
-			if (bControlKey)
-			{
-				m_gl.moveCameraZ(0.2f);
-			}
-			else
-			{
-				m_gl.moveCameraXY(90.0f, -0.2f);
-			}
-			break;
-		case VK_DOWN:
-			if (bControlKey)
-			{
-				m_gl.moveCameraZ(-0.2f);
-			}
-			else
-			{
-				m_gl.moveCameraXY(90.0f, 0.2f);
-			}
-			break;
-		case VK_LEFT:
-			m_gl.moveCameraXY(0.0f, -0.2f);
-			break;
-		case VK_RIGHT:
-			m_gl.moveCameraXY(0.0f, 0.2f);
-			break;
-
-
-		case 87: // W
-			if (bControlKey)
-			{
-				m_gl.moveCameraZ(0.2f);
-			}
-			else
-			{
-				m_gl.moveCameraXY(90.0f, -0.2f);
-			}
-			break;
-		case 83: // S
-			if (bControlKey)
-			{
-				m_gl.moveCameraZ(-0.2f);
-			}
-			else
-			{
-				m_gl.moveCameraXY(90.0f, 0.2f);
-			}
-			break;
-		case 65: // A
-			m_gl.moveCameraXY(0.0f, -0.2f);
-			break;
-		case 68: // D
-			m_gl.moveCameraXY(0.0f, 0.2f);
-			break;
-		}
 	}
 }
 
@@ -367,12 +309,6 @@ void					CollisionEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 		float32 fNewProgress = m_pVScrollBar->getProgress() + ((float32)iDelta * m_pVScrollBar->getProgressFor1Item());
 		fNewProgress = Math::limit(fNewProgress, 0.0f, 1.0f);
 		m_pVScrollBar->setProgress(fNewProgress);
-	}
-	else
-	{
-		float32 fMouseWheelScrollMultiplier = 1.2f;
-		int iDelta = -(iRotationDistance / WHEEL_DELTA);
-		m_gl.zoomCamera((float32)-iDelta * fMouseWheelScrollMultiplier);
 	}
 
 	getLayer()->getWindow()->render();
@@ -737,11 +673,11 @@ void						CollisionEditorTab::render3D(void)
 	if (!m_bInitialized)
 	{
 		mutexInitializing3DRender_CollisionEditor.lock();
-
 		m_bInitializing = true;
 
 		Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 5, getLayer()->getWindow()->getSize().y - 130 - 30);
 
+		m_gl.setRenderPosition(Vec2i(120 + 250, 130));
 		m_gl.setRenderSize(vecRenderSize);
 		m_gl.setWindow(getLayer()->getWindow()->getWindowHandle());
 		m_gl.setVersion(3, 3);

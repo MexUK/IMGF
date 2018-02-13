@@ -79,6 +79,7 @@ void						ModelEditorTab::bindEvents(void)
 	bindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
 	bindEvent(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
 
+	_3DEditorTab::bindEvents();
 	EditorTab::bindEvents();
 }
 
@@ -89,6 +90,7 @@ void						ModelEditorTab::unbindEvents(void)
 	unbindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
 	unbindEvent(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
 
+	_3DEditorTab::unbindEvents();
 	EditorTab::unbindEvents();
 }
 
@@ -113,12 +115,6 @@ void						ModelEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 		fNewProgress = Math::limit(fNewProgress, 0.0f, 1.0f);
 		m_pVScrollBar->setProgress(fNewProgress);
 		*/
-	}
-	else
-	{
-		float32 fMouseWheelScrollMultiplier = 1.2f;
-		int iDelta = -(iRotationDistance / WHEEL_DELTA);
-		m_gl.zoomCamera((float32)-iDelta * fMouseWheelScrollMultiplier);
 	}
 
 	getLayer()->getWindow()->render();
@@ -231,11 +227,11 @@ void						ModelEditorTab::render3D(void)
 	if (!m_bInitialized)
 	{
 		mutexInitializing3DRender_ModelEditor.lock();
-
 		m_bInitializing = true;
 
 		Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 5, getLayer()->getWindow()->getSize().y - 130 - 30);
 
+		m_gl.setRenderPosition(Vec2i(120 + 250, 130));
 		m_gl.setRenderSize(vecRenderSize);
 		m_gl.setWindow(getLayer()->getWindow()->getWindowHandle());
 		m_gl.setVersion(3, 3);

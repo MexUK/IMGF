@@ -79,6 +79,7 @@ void						MapEditorTab::bindEvents(void)
 	bindEvent(MOVE_MOUSE_WHEEL, &MapEditorTab::onMouseWheelMove2);
 	bindEvent(RESIZE_WINDOW, &MapEditorTab::onResizeWindow);
 
+	_3DEditorTab::bindEvents();
 	EditorTab::bindEvents();
 }
 
@@ -89,6 +90,7 @@ void						MapEditorTab::unbindEvents(void)
 	unbindEvent(MOVE_MOUSE_WHEEL, &MapEditorTab::onMouseWheelMove2);
 	unbindEvent(RESIZE_WINDOW, &MapEditorTab::onResizeWindow);
 	
+	_3DEditorTab::unbindEvents();
 	EditorTab::unbindEvents();
 }
 
@@ -113,12 +115,6 @@ void						MapEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 		fNewProgress = Math::limit(fNewProgress, 0.0f, 1.0f);
 		m_pVScrollBar->setProgress(fNewProgress);
 		*/
-	}
-	else
-	{
-		float32 fMouseWheelScrollMultiplier = 1.2f;
-		int iDelta = -(iRotationDistance / WHEEL_DELTA);
-		m_gl.zoomCamera((float32)-iDelta * fMouseWheelScrollMultiplier);
 	}
 
 	getLayer()->getWindow()->render();
@@ -345,6 +341,7 @@ void						MapEditorTab::render3D(void)
 
 		Vec2u vecRenderSize = Vec2u(getLayer()->getWindow()->getSize().x - 120 - 250 - 5, getLayer()->getWindow()->getSize().y - 130 - 30);
 
+		m_gl.setRenderPosition(Vec2i(120 + 250, 130));
 		m_gl.setRenderSize(vecRenderSize);
 		m_gl.setWindow(getLayer()->getWindow()->getWindowHandle());
 		m_gl.setVersion(3, 3);
@@ -616,7 +613,7 @@ void						MapEditorTab::prepareFrame(uint32 uiFrameIndex, RWSection_Frame *pFram
 
 void						MapEditorTab::prepareTXD(TXDFormat *pTXDFile)
 {
-	glUseProgram(m_program);
+	glUseProgram(m_gl.m_uiShaderProgram);
 
 	vector<RWSection*> vecTextures = pTXDFile->getSectionsByType(RW_SECTION_TEXTURE_NATIVE);
 	uint32 uiTextureCount = vecTextures.size();
@@ -641,7 +638,7 @@ void						MapEditorTab::prepareTXD(TXDFormat *pTXDFile)
 		// "Bind" the newly created texture : all future texture functions will modify this texture
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureIDs[i]);
-		glUniform1i(glGetUniformLocation(m_program, "tex"), 0);
+		glUniform1i(glGetUniformLocation(m_gl.m_uiShaderProgram, "tex"), 0);
 
 		//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 

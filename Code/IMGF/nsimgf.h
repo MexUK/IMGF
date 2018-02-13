@@ -83,6 +83,7 @@ namespace imgf
 	class RadarEditor;
 	class MapEditor;
 
+	class _3DEditorTab;
 	class LeftEntryList;
 
 	class DATEditorTab;

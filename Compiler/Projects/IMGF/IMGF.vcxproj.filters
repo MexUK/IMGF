@@ -483,9 +483,6 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\EditorTab.cpp">
       <Filter>Source Files\GUI\Editor\Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Components\_3DEditor.cpp">
-      <Filter>Source Files\GUI\Editor\Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\IMGEditorTab.cpp">
       <Filter>Source Files\GUI\Editor\Tabs</Filter>
     </ClCompile>
@@ -515,6 +512,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\DATEditorTab.cpp">
       <Filter>Source Files\GUI\Editor\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Components\_3DEditorTab.cpp">
+      <Filter>Source Files\GUI\Editor\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -779,9 +779,6 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Base\EditorTab.h">
       <Filter>Header Files\GUI\Editor\Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Components\_3DEditor.h">
-      <Filter>Header Files\GUI\Editor\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Entries\TextureEditorTabEntry.h">
       <Filter>Header Files\GUI\Editor\Entries</Filter>
     </ClInclude>
@@ -817,6 +814,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\IMGEditorTab.h">
       <Filter>Header Files\GUI\Editor\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Components\_3DEditorTab.h">
+      <Filter>Header Files\GUI\Editor\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

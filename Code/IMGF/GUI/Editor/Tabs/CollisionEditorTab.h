@@ -1,14 +1,14 @@
 #pragma once
 
 #include "nsimgf.h"
-#include "nsbxgi.h"
 #include "nsbxgx.h"
-#include "GUI/Editor/Base/EditorTab.h"
+#include "nsbxgi.h"
+#include "GUI/Editor/Components/_3DEditorTab.h"
 #include "Pool/VectorPool.h"
 #include "Type/Vector/Vec3f.h"
 #include "3D/OpenGL/OpenGL.h"
 
-class imgf::CollisionEditorTab : public imgf::EditorTab
+class imgf::CollisionEditorTab : public imgf::_3DEditorTab
 {
 public:
 	CollisionEditorTab(void);
@@ -78,7 +78,6 @@ private:
 	bool						isPointOverEntryList(bxcf::Vec2i& vecPoint);
 
 private:
-	bxcf::OpenGL				m_gl;
 	bxcf::GLEntity*				m_pGLEntity;
 
 	bxgi::COLFormat*			m_pCOLFile;
@@ -89,12 +88,6 @@ private:
 	bool						m_bInitializing;
 	bool						m_bInitialized;
 	bool						m_bPanningCamera;
-
-	bxcf::Vec3f					m_vecCameraPosition;
-	bxcf::Vec3f					m_vecCameraLookAtPosition;
-	HDC							m_hdcWindow;
-	HDC							m_hDC;
-	HBITMAP						m_hbm;
 
 	uint32						m_uiDisplayedEntryCount;
 };

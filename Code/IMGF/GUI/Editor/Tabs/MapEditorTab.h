@@ -3,7 +3,7 @@
 #include "nsbxcf.h"
 #include "nsbxgi.h"
 #include "nsimgf.h"
-#include "GUI/Editor/Base/EditorTab.h"
+#include "GUI/Editor/Components/_3DEditorTab.h"
 #include "Type/Vector/Vec3f.h"
 #include "3D/OpenGL/OpenGL.h"
 #include <string>
@@ -23,7 +23,7 @@ struct MapObject // todo - namespace
 	bxcf::Vec3f		m_vecPosition;
 };
 
-class imgf::MapEditorTab : public imgf::EditorTab
+class imgf::MapEditorTab : public imgf::_3DEditorTab
 {
 public:
 	MapEditorTab(void);
@@ -67,7 +67,6 @@ private:
 	void						prepareFrame(uint32 uiFrameIndex, bxgi::RWSection_Frame *pFrame, bool bIsParentFrame);
 
 private:
-	bxcf::OpenGL				m_gl;
 	bxcf::GLEntity*				m_pGLEntity;
 
 public: // todo
@@ -84,15 +83,6 @@ private:
 	bool						m_bPanningCamera;
 	bool						m_bInitializing;
 
-	bxcf::Vec3f					m_vecCameraPosition;
-	bxcf::Vec3f					m_vecCameraLookAtPosition;
-	HDC							m_hdcWindow;
-	HDC							m_hDC;
-	HBITMAP						m_hbm;
-	HGLRC						m_hRC;
-
-	GLuint						m_program;
-	GLuint						m_program2;
 	GLuint*						textureIDs; // todo - prefix
 	std::unordered_map<std::string, GLuint>		textureIndices; // todo - prefix // GLuint: gl texture id
 	std::unordered_map<std::string, uint32>		m_umapGeometryIndexByTextureNameLower;

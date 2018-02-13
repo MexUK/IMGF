@@ -123,7 +123,7 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\Editor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Base\EditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Components\LeftEntryList.cpp" />
-    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Components\_3DEditor.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Components\_3DEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\AnimationEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\CollisionEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\DATEditor.cpp" />
@@ -197,7 +197,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Base\EditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Base\EEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Components\LeftEntryList.h" />
-    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Components\_3DEditor.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Components\_3DEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\AnimationEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\CollisionEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\DATEditor.h" />
