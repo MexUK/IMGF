@@ -74,8 +74,7 @@ void						ModelEditorTab::initLayer(void)
 // events
 void						ModelEditorTab::bindEvents(void)
 {
-	bindEvent(RENDER, &ModelEditorTab::render);
-	bindEvent(END_RENDER, &ModelEditorTab::endRender);
+	bindEvent(AFTER_RENDER, &ModelEditorTab::afterRender);
 	bindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
 	bindEvent(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
 
@@ -85,8 +84,7 @@ void						ModelEditorTab::bindEvents(void)
 
 void						ModelEditorTab::unbindEvents(void)
 {
-	unbindEvent(RENDER, &ModelEditorTab::render);
-	unbindEvent(END_RENDER, &ModelEditorTab::endRender);
+	unbindEvent(AFTER_RENDER, &ModelEditorTab::afterRender);
 	unbindEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
 	unbindEvent(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
 
@@ -104,6 +102,12 @@ void						ModelEditorTab::makeCurrent(void)
 }
 
 // event callbacks
+void						ModelEditorTab::afterRender(void)
+{
+	render2D();
+	render3D();
+}
+
 void						ModelEditorTab::onMouseWheelMove2(int16 iRotationDistance)
 {
 	//if (isPointOverEntryList(BXGX::get()->getCursorPosition()))
@@ -181,12 +185,7 @@ void						ModelEditorTab::updateEntryCountText(void)
 // render events
 void						ModelEditorTab::render(void)
 {
-	render2D();
-}
-
-void						ModelEditorTab::endRender(void)
-{
-	render3D();
+	//render2D();
 }
 
 // render 2d

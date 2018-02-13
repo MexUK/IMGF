@@ -55,9 +55,10 @@ TextureEditorTab::TextureEditorTab(void) :
 
 TextureEditorTab::~TextureEditorTab(void)
 {
+	// todo
 	//unbindEvents();
 
-	unbindEvent(RENDER, &TextureEditorTab::render);
+	unbindEvent(BEFORE_RENDER, &TextureEditorTab::renderBefore);
 	unbindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
@@ -70,7 +71,7 @@ TextureEditorTab::~TextureEditorTab(void)
 // events
 void					TextureEditorTab::bindEvents(void)
 {
-	bindEvent(RENDER, &TextureEditorTab::render);
+	bindEvent(BEFORE_RENDER, &TextureEditorTab::renderBefore);
 	bindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
 	bindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
@@ -84,7 +85,7 @@ void					TextureEditorTab::bindEvents(void)
 
 void					TextureEditorTab::unbindEvents(void)
 {
-	unbindEvent(RENDER, &TextureEditorTab::render);
+	unbindEvent(BEFORE_RENDER, &TextureEditorTab::renderBefore);
 	unbindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
@@ -536,9 +537,9 @@ bool						TextureEditorTab::doesTabEntryMatchFilter(TextureEditorTabEntry *pTabE
 }
 
 // render editor
-void						TextureEditorTab::render(void)
+void						TextureEditorTab::renderBefore(void)
 {
-	//renderDisplayType_Single();
+	renderDisplayType_Single();
 }
 
 void						TextureEditorTab::renderDisplayType_Single(void)

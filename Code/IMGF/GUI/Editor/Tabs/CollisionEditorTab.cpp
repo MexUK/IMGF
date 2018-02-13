@@ -53,8 +53,7 @@ CollisionEditorTab::CollisionEditorTab(void) :
 // events
 void					CollisionEditorTab::bindEvents(void)
 {
-	bindEvent(RENDER, &CollisionEditorTab::render);
-	bindEvent(END_RENDER, &CollisionEditorTab::endRender);
+	bindEvent(AFTER_RENDER, &CollisionEditorTab::afterRender);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	bindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	bindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
@@ -67,8 +66,7 @@ void					CollisionEditorTab::bindEvents(void)
 
 void					CollisionEditorTab::unbindEvents(void)
 {
-	unbindEvent(RENDER, &CollisionEditorTab::render);
-	unbindEvent(END_RENDER, &CollisionEditorTab::endRender);
+	unbindEvent(AFTER_RENDER, &CollisionEditorTab::afterRender);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
 	unbindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
@@ -346,8 +344,6 @@ bool					CollisionEditorTab::unserializeFile(void)
 
 void					CollisionEditorTab::onFileLoaded(void)
 {
-	string strFilePath = getFile()->getFilePath();
-
 	// update tab text
 	updateTabText();
 
@@ -492,18 +488,17 @@ bool						CollisionEditorTab::doesTabEntryMatchFilter(COLEntry *pCOLEntry)
 // render
 void						CollisionEditorTab::render(void)
 {
-	render2D();
+	//render2D();
 }
 
-void						CollisionEditorTab::endRender(void)
+void						CollisionEditorTab::afterRender(void)
 {
+	render2D();
 	render3D();
 }
 
 void						CollisionEditorTab::renderNotOnProcess(void)
 {
-	//render2D();
-	//render3D();
 }
 
 // render editor 2d
@@ -533,7 +528,7 @@ void						CollisionEditorTab::render2D(void)
 	memDC = CreateCompatibleDC(NULL);
 
 	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
-
+	
 	// display type: Single
 	const uint32
 		uiImagePaddingRight = 10,
@@ -785,7 +780,7 @@ void						CollisionEditorTab::prepareCamera(COLEntry *pCOLEntry)
 	Vec3f vecCenterPos2 = pCOLEntry->getBoundingObjects().m_vecCenter;
 	m_vecCenterPosition = glm::vec3(vecCenterPos2.x, vecCenterPos2.y, vecCenterPos2.z);
 
-	m_fCameraToCenterRadius = pCOLEntry->getBoundingObjects().m_fRadius * 3.0f;
+	m_fCameraToCenterRadius = pCOLEntry->getBoundingObjects().m_fRadius * 2.0f * 1.5f;
 	if (m_fCameraToCenterRadius < 5.0f) m_fCameraToCenterRadius = 5.0f;
 
 	updateCamera();

@@ -159,7 +159,7 @@ void						TextureEditor::renderBefore(void)
 
 	if (m_pActiveEditorTab)
 	{
-		((TextureEditorTab*)m_pActiveEditorTab)->renderDisplayType_Single();
+		//((TextureEditorTab*)m_pActiveEditorTab)->renderDisplayType_Single();
 	}
 }
 

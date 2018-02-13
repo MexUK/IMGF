@@ -399,7 +399,7 @@ void					MainWindow::setCertainMenuItemsEnabled(bool bEnabled)
 		bIsCollisionEditor = getActiveEditor() == getCollisionEditor();
 
 	// disable certain menu items
-	vector<EInputItem> vecMenuItemIds = {
+	vector<EInputItem> vecMenuItemIds {
 		// second left and top menus
 		SAVE_MENU,
 		SAVE_LOGS_MENU,

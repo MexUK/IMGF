@@ -25,7 +25,7 @@ public:
 	bxgi::COLFormat*			getCOLFile(void) { return m_pCOLFile; }
 
 	void						render(void);
-	void						endRender(void);
+	void						afterRender(void);
 	void						renderNotOnProcess(void);
 
 	void						render2D(void);

@@ -31,7 +31,7 @@ public:
 	void						updateEntryCountText(void);
 
 	void						render(void);
-	void						endRender(void);
+	void						afterRender(void);
 
 	void						render2D(void);
 	void						render3D(void);

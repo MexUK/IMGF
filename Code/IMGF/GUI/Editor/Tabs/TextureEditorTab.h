@@ -20,7 +20,7 @@ public:
 	bool						unserializeFile(void);
 	void						onFileLoaded(void);
 
-	void						render(void);
+	void						renderBefore(void);
 
 	uint32								getTotalEntryCount(void);
 	std::vector<bxcf::FormatEntry*>		getSelectedEntries(void);
