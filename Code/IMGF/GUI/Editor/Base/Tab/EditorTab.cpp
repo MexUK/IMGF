@@ -139,7 +139,7 @@ bool						EditorTab::init(bool bIsNewFile)
 	onFileLoaded();
 
 	// set certain menu items enabled
-	// todo m_pEditor->getMainWindow()->getMainLayer()->setCertainMenuItemsEnabled(true);
+	m_pEditor->getMainWindow()->setCertainMenuItemsEnabled(true);
 
 	// log
 	string strFileName = Path::getFileName(m_pFile->getFilePath());
@@ -235,6 +235,7 @@ void						EditorTab::storeControls(void)
 	m_pLog = (TextBox*)m_pBaseLayer->getItemById(81);
 	m_pText_FilePath = (Text*)m_pBaseLayer->getItemById(91);
 	m_pText_FileEntryCount = (Text*)m_pBaseLayer->getItemById(92);
+	m_pText_FileVersion = (Text*)m_pBaseLayer->getItemById(93);
 	m_pSearchBox = (TextBox*)m_pBaseLayer->getItemById(85);
 }
 

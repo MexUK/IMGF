@@ -66,6 +66,8 @@ public:
 	void						setOpenLastFilename(std::string strFileName);
 	void						clearOpenLastFilename(void);
 
+	void						setCertainMenuItemsEnabled(bool bEnabled);
+	
 private:
 	void						initWindow(void);
 	void						initLayers(void);
@@ -105,6 +107,7 @@ public:
 	bool						m_bDragDropOutIsOccurring;
 
 	bxgx::Menu*					m_pRecentlyOpenMenu;
+	bxgx::Menu*					m_pFileGroupMenu;
 
 private:
 	imgf::mainLayer::mainMenuType::EMainMenuType	m_uiMainMenuType;

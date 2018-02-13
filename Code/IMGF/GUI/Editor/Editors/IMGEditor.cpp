@@ -214,8 +214,8 @@ void						IMGEditor::removeEditorTab(IMGEditorTab *pIMGEditorTab)
 	if (getEditorTabs().getEntryCount() == 0)
 	{
 		// todo getLayer()->setEnabled(true);
-		//getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(true);
-		//m_pMainWindow->getMainLayer()->setCertainMenuItemsEnabled(false);
+		// todo getIMGF()->getWindowManager()->getMainWindow()->getMainLayerNoTabsOpen()->setEnabled(true);
+		m_pMainWindow->setCertainMenuItemsEnabled(false);
 	}
 	else
 	{

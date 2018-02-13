@@ -22,12 +22,18 @@ using namespace imgf;
 // initialization
 void		FileGroupManager::init(void)
 {
-	// todo bindEvent(BXGX_READY, &FileGroupManager::loadFileGroups);
+	bindEvent(BXGX_READY, &FileGroupManager::onToolReady);
 }
 
 void		FileGroupManager::uninit(void)
 {
-	// todo unloadFileGroups(uiEditor);
+	unloadFileGroups(getIMGF()->getWindowManager()->getMainWindow()->getActiveEditor()->getEditorType());
+}
+
+// event callbacks
+void		FileGroupManager::onToolReady(void)
+{
+	loadFileGroups(getIMGF()->getWindowManager()->getMainWindow()->getActiveEditor()->getEditorType());
 }
 
 // load/unload file group
@@ -35,10 +41,9 @@ void		FileGroupManager::loadFileGroups(EEditor uiEditor)
 {
 	removeAllEntries();
 
-	// todo
-	//Menu *pMenu = getIMGF()->getWindowManager()->getMainWindow()->getMainLayer()->m_pFileGroupMenu;
+	Menu *pMenu = getIMGF()->getWindowManager()->getMainWindow()->m_pFileGroupMenu;
 
-	//pMenu->removeAllMenuItems();
+	pMenu->removeAllMenuItems();
 	getIMGF()->getFileGroupManager()->getFileGroupsContainer().clear();
 
 	string strINISectionName = Editor::getEditorName(uiEditor);
@@ -59,7 +64,7 @@ void		FileGroupManager::loadFileGroups(EEditor uiEditor)
 		}
 
 		string strMenuItemText = String::toString((uiSessionCount - i) + 1) + ") " + strSessionName + " (" + String::toString(j2) + " tab" + (j2 == 1 ? "" : "s") + ")";
-		//pMenu->addMenuItem(strMenuItemText, 1900 + i);
+		pMenu->addMenuItem(strMenuItemText, 1900 + i);
 
 		getIMGF()->getFileGroupManager()->getFileGroupsContainer()[1900 + i] = strIMGPaths;
 
@@ -71,7 +76,7 @@ void		FileGroupManager::loadFileGroups(EEditor uiEditor)
 
 	if (uiSessionCount == 0)
 	{
-		//pMenu->addMenuItem("There are currently no file groups.", 1981);
+		pMenu->addMenuItem("There are currently no file groups.", 1981);
 	}
 }
 

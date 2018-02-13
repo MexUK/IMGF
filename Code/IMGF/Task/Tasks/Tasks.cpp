@@ -7088,7 +7088,7 @@ void		Tasks::imgCompression(void)
 	}
 
 	// update IMG version text in main window
-	getIMGTab()->updateIMGText();
+	getIMGTab()->updateIMGVersionAndCompressionText();
 
 	// log
 	getTab()->logf("Updated IMG compression for %u entries.", vecIMGEntries.size());

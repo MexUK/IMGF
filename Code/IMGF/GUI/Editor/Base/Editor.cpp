@@ -159,7 +159,7 @@ void								Editor::removeEditorTab2(EditorTab *pEditorTab)
 	m_vecEditorTabs.removeEntry(pEditorTab, false); // todo - false should be true to delete the pEditorTab
 
 	// update menus
-	// todo getMainWindow()->getMainLayer()->setCertainMenuItemsEnabled(getEditorTabs().getEntryCount() > 0);
+	getMainWindow()->setCertainMenuItemsEnabled(getEditorTabs().getEntryCount() > 0);
 
 	// render window
 	m_pMainWindow->renderNow();

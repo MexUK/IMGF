@@ -483,7 +483,7 @@ void					IMGEditorTab::addEntryAfter(FormatEntry *pEntry)
 
 	checkToApplyCompression(pIMGEntry);
 	addGridEntry(pIMGEntry);
-	updateIMGText();
+	updateIMGVersionAndCompressionText();
 }
 
 // replace entry
@@ -492,7 +492,7 @@ void					IMGEditorTab::replaceEntryViaFile(string strEntryName, string strEntryF
 	IMGEntry *pIMGEntry = getIMGFile()->replaceEntryViaFile(strEntryName, strEntryFilePath, strNewEntryName);
 	checkToApplyCompression(pIMGEntry);
 	updateGridEntry(pIMGEntry);
-	updateIMGText();
+	updateIMGVersionAndCompressionText();
 }
 
 void					IMGEditorTab::replaceEntryViaData(string strEntryName, string& strEntryData, string strNewEntryName)
@@ -500,7 +500,7 @@ void					IMGEditorTab::replaceEntryViaData(string strEntryName, string& strEntry
 	IMGEntry *pIMGEntry = getIMGFile()->replaceEntryViaData(strEntryName, strEntryData, strNewEntryName);
 	checkToApplyCompression(pIMGEntry);
 	updateGridEntry(pIMGEntry);
-	updateIMGText();
+	updateIMGVersionAndCompressionText();
 }
 
 void					IMGEditorTab::addOrReplaceEntryViaFile(string strEntryFilePath, string strEntryName)
@@ -519,7 +519,7 @@ void					IMGEditorTab::addOrReplaceEntryViaFile(string strEntryFilePath, string 
 		addGridEntry(pIMGEntry);
 		updateEntryCountText();
 	}
-	updateIMGText();
+	updateIMGVersionAndCompressionText();
 }
 
 void					IMGEditorTab::addOrReplaceEntryViaData(string strEntryName, string strEntryData)
@@ -538,7 +538,7 @@ void					IMGEditorTab::addOrReplaceEntryViaData(string strEntryName, string strE
 		addGridEntry(pIMGEntry);
 		updateEntryCountText();
 	}
-	updateIMGText();
+	updateIMGVersionAndCompressionText();
 }
 
 void					IMGEditorTab::addOrReplaceEntryViaFileAndSettings(string strEntryFilePath, string strEntryName)
@@ -969,6 +969,7 @@ void					IMGEditorTab::setFileInfoText(void)
 	//m_pText_FileGame->setText(IMGManager::getVersionGames(getIMGFile()->getVersion()));
 
 	updateEntryCountText();
+	updateIMGVersionAndCompressionText();
 }
 
 void					IMGEditorTab::updateEntryCountText(void)
@@ -997,10 +998,8 @@ void					IMGEditorTab::updateTabText(void)
 	m_pTab->setText(strTabText);
 }
 
-void					IMGEditorTab::updateIMGText(void)
+void					IMGEditorTab::updateIMGVersionAndCompressionText(void)
 {
-	/*
-	todo
 	string strPlatformName = PlatformManager::get()->getPlatformName(getIMGFile()->getPlatform());
 
 	if (getIMGFile()->getVersion() == IMG_FASTMAN92)
@@ -1010,23 +1009,22 @@ void					IMGEditorTab::updateIMGText(void)
 		string strVersionSuffix = "";
 		if (uiEntryCount == uiUncompressedEntryCount)
 		{
-			strVersionSuffix = LocalizationManager::get()->getTranslatedText("CompressionValue_Uncompressed");
+			strVersionSuffix = "Uncompressed";
 		}
 		else if (uiUncompressedEntryCount == 0)
 		{
-			strVersionSuffix = LocalizationManager::get()->getTranslatedText("CompressionValue_Compressed");
+			strVersionSuffix = "Compressed";
 		}
 		else
 		{
-			strVersionSuffix = LocalizationManager::get()->getTranslatedText("CompressionValue_PartiallyCompressed");
+			strVersionSuffix = "Partially Compressed";
 		}
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(LocalizationManager::get()->getTranslatedFormattedTextW("IMGVersion", IMGManager::getVersionName(IMG_FASTMAN92, getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), strVersionSuffix.c_str()).c_str());
+		m_pText_FileVersion->setText(IMGManager::getVersionNameWithGames(IMG_FASTMAN92, getIMGFile()->isEncrypted()) + (strVersionSuffix == "" ? "" : " (" + strVersionSuffix + ")"));
 	}
 	else
 	{
-		((CStatic*)getIMGF()->getDialog()->GetDlgItem(19))->SetWindowTextW(LocalizationManager::get()->getTranslatedFormattedTextW("IMGVersion", IMGManager::getVersionName(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()).c_str(), strPlatformName.c_str(), IMGManager::getVersionGames(getIMGFile()->getVersion()).c_str()).c_str());
+		m_pText_FileVersion->setText(IMGManager::getVersionNameWithGames(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
 	}
-	*/
 }
 
 // entry fetching

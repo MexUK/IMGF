@@ -57,7 +57,8 @@ MainWindow::MainWindow(void) :
 
 	m_bDragDropOutIsOccurring(false),
 
-	m_pRecentlyOpenMenu(nullptr)
+	m_pRecentlyOpenMenu(nullptr),
+	m_pFileGroupMenu(nullptr)
 {
 }
 
@@ -130,9 +131,6 @@ void					MainWindow::initLayers(void)
 	initMenuRelatedItems();
 
 	setActiveEditor(m_vecEditors.getFirstEntry());
-
-	//EEditor uiActiveEditorType = getActiveEditor()->getEditorType();
-	//setOpenLastFilename(getIMGF()->getRecentlyOpenManager()->getLastOpenEntry(uiActiveEditorType));
 
 	Button *pButton = (Button*)getItemById(1004);
 	pButton->setActiveItem();
@@ -218,8 +216,11 @@ void					MainWindow::initSettingsMenuLayer(void)
 
 void					MainWindow::initMenuRelatedItems(void)
 {
-	MenuItem *pMenuItem = (MenuItem*)getItemById(4700);
-	m_pRecentlyOpenMenu = pMenuItem->addMenu(VERTICAL, 1);
+	MenuItem *pMenuItem1 = (MenuItem*)getItemById(4700);
+	m_pRecentlyOpenMenu = pMenuItem1->addMenu(VERTICAL, 1);
+
+	MenuItem *pMenuItem2 = (MenuItem*)getItemById(1059);
+	m_pFileGroupMenu = pMenuItem2->addMenu(VERTICAL, 1);
 }
 
 void					MainWindow::addEditor(Editor *pEditor)
@@ -271,23 +272,19 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 	// todo
 	//m_pMainLayer->removeMenus();
 	//m_pMainLayer->addMenus();
-	//m_pMainLayer->setCertainMenuItemsEnabled(pActiveEditor && (pActiveEditor->getEditorTabs().getEntryCount() > 0));
+	setCertainMenuItemsEnabled(pActiveEditor && (pActiveEditor->getEditorTabs().getEntryCount() > 0));
 
 	if (m_pActiveEditor)
 	{
 		getIMGF()->getRecentlyOpenManager()->unloadRecentlyOpenEntries(m_pActiveEditor->getEditorType());
-
-		// todo
-		//getIMGF()->getFileGroupManager()->unloadFileGroups(m_pActiveEditor->getEditorType());
+		getIMGF()->getFileGroupManager()->unloadFileGroups(m_pActiveEditor->getEditorType());
 	}
 
 	if (pActiveEditor)
 	{
 		getIMGF()->getRecentlyOpenManager()->loadRecentlyOpenEntries(pActiveEditor->getEditorType());
 		setOpenLastFilename(getIMGF()->getRecentlyOpenManager()->getLastOpenEntry(pActiveEditor->getEditorType()));
-
-		// todo
-		//getIMGF()->getFileGroupManager()->loadFileGroups(pActiveEditor->getEditorType());
+		getIMGF()->getFileGroupManager()->loadFileGroups(pActiveEditor->getEditorType());
 	}
 
 	uint32 uiEditorIndex = m_vecEditors.getIndexByEntry(pActiveEditor);
@@ -379,4 +376,249 @@ void					MainWindow::clearOpenLastFilename(void)
 	string strMenuItemText = "Open Last Closed File";
 	MenuItem *pMenuItem = (MenuItem*)getItemById(1056);
 	pMenuItem->setText(strMenuItemText);
+}
+
+// menu items enabled/disabled
+void					MainWindow::setCertainMenuItemsEnabled(bool bEnabled)
+{
+	bool
+		bIsIMGEditor = getActiveEditor() == getIMGEditor(),
+		bIsModelEditor = getActiveEditor() == getModelEditor(),
+		bIsTextureEditor = getActiveEditor() == getTextureEditor(),
+		// todo bIsTextEditor = getActiveEditor() == getTextEditor(),
+		bIsCollisionEditor = getActiveEditor() == getCollisionEditor();
+
+	// disable certain menu items
+	vector<EInputItem> vecMenuItemIds = {
+		// second left and top menus
+		SAVE_MENU,
+		SAVE_LOGS_MENU,
+		IMPORT_MENU,
+		IMPORT_BY_FOLDERS_MENU,
+		EXPORT_MENU,
+		EXPORT_BY_COLUMN_MENU,
+		EXPORT_ALL_ENTRIES_INTO_MENU,
+		EXPORT_ALL_TABS_MENU,
+		REPLACE_MENU,
+		REPLACE_BY_FOLDER_MENU,
+		REMOVE_MENU,
+		REMOVE_BY_COLUMN_MENU,
+		SPLIT_MENU,
+		CONVERT_MENU,
+		CONVERT_IMG_MENU,
+		CONVERT_COL_MENU,
+		CONVERT_DFF_MENU,
+		CONVERT_TXD_MENU,
+		CONVERT_WTD_MENU,
+		SELECT_MENU,
+		SELECT_BY_COLUMN_MENU,
+		UNSELECT_BY_COLUMN_MENU,
+		SORT_MENU,
+		SORT_BY_INDEX_MENU,
+		SORT_BY_NAME_MENU,
+		SORT_BY_OFFSET_MENU,
+		SORT_BY_SIZE_MENU,
+		SORT_BY_TYPE_MENU,
+		SORT_BY_VERSION_MENU,
+		ENTRY_MENU,
+		ENTRY_NAME_CASE_MENU,
+		ENTRY_COPY_DATA_MENU,
+		ENTRY_SHIFT_MENU,
+		ORPHAN_ENTRIES_MENU,
+
+		// top menu items
+		REOPEN_FILE,
+		OPEN_FILE_FOLDER_IN_EXPLORER,
+
+		SAVE_FILE,
+		SAVE_FILE_AS,
+		SAVE_ALL_FILES,
+		CLONE_FILE,
+		SAVE_FILE_GROUP,
+		SAVE_LOGS,
+		SAVE_LOGS_ALL_TABS,
+		CLEAR_LOGS,
+		CLEAR_LOGS_ALL_TABS,
+
+		CLOSE_FILE,
+		CLOSE_ALL_FILES,
+
+		// second left menu items
+		IMPORT_BY_FILES,
+		IMPORT_BY_SINGLE_FOLDER,
+		IMPORT_BY_FOLDER_RECURSIVELY,
+		IMPORT_BY_ENTRY_NAMES,
+
+		EXPORT_SELECTED,
+		EXPORT_ALL,
+		EXPORT_BY_INDEX,
+		EXPORT_BY_NAME,
+		EXPORT_BY_OFFSET,
+		EXPORT_BY_SIZE,
+		EXPORT_BY_TYPE,
+		EXPORT_BY_VERSION,
+		EXPORT_ALL_INTO_GROUPED_FOLDERS_BY_TYPE,
+		EXPORT_ALL_FROM_ALL_TABS,
+		EXPORT_ALL_FROM_ALL_TABS_INTO_GROUPED_FOLDERS_BY_TYPE,
+		EXPORT_SELECTION_FROM_ALL_TABS,
+		EXPORT_BY_ENTRY_NAMES,
+		EXPORT_BY_ENTRY_NAMES_FROM_ALL_TABS,
+
+		QUICK_EXPORT,
+
+		RENAME,
+
+		REPLACE_BY_FILES,
+		REPLACE_BY_SINGLE_FOLDER,
+		REPLACE_BY_FOLDER_RECURSIVELY,
+
+		REMOVE_SELECTED,
+		REMOVE_ALL,
+		REMOVE_BY_INDEX,
+		REMOVE_BY_NAME,
+		REMOVE_BY_OFFSET,
+		REMOVE_BY_SIZE,
+		REMOVE_BY_TYPE,
+		REMOVE_BY_VERSION,
+		REMOVE_BY_ENTRY_NAMES,
+
+		MERGE,
+
+		SPLIT_SELECTED,
+		SPLIT_BY_ENTRY_NAMES,
+
+		SELECT_ALL,
+		UNSELECT_ALL,
+		SELECT_INVERSE,
+		SELECT_BY_INDEX,
+		SELECT_BY_NAME,
+		SELECT_BY_OFFSET,
+		SELECT_BY_SIZE,
+		SELECT_BY_TYPE,
+		SELECT_BY_VERSION,
+		UNSELECT_BY_INDEX,
+		UNSELECT_BY_NAME,
+		UNSELECT_BY_OFFSET,
+		UNSELECT_BY_SIZE,
+		UNSELECT_BY_TYPE,
+		UNSELECT_BY_VERSION,
+
+		SORT_BY_INDEX_REVERSE,
+		SORT_BY_NAME_ASCENDING_09AZ,
+		SORT_BY_NAME_ASCENDING_AZ09,
+		SORT_BY_NAME_DESCENDING_ZA90,
+		SORT_BY_NAME_DESCENDING_90ZA,
+		SORT_BY_OFFSET_LOW_HIGH,
+		SORT_BY_OFFSET_HIGH_LOW,
+		SORT_BY_SIZE_SMALL_BIG,
+		SORT_BY_SIZE_BIG_SMALL,
+		SORT_BY_TYPE_AZ,
+		SORT_BY_TYPE_ZA,
+		SORT_BY_VERSION_OLD_NEW,
+		SORT_BY_VERSION_NEW_OLD,
+
+		NAME_CASE_LOWER,
+		NAME_CASE_UPPER,
+		NAME_CASE_TITLE,
+
+		COPY_ENTRY_INDEX,
+		COPY_ENTRY_TYPE,
+		COPY_ENTRY_NAME,
+		COPY_ENTRY_OFFSET,
+		COPY_ENTRY_SIZE,
+		COPY_ENTRY_VERSION,
+		COPY_ENTRY_ROW_DATA,
+
+		SHIFT_ENTRY_UP_1_ROW,
+		SHIFT_ENTRY_UP_5_ROWS,
+		SHIFT_ENTRY_UP_10_ROWS,
+		SHIFT_ENTRY_UP_100_ROWS,
+		SHIFT_ENTRY_UP_1000_ROWS,
+		SHIFT_ENTRY_DOWN_1_ROW,
+		SHIFT_ENTRY_DOWN_5_ROWS,
+		SHIFT_ENTRY_DOWN_10_ROWS,
+		SHIFT_ENTRY_DOWN_100_ROWS,
+		SHIFT_ENTRY_DOWN_1000_ROWS
+	};
+	if (bIsIMGEditor)
+	{
+		StdVector::addToVector(vecMenuItemIds, vector<EInputItem>({
+			IMPORT_BY_IDE,
+//			IMPORT_BY_IPL,
+			EXPORT_BY_IDE,
+			EXPORT_BY_IDE_FROM_ALL_TABS,
+			EXPORT_BY_IPL,
+			EXPORT_BY_DAT,
+			EXPORT_TEXTURE_NAME_LIST,
+			REPLACE_BY_IDE,
+			REMOVE_BY_IDE,
+			SPLIT_BY_IDE,
+			SELECT_BY_IDE,
+			UNSELECT_BY_IDE,
+			SORT_BY_IDE,
+			SORT_BY_COL,
+
+			REMOVE_ORPHAN_TEXTURES_FROM_DFF_ENTRIES,
+			FIND_ORPHAN_IMG_ENTRIES_NOT_IN_IDE,
+			FIND_ORPHAN_IDE_ENTRIES_NOT_IN_IMG,
+			FIND_ORPHAN_TXD_TEXTURES_FOR_DFFS_IN_IMG_BY_IDE,
+
+			TEXTURE_LIST,
+			STATS,
+			FIND_DUPLICATE_ENTRIES_IN_SELECTION,
+			FIND_DUPLICATE_ENTRIES_IN_TAB,
+			FIND_DUPLICATE_ENTRIES_IN_ALL_TABS,
+			COMPARE_IMGS,
+			SAVE_IMG_SIGNATURE,
+			VERIFY_IMG_SIGNATURE,
+			VALIDATE_DFF_IN_TAB,
+			VALIDATE_TXD_IN_TAB,
+			CENTER_COL_MESHES_IN_SELECTION,
+			IMG_COMPRESSION,
+
+			CONVERT_IMG_VERSION
+		}));
+		if (bIsIMGEditor || bIsCollisionEditor)
+		{
+			StdVector::addToVector(vecMenuItemIds, vector<EInputItem>({
+				CONVERT_SELECTED_COL_VERSION
+			}));
+		}
+		if (bIsIMGEditor || bIsModelEditor)
+		{
+			StdVector::addToVector(vecMenuItemIds, vector<EInputItem>({
+				CONVERT_SELECTED_DFF_RW_VERSION,
+				CONVERT_SELECTED_DFF_TO_WDR
+			}));
+		}
+		if (bIsIMGEditor || bIsTextureEditor)
+		{
+			StdVector::addToVector(vecMenuItemIds, vector<EInputItem>({
+				CONVERT_SELECTED_TXD_RW_VERSION,
+				CONVERT_SELECTED_TXD_TO_GAME,
+				CONVERT_SELECTED_TXD_TO_TEXTURE_FORMAT,
+				CONVERT_SELECTED_WTD_TO_TXD
+			}));
+		}
+	}
+
+	for (EInputItem uiMenuItemId : vecMenuItemIds)
+	{
+		MenuItem *pMenuItem = (MenuItem*) getItemById(uiMenuItemId);
+		if (pMenuItem)
+		{
+			pMenuItem->setEnabled(bEnabled);
+		}
+	}
+
+	Menu *pMenu;
+
+	pMenu = (Menu*)getItemById(4800);
+	pMenu->render();
+
+	pMenu = (Menu*)getItemById(4801);
+	pMenu->render();
+
+	pMenu = (Menu*)getItemById(4802);
+	pMenu->render();
 }

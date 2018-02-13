@@ -16,6 +16,8 @@ public:
 	void			init(void);
 	void			uninit(void);
 	
+	void			onToolReady(void);
+
 	void			loadFileGroups(EEditor uiEditor);
 	void			unloadFileGroups(EEditor uiEditor);
 

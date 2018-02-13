@@ -131,7 +131,7 @@ public:
 
 	void						updateEntryCountText(void);
 	void						updateTabText(void);
-	void						updateIMGText(void);
+	void						updateIMGVersionAndCompressionText(void);
 
 	bool						doesTabEntryMatchFilter(bxgi::IMGEntry *pTabEntry);
 
