@@ -769,7 +769,8 @@ void						CollisionEditorTab::prepareCollisionEntry(void)
 	prepareBoundingSphere(m_pActiveEntry);
 	prepareBoundingCuboid(m_pActiveEntry);
 
-	prepareLinesOrCones(m_pActiveEntry);
+	prepareLines(m_pActiveEntry);
+	prepareCones(m_pActiveEntry);
 	prepareSpheres(m_pActiveEntry);
 	prepareCuboids(m_pActiveEntry);
 	prepareMeshes(m_pActiveEntry);
@@ -803,28 +804,36 @@ void						CollisionEditorTab::prepareBoundingCuboid(COLEntry *pCOLEntry)
 	GLMesh *pCuboid = m_pGLEntity->addBoundingCuboid(glm::vec3(min.x, min.z, min.y), glm::vec3(max.x, max.z, max.y), vecColour);
 }
 
-void						CollisionEditorTab::prepareLinesOrCones(COLEntry *pCOLEntry)
+void						CollisionEditorTab::prepareLines(COLEntry *pCOLEntry)
 {
-	/*
-	todo
-	if (true) // todo
+	if (!pCOLEntry->areLinesSupported())
 	{
-		for (TLine& line : pCOLEntry->getCollisionLines())
-		{
-			glm::vec3 pos = line.m_vecPosition;
-			pos = glm::vec3(pos.x, pos.z, pos.y);
-			GLMesh *pMesh = m_pGLEntity->addMesh(pos, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
-		}
+		return;
 	}
-	else
+
+	for (TLine& line : pCOLEntry->getCollisionLines())
 	{
-		for (TCone& cone : pCOLEntry->getCollisionCones())
-		{
-			vector<glm::vec3> vecVertices = Math::getConeVertices(sphere.m_vecCenter, sphere.m_fRadius, 100);
-			GLMesh *pMesh = m_pGLEntity->addMesh(m_gl.swapVec3YZ(vecVertices), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
-		}
+		vector<glm::vec3> vecLineVertices = {
+			glm::vec3(line.m_vecPosition1.x, line.m_vecPosition1.z, line.m_vecPosition1.y),
+			glm::vec3(line.m_vecPosition2.x, line.m_vecPosition2.z, line.m_vecPosition2.y),
+		};
+		GLMesh *pMesh = m_pGLEntity->addMesh(m_gl.swapVec3YZ(vecLineVertices), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
 	}
-	*/
+}
+
+void						CollisionEditorTab::prepareCones(COLEntry *pCOLEntry)
+{
+	if (!pCOLEntry->areConesSupported())
+	{
+		return;
+	}
+
+	for (TCone& cone : pCOLEntry->getCollisionCones())
+	{
+		// todo
+		//vector<glm::vec3> vecConeVertices = Math::getConeVertices(sphere.m_vecCenter, sphere.m_fRadius, 100);
+		//GLMesh *pMesh = m_pGLEntity->addMesh(m_gl.swapVec3YZ(vecConeVertices), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_TRIANGLES);
+	}
 }
 
 void						CollisionEditorTab::prepareSpheres(COLEntry *pCOLEntry)
@@ -855,7 +864,20 @@ void						CollisionEditorTab::prepareCuboids(COLEntry *pCOLEntry)
 void						CollisionEditorTab::prepareMeshes(COLEntry *pCOLEntry)
 {
 	vector<glm::vec3> vecVertices = *(std::vector<glm::vec3>*)&pCOLEntry->getCollisionMeshVertices();
-	GLMesh *pMesh = m_pGLEntity->addMesh(m_gl.swapVec3YZ(vecVertices), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_TRIANGLES);
+	GLMesh *pMesh = m_pGLEntity->addMesh(m_gl.swapVec3YZ(vecVertices), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), pCOLEntry->doesUseFaceGroups() ? 0 : GL_TRIANGLE_STRIP);
+
+	if (pCOLEntry->doesUseFaceGroups())
+	{
+		for (TFaceGroup& faceGroup : pCOLEntry->getCollisionMeshFaceGroups())
+		{
+			vector<uint16> vecIndices;
+			for (uint32 i = faceGroup.m_startFace, j = faceGroup.m_endFace; i <= j; i++)
+			{
+				vecIndices.push_back(i);
+			}
+			pMesh->addFaceGroup(GL_TRIANGLE_STRIP, vecIndices, nullptr);
+		}
+	}
 }
 
 void						CollisionEditorTab::recreateEntryList(void)

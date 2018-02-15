@@ -67,7 +67,8 @@ private:
 	void						prepareBoundingSphere(bxgi::COLEntry *pCOLEntry);
 	void						prepareBoundingCuboid(bxgi::COLEntry *pCOLEntry);
 
-	void						prepareLinesOrCones(bxgi::COLEntry *pCOLEntry);
+	void						prepareLines(bxgi::COLEntry *pCOLEntry);
+	void						prepareCones(bxgi::COLEntry *pCOLEntry);
 	void						prepareSpheres(bxgi::COLEntry *pCOLEntry);
 	void						prepareCuboids(bxgi::COLEntry *pCOLEntry);
 	void						prepareMeshes(bxgi::COLEntry *pCOLEntry);

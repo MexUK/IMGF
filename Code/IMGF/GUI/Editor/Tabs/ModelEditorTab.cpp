@@ -38,6 +38,7 @@ std::stack<glm::mat4> g_stkModels; // todo
 
 ModelEditorTab::ModelEditorTab(void) :
 	m_pDFFFile(nullptr),
+	m_pTXDFile(nullptr),
 	m_pGLEntity(nullptr),
 	m_bInitialized(false),
 	m_bInitializing(false)
@@ -208,12 +209,7 @@ void						ModelEditorTab::render3D(void)
 {
 	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
 
-	if (!m_pDFFFile)
-	{
-		return;
-	}
-
-	if (!m_pTXDFile)
+	if (!m_bPart1Initialized)
 	{
 		return;
 	}
@@ -323,6 +319,11 @@ void						ModelEditorTab::prepareCamera(void)
 
 void						ModelEditorTab::prepareTextures(void)
 {
+	if (!m_pTXDFile)
+	{
+		return;
+	}
+
 	vector<RWSection*> vecTextures = m_pTXDFile->getSectionsByType(RW_SECTION_TEXTURE_NATIVE);
 	uint32 uiTextureCount = vecTextures.size();
 

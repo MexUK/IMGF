@@ -50,7 +50,9 @@ EditorTab::EditorTab(void) :
 	m_pSearchBox(nullptr),
 	m_pProgressBar(nullptr),
 
-	m_pLayer(nullptr)
+	m_pLayer(nullptr),
+
+	m_bPart1Initialized(false)
 {
 }
 
@@ -151,6 +153,9 @@ bool						EditorTab::init(bool bIsNewFile)
 	string strFileName = Path::getFileName(m_pFile->getFilePath());
 	logf("Opened %s", strFileName.c_str());
 
+	// mark part 1 as initialized
+	m_bPart1Initialized = true;
+
 	// render
 	getLayer()->getWindow()->render();
 
@@ -220,15 +225,6 @@ uint32						EditorTab::getTabIndex(void)
 	return m_pTab->getIndex();
 }
 
-// events
-void						EditorTab::onChangeTextBox(TextBox *pTextBox)
-{
-	if (pTextBox == m_pSearchBox)
-	{
-		recreateEntryList();
-	}
-}
-
 // controls
 void						EditorTab::storeControls(void)
 {
@@ -245,6 +241,14 @@ void						EditorTab::storeControls(void)
 void						EditorTab::onTaskProgress(void)
 {
 	getIMGF()->getTaskManager()->onTaskProgressTick();
+}
+
+void						EditorTab::onChangeTextBox(TextBox *pTextBox)
+{
+	if (pTextBox == m_pSearchBox)
+	{
+		recreateEntryList();
+	}
 }
 
 void						EditorTab::onChangeTab(TabBar *pTabBar)

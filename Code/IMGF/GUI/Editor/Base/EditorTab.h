@@ -157,6 +157,8 @@ protected:
 	bxgx::Tab*							m_pTab;
 	bxgx::TextBox*						m_pLog;
 
+	bool								m_bPart1Initialized;
+
 private:
 	std::thread							m_thread;
 	bool								m_bMarkedToClose;
