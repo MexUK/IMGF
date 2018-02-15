@@ -419,13 +419,13 @@ void						CollisionEditorTab::setFileInfoText(void)
 	m_pText_FilePath->setText(Path::getDisplayableFilePath(getFile()->getFilePath()));
 	if (getCOLFile()->getEntryCount() > 0)
 	{
-		//m_pText_FileVersion->setText(COLManager::get()->getVersionManager()->getVersionText(getCOLFile()->getFirstEntry()->getCOLVersion()), false);
-		//m_pText_FileGame->setText(COLManager::get()->getVersionManager()->getGamesAsString(getCOLFile()->getFirstEntry()->getCOLVersion()));
+		m_pText_FileVersion->setText(COLManager::get()->getVersionManager()->getVersionText(getCOLFile()->getFirstEntry()->getCOLVersion()), false);
+		m_pText_FileGame->setText(COLManager::get()->getVersionManager()->getGamesAsString(getCOLFile()->getFirstEntry()->getCOLVersion()));
 	}
 	else
 	{
-		//m_pText_FileVersion->setText(string("COL 1"), false);
-		//m_pText_FileGame->setText(string("GTA III"));
+		m_pText_FileVersion->setText(string("COL 1"), false);
+		m_pText_FileGame->setText(string("GTA III"));
 	}
 	updateEntryCountText();
 }

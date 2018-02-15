@@ -79,8 +79,8 @@ void						DATEditorTab::onFileLoaded(void)
 void						DATEditorTab::setFileInfoText(void)
 {
 	m_pText_FilePath->setText(Path::getDisplayableFilePath(getDATFile()->getFilePath()));
-	//m_pText_FileGame->setText(GameManager::get()->getGameName(getDATFile()->getGame()));
-	//m_pText_FileVersion->setText(getDATFile()->getVersion() == -1 ? "Unknown Version" : String::toString(getDATFile()->getVersion()));
+	m_pText_FileGame->setText(GameManager::get()->getGameName(getDATFile()->getGame()));
+	m_pText_FileVersion->setText(getDATFile()->getVersion() == -1 ? "Unknown Version" : String::toString(getDATFile()->getVersion()));
 
 	updateEntryCountText();
 }

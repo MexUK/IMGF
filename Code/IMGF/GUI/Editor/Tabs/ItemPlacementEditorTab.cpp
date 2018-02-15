@@ -83,15 +83,15 @@ void						ItemPlacementEditorTab::setFileInfoText(void)
 
 	if (getIPLFile()->getEntriesBySection<IPLEntry_INST>(IPL_SECTION_INST).size() == 0)
 	{
-		//m_pText_FileGame->setText(string("Unknown"));
-		//m_pText_FileVersion->setText(string("Unknown"));
+		m_pText_FileGame->setText(string("Unknown"));
+		m_pText_FileVersion->setText(string("Unknown"));
 	}
 	else
 	{
 		uint32 uiIPLGames = ((IPLEntry_INST*)(getIPLFile()->getEntriesBySection<IPLEntry_INST>(IPL_SECTION_INST)[0]))->getFormatGames();
 
-		//m_pText_FileGame->setText(IDEManager::getFormatGamesAsString(uiIPLGames));
-		//m_pText_FileVersion->setText(IDEManager::getVersionText(uiIPLGames));
+		m_pText_FileGame->setText(IDEManager::getFormatGamesAsString(uiIPLGames));
+		m_pText_FileVersion->setText(IDEManager::getVersionText(uiIPLGames));
 	}
 
 	updateEntryCountText();

@@ -17,6 +17,7 @@ public:
 
 protected:
 	void					updateCamera(void);
+	void					resetCamera(void);
 
 private:
 	void					onKeyDown(uint16 uiKey);
@@ -29,8 +30,9 @@ private:
 
 protected:
 	bxcf::OpenGL			m_gl;
-	bool					m_bCameraOrbittingItem;
+	bool					m_bCameraRotationDragActive;
 	glm::vec3				m_vecCenterPosition;
 	float32					m_fCameraOrbitZRot;
 	float32					m_fCameraToCenterRadius;
+	float32					m_fMoveAcceleration;
 };

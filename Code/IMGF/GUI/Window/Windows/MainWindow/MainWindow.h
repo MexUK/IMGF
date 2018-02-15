@@ -31,6 +31,9 @@ public:
 
 	void						init(void);
 
+	void						bindEvents(void);
+	void						unbindEvents(void);
+
 	void						setMainMenuType(imgf::mainLayer::mainMenuType::EMainMenuType uiMainMenuType);
 
 	MainLayer*					getMainLayer(void) { return m_pMainLayer; }

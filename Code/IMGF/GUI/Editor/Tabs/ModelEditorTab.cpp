@@ -156,8 +156,8 @@ void						ModelEditorTab::onFileLoaded(void)
 void						ModelEditorTab::setFileInfoText(void)
 {
 	m_pText_FilePath->setText(Path::getDisplayableFilePath(getFile()->getFilePath()));
-	//m_pText_FileVersion->setText(getDFFFile()->getRWVersion()->getVersionText(), false);
-	//m_pText_FileGame->setText(getDFFFile()->getRWVersion()->getGamesAsString());
+	m_pText_FileVersion->setText(getDFFFile()->getRWVersion()->getVersionText(), false);
+	m_pText_FileGame->setText(getDFFFile()->getRWVersion()->getGamesAsString());
 
 	updateEntryCountText();
 }

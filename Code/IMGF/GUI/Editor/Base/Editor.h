@@ -113,16 +113,15 @@ EditorTabType*							imgf::Editor::_addEditorTab(std::string& strFilePath, bool 
 		return nullptr;
 	}
 
+	/*
+	todo
 	// disable other layers
 	if (m_pActiveEditorTab)
 	{
 		m_pActiveEditorTab->getBaseLayer()->setEnabled(false);
 		m_pActiveEditorTab->getLayer()->setEnabled(false);
 	}
-	else
-	{
-		//getIMGF()->getWindowManager()->getMainWindow()->getBlankLayer()->setEnabled(false);
-	}
+	*/
 
 	// add editor tab
 	//EditorTabType *pEditorTab = m_pMainWindow->addLayer<EditorTabType>(-1, true, -50);

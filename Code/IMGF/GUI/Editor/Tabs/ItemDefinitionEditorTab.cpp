@@ -84,13 +84,13 @@ void						ItemDefinitionEditorTab::setFileInfoText(void)
 	uint32 uiIDEGames = getIDEFile()->getFormatGames();
 	if (uiIDEGames == 0)
 	{
-		//m_pText_FileGame->setText(string("Unknown"));
-		//_pText_FileVersion->setText(string("Unknown"));
+		m_pText_FileGame->setText(string("Unknown"));
+		m_pText_FileVersion->setText(string("Unknown"));
 	}
 	else
 	{
-		//m_pText_FileGame->setText(IDEManager::getFormatGamesAsString(uiIDEGames));
-		//m_pText_FileVersion->setText(IDEManager::getVersionText(uiIDEGames));
+		m_pText_FileGame->setText(IDEManager::getFormatGamesAsString(uiIDEGames));
+		m_pText_FileVersion->setText(IDEManager::getVersionText(uiIDEGames));
 	}
 
 	updateEntryCountText();

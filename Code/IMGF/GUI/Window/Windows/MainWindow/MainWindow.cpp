@@ -90,6 +90,23 @@ ProgressBar*			MainWindow::getProgressBar(void)
 	return nullptr; // todo
 }
 
+// event binding
+void					MainWindow::bindEvents(void)
+{
+	bindEventRef(RESIZE_WINDOW, &MainWindow::onResizeWindow);
+	onResizeWindow(Vec2i(0, 0));
+
+	bindEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
+	bindEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
+}
+
+void					MainWindow::unbindEvents(void)
+{
+	unbindEvent(RESIZE_WINDOW, &MainWindow::onResizeWindow);
+	unbindEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
+	unbindEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
+}
+
 // window initialization
 void					MainWindow::initWindow(void)
 {
@@ -98,12 +115,7 @@ void					MainWindow::initWindow(void)
 
 void					MainWindow::initLayers(void)
 {
-	bindEventRef(RESIZE_WINDOW, &MainWindow::onResizeWindow);
-	onResizeWindow(Vec2i(0, 0));
-
-	bindEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
-
-	bindEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
+	bindEvents();
 
 	for (string& strLayerFilePath : File::getFilePaths(DataPath::getDataPath() + "Layers/"))
 	{
@@ -111,9 +123,7 @@ void					MainWindow::initLayers(void)
 	}
 
 	initEditors();
-
 	initSettingsMenuLayer();
-
 	initMenuRelatedItems();
 
 	int32 iLastEditorUsedIndex = String::toUint32(getIMGF()->getSettingsManager()->getSetting("LastEditorUsedIndex"));
@@ -132,14 +142,21 @@ void					MainWindow::initLayers(void)
 
 void					MainWindow::reloadLayers(void)
 {
+	setActiveEditor(nullptr);
+
 	Layer *pLayer;
 	while(pLayer = getEntryByIndex(0))
 		removeLayer(pLayer);
 
-	for (string& strLayerFilePath : File::getFilePaths(DataPath::getDataPath() + "Layers/"))
+	for (Editor *pEditor : m_vecEditors.getEntries())
 	{
-		loadLayerFile(strLayerFilePath);
+		delete pEditor;
 	}
+	m_vecEditors.getEntries().clear();
+
+	unbindEvents();
+
+	initLayers();
 }
 
 void					MainWindow::onDropEntries(void *m_pEditorTab, vector<string> vecFileNames, vector<string> vecFileDatas)

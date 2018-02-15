@@ -58,13 +58,15 @@ EditorTab::~EditorTab(void)
 {
 	//EditorTab::unbindEvents();
 
+	/*
+	todo
 	unbindEvent(CHANGE_TAB, &EditorTab::onChangeTab);
 	unbindEvent(REMOVE_TAB, &EditorTab::onRemoveTab);
 	unbindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
 	unbindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
 	unbindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
-
-	m_pLayer->getWindow()->removeLayer(m_pLayer);
+	*/
+	//m_pLayer->getWindow()->removeLayer(m_pLayer);
 }
 
 // events
@@ -187,18 +189,13 @@ void						EditorTab::processThreadOnce(void)
 	}
 
 	Editor *pActiveEditor = getIMGF()->getWindowManager()->getMainWindow()->getActiveEditor();
-	EEditor uiActiveEditor = pActiveEditor->getEditorType();
-	if (vecButtonsPressed.size() > 0 || vecMenuItemsPressed.size() > 0)
+	if (pActiveEditor)
 	{
-		// check to render each window or window items
-		BXGX::get()->render();
-	}
-	
-	if (this == pActiveEditor->getActiveEditorTab())
-	{
-		if (uiActiveEditor == MODEL_EDITOR || uiActiveEditor == COLLISION_EDITOR || uiActiveEditor == ANIMATION_EDITOR || uiActiveEditor == MAP_EDITOR)
+		EEditor uiActiveEditor = pActiveEditor->getEditorType();
+		if (vecButtonsPressed.size() > 0 || vecMenuItemsPressed.size() > 0)
 		{
-			//render();
+			// check to render each window or window items
+			BXGX::get()->render();
 		}
 	}
 }
@@ -240,6 +237,7 @@ void						EditorTab::storeControls(void)
 	m_pText_FilePath = (Text*)m_pBaseLayer->getItemById(91);
 	m_pText_FileEntryCount = (Text*)m_pBaseLayer->getItemById(92);
 	m_pText_FileVersion = (Text*)m_pBaseLayer->getItemById(93);
+	m_pText_FileGame = (Text*)m_pBaseLayer->getItemById(79);
 	m_pSearchBox = (TextBox*)m_pBaseLayer->getItemById(85);
 }
 

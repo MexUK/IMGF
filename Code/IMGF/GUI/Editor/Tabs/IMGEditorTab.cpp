@@ -958,8 +958,8 @@ uint32			IMGEditorTab::getMainListViewItemIndexByItemData(IMGEntry *pIMGEntry)
 void					IMGEditorTab::setFileInfoText(void)
 {
 	m_pText_FilePath->setText(Path::getDisplayableFilePath(getIMGFile()->getIMGFilePath()));
-	//m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
-	//m_pText_FileGame->setText(IMGManager::getVersionGames(getIMGFile()->getVersion()));
+	m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
+	m_pText_FileGame->setText(IMGManager::getVersionGames(getIMGFile()->getVersion()));
 
 	updateEntryCountText();
 	updateIMGVersionAndCompressionText();

@@ -10,7 +10,8 @@ using namespace imgf;
 
 _3DEditorTab::_3DEditorTab(void) :
 	m_fCameraOrbitZRot(-135.0f),
-	m_bCameraOrbittingItem(false)
+	m_bCameraRotationDragActive(false),
+	m_fMoveAcceleration(0.1f)
 {
 }
 
@@ -47,11 +48,11 @@ void					_3DEditorTab::onKeyDown(uint16 uiKey)
 	float32 fMoveRadius;
 	if (bShiftKey)
 	{
-		fMoveRadius = 1.0f;
+		fMoveRadius = m_fMoveAcceleration;
 	}
 	else
 	{
-		fMoveRadius = 0.1f;
+		fMoveRadius = m_fMoveAcceleration;
 	}
 
 	switch (uiKey)
@@ -86,6 +87,9 @@ void					_3DEditorTab::onKeyDown(uint16 uiKey)
 	case 'D':
 		m_gl.moveCameraXY(-90.0f, fMoveRadius);
 		break;
+	case VK_SPACE:
+		resetCamera();
+		break;
 	}
 
 	getLayer()->getWindow()->render();
@@ -98,30 +102,31 @@ void					_3DEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 		return;
 	}
 
-	m_bCameraOrbittingItem = true;
+	m_bCameraRotationDragActive = true;
 }
 
 void					_3DEditorTab::onLeftMouseUp(Vec2i vecCursorPosition)
 {
-	if (!m_bCameraOrbittingItem)
+	if (!m_bCameraRotationDragActive)
 	{
 		return;
 	}
 	
-	m_bCameraOrbittingItem = false;
+	m_bCameraRotationDragActive = false;
 }
 
 void					_3DEditorTab::onMouseMove(Vec2i vecCursorPosition)
 {
-	if (!m_bCameraOrbittingItem)
+	if (!m_bCameraRotationDragActive)
 	{
 		return;
 	}
 
 	Vec2i& vecCursorDiff = BXGX::get()->getCursorMoveDifference();
-	m_fCameraOrbitZRot = Math::limitAngle(m_fCameraOrbitZRot + (float32)vecCursorDiff.x);
-
-	updateCamera();
+	m_gl.getCameraRotation().z += (float32)vecCursorDiff.x;
+	m_gl.updateCameraMatrix();
+	//m_fCameraOrbitZRot = Math::limitAngle(m_fCameraOrbitZRot + (float32)vecCursorDiff.x);
+	//updateCamera();
 
 	Events::setEventCancelled();
 
@@ -135,9 +140,12 @@ void					_3DEditorTab::onMoveMouseWheel(int16 iRotationDistance)
 		return;
 	}
 
-	float32 fMouseWheelScrollMultiplier = 1.2f;
-	int iDelta = -(iRotationDistance / WHEEL_DELTA);
-	m_gl.zoomCamera((float32)iDelta * fMouseWheelScrollMultiplier);
+	float32 fMouseWheelScrollMultiplier = 0.05f;
+	int iDelta = iRotationDistance / WHEEL_DELTA;
+	float32 fScrollOffset = (float32)iDelta * fMouseWheelScrollMultiplier;
+
+	m_fMoveAcceleration = Math::limit(m_fMoveAcceleration + fScrollOffset, -1000.0f, 1000.0f);
+	//m_gl.zoomCamera(fScrollOffset);
 
 	getLayer()->getWindow()->render();
 }
@@ -156,4 +164,10 @@ void					_3DEditorTab::updateCamera(void)
 
 	m_gl.setCameraPosition(vecCameraPos);
 	m_gl.setCameraLookAt(m_vecCenterPosition);
+}
+
+void					_3DEditorTab::resetCamera(void)
+{
+	updateCamera();
+	m_fMoveAcceleration = 0.1f;
 }

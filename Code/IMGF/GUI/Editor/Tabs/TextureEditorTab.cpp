@@ -58,7 +58,8 @@ TextureEditorTab::~TextureEditorTab(void)
 	// todo
 	//unbindEvents();
 
-	unbindEvent(BEFORE_RENDER, &TextureEditorTab::renderBefore);
+	/*
+	unbindEvent(RENDER, &TextureEditorTab::render);
 	unbindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
@@ -66,12 +67,13 @@ TextureEditorTab::~TextureEditorTab(void)
 	unbindEvent(MOVE_MOUSE, &TextureEditorTab::onMouseMove);
 	unbindEvent(KEY_DOWN, &TextureEditorTab::onKeyDown2);
 	unbindEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
+	*/
 }
 
 // events
 void					TextureEditorTab::bindEvents(void)
 {
-	bindEvent(BEFORE_RENDER, &TextureEditorTab::renderBefore);
+	bindEvent(RENDER, &TextureEditorTab::render);
 	bindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
 	bindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
 	bindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
@@ -85,7 +87,7 @@ void					TextureEditorTab::bindEvents(void)
 
 void					TextureEditorTab::unbindEvents(void)
 {
-	unbindEvent(BEFORE_RENDER, &TextureEditorTab::renderBefore);
+	unbindEvent(RENDER, &TextureEditorTab::render);
 	unbindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
 	unbindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
 	unbindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
@@ -537,7 +539,7 @@ bool						TextureEditorTab::doesTabEntryMatchFilter(TextureEditorTabEntry *pTabE
 }
 
 // render editor
-void						TextureEditorTab::renderBefore(void)
+void						TextureEditorTab::render(void)
 {
 	renderDisplayType_Single();
 }
@@ -832,13 +834,13 @@ void					TextureEditorTab::setFileInfoText(void)
 		string strVersionText = RWManager::get()->getVersionManager()->getVersionText(getTXDFile()->getRawVersion());
 		string strVersionGames = getTXDFile()->getRWVersion() ? getTXDFile()->getRWVersion()->getGamesAsString() : "Unknown";
 
-		//m_pText_FileVersion->setText(strVersionText);
-		//m_pText_FileGame->setText(strVersionGames);
+		m_pText_FileVersion->setText(strVersionText);
+		m_pText_FileGame->setText(strVersionGames);
 	}
 	else
 	{
-		//m_pText_FileVersion->setText(string("Unknown"), false);
-		//m_pText_FileGame->setText(string("GTA IV"));
+		m_pText_FileVersion->setText(string("Unknown"), false);
+		m_pText_FileGame->setText(string("GTA IV"));
 	}
 
 	updateEntryCountText();

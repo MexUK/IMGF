@@ -150,12 +150,11 @@ void								Editor::removeEditorTab2(EditorTab *pEditorTab)
 		setActiveEditorTab(m_vecEditorTabs.getEntryByIndex(uiNewActiveFileIndex));
 	}
 
-	// remove tab object
-	//pEditorTab->unbindEvents();
-	
-	//pEditorTab->getLayer()->removeAllControls();
-	//pEditorTab->getLayer()->removeAllShapes();
+	// remove layers for editor tab
+	m_pMainWindow->removeLayer(pEditorTab->getLayer());
+	m_pMainWindow->removeLayer(pEditorTab->getBaseLayer());
 
+	// remove tab object
 	m_vecEditorTabs.removeEntry(pEditorTab, false); // todo - false should be true to delete the pEditorTab
 
 	// update menus
@@ -178,18 +177,13 @@ void								Editor::removeActiveEditorTab(void)
 // set active file
 void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 {
-	///*
 	if (m_pActiveEditorTab)
 	{
+		// make inactive
 		m_pActiveEditorTab->unbindEvents();
 		m_pActiveEditorTab->getLayer()->unbindEvents();
 		m_pActiveEditorTab->getBaseLayer()->unbindEvents();
 	}
-	else
-	{
-		Editor::unbindEvents(); // todo - still needed?
-	}
-	//*/
 
 	// store editor tab
 	m_pActiveEditorTab = pEditorTab;
@@ -203,25 +197,12 @@ void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 		TabBar::m_mutexTabs.unlock();
 		m_pTabBar->setActiveTab(pTab);
 
-		// hide no-tabs-open layer
-		//getIMGF()->getWindowManager()->getMainWindow()->getBlankLayer()->setEnabled(false);
-	}
-	else
-	{
-		// show no-tabs-open layer
-		// todo getLayer()->setEnabled(true); // e.g. IMGEditor
-		//getIMGF()->getWindowManager()->getMainWindow()->getBlankLayer()->setEnabled(true);
-	}
-
-	///*
-	if(pEditorTab)
-	{
+		// make active
 		pEditorTab->makeCurrent();
 		pEditorTab->bindEvents();
 		pEditorTab->getLayer()->bindEvents();
 		pEditorTab->getBaseLayer()->bindEvents();
 	}
-	//*/
 }
 
 // displayed info

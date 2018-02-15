@@ -99,7 +99,7 @@ void						RadarEditorTab::initLayer(void)
 // events
 void						RadarEditorTab::bindEvents(void)
 {
-	//bindEvent(RENDER, &RadarEditorTab::render);
+	bindEvent(RENDER, &RadarEditorTab::render);
 	bindEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
 	bindEvent(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
 	bindEvent(LEFT_MOUSE_UP, &RadarEditorTab::onLeftMouseUp);
@@ -113,7 +113,7 @@ void						RadarEditorTab::bindEvents(void)
 
 void						RadarEditorTab::unbindEvents(void)
 {
-	//unbindEvent(RENDER, &RadarEditorTab::render);
+	unbindEvent(RENDER, &RadarEditorTab::render);
 	unbindEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
 	unbindEvent(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
 	unbindEvent(LEFT_MOUSE_UP, &RadarEditorTab::onLeftMouseUp);
@@ -392,40 +392,40 @@ void						RadarEditorTab::onFileLoaded(void)
 void						RadarEditorTab::setFileInfoText(void)
 {
 	m_pText_FilePath->setText(Path::getDisplayableFilePath(getIMGFile()->getIMGFilePath()));
-	//m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
+	m_pText_FileVersion->setText(IMGManager::getVersionText(getIMGFile()->getVersion(), getIMGFile()->isEncrypted()));
 
 	m_pAlphaCheckBox->setMarked(false);
 
 	if (getEntryCount() == 64 && getFirstEntry()->m_ucBPP == 32)
 	{
 		// GTA III
-		//m_pText_FileGame->setText(string("GTA III"));
+		m_pText_FileGame->setText(string("GTA III"));
 		m_pAlphaCheckBox->setMarked(true);
 	}
 	else if (getEntryCount() == 64 && getFirstEntry()->m_strAlphaName == "" && getFirstEntry()->m_ucBPP == 16)
 	{
 		// GTA VC
-		//m_pText_FileGame->setText(string("GTA VC"));
+		m_pText_FileGame->setText(string("GTA VC"));
 	}
 	else if (getEntryCount() == 128 && getFirstEntry()->m_strAlphaName == "" && getFirstEntry()->m_ucBPP == 16)
 	{
 		// GTA SA
-		//m_pText_FileGame->setText(string("GTA SA"));
+		m_pText_FileGame->setText(string("GTA SA"));
 	}
 	else if (getEntryCount() == 63)
 	{
 		// GTA IV
-		//m_pText_FileGame->setText(string("GTA IV"));
+		m_pText_FileGame->setText(string("GTA IV"));
 	}
 	else if (getEntryCount() == 1296)
 	{
 		// SOL
-		//m_pText_FileGame->setText(string("SOL"));
+		m_pText_FileGame->setText(string("SOL"));
 	}
 	else
 	{
 		// Unknown
-		//m_pText_FileGame->setText(IMGManager::getVersionGames(getIMGFile()->getVersion()));
+		m_pText_FileGame->setText(IMGManager::getVersionGames(getIMGFile()->getVersion()));
 	}
 
 	updateEntryCountText();
