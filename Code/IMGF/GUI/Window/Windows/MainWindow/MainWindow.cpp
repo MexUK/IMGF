@@ -98,6 +98,8 @@ void					MainWindow::bindEvents(void)
 
 	bindEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
 	bindEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
+	bindEvent(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
+	bindEvent(MOUSE_EXIT_ITEM, &MainWindow::onCursorExitItem);
 }
 
 void					MainWindow::unbindEvents(void)
@@ -105,6 +107,8 @@ void					MainWindow::unbindEvents(void)
 	unbindEvent(RESIZE_WINDOW, &MainWindow::onResizeWindow);
 	unbindEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
 	unbindEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
+	unbindEvent(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
+	unbindEvent(MOUSE_EXIT_ITEM, &MainWindow::onCursorExitItem);
 }
 
 // window initialization
@@ -175,6 +179,47 @@ void					MainWindow::onDropEntries(void *m_pEditorTab, vector<string> vecFileNam
 	for (uint32 i = 0, j = vecFileNames.size(); i < j; i++)
 	{
 		pActiveEditorTab->addEntryViaData(vecFileNames[i], vecFileDatas[i]);
+	}
+}
+
+void					MainWindow::onRightMouseDown2(Vec2i vecCursorPosition)
+{
+	Vec2i vecMenuPosition = vecCursorPosition;
+	vecMenuPosition.x -= 5;
+	vecMenuPosition.y -= 5;
+	for (uint32 i = 0, j = 3; i < j; i++)
+	{
+		m_vecRightClickMenus[i]->setPosition(vecMenuPosition);
+		m_vecRightClickMenus[i]->setEnabled(true);
+
+		m_vecRightClickMenus[i]->render();
+
+		vecMenuPosition.y += 20;
+	}
+}
+
+void					MainWindow::onCursorExitItem(RenderItem *pOldRenderItem)
+{
+	RenderItem *pNewRenderItem = getRenderItemMouseIsOver();
+	if (
+		  (pOldRenderItem == m_vecRightClickMenus[0]
+		|| pOldRenderItem == m_vecRightClickMenus[1]
+		|| pOldRenderItem == m_vecRightClickMenus[2])
+		&&
+		  (pNewRenderItem != m_vecRightClickMenus[0]
+		&& pNewRenderItem != m_vecRightClickMenus[1]
+		&& pNewRenderItem != m_vecRightClickMenus[2])
+	)
+	{
+		Menu *pMenu2 = ((Menu*)pOldRenderItem)->getMenuByPoint(BXGX::get()->getCursorPosition());
+		if (!pMenu2)
+		{
+			for (uint32 i = 0, j = 3; i < j; i++)
+			{
+				m_vecRightClickMenus[i]->unexpandAllMenus();
+				m_vecRightClickMenus[i]->setEnabled(false);
+			}
+		}
 	}
 }
 
@@ -648,4 +693,23 @@ void					MainWindow::setCertainMenuItemsEnabled(bool bEnabled)
 
 	pMenu = (Menu*)getItemById(4802);
 	pMenu->render();
+
+	static bool bRightClickMenuInitialized = false;
+	if (!bRightClickMenuInitialized)
+	{
+		bRightClickMenuInitialized = true;
+
+		Layer *pMainLayer = getLayerById(45);
+
+		m_vecRightClickMenus.resize(3);
+		for (uint32 i = 0, j = 3; i < j; i++)
+		{
+			pMenu = Layer::copyMenu((Menu*)getItemById(4800 + i));
+			pMenu->setEnabled(false);
+			pMenu->setAttachmentSideIndex(1);
+			pMenu->getEntryByIndex(0)->getExpandableMenu()->setAttachmentSideIndex(1);
+			m_vecRightClickMenus[i] = pMenu;
+			pMainLayer->getControls()->addEntry(m_vecRightClickMenus[i]);
+		}
+	}
 }

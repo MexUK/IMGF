@@ -63,6 +63,8 @@ public:
 
 	void						onResizeWindow(bxcf::Vec2i& vecSizeDifference);
 	void						onDropEntries(void *m_pEditorTab, std::vector<std::string> vecFileNames, std::vector<std::string> vecFileDatas);
+	void						onRightMouseDown2(bxcf::Vec2i vecCursorPosition);
+	void						onCursorExitItem(bxgx::RenderItem *pRenderItem);
 
 	void						reloadLayers(void);
 
@@ -116,6 +118,8 @@ public:
 	bxgx::Line*					m_pSettingsButtonLine1;
 	bxgx::Line*					m_pSettingsButtonLine2;
 	bxgx::Line*					m_pSettingsButtonLine3;
+
+	std::vector<bxgx::Menu*>	m_vecRightClickMenus;
 
 private:
 	imgf::mainLayer::mainMenuType::EMainMenuType	m_uiMainMenuType;
