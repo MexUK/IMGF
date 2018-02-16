@@ -866,6 +866,24 @@ void						CollisionEditorTab::prepareMeshes(COLEntry *pCOLEntry)
 	vector<glm::vec3> vecVertices = *(std::vector<glm::vec3>*)&pCOLEntry->getCollisionMeshVertices();
 	GLMesh *pMesh = m_pGLEntity->addMesh(m_gl.swapVec3YZ(vecVertices), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), pCOLEntry->doesUseFaceGroups() ? 0 : GL_TRIANGLE_STRIP);
 
+	for (TFace& face : pCOLEntry->getCollisionMeshFaces())
+	{
+		vector<uint16> vecVertexIndices;
+
+		vecVertexIndices.push_back(face.m_uiA);
+		vecVertexIndices.push_back(face.m_uiB);
+		vecVertexIndices.push_back(face.m_uiC);
+
+		glm::vec3 vecFaceColour = glm::vec3(
+			(1.0f / 256.0f) * (float32)face.m_surface.m_ucBrightness,
+			(1.0f / 256.0f) * (float32)face.m_surface.m_ucBrightness,
+			(1.0f / 256.0f) * (float32)face.m_surface.m_ucBrightness
+		);
+		pMesh->addFaceGroup(GL_TRIANGLE_STRIP, vecVertexIndices, nullptr, vecFaceColour);
+	}
+
+	/*
+	todo
 	if (pCOLEntry->doesUseFaceGroups())
 	{
 		for (TFaceGroup& faceGroup : pCOLEntry->getCollisionMeshFaceGroups())
@@ -878,6 +896,7 @@ void						CollisionEditorTab::prepareMeshes(COLEntry *pCOLEntry)
 			pMesh->addFaceGroup(GL_TRIANGLE_STRIP, vecIndices, nullptr);
 		}
 	}
+	*/
 }
 
 void						CollisionEditorTab::recreateEntryList(void)

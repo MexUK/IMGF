@@ -302,6 +302,7 @@ void					IMGEditorTab::onSelectDropEntry(DropDownItem *pDropEntry)
 
 		getIMGFile()->setVersion(uiIMGVersions[iSelIdx]);
 		getIMGFile()->setEncrypted(iSelIdx == 2);
+		setFileInfoText();
 
 		log("IMG Version Changed.");
 	}

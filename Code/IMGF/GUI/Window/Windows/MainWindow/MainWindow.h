@@ -65,6 +65,11 @@ public:
 	void						onDropEntries(void *m_pEditorTab, std::vector<std::string> vecFileNames, std::vector<std::string> vecFileDatas);
 	void						onRightMouseDown2(bxcf::Vec2i vecCursorPosition);
 	void						onCursorExitItem(bxgx::RenderItem *pRenderItem);
+	
+	bool						onCloseWindow(bxgx::Window *pWindow);
+	bool						onCloseAllEditorTabs(Editor *pEditor);
+	bool						onCloseEditorTab(EditorTab *pEditorTab);
+	bool						onAddEntryWithExistingName(std::string& strEntryName);
 
 	void						reloadLayers(void);
 

@@ -26,6 +26,7 @@
 #include "Task/Tasks/RecentlyOpen/RecentlyOpenManager.h"
 #include "Task/Tasks/FileGroups/FileGroupManager.h"
 #include "DragDrop/DropTarget.h"
+#include "Static/Input.h"
 
 using namespace std;
 using namespace bxcf;
@@ -100,6 +101,7 @@ void					MainWindow::bindEvents(void)
 	bindEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
 	bindEvent(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
 	bindEvent(MOUSE_EXIT_ITEM, &MainWindow::onCursorExitItem);
+	bindEvent(CLOSE_WINDOW, &MainWindow::onCloseWindow);
 }
 
 void					MainWindow::unbindEvents(void)
@@ -109,6 +111,7 @@ void					MainWindow::unbindEvents(void)
 	unbindEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
 	unbindEvent(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
 	unbindEvent(MOUSE_EXIT_ITEM, &MainWindow::onCursorExitItem);
+	unbindEvent(CLOSE_WINDOW, &MainWindow::onCloseWindow);
 }
 
 // window initialization
@@ -221,6 +224,99 @@ void					MainWindow::onCursorExitItem(RenderItem *pOldRenderItem)
 			}
 		}
 	}
+}
+
+bool					MainWindow::onCloseWindow(Window *pWindow)
+{
+	if (pWindow == this)
+	{
+		bool bCloseConfirmSettingEnabled = true;// todo getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose");
+
+		for (Editor *pEditor : getEditors().getEntries())
+		{
+			for (EditorTab *pEditorTab : pEditor->getEditorTabs().getEntries())
+			{
+				if (pEditorTab->isFileUnsaved())
+				{
+					if (bCloseConfirmSettingEnabled)
+					{
+						switch (Input::showMessage("File is unsaved, save before closing?\n\n" + pEditorTab->getFile()->getFilePath(), "Save Changes?", MB_YESNOCANCEL))
+						{
+						case IDYES:
+							pEditorTab->getFile()->serialize();
+							break;
+						case IDNO:
+							break;
+						case IDCANCEL:
+							return false;
+						}
+					}
+				}
+				pEditor->removeEditorTab(pEditorTab);
+			}
+		}
+		return true;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+bool					MainWindow::onCloseAllEditorTabs(Editor *pEditor)
+{
+	bool bCloseConfirmSettingEnabled = true;// todo getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose");
+
+	for (EditorTab *pEditorTab : pEditor->getEditorTabs().getEntries())
+	{
+		if (pEditorTab->isFileUnsaved())
+		{
+			if (bCloseConfirmSettingEnabled)
+			{
+				switch (Input::showMessage("File is unsaved, save before closing?\n\n" + pEditorTab->getFile()->getFilePath(), "Save Changes?", MB_YESNOCANCEL))
+				{
+				case IDYES:
+					pEditorTab->getFile()->serialize();
+					break;
+				case IDNO:
+					break;
+				case IDCANCEL:
+					return false;
+				}
+			}
+		}
+		pEditorTab->getEditor()->removeEditorTab(pEditorTab);
+	}
+	return true;
+}
+
+bool					MainWindow::onCloseEditorTab(EditorTab *pEditorTab)
+{
+	bool bCloseConfirmSettingEnabled = true;// todo getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose");
+
+	if (pEditorTab->isFileUnsaved())
+	{
+		if (bCloseConfirmSettingEnabled)
+		{
+			switch (Input::showMessage("File is unsaved, save before closing?\n\n" + pEditorTab->getFile()->getFilePath(), "Save Changes?", MB_YESNOCANCEL))
+			{
+			case IDYES:
+				pEditorTab->getFile()->serialize();
+				break;
+			case IDNO:
+				break;
+			case IDCANCEL:
+				return false;
+			}
+		}
+	}
+	pEditorTab->getEditor()->removeEditorTab(pEditorTab);
+	return true;
+}
+
+bool					MainWindow::onAddEntryWithExistingName(string& strEntryName)
+{
+	return Input::showMessage("Entry name already in use, replace?\n\n" + strEntryName, "Replace Entry?", MB_YESNOCANCEL);
 }
 
 // layer initialization

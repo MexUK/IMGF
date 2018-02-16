@@ -260,7 +260,7 @@ void						EditorTab::onChangeTab(TabBar *pTabBar)
 void						EditorTab::onRemoveTab(Tab *pTab)
 {
 	EditorTab *pEditorTab = getEditor()->getEditorTabs().getEntryByIndex(pTab->getTabBar()->getIndexByEntry(pTab));
-	getEditor()->removeEditorTab(pEditorTab);
+	m_pEditor->getMainWindow()->onCloseEditorTab(pEditorTab);
 }
 
 // log

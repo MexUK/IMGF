@@ -187,11 +187,50 @@ T										imgf::EditorTab::_addEntry(std::string& strEntryFilePathOrData, bool 
 		{
 			strEntryName = bxcf::Path::getFileName(strEntryFilePathOrData);
 		}
-		pResult = (T) getContainerFile()->addEntryViaFile(strEntryFilePathOrData, strEntryName);
+
+		if (getContainerFile()->getEntryByName(strEntryName) == nullptr)
+		{
+			pResult = (T)getContainerFile()->addEntryViaFile(strEntryFilePathOrData, strEntryName);
+		}
+		else
+		{
+			switch (m_pEditor->getMainWindow()->onAddEntryWithExistingName(strEntryName))
+			{
+			case IDCANCEL:
+				return nullptr;
+			case IDYES: // replace
+				pResult = (T)getContainerFile()->replaceEntryViaFile(strEntryFilePathOrData, strEntryName);
+				break;
+			case IDNO: // import
+				pResult = (T)getContainerFile()->addEntryViaFile(strEntryFilePathOrData, strEntryName);
+				break;
+			default:
+				return nullptr;
+			}
+		}
 	}
 	else
 	{
-		pResult = (T) getContainerFile()->addEntryViaData(strEntryName, strEntryFilePathOrData);
+		if (getContainerFile()->getEntryByName(strEntryName) == nullptr)
+		{
+			pResult = (T)getContainerFile()->addEntryViaData(strEntryName, strEntryFilePathOrData);
+		}
+		else
+		{
+			switch (m_pEditor->getMainWindow()->onAddEntryWithExistingName(strEntryName))
+			{
+			case IDCANCEL:
+				return nullptr;
+			case IDYES: // replace
+				pResult = (T)getContainerFile()->replaceEntryViaData(strEntryName, strEntryFilePathOrData);
+				break;
+			case IDNO: // import
+				pResult = (T)getContainerFile()->addEntryViaData(strEntryFilePathOrData, strEntryName);
+				break;
+			default:
+				return nullptr;
+			}
+		}
 	}
 	addEntryAfter(pResult);
 	updateEntryCountText();

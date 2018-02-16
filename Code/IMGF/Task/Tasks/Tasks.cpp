@@ -810,14 +810,7 @@ void		Tasks::closeFile(void)
 {
 	onStartTask("closeFile");
 
-	if (getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose"))
-	{
-		if (showMessage("Save file before closing?\n\n" + getTab()->getFile()->getFilePath(), "Auto Save?") == MB_OK)
-		{
-			getTab()->getFile()->serialize();
-		}
-	}
-	m_pMainWindow->getActiveEditor()->removeActiveEditorTab();
+	m_pMainWindow->onCloseEditorTab(m_pMainWindow->getActiveEditor()->getActiveEditorTab());
 
 	onCompleteTask();
 }
@@ -826,20 +819,7 @@ void		Tasks::closeAllFiles(void)
 {
 	onStartTask("closeAllFiles");
 
-	bool bConfirmOnClose = getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose");
-
-	vector<EditorTab*> vecEditorTabs = m_pMainWindow->getActiveEditor()->getEditorTabs().getEntries();
-	for (EditorTab *pEditorTab : vecEditorTabs)
-	{
-		if (bConfirmOnClose)
-		{
-			if (showMessage("Save file before closing?\n\n" + pEditorTab->getFile()->getFilePath(), "Auto Save?") == 1)
-			{
-				pEditorTab->getFile()->serialize();
-			}
-		}
-		m_pMainWindow->getActiveEditor()->removeEditorTab(pEditorTab);
-	}
+	m_pMainWindow->onCloseAllEditorTabs(m_pMainWindow->getActiveEditor());
 
 	onCompleteTask();
 }
@@ -848,7 +828,7 @@ void		Tasks::exitTool(void)
 {
 	onStartTask("exitTool");
 
-	ExitProcess(0);
+	m_pMainWindow->checkToCloseWindow();
 
 	onCompleteTask();
 }
