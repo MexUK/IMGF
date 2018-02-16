@@ -257,6 +257,13 @@ string								Editor::getEditorName(EEditor uiEditor)
 // file extension importable
 bool								Editor::isFileExtensionImportable(string& strFileExtension)
 {
+	if (getImportEditorFileFormats().size() > 0 && getImportEditorFileFormats()[0] == "*")
+	{
+		// any file can be imported
+		return true;
+	}
+
+	// only certain file extensions can be imported
 	return StdVector::isIn(StdVector::toUpperCase(getImportEditorFileFormats()), String::toUpperCase(strFileExtension));
 }
 

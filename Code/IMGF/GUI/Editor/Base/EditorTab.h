@@ -191,6 +191,7 @@ T										imgf::EditorTab::_addEntry(std::string& strEntryFilePathOrData, bool 
 		if (getContainerFile()->getEntryByName(strEntryName) == nullptr)
 		{
 			pResult = (T)getContainerFile()->addEntryViaFile(strEntryFilePathOrData, strEntryName);
+			addEntryAfter(pResult);
 		}
 		else
 		{
@@ -203,6 +204,7 @@ T										imgf::EditorTab::_addEntry(std::string& strEntryFilePathOrData, bool 
 				break;
 			case IDNO: // import
 				pResult = (T)getContainerFile()->addEntryViaFile(strEntryFilePathOrData, strEntryName);
+				addEntryAfter(pResult);
 				break;
 			default:
 				return nullptr;
@@ -214,6 +216,7 @@ T										imgf::EditorTab::_addEntry(std::string& strEntryFilePathOrData, bool 
 		if (getContainerFile()->getEntryByName(strEntryName) == nullptr)
 		{
 			pResult = (T)getContainerFile()->addEntryViaData(strEntryName, strEntryFilePathOrData);
+			addEntryAfter(pResult);
 		}
 		else
 		{
@@ -222,17 +225,18 @@ T										imgf::EditorTab::_addEntry(std::string& strEntryFilePathOrData, bool 
 			case IDCANCEL:
 				return nullptr;
 			case IDYES: // replace
-				pResult = (T)getContainerFile()->replaceEntryViaData(strEntryName, strEntryFilePathOrData);
+				pResult = (T)getContainerFile()->replaceEntryViaData(strEntryFilePathOrData, strEntryName);
 				break;
 			case IDNO: // import
-				pResult = (T)getContainerFile()->addEntryViaData(strEntryFilePathOrData, strEntryName);
+				pResult = (T)getContainerFile()->addEntryViaData(strEntryName, strEntryFilePathOrData);
+				addEntryAfter(pResult);
 				break;
 			default:
 				return nullptr;
 			}
 		}
 	}
-	addEntryAfter(pResult);
+
 	updateEntryCountText();
 	getLayer()->getWindow()->render();
 

@@ -358,8 +358,12 @@ void						ModelEditorTab::prepareModel(void)
 
 	g_stkModels.push(glm::mat4(1.0f));
 
+	g_stkModels.top() *= glm::rotate(g_stkModels.top(), 90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+
 	prepareGeometries();
 	prepareRenderData();
+
+	g_stkModels.pop();
 }
 
 void						ModelEditorTab::prepareGeometries(void)
@@ -375,10 +379,10 @@ void						ModelEditorTab::prepareGeometries(void)
 void						ModelEditorTab::prepareGeometry(uint32 uiGeometryIndex, RWSection_Geometry *pGeometry)
 {
 	GLMesh *pGLMesh = m_pGLEntity->addMesh(
-		m_gl.swapVec3YZ(*(vector<glm::vec3>*)(&pGeometry->getVertexPositions())),
+		*(vector<glm::vec3>*)(&pGeometry->getVertexPositions()),
 		*(vector<glm::vec2>*)(&pGeometry->getTextureCoordinates()),
 		StdVector::convertStdVectorBXCFVec4u8ToGLMVec3(pGeometry->getVertexColours()),
-		m_gl.swapVec3YZ(*(vector<glm::vec3>*)(&pGeometry->getVertexNormals()))
+		*(vector<glm::vec3>*)(&pGeometry->getVertexNormals())
 	);
 	m_vecGLMeshes.push_back(pGLMesh);
 
@@ -425,6 +429,7 @@ void						ModelEditorTab::prepareRenderData(void)
 void						ModelEditorTab::prepareFrame(uint32 uiFrameIndex, RWSection_Frame *pFrame, bool bIsParentFrame)
 {
 	g_stkModels.push(g_stkModels.top());
+	//g_stkModels.push(glm::mat4(1.0f));
 
 	vector<RWSection*> vecAtomics = m_pDFFFile->getSectionsByType(RW_SECTION_ATOMIC);
 	unordered_map<uint32, RWSection_Atomic*> umapAtomics;
@@ -468,8 +473,8 @@ void						ModelEditorTab::prepareFrame(uint32 uiFrameIndex, RWSection_Frame *pFr
 
 		g_stkModels.top() *= matMultMatrix;
 
-		//g_stkModels.top() = glm::translate(g_stkModels.top(), glm::vec3(pFrameList->m_vecPosition[uiFrameIndex].x, pFrameList->m_vecPosition[uiFrameIndex].z, pFrameList->m_vecPosition[uiFrameIndex].y));
-		//g_stkModels.top() = glm::rotate(g_stkModels.top(), glm::vec3(pFrameList->m_vecPosition[uiFrameIndex].x, pFrameList->m_vecPosition[uiFrameIndex].z, pFrameList->m_vecPosition[uiFrameIndex].y));
+		//g_stkModels.top() = glm::translate(g_stkModels.top(), glm::vec3(pFrameList->m_vecPosition[uiFrameIndex].x, pFrameList->m_vecPosition[uiFrameIndex].y, pFrameList->m_vecPosition[uiFrameIndex].z));
+		//g_stkModels.top() = glm::rotate(g_stkModels.top(), glm::vec3(pFrameList->m_vecPosition[uiFrameIndex].x, pFrameList->m_vecPosition[uiFrameIndex].y, pFrameList->m_vecPosition[uiFrameIndex].z));
 	}
 
 	//g_stkModels.top() *= matMultMatrix;

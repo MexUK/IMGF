@@ -314,7 +314,7 @@ bool					MainWindow::onCloseEditorTab(EditorTab *pEditorTab)
 	return true;
 }
 
-bool					MainWindow::onAddEntryWithExistingName(string& strEntryName)
+uint32					MainWindow::onAddEntryWithExistingName(string& strEntryName)
 {
 	return Input::showMessage("Entry name already in use, replace?\n\n" + strEntryName, "Replace Entry?", MB_YESNOCANCEL);
 }

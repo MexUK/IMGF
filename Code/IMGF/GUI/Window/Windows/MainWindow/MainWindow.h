@@ -69,7 +69,7 @@ public:
 	bool						onCloseWindow(bxgx::Window *pWindow);
 	bool						onCloseAllEditorTabs(Editor *pEditor);
 	bool						onCloseEditorTab(EditorTab *pEditorTab);
-	bool						onAddEntryWithExistingName(std::string& strEntryName);
+	uint32						onAddEntryWithExistingName(std::string& strEntryName);
 
 	void						reloadLayers(void);
 

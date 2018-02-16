@@ -789,7 +789,7 @@ void						CollisionEditorTab::prepareCamera(COLEntry *pCOLEntry)
 
 void						CollisionEditorTab::prepareBoundingSphere(COLEntry *pCOLEntry)
 {
-	glm::vec3 pos = glm::vec3(pCOLEntry->getBoundingObjects().m_vecCenter.x, pCOLEntry->getBoundingObjects().m_vecCenter.z, pCOLEntry->getBoundingObjects().m_vecCenter.y);
+	glm::vec3 pos = glm::vec3(pCOLEntry->getBoundingObjects().m_vecCenter.x, pCOLEntry->getBoundingObjects().m_vecCenter.y, pCOLEntry->getBoundingObjects().m_vecCenter.z);
 	glm::vec3 vecColour = glm::vec3(1.0f, 0.5f, 0.0f);
 
 	vector<GLMesh*> vecSpheres = m_pGLEntity->addBoundingSphere(pos, pCOLEntry->getBoundingObjects().m_fRadius, vecColour);
@@ -801,7 +801,7 @@ void						CollisionEditorTab::prepareBoundingCuboid(COLEntry *pCOLEntry)
 	Vec3f& max = pCOLEntry->getBoundingObjects().m_vecMax;
 	glm::vec3 vecColour = glm::vec3(0.0f, 0.5f, 1.0f);
 
-	GLMesh *pCuboid = m_pGLEntity->addBoundingCuboid(glm::vec3(min.x, min.z, min.y), glm::vec3(max.x, max.z, max.y), vecColour);
+	GLMesh *pCuboid = m_pGLEntity->addBoundingCuboid(glm::vec3(min.x, min.y, min.z), glm::vec3(max.x, max.y, max.z), vecColour);
 }
 
 void						CollisionEditorTab::prepareLines(COLEntry *pCOLEntry)
@@ -814,10 +814,10 @@ void						CollisionEditorTab::prepareLines(COLEntry *pCOLEntry)
 	for (TLine& line : pCOLEntry->getCollisionLines())
 	{
 		vector<glm::vec3> vecLineVertices = {
-			glm::vec3(line.m_vecPosition1.x, line.m_vecPosition1.z, line.m_vecPosition1.y),
-			glm::vec3(line.m_vecPosition2.x, line.m_vecPosition2.z, line.m_vecPosition2.y),
+			glm::vec3(line.m_vecPosition1.x, line.m_vecPosition1.y, line.m_vecPosition1.z),
+			glm::vec3(line.m_vecPosition2.x, line.m_vecPosition2.y, line.m_vecPosition2.z),
 		};
-		GLMesh *pMesh = m_pGLEntity->addMesh(m_gl.swapVec3YZ(vecLineVertices), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
+		GLMesh *pMesh = m_pGLEntity->addMesh(vecLineVertices, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_LINES);
 	}
 }
 
@@ -832,7 +832,7 @@ void						CollisionEditorTab::prepareCones(COLEntry *pCOLEntry)
 	{
 		// todo
 		//vector<glm::vec3> vecConeVertices = Math::getConeVertices(sphere.m_vecCenter, sphere.m_fRadius, 100);
-		//GLMesh *pMesh = m_pGLEntity->addMesh(m_gl.swapVec3YZ(vecConeVertices), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_TRIANGLES);
+		//GLMesh *pMesh = m_pGLEntity->addMesh(vecConeVertices, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), GL_TRIANGLES);
 	}
 }
 
@@ -841,7 +841,7 @@ void						CollisionEditorTab::prepareSpheres(COLEntry *pCOLEntry)
 	uint32 uiSphereIndex = 0;
 	for (TSphere& sphere : pCOLEntry->getCollisionSpheres())
 	{
-		glm::vec3 pos = glm::vec3(sphere.m_vecCenter.x, sphere.m_vecCenter.z, sphere.m_vecCenter.y);
+		glm::vec3 pos = glm::vec3(sphere.m_vecCenter.x, sphere.m_vecCenter.y, sphere.m_vecCenter.z);
 		glm::vec3 colour = getItemColour(uiSphereIndex);
 
 		GLMesh *pSphere = m_pGLEntity->addSphere(pos, sphere.m_fRadius, 100, colour);
@@ -856,7 +856,7 @@ void						CollisionEditorTab::prepareCuboids(COLEntry *pCOLEntry)
 	{
 		glm::vec3 colour = getItemColour(uiCuboidIndex);
 
-		GLMesh *pCuboid = m_pGLEntity->addCuboid(glm::vec3(box.m_min.x, box.m_min.z, box.m_min.y), glm::vec3(box.m_max.x, box.m_max.z, box.m_max.y), colour);
+		GLMesh *pCuboid = m_pGLEntity->addCuboid(glm::vec3(box.m_min.x, box.m_min.y, box.m_min.z), glm::vec3(box.m_max.x, box.m_max.y, box.m_max.z), colour);
 		uiCuboidIndex++;
 	}
 }
@@ -864,7 +864,7 @@ void						CollisionEditorTab::prepareCuboids(COLEntry *pCOLEntry)
 void						CollisionEditorTab::prepareMeshes(COLEntry *pCOLEntry)
 {
 	vector<glm::vec3> vecVertices = *(std::vector<glm::vec3>*)&pCOLEntry->getCollisionMeshVertices();
-	GLMesh *pMesh = m_pGLEntity->addMesh(m_gl.swapVec3YZ(vecVertices), vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), pCOLEntry->doesUseFaceGroups() ? 0 : GL_TRIANGLE_STRIP);
+	GLMesh *pMesh = m_pGLEntity->addMesh(vecVertices, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), pCOLEntry->doesUseFaceGroups() ? 0 : GL_TRIANGLE_STRIP);
 
 	for (TFace& face : pCOLEntry->getCollisionMeshFaces())
 	{

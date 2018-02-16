@@ -74,7 +74,7 @@ void						IMGEditor::init(void)
 {
 	setEditorFileType(IMG);
 	setEditorFileFormats({ "IMG", "DIR" });
-	//setImportEditorFileFormats({});
+	setImportEditorFileFormats({ "*" });
 
 	m_pEditorButton = (Button*)m_pMainWindow->getItemById(1005);
 

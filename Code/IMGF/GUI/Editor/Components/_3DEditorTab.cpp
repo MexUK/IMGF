@@ -9,7 +9,7 @@ using namespace bxgx::events;
 using namespace imgf;
 
 _3DEditorTab::_3DEditorTab(void) :
-	m_fCameraOrbitZRot(-135.0f),
+	m_fCameraOrbitZRot(135.0f),
 	m_bCameraRotationDragActive(false),
 	m_fMoveAcceleration(0.1f)
 {
