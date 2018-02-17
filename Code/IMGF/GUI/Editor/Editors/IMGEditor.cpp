@@ -88,21 +88,11 @@ void						IMGEditor::init(void)
 void						IMGEditor::bindEvents(void)
 {
 	Editor::bindEvents();
-
-	if (m_pActiveEditorTab)
-	{
-		m_pActiveEditorTab->bindEvents();
-	}
 }
 
 void						IMGEditor::unbindEvents(void)
 {
 	Editor::unbindEvents();
-
-	if (m_pActiveEditorTab)
-	{
-		m_pActiveEditorTab->unbindEvents();
-	}
 }
 
 IMGEditorTab*				IMGEditor::addEditorTab(string& strFilePath)

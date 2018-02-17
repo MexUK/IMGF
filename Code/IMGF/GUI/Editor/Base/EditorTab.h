@@ -113,6 +113,7 @@ public:
 	void								onRemoveTab(bxgx::Tab *pTab);
 	void								onTaskProgress(void);
 	void								onUnserializeFileProgress(bxcf::DataReader *pDataReader);
+	void								onCloseApp(void);
 
 	void								log(std::string strText);
 	void								logf(std::string strFormatText, ...);
@@ -237,7 +238,9 @@ T										imgf::EditorTab::_addEntry(std::string& strEntryFilePathOrData, bool 
 		}
 	}
 
+	setFileUnsaved(true);
 	updateEntryCountText();
+	
 	getLayer()->getWindow()->render();
 
 	return pResult;

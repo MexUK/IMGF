@@ -79,6 +79,7 @@ void						EditorTab::bindEvents(void)
 	bindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
 	bindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
 	bindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
+	bindEvent(CLOSE_APP, &EditorTab::onCloseApp);
 
 	//getBaseLayer()->bindEvents();
 	//getLayer()->bindEvents();
@@ -91,6 +92,7 @@ void						EditorTab::unbindEvents(void)
 	unbindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
 	unbindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
 	unbindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
+	unbindEvent(CLOSE_APP, &EditorTab::onCloseApp);
 
 	//getBaseLayer()->unbindEvents();
 	//getLayer()->unbindEvents();
@@ -124,12 +126,12 @@ bool						EditorTab::init(bool bIsNewFile)
 	m_pTab = pTabBar->addTab(strTabText, true);
 	pTabBar->bindTabLayer(m_pTab, getLayer());
 
-	// set active editor tab
-	m_pEditor->setActiveEditorTab(this);
-
 	// store controls - base and derived
 	EditorTab::storeControls();
 	storeControls();
+
+	// set active editor tab
+	m_pEditor->setActiveEditorTab(this);
 
 	// add thread
 	m_thread = thread([&]() { processThread(); });
@@ -259,8 +261,20 @@ void						EditorTab::onChangeTab(TabBar *pTabBar)
 
 void						EditorTab::onRemoveTab(Tab *pTab)
 {
-	EditorTab *pEditorTab = getEditor()->getEditorTabs().getEntryByIndex(pTab->getTabBar()->getIndexByEntry(pTab));
+	int32 iTabIndex = pTab->getTabBar()->getIndexByEntry(pTab);
+	if (iTabIndex == -1)
+	{
+		return;
+	}
+
+	EditorTab *pEditorTab = getEditor()->getEditorTabs().getEntryByIndex(iTabIndex);
 	m_pEditor->getMainWindow()->onCloseEditorTab(pEditorTab);
+}
+
+void						EditorTab::onCloseApp(void)
+{
+	setMarkedToClose(true);
+	while (!m_bThreadHasTerminated);
 }
 
 // log

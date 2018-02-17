@@ -55,18 +55,14 @@ void								Editor::init(void)
 }
 
 // events
-void								Editor::bindEvents(void)
+void								Editor::bindEvents(void) // todo - does it get called?
 {
 	bindEvent(DRAG_ENTRIES_OVER, &Editor::onDragEntriesOver);
-
-	//getLayer()->bindEvents();
 }
 
-void								Editor::unbindEvents(void)
+void								Editor::unbindEvents(void) // todo - does it get called?
 {
 	unbindEvent(DRAG_ENTRIES_OVER, &Editor::onDragEntriesOver);
-
-	//getLayer()->unbindEvents();
 }
 
 // controls
@@ -139,8 +135,17 @@ void								Editor::removeEditorTab2(EditorTab *pEditorTab)
 		Sleep(10);
 	}
 
-	// update active file
+	// fetch new editor tab
 	uint32 uiNewActiveFileIndex = m_pTabBar->getActiveIndex();
+
+	// remove layers for editor tab
+	m_pMainWindow->removeLayer(pEditorTab->getLayer());
+	m_pMainWindow->removeLayer(pEditorTab->getBaseLayer());
+
+	// remove tab object
+	m_vecEditorTabs.removeEntry(pEditorTab, false); // todo - false should be true to delete the pEditorTab
+
+	// update active editor tab
 	if (uiNewActiveFileIndex == -1)
 	{
 		setActiveEditorTab(nullptr);
@@ -149,13 +154,6 @@ void								Editor::removeEditorTab2(EditorTab *pEditorTab)
 	{
 		setActiveEditorTab(m_vecEditorTabs.getEntryByIndex(uiNewActiveFileIndex));
 	}
-
-	// remove layers for editor tab
-	m_pMainWindow->removeLayer(pEditorTab->getLayer());
-	m_pMainWindow->removeLayer(pEditorTab->getBaseLayer());
-
-	// remove tab object
-	m_vecEditorTabs.removeEntry(pEditorTab, false); // todo - false should be true to delete the pEditorTab
 
 	// update menus
 	getMainWindow()->setCertainMenuItemsEnabled(getEditorTabs().getEntryCount() > 0);

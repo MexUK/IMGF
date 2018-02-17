@@ -235,9 +235,9 @@ void					MainWindow::onCloseWindow(Window *pWindow)
 
 	bool bCloseConfirmSettingEnabled = true;// todo getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose");
 
-	for (Editor *pEditor : getEditors().getEntries())
+	for (Editor *pEditor : vector<Editor*>(getEditors().getEntries()))
 	{
-		for (EditorTab *pEditorTab : pEditor->getEditorTabs().getEntries())
+		for (EditorTab *pEditorTab : vector<EditorTab*>(pEditor->getEditorTabs().getEntries()))
 		{
 			if (pEditorTab->isFileUnsaved())
 			{
@@ -256,7 +256,7 @@ void					MainWindow::onCloseWindow(Window *pWindow)
 					}
 				}
 			}
-			pEditor->removeEditorTab(pEditorTab);
+			// todo pEditor->removeEditorTab(pEditorTab);
 		}
 	}
 }
@@ -265,7 +265,7 @@ bool					MainWindow::onCloseAllEditorTabs(Editor *pEditor)
 {
 	bool bCloseConfirmSettingEnabled = true;// todo getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose");
 
-	for (EditorTab *pEditorTab : pEditor->getEditorTabs().getEntries())
+	for (EditorTab *pEditorTab : vector<EditorTab*>(pEditor->getEditorTabs().getEntries()))
 	{
 		if (pEditorTab->isFileUnsaved())
 		{
@@ -304,6 +304,7 @@ bool					MainWindow::onCloseEditorTab(EditorTab *pEditorTab)
 			case IDNO:
 				break;
 			case IDCANCEL:
+				Events::setEventCancelled();
 				return false;
 			}
 		}
