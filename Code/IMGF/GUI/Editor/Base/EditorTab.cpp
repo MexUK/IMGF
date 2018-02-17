@@ -104,14 +104,14 @@ bool						EditorTab::init(bool bIsNewFile)
 	// base layer
 	m_pBaseLayer = m_pEditor->getMainWindow()->getLayerById(90)->copyLayer();
 	m_pBaseLayer->setId(-1);
-	m_pBaseLayer->setEnabled(true);
+	m_pBaseLayer->setEnabledWithoutEvents(true);
 	m_pEditor->getMainWindow()->addLayer(m_pBaseLayer);
 
 	// derived layer
 	initLayer();
 	m_pLayer = m_pLayer->copyLayer();
 	m_pLayer->setId(-1);
-	m_pLayer->setEnabled(true);
+	m_pLayer->setEnabledWithoutEvents(true);
 	m_pEditor->getMainWindow()->addLayer(m_pLayer);
 
 	// add gui tab
@@ -274,7 +274,13 @@ void						EditorTab::onRemoveTab(Tab *pTab)
 void						EditorTab::onCloseApp(void)
 {
 	setMarkedToClose(true);
-	while (!m_bThreadHasTerminated);
+	if(std::this_thread::get_id() != getThread().get_id())
+	{
+		while (!m_bThreadHasTerminated)
+		{
+			Sleep(1);
+		}
+	}
 }
 
 // log
