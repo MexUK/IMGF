@@ -226,40 +226,38 @@ void					MainWindow::onCursorExitItem(RenderItem *pOldRenderItem)
 	}
 }
 
-bool					MainWindow::onCloseWindow(Window *pWindow)
+void					MainWindow::onCloseWindow(Window *pWindow)
 {
-	if (pWindow == this)
+	if (pWindow != this)
 	{
-		bool bCloseConfirmSettingEnabled = true;// todo getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose");
+		return;
+	}
 
-		for (Editor *pEditor : getEditors().getEntries())
+	bool bCloseConfirmSettingEnabled = true;// todo getIMGF()->getSettingsManager()->getSettingBool("RebuildConfirmationOnClose");
+
+	for (Editor *pEditor : getEditors().getEntries())
+	{
+		for (EditorTab *pEditorTab : pEditor->getEditorTabs().getEntries())
 		{
-			for (EditorTab *pEditorTab : pEditor->getEditorTabs().getEntries())
+			if (pEditorTab->isFileUnsaved())
 			{
-				if (pEditorTab->isFileUnsaved())
+				if (bCloseConfirmSettingEnabled)
 				{
-					if (bCloseConfirmSettingEnabled)
+					switch (Input::showMessage("File is unsaved, save before closing?\n\n" + pEditorTab->getFile()->getFilePath(), "Save Changes?", MB_YESNOCANCEL))
 					{
-						switch (Input::showMessage("File is unsaved, save before closing?\n\n" + pEditorTab->getFile()->getFilePath(), "Save Changes?", MB_YESNOCANCEL))
-						{
-						case IDYES:
-							pEditorTab->getFile()->serialize();
-							break;
-						case IDNO:
-							break;
-						case IDCANCEL:
-							return false;
-						}
+					case IDYES:
+						pEditorTab->getFile()->serialize();
+						break;
+					case IDNO:
+						break;
+					case IDCANCEL:
+						Events::setEventCancelled();
+						return;
 					}
 				}
-				pEditor->removeEditorTab(pEditorTab);
 			}
+			pEditor->removeEditorTab(pEditorTab);
 		}
-		return true;
-	}
-	else
-	{
-		return true;
 	}
 }
 

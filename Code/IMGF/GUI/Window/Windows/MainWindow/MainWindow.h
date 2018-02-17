@@ -66,7 +66,7 @@ public:
 	void						onRightMouseDown2(bxcf::Vec2i vecCursorPosition);
 	void						onCursorExitItem(bxgx::RenderItem *pRenderItem);
 	
-	bool						onCloseWindow(bxgx::Window *pWindow);
+	void						onCloseWindow(bxgx::Window *pWindow);
 	bool						onCloseAllEditorTabs(Editor *pEditor);
 	bool						onCloseEditorTab(EditorTab *pEditorTab);
 	uint32						onAddEntryWithExistingName(std::string& strEntryName);
