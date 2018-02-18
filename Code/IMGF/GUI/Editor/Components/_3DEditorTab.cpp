@@ -21,7 +21,7 @@ void					_3DEditorTab::bindEvents(void)
 	bindEvent(KEY_DOWN, &_3DEditorTab::onKeyDown);
 	bindEvent(LEFT_MOUSE_DOWN, &_3DEditorTab::onLeftMouseDown);
 	bindEvent(LEFT_MOUSE_UP, &_3DEditorTab::onLeftMouseUp);
-	bindEvent(MOVE_MOUSE, &_3DEditorTab::onMouseMove);
+	bindEvent(MOVE_MOUSE, &_3DEditorTab::onMouseMove, 0, -5);
 	bindEvent(MOVE_MOUSE_WHEEL, &_3DEditorTab::onMoveMouseWheel);
 }
 
@@ -123,9 +123,10 @@ void					_3DEditorTab::onMouseMove(Vec2i vecCursorPosition)
 	}
 
 	Vec2i& vecCursorDiff = BXGX::get()->getCursorMoveDifference();
-	m_gl.getCameraRotation().z += (float32)vecCursorDiff.x;
+
+	m_fCameraOrbitZRot = Math::limitAngle(m_fCameraOrbitZRot + (float32)vecCursorDiff.x);
+	m_gl.getCameraRotation().z = m_fCameraOrbitZRot;
 	m_gl.updateCameraMatrix();
-	//m_fCameraOrbitZRot = Math::limitAngle(m_fCameraOrbitZRot + (float32)vecCursorDiff.x);
 	//updateCamera();
 
 	Events::setEventCancelled();
