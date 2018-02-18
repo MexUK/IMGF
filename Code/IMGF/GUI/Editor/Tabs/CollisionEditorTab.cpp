@@ -863,8 +863,8 @@ void						CollisionEditorTab::prepareCuboids(COLEntry *pCOLEntry)
 
 void						CollisionEditorTab::prepareMeshes(COLEntry *pCOLEntry)
 {
-	vector<glm::vec3> vecVertices = *(std::vector<glm::vec3>*)&pCOLEntry->getCollisionMeshVertices();
-	GLMesh *pMesh = m_pGLEntity->addMesh(vecVertices, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), pCOLEntry->doesUseFaceGroups() ? 0 : GL_TRIANGLE_STRIP);
+	vector<glm::vec3> vecVertices = m_gl.swapVec3YZ(*(std::vector<glm::vec3>*)&pCOLEntry->getCollisionMeshVertices());
+	GLMesh *pMesh = m_pGLEntity->addMesh(vecVertices, vector<glm::vec2>(), vector<glm::vec3>(), vector<glm::vec3>(), pCOLEntry->getCollisionMeshFaces().size() > 0 ? 0 : GL_TRIANGLE_STRIP);
 
 	for (TFace& face : pCOLEntry->getCollisionMeshFaces())
 	{

@@ -394,7 +394,7 @@ void					MainWindow::initSettingsMenuLayer(void)
 	h3 = h2;
 	strStyleGroup = "settingsMenu";
 
-	m_pSettingsMenu = pSettingsMenuLayer->addMenu(x2, y2, w2, h2, VERTICAL, 2, strStyleGroup, EInputItem::SETTINGS_MENU, -200);
+	m_pSettingsMenu = pSettingsMenuLayer->addMenu(x2, y2, w2, h2, VERTICAL, 2, strStyleGroup, EInputItem::SETTINGS_MENU, -100);
 	m_pSettingsMenu->addMenuItem("Settings", SETTINGS);
 	m_pSettingsMenu->addMenuItem("Formats", FORMATS2);
 	m_pSettingsMenu->addMenuItem("Websites", WEBSITES);
