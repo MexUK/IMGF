@@ -40,11 +40,15 @@ void						ItemDefinitionEditorTab::initLayer(void)
 // events
 void						ItemDefinitionEditorTab::bindEvents(void)
 {
+	bindEvent(CHANGE_TEXT_BOX, &ItemDefinitionEditorTab::onChangeTextBox);
+
 	EditorTab::bindEvents();
 }
 
 void						ItemDefinitionEditorTab::unbindEvents(void)
 {
+	unbindEvent(CHANGE_TEXT_BOX, &ItemDefinitionEditorTab::onChangeTextBox);
+
 	EditorTab::unbindEvents();
 }
 
@@ -58,9 +62,6 @@ void						ItemDefinitionEditorTab::onFileLoaded(void)
 {
 	// update tab text
 	updateTabText();
-
-	// add file path to recently opened files list
-	//getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
 
 	// show file content
 	m_pTextBox->getTextLines() = String::split(String::fixEOLs(File::getTextFile(getFile()->getFilePath()), "\n"), "\n");
@@ -114,6 +115,15 @@ void						ItemDefinitionEditorTab::updateEntryCountText(void)
 	}
 
 	m_pText_FileEntryCount->setText(strEntryCountText);
+}
+
+// event callbacks
+void						ItemDefinitionEditorTab::onChangeTextBox(TextBox *pTextBox)
+{
+	if (pTextBox == m_pTextBox)
+	{
+		setFileUnsaved(true);
+	}
 }
 
 // entry selection

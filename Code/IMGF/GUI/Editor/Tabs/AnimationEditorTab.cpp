@@ -51,9 +51,6 @@ void						AnimationEditorTab::onFileLoaded(void)
 	// update tab text
 	updateTabText();
 
-	// add file path to recently opened files list
-	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
-
 	// display file info
 	setFileInfoText();
 

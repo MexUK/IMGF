@@ -24,21 +24,11 @@ void									ItemDefinitionEditor::init(void)
 void									ItemDefinitionEditor::bindEvents(void)
 {
 	Editor::bindEvents();
-
-	if (m_pActiveEditorTab)
-	{
-		m_pActiveEditorTab->bindEvents();
-	}
 }
 
 void									ItemDefinitionEditor::unbindEvents(void)
 {
 	Editor::unbindEvents();
-
-	if (m_pActiveEditorTab)
-	{
-		m_pActiveEditorTab->unbindEvents();
-	}
 }
 
 // add editor tab

@@ -22,8 +22,6 @@ public:
 	void								bindEvents(void);
 	void								unbindEvents(void);
 
-	void								renderBefore(void);
-
 	RadarEditorTab*						addEditorTab(std::string& strFilePath);
 	RadarEditorTab*						addBlankEditorTab(std::string& strFilePath);
 	RadarEditorTab*						addBlankEditorTab(std::string& strFilePath, bxgi::EIMGVersion uiIMGVersion = bxgi::EIMGVersion::IMG_1);

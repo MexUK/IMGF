@@ -27,47 +27,12 @@ void									RadarEditor::init(void)
 // events
 void									RadarEditor::bindEvents(void)
 {
-	bindEvent(BEFORE_RENDER, &RadarEditor::renderBefore);
-
 	Editor::bindEvents();
-
-	if (m_pActiveEditorTab)
-	{
-		m_pActiveEditorTab->bindEvents();
-	}
 }
 
 void									RadarEditor::unbindEvents(void)
 {
-	unbindEvent(BEFORE_RENDER, &RadarEditor::renderBefore);
-
 	Editor::unbindEvents();
-
-	if (m_pActiveEditorTab)
-	{
-		m_pActiveEditorTab->unbindEvents();
-	}
-}
-
-// render
-void									RadarEditor::renderBefore(void)
-{
-	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
-
-	if (m_pMainWindow->getActiveEditor() != m_pMainWindow->getRadarEditor() || BXGX::get()->getEventWindow() != m_pMainWindow)
-	{
-		return;
-	}
-
-	m_pMainWindow->resetRenderingStyleGroups();
-	m_pMainWindow->resetRenderingControlComponent();
-	m_pMainWindow->resetRenderingStyleFragment();
-	m_pMainWindow->resetRenderingStyleStatus();
-
-	if (m_pActiveEditorTab)
-	{
-		//((RadarEditorTab*)m_pActiveEditorTab)->render();
-	}
 }
 
 // add editor tab

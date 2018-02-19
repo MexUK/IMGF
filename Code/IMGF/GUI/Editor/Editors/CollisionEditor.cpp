@@ -28,21 +28,11 @@ void					CollisionEditor::init(void)
 void							CollisionEditor::bindEvents(void)
 {
 	Editor::bindEvents();
-
-	if (m_pActiveEditorTab)
-	{
-		m_pActiveEditorTab->bindEvents();
-	}
 }
 
 void							CollisionEditor::unbindEvents(void)
 {
 	Editor::unbindEvents();
-
-	if (m_pActiveEditorTab)
-	{
-		m_pActiveEditorTab->unbindEvents();
-	}
 }
 
 // add editor tab

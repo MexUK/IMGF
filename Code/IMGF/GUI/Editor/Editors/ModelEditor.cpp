@@ -24,21 +24,11 @@ void									ModelEditor::init(void)
 void									ModelEditor::bindEvents(void)
 {
 	Editor::bindEvents();
-
-	if (m_pActiveEditorTab)
-	{
-		m_pActiveEditorTab->bindEvents();
-	}
 }
 
 void									ModelEditor::unbindEvents(void)
 {
 	Editor::unbindEvents();
-
-	if (m_pActiveEditorTab)
-	{
-		m_pActiveEditorTab->unbindEvents();
-	}
 }
 
 // add editor tab

@@ -345,11 +345,11 @@ void					MainWindow::initSettingsMenuLayer(void)
 
 	x.m_bIsX = true;
 	x.m_fRelative = 1.0f;
-	x.m_iOffsetPx = -50;
+	x.m_iOffsetPx = -43;
 
 	y.m_bIsX = false;
 	y.m_fRelative = 0.0f;
-	y.m_iOffsetPx = 40;
+	y.m_iOffsetPx = 30;
 
 	w.m_bIsX = true;
 	w.m_fRelative = 0.0f;

@@ -39,11 +39,15 @@ void						DATEditorTab::initLayer(void)
 // events
 void						DATEditorTab::bindEvents(void)
 {
+	bindEvent(CHANGE_TEXT_BOX, &DATEditorTab::onChangeTextBox);
+
 	EditorTab::bindEvents();
 }
 
 void						DATEditorTab::unbindEvents(void)
 {
+	unbindEvent(CHANGE_TEXT_BOX, &DATEditorTab::onChangeTextBox);
+
 	EditorTab::unbindEvents();
 }
 
@@ -57,9 +61,6 @@ void						DATEditorTab::onFileLoaded(void)
 {
 	// update tab text
 	updateTabText();
-
-	// add file path to recently opened files list
-	// todo getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
 
 	// show file content
 	m_pTextBox->getTextLines() = String::split(String::fixEOLs(File::getTextFile(getFile()->getFilePath()), "\n"), "\n");
@@ -103,6 +104,15 @@ void						DATEditorTab::updateEntryCountText(void)
 	}
 
 	m_pText_FileEntryCount->setText(strEntryCountText);
+}
+
+// event callbacks
+void						DATEditorTab::onChangeTextBox(TextBox *pTextBox)
+{
+	if (pTextBox == m_pTextBox)
+	{
+		setFileUnsaved(true);
+	}
 }
 
 // entry selection

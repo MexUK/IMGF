@@ -22,21 +22,11 @@ void								ItemPlacementEditor::init(void)
 void								ItemPlacementEditor::bindEvents(void)
 {
 	Editor::bindEvents();
-
-	if (m_pActiveEditorTab)
-	{
-		m_pActiveEditorTab->bindEvents();
-	}
 }
 
 void								ItemPlacementEditor::unbindEvents(void)
 {
 	Editor::unbindEvents();
-
-	if (m_pActiveEditorTab)
-	{
-		m_pActiveEditorTab->unbindEvents();
-	}
 }
 
 // add editor tab

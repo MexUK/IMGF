@@ -70,97 +70,12 @@ void						TextureEditor::init(void)
 // events
 void						TextureEditor::bindEvents(void)
 {
-	bindEvent(BEFORE_RENDER, &TextureEditor::renderBefore);
-
 	Editor::bindEvents();
-
-	if (m_pActiveEditorTab)
-	{
-		m_pActiveEditorTab->bindEvents();
-	}
 }
 
 void						TextureEditor::unbindEvents(void)
 {
-	unbindEvent(BEFORE_RENDER, &TextureEditor::renderBefore);
-
 	Editor::unbindEvents();
-
-	if (m_pActiveEditorTab)
-	{
-		m_pActiveEditorTab->unbindEvents();
-	}
-}
-
-// render
-void						TextureEditor::renderBefore(void)
-{
-	GraphicsLibrary *pGFX = BXGX::get()->getGraphicsLibrary();
-	
-	if (m_pMainWindow->getActiveEditor() != m_pMainWindow->getTextureEditor() || BXGX::get()->getEventWindow() != m_pMainWindow)
-	{
-		return;
-	}
-
-	m_pMainWindow->resetRenderingStyleGroups();
-	m_pMainWindow->resetRenderingControlComponent();
-	m_pMainWindow->resetRenderingStyleFragment();
-	m_pMainWindow->resetRenderingStyleStatus();
-
-	/*
-	int32 startx, starty, x, y, x2, y2;
-	uint32 uiLogWidth = 335;
-
-	startx = 139 + 139;
-	starty = 162 + 30;
-
-	// add horizontal lines for texture preview panel
-	uint32
-		uiTexturePanelBoxWidth = 250,
-		uiTexturePanelBoxHeight = 55,
-		uiDisplayedTextureCount = (m_pMainWindow->getSize().y - starty) / uiTexturePanelBoxHeight;
-
-	y = starty;
-	y2 = y;
-
-	
-	// draw item list
-	setRenderingStyleGroups("itemList");
-	StyleManager::get()->m_pRenderingEventUtilizer = nullptr;
-	setRenderingStyleStatus(DEFAULT_STYLE_STATUS);
-	pGFX->drawRectangle(Vec2i(startx, starty), Vec2u(uiTexturePanelBoxWidth, uiDisplayedTextureCount * uiTexturePanelBoxHeight));
-
-	void *pTexture;
-	for (uint32 i = 0; i < uiDisplayedTextureCount; i++)
-	{
-		pTexture = nullptr;
-
-		x = startx;
-		x2 = startx + 250;
-
-		if (pTexture == m_pActiveTexture)
-		{
-			setRenderingStyleStatus(ACTIVE);
-			pGFX->drawRectangle(Vec2i(x, y), Vec2u(uiTexturePanelBoxWidth, uiTexturePanelBoxHeight));
-		}
-		else
-		{
-			setRenderingStyleStatus(DEFAULT_STYLE_STATUS);
-		}
-
-		pGFX->drawLine(Vec2i(x, y), Vec2i(x2, y2));
-
-		pGFX->drawText(Vec2i(x, y + (uiTexturePanelBoxHeight / 2)), Vec2u(50, 25), String::toString(i + 1));
-
-		y += uiTexturePanelBoxHeight;
-		y2 += uiTexturePanelBoxHeight;
-	}
-	*/
-
-	if (m_pActiveEditorTab)
-	{
-		//((TextureEditorTab*)m_pActiveEditorTab)->renderDisplayType_Single();
-	}
 }
 
 // add editor tab

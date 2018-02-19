@@ -22,6 +22,8 @@ public:
 	void						setFileInfoText(void);
 	void						updateEntryCountText(void);
 
+	void						onChangeTextBox(bxgx::TextBox *pTextBox);
+
 	void						setIDEFile(bxgi::IDEFormat *pIDEFile) { m_pIDEFile = pIDEFile; }
 	bxgi::IDEFormat*			getIDEFile(void) { return m_pIDEFile; }
 

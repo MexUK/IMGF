@@ -361,9 +361,6 @@ void						RadarEditorTab::onFileLoaded(void)
 	// update tab text
 	updateTabText();
 
-	// add file path to recently opened files list
-	getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), getFile()->getFilePath());
-
 	// prepare render data
 	g_mtxRadarEditorRender.lock();
 	if (getIMGFile()->getVersion() == IMG_3)

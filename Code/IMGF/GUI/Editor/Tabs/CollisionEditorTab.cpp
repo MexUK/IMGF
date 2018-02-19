@@ -347,9 +347,6 @@ void					CollisionEditorTab::onFileLoaded(void)
 	// update tab text
 	updateTabText();
 
-	// add file path to recently opened files list
-	//getIMGF()->getRecentlyOpenManager()->addRecentlyOpenEntry(m_pEditor->getEditorType(), strFilePath);
-
 	// prepare render data
 	prepareRenderData();
 

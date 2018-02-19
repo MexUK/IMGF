@@ -20,6 +20,8 @@ public:
 	void						setFileInfoText(void);
 	void						updateEntryCountText(void);
 
+	void						onChangeTextBox(bxgx::TextBox *pTextBox);
+
 	void						setDATFile(bxgi::DATLoaderFormat *pDATFile) { m_pDATFile = pDATFile; }
 	bxgi::DATLoaderFormat*		getDATFile(void) { return m_pDATFile; }
 

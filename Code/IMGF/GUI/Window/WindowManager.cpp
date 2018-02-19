@@ -201,7 +201,10 @@ void					WindowManager::showSettingsWindow(void)
 {
 	m_bWindow2Cancelled = true;
 
-	m_pMainWindow->getActiveEditor()->getActiveEditorTab()->unbindEvents();
+	if (m_pMainWindow->getActiveEditor()->getActiveEditorTab())
+	{
+		m_pMainWindow->getActiveEditor()->getActiveEditorTab()->unbindEvents();
+	}
 
 	Window *pWindow = BXGX::get()->addWindow(750, 510);
 	SettingsWindowLayer *pLayer = pWindow->addLayer<SettingsWindowLayer>();
@@ -225,7 +228,10 @@ void					WindowManager::showSettingsWindow(void)
 	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
 
-	m_pMainWindow->getActiveEditor()->getActiveEditorTab()->bindEvents();
+	if (m_pMainWindow->getActiveEditor()->getActiveEditorTab())
+	{
+		m_pMainWindow->getActiveEditor()->getActiveEditorTab()->bindEvents();
+	}
 }
 
 void					WindowManager::showFormatsWindow(void)
