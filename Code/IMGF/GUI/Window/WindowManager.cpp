@@ -238,6 +238,11 @@ void					WindowManager::showFormatsWindow(void)
 {
 	m_bWindow2Cancelled = true;
 
+	if (m_pMainWindow->getActiveEditor()->getActiveEditorTab())
+	{
+		m_pMainWindow->getActiveEditor()->getActiveEditorTab()->unbindEvents();
+	}
+
 	Window *pWindow = BXGX::get()->addWindow(650, 510);
 	FormatsWindowLayer *pLayer = pWindow->addLayer<FormatsWindowLayer>();
 	
@@ -254,11 +259,21 @@ void					WindowManager::showFormatsWindow(void)
 	}
 	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
+
+	if (m_pMainWindow->getActiveEditor()->getActiveEditorTab())
+	{
+		m_pMainWindow->getActiveEditor()->getActiveEditorTab()->bindEvents();
+	}
 }
 
 void					WindowManager::showWebsitesWindow(void)
 {
 	m_bWindow2Cancelled = true;
+
+	if (m_pMainWindow->getActiveEditor()->getActiveEditorTab())
+	{
+		m_pMainWindow->getActiveEditor()->getActiveEditorTab()->unbindEvents();
+	}
 
 	Window *pWindow = BXGX::get()->addWindow(700, 300);
 	WebsitesWindowLayer *pLayer = pWindow->addLayer<WebsitesWindowLayer>();
@@ -276,11 +291,21 @@ void					WindowManager::showWebsitesWindow(void)
 	}
 	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
+
+	if (m_pMainWindow->getActiveEditor()->getActiveEditorTab())
+	{
+		m_pMainWindow->getActiveEditor()->getActiveEditorTab()->bindEvents();
+	}
 }
 
 void					WindowManager::showAboutWindow(void)
 {
 	m_bWindow2Cancelled = true;
+
+	if (m_pMainWindow->getActiveEditor()->getActiveEditorTab())
+	{
+		m_pMainWindow->getActiveEditor()->getActiveEditorTab()->unbindEvents();
+	}
 
 	Window *pWindow = BXGX::get()->addWindow(650, 620);
 	AboutWindowLayer *pLayer = pWindow->addLayer<AboutWindowLayer>();
@@ -298,6 +323,11 @@ void					WindowManager::showAboutWindow(void)
 	}
 	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
+
+	if (m_pMainWindow->getActiveEditor()->getActiveEditorTab())
+	{
+		m_pMainWindow->getActiveEditor()->getActiveEditorTab()->bindEvents();
+	}
 }
 
 // top right menu window input

@@ -253,7 +253,7 @@ enum imgf::mainLayer::input::EInputItem
 	GENERATE_COL_FROM_DFF,
 
 	// top right menu items
-	SETTINGS = 1800,
+	SETTINGS = 7000,
 	WEBSITES,
 	FORMATS2,
 	ABOUT,
