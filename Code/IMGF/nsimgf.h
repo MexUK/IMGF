@@ -82,6 +82,7 @@ namespace imgf
 	class AnimationEditor;
 	class RadarEditor;
 	class MapEditor;
+	class CarColsDATEditor;
 
 	class _3DEditorTab;
 	class LeftEntryList;
@@ -96,6 +97,7 @@ namespace imgf
 	class AnimationEditorTab;
 	class RadarEditorTab;
 	class MapEditorTab;
+	class CarColsDATEditorTab;
 
 	struct TextureEditorTabEntry;
 	struct RadarEditorTabEntry;

@@ -125,6 +125,7 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Components\LeftEntryList.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Components\_3DEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\AnimationEditor.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\CarColsDATEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\CollisionEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\DATEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\IMGEditor.cpp" />
@@ -135,6 +136,7 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\RadarEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\TextureEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\AnimationEditorTab.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\CarColsDATEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\CollisionEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\DATEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\IMGEditorTab.cpp" />
@@ -199,6 +201,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Components\LeftEntryList.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Components\_3DEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\AnimationEditor.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\CarColsDATEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\CollisionEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\DATEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\EEditorItem.h" />
@@ -213,6 +216,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Entries\RadarEditorTabEntry.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Entries\TextureEditorTabEntry.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\AnimationEditorTab.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\CarColsDATEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\CollisionEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\DATEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\IMGEditorTab.h" />

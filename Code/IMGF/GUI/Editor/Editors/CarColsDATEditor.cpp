@@ -1,3 +1,5 @@
+#include "CarColsDATEditor.h"
+
 #include "TextureEditor.h"
 #include "GUI/Window/WindowManager.h"
 #include "GUI/Window/Windows/MainWindow/MainWindow.h"
@@ -22,15 +24,13 @@ using namespace bxgx::styles::statuses;
 using namespace bxgi;
 using namespace imgf;
 
-TextureEditor::TextureEditor(void) :
-	Editor(TEXTURE_EDITOR),
-	m_pActiveTexture(nullptr)//,
-	//m_pTopLine(nullptr) // todo
+CarColsDATEditor::CarColsDATEditor(void) :
+	Editor(CAR_COLS_DAT_EDITOR)
 {
 }
 
 // initialization
-void						TextureEditor::init(void)
+void						CarColsDATEditor::init(void)
 {
 	setEditorFileType(TEXTURE);
 	setEditorFileFormats({ "TXD", "WTD" });
@@ -68,18 +68,18 @@ void						TextureEditor::init(void)
 }
 
 // event binding
-void						TextureEditor::bindEvents(void)
+void						CarColsDATEditor::bindEvents(void)
 {
 	Editor::bindEvents();
 }
 
-void						TextureEditor::unbindEvents(void)
+void						CarColsDATEditor::unbindEvents(void)
 {
 	Editor::unbindEvents();
 }
 
 // add editor tab
-TextureEditorTab*				TextureEditor::addEditorTab(string& strFilePath)
+CarColsDATEditorTab*		CarColsDATEditor::addEditorTab(string& strFilePath)
 {
 	if (String::toUpperCase(Path::getFileExtension(strFilePath)) == "TXD")
 	{
@@ -104,7 +104,7 @@ TextureEditorTab*				TextureEditor::addEditorTab(string& strFilePath)
 		}
 		return pTextureEditorTab;
 	}
-	else if(String::toUpperCase(Path::getFileExtension(strFilePath)) == "WTD")
+	else if (String::toUpperCase(Path::getFileExtension(strFilePath)) == "WTD")
 	{
 		WTDFormat wtdFormat(strFilePath);
 		if (!wtdFormat.readMetaData())
@@ -129,7 +129,7 @@ TextureEditorTab*				TextureEditor::addEditorTab(string& strFilePath)
 	}
 }
 
-TextureEditorTab*				TextureEditor::addBlankEditorTab(string& strFilePath)
+CarColsDATEditorTab*		CarColsDATEditor::addBlankEditorTab(string& strFilePath)
 {
 	if (String::toUpperCase(Path::getFileExtension(strFilePath)) == "TXD")
 	{

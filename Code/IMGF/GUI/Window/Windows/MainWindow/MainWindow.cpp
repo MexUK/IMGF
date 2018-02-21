@@ -335,6 +335,11 @@ void					MainWindow::initEditors(void)
 	m_pItemDefinitionEditor = addEditor<ItemDefinitionEditor>();
 	m_pItemPlacementEditor = addEditor<ItemPlacementEditor>();
 	m_pMapEditor = addEditor<MapEditor>();
+	m_pMapEditor = addEditor<MapEditor>(); // todo - wep
+	m_pMapEditor = addEditor<MapEditor>(); // todo - cuts
+	m_pMapEditor = addEditor<MapEditor>(); // todo - veh
+	m_pMapEditor = addEditor<MapEditor>(); // todo - ped
+	m_pMapEditor = addEditor<CarColsDATEditor>();
 }
 
 void					MainWindow::initSettingsMenuLayer(void)
@@ -431,8 +436,8 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 		if (m_pActiveEditor->getEditorTabs().getEntryCount() != 0)
 		{
 			m_pActiveEditor->getActiveEditorTab()->unbindEvents();
-			m_pActiveEditor->getActiveEditorTab()->getBaseLayer()->setEnabled(false);
-			m_pActiveEditor->getActiveEditorTab()->getLayer()->setEnabled(false);
+			m_pActiveEditor->getActiveEditorTab()->getBaseLayer()->unbindEvents();
+			m_pActiveEditor->getActiveEditorTab()->getLayer()->unbindEvents();
 		}
 	}
 
@@ -452,8 +457,8 @@ void					MainWindow::setActiveEditor(Editor *pActiveEditor)
 		if (pActiveEditor->getEditorTabs().getEntryCount() != 0)
 		{
 			pActiveEditor->getActiveEditorTab()->bindEvents();
-			pActiveEditor->getActiveEditorTab()->getBaseLayer()->setEnabled(true);
-			pActiveEditor->getActiveEditorTab()->getLayer()->setEnabled(true);
+			pActiveEditor->getActiveEditorTab()->getBaseLayer()->bindEvents();
+			pActiveEditor->getActiveEditorTab()->getLayer()->bindEvents();
 		}
 	}
 

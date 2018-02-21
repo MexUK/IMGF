@@ -104,15 +104,19 @@ bool						EditorTab::init(bool bIsNewFile)
 	// base layer
 	m_pBaseLayer = m_pEditor->getMainWindow()->getLayerById(90)->copyLayer();
 	m_pBaseLayer->setId(-1);
-	m_pBaseLayer->setEnabledWithoutEvents(true);
+	m_pBaseLayer->setEnabledWithoutEvents(false);
 	m_pEditor->getMainWindow()->addLayer(m_pBaseLayer);
 
 	// derived layer
 	initLayer();
 	m_pLayer = m_pLayer->copyLayer();
 	m_pLayer->setId(-1);
-	m_pLayer->setEnabledWithoutEvents(true);
+	m_pLayer->setEnabledWithoutEvents(false);
 	m_pEditor->getMainWindow()->addLayer(m_pLayer);
+
+	// store controls - base and derived
+	EditorTab::storeControls();
+	storeControls();
 
 	// add gui tab
 	string strTabText = Path::getFileName(m_pFile->getFilePath());
@@ -125,10 +129,6 @@ bool						EditorTab::init(bool bIsNewFile)
 	TabBar *pTabBar = m_pEditor->getTabBar();
 	m_pTab = pTabBar->addTab(strTabText, true);
 	pTabBar->bindTabLayer(m_pTab, getLayer());
-
-	// store controls - base and derived
-	EditorTab::storeControls();
-	storeControls();
 
 	// set active editor tab
 	m_pEditor->setActiveEditorTab(this);

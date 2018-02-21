@@ -130,8 +130,8 @@ void					TextureEditorTab::addEntryAfter(FormatEntry *pEntry)
 		prepareTexture_WTD(pTexture);
 	}
 
-	// todo
-	//updateIMGText();
+	calculateDisplayedEntryCount();
+	updateEntryCountText();
 }
 
 // editor input
