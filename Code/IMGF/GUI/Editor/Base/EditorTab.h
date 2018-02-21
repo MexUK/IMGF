@@ -189,7 +189,7 @@ T										imgf::EditorTab::_addEntry(std::string& strEntryFilePathOrData, bool 
 			strEntryName = bxcf::Path::getFileName(strEntryFilePathOrData);
 		}
 
-		if (getContainerFile()->getEntryByName(strEntryName) == nullptr)
+		if (!getContainerFile()->doesEntryNameExist(strEntryName, true))
 		{
 			pResult = (T)getContainerFile()->addEntryViaFile(strEntryFilePathOrData, strEntryName);
 			addEntryAfter(pResult);
@@ -214,7 +214,7 @@ T										imgf::EditorTab::_addEntry(std::string& strEntryFilePathOrData, bool 
 	}
 	else
 	{
-		if (getContainerFile()->getEntryByName(strEntryName) == nullptr)
+		if (!getContainerFile()->doesEntryNameExist(strEntryName))
 		{
 			pResult = (T)getContainerFile()->addEntryViaData(strEntryName, strEntryFilePathOrData);
 			addEntryAfter(pResult);

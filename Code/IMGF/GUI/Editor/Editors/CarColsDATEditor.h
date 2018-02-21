@@ -8,7 +8,7 @@
 #include "Format/TXD/TXDFormat.h"
 #include <string>
 
-class imgf::CarColsDATEditor : public imgf::Editor
+class imgf::CarColsDATEditor //: public imgf::Editor
 {
 public:
 	CarColsDATEditor(void);
@@ -18,6 +18,6 @@ public:
 	void								bindEvents(void);
 	void								unbindEvents(void);
 
-	CarColsDATEditorTab*				addEditorTab(std::string& strFilePath);
-	CarColsDATEditorTab*				addBlankEditorTab(std::string& strFilePath);
+	//CarColsDATEditorTab*				addEditorTab(std::string& strFilePath);
+	//CarColsDATEditorTab*				addBlankEditorTab(std::string& strFilePath);
 };

@@ -123,11 +123,13 @@ void					TextureEditorTab::addEntryAfter(FormatEntry *pEntry)
 	{
 		RWSection_TextureNative *pTexture = (RWSection_TextureNative*) pEntry;
 		prepareTexture_TXD(pTexture);
+		m_pTXDFile->m_vecTextures.push_back(pTexture);
 	}
 	else
 	{
 		WTDEntry *pTexture = (WTDEntry*) pEntry;
 		prepareTexture_WTD(pTexture);
+		//m_pTXDFile->m_vecTextures.push_back(pTexture); // todo
 	}
 
 	calculateDisplayedEntryCount();

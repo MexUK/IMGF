@@ -1,7 +1,7 @@
 layer disabled 90
 
-text 120 1.0-25 "Search"
-textbox 190 1.0-25 170 20 "" "" 85
+text 120 1.0-25 "Search:" "" 101010 -20
+textbox 190 1.0-25 170 20 "" "" 85 -10
 
 text 400 1.0-25 "Entry Count:"
 text 490 1.0-25 "0" "" 92

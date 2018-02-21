@@ -195,6 +195,7 @@ void					Installer::createFiles(void)
 	}
 
 	createFile(hModule, IDR_RCDATA8, strIMGFDataFolderPath + "Themes/Main.theme");
+	createFile(hModule, IDR_RCDATA9, strIMGFDataFolderPath + "Themes/Blue-Creme.theme");
 	/*
 	// todo
 	createFile(hModule, IDR_RCDATA6, strIMGFDataFolderPath + "Themes/Main (dark).theme");

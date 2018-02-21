@@ -8,7 +8,7 @@
 #include "GUI/Editor/Entries/TextureEditorTabEntry.h"
 #include "Pool/VectorPool.h"
 
-class imgf::CarColsDATEditorTab : public imgf::EditorTab, public bxcf::VectorPool<uint32>
+class imgf::CarColsDATEditorTab //: public imgf::EditorTab, public bxcf::VectorPool<uint32>
 {
 public:
 	CarColsDATEditorTab(void);
@@ -66,5 +66,5 @@ private:
 	void						calculateDisplayedEntryCount(void);
 
 private:
-	bxgi::DATCarColsFormat*		m_pDATCarColsFile;
+	//bxgi::DATCarColsFormat*		m_pDATCarColsFile;
 };

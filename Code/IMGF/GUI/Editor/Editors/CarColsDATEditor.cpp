@@ -24,6 +24,7 @@ using namespace bxgx::styles::statuses;
 using namespace bxgi;
 using namespace imgf;
 
+/*
 CarColsDATEditor::CarColsDATEditor(void) :
 	Editor(CAR_COLS_DAT_EDITOR)
 {
@@ -54,17 +55,6 @@ void						CarColsDATEditor::init(void)
 	y2 = y;
 
 	//m_pTopLine = addLine(x, y, x2, y2);
-
-	/*
-	// add vertical line for texture preview panel
-	x = startx + 150;
-	y = starty;
-
-	x2 = x;
-	y2 = m_pMainWindow->getSize().y;
-
-	addLine(x, y, x2, y2);
-	*/
 }
 
 // event binding
@@ -160,3 +150,5 @@ CarColsDATEditorTab*		CarColsDATEditor::addBlankEditorTab(string& strFilePath)
 		return pTextureEditorTab;
 	}
 }
+
+*/

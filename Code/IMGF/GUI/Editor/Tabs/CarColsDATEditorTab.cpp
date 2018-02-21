@@ -17,7 +17,6 @@
 #include "Format/TXD/TXDManager.h"
 #include "Format/RW/Sections/RWSection_TextureDictionary.h"
 #include "Format/RW/Sections/RWSection_TextureNative.h"
-#include "GUI/Editor/Entries/CarColsDATEditorTabEntry.h"
 #include "GraphicsLibrary/Base/ImageObject.h"
 #include "Style/Parts/EStyleStatus.h"
 #include "Stream/DataReader.h"
@@ -36,6 +35,8 @@ using namespace bxgx::events;
 using namespace bxgx::styles::statuses;
 using namespace bxgi;
 using namespace imgf;
+
+/*
 
 CarColsDATEditorTab::CarColsDATEditorTab(void)
 {
@@ -326,27 +327,13 @@ uint32					CarColsDATEditorTab::getSelectedEntryCount(void)
 {
 	uint32 uiIndex = 0;
 	uint32 uiSelectedItemCount = 0;
-	if (m_bIsTXDFile)
+	for (RWSection_TextureNative *pTextureNative : getTXDFile()->getTextures())
 	{
-		for (RWSection_TextureNative *pTextureNative : getTXDFile()->getTextures())
+		if (m_vecEntries[uiIndex]->m_bIsActive)
 		{
-			if (m_vecEntries[uiIndex]->m_bIsActive)
-			{
-				uiSelectedItemCount++;
-			}
-			uiIndex++;
+			uiSelectedItemCount++;
 		}
-	}
-	else
-	{
-		for (WTDEntry *pWTDEntry : getWTDFile()->getEntries())
-		{
-			if (m_vecEntries[uiIndex]->m_bIsActive)
-			{
-				uiSelectedItemCount++;
-			}
-			uiIndex++;
-		}
+		uiIndex++;
 	}
 	return uiSelectedItemCount;
 }
@@ -535,3 +522,5 @@ bool					CarColsDATEditorTab::isEntrySelected(FormatEntry *pEntry)
 		return pTabEntry->m_bIsActive;
 	}
 }
+
+*/

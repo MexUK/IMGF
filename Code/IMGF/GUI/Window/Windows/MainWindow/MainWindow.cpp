@@ -339,7 +339,7 @@ void					MainWindow::initEditors(void)
 	m_pMapEditor = addEditor<MapEditor>(); // todo - cuts
 	m_pMapEditor = addEditor<MapEditor>(); // todo - veh
 	m_pMapEditor = addEditor<MapEditor>(); // todo - ped
-	m_pMapEditor = addEditor<CarColsDATEditor>();
+	//m_pMapEditor = addEditor<CarColsDATEditor>();
 }
 
 void					MainWindow::initSettingsMenuLayer(void)
