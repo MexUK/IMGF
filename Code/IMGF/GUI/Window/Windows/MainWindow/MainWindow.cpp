@@ -94,14 +94,14 @@ ProgressBar*			MainWindow::getProgressBar(void)
 // event binding
 void					MainWindow::bindEvents(void)
 {
-	bindEventRef(RESIZE_WINDOW, &MainWindow::onResizeWindow);
-	onResizeWindow(Vec2i(0, 0));
-
+	bindEvent(RESIZE_WINDOW, &MainWindow::onResizeWindow);
 	bindEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
 	bindEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
 	bindEvent(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
 	bindEvent(MOUSE_EXIT_ITEM, &MainWindow::onCursorExitItem);
 	bindEvent(CLOSE_WINDOW, &MainWindow::onCloseWindow);
+
+	onResizeWindow(Vec2i(0, 0));
 }
 
 void					MainWindow::unbindEvents(void)
