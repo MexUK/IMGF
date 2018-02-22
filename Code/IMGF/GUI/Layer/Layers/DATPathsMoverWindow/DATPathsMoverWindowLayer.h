@@ -5,7 +5,7 @@
 #include "Layer/Layer.h"
 #include "Event/EventBindable.h"
 
-class imgf::DATPathsMoverWindowLayer : public bxgx::Layer, public bxcf::EventBindable
+class imgf::DATPathsMoverWindowLayer : public bxgx::Layer
 {
 public:
 	DATPathsMoverWindowLayer(void);

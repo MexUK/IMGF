@@ -5,7 +5,7 @@
 #include "Layer/Layer.h"
 #include "Event/EventBindable.h"
 
-class imgf::TXDOrganizerWindowLayer : public bxgx::Layer, public bxcf::EventBindable
+class imgf::TXDOrganizerWindowLayer : public bxgx::Layer
 {
 public:
 	TXDOrganizerWindowLayer(void);

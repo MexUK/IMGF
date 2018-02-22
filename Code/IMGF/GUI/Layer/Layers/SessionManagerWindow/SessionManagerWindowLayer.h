@@ -5,7 +5,7 @@
 #include "Layer/Layer.h"
 #include "Event/EventBindable.h"
 
-class imgf::SessionManagerWindowLayer : public bxgx::Layer, public bxcf::EventBindable
+class imgf::SessionManagerWindowLayer : public bxgx::Layer
 {
 public:
 	SessionManagerWindowLayer(void);

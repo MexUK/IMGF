@@ -5,7 +5,7 @@
 #include "Layer/Layer.h"
 #include "Event/EventBindable.h"
 
-class imgf::MapMoverAndIDShifterWindowLayer : public bxgx::Layer, public bxcf::EventBindable
+class imgf::MapMoverAndIDShifterWindowLayer : public bxgx::Layer
 {
 public:
 	MapMoverAndIDShifterWindowLayer(void);

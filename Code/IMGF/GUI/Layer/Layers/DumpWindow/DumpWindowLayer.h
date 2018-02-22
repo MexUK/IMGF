@@ -5,7 +5,7 @@
 #include "Layer/Layer.h"
 #include "Event/EventBindable.h"
 
-class imgf::DumpWindowLayer : public bxgx::Layer, public bxcf::EventBindable
+class imgf::DumpWindowLayer : public bxgx::Layer
 {
 public:
 	DumpWindowLayer(void);

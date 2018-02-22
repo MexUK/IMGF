@@ -5,7 +5,7 @@
 #include "Layer/Layer.h"
 #include "Event/EventBindable.h"
 
-class imgf::RenamerWindowLayer : public bxgx::Layer, public bxcf::EventBindable
+class imgf::RenamerWindowLayer : public bxgx::Layer
 {
 public:
 	RenamerWindowLayer(void);
