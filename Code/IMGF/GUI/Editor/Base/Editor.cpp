@@ -179,8 +179,8 @@ void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 	{
 		// make inactive
 		m_pActiveEditorTab->unbindEvents();
-		m_pActiveEditorTab->getLayer()->unbindEvents();
-		m_pActiveEditorTab->getBaseLayer()->unbindEvents();
+		m_pActiveEditorTab->getLayer()->setEnabled(false);
+		m_pActiveEditorTab->getBaseLayer()->setEnabled(false);
 	}
 
 	// store editor tab
@@ -198,8 +198,8 @@ void								Editor::setActiveEditorTab(EditorTab *pEditorTab)
 		// make active
 		pEditorTab->makeCurrent();
 		pEditorTab->bindEvents();
-		pEditorTab->getLayer()->bindEvents();
-		pEditorTab->getBaseLayer()->bindEvents();
+		pEditorTab->getLayer()->setEnabled(true);
+		pEditorTab->getBaseLayer()->setEnabled(true);
 	}
 }
 

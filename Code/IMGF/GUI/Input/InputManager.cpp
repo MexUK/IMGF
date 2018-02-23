@@ -49,8 +49,8 @@ void					InputManager::bindEvents(void)
 {
 	bindEvent(KEY_DOWN, &InputManager::onKeyDown);
 	bindEvent(KEY_CHAR, &InputManager::onCharDown);
-	bindEvent(MOUSE_ENTER_ITEM, &InputManager::onMouseEnterItem);
-	bindEvent(MOUSE_EXIT_ITEM, &InputManager::onMouseExitItem);
+	bindEvent(MOUSE_ENTER2, &InputManager::onMouseEnterItem);
+	bindEvent(MOUSE_EXIT2, &InputManager::onMouseExitItem);
 
 	bindEvent(PRESS_BUTTON, &InputManager::onPressButton);
 	bindEvent(PRESS_MENU_ITEM, &InputManager::onPressMenuItem);
@@ -120,7 +120,7 @@ void					InputManager::onMouseExitItem(RenderItem *pRenderItem)
 	{
 		if (!pSettingsButton->isPointInItem(vecCursorPoint))
 		{
-			pLayer->setEnabled(false);
+			// todo pLayer->setEnabled(false);
 		}
 	}
 }

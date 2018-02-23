@@ -98,7 +98,7 @@ void					MainWindow::bindEvents(void)
 	bindEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
 	bindEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
 	bindEvent(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
-	bindEvent(MOUSE_EXIT_ITEM, &MainWindow::onCursorExitItem);
+	bindEvent(MOUSE_EXIT2, &MainWindow::onCursorExitItem);
 	bindEvent(CLOSE_WINDOW, &MainWindow::onCloseWindow);
 
 	onResizeWindow(Vec2i(0, 0));
@@ -110,7 +110,7 @@ void					MainWindow::unbindEvents(void)
 	unbindEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
 	unbindEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
 	unbindEvent(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
-	unbindEvent(MOUSE_EXIT_ITEM, &MainWindow::onCursorExitItem);
+	unbindEvent(MOUSE_EXIT2, &MainWindow::onCursorExitItem);
 	unbindEvent(CLOSE_WINDOW, &MainWindow::onCloseWindow);
 }
 
@@ -346,7 +346,7 @@ void					MainWindow::initSettingsMenuLayer(void)
 {
 	// settings button
 
-	CoordinateSet x, y, w, h;
+	CoordinateSet x, y, w, h, x2, y2;
 
 	x.m_bIsX = true;
 	x.m_fRelative = 1.0f;
@@ -364,15 +364,44 @@ void					MainWindow::initSettingsMenuLayer(void)
 	h.m_fRelative = 0.0f;
 	h.m_iOffsetPx = 38;
 
+	x2.m_bIsX = true;
+	x2.m_fRelative = 1.0f;
+	x2.m_iOffsetPx = -43 + 27;
+	x2.px();
+
+	y2.m_bIsX = false;
+	y2.m_fRelative = 0.0f;
+	y2.m_iOffsetPx = 30 + 10;
+	y2.px();
+
 	x.px();
 	y.px();
 	w.px();
 	h.px();
 
 	m_pSettingsButton = getLayerById(45)->addButton(x, y, w, h, "", "settingsMenuButton", SETTINGS, 5);
-	m_pSettingsButtonLine1 = getLayerById(45)->addLine(x.m_px + 10, y.m_px + 10, x.m_px + 27, y.m_px + 10, "settingsMenuLine", -1, 10);
-	m_pSettingsButtonLine2 = getLayerById(45)->addLine(x.m_px + 10, y.m_px + 19, x.m_px + 27, y.m_px + 19, "settingsMenuLine", -1, 10);
-	m_pSettingsButtonLine3 = getLayerById(45)->addLine(x.m_px + 10, y.m_px + 28, x.m_px + 27, y.m_px + 28, "settingsMenuLine", -1, 10);
+
+	x.m_iOffsetPx += 10;
+	x.px();
+
+	y.m_iOffsetPx += 10;
+	y.px();
+
+	m_pSettingsButtonLine1 = getLayerById(45)->addLine(x, y, x2, y2, "settingsMenuLine", -1, 10);
+
+	y.m_iOffsetPx += 9;
+	y2.m_iOffsetPx += 9;
+	y.px();
+	y2.px();
+
+	m_pSettingsButtonLine2 = getLayerById(45)->addLine(x, y, x2, y2, "settingsMenuLine", -1, 10);
+	
+	y.m_iOffsetPx += 9;
+	y2.m_iOffsetPx += 9;
+	y.px();
+	y2.px();
+
+	m_pSettingsButtonLine3 = getLayerById(45)->addLine(x, y, x2, y2, "settingsMenuLine", -1, 10);
 
 	m_pSettingsButton->addLinkedItem(m_pSettingsButtonLine1);
 	m_pSettingsButton->addLinkedItem(m_pSettingsButtonLine2);
@@ -383,7 +412,7 @@ void					MainWindow::initSettingsMenuLayer(void)
 	// settings menu
 
 	int32
-		x2, y2, w2, h2, h3;
+		x0, y0, w2, h2, h3;
 	uint32
 		uiButtonHeight = 37,
 		uiTitleBarHeight = getTitleBarHeight();
@@ -392,14 +421,14 @@ void					MainWindow::initSettingsMenuLayer(void)
 
 	Layer *pSettingsMenuLayer = addLayer(ELayer::SETTINGS_MENU, false);
 
-	y2 = getTitleBarHeight() + uiButtonHeight;
+	y0 = getTitleBarHeight() + uiButtonHeight;
 	w2 = 139;
 	h2 = uiButtonHeight;
-	x2 = getSize().x - w2;
+	x0 = getSize().x - w2;
 	h3 = h2;
 	strStyleGroup = "settingsMenu";
 
-	m_pSettingsMenu = pSettingsMenuLayer->addMenu(x2, y2, w2, h2, VERTICAL, 2, strStyleGroup, EInputItem::SETTINGS_MENU, -100);
+	m_pSettingsMenu = pSettingsMenuLayer->addMenu(x0, y0, w2, h2, VERTICAL, 2, strStyleGroup, EInputItem::SETTINGS_MENU, 200);
 	m_pSettingsMenu->addMenuItem("Settings", SETTINGS);
 	m_pSettingsMenu->addMenuItem("Formats", FORMATS2);
 	m_pSettingsMenu->addMenuItem("Websites", WEBSITES);
