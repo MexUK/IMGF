@@ -26,6 +26,9 @@ public:
 
 	void					process(void);
 
+	template <class Layer1>
+	void					createContainedWindow(uint32 uiWindowWidth, uint32 uiWindowHeight, std::string strWindowTitle);
+
 	MainWindow*				getMainWindow(void) { return m_pMainWindow; }
 
 	IDEInputWindowResult	showIDEInputWindow(std::string strWindowTitle, std::string strDisplayedText);
@@ -60,3 +63,13 @@ public:
 private:
 	MainWindow*							m_pMainWindow;
 };
+
+// window creation
+template <class Layer1>
+void					imgf::WindowManager::createContainedWindow(uint32 uiWindowWidth, uint32 uiWindowHeight, std::string strWindowTitle)
+{
+	m_bWindow2Cancelled = true;
+	getIMGF()->getTaskManager()->onPauseTask();
+	BXGX::get()->createContainedWindow<Layer1>(uiWindowWidth, uiWindowHeight, strWindowTitle);
+	getIMGF()->getTaskManager()->onResumeTask();
+}

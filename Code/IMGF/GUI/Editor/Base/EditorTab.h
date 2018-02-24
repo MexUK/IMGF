@@ -114,6 +114,8 @@ public:
 	void								onTaskProgress(void);
 	void								onUnserializeFileProgress(bxcf::DataReader *pDataReader);
 	void								onCloseApp(void);
+	void								onAddContainedWindow(void);
+	void								onRemoveContainedWindow(void);
 
 	void								log(std::string strText);
 	void								logf(std::string strFormatText, ...);

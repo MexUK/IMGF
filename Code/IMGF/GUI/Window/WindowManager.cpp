@@ -159,12 +159,12 @@ IDEInputWindowResult	WindowManager::showIDEInputWindow(string strWindowTitle, st
 	pWindow->render();
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_IDEInputWindow);
+	bindEventDefault(PRESS_BUTTON, &WindowManager::onPressButton_IDEInputWindow);
 	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
 	{
 		BXGX::get()->process2ndThreadOnce();
 	}
-	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_IDEInputWindow);
+	unbindEventDefault(PRESS_BUTTON, &WindowManager::onPressButton_IDEInputWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
 
 	return m_ideInputWindowResult;
@@ -185,12 +185,12 @@ IPLInputWindowResult	WindowManager::showIPLInputWindow(string strWindowTitle, st
 	pWindow->render();
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_IDEInputWindow);
+	bindEventDefault(PRESS_BUTTON, &WindowManager::onPressButton_IDEInputWindow);
 	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
 	{
 		BXGX::get()->process2ndThreadOnce();
 	}
-	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_IDEInputWindow);
+	unbindEventDefault(PRESS_BUTTON, &WindowManager::onPressButton_IDEInputWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
 
 	return IPLInputWindowResult();
@@ -199,39 +199,7 @@ IPLInputWindowResult	WindowManager::showIPLInputWindow(string strWindowTitle, st
 // top right menu windows
 void					WindowManager::showSettingsWindow(void)
 {
-	m_bWindow2Cancelled = true;
-
-	if (m_pMainWindow->getActiveEditor()->getActiveEditorTab())
-	{
-		m_pMainWindow->getActiveEditor()->getActiveEditorTab()->unbindEvents();
-	}
-
-	Window *pWindow = BXGX::get()->addWindow(750, 510);
-	SettingsWindowLayer *pLayer = pWindow->addLayer<SettingsWindowLayer>();
-
-	pWindow->addTitleBar("Settings");
-	pLayer->init();
-
-	while (((Text*)pLayer->getItemById(520))->getTextWidth() == 0) // todo - waitForBlah()
-	{
-		Sleep(100);
-	}
-
-	pWindow->render();
-
-	getIMGF()->getTaskManager()->onPauseTask();
-	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
-	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
-	{
-		BXGX::get()->process2ndThreadOnce();
-	}
-	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
-	getIMGF()->getTaskManager()->onResumeTask();
-
-	if (m_pMainWindow->getActiveEditor()->getActiveEditorTab())
-	{
-		m_pMainWindow->getActiveEditor()->getActiveEditorTab()->bindEvents();
-	}
+	createContainedWindow<SettingsWindowLayer>(750, 510, "Settings");
 }
 
 void					WindowManager::showFormatsWindow(void)
@@ -252,12 +220,12 @@ void					WindowManager::showFormatsWindow(void)
 	pWindow->render();
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	bindEventDefault(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
 	{
 		BXGX::get()->process2ndThreadOnce();
 	}
-	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	unbindEventDefault(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
 
 	if (m_pMainWindow->getActiveEditor()->getActiveEditorTab())
@@ -284,12 +252,12 @@ void					WindowManager::showWebsitesWindow(void)
 	pWindow->render();
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	bindEventDefault(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
 	{
 		BXGX::get()->process2ndThreadOnce();
 	}
-	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	unbindEventDefault(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
 
 	if (m_pMainWindow->getActiveEditor()->getActiveEditorTab())
@@ -316,12 +284,12 @@ void					WindowManager::showAboutWindow(void)
 	pWindow->render();
 
 	getIMGF()->getTaskManager()->onPauseTask();
-	bindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	bindEventDefault(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	while (BXGX::get()->m_vecWindowsToInitialize.size() > 0 || BXGX::get()->getEntryCount() > 1)
 	{
 		BXGX::get()->process2ndThreadOnce();
 	}
-	unbindEvent(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
+	unbindEventDefault(PRESS_BUTTON, &WindowManager::onPressButton_TopRightMenuWindow);
 	getIMGF()->getTaskManager()->onResumeTask();
 
 	if (m_pMainWindow->getActiveEditor()->getActiveEditorTab())

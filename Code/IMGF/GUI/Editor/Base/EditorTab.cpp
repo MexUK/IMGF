@@ -74,12 +74,14 @@ EditorTab::~EditorTab(void)
 // events
 void						EditorTab::bindEvents(void)
 {
-	bindEvent(CHANGE_TAB, &EditorTab::onChangeTab);
-	bindEvent(REMOVE_TAB, &EditorTab::onRemoveTab);
-	bindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
-	bindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
-	bindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
-	bindEvent(CLOSE_APP, &EditorTab::onCloseApp);
+	bindEventDefault(CHANGE_TAB, &EditorTab::onChangeTab);
+	bindEventDefault(REMOVE_TAB, &EditorTab::onRemoveTab);
+	bindEventDefault(TASK_PROGRESS, &EditorTab::onTaskProgress);
+	bindEventDefault(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
+	bindEventDefault(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
+	bindEventDefault(CLOSE_APP, &EditorTab::onCloseApp);
+	bindEventDefault(ADD_CONTAINED_WINDOW, &EditorTab::onAddContainedWindow);
+	bindEventDefault(REMOVE_CONTAINED_WINDOW, &EditorTab::onRemoveContainedWindow);
 
 	//getBaseLayer()->bindEvents();
 	//getLayer()->bindEvents();
@@ -87,12 +89,14 @@ void						EditorTab::bindEvents(void)
 
 void						EditorTab::unbindEvents(void)
 {
-	unbindEvent(CHANGE_TAB, &EditorTab::onChangeTab);
-	unbindEvent(REMOVE_TAB, &EditorTab::onRemoveTab);
-	unbindEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
-	unbindEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
-	unbindEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
-	unbindEvent(CLOSE_APP, &EditorTab::onCloseApp);
+	unbindEventDefault(CHANGE_TAB, &EditorTab::onChangeTab);
+	unbindEventDefault(REMOVE_TAB, &EditorTab::onRemoveTab);
+	unbindEventDefault(TASK_PROGRESS, &EditorTab::onTaskProgress);
+	unbindEventDefault(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
+	unbindEventDefault(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
+	unbindEventDefault(CLOSE_APP, &EditorTab::onCloseApp);
+	unbindEventDefault(ADD_CONTAINED_WINDOW, &EditorTab::onAddContainedWindow);
+	unbindEventDefault(REMOVE_CONTAINED_WINDOW, &EditorTab::onRemoveContainedWindow);
 
 	//getBaseLayer()->unbindEvents();
 	//getLayer()->unbindEvents();
@@ -187,7 +191,7 @@ void						EditorTab::processThreadOnce(void)
 
 	for (Button *pButtonPressed : vecButtonsPressed)
 	{
-		Events::trigger(bxgx::events::PRESS_BUTTON, pButtonPressed);
+		Events::triggerDefault(bxgx::events::PRESS_BUTTON, pButtonPressed);
 	}
 
 	for (MenuItem *pMenuItem : vecMenuItemsPressed)
@@ -281,6 +285,24 @@ void						EditorTab::onCloseApp(void)
 			Sleep(1);
 		}
 	}
+}
+
+void						EditorTab::onAddContainedWindow(void)
+{
+	unbindEvents();
+	getLayer()->setEnabled(false);
+	getBaseLayer()->setEnabled(false);
+	m_pEditor->getMainWindow()->getLayerById(45)->setEnabled(false);
+	bindEventDefault(REMOVE_CONTAINED_WINDOW, &EditorTab::onRemoveContainedWindow);
+}
+
+void						EditorTab::onRemoveContainedWindow(void)
+{
+	unbindEventDefault(REMOVE_CONTAINED_WINDOW, &EditorTab::onRemoveContainedWindow);
+	m_pEditor->getMainWindow()->getLayerById(45)->setEnabled(true);
+	getBaseLayer()->setEnabled(true);
+	getLayer()->setEnabled(true);
+	bindEvents();
 }
 
 // log
@@ -435,25 +457,25 @@ vector<FormatEntry*>			EditorTab::getEntriesByNumericMultiOptionValues(uint32 ui
 		switch (uiMatchType)
 		{
 		case 0: // Equal to
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (umapEntryIndices[pEntry] == uiValue1)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (umapEntryIndices[pEntry] == uiValue1)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 1: // Not equal to
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (umapEntryIndices[pEntry] != uiValue1)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (umapEntryIndices[pEntry] != uiValue1)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 2: // Between
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (umapEntryIndices[pEntry] >= uiValue1 && umapEntryIndices[pEntry] <= uiValue2)	vecEntries.push_back(pEntry);	Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (umapEntryIndices[pEntry] >= uiValue1 && umapEntryIndices[pEntry] <= uiValue2)	vecEntries.push_back(pEntry);	Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 3: // Less than
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (umapEntryIndices[pEntry] < uiValue1)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (umapEntryIndices[pEntry] < uiValue1)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 4: // More than
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (umapEntryIndices[pEntry] > uiValue1)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (umapEntryIndices[pEntry] > uiValue1)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 5: // Less than or equal to
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (umapEntryIndices[pEntry] <= uiValue1)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (umapEntryIndices[pEntry] <= uiValue1)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 6: // More than or equal to
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (umapEntryIndices[pEntry] >= uiValue1)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (umapEntryIndices[pEntry] >= uiValue1)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		}
 		break;
@@ -464,25 +486,25 @@ vector<FormatEntry*>			EditorTab::getEntriesByNumericMultiOptionValues(uint32 ui
 		switch (uiMatchType)
 		{
 		case 0: // Equal to
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntryOffset() == uiValue1)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntryOffset() == uiValue1)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 1: // Not equal to
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntryOffset() != uiValue1)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntryOffset() != uiValue1)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 2: // Between
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntryOffset() >= uiValue1 && pEntry->getEntryOffset() <= uiValue2)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntryOffset() >= uiValue1 && pEntry->getEntryOffset() <= uiValue2)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 3: // Less than
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntryOffset() < uiValue1)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntryOffset() < uiValue1)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 4: // More than
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntryOffset() > uiValue1)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntryOffset() > uiValue1)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 5: // Less than or equal to
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntryOffset() <= uiValue1)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntryOffset() <= uiValue1)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 6: // More than or equal to
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntryOffset() >= uiValue1)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntryOffset() >= uiValue1)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		}
 		break;
@@ -490,25 +512,25 @@ vector<FormatEntry*>			EditorTab::getEntriesByNumericMultiOptionValues(uint32 ui
 		switch (uiMatchType)
 		{
 		case 0: // Equal to
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntrySize() == uiValue1)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntrySize() == uiValue1)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 1: // Not equal to
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntrySize() != uiValue1)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntrySize() != uiValue1)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 2: // Between
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntrySize() >= uiValue1 && pEntry->getEntrySize() <= uiValue2)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntrySize() >= uiValue1 && pEntry->getEntrySize() <= uiValue2)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 3: // Less than
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntrySize() < uiValue1)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntrySize() < uiValue1)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 4: // More than
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntrySize() > uiValue1)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntrySize() > uiValue1)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 5: // Less than or equal to
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntrySize() <= uiValue1)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntrySize() <= uiValue1)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 6: // More than or equal to
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntrySize() >= uiValue1)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getEntrySize() >= uiValue1)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		}
 		break;
@@ -518,25 +540,25 @@ vector<FormatEntry*>			EditorTab::getEntriesByNumericMultiOptionValues(uint32 ui
 		switch (uiMatchType)
 		{
 		case 0: // Equal to
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getRawVersion() == uiValue1)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getRawVersion() == uiValue1)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 1: // Not equal to
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getRawVersion() != uiValue1)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getRawVersion() != uiValue1)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 2: // Between
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getRawVersion() >= uiValue1 && pEntry->getRawVersion() <= uiValue2)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getRawVersion() >= uiValue1 && pEntry->getRawVersion() <= uiValue2)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 3: // Less than
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getRawVersion() < uiValue1)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getRawVersion() < uiValue1)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 4: // More than
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getRawVersion() > uiValue1)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getRawVersion() > uiValue1)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 5: // Less than or equal to
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getRawVersion() <= uiValue1)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getRawVersion() <= uiValue1)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		case 6: // More than or equal to
-			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getRawVersion() >= uiValue1)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+			for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (pEntry->getRawVersion() >= uiValue1)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 			break;
 		}
 		break;
@@ -560,25 +582,25 @@ vector<FormatEntry*>			EditorTab::getEntriesByStringMultiOptionValues(uint32 uiE
 			switch (uiMatchType)
 			{
 			case 0: // Equal to
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryName()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryName()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 1: // Not equal to
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryName()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryName()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 2: // Between
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryName()), strValue1Lower) && String::isIn(String::toLowerCase(pEntry->getEntryName()), strValue2Lower))	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryName()), strValue1Lower) && String::isIn(String::toLowerCase(pEntry->getEntryName()), strValue2Lower))	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 3: // Less than
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryName()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryName()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 4: // More than
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryName()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryName()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 5: // Less than or equal to
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryName()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryName()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 6: // More than or equal to
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryName()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryName()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			}
 		}
@@ -588,25 +610,25 @@ vector<FormatEntry*>			EditorTab::getEntriesByStringMultiOptionValues(uint32 uiE
 			switch (uiMatchType)
 			{
 			case 0: // Equal to
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryName()) == strValue1Lower)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryName()) == strValue1Lower)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 1: // Not equal to
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryName()) != strValue1Lower)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryName()) != strValue1Lower)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 2: // Between
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryName()) >= strValue1Lower && String::toLowerCase(pEntry->getEntryName()) <= strValue2Lower)	vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryName()) >= strValue1Lower && String::toLowerCase(pEntry->getEntryName()) <= strValue2Lower)	vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 3: // Less than
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryName()) < strValue1Lower)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryName()) < strValue1Lower)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 4: // More than
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryName()) > strValue1Lower)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryName()) > strValue1Lower)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 5: // Less than or equal to
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryName()) <= strValue1Lower)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryName()) <= strValue1Lower)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 6: // More than or equal to
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryName()) >= strValue1Lower)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryName()) >= strValue1Lower)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			}
 		}
@@ -618,25 +640,25 @@ vector<FormatEntry*>			EditorTab::getEntriesByStringMultiOptionValues(uint32 uiE
 			switch (uiMatchType)
 			{
 			case 0: // Equal to
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryExtension()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryExtension()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 1: // Not equal to
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryExtension()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryExtension()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 2: // Between
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryExtension()), strValue1Lower) && String::isIn(String::toLowerCase(pEntry->getEntryExtension()), strValue2Lower))		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryExtension()), strValue1Lower) && String::isIn(String::toLowerCase(pEntry->getEntryExtension()), strValue2Lower))		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 3: // Less than
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryExtension()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryExtension()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 4: // More than
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryExtension()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryExtension()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 5: // Less than or equal to
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryExtension()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryExtension()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 6: // More than or equal to
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryExtension()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::isIn(String::toLowerCase(pEntry->getEntryExtension()), strValue1Lower))		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			}
 		}
@@ -646,25 +668,25 @@ vector<FormatEntry*>			EditorTab::getEntriesByStringMultiOptionValues(uint32 uiE
 			switch (uiMatchType)
 			{
 			case 0: // Equal to
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryExtension()) == strValue1Lower)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryExtension()) == strValue1Lower)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 1: // Not equal to
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryExtension()) != strValue1Lower)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryExtension()) != strValue1Lower)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 2: // Between
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryExtension()) >= strValue1Lower && String::toLowerCase(pEntry->getEntryExtension()) <= strValue2Lower)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryExtension()) >= strValue1Lower && String::toLowerCase(pEntry->getEntryExtension()) <= strValue2Lower)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 3: // Less than
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryExtension()) < strValue1Lower)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryExtension()) < strValue1Lower)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 4: // More than
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryExtension()) > strValue1Lower)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryExtension()) > strValue1Lower)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 5: // Less than or equal to
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryExtension()) <= strValue1Lower)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryExtension()) <= strValue1Lower)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			case 6: // More than or equal to
-				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryExtension()) >= strValue1Lower)		vecEntries.push_back(pEntry);		Events::trigger(TASK_PROGRESS); }
+				for (FormatEntry *pEntry : getContainerFile()->getAllEntries()) {	if (String::toLowerCase(pEntry->getEntryExtension()) >= strValue1Lower)		vecEntries.push_back(pEntry);		Events::triggerDefault(TASK_PROGRESS); }
 				break;
 			}
 		}

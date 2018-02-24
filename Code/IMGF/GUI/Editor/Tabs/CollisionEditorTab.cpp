@@ -53,12 +53,12 @@ CollisionEditorTab::CollisionEditorTab(void) :
 // events
 void					CollisionEditorTab::bindEvents(void)
 {
-	bindEvent(AFTER_RENDER, &CollisionEditorTab::afterRender);
-	bindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
-	bindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
-	bindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
-	bindEvent(MOVE_MOUSE_WHEEL, &CollisionEditorTab::onMouseWheelMove2);
-	bindEvent(RESIZE_WINDOW, &CollisionEditorTab::onResizeWindow);
+	bindEventDefault(AFTER_RENDER, &CollisionEditorTab::afterRender);
+	bindEventDefault(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
+	bindEventDefault(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
+	bindEventDefault(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
+	bindEventDefault(MOVE_MOUSE_WHEEL, &CollisionEditorTab::onMouseWheelMove2);
+	bindEventDefault(RESIZE_WINDOW, &CollisionEditorTab::onResizeWindow);
 	
 	_3DEditorTab::bindEvents();
 	EditorTab::bindEvents();
@@ -66,12 +66,12 @@ void					CollisionEditorTab::bindEvents(void)
 
 void					CollisionEditorTab::unbindEvents(void)
 {
-	unbindEvent(AFTER_RENDER, &CollisionEditorTab::afterRender);
-	unbindEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
-	unbindEvent(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
-	unbindEvent(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
-	unbindEvent(MOVE_MOUSE_WHEEL, &CollisionEditorTab::onMouseWheelMove2);
-	unbindEvent(RESIZE_WINDOW, &CollisionEditorTab::onResizeWindow);
+	unbindEventDefault(AFTER_RENDER, &CollisionEditorTab::afterRender);
+	unbindEventDefault(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
+	unbindEventDefault(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
+	unbindEventDefault(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
+	unbindEventDefault(MOVE_MOUSE_WHEEL, &CollisionEditorTab::onMouseWheelMove2);
+	unbindEventDefault(RESIZE_WINDOW, &CollisionEditorTab::onResizeWindow);
 	
 	_3DEditorTab::unbindEvents();
 	EditorTab::unbindEvents();

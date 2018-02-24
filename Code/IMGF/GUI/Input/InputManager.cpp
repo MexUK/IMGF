@@ -47,14 +47,14 @@ void					InputManager::init(void)
 // bind events
 void					InputManager::bindEvents(void)
 {
-	bindEvent(KEY_DOWN, &InputManager::onKeyDown);
-	bindEvent(KEY_CHAR, &InputManager::onCharDown);
-	bindEvent(MOUSE_ENTER2, &InputManager::onMouseEnterItem);
-	bindEvent(MOUSE_EXIT2, &InputManager::onMouseExitItem);
+	bindEventDefault(KEY_DOWN, &InputManager::onKeyDown);
+	bindEventDefault(KEY_CHAR, &InputManager::onCharDown);
+	bindWindowEvent(MOUSE_ENTER2, (uint32)m_pMainWindow, &InputManager::onMouseEnterItem);
+	bindWindowEvent(MOUSE_EXIT2, (uint32)m_pMainWindow, &InputManager::onMouseExitItem);
 
-	bindEvent(PRESS_BUTTON, &InputManager::onPressButton);
-	bindEvent(PRESS_MENU_ITEM, &InputManager::onPressMenuItem);
-	bindEvent(DROP_FILES, &InputManager::onDropFiles);
+	bindEventDefault(PRESS_BUTTON, &InputManager::onPressButton);
+	bindEventDefault(PRESS_MENU_ITEM, &InputManager::onPressMenuItem);
+	bindEventDefault(DROP_FILES, &InputManager::onDropFiles);
 }
 
 // key down

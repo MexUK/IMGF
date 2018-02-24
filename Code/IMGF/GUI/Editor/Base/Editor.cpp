@@ -57,12 +57,12 @@ void								Editor::init(void)
 // events
 void								Editor::bindEvents(void) // todo - does it get called?
 {
-	bindEvent(DRAG_ENTRIES_OVER, &Editor::onDragEntriesOver);
+	bindEventDefault(DRAG_ENTRIES_OVER, &Editor::onDragEntriesOver);
 }
 
 void								Editor::unbindEvents(void) // todo - does it get called?
 {
-	unbindEvent(DRAG_ENTRIES_OVER, &Editor::onDragEntriesOver);
+	unbindEventDefault(DRAG_ENTRIES_OVER, &Editor::onDragEntriesOver);
 }
 
 // controls

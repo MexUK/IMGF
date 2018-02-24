@@ -22,7 +22,7 @@ using namespace imgf;
 // initialization
 void		FileGroupManager::init(void)
 {
-	bindEvent(BXGX_READY, &FileGroupManager::onToolReady);
+	bindEventDefault(BXGX_READY, &FileGroupManager::onToolReady);
 }
 
 void		FileGroupManager::uninit(void)

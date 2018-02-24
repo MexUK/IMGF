@@ -21,10 +21,10 @@ SettingsWindowLayer::SettingsWindowLayer(void)
 
 SettingsWindowLayer::~SettingsWindowLayer(void)
 {
-	unbindEvent(PRESS_BUTTON, &SettingsWindowLayer::onPressButton);
-	unbindEvent(CHECK_CHECK_BOX, &SettingsWindowLayer::onMarkCheckBox);
-	unbindEvent(UNCHECK_CHECK_BOX, &SettingsWindowLayer::onUnmarkCheckBox);
-	unbindEvent(SELECT_DROP_DOWN_ITEM, &SettingsWindowLayer::onSelectDropDownItem);
+	unbindEventDefault(PRESS_BUTTON, &SettingsWindowLayer::onPressButton);
+	unbindEventDefault(CHECK_CHECK_BOX, &SettingsWindowLayer::onMarkCheckBox);
+	unbindEventDefault(UNCHECK_CHECK_BOX, &SettingsWindowLayer::onUnmarkCheckBox);
+	unbindEventDefault(SELECT_DROP_DOWN_ITEM, &SettingsWindowLayer::onSelectDropDownItem);
 }
 
 // initialization
@@ -126,10 +126,10 @@ void					SettingsWindowLayer::init(void)
 	addButton(620, y, 100, 20, "Remove", "", 570);
 	y += yGap2;
 
-	bindEvent(PRESS_BUTTON, &SettingsWindowLayer::onPressButton);
-	bindEvent(CHECK_CHECK_BOX, &SettingsWindowLayer::onMarkCheckBox);
-	bindEvent(UNCHECK_CHECK_BOX, &SettingsWindowLayer::onUnmarkCheckBox);
-	bindEvent(SELECT_DROP_DOWN_ITEM, &SettingsWindowLayer::onSelectDropDownItem);
+	bindEventDefault(PRESS_BUTTON, &SettingsWindowLayer::onPressButton);
+	bindEventDefault(CHECK_CHECK_BOX, &SettingsWindowLayer::onMarkCheckBox);
+	bindEventDefault(UNCHECK_CHECK_BOX, &SettingsWindowLayer::onUnmarkCheckBox);
+	bindEventDefault(SELECT_DROP_DOWN_ITEM, &SettingsWindowLayer::onSelectDropDownItem);
 }
 
 // events

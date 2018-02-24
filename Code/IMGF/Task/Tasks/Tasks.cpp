@@ -166,7 +166,7 @@ void		Tasks::init(void)
 	m_pMainWindow = g_pIMGF->getWindowManager()->getMainWindow();
 	m_pTaskManager = g_pIMGF->getTaskManager();
 
-	bindEvent(TASK_PROGRESS, &Tasks::onProgressTask);
+	bindEventDefault(TASK_PROGRESS, &Tasks::onProgressTask);
 }
 
 void		Tasks::uninit(void)

@@ -18,20 +18,20 @@ _3DEditorTab::_3DEditorTab(void) :
 // event binding
 void					_3DEditorTab::bindEvents(void)
 {
-	bindEvent(KEY_DOWN, &_3DEditorTab::onKeyDown);
-	bindEvent(LEFT_MOUSE_DOWN, &_3DEditorTab::onLeftMouseDown);
-	bindEvent(LEFT_MOUSE_UP, &_3DEditorTab::onLeftMouseUp);
-	bindEvent(MOVE_MOUSE, &_3DEditorTab::onMouseMove, 0, -5);
-	bindEvent(MOVE_MOUSE_WHEEL, &_3DEditorTab::onMoveMouseWheel);
+	bindEventDefault(KEY_DOWN, &_3DEditorTab::onKeyDown);
+	bindEventDefault(LEFT_MOUSE_DOWN, &_3DEditorTab::onLeftMouseDown);
+	bindEventDefault(LEFT_MOUSE_UP, &_3DEditorTab::onLeftMouseUp);
+	bindEventDefault(MOVE_MOUSE, &_3DEditorTab::onMouseMove, -5);
+	bindEventDefault(MOVE_MOUSE_WHEEL, &_3DEditorTab::onMoveMouseWheel);
 }
 
 void					_3DEditorTab::unbindEvents(void)
 {
-	unbindEvent(KEY_DOWN, &_3DEditorTab::onKeyDown);
-	unbindEvent(LEFT_MOUSE_DOWN, &_3DEditorTab::onLeftMouseDown);
-	unbindEvent(LEFT_MOUSE_UP, &_3DEditorTab::onLeftMouseUp);
-	unbindEvent(MOVE_MOUSE, &_3DEditorTab::onMouseMove);
-	unbindEvent(MOVE_MOUSE_WHEEL, &_3DEditorTab::onMoveMouseWheel);
+	unbindEventDefault(KEY_DOWN, &_3DEditorTab::onKeyDown);
+	unbindEventDefault(LEFT_MOUSE_DOWN, &_3DEditorTab::onLeftMouseDown);
+	unbindEventDefault(LEFT_MOUSE_UP, &_3DEditorTab::onLeftMouseUp);
+	unbindEventDefault(MOVE_MOUSE, &_3DEditorTab::onMouseMove);
+	unbindEventDefault(MOVE_MOUSE_WHEEL, &_3DEditorTab::onMoveMouseWheel);
 }
 
 // event callbacks

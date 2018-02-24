@@ -39,14 +39,14 @@ void						DATEditorTab::initLayer(void)
 // events
 void						DATEditorTab::bindEvents(void)
 {
-	bindEvent(CHANGE_TEXT_BOX, &DATEditorTab::onChangeTextBox);
+	bindEventDefault(CHANGE_TEXT_BOX, &DATEditorTab::onChangeTextBox);
 
 	EditorTab::bindEvents();
 }
 
 void						DATEditorTab::unbindEvents(void)
 {
-	unbindEvent(CHANGE_TEXT_BOX, &DATEditorTab::onChangeTextBox);
+	unbindEventDefault(CHANGE_TEXT_BOX, &DATEditorTab::onChangeTextBox);
 
 	EditorTab::unbindEvents();
 }

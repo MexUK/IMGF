@@ -27,7 +27,7 @@ using namespace imgf::mainLayer::input;
 // initialization
 void					RecentlyOpenManager::init(void)
 {
-	bindEvent(BXGX_READY, &RecentlyOpenManager::onToolReady);
+	bindEventDefault(BXGX_READY, &RecentlyOpenManager::onToolReady);
 }
 
 void					RecentlyOpenManager::uninit(void)

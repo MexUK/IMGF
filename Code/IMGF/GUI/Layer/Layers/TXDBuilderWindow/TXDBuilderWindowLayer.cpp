@@ -21,12 +21,12 @@ using namespace imgf;
 
 TXDBuilderWindowLayer::TXDBuilderWindowLayer(void)
 {
-	bindEvent(PRESS_BUTTON, &TXDBuilderWindowLayer::onPressButton);
+	bindEventDefault(PRESS_BUTTON, &TXDBuilderWindowLayer::onPressButton);
 }
 
 TXDBuilderWindowLayer::~TXDBuilderWindowLayer(void)
 {
-	unbindEvent(PRESS_BUTTON, &TXDBuilderWindowLayer::onPressButton);
+	unbindEventDefault(PRESS_BUTTON, &TXDBuilderWindowLayer::onPressButton);
 }
 
 // initialization

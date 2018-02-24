@@ -73,28 +73,28 @@ TextureEditorTab::~TextureEditorTab(void)
 // events
 void					TextureEditorTab::bindEvents(void)
 {
-	bindEvent(RENDER, &TextureEditorTab::render);
-	bindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
-	bindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
-	bindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
-	bindEvent(LEFT_MOUSE_UP, &TextureEditorTab::onLeftMouseUp);
-	bindEvent(MOVE_MOUSE, &TextureEditorTab::onMouseMove);
-	bindEvent(KEY_DOWN, &TextureEditorTab::onKeyDown2);
-	bindEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
+	bindEventDefault(RENDER, &TextureEditorTab::render);
+	bindEventDefault(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
+	bindEventDefault(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
+	bindEventDefault(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
+	bindEventDefault(LEFT_MOUSE_UP, &TextureEditorTab::onLeftMouseUp);
+	bindEventDefault(MOVE_MOUSE, &TextureEditorTab::onMouseMove);
+	bindEventDefault(KEY_DOWN, &TextureEditorTab::onKeyDown2);
+	bindEventDefault(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
 
 	EditorTab::bindEvents();
 }
 
 void					TextureEditorTab::unbindEvents(void)
 {
-	unbindEvent(RENDER, &TextureEditorTab::render);
-	unbindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
-	unbindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
-	unbindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
-	unbindEvent(LEFT_MOUSE_UP, &TextureEditorTab::onLeftMouseUp);
-	unbindEvent(MOVE_MOUSE, &TextureEditorTab::onMouseMove);
-	unbindEvent(KEY_DOWN, &TextureEditorTab::onKeyDown2);
-	unbindEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
+	unbindEventDefault(RENDER, &TextureEditorTab::render);
+	unbindEventDefault(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
+	unbindEventDefault(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
+	unbindEventDefault(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
+	unbindEventDefault(LEFT_MOUSE_UP, &TextureEditorTab::onLeftMouseUp);
+	unbindEventDefault(MOVE_MOUSE, &TextureEditorTab::onMouseMove);
+	unbindEventDefault(KEY_DOWN, &TextureEditorTab::onKeyDown2);
+	unbindEventDefault(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
 
 	EditorTab::unbindEvents();
 }
@@ -1002,7 +1002,7 @@ void					TextureEditorTab::removeAllEntries(void)
 		{
 			RWSection_TextureNative *pTXDEntry = (RWSection_TextureNative*)pRWSection;
 			pTXDEntry->removeSection();
-			Events::trigger(TASK_PROGRESS);
+			Events::triggerDefault(TASK_PROGRESS);
 		}
 	}
 	else
@@ -1024,7 +1024,7 @@ void					TextureEditorTab::removeEntries(vector<FormatEntry*>& vecEntries)
 		{
 			RWSection_TextureNative *pTXDEntry = (RWSection_TextureNative*)pEntry;
 			pTXDEntry->removeSection();
-			Events::trigger(TASK_PROGRESS);
+			Events::triggerDefault(TASK_PROGRESS);
 		}
 	}
 	else
@@ -1033,7 +1033,7 @@ void					TextureEditorTab::removeEntries(vector<FormatEntry*>& vecEntries)
 		{
 			WTDEntry *pWTDEntry = (WTDEntry*)pEntry;
 			getWTDFile()->removeEntry(pWTDEntry);
-			Events::trigger(TASK_PROGRESS);
+			Events::triggerDefault(TASK_PROGRESS);
 		}
 	}
 

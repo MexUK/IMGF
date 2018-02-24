@@ -79,22 +79,22 @@ IMGEditorTab::~IMGEditorTab(void)
 // events
 void					IMGEditorTab::bindEvents(void)
 {
-	bindEvent(SELECT_DROP_DOWN_ITEM, &IMGEditorTab::onSelectDropEntry);
-	bindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
-	bindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
-	bindEvent(DOUBLE_LEFT_MOUSE_UP, &IMGEditorTab::onDoubleLeftMouseUp2);
-	bindEvent(START_DRAGGING_GRID_ROWS, &IMGEditorTab::onStartDraggingGridRows);
+	bindEventDefault(SELECT_DROP_DOWN_ITEM, &IMGEditorTab::onSelectDropEntry);
+	bindEventDefault(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
+	bindEventDefault(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
+	bindEventDefault(DOUBLE_LEFT_MOUSE_UP, &IMGEditorTab::onDoubleLeftMouseUp2);
+	bindEventDefault(START_DRAGGING_GRID_ROWS, &IMGEditorTab::onStartDraggingGridRows);
 
 	EditorTab::bindEvents();
 }
 
 void					IMGEditorTab::unbindEvents(void)
 {
-	unbindEvent(SELECT_DROP_DOWN_ITEM, &IMGEditorTab::onSelectDropEntry);
-	unbindEvent(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
-	unbindEvent(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
-	unbindEvent(DOUBLE_LEFT_MOUSE_UP, &IMGEditorTab::onDoubleLeftMouseUp2);
-	unbindEvent(START_DRAGGING_GRID_ROWS, &IMGEditorTab::onStartDraggingGridRows);
+	unbindEventDefault(SELECT_DROP_DOWN_ITEM, &IMGEditorTab::onSelectDropEntry);
+	unbindEventDefault(UNSERIALIZE_IMG_ENTRY, &IMGEditorTab::onUnserializeEntry);
+	unbindEventDefault(SORT_GRID_BY_COLUMN, &IMGEditorTab::onSortGridByColumn);
+	unbindEventDefault(DOUBLE_LEFT_MOUSE_UP, &IMGEditorTab::onDoubleLeftMouseUp2);
+	unbindEventDefault(START_DRAGGING_GRID_ROWS, &IMGEditorTab::onStartDraggingGridRows);
 
 	EditorTab::unbindEvents();
 }
@@ -744,7 +744,7 @@ void					IMGEditorTab::removeEntries(vector<FormatEntry*>& vecEntries)
 		IMGEntry *pIMGEntry = (IMGEntry*)pEntry;
 
 		removeEntry(pIMGEntry);
-		Events::trigger(TASK_PROGRESS);
+		Events::triggerDefault(TASK_PROGRESS);
 	}
 
 	updateEntryCountText();

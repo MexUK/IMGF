@@ -94,24 +94,24 @@ ProgressBar*			MainWindow::getProgressBar(void)
 // event binding
 void					MainWindow::bindEvents(void)
 {
-	bindEvent(RESIZE_WINDOW, &MainWindow::onResizeWindow);
-	bindEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
-	bindEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
-	bindEvent(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
-	bindEvent(MOUSE_EXIT2, &MainWindow::onCursorExitItem);
-	bindEvent(CLOSE_WINDOW, &MainWindow::onCloseWindow);
+	bindEventDefault(RESIZE_WINDOW, &MainWindow::onResizeWindow);
+	bindEventDefault(DROP_ENTRIES, &MainWindow::onDropEntries);
+	bindEventDefault(RELOAD_LAYERS, &MainWindow::reloadLayers);
+	bindEventDefault(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
+	bindEventDefault(MOUSE_EXIT2, &MainWindow::onCursorExitItem);
+	bindEventDefault(CLOSE_WINDOW, &MainWindow::onCloseWindow);
 
 	onResizeWindow(Vec2i(0, 0));
 }
 
 void					MainWindow::unbindEvents(void)
 {
-	unbindEvent(RESIZE_WINDOW, &MainWindow::onResizeWindow);
-	unbindEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
-	unbindEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
-	unbindEvent(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
-	unbindEvent(MOUSE_EXIT2, &MainWindow::onCursorExitItem);
-	unbindEvent(CLOSE_WINDOW, &MainWindow::onCloseWindow);
+	unbindEventDefault(RESIZE_WINDOW, &MainWindow::onResizeWindow);
+	unbindEventDefault(DROP_ENTRIES, &MainWindow::onDropEntries);
+	unbindEventDefault(RELOAD_LAYERS, &MainWindow::reloadLayers);
+	unbindEventDefault(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
+	unbindEventDefault(MOUSE_EXIT2, &MainWindow::onCursorExitItem);
+	unbindEventDefault(CLOSE_WINDOW, &MainWindow::onCloseWindow);
 }
 
 // window initialization
