@@ -47,14 +47,14 @@ void					InputManager::init(void)
 // bind events
 void					InputManager::bindEvents(void)
 {
-	bindEventDefault(KEY_DOWN, &InputManager::onKeyDown);
-	bindEventDefault(KEY_CHAR, &InputManager::onCharDown);
+	bindWindowEvent(KEY_DOWN, (uint32)m_pMainWindow, &InputManager::onKeyDown);
+	bindWindowEvent(KEY_CHAR, (uint32)m_pMainWindow, &InputManager::onCharDown);
 	bindWindowEvent(MOUSE_ENTER2, (uint32)m_pMainWindow, &InputManager::onMouseEnterItem);
 	bindWindowEvent(MOUSE_EXIT2, (uint32)m_pMainWindow, &InputManager::onMouseExitItem);
 
-	bindEventDefault(PRESS_BUTTON, &InputManager::onPressButton);
-	bindEventDefault(PRESS_MENU_ITEM, &InputManager::onPressMenuItem);
-	bindEventDefault(DROP_FILES, &InputManager::onDropFiles);
+	bindDefaultEvent(PRESS_BUTTON, &InputManager::onPressButton);
+	bindDefaultEvent(PRESS_MENU_ITEM, &InputManager::onPressMenuItem);
+	bindDefaultEvent(DROP_FILES, &InputManager::onDropFiles);
 }
 
 // key down
@@ -120,7 +120,7 @@ void					InputManager::onMouseExitItem(RenderItem *pRenderItem)
 	{
 		if (!pSettingsButton->isPointInItem(vecCursorPoint))
 		{
-			// todo pLayer->setEnabled(false);
+			pLayer->setEnabled(false);
 		}
 	}
 }

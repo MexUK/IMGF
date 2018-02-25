@@ -74,10 +74,10 @@ void						MapEditorTab::onResizeWindow(Vec2i& vecSizeChange)
 // events
 void						MapEditorTab::bindEvents(void)
 {
-	bindEventDefault(RENDER, &MapEditorTab::render);
-	bindEventDefault(END_RENDER, &MapEditorTab::endRender);
-	bindEventDefault(MOVE_MOUSE_WHEEL, &MapEditorTab::onMouseWheelMove2);
-	bindEventDefault(RESIZE_WINDOW, &MapEditorTab::onResizeWindow);
+	bindDefaultEvent(RENDER, &MapEditorTab::render);
+	bindDefaultEvent(END_RENDER, &MapEditorTab::endRender);
+	bindDefaultEvent(MOVE_MOUSE_WHEEL, &MapEditorTab::onMouseWheelMove2);
+	bindDefaultEvent(RESIZE_WINDOW, &MapEditorTab::onResizeWindow);
 
 	_3DEditorTab::bindEvents();
 	EditorTab::bindEvents();
@@ -85,10 +85,10 @@ void						MapEditorTab::bindEvents(void)
 
 void						MapEditorTab::unbindEvents(void)
 {
-	unbindEventDefault(RENDER, &MapEditorTab::render);
-	unbindEventDefault(END_RENDER, &MapEditorTab::endRender);
-	unbindEventDefault(MOVE_MOUSE_WHEEL, &MapEditorTab::onMouseWheelMove2);
-	unbindEventDefault(RESIZE_WINDOW, &MapEditorTab::onResizeWindow);
+	unbindDefaultEvent(RENDER, &MapEditorTab::render);
+	unbindDefaultEvent(END_RENDER, &MapEditorTab::endRender);
+	unbindDefaultEvent(MOVE_MOUSE_WHEEL, &MapEditorTab::onMouseWheelMove2);
+	unbindDefaultEvent(RESIZE_WINDOW, &MapEditorTab::onResizeWindow);
 	
 	_3DEditorTab::unbindEvents();
 	EditorTab::unbindEvents();

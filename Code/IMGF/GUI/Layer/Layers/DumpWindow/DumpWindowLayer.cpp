@@ -18,12 +18,12 @@ using namespace imgf;
 
 DumpWindowLayer::DumpWindowLayer(void)
 {
-	bindEventDefault(PRESS_BUTTON, &DumpWindowLayer::onPressButton);
+	bindDefaultEvent(PRESS_BUTTON, &DumpWindowLayer::onPressButton);
 }
 
 DumpWindowLayer::~DumpWindowLayer(void)
 {
-	unbindEventDefault(PRESS_BUTTON, &DumpWindowLayer::onPressButton);
+	unbindDefaultEvent(PRESS_BUTTON, &DumpWindowLayer::onPressButton);
 }
 
 // initialization

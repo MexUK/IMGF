@@ -18,12 +18,12 @@ using namespace imgf;
 
 TXDOrganizerWindowLayer::TXDOrganizerWindowLayer(void)
 {
-	bindEventDefault(PRESS_BUTTON, &TXDOrganizerWindowLayer::onPressButton);
+	bindDefaultEvent(PRESS_BUTTON, &TXDOrganizerWindowLayer::onPressButton);
 }
 
 TXDOrganizerWindowLayer::~TXDOrganizerWindowLayer(void)
 {
-	unbindEventDefault(PRESS_BUTTON, &TXDOrganizerWindowLayer::onPressButton);
+	unbindDefaultEvent(PRESS_BUTTON, &TXDOrganizerWindowLayer::onPressButton);
 }
 
 // initialization

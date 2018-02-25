@@ -74,14 +74,13 @@ EditorTab::~EditorTab(void)
 // events
 void						EditorTab::bindEvents(void)
 {
-	bindEventDefault(CHANGE_TAB, &EditorTab::onChangeTab);
-	bindEventDefault(REMOVE_TAB, &EditorTab::onRemoveTab);
-	bindEventDefault(TASK_PROGRESS, &EditorTab::onTaskProgress);
-	bindEventDefault(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
-	bindEventDefault(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
-	bindEventDefault(CLOSE_APP, &EditorTab::onCloseApp);
-	bindEventDefault(ADD_CONTAINED_WINDOW, &EditorTab::onAddContainedWindow);
-	bindEventDefault(REMOVE_CONTAINED_WINDOW, &EditorTab::onRemoveContainedWindow);
+	bindDefaultEvent(CHANGE_TAB, &EditorTab::onChangeTab);
+	bindDefaultEvent(REMOVE_TAB, &EditorTab::onRemoveTab);
+	bindDefaultEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
+	bindDefaultEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
+	bindDefaultEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
+	bindDefaultEvent(ADD_CONTAINED_WINDOW, &EditorTab::onAddContainedWindow);
+	bindDefaultEvent(REMOVE_CONTAINED_WINDOW, &EditorTab::onRemoveContainedWindow);
 
 	//getBaseLayer()->bindEvents();
 	//getLayer()->bindEvents();
@@ -89,14 +88,13 @@ void						EditorTab::bindEvents(void)
 
 void						EditorTab::unbindEvents(void)
 {
-	unbindEventDefault(CHANGE_TAB, &EditorTab::onChangeTab);
-	unbindEventDefault(REMOVE_TAB, &EditorTab::onRemoveTab);
-	unbindEventDefault(TASK_PROGRESS, &EditorTab::onTaskProgress);
-	unbindEventDefault(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
-	unbindEventDefault(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
-	unbindEventDefault(CLOSE_APP, &EditorTab::onCloseApp);
-	unbindEventDefault(ADD_CONTAINED_WINDOW, &EditorTab::onAddContainedWindow);
-	unbindEventDefault(REMOVE_CONTAINED_WINDOW, &EditorTab::onRemoveContainedWindow);
+	unbindDefaultEvent(CHANGE_TAB, &EditorTab::onChangeTab);
+	unbindDefaultEvent(REMOVE_TAB, &EditorTab::onRemoveTab);
+	unbindDefaultEvent(TASK_PROGRESS, &EditorTab::onTaskProgress);
+	unbindDefaultEvent(UNSERIALIZE_FILE_PROGRESS, &EditorTab::onUnserializeFileProgress);
+	unbindDefaultEvent(CHANGE_TEXT_BOX, &EditorTab::onChangeTextBox);
+	unbindDefaultEvent(ADD_CONTAINED_WINDOW, &EditorTab::onAddContainedWindow);
+	unbindDefaultEvent(REMOVE_CONTAINED_WINDOW, &EditorTab::onRemoveContainedWindow);
 
 	//getBaseLayer()->unbindEvents();
 	//getLayer()->unbindEvents();
@@ -275,30 +273,18 @@ void						EditorTab::onRemoveTab(Tab *pTab)
 	m_pEditor->getMainWindow()->onCloseEditorTab(pEditorTab);
 }
 
-void						EditorTab::onCloseApp(void)
-{
-	setMarkedToClose(true);
-	if(std::this_thread::get_id() != getThread().get_id())
-	{
-		while (!m_bThreadHasTerminated)
-		{
-			Sleep(1);
-		}
-	}
-}
-
 void						EditorTab::onAddContainedWindow(void)
 {
 	unbindEvents();
 	getLayer()->setEnabled(false);
 	getBaseLayer()->setEnabled(false);
 	m_pEditor->getMainWindow()->getLayerById(45)->setEnabled(false);
-	bindEventDefault(REMOVE_CONTAINED_WINDOW, &EditorTab::onRemoveContainedWindow);
+	bindDefaultEvent(REMOVE_CONTAINED_WINDOW, &EditorTab::onRemoveContainedWindow);
 }
 
 void						EditorTab::onRemoveContainedWindow(void)
 {
-	unbindEventDefault(REMOVE_CONTAINED_WINDOW, &EditorTab::onRemoveContainedWindow);
+	unbindDefaultEvent(REMOVE_CONTAINED_WINDOW, &EditorTab::onRemoveContainedWindow);
 	m_pEditor->getMainWindow()->getLayerById(45)->setEnabled(true);
 	getBaseLayer()->setEnabled(true);
 	getLayer()->setEnabled(true);

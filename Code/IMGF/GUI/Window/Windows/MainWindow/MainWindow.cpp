@@ -94,24 +94,26 @@ ProgressBar*			MainWindow::getProgressBar(void)
 // event binding
 void					MainWindow::bindEvents(void)
 {
-	bindEventDefault(RESIZE_WINDOW, &MainWindow::onResizeWindow);
-	bindEventDefault(DROP_ENTRIES, &MainWindow::onDropEntries);
-	bindEventDefault(RELOAD_LAYERS, &MainWindow::reloadLayers);
-	bindEventDefault(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
-	bindEventDefault(MOUSE_EXIT2, &MainWindow::onCursorExitItem);
-	bindEventDefault(CLOSE_WINDOW, &MainWindow::onCloseWindow);
+	bindDefaultEvent(RESIZE_WINDOW, &MainWindow::onResizeWindow);
+	bindDefaultEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
+	bindDefaultEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
+	bindDefaultEvent(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
+	bindDefaultEvent(MOUSE_EXIT2, &MainWindow::onCursorExitItem);
+	bindDefaultEvent(CLOSE_WINDOW, &MainWindow::onCloseWindow);
+	bindDefaultEvent(CLOSE_APP, &MainWindow::onCloseApp);
 
 	onResizeWindow(Vec2i(0, 0));
 }
 
 void					MainWindow::unbindEvents(void)
 {
-	unbindEventDefault(RESIZE_WINDOW, &MainWindow::onResizeWindow);
-	unbindEventDefault(DROP_ENTRIES, &MainWindow::onDropEntries);
-	unbindEventDefault(RELOAD_LAYERS, &MainWindow::reloadLayers);
-	unbindEventDefault(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
-	unbindEventDefault(MOUSE_EXIT2, &MainWindow::onCursorExitItem);
-	unbindEventDefault(CLOSE_WINDOW, &MainWindow::onCloseWindow);
+	unbindDefaultEvent(RESIZE_WINDOW, &MainWindow::onResizeWindow);
+	unbindDefaultEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
+	unbindDefaultEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
+	unbindDefaultEvent(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
+	unbindDefaultEvent(MOUSE_EXIT2, &MainWindow::onCursorExitItem);
+	unbindDefaultEvent(CLOSE_WINDOW, &MainWindow::onCloseWindow);
+	unbindDefaultEvent(CLOSE_APP, &MainWindow::onCloseApp);
 }
 
 // window initialization
@@ -221,6 +223,33 @@ void					MainWindow::onCursorExitItem(RenderItem *pOldRenderItem)
 			{
 				m_vecRightClickMenus[i]->unexpandAllMenus();
 				m_vecRightClickMenus[i]->setEnabled(false);
+			}
+		}
+	}
+}
+
+void					MainWindow::onCloseApp(void)
+{
+	// mark all editor tabs to be closed
+	for (Editor *pEditor : getEditors().getEntries())
+	{
+		for (EditorTab *pEditorTab : pEditor->getEditorTabs().getEntries())
+		{
+			pEditorTab->setMarkedToClose(true);
+		}
+	}
+
+	// wait until all editor tab threads have stopped
+	for (Editor *pEditor : getEditors().getEntries())
+	{
+		for (EditorTab *pEditorTab : pEditor->getEditorTabs().getEntries())
+		{
+			if (std::this_thread::get_id() != pEditorTab->getThread().get_id())
+			{
+				while (!pEditorTab->hasThreadTerminated())
+				{
+					Sleep(1);
+				}
 			}
 		}
 	}

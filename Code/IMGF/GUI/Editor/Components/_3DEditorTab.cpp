@@ -2,6 +2,7 @@
 #include "Event/EInternalEvent.h"
 #include "BXGX.h"
 #include "Static/Math.h"
+#include "GUI/Editor/Base/Editor.h"
 
 using namespace bxcf;
 using namespace bxgx;
@@ -18,20 +19,20 @@ _3DEditorTab::_3DEditorTab(void) :
 // event binding
 void					_3DEditorTab::bindEvents(void)
 {
-	bindEventDefault(KEY_DOWN, &_3DEditorTab::onKeyDown);
-	bindEventDefault(LEFT_MOUSE_DOWN, &_3DEditorTab::onLeftMouseDown);
-	bindEventDefault(LEFT_MOUSE_UP, &_3DEditorTab::onLeftMouseUp);
-	bindEventDefault(MOVE_MOUSE, &_3DEditorTab::onMouseMove, -5);
-	bindEventDefault(MOVE_MOUSE_WHEEL, &_3DEditorTab::onMoveMouseWheel);
+	bindWindowEvent(KEY_DOWN, (uint32)getEditor()->getMainWindow(), &_3DEditorTab::onKeyDown);
+	bindWindowEvent(LEFT_MOUSE_DOWN, (uint32)getEditor()->getMainWindow(), &_3DEditorTab::onLeftMouseDown);
+	bindWindowEvent(LEFT_MOUSE_UP, (uint32)getEditor()->getMainWindow(), &_3DEditorTab::onLeftMouseUp);
+	bindWindowEvent(MOVE_MOUSE, (uint32)getEditor()->getMainWindow(), &_3DEditorTab::onMouseMove, -5);
+	bindWindowEvent(MOVE_MOUSE_WHEEL, (uint32)getEditor()->getMainWindow(), &_3DEditorTab::onMoveMouseWheel);
 }
 
 void					_3DEditorTab::unbindEvents(void)
 {
-	unbindEventDefault(KEY_DOWN, &_3DEditorTab::onKeyDown);
-	unbindEventDefault(LEFT_MOUSE_DOWN, &_3DEditorTab::onLeftMouseDown);
-	unbindEventDefault(LEFT_MOUSE_UP, &_3DEditorTab::onLeftMouseUp);
-	unbindEventDefault(MOVE_MOUSE, &_3DEditorTab::onMouseMove);
-	unbindEventDefault(MOVE_MOUSE_WHEEL, &_3DEditorTab::onMoveMouseWheel);
+	unbindWindowEvent(KEY_DOWN, (uint32)getEditor()->getMainWindow(), &_3DEditorTab::onKeyDown);
+	unbindWindowEvent(LEFT_MOUSE_DOWN, (uint32)getEditor()->getMainWindow(), &_3DEditorTab::onLeftMouseDown);
+	unbindWindowEvent(LEFT_MOUSE_UP, (uint32)getEditor()->getMainWindow(), &_3DEditorTab::onLeftMouseUp);
+	unbindWindowEvent(MOVE_MOUSE, (uint32)getEditor()->getMainWindow(), &_3DEditorTab::onMouseMove);
+	unbindWindowEvent(MOVE_MOUSE_WHEEL, (uint32)getEditor()->getMainWindow(), &_3DEditorTab::onMoveMouseWheel);
 }
 
 // event callbacks

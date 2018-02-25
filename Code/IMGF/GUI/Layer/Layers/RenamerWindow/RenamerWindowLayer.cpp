@@ -17,12 +17,12 @@ using namespace imgf;
 
 RenamerWindowLayer::RenamerWindowLayer(void)
 {
-	bindEventDefault(PRESS_BUTTON, &RenamerWindowLayer::onPressButton);
+	bindDefaultEvent(PRESS_BUTTON, &RenamerWindowLayer::onPressButton);
 }
 
 RenamerWindowLayer::~RenamerWindowLayer(void)
 {
-	unbindEventDefault(PRESS_BUTTON, &RenamerWindowLayer::onPressButton);
+	unbindDefaultEvent(PRESS_BUTTON, &RenamerWindowLayer::onPressButton);
 }
 
 // initialization

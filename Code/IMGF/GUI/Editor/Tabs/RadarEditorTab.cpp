@@ -99,28 +99,28 @@ void						RadarEditorTab::initLayer(void)
 // events
 void						RadarEditorTab::bindEvents(void)
 {
-	bindEventDefault(RENDER, &RadarEditorTab::render);
-	bindEventDefault(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
-	bindEventDefault(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
-	bindEventDefault(LEFT_MOUSE_UP, &RadarEditorTab::onLeftMouseUp);
-	bindEventDefault(MOVE_MOUSE, &RadarEditorTab::onMouseMove);
-	bindEventDefault(KEY_DOWN, &RadarEditorTab::onKeyDown2);
-	bindEventDefault(MOVE_MOUSE_WHEEL, &RadarEditorTab::onMouseWheelMove2);
-	bindEventDefault(SELECT_DROP_DOWN_ITEM, &RadarEditorTab::onSelectDropDownItem);
+	bindWindowEvent(RENDER, (uint32)getEditor()->getMainWindow(), &RadarEditorTab::render);
+	bindDefaultEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
+	bindDefaultEvent(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
+	bindDefaultEvent(LEFT_MOUSE_UP, &RadarEditorTab::onLeftMouseUp);
+	bindDefaultEvent(MOVE_MOUSE, &RadarEditorTab::onMouseMove);
+	bindDefaultEvent(KEY_DOWN, &RadarEditorTab::onKeyDown2);
+	bindDefaultEvent(MOVE_MOUSE_WHEEL, &RadarEditorTab::onMouseWheelMove2);
+	bindDefaultEvent(SELECT_DROP_DOWN_ITEM, &RadarEditorTab::onSelectDropDownItem);
 
 	EditorTab::bindEvents();
 }
 
 void						RadarEditorTab::unbindEvents(void)
 {
-	unbindEventDefault(RENDER, &RadarEditorTab::render);
-	unbindEventDefault(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
-	unbindEventDefault(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
-	unbindEventDefault(LEFT_MOUSE_UP, &RadarEditorTab::onLeftMouseUp);
-	unbindEventDefault(MOVE_MOUSE, &RadarEditorTab::onMouseMove);
-	unbindEventDefault(KEY_DOWN, &RadarEditorTab::onKeyDown2);
-	unbindEventDefault(MOVE_MOUSE_WHEEL, &RadarEditorTab::onMouseWheelMove2);
-	unbindEventDefault(SELECT_DROP_DOWN_ITEM, &RadarEditorTab::onSelectDropDownItem);
+	unbindWindowEvent(RENDER, (uint32)getEditor()->getMainWindow(), &RadarEditorTab::render);
+	unbindDefaultEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
+	unbindDefaultEvent(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
+	unbindDefaultEvent(LEFT_MOUSE_UP, &RadarEditorTab::onLeftMouseUp);
+	unbindDefaultEvent(MOVE_MOUSE, &RadarEditorTab::onMouseMove);
+	unbindDefaultEvent(KEY_DOWN, &RadarEditorTab::onKeyDown2);
+	unbindDefaultEvent(MOVE_MOUSE_WHEEL, &RadarEditorTab::onMouseWheelMove2);
+	unbindDefaultEvent(SELECT_DROP_DOWN_ITEM, &RadarEditorTab::onSelectDropDownItem);
 
 	EditorTab::unbindEvents();
 }

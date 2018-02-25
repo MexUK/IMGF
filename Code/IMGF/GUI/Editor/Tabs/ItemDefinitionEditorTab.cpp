@@ -40,14 +40,14 @@ void						ItemDefinitionEditorTab::initLayer(void)
 // events
 void						ItemDefinitionEditorTab::bindEvents(void)
 {
-	bindEventDefault(CHANGE_TEXT_BOX, &ItemDefinitionEditorTab::onChangeTextBox);
+	bindDefaultEvent(CHANGE_TEXT_BOX, &ItemDefinitionEditorTab::onChangeTextBox);
 
 	EditorTab::bindEvents();
 }
 
 void						ItemDefinitionEditorTab::unbindEvents(void)
 {
-	unbindEventDefault(CHANGE_TEXT_BOX, &ItemDefinitionEditorTab::onChangeTextBox);
+	unbindDefaultEvent(CHANGE_TEXT_BOX, &ItemDefinitionEditorTab::onChangeTextBox);
 
 	EditorTab::unbindEvents();
 }

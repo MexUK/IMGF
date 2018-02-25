@@ -166,7 +166,7 @@ void		Tasks::init(void)
 	m_pMainWindow = g_pIMGF->getWindowManager()->getMainWindow();
 	m_pTaskManager = g_pIMGF->getTaskManager();
 
-	bindEventDefault(TASK_PROGRESS, &Tasks::onProgressTask);
+	bindDefaultEvent(TASK_PROGRESS, &Tasks::onProgressTask);
 }
 
 void		Tasks::uninit(void)
@@ -7196,13 +7196,13 @@ void		Tasks::update(bool bOnlyShowWindowIfUpdateIsAvailable)
 	{
 		if (!bOnlyShowWindowIfUpdateIsAvailable)
 		{
-			Tasks::showMessage("You are already using the latest version, which is " + String::toString(fLatestVersion), "Already Using Latest Version", MB_OK);
+			Tasks::showMessage("You are already using the latest version, which is " + String::toStringExtendedFloat(fLatestVersion), "Already Using Latest Version", MB_OK);
 		}
 		return onAbortTask();
 	}
 
 	// ask to update now
-	uint32 uiUpdateWindowResult = Tasks::showMessage("Version " + String::toString(fLatestVersion) + " is available, currently using " + String::toString(fCurrentVersion) + "\n\nUpdate now?", "Update Now?", MB_YESNOCANCEL);
+	uint32 uiUpdateWindowResult = Tasks::showMessage("Version " + String::toStringExtendedFloat(fLatestVersion) + " is available, currently using " + String::toStringExtendedFloat(fCurrentVersion) + "\n\nUpdate now?", "Update Now?", MB_YESNOCANCEL);
 	if (uiUpdateWindowResult != IDYES)
 	{
 		return onAbortTask();
@@ -7210,7 +7210,7 @@ void		Tasks::update(bool bOnlyShowWindowIfUpdateIsAvailable)
 
 	// fetch latest version
 	string strNewProgramFileName = vecFileLines[1];
-	string strNewProgramData = HTTP::get()->getFileContent(pActiveUpdateConnection->getDownloadFolderURL() + String::toString(fLatestVersion) + "/" + strNewProgramFileName);
+	string strNewProgramData = HTTP::get()->getFileContent(pActiveUpdateConnection->getDownloadFolderURL() + String::toStringExtendedFloat(fLatestVersion) + "/" + strNewProgramFileName);
 
 	// update program version
 	string strRunningProgramPath = Process::getEXEFilePath();
@@ -7226,7 +7226,7 @@ void		Tasks::update(bool bOnlyShowWindowIfUpdateIsAvailable)
 	}
 
 	// open new version
-	if (Tasks::showMessage("Update complete, open version " + String::toString(fLatestVersion) + " now?", "Open New Version Now?", MB_YESNO) == IDYES)
+	if (Tasks::showMessage("Update complete, open version " + String::toStringExtendedFloat(fLatestVersion) + " now?", "Open New Version Now?", MB_YESNO) == IDYES)
 	{
 		Process::startProcess(strNewProgramPath);
 		onCompleteTask();

@@ -73,28 +73,28 @@ TextureEditorTab::~TextureEditorTab(void)
 // events
 void					TextureEditorTab::bindEvents(void)
 {
-	bindEventDefault(RENDER, &TextureEditorTab::render);
-	bindEventDefault(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
-	bindEventDefault(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
-	bindEventDefault(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
-	bindEventDefault(LEFT_MOUSE_UP, &TextureEditorTab::onLeftMouseUp);
-	bindEventDefault(MOVE_MOUSE, &TextureEditorTab::onMouseMove);
-	bindEventDefault(KEY_DOWN, &TextureEditorTab::onKeyDown2);
-	bindEventDefault(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
+	bindWindowEvent(RENDER, (uint32)getEditor()->getMainWindow(), &TextureEditorTab::render);
+	bindDefaultEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
+	bindDefaultEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
+	bindDefaultEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
+	bindDefaultEvent(LEFT_MOUSE_UP, &TextureEditorTab::onLeftMouseUp);
+	bindDefaultEvent(MOVE_MOUSE, &TextureEditorTab::onMouseMove);
+	bindDefaultEvent(KEY_DOWN, &TextureEditorTab::onKeyDown2);
+	bindDefaultEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
 
 	EditorTab::bindEvents();
 }
 
 void					TextureEditorTab::unbindEvents(void)
 {
-	unbindEventDefault(RENDER, &TextureEditorTab::render);
-	unbindEventDefault(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
-	unbindEventDefault(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
-	unbindEventDefault(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
-	unbindEventDefault(LEFT_MOUSE_UP, &TextureEditorTab::onLeftMouseUp);
-	unbindEventDefault(MOVE_MOUSE, &TextureEditorTab::onMouseMove);
-	unbindEventDefault(KEY_DOWN, &TextureEditorTab::onKeyDown2);
-	unbindEventDefault(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
+	unbindWindowEvent(RENDER, (uint32)getEditor()->getMainWindow(), &TextureEditorTab::render);
+	unbindDefaultEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
+	unbindDefaultEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
+	unbindDefaultEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
+	unbindDefaultEvent(LEFT_MOUSE_UP, &TextureEditorTab::onLeftMouseUp);
+	unbindDefaultEvent(MOVE_MOUSE, &TextureEditorTab::onMouseMove);
+	unbindDefaultEvent(KEY_DOWN, &TextureEditorTab::onKeyDown2);
+	unbindDefaultEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
 
 	EditorTab::unbindEvents();
 }

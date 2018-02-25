@@ -113,7 +113,6 @@ public:
 	void								onRemoveTab(bxgx::Tab *pTab);
 	void								onTaskProgress(void);
 	void								onUnserializeFileProgress(bxcf::DataReader *pDataReader);
-	void								onCloseApp(void);
 	void								onAddContainedWindow(void);
 	void								onRemoveContainedWindow(void);
 

@@ -75,9 +75,9 @@ void						ModelEditorTab::initLayer(void)
 // events
 void						ModelEditorTab::bindEvents(void)
 {
-	bindEventDefault(AFTER_RENDER, &ModelEditorTab::afterRender);
-	bindEventDefault(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
-	bindEventDefault(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
+	bindWindowEvent(AFTER_RENDER, (uint32)getEditor()->getMainWindow(), &ModelEditorTab::afterRender);
+	bindDefaultEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
+	bindDefaultEvent(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
 
 	_3DEditorTab::bindEvents();
 	EditorTab::bindEvents();
@@ -85,9 +85,9 @@ void						ModelEditorTab::bindEvents(void)
 
 void						ModelEditorTab::unbindEvents(void)
 {
-	unbindEventDefault(AFTER_RENDER, &ModelEditorTab::afterRender);
-	unbindEventDefault(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
-	unbindEventDefault(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
+	unbindWindowEvent(AFTER_RENDER, (uint32)getEditor()->getMainWindow(), &ModelEditorTab::afterRender);
+	unbindDefaultEvent(MOVE_MOUSE_WHEEL, &ModelEditorTab::onMouseWheelMove2);
+	unbindDefaultEvent(RESIZE_WINDOW, &ModelEditorTab::onResizeWindow);
 
 	_3DEditorTab::unbindEvents();
 	EditorTab::unbindEvents();

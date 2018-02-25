@@ -16,12 +16,12 @@ using namespace imgf;
 
 DATPathsMoverWindowLayer::DATPathsMoverWindowLayer(void)
 {
-	bindEventDefault(PRESS_BUTTON, &DATPathsMoverWindowLayer::onPressButton);
+	bindDefaultEvent(PRESS_BUTTON, &DATPathsMoverWindowLayer::onPressButton);
 }
 
 DATPathsMoverWindowLayer::~DATPathsMoverWindowLayer(void)
 {
-	unbindEventDefault(PRESS_BUTTON, &DATPathsMoverWindowLayer::onPressButton);
+	unbindDefaultEvent(PRESS_BUTTON, &DATPathsMoverWindowLayer::onPressButton);
 }
 
 // initialization

@@ -16,12 +16,12 @@ using namespace imgf;
 
 MapMoverAndIDShifterWindowLayer::MapMoverAndIDShifterWindowLayer(void)
 {
-	bindEventDefault(PRESS_BUTTON, &MapMoverAndIDShifterWindowLayer::onPressButton);
+	bindDefaultEvent(PRESS_BUTTON, &MapMoverAndIDShifterWindowLayer::onPressButton);
 }
 
 MapMoverAndIDShifterWindowLayer::~MapMoverAndIDShifterWindowLayer(void)
 {
-	unbindEventDefault(PRESS_BUTTON, &MapMoverAndIDShifterWindowLayer::onPressButton);
+	unbindDefaultEvent(PRESS_BUTTON, &MapMoverAndIDShifterWindowLayer::onPressButton);
 }
 
 // initialization

@@ -53,26 +53,26 @@ CollisionEditorTab::CollisionEditorTab(void) :
 // events
 void					CollisionEditorTab::bindEvents(void)
 {
-	bindEventDefault(AFTER_RENDER, &CollisionEditorTab::afterRender);
-	bindEventDefault(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
-	bindEventDefault(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
-	bindEventDefault(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
-	bindEventDefault(MOVE_MOUSE_WHEEL, &CollisionEditorTab::onMouseWheelMove2);
-	bindEventDefault(RESIZE_WINDOW, &CollisionEditorTab::onResizeWindow);
-	
+	bindWindowEvent(AFTER_RENDER, (uint32)getEditor()->getMainWindow(), &CollisionEditorTab::afterRender);
+	bindWindowEvent(LEFT_MOUSE_DOWN, (uint32)getEditor()->getMainWindow(), &CollisionEditorTab::onLeftMouseDown);
+	bindWindowEvent(KEY_DOWN, (uint32)getEditor()->getMainWindow(), &CollisionEditorTab::onKeyDown2);
+	bindWindowEvent(MOVE_MOUSE_WHEEL, (uint32)getEditor()->getMainWindow(), &CollisionEditorTab::onMouseWheelMove2);
+	bindWindowEvent(RESIZE_WINDOW, (uint32)getEditor()->getMainWindow(), &CollisionEditorTab::onResizeWindow);
+	bindDefaultEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
+
 	_3DEditorTab::bindEvents();
 	EditorTab::bindEvents();
 }
 
 void					CollisionEditorTab::unbindEvents(void)
 {
-	unbindEventDefault(AFTER_RENDER, &CollisionEditorTab::afterRender);
-	unbindEventDefault(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
-	unbindEventDefault(LEFT_MOUSE_DOWN, &CollisionEditorTab::onLeftMouseDown);
-	unbindEventDefault(KEY_DOWN, &CollisionEditorTab::onKeyDown2);
-	unbindEventDefault(MOVE_MOUSE_WHEEL, &CollisionEditorTab::onMouseWheelMove2);
-	unbindEventDefault(RESIZE_WINDOW, &CollisionEditorTab::onResizeWindow);
-	
+	unbindWindowEvent(AFTER_RENDER, (uint32)getEditor()->getMainWindow(), &CollisionEditorTab::afterRender);
+	unbindWindowEvent(LEFT_MOUSE_DOWN, (uint32)getEditor()->getMainWindow(), &CollisionEditorTab::onLeftMouseDown);
+	unbindWindowEvent(KEY_DOWN, (uint32)getEditor()->getMainWindow(), &CollisionEditorTab::onKeyDown2);
+	unbindWindowEvent(MOVE_MOUSE_WHEEL, (uint32)getEditor()->getMainWindow(), &CollisionEditorTab::onMouseWheelMove2);
+	unbindWindowEvent(RESIZE_WINDOW, (uint32)getEditor()->getMainWindow(), &CollisionEditorTab::onResizeWindow);
+	unbindDefaultEvent(SELECT_DROP_DOWN_ITEM, &CollisionEditorTab::onSelectDropDownItem);
+
 	_3DEditorTab::unbindEvents();
 	EditorTab::unbindEvents();
 }
@@ -172,6 +172,7 @@ void					CollisionEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 	{
 		setActiveEntry(pActiveCOLEntry);
 		prepareEntities();
+		getEditor()->getMainWindow()->render();
 	}
 }
 

@@ -17,12 +17,12 @@ using namespace imgf;
 
 SessionManagerWindowLayer::SessionManagerWindowLayer(void) // todo - rename class to File Group
 {
-	bindEventDefault(PRESS_BUTTON, &SessionManagerWindowLayer::onPressButton);
+	bindDefaultEvent(PRESS_BUTTON, &SessionManagerWindowLayer::onPressButton);
 }
 
 SessionManagerWindowLayer::~SessionManagerWindowLayer(void)
 {
-	unbindEventDefault(PRESS_BUTTON, &SessionManagerWindowLayer::onPressButton);
+	unbindDefaultEvent(PRESS_BUTTON, &SessionManagerWindowLayer::onPressButton);
 }
 
 // initialization
