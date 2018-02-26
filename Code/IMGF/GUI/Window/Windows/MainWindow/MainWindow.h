@@ -14,6 +14,7 @@
 #include "GUI/Editor/Editors/AnimationEditor.h"
 #include "GUI/Editor/Editors/RadarEditor.h"
 #include "GUI/Editor/Editors/MapEditor.h"
+#include "GUI/Editor/Editors/ProjectEditor.h"
 #include <string>
 #include <vector>
 
@@ -110,6 +111,7 @@ public:
 	RadarEditor*				m_pPaintEditor;
 	RadarEditor*				m_pZonsEditor;
 	MapEditor*					m_pMapEditor;
+	ProjectEditor*				m_pProjectEditor;
 
 	bxgx::Menu*					m_pFormatsMenu;
 	bxgx::Menu*					m_pSettingsMenu;

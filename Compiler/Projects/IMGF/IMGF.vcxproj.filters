@@ -522,6 +522,12 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\CarColsDATEditorTab.cpp">
       <Filter>Source Files\GUI\Editor\Tabs</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ProjectEditor.cpp">
+      <Filter>Source Files\GUI\Editor\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\ProjectEditorTab.cpp">
+      <Filter>Source Files\GUI\Editor\Tabs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Code\IMGF\Globals.h">
@@ -828,6 +834,12 @@
       <Filter>Header Files\GUI\Editor\Editors</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\CarColsDATEditorTab.h">
+      <Filter>Header Files\GUI\Editor\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ProjectEditor.h">
+      <Filter>Header Files\GUI\Editor\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\ProjectEditorTab.h">
       <Filter>Header Files\GUI\Editor\Tabs</Filter>
     </ClInclude>
   </ItemGroup>

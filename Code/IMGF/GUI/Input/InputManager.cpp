@@ -60,18 +60,31 @@ void					InputManager::bindEvents(void)
 // key down
 void					InputManager::onKeyDown(uint16 uiKey)
 {
-	IMGEditorTab *pEditorTab = (IMGEditorTab*)m_pMainWindow->getIMGEditor()->getActiveEditorTab();
-	if (BXGX::get()->getEntryCount() == 1)
+	EditorTab *pEditorTab = m_pMainWindow->getActiveEditor()->getActiveEditorTab();
+	if (pEditorTab && BXGX::get()->getEntryCount() == 1)
 	{
-		if (pEditorTab && m_pMainWindow->getActiveItem() == (LayerItem*)pEditorTab->getEntryGrid())
+		bool bRemoveOccurred = false;
+		if (m_pMainWindow->getActiveEditor()->getEditorType() == IMG_EDITOR && uiKey == VK_DELETE)
 		{
-			if (uiKey == VK_DELETE && pEditorTab->getEntryGrid()->isAnyRowSelected())
+			IMGEditorTab *pIMGEditorTab = (IMGEditorTab*)pEditorTab;
+			if (pIMGEditorTab->getEntryGrid()->isAnyRowSelected())
 			{
+				bRemoveOccurred = true;
 				m_pTasks->removeSelected();
 			}
-			else if (!(uiKey >= 37 && uiKey <= 40) && (String::isAsciiCharacterDisplayable((uint8)uiKey) || uiKey == VK_BACK || uiKey == VK_DELETE))
+		}
+
+		if (m_pMainWindow->getActiveEditor()->getEditorType() != COLLISION_EDITOR
+			&& m_pMainWindow->getActiveEditor()->getEditorType() != MODEL_EDITOR
+			&& m_pMainWindow->getActiveEditor()->getEditorType() != ANIMATION_EDITOR
+			&& m_pMainWindow->getActiveEditor()->getEditorType() != MAP_EDITOR)
+		{
+			if (!bRemoveOccurred)
 			{
-				pEditorTab->getSearchBox()->onKeyDown(uiKey);
+				if (!(uiKey >= 37 && uiKey <= 40) && (String::isAsciiCharacterDisplayable((uint8)uiKey) || uiKey == VK_BACK || uiKey == VK_DELETE))
+				{
+					pEditorTab->getSearchBox()->onKeyDown(uiKey);
+				}
 			}
 		}
 	}
@@ -80,12 +93,18 @@ void					InputManager::onKeyDown(uint16 uiKey)
 // char down
 void					InputManager::onCharDown(uint16 uiKey)
 {
-	IMGEditorTab *pEditorTab = (IMGEditorTab*)m_pMainWindow->getIMGEditor()->getActiveEditorTab();
-	if (BXGX::get()->getEntryCount() == 1)
+	EditorTab *pEditorTab = m_pMainWindow->getActiveEditor()->getActiveEditorTab();
+	if (pEditorTab && BXGX::get()->getEntryCount() == 1)
 	{
-		if (pEditorTab && m_pMainWindow->getActiveItem() == (LayerItem*)pEditorTab->getEntryGrid() && String::isAsciiCharacterDisplayable((uint8)uiKey))
+		if (m_pMainWindow->getActiveEditor()->getEditorType() != COLLISION_EDITOR
+			&& m_pMainWindow->getActiveEditor()->getEditorType() != MODEL_EDITOR
+			&& m_pMainWindow->getActiveEditor()->getEditorType() != ANIMATION_EDITOR
+			&& m_pMainWindow->getActiveEditor()->getEditorType() != MAP_EDITOR)
 		{
-			pEditorTab->getSearchBox()->onCharDown(uiKey);
+			if (pEditorTab && /* m_pMainWindow->getActiveItem() == (LayerItem*)pEditorTab->getEntryGrid() && todo */ String::isAsciiCharacterDisplayable((uint8)uiKey))
+			{
+				pEditorTab->getSearchBox()->onCharDown(uiKey);
+			}
 		}
 	}
 }
@@ -248,6 +267,7 @@ void					InputManager::processTask(uint32 uiItemId)
 	case TEXTURES:									return textures();
 	case ANIMATIONS:								return animations();
 	case RADAR:										return radar();
+	case PROJECT:									return project();
 
 	case NEW_FILE:									return newFile();
 	case NEW_WTD:									return newWTD();
@@ -496,6 +516,11 @@ void					InputManager::animations(void)
 void					InputManager::radar(void)
 {
 	m_pMainWindow->setActiveEditor(m_pMainWindow->m_pRadarEditor);
+}
+
+void					InputManager::project(void)
+{
+	m_pMainWindow->setActiveEditor(m_pMainWindow->m_pProjectEditor);
 }
 
 // button press - file menu

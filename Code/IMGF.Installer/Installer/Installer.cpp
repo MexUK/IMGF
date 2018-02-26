@@ -111,7 +111,7 @@ void					Installer::openWindow(void)
 	m_pButton3_1 = pLayer->addButton(vecWindowSize.x - 270 - 20, vecWindowSize.y - 25 - 20, 150, 25, "Open IMG Factory");
 	m_pButton3_2 = pLayer->addButton(vecWindowSize.x - 100 - 20, vecWindowSize.y - 25 - 20, 100, 25, "Close");
 
-	bindEvent(PRESS_BUTTON, &Installer::onPressButton);
+	bindDefaultEvent(PRESS_BUTTON, &Installer::onPressButton);
 }
 
 // processing

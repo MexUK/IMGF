@@ -257,5 +257,13 @@ enum imgf::mainLayer::input::EInputItem
 	WEBSITES,
 	FORMATS2,
 	ABOUT,
-	UPDATE
+	UPDATE,
+
+
+
+
+
+
+
+	PROJECT = 10204
 };

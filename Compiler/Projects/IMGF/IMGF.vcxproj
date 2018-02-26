@@ -133,6 +133,7 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ItemPlacementEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\MapEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ModelEditor.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ProjectEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\RadarEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Editors\TextureEditor.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\AnimationEditorTab.cpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\ItemPlacementEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\MapEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\ModelEditorTab.cpp" />
+    <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\ProjectEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\RadarEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\TextureEditorTab.cpp" />
     <ClCompile Include="..\..\..\Code\IMGF\GUI\Input\InputManager.cpp" />
@@ -210,6 +212,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ItemPlacementEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\MapEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ModelEditor.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\ProjectEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\RadarEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Editors\TextureEditor.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\EEditor.h" />
@@ -224,6 +227,7 @@
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\ItemPlacementEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\MapEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\ModelEditorTab.h" />
+    <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\ProjectEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\RadarEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Editor\Tabs\TextureEditorTab.h" />
     <ClInclude Include="..\..\..\Code\IMGF\GUI\Input\InputManager.h" />

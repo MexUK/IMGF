@@ -191,10 +191,18 @@ void						EditorTab::processThreadOnce(void)
 	{
 		Events::triggerDefault(bxgx::events::PRESS_BUTTON, pButtonPressed);
 	}
+	if (isMarkedToClose())
+	{
+		return;
+	}
 
 	for (MenuItem *pMenuItem : vecMenuItemsPressed)
 	{
 		getIMGF()->getInputManager()->processMenuItemPress(pMenuItem);
+	}
+	if (isMarkedToClose())
+	{
+		return;
 	}
 
 	Editor *pActiveEditor = getIMGF()->getWindowManager()->getMainWindow()->getActiveEditor();

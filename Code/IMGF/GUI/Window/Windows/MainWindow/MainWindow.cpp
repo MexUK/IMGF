@@ -54,6 +54,7 @@ MainWindow::MainWindow(void) :
 	m_pCollisionEditor(nullptr),
 	m_pAnimationEditor(nullptr),
 	m_pRadarEditor(nullptr),
+	m_pProjectEditor(nullptr),
 
 	m_pActiveEditor(nullptr),
 
@@ -97,8 +98,8 @@ void					MainWindow::bindEvents(void)
 	bindDefaultEvent(RESIZE_WINDOW, &MainWindow::onResizeWindow);
 	bindDefaultEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
 	bindDefaultEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
-	bindDefaultEvent(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
-	bindDefaultEvent(MOUSE_EXIT2, &MainWindow::onCursorExitItem);
+	bindWindowEvent(RIGHT_MOUSE_DOWN, (uint32)this, &MainWindow::onRightMouseDown2);
+	bindWindowEvent(MOUSE_EXIT2, (uint32)this, &MainWindow::onCursorExitItem);
 	bindDefaultEvent(CLOSE_WINDOW, &MainWindow::onCloseWindow);
 	bindDefaultEvent(CLOSE_APP, &MainWindow::onCloseApp);
 
@@ -110,8 +111,8 @@ void					MainWindow::unbindEvents(void)
 	unbindDefaultEvent(RESIZE_WINDOW, &MainWindow::onResizeWindow);
 	unbindDefaultEvent(DROP_ENTRIES, &MainWindow::onDropEntries);
 	unbindDefaultEvent(RELOAD_LAYERS, &MainWindow::reloadLayers);
-	unbindDefaultEvent(RIGHT_MOUSE_DOWN, &MainWindow::onRightMouseDown2);
-	unbindDefaultEvent(MOUSE_EXIT2, &MainWindow::onCursorExitItem);
+	unbindWindowEvent(RIGHT_MOUSE_DOWN, (uint32)this, &MainWindow::onRightMouseDown2);
+	unbindWindowEvent(MOUSE_EXIT2, (uint32)this, &MainWindow::onCursorExitItem);
 	unbindDefaultEvent(CLOSE_WINDOW, &MainWindow::onCloseWindow);
 	unbindDefaultEvent(CLOSE_APP, &MainWindow::onCloseApp);
 }
@@ -205,6 +206,8 @@ void					MainWindow::onRightMouseDown2(Vec2i vecCursorPosition)
 
 void					MainWindow::onCursorExitItem(RenderItem *pOldRenderItem)
 {
+	/*
+	todo
 	RenderItem *pNewRenderItem = getRenderItemMouseIsOver();
 	if (
 		  (pOldRenderItem == m_vecRightClickMenus[0]
@@ -226,6 +229,7 @@ void					MainWindow::onCursorExitItem(RenderItem *pOldRenderItem)
 			}
 		}
 	}
+	*/
 }
 
 void					MainWindow::onCloseApp(void)
@@ -368,7 +372,10 @@ void					MainWindow::initEditors(void)
 	m_pMapEditor = addEditor<MapEditor>(); // todo - cuts
 	m_pMapEditor = addEditor<MapEditor>(); // todo - veh
 	m_pMapEditor = addEditor<MapEditor>(); // todo - ped
-	//m_pMapEditor = addEditor<CarColsDATEditor>();
+	m_pMapEditor = addEditor<MapEditor>(); // todo - carcols CarColsDATEditor
+	m_pMapEditor = addEditor<MapEditor>(); // todo - timecyc
+	m_pProjectEditor = addEditor<ProjectEditor>();
+	m_pMapEditor = addEditor<MapEditor>(); // todo - more
 }
 
 void					MainWindow::initSettingsMenuLayer(void)
@@ -867,7 +874,7 @@ void					MainWindow::setCertainMenuItemsEnabled(bool bEnabled)
 			pMenu->setAttachmentSideIndex(1);
 			pMenu->getEntryByIndex(0)->getExpandableMenu()->setAttachmentSideIndex(1);
 			m_vecRightClickMenus[i] = pMenu;
-			pMainLayer->getControls()->addEntry(m_vecRightClickMenus[i]);
+			pMainLayer->getControls()->addEntryAtPosition(pMenu, pMainLayer->getControlInsertionIndex(pMenu->getZIndex()));
 		}
 	}
 }

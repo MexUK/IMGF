@@ -49,6 +49,7 @@ private:
 	void					textures(void);
 	void					animations(void);
 	void					radar(void);
+	void					project(void);
 
 	void					newFile(void);
 	void					newWTD(void);
