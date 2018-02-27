@@ -14,6 +14,9 @@
 #include "Format/IDE/IDEEntry.h"
 #include "Format/IPL/IPLFormat.h"
 #include "Format/IPL/IPLEntry.h"
+#include "Format/IMG/Regular/IMGManager.h"
+#include "Format/IMG/Regular/IMGFormat.h"
+#include "Format/IMG/Regular/IMGFormatVersion1.h"
 
 using namespace std;
 using namespace bxcf;
@@ -228,7 +231,7 @@ void						ProjectEditorTab::shiftSelectedEntries(int32 iRowCountOffset)
 	{
 		int32 iEntry1Index = iLine;
 		int32 iEntry2Index = Math::limit(iEntry1Index + (int32)iRowCountOffset, 0, (int32)getTotalEntryCount());
-		
+
 		string strEntry1 = m_pTextBox->getTextLines()[iEntry1Index];
 		string strEntry2 = m_pTextBox->getTextLines()[iEntry2Index];
 
@@ -253,16 +256,59 @@ void						ProjectEditorTab::copySelectedEntryData(uint32 uiFieldId)
 // start
 void						ProjectEditorTab::start(void)
 {
+	setText(500, "Loading..");
+	setText(501, "Loading..");
+	setText(502, "Loading..");
+	setText(503, "Loading..");
+	setText(504, "Loading..");
+	setText(505, "Loading..");
+	setText(506, "Loading..");
+	setText(507, "Loading..");
+
 	unordered_map<uint32, vector<uint32>> umapCorruptFileCounts;
 	unordered_map<uint32, vector<uint32>> umapDuplicateEntryCounts;
 	unordered_map<uint32, vector<uint32>> umapMissingEntryCounts;
 	unordered_map<uint32, vector<uint32>> umapExceededLimitCounts;
 
+	vector<IMGFormat*> vecIMGFiles;
 	vector<IDEFormat*> vecIDEFiles;
 	vector<IPLFormat*> vecIPLFiles;
 
 	// fetch project settings
 	string strGameDirectory = Path::getDirectory(m_pDATFile->getFilePath()) + "../";
+
+	// set DAT Loader info
+	setText(500, String::toString(1) + " | " + String::toString(m_pDATFile->getEntryCount()));
+
+	// read IMG files
+	uint32 uiIMGFileCount = 0;
+	uint32 uiIMGEntryCount = 0;
+
+	for (DATLoaderEntry *pDATEntry : m_pDATFile->getEntries())
+	{
+		if (pDATEntry->getEntryType2() == DAT_LOADER_IMG)
+		{
+			uiIMGFileCount++;
+		}
+	}
+
+	vecIMGFiles = m_pDATFile->parseIMGFiles(strGameDirectory);
+	if (true) // todo: vc
+	{
+		IMGFormatVersion1 *pIMGFormat1 = new IMGFormatVersion1(strGameDirectory + "models/gta3.img", true);
+		IMGFormatVersion1 *pIMGFormat2 = new IMGFormatVersion1(strGameDirectory + "anim/cuts.img", true);
+		pIMGFormat1->unserialize();
+		pIMGFormat2->unserialize();
+		vecIMGFiles.push_back(pIMGFormat1);
+		vecIMGFiles.push_back(pIMGFormat2);
+		uiIMGFileCount += 2;
+	}
+	for (IMGFormat *pIMGFormat : vecIMGFiles)
+	{
+		uiIMGEntryCount += pIMGFormat->getEntryCount();
+	}
+
+	setText(501, String::toString(uiIMGFileCount) + " | " + String::toString(uiIMGEntryCount));
 
 	// read IDE & IPL files
 	vecIDEFiles = m_pDATFile->parseIDEFiles(strGameDirectory);
@@ -271,11 +317,14 @@ void						ProjectEditorTab::start(void)
 	uint32 uiIDEEntryCount = 0;
 	for (IDEFormat *pIDEFormat : vecIDEFiles)
 	{
-		for (IDEEntry *pIDEEntry : pIDEFormat->getEntries().getEntries())
+		for (auto it : pIDEFormat->getSectionEntries())
 		{
-			if (pIDEEntry->getEntryType2() == SECTION_LINES_ENTRY_DATA)
+			for (IDEEntry *pIDEEntry : it.second)
 			{
-				uiIDEEntryCount++;
+				if (pIDEEntry->getEntryType2() == SECTION_LINES_ENTRY_DATA)
+				{
+					uiIDEEntryCount++;
+				}
 			}
 		}
 	}
@@ -283,11 +332,14 @@ void						ProjectEditorTab::start(void)
 	uint32 uiIPLEntryCount = 0;
 	for (IPLFormat *pIPLFormat : vecIPLFiles)
 	{
-		for (IPLEntry *pIPLEntry : pIPLFormat->getEntries().getEntries())
+		for (auto it : pIPLFormat->getSectionEntries())
 		{
-			if (pIPLEntry->getEntryType2() == SECTION_LINES_ENTRY_DATA)
+			for (IPLEntry *pIPLEntry : it.second)
 			{
-				uiIPLEntryCount++;
+				if (pIPLEntry->getEntryType2() == SECTION_LINES_ENTRY_DATA)
+				{
+					uiIPLEntryCount++;
+				}
 			}
 		}
 	}
@@ -302,8 +354,6 @@ void						ProjectEditorTab::start(void)
 	// read DFF files
 
 	// read WTD files
-
-	// read IMG files
 }
 
 // text

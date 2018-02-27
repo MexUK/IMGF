@@ -55,32 +55,19 @@ TextureEditorTab::TextureEditorTab(void) :
 
 TextureEditorTab::~TextureEditorTab(void)
 {
-	// todo
-	//unbindEvents();
-
-	/*
-	unbindEvent(RENDER, &TextureEditorTab::render);
-	unbindEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
-	unbindEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
-	unbindEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
-	unbindEvent(LEFT_MOUSE_UP, &TextureEditorTab::onLeftMouseUp);
-	unbindEvent(MOVE_MOUSE, &TextureEditorTab::onMouseMove);
-	unbindEvent(KEY_DOWN, &TextureEditorTab::onKeyDown2);
-	unbindEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
-	*/
 }
 
 // events
 void					TextureEditorTab::bindEvents(void)
 {
 	bindWindowEvent(RENDER, (uint32)getEditor()->getMainWindow(), &TextureEditorTab::render);
+	bindWindowEvent(LEFT_MOUSE_DOWN, (uint32)getEditor()->getMainWindow(), &TextureEditorTab::onLeftMouseDown);
+	bindWindowEvent(LEFT_MOUSE_UP, (uint32)getEditor()->getMainWindow(), &TextureEditorTab::onLeftMouseUp);
+	bindWindowEvent(MOVE_MOUSE, (uint32)getEditor()->getMainWindow(), &TextureEditorTab::onMouseMove);
+	bindWindowEvent(KEY_DOWN, (uint32)getEditor()->getMainWindow(), &TextureEditorTab::onKeyDown2);
+	bindWindowEvent(MOVE_MOUSE_WHEEL, (uint32)getEditor()->getMainWindow(), &TextureEditorTab::onMouseWheelMove2);
 	bindDefaultEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
 	bindDefaultEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
-	bindDefaultEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
-	bindDefaultEvent(LEFT_MOUSE_UP, &TextureEditorTab::onLeftMouseUp);
-	bindDefaultEvent(MOVE_MOUSE, &TextureEditorTab::onMouseMove);
-	bindDefaultEvent(KEY_DOWN, &TextureEditorTab::onKeyDown2);
-	bindDefaultEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
 
 	EditorTab::bindEvents();
 }
@@ -88,13 +75,13 @@ void					TextureEditorTab::bindEvents(void)
 void					TextureEditorTab::unbindEvents(void)
 {
 	unbindWindowEvent(RENDER, (uint32)getEditor()->getMainWindow(), &TextureEditorTab::render);
+	unbindWindowEvent(LEFT_MOUSE_DOWN, (uint32)getEditor()->getMainWindow(), &TextureEditorTab::onLeftMouseDown);
+	unbindWindowEvent(LEFT_MOUSE_UP, (uint32)getEditor()->getMainWindow(), &TextureEditorTab::onLeftMouseUp);
+	unbindWindowEvent(MOVE_MOUSE, (uint32)getEditor()->getMainWindow(), &TextureEditorTab::onMouseMove);
+	unbindWindowEvent(KEY_DOWN, (uint32)getEditor()->getMainWindow(), &TextureEditorTab::onKeyDown2);
+	unbindWindowEvent(MOVE_MOUSE_WHEEL, (uint32)getEditor()->getMainWindow(), &TextureEditorTab::onMouseWheelMove2);
 	unbindDefaultEvent(UNSERIALIZE_RW_SECTION, &TextureEditorTab::onUnserializeRWSection);
 	unbindDefaultEvent(SELECT_DROP_DOWN_ITEM, &TextureEditorTab::onSelectDropDownItem);
-	unbindDefaultEvent(LEFT_MOUSE_DOWN, &TextureEditorTab::onLeftMouseDown);
-	unbindDefaultEvent(LEFT_MOUSE_UP, &TextureEditorTab::onLeftMouseUp);
-	unbindDefaultEvent(MOVE_MOUSE, &TextureEditorTab::onMouseMove);
-	unbindDefaultEvent(KEY_DOWN, &TextureEditorTab::onKeyDown2);
-	unbindDefaultEvent(MOVE_MOUSE_WHEEL, &TextureEditorTab::onMouseWheelMove2);
 
 	EditorTab::unbindEvents();
 }
@@ -129,7 +116,6 @@ void					TextureEditorTab::addEntryAfter(FormatEntry *pEntry)
 	{
 		WTDEntry *pTexture = (WTDEntry*) pEntry;
 		prepareTexture_WTD(pTexture);
-		//m_pTXDFile->m_vecTextures.push_back(pTexture); // todo
 	}
 
 	calculateDisplayedEntryCount();
@@ -144,7 +130,7 @@ void					TextureEditorTab::onSelectDropDownItem(DropDownItem *pItem)
 	setZoomLevel(fZoomLevel);
 }
 
-bool						TextureEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
+void						TextureEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 {
 	TextureEditorTabEntry
 		*pActiveTabEntry = nullptr;
@@ -193,10 +179,10 @@ bool						TextureEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 		setActiveEntry(pActiveTabEntry);
 		getLayer()->getWindow()->render();
 
-		return false;
+		Events::setEventCancelled();
 	}
 
-	return true;
+	return;
 }
 
 void						TextureEditorTab::onLeftMouseUp(Vec2i vecCursorPosition)
@@ -479,8 +465,15 @@ bool						TextureEditorTab::prepareRenderData_WTD(void)
 		return false;
 	}
 
-	vector<WTDEntry*> vecWTDEntries = m_pWTDFile->getEntries();
-	for (WTDEntry *pWTDEntry : vecWTDEntries)
+	vector<WTDEntry*> vecTextures = m_pWTDFile->getEntries();
+
+	if (m_pVScrollBar)
+	{
+		m_pVScrollBar->setMaxDisplayedItemCount(VERTICAL, getLayer()->getWindow()->getSize().y - 160);
+		m_pVScrollBar->setItemCount(VERTICAL, vecTextures.size() * 50);
+	}
+
+	for (WTDEntry *pWTDEntry : vecTextures)
 	{
 		prepareTexture_WTD(pWTDEntry);
 	}

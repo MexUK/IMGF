@@ -100,13 +100,13 @@ void						RadarEditorTab::initLayer(void)
 void						RadarEditorTab::bindEvents(void)
 {
 	bindWindowEvent(RENDER, (uint32)getEditor()->getMainWindow(), &RadarEditorTab::render);
-	bindDefaultEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
-	bindDefaultEvent(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
-	bindDefaultEvent(LEFT_MOUSE_UP, &RadarEditorTab::onLeftMouseUp);
-	bindDefaultEvent(MOVE_MOUSE, &RadarEditorTab::onMouseMove);
-	bindDefaultEvent(KEY_DOWN, &RadarEditorTab::onKeyDown2);
-	bindDefaultEvent(MOVE_MOUSE_WHEEL, &RadarEditorTab::onMouseWheelMove2);
+	bindWindowEvent(LEFT_MOUSE_DOWN, (uint32)getEditor()->getMainWindow(), &RadarEditorTab::onLeftMouseDown);
+	bindWindowEvent(LEFT_MOUSE_UP, (uint32)getEditor()->getMainWindow(), &RadarEditorTab::onLeftMouseUp);
+	bindWindowEvent(MOVE_MOUSE, (uint32)getEditor()->getMainWindow(), &RadarEditorTab::onMouseMove);
+	bindWindowEvent(KEY_DOWN, (uint32)getEditor()->getMainWindow(), &RadarEditorTab::onKeyDown2);
+	bindWindowEvent(MOVE_MOUSE_WHEEL, (uint32)getEditor()->getMainWindow(), &RadarEditorTab::onMouseWheelMove2);
 	bindDefaultEvent(SELECT_DROP_DOWN_ITEM, &RadarEditorTab::onSelectDropDownItem);
+	bindDefaultEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
 
 	EditorTab::bindEvents();
 }
@@ -114,13 +114,13 @@ void						RadarEditorTab::bindEvents(void)
 void						RadarEditorTab::unbindEvents(void)
 {
 	unbindWindowEvent(RENDER, (uint32)getEditor()->getMainWindow(), &RadarEditorTab::render);
-	unbindDefaultEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
-	unbindDefaultEvent(LEFT_MOUSE_DOWN, &RadarEditorTab::onLeftMouseDown);
-	unbindDefaultEvent(LEFT_MOUSE_UP, &RadarEditorTab::onLeftMouseUp);
-	unbindDefaultEvent(MOVE_MOUSE, &RadarEditorTab::onMouseMove);
-	unbindDefaultEvent(KEY_DOWN, &RadarEditorTab::onKeyDown2);
-	unbindDefaultEvent(MOVE_MOUSE_WHEEL, &RadarEditorTab::onMouseWheelMove2);
+	unbindWindowEvent(LEFT_MOUSE_DOWN, (uint32)getEditor()->getMainWindow(), &RadarEditorTab::onLeftMouseDown);
+	unbindWindowEvent(LEFT_MOUSE_UP, (uint32)getEditor()->getMainWindow(), &RadarEditorTab::onLeftMouseUp);
+	unbindWindowEvent(MOVE_MOUSE, (uint32)getEditor()->getMainWindow(), &RadarEditorTab::onMouseMove);
+	unbindWindowEvent(KEY_DOWN, (uint32)getEditor()->getMainWindow(), &RadarEditorTab::onKeyDown2);
+	unbindWindowEvent(MOVE_MOUSE_WHEEL, (uint32)getEditor()->getMainWindow(), &RadarEditorTab::onMouseWheelMove2);
 	unbindDefaultEvent(SELECT_DROP_DOWN_ITEM, &RadarEditorTab::onSelectDropDownItem);
+	unbindDefaultEvent(UNSERIALIZE_IMG_ENTRY, &RadarEditorTab::onUnserializeEntry);
 
 	EditorTab::unbindEvents();
 }
@@ -173,6 +173,8 @@ void						RadarEditorTab::onLeftMouseDown(Vec2i vecCursorPosition)
 		}
 		setActiveEntry(pActiveTabEntry);
 		getLayer()->getWindow()->render();
+
+		Events::setEventCancelled();
 	}
 }
 

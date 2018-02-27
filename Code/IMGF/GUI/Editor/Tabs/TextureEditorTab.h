@@ -62,7 +62,7 @@ protected:
 	void						initLayer(void);
 
 	void						onSelectDropDownItem(bxgx::DropDownItem *pItem);
-	bool						onLeftMouseDown(bxcf::Vec2i vecCursorPosition);
+	void						onLeftMouseDown(bxcf::Vec2i vecCursorPosition);
 	void						onLeftMouseUp(bxcf::Vec2i vecCursorPosition);
 	void						onMouseMove(bxcf::Vec2i vecCursorPosition);
 	void						onKeyDown2(uint16 uiKey);

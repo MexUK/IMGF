@@ -78,7 +78,7 @@ public:
 	void						setOpenLastFilename(std::string strFileName);
 	void						clearOpenLastFilename(void);
 
-	void						setCertainMenuItemsEnabled(bool bEnabled);
+	void						setCertainMenuItemsEnabled(bool bAnEditorTabIsOpen);
 	
 private:
 	void						initWindow(void);

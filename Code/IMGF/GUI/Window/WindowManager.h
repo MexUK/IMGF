@@ -41,7 +41,7 @@ public:
 	void					showWebsitesWindow(void);
 	void					showAboutWindow(void);
 
-	void					onPressButton_TopRightMenuWindow(bxgx::Button *pButton);
+	void					onPressButton_TopRightMenuWindow(bxgx::Button *pButton); // todo - remove this eventually as it is now in BXGX.h/cpp
 
 	DumpWindowResult					showDumpWindow(void);
 	void								showSessionManagerWindow(void);

@@ -616,7 +616,7 @@ void					MainWindow::clearOpenLastFilename(void)
 }
 
 // menu items enabled/disabled
-void					MainWindow::setCertainMenuItemsEnabled(bool bEnabled)
+void					MainWindow::setCertainMenuItemsEnabled(bool bAnEditorTabIsOpen)
 {
 	bool
 		bIsIMGEditor = getActiveEditor() == getIMGEditor(),
@@ -625,7 +625,8 @@ void					MainWindow::setCertainMenuItemsEnabled(bool bEnabled)
 		// todo bIsTextEditor = getActiveEditor() == getTextEditor(),
 		bIsCollisionEditor = getActiveEditor() == getCollisionEditor();
 
-	// disable certain menu items
+	// enable/disable certain menu items
+	vector<EInputItem> vecEnableMenuItemIds, vecDisableMenuItemIds;
 	vector<EInputItem> vecMenuItemIds {
 		// second left and top menus
 		SAVE_MENU,
@@ -777,11 +778,19 @@ void					MainWindow::setCertainMenuItemsEnabled(bool bEnabled)
 		SHIFT_ENTRY_DOWN_100_ROWS,
 		SHIFT_ENTRY_DOWN_1000_ROWS
 	};
-	if (bIsIMGEditor)
-	{
-		StdVector::addToVector(vecMenuItemIds, vector<EInputItem>({
+
+	StdVector::addToVector(
+		(bIsIMGEditor) ? vecEnableMenuItemIds : vecDisableMenuItemIds,
+		vector<EInputItem>({
+			IMG_NEW_V3
+		})
+	);
+
+	StdVector::addToVector(
+		((bIsIMGEditor) && bAnEditorTabIsOpen) ? vecEnableMenuItemIds : vecDisableMenuItemIds,
+		vector<EInputItem>({
 			IMPORT_BY_IDE,
-//			IMPORT_BY_IPL,
+			//IMPORT_BY_IPL, // todo
 			EXPORT_BY_IDE,
 			EXPORT_BY_IDE_FROM_ALL_TABS,
 			EXPORT_BY_IPL,
@@ -814,37 +823,89 @@ void					MainWindow::setCertainMenuItemsEnabled(bool bEnabled)
 			IMG_COMPRESSION,
 
 			CONVERT_IMG_VERSION
-		}));
-		if (bIsIMGEditor || bIsCollisionEditor)
+		})
+	);
+
+	StdVector::addToVector(
+		((bIsIMGEditor || bIsCollisionEditor) && bAnEditorTabIsOpen) ? vecEnableMenuItemIds : vecDisableMenuItemIds,
+		vector<EInputItem>({
+			CONVERT_SELECTED_COL_VERSION
+		})
+	);
+
+	StdVector::addToVector(
+		((bIsIMGEditor || bIsModelEditor) && bAnEditorTabIsOpen) ? vecEnableMenuItemIds : vecDisableMenuItemIds,
+		vector<EInputItem>({
+			CONVERT_SELECTED_DFF_RW_VERSION,
+			CONVERT_SELECTED_DFF_TO_WDR
+		})
+	);
+
+	StdVector::addToVector(
+		((bIsIMGEditor || bIsTextureEditor) && bAnEditorTabIsOpen) ? vecEnableMenuItemIds : vecDisableMenuItemIds,
+		vector<EInputItem>({
+			CONVERT_SELECTED_TXD_RW_VERSION,
+			CONVERT_SELECTED_TXD_TO_GAME,
+			CONVERT_SELECTED_TXD_TO_TEXTURE_FORMAT,
+			CONVERT_SELECTED_WTD_TO_TXD
+		})
+	);
+
+	StdVector::addToVector(
+		(bIsTextureEditor) ? vecEnableMenuItemIds : vecDisableMenuItemIds,
+		vector<EInputItem>({
+			NEW_WTD
+		})
+	);
+
+	/*
+	todo - remove?
+	// set all menu items disabled, if "enabling" certain menu items
+	vector<Menu*> vecMenus = {
+		(Menu*)getItemById(4800),
+		(Menu*)getItemById(4801),
+		(Menu*)getItemById(4802)
+	};
+	Menu *pMenu2 = nullptr;
+	for (uint32 uiMenuIndex = 0; uiMenuIndex < vecMenus.size(); uiMenuIndex++)
+	{
+		Menu *pMenu2 = vecMenus[uiMenuIndex];
+		for (MenuItem *pMenuItem : pMenu2->getEntries())
 		{
-			StdVector::addToVector(vecMenuItemIds, vector<EInputItem>({
-				CONVERT_SELECTED_COL_VERSION
-			}));
+			pMenuItem->setEnabled(false);
+			if (pMenuItem->getExpandableMenu())
+			{
+				vecMenus.push_back(pMenuItem->getExpandableMenu());
+			}
 		}
-		if (bIsIMGEditor || bIsModelEditor)
+	}
+	*/
+
+	// only enable/disable chosen menu items
+	for (EInputItem uiMenuItemId : vecMenuItemIds)
+	{
+		MenuItem *pMenuItem = (MenuItem*)getItemById(uiMenuItemId);
+		if (pMenuItem)
 		{
-			StdVector::addToVector(vecMenuItemIds, vector<EInputItem>({
-				CONVERT_SELECTED_DFF_RW_VERSION,
-				CONVERT_SELECTED_DFF_TO_WDR
-			}));
-		}
-		if (bIsIMGEditor || bIsTextureEditor)
-		{
-			StdVector::addToVector(vecMenuItemIds, vector<EInputItem>({
-				CONVERT_SELECTED_TXD_RW_VERSION,
-				CONVERT_SELECTED_TXD_TO_GAME,
-				CONVERT_SELECTED_TXD_TO_TEXTURE_FORMAT,
-				CONVERT_SELECTED_WTD_TO_TXD
-			}));
+			pMenuItem->setEnabled(bAnEditorTabIsOpen);
 		}
 	}
 
-	for (EInputItem uiMenuItemId : vecMenuItemIds)
+	for (EInputItem uiMenuItemId : vecEnableMenuItemIds)
 	{
-		MenuItem *pMenuItem = (MenuItem*) getItemById(uiMenuItemId);
+		MenuItem *pMenuItem = (MenuItem*)getItemById(uiMenuItemId);
 		if (pMenuItem)
 		{
-			pMenuItem->setEnabled(bEnabled);
+			pMenuItem->setEnabled(true);
+		}
+	}
+
+	for (EInputItem uiMenuItemId : vecDisableMenuItemIds)
+	{
+		MenuItem *pMenuItem = (MenuItem*)getItemById(uiMenuItemId);
+		if (pMenuItem)
+		{
+			pMenuItem->setEnabled(false);
 		}
 	}
 

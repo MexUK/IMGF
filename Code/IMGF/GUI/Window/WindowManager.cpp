@@ -307,7 +307,7 @@ void					WindowManager::onPressButton_TopRightMenuWindow(Button *pButton)
 
 	if (pButton->getId() == 200)
 	{
-		BXGX::get()->m_vecWindowsToDestroy.push_back(pWindow2);
+		BXGX::get()->m_vecWindowsToDestroy.push_back(pWindow2); // todo: use window->close()
 	}
 }
 
